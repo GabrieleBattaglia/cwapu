@@ -1,5 +1,7 @@
 # CWAPU2 - Utility per il CW, di Gabry, IZ4APU
 # Data cncepimento 21/12/2022.
+# GitHub publishing on july 2nd, 2024.
+
 import sys, random, pickle
 import datetime as dt
 from string import ascii_uppercase, digits
@@ -216,4 +218,3 @@ while True:
 
 print("\nHPE CUAGN - 73 de IZ4APU TU EE")
 sys.exit()
-
