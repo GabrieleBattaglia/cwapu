@@ -9,7 +9,7 @@ from cwzator import *
 from time import localtime as lt
 
 #constants
-VERS="1.0-Beta, february 2023"
+VERS="1.0.1-Beta, july 2024"
 MNMAIN={
 	"c":"Counting results",
 	"t":"Transmitting exercise",
@@ -191,7 +191,7 @@ def Rxing():
 		repeatedflag=False
 	exerctime=dt.datetime.now()-starttime
 	print("It's over! Now let me check what we've got.")
-	if calls>14:
+	if calls>14 and len(callsget)>0:
 		print(f"In this session #{sessions}, I sent {calls} {kindstring} to you and you got {len(callsget)} of them: {len(callsget)*100/calls:.1f}%")
 		print(f"\t{len(callsget)-callsrepeated} of these has been taken at the first shot: {(len(callsget)-callsrepeated)*100/len(callsget):.1f}%")
 		print(f"\twhile {callsrepeated} {kindstring} with repetition: {callsrepeated*100/len(callsget):.1f}%.")
