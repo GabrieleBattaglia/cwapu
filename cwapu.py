@@ -9,7 +9,7 @@ from cwzator import *
 from time import localtime as lt
 
 #constants
-VERS="1.0.2-Beta, july 2024"
+VERS="1.0.3-Beta, july 2024"
 MNMAIN={
 	"c":"Counting results",
 	"t":"Transmitting exercise",
@@ -151,7 +151,7 @@ def Rxing():
 		print("Ups, this is your first class, probably. So I'm creating the record.")
 		wpm, totalcalls, sessions, totalget, totalwrong, totaltime = 22, 0, 1, 0, 0, dt.datetime.now()-dt.datetime.now()
 	calls, callsget, callswrong, callsrepeated, minwpm, maxwpm, repeatedflag = 0, [], [], 0, 100, 14, False
-	wpm=dgt(prompt=f"Do you want to set your WPM? Current value {wpm}",kind="i",imin=10,imax=85,default=wpm)
+	wpm=dgt(prompt=f"Do you want to set your WPM? Enter to accept {wpm}> ",kind="i",imin=10,imax=85,default=wpm)
 	print("Now select which exercise do you want to take:")
 	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf="Please, just 1 or 2")
 	if call_or_groups == "2":
