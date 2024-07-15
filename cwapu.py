@@ -9,7 +9,7 @@ from cwzator import *
 from time import localtime as lt
 
 #constants
-VERS="1.0.3-Beta, july 2024"
+VERS="1.1.0-Beta, july 2024"
 MNMAIN={
 	"c":"Counting results",
 	"t":"Transmitting exercise",
@@ -22,7 +22,8 @@ MNRX={
 MNRXKIND={
 										"1":"Letters only",
 										"2":"Numbers only",
-										"3":"Letters and Numbers"}
+										"3":"Letters and Numbers",
+										"4":"Custom set"}
 MDL={'a0a':4,
 					'a0aa':6,
 					'a0aaa':15,
@@ -35,15 +36,31 @@ MDL={'a0a':4,
 					'a00a':3,
 					'a00aa':3,
 					'a00aaa':4}
-	
+
+#Variable
+wpm=22
+
 #quif
-def GeneratingGroup(kind, length):
+def CustomSet(wpm):
+	cs=""
+	print("Type all characters you want to practice on. (minimum of 2) Empty line to proceed")
+	while True:
+		scelta=key().lower()
+		if scelta=="": break
+		elif scelta not in cs:
+			cs+=scelta
+			CWzator(msg=scelta, wpm=wpm, pitch=550)
+		else: CWzator(msg="?", wpm=wpm, pitch=550)
+	return cs
+def GeneratingGroup(kind, length, wpm):
 	if kind == "1":
 		return ''.join(random.choice(string.ascii_letters) for _ in range(length))
 	elif kind == "2":
 		return ''.join(random.choice(string.digits) for _ in range(length))
 	elif kind == "3":
 		return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
+	elif kind == "4":
+		return CustomSet(wpm)
 def Mkdqrz(c):
 	#Sub of Txing
 	q=''
@@ -168,7 +185,7 @@ def Rxing():
 			c=random.choices(list(MDL.keys()), weights=MDL.values(), k=1)
 			qrz=Mkdqrz(c)
 		else:
-			qrz=GeneratingGroup(kind=kind, length=length)
+			qrz=GeneratingGroup(kind=kind, length=length, wpm=wpm)
 		pitch=random.randint(350, 850)
 		prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - > "
 		CWzator(msg=qrz, wpm=wpm, pitch=pitch)
@@ -231,9 +248,6 @@ while True:
 	elif k=="r": Rxing()
 	elif k=="m": menu(d=MNMAIN,show_only=True)
 	elif k=="q": break
-	else:
-		print(f"- - {k} is unknown.")
-		VMenu()
-
-print("\nHPE CUAGN - 73 de IZ4APU TU EE")
+print("\nI hope to see you soon - 73 de IZ4APU TU EE")
+CWzator(msg="73 de iz4apu tu ee", wpm=wpm, pitch=550)
 sys.exit()
