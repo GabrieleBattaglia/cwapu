@@ -7,9 +7,10 @@ import datetime as dt
 from GBUtils import key, dgt, menu
 from cwzator import *
 from time import localtime as lt
+from time import sleep as wait
 
 #constants
-VERS="1.1.0-Beta, july 2024"
+VERS="1.1.1-Beta, july 2024"
 MNMAIN={
 	"c":"Counting results",
 	"t":"Transmitting exercise",
@@ -37,17 +38,20 @@ MDL={'a0a':4,
 					'a00aa':3,
 					'a00aaa':4}
 
-#Variable
+#QVariable
 wpm=22
+customized_set=''
 
 #quif
 def CustomSet(wpm):
 	cs=""
 	print("Type all characters you want to practice on. (minimum of 2) Empty line to proceed")
 	while True:
-		scelta=key().lower()
-		if scelta=="": break
-		elif scelta not in cs:
+		scelta=key(prompt="\n"+cs).lower()
+		if scelta=="\r" and len(cs)>=2:
+			scelta=""
+			break
+		elif scelta not in cs and scelta!="\r":
 			cs+=scelta
 			CWzator(msg=scelta, wpm=wpm, pitch=550)
 		else: CWzator(msg="?", wpm=wpm, pitch=550)
@@ -60,7 +64,7 @@ def GeneratingGroup(kind, length, wpm):
 	elif kind == "3":
 		return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
 	elif kind == "4":
-		return CustomSet(wpm)
+		return ''.join(random.choice(customized_set) for _ in range(length))
 def Mkdqrz(c):
 	#Sub of Txing
 	q=''
@@ -168,11 +172,13 @@ def Rxing():
 		print("Ups, this is your first class, probably. So I'm creating the record.")
 		wpm, totalcalls, sessions, totalget, totalwrong, totaltime = 22, 0, 1, 0, 0, dt.datetime.now()-dt.datetime.now()
 	calls, callsget, callswrong, callsrepeated, minwpm, maxwpm, repeatedflag = 0, [], [], 0, 100, 14, False
+	global customized_set
 	wpm=dgt(prompt=f"Do you want to set your WPM? Enter to accept {wpm}> ",kind="i",imin=10,imax=85,default=wpm)
 	print("Now select which exercise do you want to take:")
 	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf="Please, just 1 or 2")
 	if call_or_groups == "2":
-		kind=menu(d=MNRXKIND,show=True,keyslist=True,ntf="1 2 or 3, please")
+		kind=menu(d=MNRXKIND,show=True,keyslist=True,ntf="1 2 3or 4, please")
+		if kind=="4": customized_set=CustomSet(wpm)
 		length=dgt(prompt="Give me the length of the group in between 1 and 7: ",kind="i",imin=1,imax=7)
 		kindstring="Group"
 	else: kindstring="Call-like"
@@ -249,5 +255,6 @@ while True:
 	elif k=="m": menu(d=MNMAIN,show_only=True)
 	elif k=="q": break
 print("\nI hope to see you soon - 73 de IZ4APU TU EE")
-CWzator(msg="73 de iz4apu tu ee", wpm=wpm, pitch=550)
+CWzator(msg="hpe cuagn = 73 de iz4apu tu e e", wpm=40, pitch=599)
+wait(8)
 sys.exit()
