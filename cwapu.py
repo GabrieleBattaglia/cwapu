@@ -8,9 +8,10 @@ from GBUtils import key, dgt, menu
 from cwzator import *
 from time import localtime as lt
 from time import sleep as wait
+import pandas as pd
 
 #constants
-VERS="1.1.1-Beta, july 2024"
+VERS="1.2.0, july 15th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"t":"Transmitting exercise",
@@ -75,7 +76,6 @@ def Mkdqrz(c):
 		else:
 			q+=random.choice(string.ascii_uppercase)
 	return q
-
 def Txing():
 	# QRZ - Programma che crea calls inventati e numeri progressivi, da usare negli esercizi CW
 	# Data concepimento 30/9/2022 by IZ4APU.
@@ -93,7 +93,6 @@ def Txing():
 		cont+=1
 	print("Bye-Bye & 73. de IZ4APU Gabe, back to main menu.")
 	return
-
 def Count():
 	from winsound import Beep as B
 	print("Counting, YES or NO?.\nSpacebar means: group received;\nAny other key means: group lost;\nPress ESCAPE to go back to main menu.")
@@ -158,8 +157,22 @@ def Count():
 	f.close()
 	print("Bye for now, back to main menu.")
 	return
-
-
+def MistakesCollector(rights, received):
+	errors = {}
+	for right, rxed in zip(rights, received):
+		for c, r in zip(right, rxed):
+			if c != r:
+				if r not in errors:
+					errors[r] = 0
+				errors[r] += 1
+	ordered_mistakes = dict(sorted(errors.items(), key=lambda item: item[1], reverse=True))
+	total_mistakes = sum(ordered_mistakes.values())
+	perc_mistakes = {k: (v, v / total_mistakes * 100) for k, v in ordered_mistakes.items()}
+	return perc_mistakes
+def AlwaysRight(yep, nope):
+	letters = set("".join(yep))
+	letters_misspelled = set(nope.keys())
+	return letters - letters_misspelled
 def Rxing():
 	# receiving exercise
 	print("Time to receive? Yep, you're to the right place. Let's go!\n\tLoading your progresses...")
@@ -173,6 +186,7 @@ def Rxing():
 		wpm, totalcalls, sessions, totalget, totalwrong, totaltime = 22, 0, 1, 0, 0, dt.datetime.now()-dt.datetime.now()
 	calls, callsget, callswrong, callsrepeated, minwpm, maxwpm, repeatedflag = 0, [], [], 0, 100, 14, False
 	global customized_set
+	callssend=[]
 	wpm=dgt(prompt=f"Do you want to set your WPM? Enter to accept {wpm}> ",kind="i",imin=10,imax=85,default=wpm)
 	print("Now select which exercise do you want to take:")
 	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf="Please, just 1 or 2")
@@ -192,6 +206,7 @@ def Rxing():
 			qrz=Mkdqrz(c)
 		else:
 			qrz=GeneratingGroup(kind=kind, length=length, wpm=wpm)
+		callssend.append(qrz.lower())
 		pitch=random.randint(350, 850)
 		prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - > "
 		CWzator(msg=qrz, wpm=wpm, pitch=pitch)
@@ -207,7 +222,7 @@ def Rxing():
 			if repeatedflag: callsrepeated+=1
 			if wpm<100: wpm+=1
 		else:
-			callswrong.append(qrz)
+			callswrong.append(qrz.lower())
 			if wpm>15: wpm-=1
 		calls+=1
 		if wpm>maxwpm: maxwpm=wpm
@@ -216,22 +231,39 @@ def Rxing():
 	exerctime=dt.datetime.now()-starttime
 	print("It's over! Now let me check what we've got.")
 	if calls>14 and len(callsget)>0:
+		send_char=0
+		for j in callssend:
+			send_char+=len(j)
 		print(f"In this session #{sessions}, I sent {calls} {kindstring} to you and you got {len(callsget)} of them: {len(callsget)*100/calls:.1f}%")
 		print(f"\t{len(callsget)-callsrepeated} of these has been taken at the first shot: {(len(callsget)-callsrepeated)*100/len(callsget):.1f}%")
 		print(f"\twhile {callsrepeated} {kindstring} with repetition: {callsrepeated*100/len(callsget):.1f}%.")
 		print(f"You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {maxwpm-minwpm} WPM.")
+		dict_mistakes = MistakesCollector(callssend, callswrong)
+		df_mistakes = pd.DataFrame.from_dict(dict_mistakes, orient='index', columns=['Errori', 'Percentuale'])
+		print("Character: mistakes = Percentage")
+		for lettera, (errore, percentuale) in dict_mistakes.items():
+			print(f"'{lettera.upper()}': {errore} = {percentuale:.1f}%")
+		global_mistakes = sum([v[0] for v in dict_mistakes.values()])
+		print(f"\nTotal mistakes: {global_mistakes} on {send_char} = {global_mistakes*100/send_char:.3f}%")
+		good_letters = AlwaysRight(callssend, dict_mistakes)
+		print("\nNever misspelled characters:", " ".join(good_letters).upper())
 		f=open("CWapu_Diary.txt", "a")
 		print("Report saved on CW_Diary.txt")
-		f.write(f"Receiving exercise #{sessions} performed on {str(lt()[0])}/{str(lt()[1])}/{str(lt()[2])} at {str(lt()[3])}, {str(lt()[4])} minutes:\n")
+		f.write(f"\nReceiving exercise #{sessions} performed on {str(lt()[0])}/{str(lt()[1])}/{str(lt()[2])} at {str(lt()[3])}, {str(lt()[4])} minutes:\n")
 		f.write(f"In this session #{sessions}, I sent {calls} {kindstring} to you and you got {len(callsget)} of them: {len(callsget)*100/calls:.1f}%\n")
 		f.write(f"\t{len(callsget)-callsrepeated} of these has been taken at the first shot: {(len(callsget)-callsrepeated)*100/len(callsget):.1f}%\n")
 		f.write(f"\twhile {callsrepeated} {kindstring} with repetition: {callsrepeated*100/len(callsget):.1f}%.\n")
 		f.write(f"You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {maxwpm-minwpm} WPM.\n")
+		f.write("Character: mistakes = Percentage")
+		for lettera, (errore, percentuale) in dict_mistakes.items():
+			f.write(f"\n\t\t'{lettera.upper()}': {errore} = {percentuale:.1f}%")
+		f.write(f"\nTotal mistakes: {global_mistakes} on {send_char} = {global_mistakes*100/send_char:.3f}%")
+		f.write(f"\nNever misspelled characters: {' '.join(good_letters).upper()}")
 		nota=dgt(prompt="Note on this exercise: ", kind="s", smin=0, smax=512)
 		if nota != "":
-			f.write(f"Note: {nota}\n***\n")
+			f.write(f"\nNote: {nota}\n***\n")
 		else:
-			f.write(f"Note: empty\n***\n")
+			f.write(f"\nNote: empty\n***\n")
 		f.close()
 	else: print(f"You received too few {kindstring} to generate a consistant statistics.")
 	totalcalls+=calls
@@ -255,6 +287,6 @@ while True:
 	elif k=="m": menu(d=MNMAIN,show_only=True)
 	elif k=="q": break
 print("\nI hope to see you soon - 73 de IZ4APU TU EE")
-CWzator(msg="hpe cuagn = 73 de iz4apu tu e e", wpm=40, pitch=599)
+CWzator(msg="hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
 wait(8)
 sys.exit()
