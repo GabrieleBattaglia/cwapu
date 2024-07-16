@@ -1,0 +1,46 @@
+# Liste di parole estese a 20 ciascuna
+listacorrette = ["casa", "gatto", "cane", "topo", "pesce", "albero", "fiore", "sole", "luna", "stella",
+				 "giardino", "macchina", "telefono", "computer", "bicicletta", "scuola", "libro", "matita", "quaderno", "banca"]
+listaricevute = ["cada", "gatfo", "cave", "topu", "pesxe", "albera", "fiore", "sole", "luna", "stillo",
+				 "giardeno", "macchana", "telefano", "computar", "bicicleto", "scuolo", "libor", "matota", "quaderbo", "banca"]
+
+# Funzione per confrontare le parole e creare il dizionario degli errori
+def crea_dizionario_errori(corrette, ricevute):
+	errori = {}
+	for corretto, ricevuto in zip(corrette, ricevute):
+		for c, r in zip(corretto, ricevuto):
+			if c != r:
+				if r not in errori:
+					errori[r] = 0
+				errori[r] += 1
+	
+	# Ordinare il dizionario per frequenza degli errori
+	errori_ordinati = sorted(errori.items(), key=lambda item: item[1], reverse=True)
+	
+	# Calcolare la percentuale degli errori
+	totale_errori = sum(count for _, count in errori_ordinati)
+	errori_percentuali = [(k, v, v / totale_errori * 100) for k, v in errori_ordinati]
+	
+	return errori_percentuali
+
+# Funzione per trovare le lettere presenti nella lista corretta ma mai sbagliate
+def lettere_non_sbagliate(corrette, errori):
+	lettere = set("".join(corrette))
+	lettere_sbagliate = set(k for k, _, _ in errori)
+	return lettere - lettere_sbagliate
+
+# Creiamo il dizionario degli errori
+dizionario_errori = crea_dizionario_errori(listacorrette, listaricevute)
+
+# Stampare l'intestazione delle colonne e il dizionario degli errori ordinato
+print("Lettera: Errori = Percentuale")
+for lettera, errore, percentuale in dizionario_errori:
+	print(f"{lettera.upper()}: {errore} = {percentuale:.1f}%")
+
+# Stampare il totale degli errori
+totale_errori = sum(errore for _, errore, _ in dizionario_errori)
+print(f"\nTotale errori: {totale_errori}")
+
+# Trovare e stampare le lettere presenti nella lista corretta ma mai sbagliate
+lettere_buone = lettere_non_sbagliate(listacorrette, dizionario_errori)
+print("\nLettere mai sbagliate:", " ".join(lettere_buone))
