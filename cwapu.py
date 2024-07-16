@@ -8,10 +8,9 @@ from GBUtils import key, dgt, menu
 from cwzator import *
 from time import localtime as lt
 from time import sleep as wait
-import pandas as pd
 
 #constants
-VERS="1.2.0, july 15th, 2024"
+VERS="1.2.5, july 15th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"t":"Transmitting exercise",
@@ -239,7 +238,6 @@ def Rxing():
 		print(f"\twhile {callsrepeated} {kindstring} with repetition: {callsrepeated*100/len(callsget):.1f}%.")
 		print(f"You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {maxwpm-minwpm} WPM.")
 		dict_mistakes = MistakesCollector(callssend, callswrong)
-		df_mistakes = pd.DataFrame.from_dict(dict_mistakes, orient='index', columns=['Errori', 'Percentuale'])
 		print("Character: mistakes = Percentage")
 		for lettera, (errore, percentuale) in dict_mistakes.items():
 			print(f"'{lettera.upper()}': {errore} = {percentuale:.1f}%")
