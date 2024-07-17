@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.2.5, july 15th, 2024"
+VERS="1.3.0, july 17th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"t":"Transmitting exercise",
@@ -24,7 +24,8 @@ MNRXKIND={
 										"1":"Letters only",
 										"2":"Numbers only",
 										"3":"Letters and Numbers",
-										"4":"Custom set"}
+										"4":"Custom set",
+										"5":"Words"}
 MDL={'a0a':4,
 					'a0aa':6,
 					'a0aaa':15,
@@ -41,6 +42,7 @@ MDL={'a0a':4,
 #QVariable
 wpm=22
 customized_set=''
+words=[]
 
 #quif
 def CustomSet(wpm):
@@ -65,6 +67,8 @@ def GeneratingGroup(kind, length, wpm):
 		return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
 	elif kind == "4":
 		return ''.join(random.choice(customized_set) for _ in range(length))
+	elif kind == "5":
+		return random.choice(words)
 def Mkdqrz(c):
 	#Sub of Txing
 	q=''
@@ -174,7 +178,16 @@ def AlwaysRight(yep, nope):
 	return letters - letters_misspelled
 def Rxing():
 	# receiving exercise
-	print("Time to receive? Yep, you're to the right place. Let's go!\n\tLoading your progresses...")
+	global words
+	print("Time to receive? Yep, you're to the right place. Let's go!\n\tLoading the status of your progress and check for dictonary database...")
+	try:
+		with open('words.txt', 'r', encoding='utf-8') as file:
+			words = file.readlines()
+			words = [line.strip() for line in words]
+			print(f"Word's dictionary loaded with {len(words)} words.")
+	except FileNotFoundError:
+		print("File words.txt not found. Please provide a dictionary file: 1 word per line.")
+		del MNRXKIND["5"]
 	try:
 		f=open("CWapu_Rxing.pkl", "rb")
 		wpm, totalcalls, sessions, totalget, totalwrong, totaltime = pickle.load(f)
@@ -190,10 +203,15 @@ def Rxing():
 	print("Now select which exercise do you want to take:")
 	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf="Please, just 1 or 2")
 	if call_or_groups == "2":
-		kind=menu(d=MNRXKIND,show=True,keyslist=True,ntf="1 2 3or 4, please")
-		if kind=="4": customized_set=CustomSet(wpm)
-		length=dgt(prompt="Give me the length of the group in between 1 and 7: ",kind="i",imin=1,imax=7)
-		kindstring="Group"
+		kind=menu(d=MNRXKIND,show=True,keyslist=True,ntf="Choose a number please")
+		if kind=="4":
+			customized_set=CustomSet(wpm)
+			kindstring="Group"
+		elif kind=="5":
+			length=0
+			kindstring="words"
+		else:
+			length=dgt(prompt="Give me the length of the group in between 1 and 7: ",kind="i",imin=1,imax=7)
 	else: kindstring="Call-like"
 	print(f"Now, careful. Type the {kindstring} you hear.\nGiving an empty line (or adding a ?) will gift you a second listen to the {kindstring}.\n\tTo stop, just type a '.' (fullstop) followed by enter.\nENJOY. \tPress any key when you're ready to start.")
 	attesa=key()
