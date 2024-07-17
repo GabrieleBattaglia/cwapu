@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.3.1, july 17th, 2024"
+VERS="1.3.2, july 18th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"t":"Transmitting exercise",
@@ -204,9 +204,9 @@ def Rxing():
 	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf="Please, just 1 or 2")
 	if call_or_groups == "2":
 		kind=menu(d=MNRXKIND,show=True,keyslist=True,ntf="Choose a number please")
+		kindstring="Group"
 		if kind=="4":
 			customized_set=CustomSet(wpm)
-			kindstring="Group"
 		elif kind=="5":
 			length=0
 			kindstring="words"
