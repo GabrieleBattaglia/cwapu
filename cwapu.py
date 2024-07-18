@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.3.2, july 18th, 2024"
+VERS="1.3.3, july 18th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"t":"Transmitting exercise",
@@ -21,11 +21,11 @@ MNRX={
 	"1":"Call-like",
 	"2":"Groups"}
 MNRXKIND={
-										"1":"Letters only",
-										"2":"Numbers only",
-										"3":"Letters and Numbers",
-										"4":"Custom set",
-										"5":"Words"}
+										"1":"Letters only (A to Z)",
+										"2":"Numbers only (0 to 9)",
+										"3":"Letters and Numbers (A to Z and 0 to 9)",
+										"4":"Custom set (let's decide which symbols you want to work on)",
+										"5":"Words (words peeked up from a customizable file)"}
 MDL={'a0a':4,
 					'a0aa':6,
 					'a0aaa':15,
@@ -45,6 +45,33 @@ customized_set=''
 words=[]
 
 #quif
+def FilterWord(w):
+	print("\nLet's filter the words set to using with the exercise\nPlease type minimum.maximum length of the words you want to be choosen randomly. e.g. 3.6\nwill choose words with length in between 3 and 6 characters only.\nType enter to use the whole dictonary")
+	ex=False
+	while True:
+		while True:
+			mnmx=input("Minimum.Maximum: ")
+			if mnmx=="":
+				ex=True
+				break
+			elif "." in mnmx:
+				x=mnmx.split(".")
+				mn,mx=x[0],x[1]
+				if mn.isdigit() and mx.isdigit(): break
+				else: print("You havn't inserted numbers")
+			else: print("Try again")
+		if ex: break
+		mn=int(mn); mx=int(mx)
+		if mn<1: mn=1
+		elif mn>10: mn=10
+		if mx<3: mx=3
+		elif mx>35: mx=35
+		print(f"Filtering word which are in {mn}/{mx} range of length.")
+		w1=[l for l in w if len(l)>=mn and len(l)<=mx]
+		scelta=key(prompt=f"{len(w1)} words, are you ok with it? (y|n)> ").lower()
+		if scelta=="y": break
+	if ex: return w
+	else: return w1
 def CustomSet(wpm):
 	cs=""
 	print("Type all characters you want to practice on. (minimum of 2) Empty line to proceed")
@@ -208,6 +235,7 @@ def Rxing():
 		if kind=="4":
 			customized_set=CustomSet(wpm)
 		elif kind=="5":
+			words=FilterWord(words)
 			length=0
 			kindstring="words"
 		else:
