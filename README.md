@@ -14,6 +14,20 @@ The word reception function requires the words.txt file, which must be located i
 You can, of course, replace it with anything you find in the language you wish to practice, as long as it meets the aforementioned characteristics. 
 I owe the Italian language dictionary to *Piero Tofy*, whom I thank wholeheartedly.
 
+## Counting Exercise
+This part of the program is simply used to track any activity that requires a positive or negative response. For example, you might want to listen to words or groups in CW and tell the computer whether you understood the group or not. If you did, press the space bar; if not, press another key, and to finish, press Esc.
+At the end, you will see a report indicating the total attempts, successful ones, failed ones, and the corresponding percentages.
+As always, you can add a comment and save everything in the exercise journal so that you can track your improvements over time.
+
+Sure, here's the translation:
+
+---
+
+## Transmission Exercise
+In this exercise, CWAPU will provide you with calls-like and a numerical sequence, both entirely fictional but useful for practicing on your CW key.
+When you participate in a contest or DX-Expedition, the skill required is to listen to QRZs and send them in CW quickly and without errors. Here, you can practice reading the calls on the screen and reproducing them in telegraphy.
+As always, press Esc to end the exercise.
+
 ## Helping
 If you have the willing to be part of the project, contact me.
 Gabe, IZ4APU.
