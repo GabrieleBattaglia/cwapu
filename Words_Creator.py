@@ -97,7 +97,6 @@ def SaveDictionary(dictionary, output_file):
 		for word in sorted(dictionary):
 			if isinstance(word, str) and word.isprintable():
 				file.write(word + '\n')
-
 def Start():
 	print("Now, let's begin: this script will ask you to select a folder from the filesystem.\nAll .txt files within the folder and its subfolders will be opened and processed.")
 	discard=key(prompt="Press any key to continue...")
@@ -110,7 +109,6 @@ def Start():
 		return
 	total_files, total_lines, total_added_words, total_discarded_words, skipped_files, total_folders = ProcessFolder(folder_path, initial_dictionary)
 	SaveDictionary(initial_dictionary, 'words_updated.txt')
-	# Final statistics
 	final_word_count = len(initial_dictionary)
 	word_difference = final_word_count - initial_word_count
 	percentage_change = (word_difference / initial_word_count) * 100 if initial_word_count > 0 else 0
