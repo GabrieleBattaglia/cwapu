@@ -10,13 +10,14 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.3.3, july 18th, 2024"
+VERS="1.4.0, august 4th, 2024"
 MNMAIN={
 	"c":"Counting results",
+	"m":"shows Menu",
 	"t":"Transmitting exercise",
 	"r":"Receiving exercise",
-	"m":"shows Menu",
-	"q":"To quit this app"}
+	"q":"To quit this app",
+	"w":"Words Creator"}
 MNRX={
 	"1":"Call-like",
 	"2":"Groups"}
@@ -44,7 +45,23 @@ wpm=22
 customized_set=''
 words=[]
 
-#quif
+#qf
+def CreateDictionary():
+	print("Attention! Please read carefully.\n"
+							"For the reception exercises, (r) from the main menu, CWAPU uses the file words.txt, "
+							"which must be located in the folder from which you launched cwapu.py or cwapu.exe. "
+							"If this file does not exist, create one with a text editor and write some words in it, "
+							"one word per line, then save it.\n"
+							"The WordsCreator procedure allows you to scan all the txt files contained in the folders you indicate "
+							"and add all the words from those files to words.txt. The words will be added uniquely, "
+							"meaning they will all be different from each other.\n"
+							"The file produced by this process will be named words_updated.txt. Check it with a text editor and, "
+							"if you are satisfied with it, rename it to words.txt, replacing the existing words.txt.\n"
+							"You can repeat this operation as many times as you like: words_updated.txt will contain the words "
+							"from words.txt plus all those collected from the newly processed .txt files.")
+	import Words_Creator
+	Words_Creator.Start()
+	return
 def FilterWord(w):
 	print("\nLet's filter the words set to using with the exercise\nPlease type minimum.maximum length of the words you want to be choosen randomly. e.g. 3.6\nwill choose words with length in between 3 and 6 characters only.\nType enter to use the whole dictonary")
 	ex=False
@@ -329,6 +346,7 @@ while True:
 	elif k=="t": Txing()
 	elif k=="r": Rxing()
 	elif k=="m": menu(d=MNMAIN,show_only=True)
+	elif k=="w": CreateDictionary()
 	elif k=="q": break
 print("\nI hope to see you soon - 73 de IZ4APU TU EE")
 CWzator(msg="hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
