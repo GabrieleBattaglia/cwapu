@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.4.0, august 4th, 2024"
+VERS="1.4.1, august 4th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"m":"shows Menu",
@@ -209,6 +209,17 @@ def MistakesCollector(rights, received):
 	for right, rxed in zip(rights, received):
 		for c, r in zip(right, rxed):
 			if c != r:
+				# Conta l'errore sulla lettera corretta che manca
+				if c not in errors:
+					errors[c] = 0
+				errors[c] += 1
+		if len(right) > len(rxed):
+			for c in right[len(rxed):]:
+				if c not in errors:
+					errors[c] = 0
+				errors[c] += 1
+		if len(rxed) > len(right):
+			for r in rxed[len(right):]:
 				if r not in errors:
 					errors[r] = 0
 				errors[r] += 1
