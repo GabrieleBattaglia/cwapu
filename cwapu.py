@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.4.1, august 4th, 2024"
+VERS="1.4.5, august 4th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"m":"shows Menu",
@@ -254,6 +254,7 @@ def Rxing():
 	calls, callsget, callswrong, callsrepeated, minwpm, maxwpm, repeatedflag = 0, [], [], 0, 100, 14, False
 	global customized_set
 	callssend=[]
+	dz_mistakes={}
 	wpm=dgt(prompt=f"Do you want to set your WPM? Enter to accept {wpm}> ",kind="i",imin=10,imax=85,default=wpm)
 	print("Now select which exercise do you want to take:")
 	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf="Please, just 1 or 2")
@@ -296,6 +297,7 @@ def Rxing():
 			if wpm<100: wpm+=1
 		else:
 			callswrong.append(qrz.lower())
+			dz_mistakes[len(callssend)]=(qrz.lower(),guess.lower())
 			if wpm>15: wpm-=1
 		calls+=1
 		if wpm>maxwpm: maxwpm=wpm
@@ -329,6 +331,9 @@ def Rxing():
 		f.write("Character: mistakes = Percentage")
 		for lettera, (errore, percentuale) in dict_mistakes.items():
 			f.write(f"\n\t\t'{lettera.upper()}': {errore} = {percentuale:.1f}%")
+		f.write("\nList of wrong received words:")
+		for k, v in dz_mistakes.items():
+			f.write(f"\n\t({k}) -- {v[0]} <> {v[1]};")
 		f.write(f"\nTotal mistakes: {global_mistakes} on {send_char} = {global_mistakes*100/send_char:.3f}%")
 		f.write(f"\nNever misspelled characters: {' '.join(good_letters).upper()}")
 		nota=dgt(prompt="Note on this exercise: ", kind="s", smin=0, smax=512)
