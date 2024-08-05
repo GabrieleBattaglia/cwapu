@@ -1,3 +1,4 @@
+# Creato assieme a ChatGPT4o il 4 agosto 2024
 import os
 import string
 import wx
