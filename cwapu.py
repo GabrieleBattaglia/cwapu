@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.4.5, august 4th, 2024"
+VERS="1.4.6, september 6th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"m":"shows Menu",
@@ -290,7 +290,7 @@ def Rxing():
 			repeatedflag=True
 			prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
 			CWzator(msg=qrz, wpm=wpm, pitch=pitch)
-			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=6)
+			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if qrz.lower() == guess.lower():
 			callsget.append(qrz)
 			if repeatedflag: callsrepeated+=1
