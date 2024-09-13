@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.4.6, september 6th, 2024"
+VERS="1.4.7, september 13th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"m":"shows Menu",
@@ -263,6 +263,7 @@ def Rxing():
 		kindstring="Group"
 		if kind=="4":
 			customized_set=CustomSet(wpm)
+			length=dgt(prompt="Give me the length of the group in between 1 and 7: ", kind="i", imin=1, imax=7)
 		elif kind=="5":
 			words=FilterWord(words)
 			length=0
