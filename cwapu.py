@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.4.7, september 13th, 2024"
+VERS="1.4.10, october 5th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"m":"shows Menu",
@@ -90,18 +90,18 @@ def FilterWord(w):
 	if ex: return w
 	else: return w1
 def CustomSet(wpm):
-	cs=""
+	cs=set()
 	print("Type all characters you want to practice on. (minimum of 2) Empty line to proceed")
 	while True:
-		scelta=key(prompt="\n"+cs).lower()
+		scelta = key(prompt="\n" + "".join(cs)).lower()
 		if scelta=="\r" and len(cs)>=2:
 			scelta=""
 			break
 		elif scelta not in cs and scelta!="\r":
-			cs+=scelta
+			cs.add(scelta)
 			CWzator(msg=scelta, wpm=wpm, pitch=550)
 		else: CWzator(msg="?", wpm=wpm, pitch=550)
-	return cs
+	return "".join(cs)
 def GeneratingGroup(kind, length, wpm):
 	if kind == "1":
 		return ''.join(random.choice(string.ascii_letters) for _ in range(length))
@@ -182,20 +182,19 @@ def Count():
 	else:
 		print(f"Failed: {pde-6:.2f}% to the threshold.")
 	if cont >= 100:
-		f=open("CWapu_Diary.txt", "a")
-		nota=input("Note on this exercise: ")
-		print("Report saved on CW_Diary.txt")
-		f.write(f"Counting exercise #{esnum} performed on {str(lt()[0])}/{str(lt()[1])}/{str(lt()[2])} at {str(lt()[3])}, {str(lt()[4])} minutes:\n")
-		f.write(f"Total {cont}, fixed {corr}, mistake(%) {pde:.2f}%.\n")
-		if pde<=6:
-			f.write("Got it!\n")
-		else:
-			f.write(f"Failed: {pde-6:.2f}% to the threshold.\n")
-		if nota != "":
-			f.write(f"Note: {nota}\n***\n")
-		else:
-			f.write(f"Note: empty\n***\n")
-		f.close()
+		with open("CWapu_Diary.txt", "a") as f:
+			nota=input("Note on this exercise: ")
+			print("Report saved on CW_Diary.txt")
+			f.write(f"Counting exercise #{esnum} performed on {str(lt()[0])}/{str(lt()[1])}/{str(lt()[2])} at {str(lt()[3])}, {str(lt()[4])} minutes:\n")
+			f.write(f"Total {cont}, fixed {corr}, mistake(%) {pde:.2f}%.\n")
+			if pde<=6:
+				f.write("Got it!\n")
+			else:
+				f.write(f"Failed: {pde-6:.2f}% to the threshold.\n")
+			if nota != "":
+				f.write(f"Note: {nota}\n***\n")
+			else:
+				f.write(f"Note: empty\n***\n")
 	else:
 		print(f"Groups received {cont} up to 100: exercise not saved on disk.")
 	f=open("CWapu_Index.pkl", "wb")
@@ -210,14 +209,10 @@ def MistakesCollector(rights, received):
 		for c, r in zip(right, rxed):
 			if c != r:
 				# Conta l'errore sulla lettera corretta che manca
-				if c not in errors:
-					errors[c] = 0
-				errors[c] += 1
+				errors[c] = errors.get(c, 0) + 1
 		if len(right) > len(rxed):
 			for c in right[len(rxed):]:
-				if c not in errors:
-					errors[c] = 0
-				errors[c] += 1
+				errors[c] = errors.get(c, 0) + 1
 		if len(rxed) > len(right):
 			for r in rxed[len(right):]:
 				if r not in errors:
