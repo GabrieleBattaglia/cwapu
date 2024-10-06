@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.4.10, october 5th, 2024"
+VERS="1.4.11, october 6th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"m":"shows Menu",
@@ -90,10 +90,11 @@ def FilterWord(w):
 	if ex: return w
 	else: return w1
 def CustomSet(wpm):
-	cs=set()
+	cs=set(); prompt=""
 	print("Type all characters you want to practice on. (minimum of 2) Empty line to proceed")
 	while True:
-		scelta = key(prompt="\n" + "".join(cs)).lower()
+		prompt=''.join(sorted(cs))
+		scelta = key(prompt="\n"+prompt)
 		if scelta=="\r" and len(cs)>=2:
 			scelta=""
 			break
