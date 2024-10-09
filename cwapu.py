@@ -2,7 +2,7 @@
 # Data concepimento 21/12/2022.
 # GitHub publishing on july 2nd, 2024.
 
-import sys, random, pickle, string
+import sys, random, pickle, string, pyperclip, re
 import datetime as dt
 from GBUtils import key, dgt, menu
 from cwzator import *
@@ -10,13 +10,16 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.4.11, october 6th, 2024"
+VERS="1.5.1, october 9th, 2024"
 MNMAIN={
 	"c":"Counting results",
+	"h":"Set Hertz",
+	"l":"Listen to clipboard",
 	"m":"shows Menu",
-	"t":"Transmitting exercise",
-	"r":"Receiving exercise",
 	"q":"To quit this app",
+	"r":"Receiving exercise",
+	"s":"Set speed",
+	"t":"Transmitting exercise",
 	"w":"Words Creator"}
 MNRX={
 	"1":"Call-like",
@@ -41,11 +44,20 @@ MDL={'a0a':4,
 					'a00aaa':4}
 
 #QVariable
+overall_speed=35
+overall_hertz=550
+overall_settings_changed=False
 wpm=22
 customized_set=''
 words=[]
 
 #qf
+def StringCleaning(stringa):
+	stringa = stringa.strip()
+	stringa = stringa.lower()
+	cleaned = re.sub(r"[^a-z0-9\sàèéìòù.,;:!?'\"()-]", "", stringa)
+	cleaned = re.sub(r"\s+", " ", cleaned)
+	return cleaned
 def CreateDictionary():
 	print("Attention! Please read carefully.\n"
 							"For the reception exercises, (r) from the main menu, CWAPU uses the file words.txt, "
@@ -353,15 +365,34 @@ def Rxing():
 
 #main
 print(f"CWAPU - VERSION: {VERS} BY GABE - IZ4APU.\n----UTILITIES FOR YOUR CW----")
+try:
+	f=open("CWapu_Overall.pkl", "rb")
+	overall_speed, overall_hertz = pickle.load(f)
+	f.close()
+except IOError:
+	overall_speed, overall_hertz = 30, 550
+
 while True:
 	k=menu(d=MNMAIN,show=True,keyslist=True,ntf="It's not a command!")
 	if k=="c": Count()
 	elif k=="t": Txing()
 	elif k=="r": Rxing()
+	elif k=="h": overall_hertz=dgt(prompt=f"New frequency for cw? (return to accept {overall_hertz}) > ",kind="i",imin=130,imax=1300); overall_settings_changed=True
+	elif k=="s": overall_speed=dgt(prompt=f"New speed for cw? (return to accept {overall_speed}) > ",kind="i",imin=8,imax=100); overall_settings_changed=True
+	elif k=="l":
+		ltc=pyperclip.paste()
+		if ltc:
+			ltc=StringCleaning(ltc)
+			CWzator(msg=ltc, wpm=overall_speed, pitch=overall_hertz)
+		else: CWzator(msg="empty", wpm=overall_speed, pitch=overall_hertz)
 	elif k=="m": menu(d=MNMAIN,show_only=True)
 	elif k=="w": CreateDictionary()
 	elif k=="q": break
 print("\nI hope to see you soon - 73 de IZ4APU TU EE")
 CWzator(msg="hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
+if overall_settings_changed:
+	f=open("CWapu_Overall.pkl", "wb")
+	pickle.dump([overall_speed, overall_hertz],f)
+	f.close()
 wait(8)
 sys.exit()
