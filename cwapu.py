@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.5.1, october 9th, 2024"
+VERS="1.5.2, october 11th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"h":"Set Hertz",
@@ -55,7 +55,7 @@ words=[]
 def StringCleaning(stringa):
 	stringa = stringa.strip()
 	stringa = stringa.lower()
-	cleaned = re.sub(r"[^a-z0-9\sàèéìòù.,;:!?'\"()-]", "", stringa)
+	cleaned = re.sub(r"[^a-z0-9\sàèéìòù@.,;:!?\'\"()-=]", "", stringa)
 	cleaned = re.sub(r"\s+", " ", cleaned)
 	return cleaned
 def CreateDictionary():
