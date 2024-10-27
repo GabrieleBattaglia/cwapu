@@ -2,7 +2,7 @@
 # Data concepimento 21/12/2022.
 # GitHub publishing on july 2nd, 2024.
 
-import sys, random, pickle, string, pyperclip, re
+import sys, random, pickle, string, pyperclip, re, difflib
 import datetime as dt
 from GBUtils import key, dgt, menu
 from cwzator import *
@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.5.2, october 11th, 2024"
+VERS="1.5.13, october 27th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"h":"Set Hertz",
@@ -216,21 +216,48 @@ def Count():
 	f.close()
 	print("Bye for now, back to main menu.")
 	return
-def MistakesCollector(rights, received):
+def GroupMistakesByFrequency(dict_mistakes):
+	# Calcola il totale degli errori per la percentuale
+	total_mistakes = sum(count for count, _ in dict_mistakes.values())
+	# Raggruppa le lettere per conteggio e percentuale
+	grouped_errors = {}
+	for letter, (count, _) in dict_mistakes.items():
+		percentage = round(count / total_mistakes * 100, 2)
+		key = (count, percentage)
+		if key not in grouped_errors:
+			grouped_errors[key] = []
+		grouped_errors[key].append(letter)
+	# Crea l'output formattato
+	formatted_output = []
+	for (count, percentage), letters in sorted(grouped_errors.items(), reverse=True):
+		letter_group = " ".join(sorted(letters))
+		formatted_output.append(f"{letter_group}: {count} = {percentage}%")
+	return formatted_output
+import difflib
+
+def MistakesCollectorInStrings(right, received):
+	differences = []
+	# Usa SequenceMatcher per individuare le differenze con precisione
+	s = difflib.SequenceMatcher(None, right, received)
+	for tag, i1, i2, j1, j2 in s.get_opcodes():
+		if tag == 'replace' or tag == 'delete':
+			differences.extend(right[i1:i2])
+		elif tag == 'insert':
+			differences.extend(received[j1:j2])
+	return ''.join(differences)
+def MistakesCollectorInLists(rights, received):
 	errors = {}
 	for right, rxed in zip(rights, received):
-		for c, r in zip(right, rxed):
-			if c != r:
-				# Conta l'errore sulla lettera corretta che manca
-				errors[c] = errors.get(c, 0) + 1
-		if len(right) > len(rxed):
-			for c in right[len(rxed):]:
-				errors[c] = errors.get(c, 0) + 1
-		if len(rxed) > len(right):
-			for r in rxed[len(right):]:
-				if r not in errors:
-					errors[r] = 0
-				errors[r] += 1
+		# Usa SequenceMatcher per rilevare le differenze con precisione
+		s = difflib.SequenceMatcher(None, right, rxed)
+		for tag, i1, i2, j1, j2 in s.get_opcodes():
+			if tag == 'replace' or tag == 'delete':
+				for char in right[i1:i2]:
+					errors[char] = errors.get(char, 0) + 1
+			elif tag == 'insert':
+				for char in rxed[j1:j2]:
+					errors[char] = errors.get(char, 0) + 1
+	# Ordina e calcola le percentuali come nel modello originale
 	ordered_mistakes = dict(sorted(errors.items(), key=lambda item: item[1], reverse=True))
 	total_mistakes = sum(ordered_mistakes.values())
 	perc_mistakes = {k: (v, v / total_mistakes * 100) for k, v in ordered_mistakes.items()}
@@ -242,7 +269,7 @@ def AlwaysRight(yep, nope):
 def Rxing():
 	# receiving exercise
 	global words
-	print("Time to receive? Yep, you're to the right place. Let's go!\n\tLoading the status of your progress and check for dictonary database...")
+	print("\nTime to receive? Yep, you're to the right place. Let's go!\n\tLoading the status of your progress and check for dictonary database...")
 	try:
 		with open('words.txt', 'r', encoding='utf-8') as file:
 			words = file.readlines()
@@ -290,7 +317,7 @@ def Rxing():
 		else:
 			qrz=GeneratingGroup(kind=kind, length=length, wpm=wpm)
 		callssend.append(qrz.lower())
-		pitch=random.randint(350, 850)
+		pitch=random.randint(300, 1050)
 		prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - > "
 		CWzator(msg=qrz, wpm=wpm, pitch=pitch)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
@@ -300,13 +327,16 @@ def Rxing():
 			prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
 			CWzator(msg=qrz, wpm=wpm, pitch=pitch)
 			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
-		if qrz.lower() == guess.lower():
+		guess=guess.lower(); qrz=qrz.lower()
+		diff=MistakesCollectorInStrings(qrz,guess)
+		print(f"TX: {qrz} RX: {guess} <>: {diff}")
+		if qrz == guess:
 			callsget.append(qrz)
 			if repeatedflag: callsrepeated+=1
 			if wpm<100: wpm+=1
 		else:
 			callswrong.append(qrz.lower())
-			dz_mistakes[len(callssend)]=(qrz.lower(),guess.lower())
+			dz_mistakes[len(callssend)]=(qrz,guess)
 			if wpm>15: wpm-=1
 		calls+=1
 		if wpm>maxwpm: maxwpm=wpm
@@ -322,12 +352,13 @@ def Rxing():
 		print(f"\t{len(callsget)-callsrepeated} of these has been taken at the first shot: {(len(callsget)-callsrepeated)*100/len(callsget):.1f}%")
 		print(f"\twhile {callsrepeated} {kindstring} with repetition: {callsrepeated*100/len(callsget):.1f}%.")
 		print(f"You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {maxwpm-minwpm} WPM.")
-		dict_mistakes = MistakesCollector(callssend, callswrong)
+		dict_mistakes = MistakesCollectorInLists(callssend, callswrong)
+		results=GroupMistakesByFrequency(dict_mistakes)
 		print("Character: mistakes = Percentage")
-		for lettera, (errore, percentuale) in dict_mistakes.items():
-			print(f"'{lettera.upper()}': {errore} = {percentuale:.1f}%")
+		for item in results:
+			print(item.upper())
 		global_mistakes = sum([v[0] for v in dict_mistakes.values()])
-		print(f"\nTotal mistakes: {global_mistakes} on {send_char} = {global_mistakes*100/send_char:.3f}%")
+		print(f"\nTotal mistakes: {global_mistakes} on {send_char} = {global_mistakes*100/send_char:.2f}%")
 		good_letters = AlwaysRight(callssend, dict_mistakes)
 		print("\nNever misspelled characters:", " ".join(good_letters).upper())
 		f=open("CWapu_Diary.txt", "a")
@@ -338,12 +369,13 @@ def Rxing():
 		f.write(f"\twhile {callsrepeated} {kindstring} with repetition: {callsrepeated*100/len(callsget):.1f}%.\n")
 		f.write(f"You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {maxwpm-minwpm} WPM.\n")
 		f.write("Character: mistakes = Percentage")
-		for lettera, (errore, percentuale) in dict_mistakes.items():
-			f.write(f"\n\t\t'{lettera.upper()}': {errore} = {percentuale:.1f}%")
+		for item in results:
+			f.write("\n"+item.upper())
 		f.write("\nList of wrong received words:")
 		for k, v in dz_mistakes.items():
-			f.write(f"\n\t({k}) -- {v[0]} <> {v[1]};")
-		f.write(f"\nTotal mistakes: {global_mistakes} on {send_char} = {global_mistakes*100/send_char:.3f}%")
+			rslt=MistakesCollectorInStrings(v[0],v[1])
+			f.write(f"\n\t({k}) TX: {v[0]}, RX: {v[1]}, DIF: {rslt};")
+		f.write(f"\nTotal mistakes: {global_mistakes} on {send_char} = {global_mistakes*100/send_char:.2f}%")
 		f.write(f"\nNever misspelled characters: {' '.join(good_letters).upper()}")
 		nota=dgt(prompt="Note on this exercise: ", kind="s", smin=0, smax=512)
 		if nota != "":
@@ -364,7 +396,7 @@ def Rxing():
 	return
 
 #main
-print(f"CWAPU - VERSION: {VERS} BY GABE - IZ4APU.\n----UTILITIES FOR YOUR CW----")
+print(f"\nCWAPU - VERSION: {VERS} BY GABE - IZ4APU.\n----UTILITIES FOR YOUR CW----\n\t\tPress 'm' for menu.")
 try:
 	f=open("CWapu_Overall.pkl", "rb")
 	overall_speed, overall_hertz = pickle.load(f)
@@ -373,7 +405,7 @@ except IOError:
 	overall_speed, overall_hertz = 30, 550
 
 while True:
-	k=menu(d=MNMAIN,show=True,keyslist=True,ntf="It's not a command!")
+	k=menu(d=MNMAIN,show=False,keyslist=True,ntf="It's not a command!")
 	if k=="c": Count()
 	elif k=="t": Txing()
 	elif k=="r": Rxing()
