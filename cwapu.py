@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.5.13, october 27th, 2024"
+VERS="1.5.15, october 28th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"h":"Set Hertz",
@@ -217,9 +217,7 @@ def Count():
 	print("Bye for now, back to main menu.")
 	return
 def GroupMistakesByFrequency(dict_mistakes):
-	# Calcola il totale degli errori per la percentuale
 	total_mistakes = sum(count for count, _ in dict_mistakes.values())
-	# Raggruppa le lettere per conteggio e percentuale
 	grouped_errors = {}
 	for letter, (count, _) in dict_mistakes.items():
 		percentage = round(count / total_mistakes * 100, 2)
@@ -227,14 +225,11 @@ def GroupMistakesByFrequency(dict_mistakes):
 		if key not in grouped_errors:
 			grouped_errors[key] = []
 		grouped_errors[key].append(letter)
-	# Crea l'output formattato
 	formatted_output = []
 	for (count, percentage), letters in sorted(grouped_errors.items(), reverse=True):
 		letter_group = " ".join(sorted(letters))
 		formatted_output.append(f"{letter_group}: {count} = {percentage}%")
 	return formatted_output
-import difflib
-
 def MistakesCollectorInStrings(right, received):
 	differences = []
 	# Usa SequenceMatcher per individuare le differenze con precisione
@@ -248,7 +243,6 @@ def MistakesCollectorInStrings(right, received):
 def MistakesCollectorInLists(rights, received):
 	errors = {}
 	for right, rxed in zip(rights, received):
-		# Usa SequenceMatcher per rilevare le differenze con precisione
 		s = difflib.SequenceMatcher(None, right, rxed)
 		for tag, i1, i2, j1, j2 in s.get_opcodes():
 			if tag == 'replace' or tag == 'delete':
@@ -257,7 +251,6 @@ def MistakesCollectorInLists(rights, received):
 			elif tag == 'insert':
 				for char in rxed[j1:j2]:
 					errors[char] = errors.get(char, 0) + 1
-	# Ordina e calcola le percentuali come nel modello originale
 	ordered_mistakes = dict(sorted(errors.items(), key=lambda item: item[1], reverse=True))
 	total_mistakes = sum(ordered_mistakes.values())
 	perc_mistakes = {k: (v, v / total_mistakes * 100) for k, v in ordered_mistakes.items()}
@@ -286,7 +279,7 @@ def Rxing():
 	except IOError:
 		print("Ups, this is your first class, probably. So I'm creating the record.")
 		wpm, totalcalls, sessions, totalget, totalwrong, totaltime = 22, 0, 1, 0, 0, dt.datetime.now()-dt.datetime.now()
-	calls, callsget, callswrong, callsrepeated, minwpm, maxwpm, repeatedflag = 0, [], [], 0, 100, 14, False
+	calls, callsget, callswrong, callsrepeated, minwpm, maxwpm, repeatedflag = 1, [], [], 0, 100, 14, False
 	global customized_set
 	callssend=[]
 	dz_mistakes={}
@@ -316,17 +309,19 @@ def Rxing():
 			qrz=Mkdqrz(c)
 		else:
 			qrz=GeneratingGroup(kind=kind, length=length, wpm=wpm)
-		callssend.append(qrz.lower())
 		pitch=random.randint(300, 1050)
 		prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - > "
 		CWzator(msg=qrz, wpm=wpm, pitch=pitch)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
-		if guess==".": break
+		if guess==".":
+			calls-=1
+			break
 		elif guess == "" or "?" in guess:
 			repeatedflag=True
 			prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
 			CWzator(msg=qrz, wpm=wpm, pitch=pitch)
 			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
+		callssend.append(qrz.lower())
 		guess=guess.lower(); qrz=qrz.lower()
 		diff=MistakesCollectorInStrings(qrz,guess)
 		print(f"TX: {qrz} RX: {guess} <>: {diff}")
@@ -344,7 +339,7 @@ def Rxing():
 		repeatedflag=False
 	exerctime=dt.datetime.now()-starttime
 	print("It's over! Now let me check what we've got.")
-	if calls>14 and len(callsget)>0:
+	if calls>9 and len(callsget)>0:
 		send_char=0
 		for j in callssend:
 			send_char+=len(j)
@@ -360,7 +355,7 @@ def Rxing():
 		global_mistakes = sum([v[0] for v in dict_mistakes.values()])
 		print(f"\nTotal mistakes: {global_mistakes} on {send_char} = {global_mistakes*100/send_char:.2f}%")
 		good_letters = AlwaysRight(callssend, dict_mistakes)
-		print("\nNever misspelled characters:", " ".join(good_letters).upper())
+		print("\nNever misspelled characters:", " ".join(sorted(good_letters)).upper())
 		f=open("CWapu_Diary.txt", "a")
 		print("Report saved on CW_Diary.txt")
 		f.write(f"\nReceiving exercise #{sessions} performed on {str(lt()[0])}/{str(lt()[1])}/{str(lt()[2])} at {str(lt()[3])}, {str(lt()[4])} minutes:\n")
@@ -376,7 +371,7 @@ def Rxing():
 			rslt=MistakesCollectorInStrings(v[0],v[1])
 			f.write(f"\n\t({k}) TX: {v[0]}, RX: {v[1]}, DIF: {rslt};")
 		f.write(f"\nTotal mistakes: {global_mistakes} on {send_char} = {global_mistakes*100/send_char:.2f}%")
-		f.write(f"\nNever misspelled characters: {' '.join(good_letters).upper()}")
+		f.write(f"\nNever misspelled characters: {' '.join(sorted(good_letters)).upper()}")
 		nota=dgt(prompt="Note on this exercise: ", kind="s", smin=0, smax=512)
 		if nota != "":
 			f.write(f"\nNote: {nota}\n***\n")
