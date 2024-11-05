@@ -10,7 +10,7 @@ from time import localtime as lt
 from time import sleep as wait
 
 #constants
-VERS="1.5.15, october 28th, 2024"
+VERS="1.5.17, november 5th, 2024"
 MNMAIN={
 	"c":"Counting results",
 	"h":"Set Hertz",
@@ -281,7 +281,7 @@ def Rxing():
 		wpm, totalcalls, sessions, totalget, totalwrong, totaltime = 22, 0, 1, 0, 0, dt.datetime.now()-dt.datetime.now()
 	calls, callsget, callswrong, callsrepeated, minwpm, maxwpm, repeatedflag = 1, [], [], 0, 100, 14, False
 	global customized_set
-	callssend=[]
+	callssend=[]; average_wpm=0.0
 	dz_mistakes={}
 	wpm=dgt(prompt=f"Do you want to set your WPM? Enter to accept {wpm}> ",kind="i",imin=10,imax=85,default=wpm)
 	print("Now select which exercise do you want to take:")
@@ -323,14 +323,16 @@ def Rxing():
 			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		callssend.append(qrz.lower())
 		guess=guess.lower(); qrz=qrz.lower()
-		diff=MistakesCollectorInStrings(qrz,guess)
-		print(f"TX: {qrz} RX: {guess} <>: {diff}")
 		if qrz == guess:
 			callsget.append(qrz)
+			average_wpm+=wpm
 			if repeatedflag: callsrepeated+=1
 			if wpm<100: wpm+=1
 		else:
 			callswrong.append(qrz.lower())
+			diff=MistakesCollectorInStrings(qrz,guess)
+			diff_ratio=(1 - difflib.SequenceMatcher(None,qrz,guess).ratio()) * 100
+			print(f"TX: {qrz} RX: {guess} <>: {diff} RT: {int(diff_ratio):d}")
 			dz_mistakes[len(callssend)]=(qrz,guess)
 			if wpm>15: wpm-=1
 		calls+=1
@@ -346,7 +348,7 @@ def Rxing():
 		print(f"In this session #{sessions}, I sent {calls} {kindstring} to you and you got {len(callsget)} of them: {len(callsget)*100/calls:.1f}%")
 		print(f"\t{len(callsget)-callsrepeated} of these has been taken at the first shot: {(len(callsget)-callsrepeated)*100/len(callsget):.1f}%")
 		print(f"\twhile {callsrepeated} {kindstring} with repetition: {callsrepeated*100/len(callsget):.1f}%.")
-		print(f"You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {maxwpm-minwpm} WPM.")
+		print(f"You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {maxwpm-minwpm} WPM.\n\tAverage receiving speed: {average_wpm/len(callsget):.1f} WPM.")
 		dict_mistakes = MistakesCollectorInLists(callssend, callswrong)
 		results=GroupMistakesByFrequency(dict_mistakes)
 		print("Character: mistakes = Percentage")
@@ -362,7 +364,7 @@ def Rxing():
 		f.write(f"In this session #{sessions}, I sent {calls} {kindstring} to you and you got {len(callsget)} of them: {len(callsget)*100/calls:.1f}%\n")
 		f.write(f"\t{len(callsget)-callsrepeated} of these has been taken at the first shot: {(len(callsget)-callsrepeated)*100/len(callsget):.1f}%\n")
 		f.write(f"\twhile {callsrepeated} {kindstring} with repetition: {callsrepeated*100/len(callsget):.1f}%.\n")
-		f.write(f"You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {maxwpm-minwpm} WPM.\n")
+		f.write(f"You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {maxwpm-minwpm} WPM.\n\tAverage receiving speed: {average_wpm/len(callsget):.1f} WPM.\n")
 		f.write("Character: mistakes = Percentage")
 		for item in results:
 			f.write("\n"+item.upper())
