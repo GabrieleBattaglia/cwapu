@@ -1,15 +1,15 @@
-# Italian translations for PROJECT.
-# Copyright (C) 2024 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# Italian translations for CWAPU.
+# Copyright (C) 2024 Gabriele Battaglia
+# This file is distributed under the same license as the CWAPU project.
+# Gabriele Battaglia <tuoindirizzoemail@esempio.com>, 2024.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: CWAPU 1.6.0\n"
+"Report-Msgid-Bugs-To: iz4apu@libero.it\n"
 "POT-Creation-Date: 2024-11-06 10:19+0100\n"
 "PO-Revision-Date: 2024-11-06 10:27+0100\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Gabriele Battaglia <iz4apu@libero.it>\n"
 "Language: it\n"
 "Language-Team: it <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -20,67 +20,67 @@ msgstr ""
 
 #: test.py:15
 msgid "Counting results"
-msgstr ""
+msgstr "Conteggio dei risultati"
 
 #: test.py:16
 msgid "Set Hertz"
-msgstr ""
+msgstr "Imposta Hertz"
 
 #: test.py:17
 msgid "Listen to clipboard"
-msgstr ""
+msgstr "Ascolta CW dagli appunti"
 
 #: test.py:18
 msgid "shows Menu"
-msgstr ""
+msgstr "Mostra menu"
 
 #: test.py:19
 msgid "To quit this app"
-msgstr ""
+msgstr "Per chiudere l'app"
 
 #: test.py:20
 msgid "Receiving exercise"
-msgstr ""
+msgstr "Esercizio di ricezione"
 
 #: test.py:21
 msgid "Set speed"
-msgstr ""
+msgstr "Imposta velocità"
 
 #: test.py:22
 msgid "Transmitting exercise"
-msgstr ""
+msgstr "Esercizio di trasmissione"
 
 #: test.py:23
 msgid "Words Creator"
-msgstr ""
+msgstr "Crea dizionario"
 
 #: test.py:25
 msgid "Call-like"
-msgstr ""
+msgstr "Simile a un nominativo (pseudo-call)"
 
 #: test.py:26
 msgid "Groups"
-msgstr ""
+msgstr "Gruppi"
 
 #: test.py:28
 msgid "Letters only (A to Z)"
-msgstr ""
+msgstr "Solo lettere (da A a Z)"
 
 #: test.py:29
 msgid "Numbers only (0 to 9)"
-msgstr ""
+msgstr "Solo numeri (da 0 a 9)"
 
 #: test.py:30
 msgid "Letters and Numbers (A to Z and 0 to 9)"
-msgstr ""
+msgstr "Lettere e numeri (da A a Z e da 0 a 9)"
 
 #: test.py:31
 msgid "Custom set (let's decide which symbols you want to work on)"
-msgstr ""
+msgstr "Set personalizzato (decidiamo quali simboli vuoi usare)"
 
 #: test.py:32
 msgid "Words (words peeked up from a customizable file)"
-msgstr ""
+msgstr "Parole (scelte da un dizionario personalizzabile)"
 
 #: test.py:62
 msgid ""
@@ -101,6 +101,20 @@ msgid ""
 "words_updated.txt will contain the words from words.txt plus all those "
 "collected from the newly processed .txt files."
 msgstr ""
+"Attenzione! Si prega di leggere attentamente.\n"
+"Per l'esercizio di ricezione (r.2.5) dal menu principale, CWAPU utilizza il "
+"file words.txt, che deve trovarsi nella cartella da cui hai avviato "
+"cwapu.py o cwapu.exe. Se questo file non esiste, creane uno con un editor "
+"di testo e scrivi alcune parole, una per riga, poi salvalo.\n"
+"La procedura Crea Dizionario consente di scansionare tutti i file txt nelle "
+"cartelle che indichi e aggiungere tutte le parole da quei file a words.txt. "
+"Le parole verranno aggiunte unicamente, cioè saranno tutte diverse tra loro.\n"
+"Il file prodotto da questo processo sarà denominato words_updated.txt. "
+"Verificalo con un editor di testo e, se sei soddisfatto, rinominalo in "
+"words.txt, sostituendo il words.txt esistente.\n"
+"Puoi ripetere questa operazione tutte le volte che desideri: "
+"words_updated.txt conterrà le parole di words.txt più tutte quelle raccolte "
+"dai nuovi file .txt elaborati."
 
 #: test.py:78
 msgid ""
@@ -111,20 +125,24 @@ msgid ""
 "will choose words with length in between 3 and 6 characters only.\n"
 "Type enter to use the whole dictonary"
 msgstr ""
+"\n"
+"Filtriamo l'insieme delle parole da usare con l'esercizio\n"
+"Indica la lunghezza minima.massima delle parole da scegliere "
+"casualmente. Es. 3.6\n"
+"sceglierà solo parole di lunghezza compresa tra 3 e 6 caratteri.\n"
+"Premi invio per usare l'intero dizionario"
 
 #: test.py:90
 msgid "You havn't inserted numbers"
-msgstr ""
+msgstr "Non hai inserito numeri"
 
 #: test.py:91
 msgid "Try again"
-msgstr ""
+msgstr "Riprova"
 
 #: test.py:106
-msgid ""
-"Type all characters you want to practice on. (minimum of 2) Empty line to"
-" proceed"
-msgstr ""
+msgid "Type all characters you want to practice on. (minimum of 2) Empty line to proceed"
+msgstr "Digita tutti i caratteri su cui vuoi esercitarti. (minimo 2) invio per procedere"
 
 #: test.py:143
 msgid ""
@@ -133,10 +151,14 @@ msgid ""
 "\ttry to play them on your favourite CW key.\n"
 "Any key to go on, ESCAPE to close the App."
 msgstr ""
+"Esercizio di trasmissione.\n"
+"Qui avrai nominativi casuali e numeri,\n"
+\tprova a riprodurli con il tuo tasto CW preferito.\n"
+"Premi un tasto qualsiasi per continuare, ESC per chiudere l'app."
 
 #: test.py:154
 msgid "Bye-Bye & 73. de IZ4APU Gabe, back to main menu."
-msgstr ""
+msgstr "Arrivederci & 73. de IZ4APU Gabe, ritorno al menu principale."
 
 #: test.py:158
 msgid ""
@@ -145,28 +167,32 @@ msgid ""
 "Any other key means: group lost;\n"
 "Press ESCAPE to go back to main menu."
 msgstr ""
+"Conteggio, SÌ o NO?.\n"
+"Barra spaziatrice: gruppo ricevuto;\n"
+"Qualsiasi altro tasto: gruppo perso;\n"
+"Premi ESC per tornare al menu principale."
 
 #: test.py:194
 msgid "Passed!"
-msgstr ""
+msgstr "Superato!"
 
 #: test.py:200 test.py:362
 msgid "Report saved on CW_Diary.txt"
-msgstr ""
+msgstr "Rapporto salvato in CW_Diary.txt"
 
 #: test.py:204
 msgid "Got it!\n"
-msgstr ""
+msgstr "Ricevuto!\n"
 
 #: test.py:210
 msgid ""
 "Note: empty\n"
 "***\n"
-msgstr ""
+msgstr "Nota: vuota\n***\n"
 
 #: test.py:217
 msgid "Bye for now, back to main menu."
-msgstr ""
+msgstr "Ciao per ora, ritorno al menu principale."
 
 #: test.py:265
 msgid ""
@@ -174,51 +200,51 @@ msgid ""
 "Time to receive? Yep, you're to the right place. Let's go!\n"
 "\tLoading the status of your progress and check for dictonary database..."
 msgstr ""
+"\n"
+"E' l'ora giusta per un bel allenamento in ricezione? Sì, sei nel posto giusto. Andiamo!\n"
+"\tCaricamento dello stato dei tuoi progressi e verifica del database del dizionario..."
 
 #: test.py:272
-msgid ""
-"File words.txt not found. Please provide a dictionary file: 1 word per "
-"line."
-msgstr ""
+msgid "File words.txt not found. Please provide a dictionary file: 1 word per line."
+msgstr "File words.txt non trovato. Fornisci un file di dizionario: 1 parola per riga."
 
 #: test.py:280
 msgid "Ups, this is your first class, probably. So I'm creating the record."
-msgstr ""
+msgstr "Ops, questa è probabilmente la tua prima lezione. Sto creando il record."
 
 #: test.py:287
 msgid "Now select which exercise do you want to take:"
-msgstr ""
+msgstr "Ora seleziona quale esercizio desideri fare:"
 
 #: test.py:343
 msgid "It's over! Now let me check what we've got."
-msgstr ""
+msgstr "È finito! Ora lascia che controlli cosa abbiamo ottenuto."
 
 #: test.py:354 test.py:368
 msgid "Character: mistakes = Percentage"
-msgstr ""
+msgstr "Carattere: errori = Percentuale"
 
 #: test.py:360
 msgid ""
 "\n"
 "Never misspelled characters:"
-msgstr ""
+msgstr "\nCaratteri mai sbagliati:"
 
 #: test.py:371
 msgid ""
 "\n"
 "List of wrong received words:"
-msgstr ""
+msgstr "\nLista delle stringhe ricevute scorrettamente:"
 
 #: test.py:381
 msgid ""
 "\n"
 "Note: empty\n"
 "***\n"
-msgstr ""
+msgstr "\nNota: vuota\n***\n"
 
 #: test.py:420
 msgid ""
 "\n"
 "I hope to see you soon - 73 de IZ4APU TU EE"
-msgstr ""
-
+msgstr "\nSpero di rivederti presto - 73 de IZ4APU TU EE"
