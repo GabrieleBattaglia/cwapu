@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-06 10:19+0100\n"
+"POT-Creation-Date: 2024-11-07 10:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,71 +17,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: test.py:15
+#: cwapudev.py:31
 msgid "Counting results"
 msgstr ""
 
-#: test.py:16
+#: cwapudev.py:32
 msgid "Set Hertz"
 msgstr ""
 
-#: test.py:17
+#: cwapudev.py:33
 msgid "Listen to clipboard"
 msgstr ""
 
-#: test.py:18
+#: cwapudev.py:34
 msgid "shows Menu"
 msgstr ""
 
-#: test.py:19
+#: cwapudev.py:35
 msgid "To quit this app"
 msgstr ""
 
-#: test.py:20
+#: cwapudev.py:36
 msgid "Receiving exercise"
 msgstr ""
 
-#: test.py:21
+#: cwapudev.py:37
 msgid "Set speed"
 msgstr ""
 
-#: test.py:22
+#: cwapudev.py:38
 msgid "Transmitting exercise"
 msgstr ""
 
-#: test.py:23
+#: cwapudev.py:39
 msgid "Words Creator"
 msgstr ""
 
-#: test.py:25
+#: cwapudev.py:42
 msgid "Call-like"
 msgstr ""
 
-#: test.py:26
+#: cwapudev.py:43
 msgid "Groups"
 msgstr ""
 
-#: test.py:28
+#: cwapudev.py:46
 msgid "Letters only (A to Z)"
 msgstr ""
 
-#: test.py:29
+#: cwapudev.py:47
 msgid "Numbers only (0 to 9)"
 msgstr ""
 
-#: test.py:30
+#: cwapudev.py:48
 msgid "Letters and Numbers (A to Z and 0 to 9)"
 msgstr ""
 
-#: test.py:31
+#: cwapudev.py:49
 msgid "Custom set (let's decide which symbols you want to work on)"
 msgstr ""
 
-#: test.py:32
+#: cwapudev.py:50
 msgid "Words (words peeked up from a customizable file)"
 msgstr ""
 
-#: test.py:62
+#: cwapudev.py:80
 msgid ""
 "Attention! Please read carefully.\n"
 "For the reception exercises, (r) from the main menu, CWAPU uses the file "
@@ -101,7 +101,7 @@ msgid ""
 "collected from the newly processed .txt files."
 msgstr ""
 
-#: test.py:78
+#: cwapudev.py:96
 msgid ""
 "\n"
 "Let's filter the words set to using with the exercise\n"
@@ -111,21 +111,21 @@ msgid ""
 "Type enter to use the whole dictonary"
 msgstr ""
 
-#: test.py:90
+#: cwapudev.py:108
 msgid "You havn't inserted numbers"
 msgstr ""
 
-#: test.py:91
+#: cwapudev.py:109
 msgid "Try again"
 msgstr ""
 
-#: test.py:106
+#: cwapudev.py:124
 msgid ""
 "Type all characters you want to practice on. (minimum of 2) Empty line to"
 " proceed"
 msgstr ""
 
-#: test.py:143
+#: cwapudev.py:161
 msgid ""
 "Transmitting exercise.\n"
 "Here you're going to have random calls-like and numbers,\n"
@@ -133,11 +133,11 @@ msgid ""
 "Any key to go on, ESCAPE to close the App."
 msgstr ""
 
-#: test.py:154
+#: cwapudev.py:172
 msgid "Bye-Bye & 73. de IZ4APU Gabe, back to main menu."
 msgstr ""
 
-#: test.py:158
+#: cwapudev.py:176
 msgid ""
 "Counting, YES or NO?.\n"
 "Spacebar means: group received;\n"
@@ -145,77 +145,77 @@ msgid ""
 "Press ESCAPE to go back to main menu."
 msgstr ""
 
-#: test.py:194
+#: cwapudev.py:212
 msgid "Passed!"
 msgstr ""
 
-#: test.py:200 test.py:362
+#: cwapudev.py:218 cwapudev.py:380
 msgid "Report saved on CW_Diary.txt"
 msgstr ""
 
-#: test.py:204
+#: cwapudev.py:222
 msgid "Got it!\n"
 msgstr ""
 
-#: test.py:210
+#: cwapudev.py:228
 msgid ""
 "Note: empty\n"
 "***\n"
 msgstr ""
 
-#: test.py:217
+#: cwapudev.py:235
 msgid "Bye for now, back to main menu."
 msgstr ""
 
-#: test.py:265
+#: cwapudev.py:283
 msgid ""
 "\n"
 "Time to receive? Yep, you're to the right place. Let's go!\n"
 "\tLoading the status of your progress and check for dictonary database..."
 msgstr ""
 
-#: test.py:272
+#: cwapudev.py:290
 msgid ""
 "File words.txt not found. Please provide a dictionary file: 1 word per "
 "line."
 msgstr ""
 
-#: test.py:280
+#: cwapudev.py:298
 msgid "Ups, this is your first class, probably. So I'm creating the record."
 msgstr ""
 
-#: test.py:287
+#: cwapudev.py:305
 msgid "Now select which exercise do you want to take:"
 msgstr ""
 
-#: test.py:343
+#: cwapudev.py:361
 msgid "It's over! Now let me check what we've got."
 msgstr ""
 
-#: test.py:354 test.py:368
+#: cwapudev.py:372 cwapudev.py:386
 msgid "Character: mistakes = Percentage"
 msgstr ""
 
-#: test.py:360
+#: cwapudev.py:378
 msgid ""
 "\n"
 "Never misspelled characters:"
 msgstr ""
 
-#: test.py:371
+#: cwapudev.py:389
 msgid ""
 "\n"
 "List of wrong received words:"
 msgstr ""
 
-#: test.py:381
+#: cwapudev.py:399
 msgid ""
 "\n"
 "Note: empty\n"
 "***\n"
 msgstr ""
 
-#: test.py:420
+#: cwapudev.py:433
 msgid ""
 "\n"
 "I hope to see you soon - 73 de IZ4APU TU EE"
