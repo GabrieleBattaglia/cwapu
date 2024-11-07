@@ -9,27 +9,27 @@ from cwzator import *
 from time import localtime as lt
 from time import sleep as wait
 
+# Importa le traduzioni
+from translations import translations  # MODIFICATO
+
+# Definisci la funzione per la traduzione
+def translate(key, lang='en', **kwargs):  # MODIFICATO
+    value = translations.get(lang, {}).get(key, '')
+    if isinstance(value, dict):
+        return value
+    return value.format(**kwargs)
+
+# Chiedi all'utente di selezionare la lingua
+lang = 'en'  # Lingua predefinita
+user_lang = input(translate('select_language')).lower()  # MODIFICATO
+if user_lang in translations:
+    lang = user_lang
+
 #constants
-VERS="1.5.17, november 5th, 2024"
-MNMAIN={
-	"c":"Counting results",
-	"h":"Set Hertz",
-	"l":"Listen to clipboard",
-	"m":"shows Menu",
-	"q":"To quit this app",
-	"r":"Receiving exercise",
-	"s":"Set speed",
-	"t":"Transmitting exercise",
-	"w":"Words Creator"}
-MNRX={
-	"1":"Call-like",
-	"2":"Groups"}
-MNRXKIND={
-										"1":"Letters only (A to Z)",
-										"2":"Numbers only (0 to 9)",
-										"3":"Letters and Numbers (A to Z and 0 to 9)",
-										"4":"Custom set (let's decide which symbols you want to work on)",
-										"5":"Words (words peeked up from a customizable file)"}
+VERS="1.6.0, november 7th, 2024"
+MNMAIN = translate('menu_main', lang=lang)  # MODIFICATO
+MNRX = translate('menu_rx', lang=lang)  # MODIFICATO
+MNRXKIND = translate('menu_rx_kind', lang=lang)  # MODIFICATO
 MDL={'a0a':4,
 					'a0aa':6,
 					'a0aaa':15,
@@ -59,27 +59,16 @@ def StringCleaning(stringa):
 	cleaned = re.sub(r"\s+", " ", cleaned)
 	return cleaned
 def CreateDictionary():
-	print("Attention! Please read carefully.\n"
-							"For the reception exercises, (r) from the main menu, CWAPU uses the file words.txt, "
-							"which must be located in the folder from which you launched cwapu.py or cwapu.exe. "
-							"If this file does not exist, create one with a text editor and write some words in it, "
-							"one word per line, then save it.\n"
-							"The WordsCreator procedure allows you to scan all the txt files contained in the folders you indicate "
-							"and add all the words from those files to words.txt. The words will be added uniquely, "
-							"meaning they will all be different from each other.\n"
-							"The file produced by this process will be named words_updated.txt. Check it with a text editor and, "
-							"if you are satisfied with it, rename it to words.txt, replacing the existing words.txt.\n"
-							"You can repeat this operation as many times as you like: words_updated.txt will contain the words "
-							"from words.txt plus all those collected from the newly processed .txt files.")
+	print(translate('attention_message', lang=lang))  # MODIFICATO
 	import Words_Creator
 	Words_Creator.Start()
 	return
 def FilterWord(w):
-	print("\nLet's filter the words set to using with the exercise\nPlease type minimum.maximum length of the words you want to be choosen randomly. e.g. 3.6\nwill choose words with length in between 3 and 6 characters only.\nType enter to use the whole dictonary")
+	print(translate('filter_words_prompt', lang=lang))  # MODIFICATO
 	ex=False
 	while True:
 		while True:
-			mnmx=input("Minimum.Maximum: ")
+			mnmx=input(translate('insert_min_max', lang=lang))  # MODIFICATO
 			if mnmx=="":
 				ex=True
 				break
@@ -87,23 +76,23 @@ def FilterWord(w):
 				x=mnmx.split(".")
 				mn,mx=x[0],x[1]
 				if mn.isdigit() and mx.isdigit(): break
-				else: print("You havn't inserted numbers")
-			else: print("Try again")
+				else: print(translate('not_numbers', lang=lang))  # MODIFICATO
+			else: print(translate('try_again', lang=lang))  # MODIFICATO
 		if ex: break
 		mn=int(mn); mx=int(mx)
 		if mn<1: mn=1
 		elif mn>10: mn=10
 		if mx<3: mx=3
 		elif mx>35: mx=35
-		print(f"Filtering word which are in {mn}/{mx} range of length.")
+		print(translate('filtering_range', lang=lang, mn=mn, mx=mx))  # MODIFICATO
 		w1=[l for l in w if len(l)>=mn and len(l)<=mx]
-		scelta=key(prompt=f"{len(w1)} words, are you ok with it? (y|n)> ").lower()
+		scelta=key(prompt=translate('confirm_word_count', lang=lang, word_count=len(w1))).lower()  # MODIFICATO
 		if scelta=="y": break
 	if ex: return w
 	else: return w1
 def CustomSet(wpm):
 	cs=set(); prompt=""
-	print("Type all characters you want to practice on. (minimum of 2) Empty line to proceed")
+	print(translate('custom_set_prompt', lang=lang))  # MODIFICATO
 	while True:
 		prompt=''.join(sorted(cs))
 		scelta = key(prompt="\n"+prompt)
@@ -140,7 +129,7 @@ def Txing():
 	# QRZ - Programma che crea calls inventati e numeri progressivi, da usare negli esercizi CW
 	# Data concepimento 30/9/2022 by IZ4APU.
 	# Now part of CWAPU, dec 22nd, 2022.
-	print("Transmitting exercise.\nHere you're going to have random calls-like and numbers,\n\ttry to play them on your favourite CW key.\nAny key to go on, ESCAPE to close the App.")
+	print(translate('transmitting_exercise', lang=lang))  # MODIFICATO
 	cont=1
 	while True:
 		c=random.choices(list(MDL.keys()), weights=MDL.values(), k=1)
@@ -151,11 +140,11 @@ def Txing():
 		print()
 		if ord(wait)==27: break
 		cont+=1
-	print("Bye-Bye & 73. de IZ4APU Gabe, back to main menu.")
+	print(translate('bye_message', lang=lang))  # MODIFICATO
 	return
 def Count():
 	from winsound import Beep as B
-	print("Counting, YES or NO?.\nSpacebar means: group received;\nAny other key means: group lost;\nPress ESCAPE to go back to main menu.")
+	print(translate('counting_prompt', lang=lang))  # MODIFICATO
 	try:
 		f=open("CWapu_Index.pkl", "rb")
 		esnum=pickle.load(f)
@@ -166,7 +155,7 @@ def Count():
 	corr = 0
 	scelta = ""
 	B(350,200)
-	print(f"Exercise number {esnum}:")
+	print(translate('exercise_number', lang=lang, esnum=esnum))  # MODIFICATO
 	while True:
 		if cont % 100 == 0: B(1600, 200)
 		elif cont % 50 == 0: B(1150, 80)
@@ -189,15 +178,15 @@ def Count():
 		pde=100-corr*100/cont
 	else:
 		pde=100
-	print(f"Total: {cont}, correct: {corr}, mistakes(%): {pde:.2f}%.")
+	print(translate('total_correct', lang=lang, cont=cont, corr=corr, pde=pde))  # MODIFICATO
 	if pde<=6:
-		print("Passed!")
+		print(translate('passed', lang=lang))  # MODIFICATO
 	else:
-		print(f"Failed: {pde-6:.2f}% to the threshold.")
+		print(translate('failed', lang=lang, difference=pde-6))  # MODIFICATO
 	if cont >= 100:
 		with open("CWapu_Diary.txt", "a") as f:
-			nota=input("Note on this exercise: ")
-			print("Report saved on CW_Diary.txt")
+			nota=input(translate('note_on_exercise', lang=lang))  # MODIFICATO
+			print(translate('report_saved', lang=lang))  # MODIFICATO
 			f.write(f"Counting exercise #{esnum} performed on {str(lt()[0])}/{str(lt()[1])}/{str(lt()[2])} at {str(lt()[3])}, {str(lt()[4])} minutes:\n")
 			f.write(f"Total {cont}, fixed {corr}, mistake(%) {pde:.2f}%.\n")
 			if pde<=6:
@@ -207,14 +196,14 @@ def Count():
 			if nota != "":
 				f.write(f"Note: {nota}\n***\n")
 			else:
-				f.write(f"Note: empty\n***\n")
+				f.write(translate('empty_note', lang=lang) + "\n***\n")  # MODIFICATO
 	else:
-		print(f"Groups received {cont} up to 100: exercise not saved on disk.")
+		print(translate('groups_received_few', lang=lang, cont=cont))  # MODIFICATO
 	f=open("CWapu_Index.pkl", "wb")
 	esnum+=1
 	pickle.dump(esnum, f)
 	f.close()
-	print("Bye for now, back to main menu.")
+	print(translate('bye_message', lang=lang))  # MODIFICATO
 	return
 def GroupMistakesByFrequency(dict_mistakes):
 	total_mistakes = sum(count for count, _ in dict_mistakes.values())
@@ -262,46 +251,46 @@ def AlwaysRight(yep, nope):
 def Rxing():
 	# receiving exercise
 	global words
-	print("\nTime to receive? Yep, you're to the right place. Let's go!\n\tLoading the status of your progress and check for dictonary database...")
+	print(translate('time_to_receive', lang=lang))  # MODIFICATO
 	try:
 		with open('words.txt', 'r', encoding='utf-8') as file:
 			words = file.readlines()
 			words = [line.strip() for line in words]
-			print(f"Word's dictionary loaded with {len(words)} words.")
+			print(translate('dictionary_loaded', lang=lang, word_count=len(words)))  # MODIFICATO
 	except FileNotFoundError:
-		print("File words.txt not found. Please provide a dictionary file: 1 word per line.")
+		print(translate('file_not_found', lang=lang))  # MODIFICATO
 		del MNRXKIND["5"]
 	try:
 		f=open("CWapu_Rxing.pkl", "rb")
 		wpm, totalcalls, sessions, totalget, totalwrong, totaltime = pickle.load(f)
 		f.close()
-		print(f"I got your data from disk, so:\nYour actual WPM is {wpm} and you did {sessions-1} sessions.\nI sent to you {totalcalls} total calls-like or groups, and you got {totalget} of them, while {totalwrong} were missed\nYour overall time receiving calls-like is {str(totaltime)[:-5]}.")
+		print(translate('got_data', lang=lang, wpm=wpm, sessions=sessions-1, totalcalls=totalcalls, totalget=totalget, totalwrong=totalwrong, totaltime=str(totaltime)[:-5]))  # MODIFICATO
 	except IOError:
-		print("Ups, this is your first class, probably. So I'm creating the record.")
+		print(translate('first_class', lang=lang))  # MODIFICATO
 		wpm, totalcalls, sessions, totalget, totalwrong, totaltime = 22, 0, 1, 0, 0, dt.datetime.now()-dt.datetime.now()
 	calls, callsget, callswrong, callsrepeated, minwpm, maxwpm, repeatedflag = 1, [], [], 0, 100, 14, False
 	global customized_set
 	callssend=[]; average_wpm=0.0
 	dz_mistakes={}
-	wpm=dgt(prompt=f"Do you want to set your WPM? Enter to accept {wpm}> ",kind="i",imin=10,imax=85,default=wpm)
-	print("Now select which exercise do you want to take:")
-	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf="Please, just 1 or 2")
+	wpm=dgt(prompt=translate('set_wpm', lang=lang, wpm=wpm),kind="i",imin=10,imax=85,default=wpm)  # MODIFICATO
+	print(translate('select_exercise', lang=lang))  # MODIFICATO
+	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf=translate('please_just_1_or_2', lang=lang))  # MODIFICATO
 	if call_or_groups == "2":
-		kind=menu(d=MNRXKIND,show=True,keyslist=True,ntf="Choose a number please")
+		kind=menu(d=MNRXKIND,show=True,keyslist=True,ntf=translate('choose_a_number', lang=lang))  # MODIFICATO
 		kindstring="Group"
 		if kind=="4":
 			customized_set=CustomSet(wpm)
-			length=dgt(prompt="Give me the length of the group in between 1 and 7: ", kind="i", imin=1, imax=7)
+			length=dgt(prompt=translate('give_length', lang=lang), kind="i", imin=1, imax=7)  # MODIFICATO
 		elif kind=="5":
 			words=FilterWord(words)
 			length=0
 			kindstring="words"
 		else:
-			length=dgt(prompt="Give me the length of the group in between 1 and 7: ",kind="i",imin=1,imax=7)
+			length=dgt(prompt=translate('give_length', lang=lang),kind="i",imin=1,imax=7)  # MODIFICATO
 	else: kindstring="Call-like"
-	print(f"Now, careful. Type the {kindstring} you hear.\nGiving an empty line (or adding a ?) will gift you a second listen to the {kindstring}.\n\tTo stop, just type a '.' (fullstop) followed by enter.\nENJOY. \tPress any key when you're ready to start.")
+	print(translate('careful_type', lang=lang, kindstring=kindstring))  # MODIFICATO
 	attesa=key()
-	print(f"Let's begin session {sessions}!")
+	print(translate('begin_session', lang=lang, sessions=sessions))  # MODIFICATO
 	starttime=dt.datetime.now()
 	while True:
 		if call_or_groups == "1":
@@ -340,7 +329,7 @@ def Rxing():
 		if wpm<minwpm: minwpm=wpm
 		repeatedflag=False
 	exerctime=dt.datetime.now()-starttime
-	print("It's over! Now let me check what we've got.")
+	print(translate('over_check', lang=lang))  # MODIFICATO
 	if calls>9 and len(callsget)>0:
 		send_char=0
 		for j in callssend:
@@ -359,7 +348,7 @@ def Rxing():
 		good_letters = AlwaysRight(callssend, dict_mistakes)
 		print("\nNever misspelled characters:", " ".join(sorted(good_letters)).upper())
 		f=open("CWapu_Diary.txt", "a")
-		print("Report saved on CW_Diary.txt")
+		print(translate('report_saved', lang=lang))  # MODIFICATO
 		f.write(f"\nReceiving exercise #{sessions} performed on {str(lt()[0])}/{str(lt()[1])}/{str(lt()[2])} at {str(lt()[3])}, {str(lt()[4])} minutes:\n")
 		f.write(f"In this session #{sessions}, I sent {calls} {kindstring} to you and you got {len(callsget)} of them: {len(callsget)*100/calls:.1f}%\n")
 		f.write(f"\t{len(callsget)-callsrepeated} of these has been taken at the first shot: {(len(callsget)-callsrepeated)*100/len(callsget):.1f}%\n")
@@ -374,13 +363,13 @@ def Rxing():
 			f.write(f"\n\t({k}) TX: {v[0]}, RX: {v[1]}, DIF: {rslt};")
 		f.write(f"\nTotal mistakes: {global_mistakes} on {send_char} = {global_mistakes*100/send_char:.2f}%")
 		f.write(f"\nNever misspelled characters: {' '.join(sorted(good_letters)).upper()}")
-		nota=dgt(prompt="Note on this exercise: ", kind="s", smin=0, smax=512)
+		nota=dgt(prompt=translate('note_on_exercise', lang=lang), kind="s", smin=0, smax=512)  # MODIFICATO
 		if nota != "":
 			f.write(f"\nNote: {nota}\n***\n")
 		else:
-			f.write(f"\nNote: empty\n***\n")
+			f.write("\n" + translate('empty_note', lang=lang) + "\n***\n")  # MODIFICATO
 		f.close()
-	else: print(f"You received too few {kindstring} to generate a consistant statistics.")
+	else: print(translate('received_too_few', lang=lang, kindstring=kindstring))  # MODIFICATO
 	totalcalls+=calls
 	totalget+=len(callsget)
 	totalwrong+=len(callswrong)
@@ -389,11 +378,11 @@ def Rxing():
 	f=open("CWapu_Rxing.pkl", "wb")
 	pickle.dump([wpm, totalcalls, sessions, totalget, totalwrong, totaltime], f)
 	f.close()
-	print(f"Session {sessions-1}, lasts: {str(exerctime)[:-5]} has been saved on disk.")
+	print(translate('session_saved', lang=lang, session_number=sessions-1, duration=str(exerctime)[:-5]))  # MODIFICATO
 	return
 
 #main
-print(f"\nCWAPU - VERSION: {VERS} BY GABE - IZ4APU.\n----UTILITIES FOR YOUR CW----\n\t\tPress 'm' for menu.")
+print(translate('welcome_message', lang=lang, version=VERS))  # MODIFICATO
 try:
 	f=open("CWapu_Overall.pkl", "rb")
 	overall_speed, overall_hertz = pickle.load(f)
@@ -402,23 +391,23 @@ except IOError:
 	overall_speed, overall_hertz = 30, 550
 
 while True:
-	k=menu(d=MNMAIN,show=False,keyslist=True,ntf="It's not a command!")
+	k=menu(d=MNMAIN,show=False,keyslist=True,ntf=translate('not_a_command', lang=lang))  # MODIFICATO
 	if k=="c": Count()
 	elif k=="t": Txing()
 	elif k=="r": Rxing()
-	elif k=="h": overall_hertz=dgt(prompt=f"New frequency for cw? (return to accept {overall_hertz}) > ",kind="i",imin=130,imax=1300); overall_settings_changed=True
-	elif k=="s": overall_speed=dgt(prompt=f"New speed for cw? (return to accept {overall_speed}) > ",kind="i",imin=8,imax=100); overall_settings_changed=True
+	elif k=="h": overall_hertz=dgt(prompt=translate('new_frequency', lang=lang, overall_hertz=overall_hertz),kind="i",imin=130,imax=1300); overall_settings_changed=True  # MODIFICATO
+	elif k=="s": overall_speed=dgt(prompt=translate('new_speed', lang=lang, overall_speed=overall_speed),kind="i",imin=8,imax=100); overall_settings_changed=True  # MODIFICATO
 	elif k=="l":
 		ltc=pyperclip.paste()
 		if ltc:
 			ltc=StringCleaning(ltc)
 			CWzator(msg=ltc, wpm=overall_speed, pitch=overall_hertz)
-		else: CWzator(msg="empty", wpm=overall_speed, pitch=overall_hertz)
+		else: CWzator(msg=translate('empty_clipboard', lang=lang), wpm=overall_speed, pitch=overall_hertz)  # MODIFICATO
 	elif k=="m": menu(d=MNMAIN,show_only=True)
 	elif k=="w": CreateDictionary()
 	elif k=="q": break
-print("\nI hope to see you soon - 73 de IZ4APU TU EE")
-CWzator(msg="hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
+print(translate('exit_message', lang=lang))  # MODIFICATO
+CWzator(msg=translate('hpe_cuagn', lang=lang), wpm=40, pitch=599)  # MODIFICATO
 if overall_settings_changed:
 	f=open("CWapu_Overall.pkl", "wb")
 	pickle.dump([overall_speed, overall_hertz],f)
