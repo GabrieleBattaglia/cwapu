@@ -1,6 +1,7 @@
 translations = {
 	'en': {
 		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tPress 'm' for menu.",
+		'not_a_valid_language': "Not a valid language",
 		'select_language': "Select your language / Seleziona la lingua: ",
 		'menu_prompt': "It's not a command!",
 		'exit_message': "\nI hope to see you soon - 73 de IZ4APU TU EE",
@@ -38,7 +39,7 @@ translations = {
 			"z": "Select your language"
 		},
 		'menu_rx': {
-			"1": "Call-like",
+			"1": "Pseudo-calls",
 			"2": "Groups"
 		},
 		'menu_rx_kind': {
@@ -71,39 +72,55 @@ translations = {
 		'o_set_loaded':"General settings loaded",
 		'o_set_created':"General settings to default",
 		'o_set_saved':"General settings saved on disk.",
-		'l_set':"Application language set to English"
-		#Q
+		'l_set':"Application language set to English",
+		'counting_exercise_report': "Counting exercise #{esnum} performed on {date} at {time} minutes:\n",
+		'total_correct_report': "Total: {cont}, correct: {corr}, mistakes(%): {pde:.2f}%.\n",
+		'note_with_text': "Note: {nota}\n***\n",
+		'session_summary': "In this session #{sessions}, I sent {calls} {kindstring} to you and you got {callsget_len} of them: {percentage:.1f}%",
+		'first_shot': "\t{first_shot} of these have been taken at the first shot: {first_shot_percentage:.1f}%",
+		'with_repetition': "\twhile {repetitions} {kindstring} with repetition: {repetitions_percentage:.1f}%.",
+		'speed_summary': "You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {range_wpm} WPM.\n\tAverage receiving speed: {average_wpm:.1f} WPM.",
+		'character_mistakes': "Character: mistakes = Percentage",
+		'total_mistakes': "\nTotal mistakes: {global_mistakes} on {send_char} = {mistake_percentage:.2f}%",
+		'receiving_exercise_report': "\nReceiving exercise #{sessions} performed on {date} at {time} minutes:\n",
+		'never_misspelled': "\nNever misspelled characters: {good_letters}",
+		'list_of_wrong_words': "\nList of wrong received words:",
+		'wrong_word_entry': "\n\t({k}) TX: {tx}, RX: {rx}, DIF: {dif};"
+		#Qen
 	},
 	'it': {
 		'welcome_message': "\nCWAPU - VERSIONE: {version} DI GABRY - IZ4APU.\n\t----UTILITÀ PER IL TUO CW----\n\t\tPremi 'm' per il menu.",
-		'select_language': "Select your language / Seleziona la lingua: ",
-		'menu_prompt': "Non è un comando!",
+		'list_of_wrong_words': "\nElenco delle parole copiate male:",
+		'wrong_word_entry': "\n\t({k}) TX: {tx}, RX: {rx}, DIF: {dif};",
+		'select_language': "Seleziona la lingua: ",
+		'menu_prompt': "Non è un comando valido!",
 		'exit_message': "\nSpero di rivederti presto - 73 de IZ4APU TU EE",
+		'receiving_exercise_report': "\nEsercizio di ricezione #{sessions} eseguito il {date} alle {time} minuti:\n",
 		'attention_message': "Attenzione! Si prega di leggere attentamente.\nPer gli esercizi di ricezione, (r) dal menu principale, CWAPU utilizza il file words.txt, che deve essere situato nella cartella da cui hai lanciato cwapu.py o cwapu.exe. Se questo file non esiste, creane uno con un editor di testo e scrivi alcune parole al suo interno, una parola per linea, quindi salva.\nLa procedura WordsCreator ti permette di scansionare tutti i file txt contenuti nelle cartelle che indichi e aggiungere tutte le parole da questi file a words.txt. Le parole saranno aggiunte unicamente, cioè saranno tutte diverse tra loro.\nIl file prodotto da questo processo sarà denominato words_updated.txt. Controllalo con un editor di testo e, se sei soddisfatto, rinominalo in words.txt, sostituendo l'esistente words.txt.\nPuoi ripetere questa operazione tutte le volte che vuoi: words_updated.txt conterrà le parole da words.txt più tutte quelle raccolte dai nuovi file .txt elaborati.",
-		'filter_words_prompt': "\nFiltriamo il set di parole da usare con l'esercizio\nPer favore, digita la lunghezza minima.massima delle parole che vuoi scegliere casualmente. Es. 3.6\nsceglierà parole con lunghezza compresa tra 3 e 6 caratteri.\nPremi invio per usare l'intero dizionario",
+		'filter_words_prompt': "\nApplichiamo un filtro al dizionario delle parole\nPer favore, digita la lunghezza minima.massima delle parole che vuoi vengano usate nell'esercizio. Es. 3.6\nsceglierà parole con lunghezza compresa tra 3 e 6 caratteri.\nPremi invio per usare l'intero dizionario",
 		'insert_min_max': "Minimo.Massimo: ",
 		'not_numbers': "Non hai inserito numeri",
 		'try_again': "Riprova",
 		'filtering_range': "Filtrando parole che sono nel range {mn}/{mx} di lunghezza.",
 		'confirm_word_count': "{word_count} parole, sei d'accordo? (y|n)> ",
-		'custom_set_prompt': "Digita tutti i caratteri su cui vuoi esercitarti. (minimo di 2) Riga vuota per procedere",
-		'transmitting_exercise': "Esercizio di trasmissione.\nQui avrai chiamate e numeri casuali,\n\tprova a riprodurli con la tua chiave CW preferita.\nQualsiasi tasto per continuare, ESC per chiudere l'app.",
+		'custom_set_prompt': "Digita tutti i caratteri su cui vuoi esercitarti. (minimo 2). Riga vuota per procedere",
+		'transmitting_exercise': "Esercizio di trasmissione.\nEcco una serie casuale di pseudo-call e numeri progressivi,\n\tprova a trasmetterli con il tuo tasto CW preferito senza errori.\nQualsiasi tasto per passare al successivo, ESC per terminare l'esercizio.",
 		'press_any_key': "Premi un tasto quando sei pronto per iniziare.",
-		'bye_message': "Ciao per ora, torniamo al menu principale.",
+		'bye_message': "Ciao per ora. Torniamo al menu principale.",
 		'counting_prompt': "Conteggio, SÌ o NO?\nBarra spaziatrice significa: gruppo ricevuto;\nQualsiasi altro tasto significa: gruppo perso;\nPremi ESC per tornare al menu principale.",
 		'exercise_number': "Esercizio numero {esnum}:",
-		'total_correct': "Totale: {cont}, corrette: {corr}, errori(%): {pde:.2f}%.",
+		'total_correct': "\nTotale: {cont}, corrette: {corr}, errori(%): {pde:.2f}%.",
 		'passed': "Superato!",
 		'failed': "Fallito: {difference:.2f}% oltre la soglia.",
 		'report_saved': "Rapporto salvato su CW_Diary.txt",
 		'note_on_exercise': "Nota su questo esercizio: ",
-		'empty_note': "Nota: vuota",
+		'empty_note': "Nota: nessuna",
 		'groups_received_few': "Gruppi ricevuti {cont} su 100: esercizio non salvato su disco.",
 		'session_saved': "Sessione {session_number}, durata: {duration} è stata salvata su disco.",
 		'menu_main': {
 			"c": "Risultati conteggio",
 			"h": "Imposta Hertz",
-			"l": "Ascolta gli appunti",
+			"l": "Ascolta gli appunti in CW",
 			"m": "Mostra Menu",
 			"q": "Per uscire da questa app",
 			"r": "Esercizio di ricezione",
@@ -113,31 +130,31 @@ translations = {
 			"z": "Scegli la lingua dell'applicazione"
 		},
 		'menu_rx': {
-			"1": "Simile a chiamata",
-			"2": "Gruppi"
+			"1": "Pseudo-call",
+			"2": "Gruppi o parole"
 		},
 		'menu_rx_kind': {
 			"1": "Solo lettere (A a Z)",
 			"2": "Solo numeri (0 a 9)",
 			"3": "Lettere e numeri (A a Z e 0 a 9)",
-			"4": "Set personalizzato (decidiamo quali simboli vuoi usare)",
-			"5": "Parole (parole scelte da un file personalizzabile)"
+			"4": "Set personalizzato (decidi quali simboli vuoi usare)",
+			"5": "Parole (dal tuo dizionario personale)"
 		},
 		'select_exercise': "Ora seleziona quale esercizio vuoi fare:",
 		'please_just_1_or_2': "Per favore, solo 1 o 2",
 		'choose_a_number': "Scegli un numero per favore",
 		'give_length': "Dammi la lunghezza del gruppo tra 1 e 7: ",
 		'filter_words_set': "\nFiltriamo il set di parole da usare con l'esercizio\nPer favore, digita la lunghezza minima.massima delle parole che vuoi scegliere casualmente. Es. 3.6\nsceglierà parole con lunghezza compresa tra 3 e 6 caratteri.\nPremi invio per usare l'intero dizionario",
-		'careful_type': "Ora, attenzione. Digita il {kindstring} che ascolti.\nInserendo una riga vuota (o aggiungendo un ?) ti regalerà un secondo ascolto del {kindstring}.\n\tPer fermarti, digita semplicemente un '.' (punto) seguito da invio.\nDIVERTITI. \tPremi un tasto quando sei pronto per iniziare.",
+		'careful_type': "Fai molta attenzione adesso.\n\tDigita il {kindstring} che ascolti.\nBattendo invio a vuoto (o aggiungendo un ?) avrai l'opportunità di un secondo tentativo\n\tPer terminare: digita semplicemente un '.' (punto) seguito da dal tasto invio.\n\t\tBUON DIVERTIMENTO!\n\tPremi un tasto quando sei pronto per iniziare.",
 		'begin_session': "Iniziamo la sessione {sessions}!",
 		'over_check': "È finita! Ora vediamo cosa abbiamo ottenuto.",
 		'received_too_few': "Hai ricevuto troppo pochi {kindstring} per generare statistiche consistenti.",
-		'time_to_receive': "\nTempo di ricevere? Sì, sei nel posto giusto. Andiamo!\n\tCaricando lo stato dei tuoi progressi e controllando il database del dizionario...",
+		'time_to_receive': "\nE' il momento giusto per un bell'esercizio di ricezione? Ottimo, allora sei nel posto giusto.\nIniziamo!\n\tCarico lo stato dei tuoi progressi e controllo il database del dizionario...",
 		'dictionary_loaded': "Dizionario delle parole caricato con {word_count} parole.",
 		'file_not_found': "File words.txt non trovato. Fornisci un file di dizionario: 1 parola per linea.",
 		'first_class': "Ops, questa è probabilmente la tua prima lezione. Sto creando il record.",
-		'got_data': "Ho recuperato i tuoi dati dal disco, quindi:\nLa tua attuale WPM è {wpm} e hai fatto {sessions} sessioni.\nTi ho inviato {totalcalls} chiamate o gruppi totali, e ne hai ricevuti {totalget}, mentre {totalwrong} sono stati mancati\nIl tuo tempo totale di ricezione è {totaltime}.",
-		'set_wpm': "Vuoi impostare la tua WPM? Invio per accettare {wpm}> ",
+		'got_data': "Ho recuperato i tuoi dati dal disco, quindi:\nLa tua attuale velocità WPM è {wpm} e hai svolto {sessions} sessioni.\nTi ho inviato {totalcalls} pseudo-call o gruppi e ne hai ricevuti correttamente {totalget}, mentre {totalwrong} li hai copiati male.\nIl tempo totale speso su questo esercizio è stato di {totaltime}.",
+		'set_wpm': "Vuoi cambiare la velocità in WPM? Invio per accettare {wpm}> ",
 		'new_frequency': "Nuova frequenza per CW? (invio per accettare {overall_hertz}) > ",
 		'new_speed': "Nuova velocità per CW? (invio per accettare {overall_speed}) > ",
 		'empty_clipboard': "vuoto",
@@ -146,7 +163,18 @@ translations = {
 		'o_set_loaded':"Impostazioni generali caricate",
 		'o_set_created':"Impostazioni generali di default",
 		'o_set_saved':"Impostazioni generali salvate sul disco.",
-		'l_set':"Lingua dell'applicazione impostata su Italiano"
-		#Q
+		'l_set':"Lingua dell'applicazione impostata su Italiano",
+		'not_a_valid_language': "Lingua non valida",
+		'counting_exercise_report': "Esercizio di conteggio #{esnum} eseguito il {date} alle {time} minuti:\n",
+		'total_correct_report': "Totale: {cont}, corrette: {corr}, errori(%): {pde:.2f}%.\n",
+		'note_with_text': "Nota: {nota}\n***\n",
+		'session_summary': "In questa sessione #{sessions}, ti ho inviato {calls} {kindstring} e ne hai ricevuti {callsget_len}: {percentage:.1f}%",
+		'first_shot': "\t{first_shot} di questi sono stati ricevuti al primo ascolto: {first_shot_percentage:.1f}%",
+		'with_repetition': "\tmentre {repetitions} {kindstring} al secondo tentativo: {repetitions_percentage:.1f}%.",
+		'speed_summary': "Durante la sessione, la tua velocità minima è stata {minwpm}, la massima di {maxwpm}: pari ad una variazione di {range_wpm} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.1f} WPM.",
+		'character_mistakes': "Carattere: errori = Percentuale",
+		'total_mistakes': "\nErrori totali: {global_mistakes} su {send_char} = {mistake_percentage:.2f}%",
+		'never_misspelled': "\nCaratteri mai sbagliati: {good_letters}"
+		#Qit
 	}
 }
