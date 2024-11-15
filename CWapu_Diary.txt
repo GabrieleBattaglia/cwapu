@@ -981,3 +981,47 @@ Total mistakes: 46 on 92 = 50.00%
 Never misspelled characters: C E J O P
 Nota: vuota
 ***
+Counting exercise #96 performed on 2024/11/15 at 13, 28 minutes:
+Total 175, fixed 173, mistake(%) 1.14%.
+Got it!
+Note: test
+***
+Esercizio di conteggio #97 eseguito il 2024/11/15 alle 14, 41 minuti:
+Totale: 119, corrette: 119, errori(%): 0.00%.
+Superato!
+Nota: test2
+***
+
+Esercizio di ricezione #155 eseguito il 2024/11/15 alle 15, 8 minuti:
+In questa sessione #155, ti ho inviato 26 Call-like e ne hai ricevuti 10: 38.5%
+	10 di questi sono stati presi al primo tentativo: 100.0%
+	mentre 0 Call-like con ripetizione: 0.0%.
+Hai corso con una velocità minima di 34 fino a 41: range di 7 WPM.
+	Velocità media di ricezione: 35.7 WPM.
+Carattere: errori = Percentuale
+Q X: 6 = 8.0%
+9 R: 5 = 6.67%
+0 8 B: 4 = 5.33%
+4 K L P Z: 3 = 4.0%
+3 5 A E F H U Y: 2 = 2.67%
+7 C G M N O S T V W: 1 = 1.33%
+Elenco delle parole ricevute errate:
+	(2) TX: nq5hr, RX: , DIF: nq5hr;
+	(3) TX: fy7saw, RX: sh, DIF: fy7aw;
+	(4) TX: b9rh, RX: b9rs, DIF: h;
+	(5) TX: f53q, RX: f52q, DIF: 3;
+	(6) TX: gx4xt, RX: gx3xt, DIF: 4;
+	(7) TX: k89r, RX: k8or, DIF: 9;
+	(8) TX: k34bl, RX: k3dl, DIF: 4b;
+	(10) TX: lq8qko, RX: lq8cko, DIF: q;
+	(12) TX: zp0exz, RX: zp9exz, DIF: 0;
+	(14) TX: qz9yc, RX: q7yc, DIF: z9;
+	(18) TX: er5mno, RX: el4o, DIF: r5mn;
+	(21) TX: 3g3ab, RX: 3g3wd, DIF: ab;
+	(23) TX: oy4gs, RX: oy4gl, DIF: s;
+	(24) TX: i44b, RX: s44b, DIF: i;
+	(25) TX: y57bgr, RX: y, DIF: 57bgr;
+	(26) TX: pb5ma, RX: ., DIF: pb5ma;
+Errori totali: 75 su 126 = 59.52%
+Caratteri mai sbagliati: 1 I JNota: no
+***
