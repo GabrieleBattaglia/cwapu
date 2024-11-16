@@ -5,7 +5,7 @@
 import sys, random, pickle, string, pyperclip, re, difflib
 import datetime as dt
 from GBUtils import key, dgt, menu
-from cwzator import *
+from cwzator2 import *
 from time import localtime as lt
 from time import sleep as wait
 from translations import translations
@@ -19,19 +19,23 @@ def Trnsl(key, lang='en', **kwargs):
 app_language = ''
 overall_speed=0
 overall_hertz=0
+overall_l=0
+overall_s=0
+overall_p=0
+overall_vol=0
 overall_settings_changed=False
 try:
 	f=open("CWapu_Overall.pkl", "rb")
-	app_language, overall_speed, overall_hertz = pickle.load(f)
+	app_language, overall_speed, overall_hertz, overall_l, overall_s, overall_p, overall_vol = pickle.load(f)
 	f.close()
 	print(Trnsl('o_set_loaded',lang=app_language))
 except IOError:
-	app_language, overall_speed, overall_hertz = 'en', 18, 550
+	app_language, overall_speed, overall_hertz, overall_l, overall_s, overall_p, overall_vol = 'en', 18, 550, 30, 50, 50, 0.7
 	overall_settings_changed=True
 	print(Trnsl('o_set_created',lang=app_language))
 
 #QConstants
-VERS="2.0, (2024-11-15)"
+VERS="2.5, (2024-11-16)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -395,7 +399,7 @@ def Rxing():
 
 #main
 print(Trnsl('welcome_message', lang=app_language, version=VERS))
-print(f"\t\tWPM={overall_speed}, Hertz={overall_hertz}, Lang={app_language}.")
+print(f"\t\tWPM={overall_speed}, Hertz={overall_hertz}, Lang={app_language}\t\tRatio L/S/P={overall_l}/{overall_s}/{overall_p}, Vol={overall_vol}")
 
 while True:
 	k=menu(d=MNMAIN,show=False,keyslist=True,ntf=Trnsl('not_a_command', lang=app_language))
@@ -421,7 +425,7 @@ print(Trnsl('exit_message', lang=app_language))
 CWzator(msg="hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
 if overall_settings_changed:
 	f=open("CWapu_Overall.pkl", "wb")
-	pickle.dump([app_language, overall_speed, overall_hertz],f)
+	pickle.dump([app_language, overall_speed, overall_hertz, overall_l, overall_s, overall_p, overall_vol],f)
 	f.close()
 	print(Trnsl('o_set_saved',lang=app_language))
 wait(8)

@@ -1025,3 +1025,26 @@ Elenco delle parole ricevute errate:
 Errori totali: 75 su 126 = 59.52%
 Caratteri mai sbagliati: 1 I JNota: no
 ***
+
+Esercizio di ricezione #156 eseguito il 2024/11/15 alle 22, 26 minuti:
+In questa sessione #156, ti ho inviato 25 Group e ne hai ricevuti 17: 68.0%
+	17 di questi sono stati ricevuti al primo ascolto: 100.0%
+	mentre 0 Group al secondo tentativo: 0.0%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 45: pari ad una variazione di 11 WPM.
+	La velocità media di ricezione è di: 39.4 WPM.
+Carattere: errori = Percentuale
+X: 3 = 18.75%
+D E J: 2 = 12.5%
+B G I Q U V W: 1 = 6.25%
+Elenco delle parole copiate male:
+	(2) TX: ib, RX: id, DIF: b;
+	(8) TX: xi, RX: ks, DIF: xi;
+	(13) TX: ni, RX: mi, DIF: n;
+	(17) TX: po, RX: wo, DIF: p;
+	(18) TX: qj, RX: kj, DIF: q;
+	(21) TX: bq, RX: dq, DIF: b;
+	(24) TX: mh, RX: gs, DIF: mh;
+	(25) TX: kn, RX: ., DIF: kn;
+Errori totali: 16 su 50 = 32.00%
+Caratteri mai sbagliati: A C F H K L M N O P R TNota: no
+***

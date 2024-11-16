@@ -2,17 +2,16 @@ import sys
 from cwzator2 import *
 
 wpm=int(input("WPM: "))
-pitch=int(input("HZ: "))
-param=input("dot.dash,insgn,inchr")
-l = param.split(".")
-dot=int(l[0])
-dash=int(l[1])
-insgn=int(l[2])
-inchr=int(l[3])
+pitch=550
+param=input("l p s")
+x = param.split(".")
+p=int(x[1])
+l=int(x[0])
+s=int(x[2])
 print("\ per uscire")
 while True:
 	msg=sys.stdin.readline()
 	msg=msg[:-1]+" "
 	if msg=="\ ": sys.exit()
-	#CWzator(msg=msg, wpm=wpm, pitch=pitch, dot=dot, dash=dash, insgn=insgn, inchr=inchr, reg_balance=False)
+	CWzator2(msg=msg, wpm=wpm, pitch=pitch, l=l, p=p, s=s)
 	
