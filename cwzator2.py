@@ -154,30 +154,29 @@ class CWSender:
 
 sender = None
 
-def CWzator2(msg, wpm=35, pitch=550, vol=0.7, p=50, s=None, l=30):
+def CWzator2(msg, wpm=35, pitch=550, vol=0.7, dots=50, spaces=None, dashes=30):
 	'''
 	Convert txt to Morse with customizable timing parameters
+	V2 by IZ4APU and Claude AI Sonnet 3.5
 	Args:
 		msg: text message to convert
 		wpm: words per minute (default 35)
 		pitch: tone frequency in Hz (default 550)
 		vol: volume from 0 to 1 (default 0.7)
-		p: dot length 1-99 (default 50)
-		s: space length 1-99 (default=p)
-		l: dash length factor 1-99 (default 30, meaning dash = 3*dot)
+		dots: dot length 1-99 (default 50)
+		spaces: space length 1-99 (default=p)
+		dashes: dash length factor 1-99 (default 30, meaning dash = 3*dot)
 	Returns:
 		False if message is empty
 	'''
 	if msg == "": 
 		return False
-		
 	# Input validation
 	wpm = max(5, min(99, wpm))
 	vol = max(0, min(1, vol))
-	p = max(1, min(99, p))
-	s = p if s is None else max(1, min(99, s))
-	l = max(1, min(99, l))
-	
+	dots = max(1, min(99, dots))
+	spaces = dots if spaces is None else max(1, min(99, spaces))
+	dashes = max(1, min(99, dashes))
 	global sender
 	if sender is None:
 		sender = CWSender(pitch=pitch, amp=vol)
@@ -185,6 +184,5 @@ def CWzator2(msg, wpm=35, pitch=550, vol=0.7, p=50, s=None, l=30):
 	else:
 		sender.amp = vol
 		sender.pitch = pitch
-		
-	sender.set_timing(p, s, l)
+	sender.set_timing(dots, spaces, dashes)
 	sender.addMessage(msg, wpm, pitch)
