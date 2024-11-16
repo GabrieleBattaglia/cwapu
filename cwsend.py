@@ -13,5 +13,5 @@ while True:
 	msg=sys.stdin.readline()
 	msg=msg[:-1]+" "
 	if msg=="\ ": sys.exit()
-	CWzator2(msg=msg, wpm=wpm, pitch=pitch, l=l, p=p, s=s)
+	CWzator2(msg=msg, wpm=wpm, pitch=pitch, dashes=l, dots=p, spaces=s)
 	

@@ -35,7 +35,7 @@ except IOError:
 	print(Trnsl('o_set_created',lang=app_language))
 
 #QConstants
-VERS="2.5, (2024-11-16)"
+VERS="2.5.1, (2024-11-16)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -113,8 +113,8 @@ def CustomSet(wpm):
 			break
 		elif scelta not in cs and scelta!="\r":
 			cs.add(scelta)
-			CWzator(msg=scelta, wpm=wpm, pitch=550)
-		else: CWzator(msg="?", wpm=wpm, pitch=550)
+			CWzator2(msg=scelta, wpm=wpm, pitch=550)
+		else: CWzator2(msg="?", wpm=wpm, pitch=550)
 	return "".join(cs)
 def GeneratingGroup(kind, length, wpm):
 	if kind == "1":
@@ -314,7 +314,7 @@ def Rxing():
 			qrz=GeneratingGroup(kind=kind, length=length, wpm=wpm)
 		pitch=random.randint(300, 1050)
 		prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - > "
-		CWzator(msg=qrz, wpm=wpm, pitch=pitch)
+		CWzator2(msg=qrz, wpm=wpm, pitch=pitch)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if guess==".":
 			calls-=1
@@ -322,7 +322,7 @@ def Rxing():
 		elif guess == "" or "?" in guess:
 			repeatedflag=True
 			prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
-			CWzator(msg=qrz, wpm=wpm, pitch=pitch)
+			CWzator2(msg=qrz, wpm=wpm, pitch=pitch)
 			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		callssend.append(qrz.lower())
 		guess=guess.lower(); qrz=qrz.lower()
@@ -416,17 +416,17 @@ while True:
 		ltc=pyperclip.paste()
 		if ltc:
 			ltc=StringCleaning(ltc)
-			CWzator(msg=ltc, wpm=overall_speed, pitch=overall_hertz)
-		else: CWzator(msg=Trnsl('empty_clipboard', lang=app_language), wpm=overall_speed, pitch=overall_hertz)
+			CWzator2(msg=ltc, wpm=overall_speed, pitch=overall_hertz)
+		else: CWzator2(msg=Trnsl('empty_clipboard', lang=app_language), wpm=overall_speed, pitch=overall_hertz)
 	elif k=="m": menu(d=Trnsl('menu_main', lang=app_language),show_only=True)
 	elif k=="w": CreateDictionary()
 	elif k=="q": break
 print(Trnsl('exit_message', lang=app_language))
-CWzator(msg="hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
+CWzator2(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
 if overall_settings_changed:
 	f=open("CWapu_Overall.pkl", "wb")
 	pickle.dump([app_language, overall_speed, overall_hertz, overall_l, overall_s, overall_p, overall_vol],f)
 	f.close()
 	print(Trnsl('o_set_saved',lang=app_language))
-wait(8)
+wait(8.5)
 sys.exit()
