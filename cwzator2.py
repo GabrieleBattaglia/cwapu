@@ -154,10 +154,10 @@ class CWSender:
 
 sender = None
 
-def CWzator2(msg, wpm=35, pitch=550, vol=0.7, dots=50, spaces=None, dashes=30):
+def CWzator2(msg, wpm=35, pitch=550, dashes=30, spaces=None, dots=50, vol=0.7):
 	'''
 	Convert txt to Morse with customizable timing parameters
-	V2 by IZ4APU and Claude AI Sonnet 3.5
+	V2 by W9CF, IZ4APU and Claude AI Sonnet 3.5
 	Args:
 		msg: text message to convert
 		wpm: words per minute (default 35)
