@@ -28,7 +28,7 @@ translations = {
 		'session_saved': "Session {session_number}, lasts: {duration} has been saved on disk.",
 		'menu_main': {
 			"c": "Counting results",
-			"h": "Set Hertz",
+			"k": "Keyboard and CW settings",
 			"l": "Listen to clipboard",
 			"m": "Shows Menu",
 			"q": "To quit this app",
@@ -64,8 +64,7 @@ translations = {
 		'first_class': "Oops, this is your first class, probably. So I'm creating the record.",
 		'got_data': "I got your data from disk, so:\nYour actual WPM is {wpm} and you did {sessions} sessions.\nI sent to you {totalcalls} total calls-like or groups, and you got {totalget} of them, while {totalwrong} were missed\nYour overall time receiving calls-like is {totaltime}.",
 		'set_wpm': "Do you want to set your WPM? Enter to accept {wpm}> ",
-		'new_frequency': "New frequency for cw? (return to accept {overall_hertz}) > ",
-		'new_speed': "New speed for cw? (return to accept {overall_speed}) > ",
+		"h_keyboard": "Welcome to the section where you can listen to CW and configure all its parameters.\nThese parameters will be valid and active throughout CWAPU and will be saved automatically when you exit the app.\nNow, carefully read the following:\n\tPress Enter without typing anything to exit and return to the main menu;\n\ttype .w followed by a numeric value to set the WPM;\n\ttype .h followed by a value for the Hertz of the CW note peak you want to use;\n\ttype .l followed by a value to set the line, default is 30;\n\ttype .s followed by a value to set the space, default is 50;\n\ttype .p just like .s but for dots;\n\ttype .v followed by a value between 0 and 100 to set the volume;\n\ttype ? to see this help message;\n\ttype ?? to view the CW parameters;\n\ttype .rs to reset CW to the standard weight of 1/3\n",
 		'empty_clipboard': "empty",
 		'not_a_command': "It's not a command!",
 		'press_m_for_menu': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tPress 'm' for menu.",
@@ -119,7 +118,7 @@ translations = {
 		'session_saved': "Sessione {session_number}, durata: {duration} è stata salvata su disco.",
 		'menu_main': {
 			"c": "Risultati conteggio",
-			"h": "Imposta Hertz",
+			"k": "Tastiera ed impostazioni CW",
 			"l": "Ascolta gli appunti in CW",
 			"m": "Mostra Menu",
 			"q": "Per uscire da questa app",
@@ -155,9 +154,7 @@ translations = {
 		'first_class': "Ops, questa è probabilmente la tua prima lezione. Sto creando il record.",
 		'got_data': "Ho recuperato i tuoi dati dal disco, quindi:\nLa tua attuale velocità WPM è {wpm} e hai svolto {sessions} sessioni.\nTi ho inviato {totalcalls} pseudo-call o gruppi e ne hai ricevuti correttamente {totalget}, mentre {totalwrong} li hai copiati male.\nIl tempo totale speso su questo esercizio è stato di {totaltime}.",
 		'set_wpm': "Vuoi cambiare la velocità in WPM? Invio per accettare {wpm}> ",
-		'new_frequency': "Nuova frequenza per CW? (invio per accettare {overall_hertz}) > ",
-		'new_speed': "Nuova velocità per CW? (invio per accettare {overall_speed}) > ",
-		'empty_clipboard': "vuoto",
+		'empty_clipboard': "vuoti",
 		'not_a_command': "Non è un comando!",
 		'press_m_for_menu': "\nCWAPU - VERSIONE: {version} DI GABRY - IZ4APU.\n\t----UTILITÀ PER IL TUO CW----\n\t\tPremi 'm' per il menu.",
 		'o_set_loaded':"Impostazioni generali caricate",
@@ -174,7 +171,8 @@ translations = {
 		'speed_summary': "Durante la sessione, la tua velocità minima è stata {minwpm}, la massima di {maxwpm}: pari ad una variazione di {range_wpm} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.1f} WPM.",
 		'character_mistakes': "Carattere: errori = Percentuale",
 		'total_mistakes': "\nErrori totali: {global_mistakes} su {send_char} = {mistake_percentage:.2f}%",
-		'never_misspelled': "\nCaratteri mai sbagliati: {good_letters}"
+		'never_misspelled': "\nCaratteri mai sbagliati: {good_letters}",
+		"h_keyboard": "Benvenuto nella sezione dove potrai ascoltare il cw ed impostarne tutti i parametri.\nQuesti parametri saranno validi ed attivi in tutto CWAPU e verranno salvati automaticamente quando uscirai dall'App.\nOra, leggi con attenzione quanto segue:\n\tDigita un invio senza scrivere nulla per uscire e tornare al menù principale;\n\tdigita .w seguito da un valore numerico per impostare i WPM;\n\tdigita .h seguito da un valore per gli hertz del picco della nota CW che vuoi usare;\n\tdigita .l seguito da un valore per impostare la linea, default 30;\n\tdigita .s seguito da un valore per lo spazio, default = 50;\n\tdigita .p come .s ma per i punti;\n\tdigita .v seguito da un valore fra 0 e 100 per impostare il volume;\n\tdigita ? Per vedere questo aiuto;\n\tdigita ?? Per vedere i parametri del CW;\n\tdigita .rs per riportare il CW al peso standard di 1/3\n"
 		#Qit
 	}
 }
