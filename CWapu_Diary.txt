@@ -1048,3 +1048,26 @@ Elenco delle parole copiate male:
 Errori totali: 16 su 50 = 32.00%
 Caratteri mai sbagliati: A C F H K L M N O P R TNota: no
 ***
+
+Esercizio di ricezione #157 eseguito il 2024/11/17 alle 19, 45 minuti:
+In questa sessione #157, ti ho inviato 32 Group e ne hai ricevuti 25: 78.1%
+	20 di questi sono stati ricevuti al primo ascolto: 80.0%
+	mentre 5 Group al secondo tentativo: 20.0%.
+Durante la sessione, la tua velocità minima è stata 33, la massima di 52: pari ad una variazione di 19 WPM.
+	La velocità media di ricezione è di: 41.4 WPM.
+Carattere: errori = Percentuale
+D: 3 = 14.29%
+C E H R: 2 = 9.52%
+F J K M N P T U W X: 1 = 4.76%
+Elenco delle parole copiate male:
+	(2) TX: crh, RX: crs, DIF: h;
+	(6) TX: uep, RX: uiw, DIF: ep;
+	(13) TX: hvz, RX: shb, DIF: svz;
+	(18) TX: pra, RX: pwa, DIF: r;
+	(20) TX: opf, RX: opr, DIF: f;
+	(21) TX: hzg, RX: szg, DIF: h;
+	(32) TX: ibv, RX: ., DIF: ibv;
+Errori totali: 21 su 96 = 21.88%
+Caratteri mai sbagliati: A B G I L O Q S V Y Z
+Nota: nessuna
+***
