@@ -18,6 +18,7 @@ def Trnsl(key, lang='en', **kwargs):
 
 app_language = ''
 overall_speed=0
+session_speed=0
 overall_hertz=0
 overall_dashes=0
 overall_spaces=0
@@ -27,15 +28,17 @@ overall_settings_changed=False
 try:
 	f=open("CWapu_Overall.pkl", "rb")
 	app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume = pickle.load(f)
+	session_speed=overall_speed
 	f.close()
 	print(Trnsl('o_set_loaded',lang=app_language))
 except IOError:
 	app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume = 'en', 18, 550, 30, 50, 50, 0.7
+	session_speed=overall_speed
 	overall_settings_changed=True
 	print(Trnsl('o_set_created',lang=app_language))
 
 #QConstants
-VERS="2.5.6, (2024-11-17)"
+VERS="2.5.7, (2024-11-17)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -326,7 +329,7 @@ def AlwaysRight(yep, nope):
 	return letters - letters_misspelled
 def Rxing():
 	# receiving exercise
-	global words
+	global words, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume
 	print(Trnsl('time_to_receive', lang=app_language))
 	try:
 		with open('words.txt', 'r', encoding='utf-8') as file:
@@ -348,9 +351,7 @@ def Rxing():
 	global customized_set
 	callssend=[]; average_wpm=0.0
 	dz_mistakes={}
-	tmpwpm=overall_speed
-	overall_speed=dgt(prompt=Trnsl('set_wpm', lang=app_language, wpm=wpm),kind="i",imin=10,imax=85,default=wpm)
-	if tmpwpm<>overall_speed: overall_settings_changed=True
+	overall_speed=dgt(prompt=Trnsl('set_wpm', lang=app_language, wpm=overall_speed),kind="i",imin=10,imax=85,default=overall_speed)
 	print(Trnsl('select_exercise', lang=app_language))
 	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf=Trnsl('please_just_1_or_2', lang=app_language))
 	if call_or_groups == "2":
@@ -377,7 +378,7 @@ def Rxing():
 		else:
 			qrz=GeneratingGroup(kind=kind, length=length, wpm=overall_speed)
 		pitch=random.randint(300, 1050)
-		prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - > "
+		prompt=f"S{sessions}-#{calls} - WPM{overall_speed} - +{len(callsget)}/-{len(callswrong)} - > "
 		CWzator2(msg=qrz, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if guess==".":
@@ -385,23 +386,23 @@ def Rxing():
 			break
 		elif guess == "" or "?" in guess:
 			repeatedflag=True
-			prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
+			prompt=f"S{sessions}-#{calls} - WPM{overall_speed} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
 			CWzator2(msg=qrz, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		callssend.append(qrz.lower())
 		guess=guess.lower(); qrz=qrz.lower()
 		if qrz == guess:
 			callsget.append(qrz)
-			average_wpm+=wpm
+			average_wpm+=overall_speed
 			if repeatedflag: callsrepeated+=1
-			if wpm<100: wpm+=1
+			if overall_speed<100: overall_speed+=1
 		else:
 			callswrong.append(qrz.lower())
 			diff=MistakesCollectorInStrings(qrz,guess)
 			diff_ratio=(1 - difflib.SequenceMatcher(None,qrz,guess).ratio()) * 100
 			print(f"TX: {qrz} RX: {guess} <>: {diff} RT: {int(diff_ratio):d}")
 			dz_mistakes[len(callssend)]=(qrz,guess)
-			if wpm>15: wpm-=1
+			if overall_speed>15: overall_speed-=1
 		calls+=1
 		if overall_speed>maxwpm: maxwpm=overall_speed
 		if overall_speed<minwpm: minwpm=overall_speed
@@ -456,7 +457,7 @@ def Rxing():
 	totaltime+=exerctime
 	sessions+=1
 	f=open("CWapu_Rxing.pkl", "wb")
-	pickle.dump([wpm, totalcalls, sessions, totalget, totalwrong, totaltime], f)
+	pickle.dump([totalcalls, sessions, totalget, totalwrong, totaltime], f)
 	f.close()
 	print(Trnsl('session_saved', lang=app_language, session_number=sessions-1, duration=str(exerctime)[:-5]))
 	return
@@ -486,7 +487,7 @@ while True:
 	elif k=="q": break
 print(Trnsl('exit_message', lang=app_language))
 CWzator2(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
-if overall_settings_changed:
+if overall_settings_changed or session_speed!=overall_speed:
 	f=open("CWapu_Overall.pkl", "wb")
 	pickle.dump([app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume],f)
 	f.close()
