@@ -1095,3 +1095,39 @@ Errori totali: 18 su 88 = 20.45%
 Caratteri mai sbagliati: C F N O P Q S T W Y Z
 Nota: nessuna
 ***
+
+Esercizio di ricezione #3 eseguito il 2024/11/18 alle 8, 49 minuti:
+In questa sessione #3, ti ho inviato 32 words e ne hai ricevuti 15: 46.9%
+	13 di questi sono stati ricevuti al primo ascolto: 86.7%
+	mentre 2 words al secondo tentativo: 13.3%.
+Durante la sessione, la tua velocità minima è stata 28, la massima di 36: pari ad una variazione di 8 WPM.
+	La velocità media di ricezione è di: 31.5 WPM.
+Carattere: errori = Percentuale
+O: 13 = 22.03%
+T: 6 = 10.17%
+A I N P S: 4 = 6.78%
+C E M: 3 = 5.08%
+L R Z: 2 = 3.39%
+B D F U V: 1 = 1.69%
+Elenco delle parole copiate male:
+	(1) TX: burle, RX: burde, DIF: l;
+	(2) TX: samii, RX: sanni, DIF: mi;
+	(6) TX: mazzi, RX: dazzi, DIF: m;
+	(7) TX: tosai, RX: tosti, DIF: a;
+	(10) TX: crena, RX: creda, DIF: n;
+	(15) TX: font, RX: fonte, DIF: e;
+	(18) TX: dolte, RX: bolte, DIF: d;
+	(19) TX: salti, RX: salse, DIF: ti;
+	(23) TX: sul, RX: sur, DIF: l;
+	(24) TX: terri, RX: turre, DIF: ei;
+	(25) TX: ansa, RX: ania, DIF: s;
+	(26) TX: scoop, RX: scommod, DIF: mmp;
+	(27) TX: bibbi, RX: biddi, DIF: bb;
+	(29) TX: blaga, RX: bluna, DIF: unga;
+	(30) TX: fugge, RX: fungge, DIF: n;
+	(31) TX: agame, RX: agage, DIF: m;
+	(32) TX: tanka, RX: tanca, DIF: k;
+Errori totali: 59 su 147 = 40.14%
+Caratteri mai sbagliati: G K
+Nota: nessuna
+***
