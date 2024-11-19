@@ -38,7 +38,7 @@ except IOError:
 	print(Trnsl('o_set_created',lang=app_language))
 
 #QConstants
-VERS="2.5.7, (2024-11-17)"
+VERS="2.5.8, (2024-11-19)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -261,7 +261,7 @@ def Count():
 	else:
 		print(Trnsl('failed', lang=app_language, difference=pde-6))
 	if cont >= 100:
-		with open("CWapu_Diary.txt", "a") as f:
+		with open("CWapu_Diary.txt", "a", encoding='utf-8') as f:
 			nota=input(Trnsl('note_on_exercise', lang=app_language))
 			print(Trnsl('report_saved', lang=app_language))
 			date = f"{lt()[0]}/{lt()[1]}/{lt()[2]}"
@@ -358,7 +358,7 @@ def Rxing():
 		kind=menu(d=MNRXKIND,show=True,keyslist=True,ntf=Trnsl('choose_a_number', lang=app_language))
 		kindstring="Group"
 		if kind=="4":
-			customized_set=CustomSet(wpm)
+			customized_set=CustomSet(overall_speed)
 			length=dgt(prompt=Trnsl('give_length', lang=app_language), kind="i", imin=1, imax=7)
 		elif kind=="5":
 			words=FilterWord(words)
@@ -426,7 +426,7 @@ def Rxing():
 		print(Trnsl('total_mistakes', lang=app_language, global_mistakes=global_mistakes, send_char=send_char, mistake_percentage=global_mistakes*100/send_char))
 		good_letters = AlwaysRight(callssend, dict_mistakes)
 		print(Trnsl('never_misspelled', lang=app_language, good_letters=" ".join(sorted(good_letters)).upper()))
-		f=open("CWapu_Diary.txt", "a")
+		f=open("CWapu_Diary.txt", "a", encoding='utf-8')
 		print(Trnsl('report_saved', lang=app_language))
 		date = f"{lt()[0]}/{lt()[1]}/{lt()[2]}"
 		time = f"{lt()[3]}, {lt()[4]}"
