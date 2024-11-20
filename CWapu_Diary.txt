@@ -1161,3 +1161,30 @@ Errori totali: 24 su 90 = 26.67%
 Caratteri mai sbagliati: 
 Nota: nessuna
 ***
+
+Esercizio di ricezione #5 eseguito il 2024/11/20 alle 23, 8 minuti:
+In questa sessione #5, ti ho inviato 21 words e ne hai ricevuti 12: 57.1%
+	11 di questi sono stati ricevuti al primo ascolto: 91.7%
+	mentre 1 words al secondo tentativo: 8.3%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 38: pari ad una variazione di 7 WPM.
+	La velocità media di ricezione è di: 34.2 WPM.
+Carattere: errori = Percentuale
+A: 6 = 15.79%
+T: 4 = 10.53%
+B E O R S: 3 = 7.89%
+C L N P V: 2 = 5.26%
+G I M: 1 = 2.63%
+Elenco delle parole copiate male:
+	(8) TX: siava, RX: siata, DIF: v;
+	(9) TX: arse, RX: arie, DIF: s;
+	(12) TX: tocci, RX: tocco, DIF: i;
+	(15) TX: plora, RX: piloro, DIF: ia;
+	(16) TX: uggii, RX: uggi, DIF: i;
+	(17) TX: mpel, RX: mel, DIF: p;
+	(19) TX: avrei, RX: aver, DIF: eei;
+	(20) TX: ietta, RX: ieti, DIF: ta;
+	(21) TX: pochi, RX: , DIF: pochi;
+Errori totali: 38 su 96 = 39.58%
+Caratteri mai sbagliati: F H U Z
+Nota: nessuna
+***

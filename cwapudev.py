@@ -66,6 +66,7 @@ words=[]
 def KeyboardCW():
 	'''Settings for CW and tx with keyboard'''
 	global overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_settings_changed
+	rw=0.0
 	print("\n"+Trnsl("h_keyboard",lang=app_language))
 	while True:
 		msg=sys.stdin.readline()
@@ -77,7 +78,7 @@ def KeyboardCW():
 			print("\n"+Trnsl("h_keyboard",lang=app_language))
 			msg=""
 		elif msg=="?? ":
-			print(f"WPM: {overall_speed}, Hz: {overall_hertz}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}.")
+			print(f"WPM: {overall_speed}, Real: {rw}, Hz: {overall_hertz}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}.")
 			msg=""
 		elif msg==".rs ":
 			overall_dashes, overall_spaces, overall_dots = 30, 50, 50
@@ -123,7 +124,7 @@ def KeyboardCW():
 				overall_volume/=100
 				CWzator3(msg=f"bk r v is {int(overall_volume*100)} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
-		if msg: CWzator3(msg=msg, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		if msg: rw=CWzator3(msg=msg, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 	print("Ciao\n")
 	return
 def LangSelector():
@@ -492,5 +493,5 @@ if overall_settings_changed or session_speed!=overall_speed:
 	pickle.dump([app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume],f)
 	f.close()
 	print(Trnsl('o_set_saved',lang=app_language))
-wait(8.5)
+wait(8.2)
 sys.exit()
