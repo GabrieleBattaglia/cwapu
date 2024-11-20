@@ -154,46 +154,54 @@ class CWSender:
 		outdata[:,0] = buf*self.amp*np.sin(phases).astype(np.float32)
 		self._phase = (phases[-1]+dphase) % (2.0*np.pi)
 
+# Constants
+STANDARD_L = 30
+STANDARD_S = 50
+STANDARD_P = 50
+
 def CWzator3(msg, wpm=35, pitch=550, dashes=30, spaces=None, dots=50, vol=0.7, signal_fader=0.002):
-	'''
-	Convert txt to Morse with customizable timing parameters
-	V3 by W9CF, IZ4APU and Claude AI Sonnet 3.5
-	Args:
-		msg: text message to convert
-		wpm: words per minute (default 35)
-		pitch: tone frequency in Hz (default 550)
-		vol: volume from 0 to 1 (default 0.7)
-		dots: dot length 1-99 (default 50)
-		spaces: space length 1-99 (default=dots)
-		dashes: dash length factor 1-99 (default 30, meaning dash = 3*dot)
-		signal_fader: envelope rise/fall time in seconds (default 0.002)
-	Returns:
-		wpm_offset: actual WPM considering timing parameters, or False if message empty
-	'''
-	if msg == "": 
-		return False
-	# Input validation
-	wpm = max(5, min(99, wpm))
-	vol = max(0, min(1, vol))
-	dots = max(1, min(99, dots))
-	spaces = dots if spaces is None else max(1, min(99, spaces))
-	dashes = max(1, min(99, dashes))
-	# Calculate WPM offset based on timing parameters
-	standard_ratio = (50 + 50 + 30) / 3  # Default timing sum divided by 3
-	actual_ratio = (dots + spaces + dashes) / 3
-	wpm_offset = wpm * (standard_ratio / actual_ratio)
-	# Compensate for rise time effect on speed
-	rise_time_compensation = 1 + (2 * signal_fader * wpm / 1.2)
-	wpm_adjusted = wpm * rise_time_compensation
-	global sender
-	if sender is None:
-		sender = CWSender(pitch=pitch, amp=vol)
-		sender._keyer.risetime = signal_fader  # Set new rise time
-		sender.audioOn(True)
-	else:
-		sender.amp = vol
-		sender.pitch = pitch
-		sender._keyer.risetime = signal_fader  # Update rise time
-	sender.set_timing(dots, spaces, dashes)
-	sender.addMessage(msg, wpm_adjusted, pitch)
-	return wpm_offset
+    """
+    Genera CW con parametri LSP personalizzabili.
+    Con LSP standard (30,50,50) il wpm reale deve coincidere con quello richiesto.
+    """
+    if msg == "":
+        return False
+
+    # Input validation
+    wpm = max(5, min(99, wpm))
+    vol = max(0, min(1, vol))
+    dots = max(1, min(99, dots))
+    spaces = dots if spaces is None else max(1, min(99, spaces))
+    dashes = max(1, min(99, dashes))
+
+    # Nuovo calcolo del timing ratio
+    # Con LSP standard deve dare esattamente 1
+    standard_unit = (30 + 50 + 50) / 3  # Media dei valori standard
+    current_unit = (dashes + spaces + dots) / 3  # Media dei valori attuali
+    timing_ratio = standard_unit / current_unit
+
+    # Compensazione del fader semplificata
+    # Il signal_fader aumenta la durata effettiva dei simboli
+    fader_samples = 2.7 * signal_fader * 11025  # Campioni totali per rise+fall
+    dot_samples = (1.2 / wpm) * 11025  # Campioni per un dot
+    fader_compensation = dot_samples / (dot_samples + fader_samples)
+
+    # Velocità reale corretta
+    real_speed = wpm * timing_ratio * fader_compensation
+
+    global sender
+    if sender is None:
+        sender = CWSender(pitch=pitch, amp=vol)
+        sender._keyer.risetime = signal_fader
+        sender.audioOn(True)
+    else:
+        sender.amp = vol
+        sender.pitch = pitch
+        sender._keyer.risetime = signal_fader
+
+    sender.set_timing(dots, spaces, dashes)
+    # Compensiamo la velocità di invio per ottenere l'effetto desiderato
+    send_speed = wpm / fader_compensation
+    sender.addMessage(msg, send_speed, pitch)
+
+    return real_speed

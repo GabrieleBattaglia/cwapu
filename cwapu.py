@@ -38,7 +38,7 @@ except IOError:
 	print(Trnsl('o_set_created',lang=app_language))
 
 #QConstants
-VERS="2.5.8, (2024-11-19)"
+VERS="2.5.9, (2024-11-20)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -379,7 +379,7 @@ def Rxing():
 			qrz=GeneratingGroup(kind=kind, length=length, wpm=overall_speed)
 		pitch=random.randint(300, 1050)
 		prompt=f"S{sessions}-#{calls} - WPM{overall_speed} - +{len(callsget)}/-{len(callswrong)} - > "
-		CWzator2(msg=qrz, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		CWzator2(msg=qrz, wpm=overall_speed, pitch=pitch, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if guess==".":
 			calls-=1
@@ -387,7 +387,7 @@ def Rxing():
 		elif guess == "" or "?" in guess:
 			repeatedflag=True
 			prompt=f"S{sessions}-#{calls} - WPM{overall_speed} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
-			CWzator2(msg=qrz, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator2(msg=qrz, wpm=overall_speed, pitch=pitch, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		callssend.append(qrz.lower())
 		guess=guess.lower(); qrz=qrz.lower()
