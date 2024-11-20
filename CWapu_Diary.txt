@@ -1188,3 +1188,54 @@ Errori totali: 38 su 96 = 39.58%
 Caratteri mai sbagliati: F H U Z
 Nota: nessuna
 ***
+
+Esercizio di ricezione #6 eseguito il 2024/11/20 alle 23, 20 minuti:
+In questa sessione #6, ti ho inviato 61 words e ne hai ricevuti 34: 55.7%
+	26 di questi sono stati ricevuti al primo ascolto: 76.5%
+	mentre 8 words al secondo tentativo: 23.5%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 46: pari ad una variazione di 12 WPM.
+	La velocità media di ricezione è di: 40.1 WPM.
+Carattere: errori = Percentuale
+A: 16 = 13.91%
+I: 11 = 9.57%
+O S: 9 = 7.83%
+E M: 8 = 6.96%
+T: 7 = 6.09%
+B: 6 = 5.22%
+N R V: 5 = 4.35%
+F P U: 4 = 3.48%
+C G L: 3 = 2.61%
+D H: 2 = 1.74%
+Z: 1 = 0.87%
+Elenco delle parole copiate male:
+	(7) TX: riava, RX: riafa, DIF: v;
+	(9) TX: noie, RX: nois, DIF: e;
+	(10) TX: torno, RX: torgo, DIF: n;
+	(13) TX: iute, RX: ivae, DIF: ut;
+	(21) TX: schio, RX: sciso, DIF: hs;
+	(23) TX: tombe, RX: monde, DIF: tmb;
+	(24) TX: pabbi, RX: padde, DIF: bbi;
+	(25) TX: tigli, RX: tigle, DIF: i;
+	(26) TX: sanza, RX: sange, DIF: za;
+	(29) TX: dopla, RX: doppa, DIF: l;
+	(31) TX: atai, RX: amai, DIF: t;
+	(33) TX: amata, RX: amati, DIF: a;
+	(37) TX: guru, RX: gufu, DIF: r;
+	(40) TX: bcd, RX: dcd, DIF: b;
+	(41) TX: mont, RX: monte, DIF: e;
+	(42) TX: morfo, RX: molfo, DIF: r;
+	(43) TX: umami, RX: umamu, DIF: i;
+	(44) TX: mohs, RX: moss, DIF: hs;
+	(45) TX: emisi, RX: emis, DIF: i;
+	(47) TX: aceta, RX: acea, DIF: t;
+	(49) TX: macre, RX: macri, DIF: e;
+	(52) TX: avena, RX: avera, DIF: n;
+	(53) TX: boris, RX: borsi, DIF: ss;
+	(55) TX: vaduz, RX: vadub, DIF: z;
+	(57) TX: lidie, RX: lidni, DIF: ne;
+	(58) TX: gripo, RX: griro, DIF: p;
+	(61) TX: fregi, RX: frene, DIF: gi;
+Errori totali: 115 su 276 = 41.67%
+Caratteri mai sbagliati: J
+Nota: nessuna
+***
