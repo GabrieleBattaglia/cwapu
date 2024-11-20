@@ -5,7 +5,7 @@
 import sys, random, pickle, string, pyperclip, re, difflib
 import datetime as dt
 from GBUtils import key, dgt, menu
-from cwzator2 import *
+from cwzator3 import *
 from time import localtime as lt
 from time import sleep as wait
 from translations import translations
@@ -18,6 +18,7 @@ def Trnsl(key, lang='en', **kwargs):
 
 app_language = ''
 overall_speed=0
+session_speed=0
 overall_hertz=0
 overall_dashes=0
 overall_spaces=0
@@ -27,15 +28,17 @@ overall_settings_changed=False
 try:
 	f=open("CWapu_Overall.pkl", "rb")
 	app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume = pickle.load(f)
+	session_speed=overall_speed
 	f.close()
 	print(Trnsl('o_set_loaded',lang=app_language))
 except IOError:
 	app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume = 'en', 18, 550, 30, 50, 50, 0.7
+	session_speed=overall_speed
 	overall_settings_changed=True
 	print(Trnsl('o_set_created',lang=app_language))
 
 #QConstants
-VERS="2.5.5, (2024-11-16)"
+VERS="2.6.0, (2024-11-20)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -56,7 +59,6 @@ MDL={'a0a':4,
 					'a00aaa':4}
 
 #QVariable
-wpm=22
 customized_set=''
 words=[]
 
@@ -69,7 +71,7 @@ def KeyboardCW():
 		msg=sys.stdin.readline()
 		msg=msg[:-1]+" "
 		if msg==" ":
-			CWzator2(msg="73", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator3(msg="73", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 			break
 		elif msg=="? ":
 			print("\n"+Trnsl("h_keyboard",lang=app_language))
@@ -79,7 +81,7 @@ def KeyboardCW():
 			msg=""
 		elif msg==".rs ":
 			overall_dashes, overall_spaces, overall_dots = 30, 50, 50
-			CWzator2(msg="bk reset ok bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator3(msg="bk reset ok bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 			msg=""
 		elif msg.startswith("."):
 			msg = msg.lstrip('.')
@@ -89,39 +91,39 @@ def KeyboardCW():
 				value = match.group(2)
 				overall_settings_changed=True
 			else:
-				CWzator2(msg="?", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator3(msg="?", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 			if cmd=="w":
 				overall_speed=int(value)
 				overall_speed = max(5, min(99, overall_speed))
-				CWzator2(msg=f"bk r w is {overall_speed} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator3(msg=f"bk r w is {overall_speed} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
 			elif cmd=="h":
 				overall_hertz=int(value)
 				overall_hertz = max(130, min(2700, overall_hertz))
-				CWzator2(msg=f"bk r h is {overall_hertz} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator3(msg=f"bk r h is {overall_hertz} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
 			elif cmd=="l":
 				overall_dashes=int(value)
 				overall_dashes = max(1, min(99, overall_dashes))
-				CWzator2(msg=f"bk r l is {overall_dashes} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator3(msg=f"bk r l is {overall_dashes} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
 			elif cmd=="s":
 				overall_spaces=int(value)
 				overall_spaces = max(3, min(99, overall_spaces))
-				CWzator2(msg=f"bk r s is {overall_spaces} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator3(msg=f"bk r s is {overall_spaces} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
 			elif cmd=="p":
 				overall_dots=int(value)
 				overall_dots = max(1, min(99, overall_dots))
-				CWzator2(msg=f"bk r p is {overall_dots} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator3(msg=f"bk r p is {overall_dots} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
 			elif cmd=="v":
 				overall_volume=int(value)
 				overall_volume = max(0, min(100, overall_volume))
 				overall_volume/=100
-				CWzator2(msg=f"bk v is {int(overall_volume*100)} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator3(msg=f"bk r v is {int(overall_volume*100)} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
-		if msg: CWzator2(msg=msg, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		if msg: CWzator3(msg=msg, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 	print("Ciao\n")
 	return
 def LangSelector():
@@ -165,7 +167,7 @@ def FilterWord(w):
 		if scelta=="y": break
 	if ex: return w
 	else: return w1
-def CustomSet(wpm):
+def CustomSet(overall_speed):
 	cs=set(); prompt=""
 	print(Trnsl('custom_set_prompt', lang=app_language))
 	while True:
@@ -176,8 +178,8 @@ def CustomSet(wpm):
 			break
 		elif scelta not in cs and scelta!="\r":
 			cs.add(scelta)
-			CWzator2(msg=scelta, wpm=wpm, pitch=550)
-		else: CWzator2(msg="?", wpm=wpm, pitch=550)
+			CWzator3(msg=scelta, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		else: CWzator3(msg="?", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 	return "".join(cs)
 def GeneratingGroup(kind, length, wpm):
 	if kind == "1":
@@ -259,7 +261,7 @@ def Count():
 	else:
 		print(Trnsl('failed', lang=app_language, difference=pde-6))
 	if cont >= 100:
-		with open("CWapu_Diary.txt", "a") as f:
+		with open("CWapu_Diary.txt", "a", encoding='utf-8') as f:
 			nota=input(Trnsl('note_on_exercise', lang=app_language))
 			print(Trnsl('report_saved', lang=app_language))
 			date = f"{lt()[0]}/{lt()[1]}/{lt()[2]}"
@@ -327,7 +329,7 @@ def AlwaysRight(yep, nope):
 	return letters - letters_misspelled
 def Rxing():
 	# receiving exercise
-	global words
+	global words, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume
 	print(Trnsl('time_to_receive', lang=app_language))
 	try:
 		with open('words.txt', 'r', encoding='utf-8') as file:
@@ -339,24 +341,24 @@ def Rxing():
 		del MNRXKIND["5"]
 	try:
 		f=open("CWapu_Rxing.pkl", "rb")
-		wpm, totalcalls, sessions, totalget, totalwrong, totaltime = pickle.load(f)
+		totalcalls, sessions, totalget, totalwrong, totaltime = pickle.load(f)
 		f.close()
-		print(Trnsl('got_data', lang=app_language, wpm=wpm, sessions=sessions-1, totalcalls=totalcalls, totalget=totalget, totalwrong=totalwrong, totaltime=str(totaltime)[:-5]))
+		print(Trnsl('got_data', lang=app_language, wpm=overall_speed, sessions=sessions-1, totalcalls=totalcalls, totalget=totalget, totalwrong=totalwrong, totaltime=str(totaltime)[:-5]))
 	except IOError:
 		print(Trnsl('first_class', lang=app_language))
-		wpm, totalcalls, sessions, totalget, totalwrong, totaltime = 22, 0, 1, 0, 0, dt.datetime.now()-dt.datetime.now()
+		totalcalls, sessions, totalget, totalwrong, totaltime = 0, 1, 0, 0, dt.datetime.now()-dt.datetime.now()
 	calls, callsget, callswrong, callsrepeated, minwpm, maxwpm, repeatedflag = 1, [], [], 0, 100, 14, False
 	global customized_set
 	callssend=[]; average_wpm=0.0
 	dz_mistakes={}
-	wpm=dgt(prompt=Trnsl('set_wpm', lang=app_language, wpm=wpm),kind="i",imin=10,imax=85,default=wpm)
+	overall_speed=dgt(prompt=Trnsl('set_wpm', lang=app_language, wpm=overall_speed),kind="i",imin=10,imax=85,default=overall_speed)
 	print(Trnsl('select_exercise', lang=app_language))
 	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf=Trnsl('please_just_1_or_2', lang=app_language))
 	if call_or_groups == "2":
 		kind=menu(d=MNRXKIND,show=True,keyslist=True,ntf=Trnsl('choose_a_number', lang=app_language))
 		kindstring="Group"
 		if kind=="4":
-			customized_set=CustomSet(wpm)
+			customized_set=CustomSet(overall_speed)
 			length=dgt(prompt=Trnsl('give_length', lang=app_language), kind="i", imin=1, imax=7)
 		elif kind=="5":
 			words=FilterWord(words)
@@ -374,36 +376,36 @@ def Rxing():
 			c=random.choices(list(MDL.keys()), weights=MDL.values(), k=1)
 			qrz=Mkdqrz(c)
 		else:
-			qrz=GeneratingGroup(kind=kind, length=length, wpm=wpm)
+			qrz=GeneratingGroup(kind=kind, length=length, wpm=overall_speed)
 		pitch=random.randint(300, 1050)
-		prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - > "
-		CWzator2(msg=qrz, wpm=wpm, pitch=pitch)
+		prompt=f"S{sessions}-#{calls} - WPM{overall_speed} - +{len(callsget)}/-{len(callswrong)} - > "
+		CWzator3(msg=qrz, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if guess==".":
 			calls-=1
 			break
 		elif guess == "" or "?" in guess:
 			repeatedflag=True
-			prompt=f"S{sessions}-#{calls} - WPM{wpm} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
-			CWzator2(msg=qrz, wpm=wpm, pitch=pitch)
+			prompt=f"S{sessions}-#{calls} - WPM{overall_speed} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
+			CWzator3(msg=qrz, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		callssend.append(qrz.lower())
 		guess=guess.lower(); qrz=qrz.lower()
 		if qrz == guess:
 			callsget.append(qrz)
-			average_wpm+=wpm
+			average_wpm+=overall_speed
 			if repeatedflag: callsrepeated+=1
-			if wpm<100: wpm+=1
+			if overall_speed<100: overall_speed+=1
 		else:
 			callswrong.append(qrz.lower())
 			diff=MistakesCollectorInStrings(qrz,guess)
 			diff_ratio=(1 - difflib.SequenceMatcher(None,qrz,guess).ratio()) * 100
 			print(f"TX: {qrz} RX: {guess} <>: {diff} RT: {int(diff_ratio):d}")
 			dz_mistakes[len(callssend)]=(qrz,guess)
-			if wpm>15: wpm-=1
+			if overall_speed>15: overall_speed-=1
 		calls+=1
-		if wpm>maxwpm: maxwpm=wpm
-		if wpm<minwpm: minwpm=wpm
+		if overall_speed>maxwpm: maxwpm=overall_speed
+		if overall_speed<minwpm: minwpm=overall_speed
 		repeatedflag=False
 	exerctime=dt.datetime.now()-starttime
 	print(Trnsl('over_check', lang=app_language))
@@ -424,7 +426,7 @@ def Rxing():
 		print(Trnsl('total_mistakes', lang=app_language, global_mistakes=global_mistakes, send_char=send_char, mistake_percentage=global_mistakes*100/send_char))
 		good_letters = AlwaysRight(callssend, dict_mistakes)
 		print(Trnsl('never_misspelled', lang=app_language, good_letters=" ".join(sorted(good_letters)).upper()))
-		f=open("CWapu_Diary.txt", "a")
+		f=open("CWapu_Diary.txt", "a", encoding='utf-8')
 		print(Trnsl('report_saved', lang=app_language))
 		date = f"{lt()[0]}/{lt()[1]}/{lt()[2]}"
 		time = f"{lt()[3]}, {lt()[4]}"
@@ -455,7 +457,7 @@ def Rxing():
 	totaltime+=exerctime
 	sessions+=1
 	f=open("CWapu_Rxing.pkl", "wb")
-	pickle.dump([wpm, totalcalls, sessions, totalget, totalwrong, totaltime], f)
+	pickle.dump([totalcalls, sessions, totalget, totalwrong, totaltime], f)
 	f.close()
 	print(Trnsl('session_saved', lang=app_language, session_number=sessions-1, duration=str(exerctime)[:-5]))
 	return
@@ -478,14 +480,14 @@ while True:
 		ltc=pyperclip.paste()
 		if ltc:
 			ltc=StringCleaning(ltc)
-			CWzator2(msg=ltc, wpm=overall_speed, pitch=overall_hertz)
-		else: CWzator2(msg=Trnsl('empty_clipboard', lang=app_language), wpm=overall_speed, pitch=overall_hertz)
+			CWzator3(msg=ltc, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		else: CWzator3(msg=Trnsl('empty_clipboard', lang=app_language), wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 	elif k=="m": menu(d=Trnsl('menu_main', lang=app_language),show_only=True)
 	elif k=="w": CreateDictionary()
 	elif k=="q": break
 print(Trnsl('exit_message', lang=app_language))
-CWzator2(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
-if overall_settings_changed:
+CWzator3(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
+if overall_settings_changed or session_speed!=overall_speed:
 	f=open("CWapu_Overall.pkl", "wb")
 	pickle.dump([app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume],f)
 	f.close()
