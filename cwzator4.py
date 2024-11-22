@@ -1,10 +1,7 @@
-# By Github copilot 20/11/2024
 import numpy as np
 import sounddevice as sd
 import math
 from collections import deque
-sender = None
-
 class Keyer():
 	"""
 	Class to encode text to morse and produce keying envelope from morse
@@ -63,15 +60,14 @@ class Keyer():
 		
 	def getenvelop(self, msg, wpm):
 		nr = len(self.rise)
-		
 		# Calculate base sample length from WPM
 		base_samples = int(np.rint(1.2*self.rate/wpm))
-		
+		base_time_no_risetime = 1.2 / wpm  # Calcola base_time senza risetime
+		base_time = (base_samples + 2 * len(self.rise)) / self.rate # Calcola base_time CON risetime
 		# Adjust sample lengths based on p, s, and l parameters
 		dot_samples = int(base_samples * (self._p/50))
 		space_samples = int(base_samples * (self._s/50))
 		dash_samples = int(dot_samples * (self._l/10))
-		
 		# Calculate total samples needed
 		count = (msg.count('.') * (dot_samples + space_samples) + 
 				msg.count('-') * (dash_samples + space_samples) +
@@ -98,7 +94,7 @@ class Keyer():
 				k += 2 * space_samples
 			elif msg[i] == '~':
 				k += space_samples
-		return env
+		return env, base_time, base_time_no_risetime
 
 class CWSender:
 	def __init__(self, pitch=500, amp=0.7, bufsize=512, rate=11025):
@@ -114,10 +110,8 @@ class CWSender:
 		self._started = False
 		self._envelopes = deque()
 		self._envelop = None
-		
 	def set_timing(self, p=50, s=None, l=30):
 		self._keyer.set_timing(p, s, l)
-		
 	def audioOn(self, on):
 		if on and not self._started:
 			self._stream.start()
@@ -125,11 +119,10 @@ class CWSender:
 		elif not on and self._started:
 			self._stream.stop()
 			self._started = False
-			
 	def addMessage(self, msg, wpm, pitch=0):
-		self._envelopes.append((pitch,
-			self._keyer.getenvelop(self._keyer.encode(msg.lower()), wpm)))
-			
+		envelop, base_time, base_time_no_risetime = self._keyer.getenvelop(self._keyer.encode(msg.lower()), wpm)
+		self._envelopes.append((pitch, envelop))
+		return base_time, base_time_no_risetime  
 	def _getBuffer(self):
 		if self._envelop is None:
 			if len(self._envelopes) > 0:
@@ -154,21 +147,23 @@ class CWSender:
 		outdata[:,0] = buf*self.amp*np.sin(phases).astype(np.float32)
 		self._phase = (phases[-1]+dphase) % (2.0*np.pi)
 
-def CWzator3(msg, wpm=35, pitch=550, dashes=30, spaces=None, dots=50, vol=0.7, signal_fader=0.002):
+sender = None
+
+def CWzator4(msg, wpm=35, pitch=550, dashes=30, spaces=None, dots=50, vol=0.7, risetime=0.002): 
 	'''
 	Convert txt to Morse with customizable timing parameters
-	V3 by W9CF, IZ4APU and Claude AI Sonnet 3.5
+	V4 by W9CF, IZ4APU and Gemini EXP114
 	Args:
 		msg: text message to convert
 		wpm: words per minute (default 35)
 		pitch: tone frequency in Hz (default 550)
 		vol: volume from 0 to 1 (default 0.7)
 		dots: dot length 1-99 (default 50)
-		spaces: space length 1-99 (default=dots)
+		spaces: space length 1-99 (default=p)
 		dashes: dash length factor 1-99 (default 30, meaning dash = 3*dot)
-		signal_fader: envelope rise/fall time in seconds (default 0.002)
+		risetime: time for signal ramp up/down in seconds (default 0.002)
 	Returns:
-		wpm_offset: actual WPM considering timing parameters, or False if message empty
+		wpm_offset: float indicating the difference from the desired speed if parameters are not default.
 	'''
 	if msg == "": 
 		return False
@@ -178,22 +173,17 @@ def CWzator3(msg, wpm=35, pitch=550, dashes=30, spaces=None, dots=50, vol=0.7, s
 	dots = max(1, min(99, dots))
 	spaces = dots if spaces is None else max(1, min(99, spaces))
 	dashes = max(1, min(99, dashes))
-	# Calculate WPM offset based on timing parameters
-	standard_ratio = (50 + 50 + 30) / 3  # Default timing sum divided by 3
-	actual_ratio = (dots + spaces + dashes) / 3
-	wpm_offset = wpm * (standard_ratio / actual_ratio)
-	# Compensate for rise time effect on speed
-	rise_time_compensation = 1 + (2 * signal_fader * wpm / 1.2)
-	wpm_adjusted = wpm * rise_time_compensation
 	global sender
 	if sender is None:
 		sender = CWSender(pitch=pitch, amp=vol)
-		sender._keyer.risetime = signal_fader  # Set new rise time
 		sender.audioOn(True)
 	else:
 		sender.amp = vol
 		sender.pitch = pitch
-		sender._keyer.risetime = signal_fader  # Update rise time
 	sender.set_timing(dots, spaces, dashes)
-	sender.addMessage(msg, wpm_adjusted, pitch)
+	sender._keyer.risetime = risetime  # Imposta il risetime
+	base_time, base_time_no_risetime = sender.addMessage(msg, wpm, pitch) 
+	wpm_offset = 0
+	if (dashes != 30 or spaces != dots or dots != 50):
+		wpm_offset = base_time / base_time_no_risetime
 	return wpm_offset
