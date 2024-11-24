@@ -1267,3 +1267,44 @@ Errori totali: 59 su 172 = 34.30%
 Caratteri mai sbagliati: 1 4 6 B C S W
 Nota: nessuna
 ***
+
+Esercizio di ricezione #8 eseguito il 2024/11/24 alle 22, 51 minuti:
+In questa sessione #8, ti ho inviato 52 Group e ne hai ricevuti 29: 55.8%
+	16 di questi sono stati ricevuti al primo ascolto: 55.2%
+	mentre 13 Group al secondo tentativo: 44.8%.
+Durante la sessione, la tua velocità minima è stata 39, la massima di 52: pari ad una variazione di 13 WPM.
+	La velocità media di ricezione è di: 46.1 WPM.
+Carattere: errori = Percentuale
+R U: 5 = 7.69%
+D H Y: 4 = 6.15%
+4 9 N P V: 3 = 4.62%
+2 A E G I J L O Q S: 2 = 3.08%
+0 1 7 B C W X Z: 1 = 1.54%
+Elenco delle parole copiate male:
+	(1) TX: dva, RX: d4a, DIF: v;
+	(7) TX: 9vr, RX: 9of, DIF: vr;
+	(9) TX: yhs, RX: yss, DIF: hs;
+	(14) TX: ghr, RX: gir, DIF: h;
+	(15) TX: 7p4, RX: zr4, DIF: 7p;
+	(16) TX: hcj, RX: sc1, DIF: hj;
+	(22) TX: bwn, RX: zrn, DIF: bw;
+	(23) TX: yue, RX: que, DIF: y;
+	(29) TX: 58f, RX: h7l, DIF: 58f;
+	(30) TX: xc4, RX: kc4, DIF: x;
+	(32) TX: vld, RX: vlb, DIF: d;
+	(33) TX: c7w, RX: czw, DIF: 7;
+	(36) TX: cxn, RX: kxn, DIF: c;
+	(37) TX: ntt, RX: nte, DIF: t;
+	(39) TX: kns, RX: k^, DIF: ns;
+	(40) TX: cwv, RX: crv, DIF: w;
+	(42) TX: yhd, RX: ysb, DIF: hd;
+	(44) TX: md0, RX: od0, DIF: m;
+	(46) TX: bsi, RX: dsi, DIF: b;
+	(47) TX: q1x, RX: q1y, DIF: x;
+	(49) TX: dhq, RX: bhq, DIF: d;
+	(50) TX: 2da, RX: 2ma, DIF: d;
+	(52) TX: p5d, RX: phd, DIF: 5;
+Errori totali: 65 su 156 = 41.67%
+Caratteri mai sbagliati: 5 8 F K M T
+Nota: nessuna
+***
