@@ -6,7 +6,7 @@
 import sys, random, pickle, string, pyperclip, re, difflib
 import datetime as dt
 from GBUtils import key, dgt, menu
-from cwzator4 import *
+from cwzator5 import *
 from time import localtime as lt
 from time import sleep as wait
 from translations import translations
@@ -73,7 +73,7 @@ def KeyboardCW():
 		msg=sys.stdin.readline()
 		msg=msg[:-1]+" "
 		if msg==" ":
-			CWzator4(msg="73", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator5(msg="73", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 			break
 		elif msg=="? ":
 			print("\n"+Trnsl("h_keyboard",lang=app_language))
@@ -83,7 +83,7 @@ def KeyboardCW():
 			msg=""
 		elif msg==".rs ":
 			overall_dashes, overall_spaces, overall_dots = 30, 50, 50
-			CWzator4(msg="bk reset ok bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator5(msg="bk reset ok bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 			msg=""
 		elif msg.startswith("."):
 			msg = msg.lstrip('.')
@@ -93,39 +93,39 @@ def KeyboardCW():
 				value = match.group(2)
 				overall_settings_changed=True
 			else:
-				CWzator4(msg="?", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator5(msg="?", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 			if cmd=="w":
 				overall_speed=int(value)
 				overall_speed = max(5, min(99, overall_speed))
-				CWzator4(msg=f"bk r w is {overall_speed} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator5(msg=f"bk r w is {overall_speed} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
 			elif cmd=="h":
 				overall_hertz=int(value)
 				overall_hertz = max(130, min(2700, overall_hertz))
-				CWzator4(msg=f"bk r h is {overall_hertz} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator5(msg=f"bk r h is {overall_hertz} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
 			elif cmd=="l":
 				overall_dashes=int(value)
 				overall_dashes = max(1, min(99, overall_dashes))
-				CWzator4(msg=f"bk r l is {overall_dashes} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator5(msg=f"bk r l is {overall_dashes} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
 			elif cmd=="s":
 				overall_spaces=int(value)
 				overall_spaces = max(3, min(99, overall_spaces))
-				CWzator4(msg=f"bk r s is {overall_spaces} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator5(msg=f"bk r s is {overall_spaces} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
 			elif cmd=="p":
 				overall_dots=int(value)
 				overall_dots = max(1, min(99, overall_dots))
-				CWzator4(msg=f"bk r p is {overall_dots} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator5(msg=f"bk r p is {overall_dots} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
 			elif cmd=="v":
 				overall_volume=int(value)
 				overall_volume = max(0, min(100, overall_volume))
 				overall_volume/=100
-				CWzator4(msg=f"bk r v is {int(overall_volume*100)} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator5(msg=f"bk r v is {int(overall_volume*100)} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 				msg=""
-		if msg: speed_offset=CWzator4(msg=msg, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		if msg: speed_offset=CWzator5(msg=msg, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 	print("Ciao\n")
 	return
 def LangSelector():
@@ -180,8 +180,8 @@ def CustomSet(overall_speed):
 			break
 		elif scelta not in cs and scelta!="\r":
 			cs.add(scelta)
-			CWzator4(msg=scelta, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
-		else: CWzator4(msg="?", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator5(msg=scelta, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		else: CWzator5(msg="?", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 	return "".join(cs)
 def GeneratingGroup(kind, length, wpm):
 	if kind == "1":
@@ -381,7 +381,7 @@ def Rxing():
 			qrz=GeneratingGroup(kind=kind, length=length, wpm=overall_speed)
 		pitch=random.randint(300, 1050)
 		prompt=f"S{sessions}-#{calls} - WPM{overall_speed} - +{len(callsget)}/-{len(callswrong)} - > "
-		CWzator4(msg=qrz, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		CWzator5(msg=qrz, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if guess==".":
 			calls-=1
@@ -389,7 +389,7 @@ def Rxing():
 		elif guess == "" or "?" in guess:
 			repeatedflag=True
 			prompt=f"S{sessions}-#{calls} - WPM{overall_speed} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
-			CWzator4(msg=qrz, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator5(msg=qrz, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		callssend.append(qrz.lower())
 		guess=guess.lower(); qrz=qrz.lower()
@@ -482,13 +482,13 @@ while True:
 		ltc=pyperclip.paste()
 		if ltc:
 			ltc=StringCleaning(ltc)
-			CWzator4(msg=ltc, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
-		else: CWzator4(msg=Trnsl('empty_clipboard', lang=app_language), wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator5(msg=ltc, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		else: CWzator5(msg=Trnsl('empty_clipboard', lang=app_language), wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
 	elif k=="m": menu(d=Trnsl('menu_main', lang=app_language),show_only=True)
 	elif k=="w": CreateDictionary()
 	elif k=="q": break
 print(Trnsl('exit_message', lang=app_language))
-CWzator4(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
+CWzator5(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
 if overall_settings_changed or session_speed!=overall_speed:
 	f=open("CWapu_Overall.pkl", "wb")
 	pickle.dump([app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume],f)
