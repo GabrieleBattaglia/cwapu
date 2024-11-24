@@ -1239,3 +1239,31 @@ Errori totali: 115 su 276 = 41.67%
 Caratteri mai sbagliati: J
 Nota: nessuna
 ***
+
+Esercizio di ricezione #7 eseguito il 2024/11/24 alle 0, 51 minuti:
+In questa sessione #7, ti ho inviato 32 Call-like e ne hai ricevuti 21: 65.6%
+	7 di questi sono stati ricevuti al primo ascolto: 33.3%
+	mentre 14 Call-like al secondo tentativo: 66.7%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 40: pari ad una variazione di 9 WPM.
+	La velocità media di ricezione è di: 35.4 WPM.
+Carattere: errori = Percentuale
+G Y: 4 = 6.78%
+9 D H I K O P Z: 3 = 5.08%
+0 3 5 A J N U V: 2 = 3.39%
+2 7 8 E F L M Q R T X: 1 = 1.69%
+Elenco delle parole copiate male:
+	(3) TX: rj7vh, RX: rj7vs, DIF: h;
+	(9) TX: p38dv, RX: p37dv, DIF: 8;
+	(10) TX: gx7nb, RX: gx7nd, DIF: b;
+	(16) TX: bi2jms, RX: ds2mwg, DIF: bijs;
+	(17) TX: tl4dho, RX: tl4dso, DIF: h;
+	(20) TX: bq3au, RX: dq2au, DIF: b3;
+	(22) TX: u2vtc, RX: v24tc, DIF: uv;
+	(23) TX: va8mov, RX: va8ov, DIF: m;
+	(25) TX: 0r2aci, RX: 9raci, DIF: 02;
+	(27) TX: 1e4uvb, RX: je4vvd, DIF: 1ub;
+	(28) TX: zu3huq, RX: zu3urf, DIF: hq;
+Errori totali: 59 su 172 = 34.30%
+Caratteri mai sbagliati: 1 4 6 B C S W
+Nota: nessuna
+***
