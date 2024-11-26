@@ -33,7 +33,6 @@ translations = {
 			"m": "Shows Menu",
 			"q": "To quit this app",
 			"r": "Receiving exercise",
-			"s": "Set speed",
 			"t": "Transmitting exercise",
 			"w": "Create your own word dictionary",
 			"z": "Select your language"
@@ -123,7 +122,6 @@ translations = {
 			"m": "Mostra Menu",
 			"q": "Per uscire da questa app",
 			"r": "Esercizio di ricezione",
-			"s": "Imposta velocità",
 			"t": "Esercizio di trasmissione",
 			"w": "Crea dizionario personalizzato",
 			"z": "Scegli la lingua dell'applicazione"
