@@ -1368,3 +1368,43 @@ Elenco delle parole copiate male:
 Errori totali: 159 su 379 = 41.95%
 Caratteri mai sbagliati: JNota: record numero parole
 ***
+
+Esercizio di ricezione #10 eseguito il 2024/11/27 alle 20, 2 minuti:
+In questa sessione #10, ti ho inviato 42 Call-like e ne hai ricevuti 23: 54.8%
+	13 di questi sono stati ricevuti al primo ascolto: 56.5%
+	mentre 10 Call-like al secondo tentativo: 43.5%.
+Durante la sessione, la tua velocità minima è stata 30, la massima di 40: pari ad una variazione di 10 WPM.
+	La velocità media di ricezione è di: 34.3 WPM.
+Carattere: errori = Percentuale
+G: 8 = 7.92%
+M T: 7 = 6.93%
+H I P: 6 = 5.94%
+J: 5 = 4.95%
+3 8 B C L W: 4 = 3.96%
+4 5 U V: 3 = 2.97%
+1 2 O S Z: 2 = 1.98%
+6 7 A E K N Q R X Y: 1 = 0.99%
+Elenco delle parole copiate male:
+	(1) TX: f20nu, RX: f30nu, DIF: 2;
+	(3) TX: zh3gpn, RX: z54gpn, DIF: h3;
+	(6) TX: nb5tum, RX: nd5utg, DIF: buum;
+	(7) TX: st6epj, RX: st6ipj, DIF: e;
+	(8) TX: rt4gcg, RX: rt4cg, DIF: g;
+	(15) TX: b8wqo, RX: b8wyp, DIF: qo;
+	(17) TX: ww4va, RX: ww3ua, DIF: 4v;
+	(18) TX: im8iaw, RX: im7iaw, DIF: 8;
+	(20) TX: nq2de, RX: ny2g, DIF: qde;
+	(21) TX: cs9qe, RX: cs9ye, DIF: q;
+	(24) TX: n74fz, RX: nz4fz, DIF: 7;
+	(26) TX: pw6ekx, RX: pw5rxx, DIF: 6ekx;
+	(29) TX: wv9hxs, RX: w49dxs, DIF: vh;
+	(33) TX: mn5uf, RX: mn5sf, DIF: u;
+	(37) TX: my6ri, RX: my6id, DIF: rd;
+	(39) TX: c2j, RX: k2j, DIF: c;
+	(40) TX: wx1ajc, RX: wx1awc, DIF: j;
+	(41) TX: zq7yvf, RX: zq7yuf, DIF: v;
+	(42) TX: z1ob, RX: z1oz, DIF: b;
+Errori totali: 101 su 225 = 44.89%
+Caratteri mai sbagliati: 0 9 D F
+Nota: nessuna
+***
