@@ -38,7 +38,7 @@ except IOError:
 	print(Trnsl('o_set_created',lang=app_language))
 
 #QConstants
-VERS="2.5.11, (2024-11-26)"
+VERS="2.5.12, (2024-11-27)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
