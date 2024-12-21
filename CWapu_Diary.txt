@@ -1671,3 +1671,44 @@ Errori totali: 121 su 259 = 46.72%
 Caratteri mai sbagliati: V X
 Nota: nessuna
 ***
+
+Esercizio di ricezione #16 eseguito il 2024/12/22 alle 0, 5 minuti:
+In questa sessione #16, ti ho inviato 46 words e ne hai ricevuti 27: 58.7%
+	23 di questi sono stati ricevuti al primo ascolto: 85.2%
+	mentre 4 words al secondo tentativo: 14.8%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 39: pari ad una variazione di 8 WPM.
+	La velocità media di ricezione è di: 33.5 WPM.
+Carattere: errori = Percentuale
+A: 13 = 14.13%
+O: 9 = 9.78%
+C D N: 7 = 7.61%
+I R: 6 = 6.52%
+E T: 5 = 5.43%
+F P S: 4 = 4.35%
+B L U: 3 = 3.26%
+H M: 2 = 2.17%
+G V: 1 = 1.09%
+Elenco delle parole copiate male:
+	(3) TX: unite, RX: uniti, DIF: e;
+	(5) TX: grippi, RX: griggi, DIF: pp;
+	(9) TX: carati, RX: carate, DIF: i;
+	(10) TX: tanato, RX: tanto, DIF: a;
+	(11) TX: lagoni, RX: legoni, DIF: a;
+	(13) TX: binde, RX: bende, DIF: i;
+	(16) TX: afrosa, RX: afrosi, DIF: a;
+	(17) TX: triaca, RX: trinca, DIF: a;
+	(20) TX: enveie, RX: enued, DIF: vie;
+	(25) TX: urtate, RX: unita, DIF: rte;
+	(28) TX: spedo, RX: spido, DIF: e;
+	(29) TX: meni, RX: medi, DIF: n;
+	(30) TX: adige, RX: adigi, DIF: e;
+	(33) TX: credei, RX: cardis, DIF: aees;
+	(34) TX: ghana, RX: ghiaia, DIF: in;
+	(38) TX: ziffe, RX: diffe, DIF: z;
+	(39) TX: dingey, RX: dinghy, DIF: e;
+	(40) TX: petali, RX: pietral, DIF: iri;
+	(46) TX: artino, RX: arnio, DIF: tn;
+Errori totali: 92 su 243 = 37.86%
+Caratteri mai sbagliati: Q Y Z
+Nota: nessuna
+***
