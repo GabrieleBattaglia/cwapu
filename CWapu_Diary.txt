@@ -1712,3 +1712,70 @@ Errori totali: 92 su 243 = 37.86%
 Caratteri mai sbagliati: Q Y Z
 Nota: nessuna
 ***
+
+Esercizio di ricezione #17 eseguito il 2024/12/22 alle 19, 51 minuti:
+In questa sessione #17, ti ho inviato 101 words e ne hai ricevuti 60: 59.4%
+	48 di questi sono stati ricevuti al primo ascolto: 80.0%
+	mentre 12 words al secondo tentativo: 20.0%.
+Durante la sessione, la tua velocità minima è stata 24, la massima di 46: pari ad una variazione di 22 WPM.
+	La velocità media di ricezione è di: 35.4 WPM.
+Carattere: errori = Percentuale
+I: 21 = 12.28%
+O: 19 = 11.11%
+A: 15 = 8.77%
+E: 13 = 7.6%
+S T: 10 = 5.85%
+C P: 9 = 5.26%
+L N R: 8 = 4.68%
+D G: 7 = 4.09%
+U Z: 5 = 2.92%
+M: 4 = 2.34%
+B V: 3 = 1.75%
+F H: 2 = 1.17%
+' J K: 1 = 0.58%
+Elenco delle parole copiate male:
+	(11) TX: rezze, RX: rizze, DIF: e;
+	(14) TX: masti, RX: masai, DIF: t;
+	(18) TX: flap, RX: flup, DIF: a;
+	(20) TX: nuti, RX: nute, DIF: i;
+	(21) TX: selci, RX: selce, DIF: i;
+	(22) TX: peon, RX: pion, DIF: e;
+	(23) TX: esizi, RX: esigi, DIF: z;
+	(27) TX: crode, RX: clode, DIF: r;
+	(28) TX: peota, RX: piota, DIF: e;
+	(32) TX: gocci, RX: mocci, DIF: g;
+	(33) TX: parei, RX: parti, DIF: e;
+	(34) TX: dista, RX: distra, DIF: r;
+	(37) TX: idem, RX: idim, DIF: e;
+	(38) TX: medoc, RX: midoc, DIF: e;
+	(39) TX: vaghi, RX: vagis, DIF: hs;
+	(40) TX: migli, RX: megli, DIF: i;
+	(41) TX: tinsi, RX: tenis, DIF: enni;
+	(42) TX: beffi, RX: diffi, DIF: be;
+	(47) TX: detti, RX: ditti, DIF: e;
+	(51) TX: pegli, RX: pigli, DIF: e;
+	(54) TX: bulbo, RX: burbu, DIF: lo;
+	(57) TX: cesie, RX: cessi, DIF: se;
+	(62) TX: kauri, RX: kausi, DIF: r;
+	(64) TX: bacie, RX: bucie, DIF: a;
+	(65) TX: gnao, RX: gino, DIF: ia;
+	(69) TX: randa, RX: ranga, DIF: d;
+	(71) TX: drena, RX: brina, DIF: de;
+	(72) TX: anch', RX: anci', DIF: h;
+	(75) TX: cunei, RX: cunis, DIF: es;
+	(77) TX: kulak, RX: culak, DIF: k;
+	(81) TX: hass, RX: hash, DIF: s;
+	(82) TX: album, RX: albio, DIF: um;
+	(83) TX: l5178, RX: lb78, DIF: 51;
+	(89) TX: cago, RX: cano, DIF: g;
+	(92) TX: riba, RX: lida, DIF: rb;
+	(94) TX: pere, RX: pepe, DIF: r;
+	(96) TX: piezo, RX: pezo, DIF: i;
+	(97) TX: myc, RX: mcc, DIF: yc;
+	(98) TX: toni, RX: todi, DIF: n;
+	(99) TX: siedo, RX: sido, DIF: e;
+	(101) TX: neuna, RX: neuq, DIF: na;
+Errori totali: 171 su 466 = 36.70%
+Caratteri mai sbagliati: 1 5 7 8 X Y
+Nota: nessuna
+***
