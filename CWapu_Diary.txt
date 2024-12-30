@@ -1810,3 +1810,29 @@ Errori totali: 35 su 123 = 28.46%
 Caratteri mai sbagliati: B D E H Q S T W
 Nota: nessuna
 ***
+
+Esercizio di ricezione #19 eseguito il 2024/12/30 alle 10, 43 minuti:
+In questa sessione #19, ti ho inviato 40 Group e ne hai ricevuti 30: 75.0%
+	16 di questi sono stati ricevuti al primo ascolto: 53.3%
+	mentre 14 Group al secondo tentativo: 46.7%.
+Durante la sessione, la tua velocità minima è stata 36, la massima di 55: pari ad una variazione di 19 WPM.
+	La velocità media di ricezione è di: 45.9 WPM.
+Carattere: errori = Percentuale
+X: 4 = 14.81%
+E J K L N W Z: 2 = 7.41%
+A B C G I M S U V: 1 = 3.7%
+Elenco delle parole copiate male:
+	(9) TX: vsz, RX: viz, DIF: s;
+	(14) TX: bnv, RX: ndu, DIF: bv;
+	(19) TX: wyh, RX: wys, DIF: h;
+	(21) TX: csu, RX: ciu, DIF: s;
+	(23) TX: rlz, RX: rlg, DIF: z;
+	(26) TX: zjf, RX: zfj, DIF: ff;
+	(30) TX: zbi, RX: , DIF: zbi;
+	(32) TX: fzs, RX: fzg, DIF: s;
+	(35) TX: nwr, RX: gmr, DIF: nw;
+	(39) TX: zsj, RX: zij, DIF: s;
+Errori totali: 27 su 120 = 22.50%
+Caratteri mai sbagliati: D F H O P Q R T Y
+Nota: nessuna
+***
