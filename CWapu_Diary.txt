@@ -1836,3 +1836,54 @@ Errori totali: 27 su 120 = 22.50%
 Caratteri mai sbagliati: D F H O P Q R T Y
 Nota: nessuna
 ***
+
+Esercizio di ricezione #20 eseguito il 2025/1/15 alle 20, 1 minuti:
+In questa sessione #20, ti ho inviato 69 words e ne hai ricevuti 41: 59.4%
+	33 di questi sono stati ricevuti al primo ascolto: 80.5%
+	mentre 8 words al secondo tentativo: 19.5%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 49: pari ad una variazione di 15 WPM.
+	La velocità media di ricezione è di: 41.7 WPM.
+Carattere: errori = Percentuale
+E: 18 = 16.07%
+I O: 9 = 8.04%
+D: 8 = 7.14%
+T: 7 = 6.25%
+A C N R S: 6 = 5.36%
+B L: 5 = 4.46%
+U: 4 = 3.57%
+G P: 3 = 2.68%
+. H: 2 = 1.79%
+' F J K M V W: 1 = 0.89%
+Elenco delle parole copiate male:
+	(3) TX: belga, RX: beila, DIF: ig;
+	(7) TX: diene, RX: dene, DIF: i;
+	(11) TX: haiti, RX: hati, DIF: i;
+	(12) TX: aja, RX: apa, DIF: j;
+	(19) TX: uvoso, RX: uvoio, DIF: s;
+	(20) TX: br, RX: dr, DIF: b;
+	(23) TX: bui, RX: bue, DIF: i;
+	(24) TX: emide, RX: emini, DIF: de;
+	(27) TX: babe, RX: dabe, DIF: b;
+	(29) TX: snudi, RX: snni, DIF: ud;
+	(33) TX: stipa, RX: stipo, DIF: a;
+	(34) TX: cimi, RX: cime, DIF: i;
+	(36) TX: mussa, RX: gussa, DIF: m;
+	(37) TX: white, RX: phie, DIF: wt;
+	(38) TX: fidel, RX: fider, DIF: l;
+	(40) TX: gleni, RX: gledi, DIF: n;
+	(44) TX: dara', RX: bara', DIF: d;
+	(45) TX: cromi, RX: crome, DIF: i;
+	(50) TX: sipai, RX: spiea, DIF: ppi;
+	(54) TX: abu, RX: abv, DIF: u;
+	(56) TX: peani, RX: pele, DIF: ani;
+	(59) TX: velma, RX: vereu, DIF: lma;
+	(61) TX: gibbe, RX: gibbo, DIF: e;
+	(63) TX: puri, RX: pure, DIF: i;
+	(64) TX: neva, RX: neua, DIF: v;
+	(65) TX: atei, RX: atti, DIF: e;
+	(66) TX: stesa, RX: stia, DIF: es;
+	(69) TX: furfo, RX: fufo, DIF: r;
+Errori totali: 112 su 307 = 36.48%
+Caratteri mai sbagliati: 
+Nota: nessuna
+***
