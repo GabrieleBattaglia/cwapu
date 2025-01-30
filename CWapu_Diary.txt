@@ -1887,3 +1887,89 @@ Errori totali: 112 su 307 = 36.48%
 Caratteri mai sbagliati: 
 Nota: nessuna
 ***
+
+Esercizio di ricezione #21 eseguito il 2025/1/30 alle 14, 55 minuti:
+In questa sessione #21, ti ho inviato 123 words e ne hai ricevuti 64: 52.0%
+	37 di questi sono stati ricevuti al primo ascolto: 57.8%
+	mentre 27 words al secondo tentativo: 42.2%.
+Durante la sessione, la tua velocità minima è stata 41, la massima di 52: pari ad una variazione di 11 WPM.
+	La velocità media di ricezione è di: 45.8 WPM.
+Carattere: errori = Percentuale
+A: 24 = 10.71%
+I O: 20 = 8.93%
+R: 18 = 8.04%
+U: 16 = 7.14%
+L: 14 = 6.25%
+S: 13 = 5.8%
+B N: 12 = 5.36%
+T: 10 = 4.46%
+E F G: 9 = 4.02%
+M P: 8 = 3.57%
+C D: 7 = 3.12%
+K: 3 = 1.34%
+X: 2 = 0.89%
+H J V: 1 = 0.45%
+Elenco delle parole copiate male:
+	(2) TX: grue, RX: mrae, DIF: gu;
+	(3) TX: capa, RX: capo, DIF: a;
+	(6) TX: balb, RX: brab, DIF: rl;
+	(8) TX: almo, RX: amlo, DIF: mm;
+	(9) TX: lupo, RX: rupo, DIF: l;
+	(12) TX: seso, RX: sime, DIF: imso;
+	(19) TX: gite, RX: gine, DIF: t;
+	(20) TX: kits, RX: kiti, DIF: s;
+	(21) TX: muda, RX: mudo, DIF: a;
+	(22) TX: osio, RX: osso, DIF: i;
+	(23) TX: robo, RX: lodo, DIF: rb;
+	(25) TX: bide, RX: bine, DIF: d;
+	(26) TX: ugni, RX: sine, DIF: ugi;
+	(28) TX: balb, RX: dalb, DIF: b;
+	(29) TX: pcus, RX: pace, DIF: aus;
+	(30) TX: nifi, RX: nife, DIF: i;
+	(32) TX: game, RX: gage, DIF: m;
+	(34) TX: lxiv, RX: lixv, DIF: ii;
+	(40) TX: crux, RX: culx, DIF: rl;
+	(41) TX: nerd, RX: nird, DIF: e;
+	(43) TX: gimo, RX: giro, DIF: m;
+	(44) TX: gina, RX: gita, DIF: n;
+	(46) TX: puni, RX: pinu, DIF: inni;
+	(47) TX: luni, RX: ludi, DIF: n;
+	(49) TX: dari, RX: bari, DIF: d;
+	(51) TX: gout, RX: gota, DIF: ua;
+	(52) TX: rife, RX: lele, DIF: rifle;
+	(53) TX: plum, RX: prom, DIF: lu;
+	(56) TX: baal, RX: barl, DIF: a;
+	(58) TX: umma, RX: utta, DIF: mm;
+	(59) TX: jais, RX: pasi, DIF: jss;
+	(61) TX: rane, RX: nrane, DIF: n;
+	(62) TX: bono, RX: dono, DIF: b;
+	(68) TX: witz, RX: pitz, DIF: w;
+	(71) TX: erbb, RX: elbb, DIF: r;
+	(73) TX: vaie, RX: vaee, DIF: ie;
+	(74) TX: ardo, RX: arno, DIF: d;
+	(77) TX: irak, RX: eric, DIF: errak;
+	(79) TX: luso, RX: lalo, DIF: us;
+	(80) TX: zoea, RX: goia, DIF: ze;
+	(81) TX: dies, RX: dise, DIF: ss;
+	(82) TX: usti, RX: viti, DIF: us;
+	(84) TX: vodu, RX: vodo, DIF: u;
+	(86) TX: roar, RX: lora, DIF: loor;
+	(88) TX: dont, RX: dona, DIF: t;
+	(90) TX: saga, RX: sana, DIF: g;
+	(91) TX: loft, RX: lofa, DIF: t;
+	(92) TX: moie, RX: moee, DIF: ie;
+	(93) TX: cubi, RX: cudi, DIF: b;
+	(97) TX: utre, RX: urna, DIF: te;
+	(98) TX: suga, RX: sura, DIF: g;
+	(99) TX: vudu, RX: vudv, DIF: u;
+	(103) TX: yoko, RX: coco, DIF: yk;
+	(109) TX: cupe, RX: cupo, DIF: e;
+	(112) TX: ange, RX: anee, DIF: ge;
+	(117) TX: fade, RX: fani, DIF: de;
+	(119) TX: libi, RX: ledi, DIF: edbi;
+	(121) TX: ligi, RX: lido, DIF: gi;
+	(123) TX: csar, RX: ciar, DIF: s;
+Errori totali: 224 su 492 = 45.53%
+Caratteri mai sbagliati: W Y Z
+Nota: nessuna
+***
