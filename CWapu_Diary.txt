@@ -1973,3 +1973,36 @@ Errori totali: 224 su 492 = 45.53%
 Caratteri mai sbagliati: W Y Z
 Nota: nessuna
 ***
+
+Esercizio di ricezione #22 eseguito il 2025/1/31 alle 20, 48 minuti:
+In questa sessione #22, ti ho inviato 47 Group e ne hai ricevuti 31: 66.0%
+	23 di questi sono stati ricevuti al primo ascolto: 74.2%
+	mentre 8 Group al secondo tentativo: 25.8%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 50: pari ad una variazione di 16 WPM.
+	La velocità media di ricezione è di: 43.2 WPM.
+Carattere: errori = Percentuale
+B: 4 = 8.89%
+E G Q W: 3 = 6.67%
+A C H L O P R T U X Y: 2 = 4.44%
+D F J K S V Z: 1 = 2.22%
+Elenco delle parole copiate male:
+	(10) TX: fpo, RX: fwo, DIF: p;
+	(16) TX: bol, RX: zol, DIF: b;
+	(17) TX: zyu, RX: zyd, DIF: u;
+	(21) TX: liu, RX: lia, DIF: u;
+	(22) TX: bgf, RX: dml, DIF: bgf;
+	(23) TX: pnr, RX: wpr, DIF: wn;
+	(28) TX: yqr, RX: yql, DIF: r;
+	(29) TX: ude, RX: ule, DIF: d;
+	(33) TX: zfp, RX: zrg, DIF: fp;
+	(35) TX: kpp, RX: kwp, DIF: wp;
+	(36) TX: gng, RX: mng, DIF: g;
+	(38) TX: sws, RX: swi, DIF: s;
+	(40) TX: atm, RX: amm, DIF: tm;
+	(41) TX: cph, RX: cws, DIF: ph;
+	(46) TX: ybu, RX: ydh, DIF: bu;
+	(47) TX: ozr, RX: mzw, DIF: or;
+Errori totali: 45 su 141 = 31.91%
+Caratteri mai sbagliati: I M N
+Nota: nessuna
+***
