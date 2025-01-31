@@ -2006,3 +2006,38 @@ Errori totali: 45 su 141 = 31.91%
 Caratteri mai sbagliati: I M N
 Nota: nessuna
 ***
+
+Esercizio di ricezione #23 eseguito il 2025/1/31 alle 22, 39 minuti:
+In questa sessione #23, ti ho inviato 40 words e ne hai ricevuti 26: 65.0%
+	20 di questi sono stati ricevuti al primo ascolto: 76.9%
+	mentre 6 words al secondo tentativo: 23.1%.
+Durante la sessione, la tua velocità minima è stata 24, la massima di 38: pari ad una variazione di 14 WPM.
+	La velocità media di ricezione è di: 29.2 WPM.
+Carattere: errori = Percentuale
+O: 11 = 13.25%
+A: 9 = 10.84%
+D M: 7 = 8.43%
+T: 6 = 7.23%
+C E I N R: 5 = 6.02%
+P S U: 4 = 4.82%
+G: 3 = 3.61%
+F H L: 1 = 1.2%
+Elenco delle parole copiate male:
+	(3) TX: tatuammo, RX: tatunno, DIF: amm;
+	(4) TX: superar, RX: superare, DIF: e;
+	(6) TX: mialgici, RX: mialiaci, DIF: ga;
+	(8) TX: degrada, RX: digrada, DIF: e;
+	(14) TX: ammetera, RX: ammettera, DIF: t;
+	(15) TX: didatti, RX: deicatti, DIF: ed;
+	(19) TX: postdato, RX: postidato, DIF: i;
+	(20) TX: globine, RX: globino, DIF: e;
+	(23) TX: adulassi, RX: adulasse, DIF: i;
+	(24) TX: pilucchi, RX: piluccie, DIF: he;
+	(29) TX: guantaie, RX: guantino, DIF: ae;
+	(37) TX: fulgidi, RX: fuldige, DIF: gige;
+	(38) TX: ammetero, RX: ammettero, DIF: t;
+	(40) TX: coiresti, RX: .pses, DIF: coirti;
+Errori totali: 83 su 284 = 29.23%
+Caratteri mai sbagliati: B Z
+Nota: nessuna
+***
