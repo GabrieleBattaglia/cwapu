@@ -3,10 +3,11 @@
 # GitHub publishing on july 2nd, 2024.
 # Integrating Github Copilot 19/11/2024
 
+#QI
 import sys, random, pickle, string, pyperclip, re, difflib
 import datetime as dt
 from GBUtils import key, dgt, menu
-from cwzator5 import *
+from CWZator6 import *
 from time import localtime as lt
 from time import sleep as wait
 from translations import translations
@@ -39,7 +40,7 @@ except IOError:
 	print(Trnsl('o_set_created',lang=app_language))
 
 #QConstants
-VERS="2.6.1, (2024-11-22)"
+VERS="2.7.0, (2025-02-05)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
