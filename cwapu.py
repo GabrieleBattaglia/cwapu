@@ -2,12 +2,11 @@
 # Data concepimento 21/12/2022.
 # GitHub publishing on july 2nd, 2024.
 
+#QI
 import sys, random, pickle, string, pyperclip, re, difflib
 import datetime as dt
-from GBUtils import key, dgt, menu
-from cwzator2 import *
+from GBUtils import key, dgt, menu, CWzator
 from time import localtime as lt
-from time import sleep as wait
 from translations import translations
 
 def Trnsl(key, lang='en', **kwargs):
@@ -19,26 +18,30 @@ def Trnsl(key, lang='en', **kwargs):
 app_language = ''
 overall_speed=0
 session_speed=0
-overall_hertz=0
+overall_pitch=0
 overall_dashes=0
 overall_spaces=0
 overall_dots=0
 overall_volume=0
+overall_ms=0
+overall_wave=0
+overall_fs=0
 overall_settings_changed=False
+SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
+WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 try:
 	f=open("CWapu_Overall.pkl", "rb")
-	app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume = pickle.load(f)
+	app_language, overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave = pickle.load(f)
 	session_speed=overall_speed
 	f.close()
 	print(Trnsl('o_set_loaded',lang=app_language))
 except IOError:
-	app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume = 'en', 18, 550, 30, 50, 50, 0.7
+	app_language, overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave = 'en', 18, 550, 30, 50, 50, 0.5, 1, 5, 1
 	session_speed=overall_speed
 	overall_settings_changed=True
 	print(Trnsl('o_set_created',lang=app_language))
-
 #QConstants
-VERS="2.5.12, (2024-11-27)"
+VERS="2.6.0, (2025-02-06)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -63,25 +66,40 @@ customized_set=''
 words=[]
 
 #qf
+def ItemChooser(items):
+	for i, item in enumerate(items, start=1):
+		print(f"{i}. {item}")
+	while True:
+		try:
+			choice = dgt	(prompt="N.? > ", kind="i", imin=1, imax=len(items), default=6)
+			if 1 <= choice <= len(items):
+				return choice - 1
+		except ValueError:
+			print("Inserisci un numero valido.")
 def KeyboardCW():
 	'''Settings for CW and tx with keyboard'''
-	global overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_settings_changed
+	global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_settings_changed,	overall_ms, overall_fs, overall_wave
 	print("\n"+Trnsl("h_keyboard",lang=app_language))
 	while True:
 		msg=sys.stdin.readline()
 		msg=msg[:-1]+" "
 		if msg==" ":
-			CWzator2(msg="73", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator(msg="73", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 			break
 		elif msg=="? ":
 			print("\n"+Trnsl("h_keyboard",lang=app_language))
 			msg=""
 		elif msg=="?? ":
-			print(f"WPM: {overall_speed}, Hz: {overall_hertz}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}.")
+			print(f"WPM: {overall_speed}, Hz: {overall_pitch}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {WAVE_TYPES[overall_wave-1]}, MS:	{overall_ms}, FS: {SAMPLE_RATES[overall_fs]}.")
+			msg=""
+		elif msg==".sr ":
+			overall_fs=ItemChooser(SAMPLE_RATES)
+			CWzator(msg=f"bk fs is {SAMPLE_RATES[overall_fs]} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
+			overall_settings_changed=True
 			msg=""
 		elif msg==".rs ":
 			overall_dashes, overall_spaces, overall_dots = 30, 50, 50
-			CWzator2(msg="bk reset ok bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator(msg="bk reset ok bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 			msg=""
 		elif msg.startswith("."):
 			msg = msg.lstrip('.')
@@ -91,39 +109,49 @@ def KeyboardCW():
 				value = match.group(2)
 				overall_settings_changed=True
 			else:
-				CWzator2(msg="?", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave, sync=True)
 			if cmd=="w":
 				overall_speed=int(value)
 				overall_speed = max(5, min(99, overall_speed))
-				CWzator2(msg=f"bk r w is {overall_speed} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator(msg=f"bk r w is {overall_speed} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
+				msg=""
+			elif cmd=="m":
+				overall_ms=int(value)
+				overall_ms = max(1, min(30, overall_ms))
+				CWzator(msg=f"bk r ms is {overall_ms} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
+				msg=""
+			elif cmd=="f":
+				overall_wave=int(value)
+				overall_wave= max(1, min(4, overall_wave))
+				CWzator(msg=f"bk r wave is {WAVE_TYPES[overall_wave-1]} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 				msg=""
 			elif cmd=="h":
-				overall_hertz=int(value)
-				overall_hertz = max(130, min(2700, overall_hertz))
-				CWzator2(msg=f"bk r h is {overall_hertz} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				overall_pitch=int(value)
+				overall_pitch = max(130, min(2700, overall_pitch))
+				CWzator(msg=f"bk r h is {overall_pitch} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 				msg=""
 			elif cmd=="l":
 				overall_dashes=int(value)
 				overall_dashes = max(1, min(99, overall_dashes))
-				CWzator2(msg=f"bk r l is {overall_dashes} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator(msg=f"bk r l is {overall_dashes} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 				msg=""
 			elif cmd=="s":
 				overall_spaces=int(value)
 				overall_spaces = max(3, min(99, overall_spaces))
-				CWzator2(msg=f"bk r s is {overall_spaces} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator(msg=f"bk r s is {overall_spaces} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 				msg=""
 			elif cmd=="p":
 				overall_dots=int(value)
 				overall_dots = max(1, min(99, overall_dots))
-				CWzator2(msg=f"bk r p is {overall_dots} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator(msg=f"bk r p is {overall_dots} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 				msg=""
 			elif cmd=="v":
 				overall_volume=int(value)
 				overall_volume = max(0, min(100, overall_volume))
 				overall_volume/=100
-				CWzator2(msg=f"bk r v is {int(overall_volume*100)} bk", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+				CWzator(msg=f"bk r v is {int(overall_volume*100)} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 				msg=""
-		if msg: CWzator2(msg=msg, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		if msg: CWzator(msg=msg, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 	print("Ciao\n")
 	return
 def LangSelector():
@@ -178,8 +206,8 @@ def CustomSet(overall_speed):
 			break
 		elif scelta not in cs and scelta!="\r":
 			cs.add(scelta)
-			CWzator2(msg=scelta, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
-		else: CWzator2(msg="?", wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator(msg=scelta, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
+		else: CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 	return "".join(cs)
 def GeneratingGroup(kind, length, wpm):
 	if kind == "1":
@@ -329,7 +357,7 @@ def AlwaysRight(yep, nope):
 	return letters - letters_misspelled
 def Rxing():
 	# receiving exercise
-	global words, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume
+	global words, overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume
 	print(Trnsl('time_to_receive', lang=app_language))
 	try:
 		with open('words.txt', 'r', encoding='utf-8') as file:
@@ -377,9 +405,9 @@ def Rxing():
 			qrz=Mkdqrz(c)
 		else:
 			qrz=GeneratingGroup(kind=kind, length=length, wpm=overall_speed)
-		pitch=random.randint(300, 1050)
+		pitch=random.randint(250, 1050)
 		prompt=f"S{sessions}-#{calls} - WPM{overall_speed} - +{len(callsget)}/-{len(callswrong)} - > "
-		CWzator2(msg=qrz, wpm=overall_speed, pitch=pitch, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+		CWzator(msg=qrz, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if guess==".":
 			calls-=1
@@ -387,7 +415,7 @@ def Rxing():
 		elif guess == "" or "?" in guess:
 			repeatedflag=True
 			prompt=f"S{sessions}-#{calls} - WPM{overall_speed} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
-			CWzator2(msg=qrz, wpm=overall_speed, pitch=pitch, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator(msg=qrz, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		callssend.append(qrz.lower())
 		guess=guess.lower(); qrz=qrz.lower()
@@ -464,7 +492,7 @@ def Rxing():
 
 #main
 print(Trnsl('welcome_message', lang=app_language, version=VERS))
-print(f"\t\tWPM = {overall_speed}, Hertz = {overall_hertz}, Lang = {app_language}\n\t\tCW Ratio L/S/P = {overall_dashes}/{overall_spaces}/{overall_dots}, Vol = {int(overall_volume*100)}")
+print(f"\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {WAVE_TYPES[overall_wave-1]}, MS:	{overall_ms}, FS: {SAMPLE_RATES[overall_fs]}.")
 
 while True:
 	k=menu(d=MNMAIN,show=False,keyslist=True,ntf=Trnsl('not_a_command', lang=app_language))
@@ -480,17 +508,16 @@ while True:
 		ltc=pyperclip.paste()
 		if ltc:
 			ltc=StringCleaning(ltc)
-			CWzator2(msg=ltc, wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
-		else: CWzator2(msg=Trnsl('empty_clipboard', lang=app_language), wpm=overall_speed, pitch=overall_hertz, dashes=overall_dashes, spaces=overall_spaces, dots=overall_dots, vol=overall_volume)
+			CWzator(msg=ltc, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
+		else: CWzator(msg=Trnsl('empty_clipboard', lang=app_language), wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wave=overall_wave)
 	elif k=="m": menu(d=Trnsl('menu_main', lang=app_language),show_only=True)
 	elif k=="w": CreateDictionary()
 	elif k=="q": break
 print(Trnsl('exit_message', lang=app_language))
-CWzator2(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=40, pitch=599)
 if overall_settings_changed or session_speed!=overall_speed:
 	f=open("CWapu_Overall.pkl", "wb")
-	pickle.dump([app_language, overall_speed, overall_hertz, overall_dashes, overall_spaces, overall_dots, overall_volume],f)
+	pickle.dump([app_language, overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave],f)
 	f.close()
 	print(Trnsl('o_set_saved',lang=app_language))
-wait(8.5)
+CWzator(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], sync=True, wave=overall_wave)
 sys.exit()
