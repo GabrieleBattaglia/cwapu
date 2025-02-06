@@ -2067,3 +2067,58 @@ Errori totali: 29 su 103 = 28.16%
 Caratteri mai sbagliati: B F G M
 Nota: nessuna
 ***
+
+Esercizio di ricezione #25 eseguito il 2025/2/6 alle 23, 32 minuti:
+In questa sessione #25, ti ho inviato 39 Group e ne hai ricevuti 29: 74.4%
+	26 di questi sono stati ricevuti al primo ascolto: 89.7%
+	mentre 3 Group al secondo tentativo: 10.3%.
+Durante la sessione, la tua velocità minima è stata 35, la massima di 53: pari ad una variazione di 18 WPM.
+	La velocità media di ricezione è di: 44.6 WPM.
+Carattere: errori = Percentuale
+J: 3 = 15.79%
+F I Z: 2 = 10.53%
+A B E K L N S U X Y: 1 = 5.26%
+Elenco delle parole copiate male:
+	(14) TX: fi, RX: fe, DIF: i;
+	(17) TX: fw, RX: um, DIF: fw;
+	(18) TX: xu, RX: ku, DIF: x;
+	(20) TX: ij, RX: sj, DIF: i;
+	(21) TX: cx, RX: kx, DIF: c;
+	(24) TX: iq, RX: sq, DIF: i;
+	(30) TX: qv, RX: gu, DIF: qv;
+	(32) TX: sx, RX: sk, DIF: x;
+	(33) TX: cg, RX: kg, DIF: c;
+	(38) TX: wg, RX: wp, DIF: g;
+Errori totali: 19 su 78 = 24.36%
+Caratteri mai sbagliati: C D G M O P Q R T V W
+Nota: nessuna
+***
+
+Esercizio di ricezione #26 eseguito il 2025/2/6 alle 23, 37 minuti:
+In questa sessione #26, ti ho inviato 44 Group e ne hai ricevuti 33: 75.0%
+	27 di questi sono stati ricevuti al primo ascolto: 81.8%
+	mentre 6 Group al secondo tentativo: 18.2%.
+Durante la sessione, la tua velocità minima è stata 26, la massima di 48: pari ad una variazione di 22 WPM.
+	La velocità media di ricezione è di: 38.2 WPM.
+Carattere: errori = Percentuale
+6 7: 5 = 16.67%
+2: 4 = 13.33%
+3 4 9: 3 = 10.0%
+0 1 8: 2 = 6.67%
+5: 1 = 3.33%
+Elenco delle parole copiate male:
+	(2) TX: 652, RX: 632, DIF: 5;
+	(13) TX: 818, RX: 828, DIF: 1;
+	(24) TX: 961, RX: 962, DIF: 1;
+	(26) TX: 593, RX: 503, DIF: 9;
+	(27) TX: 041, RX: 042, DIF: 1;
+	(28) TX: 708, RX: 808, DIF: 7;
+	(31) TX: 295, RX: 385, DIF: 29;
+	(35) TX: 179, RX: 198, DIF: 78;
+	(36) TX: 126, RX: 136, DIF: 2;
+	(39) TX: 385, RX: 375, DIF: 8;
+	(43) TX: 077, RX: 078, DIF: 7;
+Errori totali: 30 su 132 = 22.73%
+Caratteri mai sbagliati: 
+Nota: nessuna
+***
