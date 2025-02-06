@@ -2041,3 +2041,29 @@ Errori totali: 83 su 284 = 29.23%
 Caratteri mai sbagliati: B Z
 Nota: nessuna
 ***
+
+Esercizio di ricezione #24 eseguito il 2025/2/6 alle 16, 9 minuti:
+In questa sessione #24, ti ho inviato 22 words e ne hai ricevuti 13: 59.1%
+	11 di questi sono stati ricevuti al primo ascolto: 84.6%
+	mentre 2 words al secondo tentativo: 15.4%.
+Durante la sessione, la tua velocità minima è stata 33, la massima di 41: pari ad una variazione di 8 WPM.
+	La velocità media di ricezione è di: 36.6 WPM.
+Carattere: errori = Percentuale
+C: 5 = 17.24%
+E I O: 3 = 10.34%
+A R S: 2 = 6.9%
+D H L N P T U V Z: 1 = 3.45%
+Elenco delle parole copiate male:
+	(1) TX: zaba, RX: gaba, DIF: z;
+	(2) TX: lodge, RX: rodoe, DIF: lg;
+	(5) TX: sceda, RX: scelda, DIF: l;
+	(10) TX: blimp, RX: brimp, DIF: l;
+	(12) TX: suade, RX: svane, DIF: ud;
+	(17) TX: resca, RX: risa, DIF: ec;
+	(18) TX: emisi, RX: emima, DIF: si;
+	(19) TX: aderi, RX: adesa, DIF: ri;
+	(21) TX: ufizi, RX: ufzi, DIF: i;
+Errori totali: 29 su 103 = 28.16%
+Caratteri mai sbagliati: B F G M
+Nota: nessuna
+***
