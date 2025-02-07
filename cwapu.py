@@ -41,7 +41,7 @@ except IOError:
 	overall_settings_changed=True
 	print(Trnsl('o_set_created',lang=app_language))
 #QConstants
-VERS="2.7.0, (2025-02-07)"
+VERS="2.7.1, (2025-02-07)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -80,8 +80,12 @@ def KeyboardCW():
 	'''Settings for CW and tx with keyboard'''
 	global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_settings_changed,	overall_ms, overall_fs, overall_wave
 	print("\n"+Trnsl("h_keyboard",lang=app_language))
+	tosave=False
 	while True:
-		tosave=False
+		if tosave:
+			tosave=False
+			print("%>",end="",	flush=True)
+		print("> ",end="",	flush=True)
 		msg=sys.stdin.readline()
 		msg=msg[:-1]+" "
 		if msg==" ":
