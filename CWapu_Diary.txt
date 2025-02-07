@@ -2122,3 +2122,85 @@ Errori totali: 30 su 132 = 22.73%
 Caratteri mai sbagliati: 
 Nota: nessuna
 ***
+
+Esercizio di ricezione #27 eseguito il 2025/2/7 alle 12, 23 minuti:
+In questa sessione #27, ti ho inviato 51 Group e ne hai ricevuti 26: 51.0%
+	20 di questi sono stati ricevuti al primo ascolto: 76.9%
+	mentre 6 Group al secondo tentativo: 23.1%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 37: pari ad una variazione di 6 WPM.
+	La velocità media di ricezione è di: 33.1 WPM.
+Carattere: errori = Percentuale
+I N: 5 = 7.58%
+B: 4 = 6.06%
+4 8 F H O P R U X Z: 3 = 4.55%
+2 3 9 C K L W: 2 = 3.03%
+A E G J M Q V Y: 1 = 1.52%
+Elenco delle parole copiate male:
+	(1) TX: fyx, RX: acx, DIF: fy;
+	(2) TX: ubp, RX: udp, DIF: b;
+	(4) TX: zha, RX: zsa, DIF: h;
+	(8) TX: 84o, RX: 8ho, DIF: 4;
+	(9) TX: 2ih, RX: 2si, DIF: sh;
+	(10) TX: zim, RX: zsm, DIF: i;
+	(12) TX: 3ch, RX: 3cs, DIF: h;
+	(13) TX: bue, RX: bve, DIF: u;
+	(15) TX: lhp, RX: lsp, DIF: h;
+	(19) TX: fiv, RX: fsa, DIF: iv;
+	(20) TX: pws, RX: pwi, DIF: s;
+	(21) TX: glr, RX: zrr, DIF: glr;
+	(24) TX: n7r, RX: nzr, DIF: 7;
+	(25) TX: jbz, RX: jdz, DIF: b;
+	(28) TX: 0wz, RX: 0wg, DIF: z;
+	(29) TX: vn3, RX: un3, DIF: v;
+	(30) TX: dez, RX: deg, DIF: z;
+	(32) TX: ujl, RX: u1r, DIF: jl;
+	(35) TX: z4u, RX: 7uv, DIF: z4v;
+	(39) TX: sbn, RX: hnt, DIF: sbt;
+	(40) TX: him, RX: sim, DIF: h;
+	(42) TX: ira, RX: isa, DIF: r;
+	(45) TX: ksu, RX: kia, DIF: su;
+	(46) TX: 71u, RX: z1u, DIF: 7;
+	(51) TX: 44j, RX: vv2, DIF: 44j;
+Errori totali: 66 su 153 = 43.14%
+Caratteri mai sbagliati: 0 1 7 D S T
+Nota: nessuna
+***
+
+Esercizio di ricezione #28 eseguito il 2025/2/7 alle 12, 27 minuti:
+In questa sessione #28, ti ho inviato 33 words e ne hai ricevuti 17: 51.5%
+	10 di questi sono stati ricevuti al primo ascolto: 58.8%
+	mentre 7 words al secondo tentativo: 41.2%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 41: pari ad una variazione di 7 WPM.
+	La velocità media di ricezione è di: 36.7 WPM.
+Carattere: errori = Percentuale
+A: 12 = 13.79%
+I: 11 = 12.64%
+T: 8 = 9.2%
+E L: 7 = 8.05%
+O: 6 = 6.9%
+M V: 5 = 5.75%
+P S: 4 = 4.6%
+C N: 3 = 3.45%
+B G H R U: 2 = 2.3%
+D F: 1 = 1.15%
+Elenco delle parole copiate male:
+	(4) TX: edule, RX: edure, DIF: l;
+	(5) TX: ostali, RX: ostaci, DIF: l;
+	(6) TX: schive, RX: schivi, DIF: e;
+	(7) TX: gomita, RX: gomiti, DIF: a;
+	(8) TX: ubere, RX: uberi, DIF: e;
+	(13) TX: vilavi, RX: vilava, DIF: i;
+	(18) TX: asili, RX: assiri, DIF: sl;
+	(19) TX: paciai, RX: pacini, DIF: a;
+	(20) TX: ninfea, RX: ninche, DIF: fa;
+	(21) TX: salper, RX: sapleri, DIF: ppi;
+	(22) TX: scaldi, RX: scaldati, DIF: at;
+	(24) TX: kasbe, RX: kaske, DIF: b;
+	(26) TX: ducete, RX: buceti, DIF: de;
+	(28) TX: ignami, RX: igami, DIF: n;
+	(30) TX: verse, RX: versi, DIF: e;
+	(33) TX: surto, RX: sutro, DIF: tt;
+Errori totali: 87 su 183 = 47.54%
+Caratteri mai sbagliati: K
+Nota: nessuna
+***
