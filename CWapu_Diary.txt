@@ -2283,3 +2283,132 @@ Errori totali: 180 su 385 = 46.75%
 Caratteri mai sbagliati: 6 8 Y Z
 Nota: nessuna
 ***
+
+Esercizio di ricezione #30 eseguito il 2025/2/8 alle 19, 47 minuti:
+In questa sessione #30, ti ho inviato 24 Group e ne hai ricevuti 12: 50.0%
+	11 di questi sono stati ricevuti al primo ascolto: 91.7%
+	mentre 1 Group al secondo tentativo: 8.3%.
+Durante la sessione, la tua velocità minima è stata 39, la massima di 40: pari ad una variazione di 1 WPM.
+	La velocità media di ricezione è di: 39.0 WPM.
+Carattere: errori = Percentuale
+J U: 2 = 18.18%
+A D H I R X Z: 1 = 9.09%
+Elenco delle parole copiate male:
+	(1) TX: n, RX: j, DIF: n;
+	(3) TX: u, RX: j, DIF: u;
+	(5) TX: a, RX: j, DIF: a;
+	(7) TX: z, RX: f, DIF: z;
+	(9) TX: j, RX: k, DIF: j;
+	(11) TX: u, RX: o, DIF: u;
+	(13) TX: n, RX: j, DIF: n;
+	(15) TX: e, RX: k, DIF: e;
+	(17) TX: p, RX: i, DIF: p;
+	(19) TX: k, RX: j, DIF: k;
+	(21) TX: w, RX: j, DIF: w;
+	(23) TX: u, RX: j, DIF: u;
+Errori totali: 11 su 24 = 45.83%
+Caratteri mai sbagliati: E K N P W
+Nota: nessuna
+***
+
+Esercizio di ricezione #31 eseguito il 2025/2/8 alle 22, 30 minuti:
+In questa sessione #31, ti ho inviato 65 words e ne hai ricevuti 36: 55.4%
+	30 di questi sono stati ricevuti al primo ascolto: 83.3%
+	mentre 6 words al secondo tentativo: 16.7%.
+Durante la sessione, la tua velocità minima è stata 36, la massima di 44: pari ad una variazione di 8 WPM.
+	La velocità media di ricezione è di: 35.3 WPM.
+Carattere: errori = Percentuale
+E S: 13 = 10.66%
+A O: 11 = 9.02%
+I: 10 = 8.2%
+R T: 8 = 6.56%
+L: 7 = 5.74%
+F: 6 = 4.92%
+C M: 5 = 4.1%
+G P U: 4 = 3.28%
+B N Z: 3 = 2.46%
+V: 2 = 1.64%
+H Y: 1 = 0.82%
+Elenco delle parole copiate male:
+	(7) TX: seltz, RX: selano, DIF: tz;
+	(8) TX: leben, RX: leden, DIF: b;
+	(10) TX: testi, RX: tste, DIF: tssti;
+	(13) TX: merze, RX: merde, DIF: z;
+	(14) TX: psofi, RX: piovi, DIF: sf;
+	(16) TX: oeil, RX: oesl, DIF: i;
+	(17) TX: slams, RX: slami, DIF: s;
+	(22) TX: osino, RX: osito, DIF: n;
+	(23) TX: flip, RX: flap, DIF: i;
+	(24) TX: rieto, RX: letto, DIF: rit;
+	(25) TX: plata, RX: plana, DIF: t;
+	(28) TX: sosta, RX: soite, DIF: sa;
+	(33) TX: rondi, RX: ronde, DIF: i;
+	(35) TX: buh, RX: bs, DIF: uh;
+	(38) TX: spasa, RX: spia, DIF: isa;
+	(39) TX: coio, RX: coso, DIF: i;
+	(42) TX: burbe, RX: burbo, DIF: e;
+	(43) TX: nous, RX: nova, DIF: us;
+	(46) TX: esiga, RX: essta, DIF: ig;
+	(47) TX: velde, RX: vele, DIF: d;
+	(48) TX: gerbi, RX: gerde, DIF: bi;
+	(49) TX: forli, RX: forle, DIF: i;
+	(52) TX: vipre, RX: viper, DIF: ee;
+	(55) TX: igne, RX: igi, DIF: ne;
+	(56) TX: samoa, RX: samma, DIF: o;
+	(58) TX: stomi, RX: stooe, DIF: mi;
+	(62) TX: rison, RX: reson, DIF: i;
+	(63) TX: alme, RX: alae, DIF: m;
+	(65) TX: tigna, RX: .vsss, DIF: tigna;
+Errori totali: 122 su 301 = 40.53%
+Caratteri mai sbagliati: D X
+Nota: nessuna
+***
+
+Esercizio di ricezione #34 eseguito il 2025/2/8 alle 23, 14 minuti:
+In questa sessione #34, ti ho inviato 91 Group e ne hai ricevuti 61: 67.0%
+	43 di questi sono stati ricevuti al primo ascolto: 70.5%
+	mentre 18 Group al secondo tentativo: 29.5%.
+Durante la sessione, la tua velocità minima è stata 30, la massima di 65: pari ad una variazione di 35 WPM.
+	La velocità media di ricezione è di: 49.5 WPM.
+Carattere: errori = Percentuale
+B S: 7 = 12.5%
+X: 5 = 8.93%
+J: 4 = 7.14%
+F K Q Y: 3 = 5.36%
+C H I L M N O W: 2 = 3.57%
+G P T U Z: 1 = 1.79%
+Elenco delle parole copiate male:
+	(2) TX: sz, RX: sm, DIF: z;
+	(6) TX: jl, RX: jr, DIF: l;
+	(7) TX: hh, RX: sh, DIF: sh;
+	(14) TX: uy, RX: sy, DIF: u;
+	(18) TX: nb, RX: nd, DIF: b;
+	(25) TX: mb, RX: md, DIF: b;
+	(27) TX: sh, RX: hh, DIF: sh;
+	(33) TX: sj, RX: sp, DIF: j;
+	(44) TX: mb, RX: md, DIF: b;
+	(46) TX: vu, RX: uu, DIF: vu;
+	(50) TX: iv, RX: sv, DIF: i;
+	(54) TX: ln, RX: rn, DIF: l;
+	(55) TX: zi, RX: gs, DIF: zi;
+	(57) TX: zv, RX: mv, DIF: z;
+	(58) TX: fy, RX: lp, DIF: fy;
+	(62) TX: ox, RX: ok, DIF: x;
+	(63) TX: dg, RX: gk, DIF: dk;
+	(66) TX: ew, RX: em, DIF: w;
+	(68) TX: xs, RX: kh, DIF: xs;
+	(69) TX: zb, RX: gb, DIF: z;
+	(73) TX: lb, RX: rb, DIF: l;
+	(74) TX: sh, RX: hh, DIF: sh;
+	(78) TX: hc, RX: hb, DIF: c;
+	(80) TX: zf, RX: of, DIF: z;
+	(84) TX: rs, RX: ws, DIF: r;
+	(85) TX: ya, RX: oa, DIF: y;
+	(88) TX: hn, RX: sn, DIF: h;
+	(89) TX: uw, RX: aw, DIF: u;
+	(90) TX: xf, RX: kr, DIF: xf;
+	(91) TX: oy, RX: oq, DIF: y;
+Errori totali: 56 su 182 = 30.77%
+Caratteri mai sbagliati: A D E R V
+Nota: nessuna
+***
