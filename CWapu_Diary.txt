@@ -2412,3 +2412,62 @@ Errori totali: 56 su 182 = 30.77%
 Caratteri mai sbagliati: A D E R V
 Nota: nessuna
 ***
+
+Esercizio di ricezione #35 eseguito il 2025/2/9 alle 14, 51 minuti:
+In questa sessione #35, ti ho inviato 66 words e ne hai ricevuti 36: 54.5%
+	21 di questi sono stati ricevuti al primo ascolto: 58.3%
+	mentre 15 words al secondo tentativo: 41.7%.
+Durante la sessione, la tua velocità minima è stata 39, la massima di 49: pari ad una variazione di 10 WPM.
+	La velocità media di ricezione è di: 40.5 WPM.
+Carattere: errori = Percentuale
+A E: 13 = 10.32%
+T: 12 = 9.52%
+O: 11 = 8.73%
+I R: 8 = 6.35%
+B N: 7 = 5.56%
+L: 6 = 4.76%
+M U: 5 = 3.97%
+C D F H S: 4 = 3.17%
+G P: 3 = 2.38%
+Q V: 2 = 1.59%
+Z: 1 = 0.79%
+Elenco delle parole copiate male:
+	(7) TX: haiti, RX: haia, DIF: ti;
+	(8) TX: quivi, RX: quesai, DIF: esavi;
+	(12) TX: deuce, RX: duce, DIF: e;
+	(13) TX: botte, RX: dotte, DIF: b;
+	(15) TX: bruni, RX: dlrane, DIF: bui;
+	(22) TX: hanno, RX: sanno, DIF: h;
+	(23) TX: casto, RX: caito, DIF: s;
+	(24) TX: salt, RX: ialt, DIF: s;
+	(25) TX: fendi, RX: fende, DIF: i;
+	(27) TX: elido, RX: eleno, DIF: id;
+	(28) TX: menti, RX: mete, DIF: ni;
+	(29) TX: board, RX: doard, DIF: b;
+	(30) TX: fume, RX: fuare, DIF: m;
+	(31) TX: neon, RX: geon, DIF: n;
+	(32) TX: papio, RX: parto, DIF: pi;
+	(35) TX: verve, RX: tive, DIF: tirve;
+	(37) TX: vagii, RX: vagee, DIF: ii;
+	(38) TX: sere, RX: sera, DIF: e;
+	(41) TX: viro, RX: vero, DIF: i;
+	(43) TX: scon, RX: scont, DIF: t;
+	(48) TX: ovaia, RX: ovia, DIF: a;
+	(49) TX: zitti, RX: ziti, DIF: t;
+	(51) TX: baro, RX: daro, DIF: b;
+	(53) TX: tersa, RX: terea, DIF: s;
+	(55) TX: paleo, RX: pario, DIF: le;
+	(60) TX: asoli, RX: aimoi, DIF: sl;
+	(61) TX: hevee, RX: hivee, DIF: e;
+	(62) TX: arsa, RX: aria, DIF: s;
+	(65) TX: anari, RX: anai, DIF: r;
+	(66) TX: lene, RX: lete, DIF: n;
+Errori totali: 126 su 297 = 42.42%
+Caratteri mai sbagliati: 
+Nota: nessuna
+***
+Esercizio di conteggio #98 eseguito il 2025/2/9 alle 16, 41 minuti:
+Totale: 176, corrette: 129, errori(%): 26.70%.
+Fallito: 20.70% oltre la soglia.
+Nota: test
+***

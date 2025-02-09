@@ -41,7 +41,7 @@ except IOError:
 	overall_settings_changed=True
 	print(Trnsl('o_set_created',lang=app_language))
 #QConstants
-VERS="2.7.2, (2025-02-08)"
+VERS="2.7.3, (2025-02-09)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -261,8 +261,8 @@ def Txing():
 	print(Trnsl('bye_message', lang=app_language))
 	return
 def Count():
-	from winsound import Beep as B
 	print(Trnsl('counting_prompt', lang=app_language))
+	from	GBUtils import Acusticator as Ac
 	try:
 		f=open("CWapu_Index.pkl", "rb")
 		esnum=pickle.load(f)
@@ -272,13 +272,13 @@ def Count():
 	cont = 0
 	corr = 0
 	scelta = ""
-	B(350,200)
+	Ac([350,.2,0,.5],sync=True)
 	print(Trnsl('exercise_number', lang=app_language, esnum=esnum))
 	while True:
-		if cont % 100 == 0: B(1600, 200)
-		elif cont % 50 == 0: B(1150, 80)
-		elif cont % 25 == 0: B(900, 60)
-		elif cont % 10 == 0: B(600, 40)
+		if cont % 100 == 0: Ac([1600, .2,0,.5],sync=True)
+		elif cont % 50 == 0: Ac([1150, .080,0,.5],sync=True)
+		elif cont % 25 == 0: Ac([900, .060,0,.5],sync=True)
+		elif cont % 10 == 0: Ac([600, .040,0,.5],sync=True)
 		if corr > 0:
 			prompt = f"T{cont}, {corr*100/cont:.2f}%, C{corr}/N{cont-corr}> "
 		else:
@@ -286,10 +286,10 @@ def Count():
 		scelta=key("\n"+prompt)
 		if scelta == " ":
 			corr += 1
-			B(1380,15)
+			Ac([1380,.015,0,.5],sync=True)
 		elif ord(scelta) == 27: break
 		else:
-			B(310,25)
+			Ac([310,.025,0,.5],sync=True)
 		cont+=1
 	cont-=1
 	if cont > 0:
