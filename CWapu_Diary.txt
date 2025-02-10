@@ -2471,3 +2471,52 @@ Totale: 176, corrette: 129, errori(%): 26.70%.
 Fallito: 20.70% oltre la soglia.
 Nota: test
 ***
+
+Esercizio di ricezione #36 eseguito il 2025/2/10 alle 0, 4 minuti:
+In questa sessione #36, ti ho inviato 56 words e ne hai ricevuti 30: 53.6%
+	24 di questi sono stati ricevuti al primo ascolto: 80.0%
+	mentre 6 words al secondo tentativo: 20.0%.
+Durante la sessione, la tua velocità minima è stata 39, la massima di 47: pari ad una variazione di 8 WPM.
+	La velocità media di ricezione è di: 42.3 WPM.
+Carattere: errori = Percentuale
+T: 16 = 13.79%
+E O: 11 = 9.48%
+A I R: 9 = 7.76%
+L S: 7 = 6.03%
+N: 6 = 5.17%
+U: 5 = 4.31%
+B D P: 4 = 3.45%
+C M: 3 = 2.59%
+G: 2 = 1.72%
+F H J V X Z: 1 = 0.86%
+Elenco delle parole copiate male:
+	(8) TX: bille, RX: birre, DIF: ll;
+	(10) TX: omisi, RX: onisi, DIF: m;
+	(11) TX: pigia, RX: pinea, DIF: gi;
+	(16) TX: aiate, RX: aita, DIF: tte;
+	(17) TX: mills, RX: mille, DIF: s;
+	(18) TX: ninja, RX: nimpa, DIF: nj;
+	(22) TX: etnei, RX: etnie, DIF: ii;
+	(23) TX: siede, RX: side, DIF: e;
+	(24) TX: cba, RX: cda, DIF: b;
+	(25) TX: tonta, RX: tonna, DIF: t;
+	(27) TX: nievi, RX: nevia, DIF: ia;
+	(28) TX: marmi, RX: marme, DIF: i;
+	(30) TX: heine, RX: hine, DIF: e;
+	(31) TX: isolo, RX: siolo, DIF: ss;
+	(33) TX: eteni, RX: etene, DIF: i;
+	(35) TX: stuti, RX: saute, DIF: ti;
+	(38) TX: atomi, RX: attoi, DIF: tm;
+	(39) TX: voma, RX: vomi, DIF: a;
+	(43) TX: uris, RX: urss, DIF: is;
+	(44) TX: samoa, RX: hamoa, DIF: s;
+	(46) TX: banzi, RX: bands, DIF: zi;
+	(49) TX: riusc, RX: ruiuc, DIF: us;
+	(50) TX: cubie, RX: cubei, DIF: ee;
+	(52) TX: irchi, RX: archi, DIF: i;
+	(53) TX: pager, RX: parme, DIF: gr;
+	(54) TX: mah, RX: math, DIF: t;
+Errori totali: 116 su 259 = 44.79%
+Caratteri mai sbagliati: Y
+Nota: nessuna
+***
