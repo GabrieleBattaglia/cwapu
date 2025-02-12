@@ -2520,3 +2520,80 @@ Errori totali: 116 su 259 = 44.79%
 Caratteri mai sbagliati: Y
 Nota: nessuna
 ***
+
+Esercizio di ricezione #37 eseguito il 2025/2/12 alle 20, 9 minuti:
+In questa sessione #37, ti ho inviato 109 words e ne hai ricevuti 60: 55.0%
+	43 di questi sono stati ricevuti al primo ascolto: 71.7%
+	mentre 17 words al secondo tentativo: 28.3%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 46: pari ad una variazione di 15 WPM.
+	La velocità media di ricezione è di: 40.0 WPM.
+Carattere: errori = Percentuale
+A: 37 = 15.35%
+I: 21 = 8.71%
+E T: 19 = 7.88%
+O: 18 = 7.47%
+R: 17 = 7.05%
+C: 16 = 6.64%
+N: 14 = 5.81%
+D M: 10 = 4.15%
+S U V: 9 = 3.73%
+L P: 7 = 2.9%
+G: 6 = 2.49%
+B: 5 = 2.07%
+H: 3 = 1.24%
+F Z: 2 = 0.83%
+X: 1 = 0.41%
+Elenco delle parole copiate male:
+	(4) TX: igina, RX: izina, DIF: g;
+	(6) TX: giacca, RX: giacci, DIF: a;
+	(10) TX: panse, RX: ansi, DIF: pe;
+	(12) TX: campra, RX: campre, DIF: a;
+	(14) TX: cacti, RX: caci, DIF: t;
+	(19) TX: valuta, RX: valvea, DIF: ut;
+	(20) TX: cesoie, RX: cesori, DIF: re;
+	(25) TX: evitte, RX: evito, DIF: te;
+	(26) TX: usmi, RX: umie, DIF: se;
+	(27) TX: eredai, RX: areni, DIF: eda;
+	(34) TX: basite, RX: baset, DIF: ie;
+	(37) TX: idroma, RX: idioma, DIF: r;
+	(38) TX: raidue, RX: rainae, DIF: du;
+	(40) TX: avan, RX: ivan, DIF: a;
+	(41) TX: imeno, RX: imeto, DIF: n;
+	(45) TX: ungeva, RX: ungese, DIF: va;
+	(47) TX: casosi, RX: caioss, DIF: si;
+	(50) TX: bearne, RX: beare, DIF: n;
+	(53) TX: niubbe, RX: nudde, DIF: ibb;
+	(55) TX: saghi, RX: sagis, DIF: hs;
+	(56) TX: stolgo, RX: stoloo, DIF: go;
+	(57) TX: devoti, RX: devote, DIF: i;
+	(59) TX: ghezzi, RX: gizzi, DIF: he;
+	(60) TX: basii, RX: bassi, DIF: si;
+	(61) TX: liale, RX: leali, DIF: leaale;
+	(64) TX: gomita, RX: gomiti, DIF: a;
+	(68) TX: stipi, RX: sali, DIF: tpi;
+	(70) TX: areche, RX: arech, DIF: e;
+	(71) TX: cenisi, RX: cenis, DIF: i;
+	(72) TX: arsi, RX: aris, DIF: ii;
+	(73) TX: agiste, RX: apisi, DIF: gte;
+	(76) TX: sfrena, RX: sfena, DIF: r;
+	(80) TX: esame, RX: espi, DIF: ame;
+	(82) TX: etnica, RX: emica, DIF: tn;
+	(83) TX: sciata, RX: sciana, DIF: t;
+	(84) TX: bobbia, RX: bobbi, DIF: a;
+	(87) TX: inosso, RX: anoio, DIF: iss;
+	(88) TX: ideata, RX: edita, DIF: eddea;
+	(92) TX: dafnie, RX: dafne, DIF: i;
+	(94) TX: ofiure, RX: olive, DIF: fur;
+	(95) TX: orbito, RX: ordito, DIF: b;
+	(96) TX: lolla, RX: lollo, DIF: a;
+	(98) TX: magro, RX: mago, DIF: r;
+	(100) TX: ariane, RX: arine, DIF: a;
+	(101) TX: nuoti, RX: nuote, DIF: i;
+	(104) TX: player, RX: placer, DIF: y;
+	(106) TX: linite, RX: litai, DIF: nte;
+	(107) TX: kendo, RX: cenno, DIF: kd;
+	(108) TX: ponevi, RX: ponevo, DIF: i;
+Errori totali: 241 su 582 = 41.41%
+Caratteri mai sbagliati: K Y
+Nota: nessuna
+***
