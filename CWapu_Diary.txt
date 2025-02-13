@@ -2668,3 +2668,42 @@ Errori totali: 177 su 426 = 41.55%
 Caratteri mai sbagliati: Y
 Nota: nessuna
 ***
+
+Esercizio di ricezione #39 eseguito il 2025/2/13 alle 15, 12 minuti:
+In questa sessione #39, ti ho inviato 30 words e ne hai ricevuti 14: 46.7%
+	8 di questi sono stati ricevuti al primo ascolto: 57.1%
+	mentre 6 words al secondo tentativo: 42.9%.
+Durante la sessione, la tua velocità minima è stata 27, la massima di 35: pari ad una variazione di 8 WPM.
+	La velocità media di ricezione è di: 31.2 WPM.
+Carattere: errori = Percentuale
+A E: 12 = 10.91%
+I R: 10 = 9.09%
+N: 9 = 8.18%
+O T: 8 = 7.27%
+C: 6 = 5.45%
+D S: 5 = 4.55%
+G L V: 4 = 3.64%
+B M: 3 = 2.73%
+P U: 2 = 1.82%
+F H Z: 1 = 0.91%
+Elenco delle parole copiate male:
+	(1) TX: oprante, RX: operane, DIF: et;
+	(3) TX: aho, RX: aso, DIF: h;
+	(4) TX: screate, RX: scritae, DIF: itaate;
+	(6) TX: ripire, RX: reperire, DIF: ier;
+	(8) TX: gradero, RX: grandone, DIF: nonro;
+	(9) TX: sennato, RX: senato, DIF: n;
+	(10) TX: modestia, RX: modesta, DIF: i;
+	(12) TX: rieleggi, RX: rilegge, DIF: ei;
+	(13) TX: riai, RX: reae, DIF: ii;
+	(15) TX: regnava, RX: reggava, DIF: n;
+	(16) TX: zostera, RX: zoistea, DIF: ir;
+	(17) TX: sanit, RX: hanit, DIF: s;
+	(18) TX: veritadi, RX: veritade, DIF: i;
+	(21) TX: diserbai, RX: diserdai, DIF: b;
+	(28) TX: brigante, RX: brignate, DIF: nn;
+	(29) TX: tabulava, RX: tadulava, DIF: b;
+Errori totali: 110 su 202 = 54.46%
+Caratteri mai sbagliati: 
+Nota: nessuna
+***
