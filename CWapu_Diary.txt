@@ -2936,3 +2936,51 @@ Errori totali: 99 su 267 = 37.08%
 Caratteri mai sbagliati: H K Y
 Nota: nessuna
 ***
+
+Esercizio di ricezione #44 eseguito il 2025/2/15 alle 9, 16 minuti:
+In questa sessione #44, ti ho inviato 52 words e ne hai ricevuti 25: 48.1%
+	20 di questi sono stati ricevuti al primo ascolto: 80.0%
+	mentre 5 words al secondo tentativo: 20.0%.
+Durante la sessione, la tua velocità minima è stata 24, la massima di 41: pari ad una variazione di 17 WPM.
+	La velocità media di ricezione è di: 34.0 WPM.
+Carattere: errori = Percentuale
+A U: 10 = 8.7%
+E I L O: 9 = 7.83%
+C R S T: 7 = 6.09%
+N: 6 = 5.22%
+D: 5 = 4.35%
+B F M: 4 = 3.48%
+P V: 3 = 2.61%
+G H: 1 = 0.87%
+Elenco delle parole copiate male:
+	(3) TX: vanti, RX: vani, DIF: t;
+	(4) TX: rifu, RX: rifa, DIF: u;
+	(6) TX: bantu, RX: banto, DIF: u;
+	(7) TX: sorse, RX: horse, DIF: s;
+	(11) TX: ludre, RX: lunri, DIF: de;
+	(13) TX: dna, RX: nda, DIF: nn;
+	(14) TX: foibe, RX: , DIF: foibe;
+	(15) TX: nitri, RX: nitir, DIF: ii;
+	(18) TX: omise, RX: omisi, DIF: e;
+	(19) TX: acui, RX: , DIF: acui;
+	(20) TX: velto, RX: velo, DIF: t;
+	(22) TX: rhum, RX: , DIF: rhum;
+	(23) TX: elci, RX: , DIF: elci;
+	(24) TX: note, RX: , DIF: note;
+	(25) TX: ranci, RX: , DIF: ranci;
+	(26) TX: brr, RX: , DIF: brr;
+	(27) TX: alca, RX: , DIF: alca;
+	(28) TX: grida, RX: , DIF: grida;
+	(29) TX: sesie, RX: , DIF: sesie;
+	(30) TX: gira, RX: , DIF: gira;
+	(31) TX: besce, RX: , DIF: besce;
+	(32) TX: origi, RX: , DIF: origi;
+	(33) TX: nata, RX: , DIF: nata;
+	(34) TX: vulva, RX: , DIF: vulva;
+	(35) TX: dry, RX: , DIF: dry;
+	(49) TX: diede, RX: dide, DIF: e;
+	(51) TX: zefir, RX: ziera, DIF: ifia;
+Errori totali: 115 su 236 = 48.73%
+Caratteri mai sbagliati: Y Z
+Nota: nessuna
+***
