@@ -2984,3 +2984,31 @@ Errori totali: 115 su 236 = 48.73%
 Caratteri mai sbagliati: Y Z
 Nota: nessuna
 ***
+
+Esercizio di ricezione #45 eseguito il 2025/2/17 alle 23, 3 minuti:
+In questa sessione #45, ti ho inviato 27 words e ne hai ricevuti 18: 66.7%
+	14 di questi sono stati ricevuti al primo ascolto: 77.8%
+	mentre 4 words al secondo tentativo: 22.2%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 39: pari ad una variazione di 8 WPM.
+	La velocità media di ricezione è di: 42.0 WPM.
+Carattere: errori = Percentuale
+O: 6 = 14.63%
+E: 5 = 12.2%
+I Z: 4 = 9.76%
+A L R S: 3 = 7.32%
+M N U: 2 = 4.88%
+C P T W: 1 = 2.44%
+Elenco delle parole copiate male:
+	(3) TX: ireos, RX: eroi, DIF: eroreos;
+	(5) TX: shaw, RX: shew, DIF: a;
+	(10) TX: rezzi, RX: rizzi, DIF: e;
+	(11) TX: miola, RX: mioli, DIF: a;
+	(18) TX: brahe, RX: brass, DIF: he;
+	(19) TX: otri, RX: otra, DIF: i;
+	(20) TX: isba, RX: sida, DIF: ssb;
+	(23) TX: scart, RX: scara, DIF: t;
+	(24) TX: pinze, RX: pinzi, DIF: e;
+Errori totali: 41 su 129 = 31.78%
+Caratteri mai sbagliati: B D F H V Y
+Nota: nessuna
+***
