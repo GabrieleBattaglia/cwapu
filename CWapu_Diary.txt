@@ -3091,3 +3091,56 @@ Errori totali: 58 su 121 = 47.93%
 Caratteri mai sbagliati: B
 Nota: nessuna
 ***
+
+Esercizio di ricezione #48 eseguito il 2025/3/3 alle 12, 22 minuti:
+In questa sessione #48, ti ho inviato 72 words e ne hai ricevuti 42: 58.3%
+	29 di questi sono stati ricevuti al primo ascolto: 69.0%
+	mentre 13 words al secondo tentativo: 31.0%.
+Durante la sessione, la tua velocità minima è stata 35, la massima di 50: pari ad una variazione di 15 WPM.
+	La velocità media di ricezione è di: 44.0 WPM.
+Carattere: errori = Percentuale
+A: 16 = 13.45%
+O: 12 = 10.08%
+R: 10 = 8.4%
+I L P: 8 = 6.72%
+E F M S: 7 = 5.88%
+C T V: 5 = 4.2%
+N: 4 = 3.36%
+D: 3 = 2.52%
+B Z: 2 = 1.68%
+G U W: 1 = 0.84%
+Elenco delle parole copiate male:
+	(2) TX: lifta, RX: lifea, DIF: t;
+	(4) TX: colmi, RX: colme, DIF: i;
+	(15) TX: eia, RX: esa, DIF: i;
+	(16) TX: fala, RX: fara, DIF: l;
+	(18) TX: grici, RX: griga, DIF: ci;
+	(22) TX: dolze, RX: dolge, DIF: z;
+	(25) TX: pione, RX: pioe, DIF: n;
+	(26) TX: azima, RX: azia, DIF: m;
+	(29) TX: soffi, RX: solfa, DIF: lfi;
+	(30) TX: lifta, RX: lefva, DIF: it;
+	(33) TX: sieda, RX: seda, DIF: i;
+	(35) TX: nari, RX: mani, DIF: maar;
+	(39) TX: opus, RX: olvi, DIF: pus;
+	(41) TX: kyi, RX: cyi, DIF: k;
+	(42) TX: bollo, RX: borro, DIF: ll;
+	(44) TX: zuave, RX: zivi, DIF: uae;
+	(47) TX: ruoto, RX: rameo, DIF: uto;
+	(48) TX: paghi, RX: pazie, DIF: ghe;
+	(49) TX: langa, RX: linga, DIF: a;
+	(50) TX: cicci, RX: cecci, DIF: i;
+	(52) TX: atciu, RX: anche, DIF: tiu;
+	(53) TX: notes, RX: nose, DIF: ts;
+	(58) TX: delia, RX: delta, DIF: i;
+	(59) TX: nivea, RX: divea, DIF: n;
+	(61) TX: jaine, RX: paia, DIF: jne;
+	(65) TX: tersi, RX: tris, DIF: eii;
+	(68) TX: eremi, RX: edmi, DIF: re;
+	(69) TX: cader, RX: cadea, DIF: r;
+	(71) TX: nerbi, RX: nelta, DIF: rbi;
+	(72) TX: rende, RX: rede, DIF: n;
+Errori totali: 119 su 331 = 35.95%
+Caratteri mai sbagliati: H J K Y
+Nota: nessuna
+***
