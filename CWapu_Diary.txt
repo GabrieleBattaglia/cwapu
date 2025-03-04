@@ -3144,3 +3144,45 @@ Errori totali: 119 su 331 = 35.95%
 Caratteri mai sbagliati: H J K Y
 Nota: nessuna
 ***
+
+Esercizio di ricezione #49 eseguito il 2025/3/4 alle 22, 51 minuti:
+In questa sessione #49, ti ho inviato 40 words e ne hai ricevuti 19: 47.5%
+	14 di questi sono stati ricevuti al primo ascolto: 73.7%
+	mentre 5 words al secondo tentativo: 26.3%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 37: pari ad una variazione di 6 WPM.
+	La velocità media di ricezione è di: 37.3 WPM.
+Carattere: errori = Percentuale
+I: 9 = 11.54%
+A N O: 7 = 8.97%
+M: 6 = 7.69%
+E: 5 = 6.41%
+L R V Z: 4 = 5.13%
+C D T U: 3 = 3.85%
+B G P S: 2 = 2.56%
+Y: 1 = 1.28%
+Elenco delle parole copiate male:
+	(1) TX: folse, RX: folet, DIF: st;
+	(4) TX: coiai, RX: cosan, DIF: ii;
+	(5) TX: ulimi, RX: urimi, DIF: l;
+	(6) TX: ambre, RX: ambra, DIF: e;
+	(7) TX: muli, RX: muri, DIF: l;
+	(8) TX: reta, RX: rita, DIF: e;
+	(9) TX: peata, RX: penta, DIF: a;
+	(11) TX: rauno, RX: raudo, DIF: n;
+	(14) TX: grani, RX: grano, DIF: i;
+	(16) TX: velma, RX: vilma, DIF: e;
+	(20) TX: buine, RX: bunde, DIF: id;
+	(24) TX: evadi, RX: uride, DIF: uridvadi;
+	(25) TX: salpa, RX: salpèa, DIF: è;
+	(26) TX: felpa, RX: felop, DIF: oa;
+	(29) TX: usl, RX: usc, DIF: l;
+	(30) TX: pian, RX: pinta, DIF: ntn;
+	(32) TX: geste, RX: gite, DIF: es;
+	(33) TX: palto, RX: parto, DIF: l;
+	(34) TX: bangi, RX: bande, DIF: gi;
+	(35) TX: arene, RX: arneie, DIF: eie;
+	(38) TX: temei, RX: time, DIF: ei;
+Errori totali: 78 su 187 = 41.71%
+Caratteri mai sbagliati: F
+Nota: nessuna
+***
