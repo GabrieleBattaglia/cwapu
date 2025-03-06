@@ -3186,3 +3186,68 @@ Errori totali: 78 su 187 = 41.71%
 Caratteri mai sbagliati: F
 Nota: nessuna
 ***
+
+Esercizio di ricezione #50 eseguito il 2025/3/6 alle 7, 6 minuti:
+In questa sessione #50, ti ho inviato 103 Group e ne hai ricevuti 59: 57.3%
+	42 di questi sono stati ricevuti al primo ascolto: 71.2%
+	mentre 17 Group al secondo tentativo: 28.8%.
+Durante la sessione, la tua velocità minima è stata 35, la massima di 50: pari ad una variazione di 15 WPM.
+	La velocità media di ricezione è di: 42.1 WPM.
+Carattere: errori = Percentuale
+V: 10 = 7.94%
+H Y: 8 = 6.35%
+A O T W: 7 = 5.56%
+K M: 6 = 4.76%
+G J R X: 5 = 3.97%
+B E I Q S U: 4 = 3.17%
+C F N Z: 3 = 2.38%
+D P: 2 = 1.59%
+Elenco delle parole copiate male:
+	(4) TX: uhz, RX: usz, DIF: h;
+	(10) TX: ovs, RX: ovi, DIF: s;
+	(12) TX: gvr, RX: zsr, DIF: gv;
+	(16) TX: yvv, RX: yuu, DIF: vv;
+	(22) TX: zjy, RX: zwy, DIF: j;
+	(25) TX: aab, RX: aad, DIF: b;
+	(27) TX: zbp, RX: zgw, DIF: bp;
+	(30) TX: ode, RX: one, DIF: d;
+	(33) TX: xwf, RX: xwr, DIF: f;
+	(34) TX: kph, RX: kah, DIF: p;
+	(35) TX: ssd, RX: sid, DIF: s;
+	(36) TX: vgh, RX: vzh, DIF: g;
+	(39) TX: uqv, RX: uyv, DIF: q;
+	(41) TX: rpy, RX: rwy, DIF: p;
+	(44) TX: hob, RX: hoz, DIF: b;
+	(46) TX: mbl, RX: mdl, DIF: b;
+	(48) TX: nur, RX: nar, DIF: u;
+	(49) TX: fou, RX: foa, DIF: u;
+	(50) TX: jsw, RX: jiw, DIF: s;
+	(52) TX: chb, RX: csb, DIF: h;
+	(53) TX: pza, RX: prq, DIF: za;
+	(54) TX: fvb, RX: fub, DIF: v;
+	(57) TX: zph, RX: wpi, DIF: zh;
+	(58) TX: qwb, RX: qwd, DIF: b;
+	(60) TX: vhn, RX: vin, DIF: h;
+	(62) TX: idj, RX: inj, DIF: d;
+	(63) TX: owv, RX: owa, DIF: v;
+	(64) TX: xhx, RX: xsx, DIF: h;
+	(65) TX: kpe, RX: kpi, DIF: e;
+	(67) TX: dwi, RX: drg, DIF: wi;
+	(68) TX: lla, RX: lra, DIF: l;
+	(70) TX: psy, RX: piy, DIF: s;
+	(71) TX: fex, RX: rex, DIF: f;
+	(73) TX: gir, RX: zid, DIF: gr;
+	(75) TX: wbv, RX: wdu, DIF: bv;
+	(76) TX: lab, RX: lad, DIF: b;
+	(81) TX: hal, RX: sal, DIF: h;
+	(82) TX: pxr, RX: pkr, DIF: x;
+	(89) TX: rfs, RX: rrs, DIF: f;
+	(92) TX: vpy, RX: vwy, DIF: p;
+	(94) TX: typ, RX: top, DIF: y;
+	(96) TX: lyf, RX: lyr, DIF: f;
+	(99) TX: mqv, RX: mqu, DIF: v;
+	(100) TX: gtb, RX: gtd, DIF: b;
+Errori totali: 126 su 309 = 40.78%
+Caratteri mai sbagliati: L
+Nota: nessuna
+***
