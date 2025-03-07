@@ -3251,3 +3251,40 @@ Errori totali: 126 su 309 = 40.78%
 Caratteri mai sbagliati: L
 Nota: nessuna
 ***
+
+Esercizio di ricezione #51 eseguito il 2025/3/7 alle 9, 2 minuti:
+In questa sessione #51, ti ho inviato 41 Call-like e ne hai ricevuti 23: 56.1%
+	17 di questi sono stati ricevuti al primo ascolto: 73.9%
+	mentre 6 Call-like al secondo tentativo: 26.1%.
+Durante la sessione, la tua velocità minima è stata 27, la massima di 35: pari ad una variazione di 8 WPM.
+	La velocità media di ricezione è di: 30.7 WPM.
+Carattere: errori = Percentuale
+O: 6 = 7.06%
+3 K: 5 = 5.88%
+0 F G W: 4 = 4.71%
+8 B L M S T V Z: 3 = 3.53%
+1 6 7 9 A E I J N Q R: 2 = 2.35%
+2 4 C D H U Y: 1 = 1.18%
+Elenco delle parole copiate male:
+	(1) TX: v6yxx, RX: u6yxx, DIF: v;
+	(3) TX: hv8ikm, RX: sv8ikm, DIF: h;
+	(6) TX: b3ils, RX: b3iwl, DIF: ws;
+	(11) TX: rb1wx, RX: rb2jx, DIF: 1w;
+	(12) TX: gd6zmv, RX: gd7zmu, DIF: 6v;
+	(17) TX: oa3umf, RX: oa3uaf, DIF: m;
+	(19) TX: h5ri, RX: h5rs, DIF: i;
+	(22) TX: l3ens, RX: l2eds, DIF: 3n;
+	(24) TX: i06z, RX: i0bz, DIF: 6;
+	(25) TX: dp2bsa, RX: dp2zia, DIF: bs;
+	(26) TX: v6zxk, RX: u6dxo, DIF: vzk;
+	(30) TX: lq2cm, RX: lq2ym, DIF: c;
+	(31) TX: md4zbj, RX: m, DIF: d4zbj;
+	(32) TX: ah3bif, RX: ah3dhf, DIF: bi;
+	(34) TX: xl2ml, RX: xl3ml, DIF: 2;
+	(35) TX: mu9cpj, RX: m, DIF: u9cpj;
+	(36) TX: to0bxq, RX: tm0bxq, DIF: o;
+	(38) TX: lm2hty, RX: lm, DIF: 2hty;
+Errori totali: 85 su 209 = 40.67%
+Caratteri mai sbagliati: 5 P X
+Nota: nessuna
+***
