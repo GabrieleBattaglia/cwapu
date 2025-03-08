@@ -3288,3 +3288,90 @@ Errori totali: 85 su 209 = 40.67%
 Caratteri mai sbagliati: 5 P X
 Nota: nessuna
 ***
+
+Esercizio di ricezione #52 eseguito il 2025/3/8 alle 23, 54 minuti:
+In questa sessione #52, ti ho inviato 131 Group e ne hai ricevuti 67: 51.1%
+	45 di questi sono stati ricevuti al primo ascolto: 67.2%
+	mentre 22 Group al secondo tentativo: 32.8%.
+Durante la sessione, la tua velocità minima è stata 33, la massima di 43: pari ad una variazione di 10 WPM.
+	La velocità media di ricezione è di: 37.5 WPM.
+Carattere: errori = Percentuale
+Y: 10 = 5.32%
+K: 9 = 4.79%
+A F G: 8 = 4.26%
+B C H M N Z: 7 = 3.72%
+1 4 6 L R: 6 = 3.19%
+3 D I Q S U V W: 5 = 2.66%
+2 7 J O X: 4 = 2.13%
+T: 3 = 1.6%
+5 8 E P: 2 = 1.06%
+0 9: 1 = 0.53%
+Elenco delle parole copiate male:
+	(2) TX: gy7, RX: zy7, DIF: g;
+	(3) TX: bzc, RX: z7c, DIF: b7;
+	(11) TX: ud9, RX: un9, DIF: d;
+	(16) TX: 3bf, RX: 3dr, DIF: bf;
+	(18) TX: bfu, RX: bru, DIF: f;
+	(20) TX: y5t, RX: qst, DIF: y5;
+	(22) TX: xn1, RX: kj1, DIF: xn;
+	(24) TX: jv3, RX: ju3, DIF: v;
+	(25) TX: xaj, RX: kwx, DIF: kwaj;
+	(28) TX: dob, RX: zob, DIF: d;
+	(29) TX: kfs, RX: kfi, DIF: s;
+	(30) TX: uiw, RX: usw, DIF: i;
+	(34) TX: ggu, RX: zzk, DIF: ggu;
+	(35) TX: i7g, RX: izg, DIF: 7;
+	(36) TX: o6q, RX: obq, DIF: 6;
+	(37) TX: 27y, RX: 2zy, DIF: 7;
+	(38) TX: sv7, RX: svz, DIF: 7;
+	(39) TX: mvn, RX: mun, DIF: v;
+	(40) TX: 1rb, RX: 1rd, DIF: b;
+	(42) TX: yhs, RX: qsh, DIF: ys;
+	(44) TX: emb, RX: emd, DIF: b;
+	(45) TX: ag5, RX: agh, DIF: 5;
+	(46) TX: gth, RX: gts, DIF: h;
+	(49) TX: iv6, RX: sv6, DIF: i;
+	(51) TX: kph, RX: kwh, DIF: p;
+	(55) TX: n4d, RX: nvn, DIF: 4d;
+	(57) TX: z6h, RX: gd5, DIF: z6h;
+	(58) TX: 3vf, RX: 3vr, DIF: f;
+	(59) TX: mh3, RX: msw, DIF: h3;
+	(61) TX: rzw, RX: lzw, DIF: r;
+	(62) TX: 61b, RX: b1d, DIF: 6b;
+	(65) TX: 7lm, RX: zlm, DIF: 7;
+	(66) TX: mvg, RX: mug, DIF: v;
+	(67) TX: 7dv, RX: 7du, DIF: v;
+	(70) TX: z1l, RX: zjl, DIF: 1;
+	(72) TX: lrh, RX: lrs, DIF: h;
+	(75) TX: 8v6, RX: 8ub, DIF: v6;
+	(77) TX: bzw, RX: bgw, DIF: z;
+	(82) TX: rox, RX: rok, DIF: x;
+	(84) TX: hm2, RX: hmj, DIF: 2;
+	(87) TX: fdg, RX: fnd, DIF: ng;
+	(88) TX: qcj, RX: qkj, DIF: c;
+	(90) TX: 0yl, RX: 0yr, DIF: l;
+	(91) TX: oo7, RX: ooz, DIF: 7;
+	(94) TX: qsv, RX: qsu, DIF: v;
+	(95) TX: p34, RX: p3v, DIF: 4;
+	(97) TX: x8e, RX: kgu, DIF: x8e;
+	(98) TX: ryc, RX: lyc, DIF: r;
+	(101) TX: ib8, RX: iz8, DIF: b;
+	(105) TX: s11, RX: sjj, DIF: 11;
+	(106) TX: i4m, RX: ivm, DIF: 4;
+	(107) TX: 3qi, RX: 3qs, DIF: i;
+	(109) TX: xsm, RX: xim, DIF: s;
+	(111) TX: lnc, RX: fnc, DIF: l;
+	(114) TX: nm0, RX: no0, DIF: m;
+	(116) TX: yby, RX: ydy, DIF: b;
+	(117) TX: ldy, RX: lny, DIF: d;
+	(119) TX: xcl, RX: xkl, DIF: c;
+	(122) TX: q4d, RX: q4b, DIF: d;
+	(124) TX: aff, RX: urf, DIF: af;
+	(127) TX: c1v, RX: c1k, DIF: v;
+	(128) TX: asf, RX: ahr, DIF: sf;
+	(129) TX: u2g, RX: v2g, DIF: u;
+	(131) TX: zzu, RX: zgu, DIF: z;
+Errori totali: 188 su 393 = 47.84%
+Caratteri mai sbagliati: 
+Nota: nessuna
+***
