@@ -3375,3 +3375,64 @@ Errori totali: 188 su 393 = 47.84%
 Caratteri mai sbagliati: 
 Nota: nessuna
 ***
+
+Esercizio di ricezione #53 eseguito il 2025/3/10 alle 21, 42 minuti:
+In questa sessione #53, ti ho inviato 44 words e ne hai ricevuti 25: 56.8%
+	12 di questi sono stati ricevuti al primo ascolto: 48.0%
+	mentre 13 words al secondo tentativo: 52.0%.
+Durante la sessione, la tua velocità minima è stata 37, la massima di 45: pari ad una variazione di 8 WPM.
+	La velocità media di ricezione è di: 36.1 WPM.
+Carattere: errori = Percentuale
+O: 13 = 13.4%
+A N: 10 = 10.31%
+E I: 9 = 9.28%
+R S: 7 = 7.22%
+D F T: 4 = 4.12%
+P U Z: 3 = 3.09%
+B G L M V: 2 = 2.06%
+C: 1 = 1.03%
+Elenco delle parole copiate male:
+	(1) TX: pausai, RX: pausini, DIF: ani;
+	(5) TX: uvula, RX: uvavi, DIF: ulvi;
+	(6) TX: immise, RX: immisi, DIF: e;
+	(8) TX: rifasa, RX: rifasi, DIF: a;
+	(11) TX: rutili, RX: rutile, DIF: i;
+	(12) TX: zifra, RX: ziffa, DIF: r;
+	(13) TX: bonet, RX: bonte, DIF: tt;
+	(21) TX: huet, RX: svet, DIF: hu;
+	(23) TX: inoli, RX: inore, DIF: li;
+	(24) TX: curtis, RX: curtii, DIF: s;
+	(25) TX: buri, RX: bure, DIF: i;
+	(28) TX: ustosa, RX: ustioio, DIF: isa;
+	(29) TX: mesata, RX: merta, DIF: sa;
+	(31) TX: forfi, RX: forfe, DIF: i;
+	(32) TX: sturi, RX: saute, DIF: auuri;
+	(34) TX: essudi, RX: essud, DIF: i;
+	(40) TX: stara, RX: stera, DIF: a;
+	(42) TX: cria, RX: crea, DIF: i;
+	(44) TX: banzai, RX: dandie, DIF: bzae;
+Errori totali: 97 su 237 = 40.93%
+Caratteri mai sbagliati: H Q
+Nota: nessuna
+***
+
+Esercizio di ricezione #55 eseguito il 2025/3/10 alle 22, 27 minuti:
+In questa sessione #55, ti ho inviato 33 words e ne hai ricevuti 27: 81.8%
+	26 di questi sono stati ricevuti al primo ascolto: 96.3%
+	mentre 1 words al secondo tentativo: 3.7%.
+Durante la sessione, la tua velocità minima è stata 20, la massima di 20: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 18.0 WPM.
+Carattere: errori = Percentuale
+A E: 4 = 16.0%
+L M R T: 2 = 8.0%
+B C D I K N O P Y: 1 = 4.0%
+Elenco delle parole copiate male:
+	(6) TX: binde, RX: bindi, DIF: e;
+	(12) TX: jimpy, RX: jiopy, DIF: m;
+	(14) TX: morio, RX: mo, DIF: rio;
+	(15) TX: angli, RX: anni, DIF: gl;
+	(20) TX: treni, RX: nreni, DIF: t;
+	(31) TX: happy, RX: sappy, DIF: h;
+Errori totali: 25 su 149 = 16.78%
+Caratteri mai sbagliati: F G H J S U V WNota: velocità fissa.
+***
