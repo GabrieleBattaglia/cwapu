@@ -4,6 +4,7 @@ translations = {
 		'not_a_valid_language': "Not a valid language",
 		'select_language': "Select your language / Seleziona la lingua: ",
 		'menu_prompt': "It's not a command!",
+		'fix_yes': "Do you want the cw stay at the same speed?	(y|n)> ",
 		'exit_message': "\nI hope to see you soon - 73 de IZ4APU TU EE",
 		'attention_message': "Attention! Please read carefully.\nFor the reception exercises, (r) from the main menu, CWAPU uses the file words.txt, which must be located in the folder from which you launched cwapu.py or cwapu.exe. If this file does not exist, create one with a text editor and write some words in it, one word per line, then save it.\nThe WordsCreator procedure allows you to scan all the txt files contained in the folders you indicate and add all the words from those files to words.txt. The words will be added uniquely, meaning they will all be different from each other.\nThe file produced by this process will be named words_updated.txt. Check it with a text editor and, if you are satisfied with it, rename it to words.txt, replacing the existing words.txt.\nYou can repeat this operation as many times as you like: words_updated.txt will contain the words from words.txt plus all those collected from the newly processed .txt files.",
 		'filter_words_prompt': "\nLet's filter the words set to using with the exercise\nPlease type minimum.maximum length of the words you want to be chosen randomly. e.g. 3.6\nwill choose words with length in between 3 and 6 characters only.\nType enter to use the whole dictionary",
@@ -170,6 +171,7 @@ translations = {
 		'character_mistakes': "Carattere: errori = Percentuale",
 		'total_mistakes': "\nErrori totali: {global_mistakes} su {send_char} = {mistake_percentage:.2f}%",
 		'never_misspelled': "\nCaratteri mai sbagliati: {good_letters}",
+		'fix_yes': "Vuoi che il cw rimanga alla stessa velocità?	(y|n)> ",
 		'h_keyboard': "Benvenuto nella sezione dove potrai ascoltare il CW e configurare tutti i suoi parametri.\nQuesti parametri saranno validi e attivi in tutto CWAPU e verranno salvati automaticamente quando esci dall'app.\nOra, leggi attentamente quanto segue:\n\tPremi Invio senza digitare nulla per uscire e tornare al menu principale;\n\tdigita .w seguito da un valore numerico per impostare il WPM;\n\tdigita .h seguito da un valore per il pitch del picco della nota CW che vuoi usare;\n\tdigita .l seguito da un valore per impostare la linea, il default è 30;\n\tdigita .s seguito da un valore per impostare lo spazio, il default è 50;\n\tdigita .p proprio come .s ma per i punti;\n\tdigita .v seguito da un valore tra 0 e 100 per impostare il volume;\n\tdigita .f1 .f2 .f3 o .f4 per cambiare la forma d'onda;\n\tdigita .m seguito da millisecondi per impostare il fade in e out per la nota CW;\n\tdigita .sr per impostare il sample rate da inviare alla tua scheda audio;\n\tdigita ? per vedere questo messaggio di aiuto;\n\tdigita ?? per visualizzare i parametri CW;\n\tdigita .rs per reimpostare il CW al peso standard di 1/3\n\tdigitare .sv <testo> per salvare il CW in un file .wav\n",
 		#Qit
 	}

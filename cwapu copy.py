@@ -41,7 +41,7 @@ except IOError:
 	overall_settings_changed=True
 	print(Trnsl('o_set_created',lang=app_language))
 #QConstants
-VERS="2.8.0, (2025-03-10)"
+VERS="2.7.3, (2025-02-09)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -409,11 +409,6 @@ def Rxing():
 		else:
 			length=dgt(prompt=Trnsl('give_length', lang=app_language),kind="i",imin=1,imax=7)
 	else: kindstring="Call-like"
-	tmp_fix_speed=key(Trnsl('fix_yes', lang=app_language)).lower()
-	if tmp_fix_speed=="y":
-		fix_speed=True
-	else:
-		fix_speed=False
 	print(Trnsl('careful_type', lang=app_language, kindstring=kindstring))
 	attesa=key()
 	print(Trnsl('begin_session', lang=app_language, sessions=sessions))
@@ -442,14 +437,14 @@ def Rxing():
 			callsget.append(qrz)
 			average_rwpm+=rwpm
 			if repeatedflag: callsrepeated+=1
-			if not fix_speed and overall_speed<100: overall_speed+=1
+			if overall_speed<100: overall_speed+=1
 		else:
 			callswrong.append(qrz.lower())
 			diff=MistakesCollectorInStrings(qrz,guess)
 			diff_ratio=(1 - difflib.SequenceMatcher(None,qrz,guess).ratio()) * 100
 			print(f"TX: {qrz} RX: {guess} <>: {diff} RT: {int(diff_ratio):d}")
 			dz_mistakes[len(callssend)]=(qrz,guess)
-			if not fix_speed and overall_speed>15: overall_speed-=1
+			if overall_speed>15: overall_speed-=1
 		calls+=1
 		if overall_speed>maxwpm: maxwpm=overall_speed
 		if overall_speed<minwpm: minwpm=overall_speed
