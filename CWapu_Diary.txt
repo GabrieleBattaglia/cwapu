@@ -3496,3 +3496,30 @@ Errori totali: 64 su 341 = 18.77%
 Caratteri mai sbagliati: C K W X
 Nota: nessuna
 ***
+
+Esercizio di ricezione #58 eseguito il 2025/3/12 alle 20, 56 minuti:
+In questa sessione #58, ti ho inviato 41 words e ne hai ricevuti 32: 78.0%
+	14 di questi sono stati ricevuti al primo ascolto: 43.8%
+	mentre 18 words al secondo tentativo: 56.2%.
+Durante la sessione, la tua velocità minima è stata 38, la massima di 38: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 34.3 WPM.
+Carattere: errori = Percentuale
+I: 7 = 18.42%
+E: 6 = 15.79%
+C D: 3 = 7.89%
+M N O P V Z: 2 = 5.26%
+A B G L R U Y: 1 = 2.63%
+Elenco delle parole copiate male:
+	(15) TX: fulva, RX: fava, DIF: ul;
+	(16) TX: sterz, RX: strz, DIF: e;
+	(20) TX: mieta, RX: miti, DIF: ea;
+	(25) TX: ghia, RX: g, DIF: hia;
+	(29) TX: crena, RX: carna, DIF: ae;
+	(30) TX: retea, RX: reta, DIF: e;
+	(35) TX: boldi, RX: doldi, DIF: b;
+	(39) TX: daily, RX: daiya, DIF: la;
+	(41) TX: vizzo, RX: vezzo, DIF: i;
+Errori totali: 38 su 183 = 20.77%
+Caratteri mai sbagliati: F H S T
+Nota: nessuna
+***
