@@ -3436,3 +3436,63 @@ Elenco delle parole copiate male:
 Errori totali: 25 su 149 = 16.78%
 Caratteri mai sbagliati: F G H J S U V WNota: velocità fissa.
 ***
+
+Esercizio di ricezione #56 eseguito il 2025/3/11 alle 11, 52 minuti:
+In questa sessione #56, ti ho inviato 105 Group e ne hai ricevuti 97: 92.4%
+	83 di questi sono stati ricevuti al primo ascolto: 85.6%
+	mentre 14 Group al secondo tentativo: 14.4%.
+Durante la sessione, la tua velocità minima è stata 32, la massima di 32: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 29.0 WPM.
+Carattere: errori = Percentuale
+B: 3 = 12.5%
+C I O P: 2 = 8.33%
+A E F H K N Q S U V W X Y: 1 = 4.17%
+Elenco delle parole copiate male:
+	(6) TX: syc, RX: hyc, DIF: s;
+	(10) TX: gvi, RX: gui, DIF: v;
+	(17) TX: jzv, RX: jzu, DIF: v;
+	(19) TX: rsq, RX: riq, DIF: s;
+	(61) TX: dth, RX: dts, DIF: h;
+	(81) TX: jpd, RX: jwd, DIF: p;
+	(103) TX: ktl, RX: kel, DIF: t;
+	(104) TX: pzr, RX: pzl, DIF: r;
+Errori totali: 24 su 315 = 7.62%
+Caratteri mai sbagliati: D G J L M R T Z
+Nota: nessuna
+***
+
+Esercizio di ricezione #57 eseguito il 2025/3/11 alle 11, 58 minuti:
+In questa sessione #57, ti ho inviato 75 words e ne hai ricevuti 59: 78.7%
+	55 di questi sono stati ricevuti al primo ascolto: 93.2%
+	mentre 4 words al secondo tentativo: 6.8%.
+Durante la sessione, la tua velocità minima è stata 32, la massima di 32: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 28.8 WPM.
+Carattere: errori = Percentuale
+A I: 7 = 10.94%
+N: 6 = 9.38%
+D: 5 = 7.81%
+L O Z: 4 = 6.25%
+E G S U V: 3 = 4.69%
+F M R T: 2 = 3.12%
+B H P Q: 1 = 1.56%
+Elenco delle parole copiate male:
+	(4) TX: tanfi, RX: tanfo, DIF: i;
+	(9) TX: agavi, RX: agave, DIF: i;
+	(15) TX: odrai, RX: odrei, DIF: a;
+	(19) TX: cuoia, RX: cuoio, DIF: a;
+	(22) TX: cruna, RX: cruda, DIF: n;
+	(30) TX: ose, RX: osi, DIF: e;
+	(32) TX: skunk, RX: scunk, DIF: k;
+	(34) TX: date, RX: duta, DIF: utte;
+	(36) TX: artoe, RX: arto, DIF: e;
+	(41) TX: heine, RX: heini, DIF: e;
+	(44) TX: usure, RX: usuri, DIF: e;
+	(45) TX: rode, RX: rodi, DIF: e;
+	(53) TX: limni, RX: limne, DIF: i;
+	(64) TX: tante, RX: tane, DIF: t;
+	(71) TX: culmi, RX: culme, DIF: i;
+	(72) TX: vasel, RX: vasil, DIF: e;
+Errori totali: 64 su 341 = 18.77%
+Caratteri mai sbagliati: C K W X
+Nota: nessuna
+***

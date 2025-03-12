@@ -514,7 +514,7 @@ print(Trnsl('welcome_message', lang=app_language, version=VERS))
 print(f"\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {WAVE_TYPES[overall_wave-1]}, MS:	{overall_ms}, FS: {SAMPLE_RATES[overall_fs]}.")
 
 while True:
-	k=menu(d=MNMAIN,show=False,keyslist=True,ntf=Trnsl('not_a_command', lang=app_language))
+	k=menu(d=MNMAIN,show=False,keyslist=True,full_keyslist=False, ntf=Trnsl('not_a_command', lang=app_language))
 	if k=="c": Count()
 	elif k=="t": Txing()
 	elif k=="r": Rxing()
