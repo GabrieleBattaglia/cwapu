@@ -3573,3 +3573,45 @@ Errori totali: 101 su 380 = 26.58%
 Caratteri mai sbagliati: J K W Y
 Nota: nessuna
 ***
+
+Esercizio di ricezione #60 eseguito il 2025/3/14 alle 12, 28 minuti:
+In questa sessione #60, ti ho inviato 59 words e ne hai ricevuti 38: 64.4%
+	19 di questi sono stati ricevuti al primo ascolto: 50.0%
+	mentre 19 words al secondo tentativo: 50.0%.
+Durante la sessione, la tua velocità minima è stata 45, la massima di 45: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 45.0 WPM.
+Carattere: errori = Percentuale
+A: 13 = 16.25%
+S: 9 = 11.25%
+O: 8 = 10.0%
+I R T: 5 = 6.25%
+B E F L: 4 = 5.0%
+C D V: 3 = 3.75%
+H N P: 2 = 2.5%
+G M X Z: 1 = 1.25%
+Elenco delle parole copiate male:
+	(2) TX: biove, RX: giove, DIF: b;
+	(3) TX: lab, RX: pad, DIF: lb;
+	(6) TX: fari, RX: fare, DIF: i;
+	(7) TX: ferzi, RX: feazi, DIF: r;
+	(9) TX: craxi, RX: creda, DIF: edxi;
+	(13) TX: alava, RX: alavo, DIF: a;
+	(16) TX: beli, RX: bels, DIF: i;
+	(27) TX: erme, RX: erne, DIF: m;
+	(29) TX: tacci, RX: tacce, DIF: i;
+	(32) TX: mime, RX: mine, DIF: m;
+	(33) TX: abeti, RX: abiti, DIF: e;
+	(36) TX: udiro, RX: urvano, DIF: divan;
+	(38) TX: genie, RX: gende, DIF: i;
+	(45) TX: inoli, RX: onilo, DIF: onnli;
+	(48) TX: stoni, RX: stona, DIF: i;
+	(49) TX: ruppe, RX: tuppi, DIF: re;
+	(50) TX: riddi, RX: liddi, DIF: r;
+	(53) TX: teams, RX: teao, DIF: ms;
+	(55) TX: norie, RX: nolae, DIF: ri;
+	(58) TX: gasse, RX: gessi, DIF: ae;
+	(59) TX: parsa, RX: paria, DIF: s;
+Errori totali: 80 su 270 = 29.63%
+Caratteri mai sbagliati: 2 U
+Nota: nessuna
+***
