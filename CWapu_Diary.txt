@@ -3615,3 +3615,53 @@ Errori totali: 80 su 270 = 29.63%
 Caratteri mai sbagliati: 2 U
 Nota: nessuna
 ***
+
+Esercizio di ricezione #61 eseguito il 2025/3/18 alle 12, 13 minuti:
+In questa sessione #61, ti ho inviato 37 words e ne hai ricevuti 10: 27.0%
+	3 di questi sono stati ricevuti al primo ascolto: 30.0%
+	mentre 7 words al secondo tentativo: 70.0%.
+Durante la sessione, la tua velocità minima è stata 60, la massima di 60: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 49.5 WPM.
+Carattere: errori = Percentuale
+I: 13 = 13.27%
+E: 10 = 10.2%
+R: 9 = 9.18%
+D O: 7 = 7.14%
+A P S T: 6 = 6.12%
+N U: 5 = 5.1%
+C: 4 = 4.08%
+B F: 3 = 3.06%
+G V: 2 = 2.04%
+J L M Z: 1 = 1.02%
+Elenco delle parole copiate male:
+	(1) TX: belly, RX: delly, DIF: b;
+	(2) TX: anso, RX: anio, DIF: s;
+	(5) TX: sepie, RX: sersi, DIF: pe;
+	(6) TX: scire, RX: sciri, DIF: e;
+	(7) TX: pied, RX: piel, DIF: d;
+	(9) TX: matre, RX: mare, DIF: t;
+	(10) TX: furci, RX: farci, DIF: u;
+	(12) TX: aito, RX: reto, DIF: ai;
+	(13) TX: aie, RX: aei, DIF: ee;
+	(15) TX: surga, RX: svugi, DIF: vra;
+	(16) TX: esibi, RX: esimi, DIF: b;
+	(17) TX: cario, RX: carlo, DIF: i;
+	(19) TX: traps, RX: tripa, DIF: ipps;
+	(20) TX: ziani, RX: girad, DIF: zrni;
+	(21) TX: pande, RX: pinte, DIF: ad;
+	(23) TX: ovali, RX: ovale, DIF: i;
+	(24) TX: lofii, RX: rofii, DIF: l;
+	(25) TX: iodii, RX: imei, DIF: odi;
+	(28) TX: tap, RX: tag, DIF: p;
+	(29) TX: usoli, RX: vuole, DIF: vsi;
+	(30) TX: lanio, RX: lando, DIF: i;
+	(32) TX: sinn, RX: senn, DIF: i;
+	(33) TX: siepo, RX: sepo, DIF: i;
+	(34) TX: neopl, RX: ., DIF: neopl;
+	(35) TX: opere, RX: orre, DIF: pe;
+	(36) TX: masto, RX: masio, DIF: t;
+	(37) TX: riusc, RX: lisc, DIF: ru;
+Errori totali: 98 su 168 = 58.33%
+Caratteri mai sbagliati: Y
+Nota: nessuna
+***
