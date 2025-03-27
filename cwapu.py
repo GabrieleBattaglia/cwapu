@@ -41,7 +41,7 @@ except IOError:
 	overall_settings_changed=True
 	print(Trnsl('o_set_created',lang=app_language))
 #QConstants
-VERS="2.8.0, (2025-03-10)"
+VERS="2.8.1, (2025-03-25)"
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -538,5 +538,5 @@ if overall_settings_changed or session_speed!=overall_speed:
 	pickle.dump([app_language, overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave],f)
 	f.close()
 	print(Trnsl('o_set_saved',lang=app_language))
-CWzator(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], sync=True, wv=overall_wave)
+CWzator(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], sync=False, wv=overall_wave)
 sys.exit()
