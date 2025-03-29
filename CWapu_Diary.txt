@@ -3834,3 +3834,60 @@ Errori totali: 166 su 308 = 53.90%
 Caratteri mai sbagliati: 
 Nota: nessuna
 ***
+
+Esercizio di ricezione #65 eseguito il 2025/3/28 alle 17, 22 minuti:
+In questa sessione #65, ti ho inviato 62 Group e ne hai ricevuti 50: 80.6%
+	47 di questi sono stati ricevuti al primo ascolto: 94.0%
+	mentre 3 Group al secondo tentativo: 6.0%.
+Durante la sessione, la tua velocità minima è stata 45, la massima di 45: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 45.0 WPM.
+Carattere: errori = Percentuale
+F N O Z: 3 = 12.5%
+S V: 2 = 8.33%
+E G I K M P Q Y: 1 = 4.17%
+Elenco delle parole copiate male:
+	(7) TX: yf, RX: yp, DIF: f;
+	(15) TX: xr, RX: xw, DIF: r;
+	(16) TX: uo, RX: vo, DIF: u;
+	(18) TX: bj, RX: dj, DIF: b;
+	(21) TX: ou, RX: oa, DIF: u;
+	(22) TX: rw, RX: fw, DIF: r;
+	(27) TX: li, RX: pi, DIF: l;
+	(37) TX: ia, RX: sa, DIF: i;
+	(38) TX: ic, RX: sc, DIF: i;
+	(39) TX: by, RX: dy, DIF: b;
+	(50) TX: px, RX: wx, DIF: p;
+	(51) TX: nq, RX: mq, DIF: n;
+Errori totali: 24 su 124 = 19.35%
+Caratteri mai sbagliati: A B C D H J L R T U W X
+Nota: nessuna
+***
+
+Esercizio di ricezione #66 eseguito il 2025/3/28 alle 19, 24 minuti:
+In questa sessione #66, ti ho inviato 80 words e ne hai ricevuti 71: 88.8%
+	56 di questi sono stati ricevuti al primo ascolto: 78.9%
+	mentre 15 words al secondo tentativo: 21.1%.
+Durante la sessione, la tua velocità minima è stata 30, la massima di 30: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 30.0 WPM.
+Carattere: errori = Percentuale
+O: 7 = 12.96%
+A R: 6 = 11.11%
+E: 5 = 9.26%
+I N S: 4 = 7.41%
+M: 3 = 5.56%
+B D G P T: 2 = 3.7%
+C F H L V: 1 = 1.85%
+Elenco delle parole copiate male:
+	(26) TX: monet, RX: monte, DIF: tt;
+	(27) TX: fusati, RX: fusai, DIF: t;
+	(33) TX: piane, RX: piate, DIF: n;
+	(34) TX: tanrec, RX: tanrik, DIF: ec;
+	(42) TX: facili, RX: facile, DIF: i;
+	(59) TX: bomivi, RX: bomive, DIF: i;
+	(61) TX: eludi, RX: elude, DIF: i;
+	(72) TX: oreria, RX: orerea, DIF: i;
+	(74) TX: insita, RX: insta, DIF: i;
+Errori totali: 54 su 442 = 12.22%
+Caratteri mai sbagliati: K U Y Z
+Nota: nessuna
+***
