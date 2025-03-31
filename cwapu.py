@@ -628,7 +628,6 @@ while True:
 	elif k=="m": menu(d=Trnsl('menu_main', lang=app_language),show_only=True)
 	elif k=="w": CreateDictionary()
 	elif k=="q": break
-print(Trnsl('o_set_saved',lang=app_language))
 app_data['overall_settings'].update({
     "app_language": app_language,
     "speed": overall_speed,
