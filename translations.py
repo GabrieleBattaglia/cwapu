@@ -1,6 +1,6 @@
 translations = {
 	'en': {
-		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tPress 'm' for menu.",
+		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tLaunch: {count}. Type 'm' for menu.",
 		'not_a_valid_language': "Not a valid language",
 		'select_language': "Select your language / Seleziona la lingua: ",
 		'menu_prompt': "It's not a command!",
@@ -75,7 +75,9 @@ translations = {
 		'counting_exercise_report': "Counting exercise #{esnum} performed on {date} at {time} minutes:\n",
 		'total_correct_report': "Total: {cont}, correct: {corr}, mistakes(%): {pde:.2f}%.\n",
 		'note_with_text': "Note: {nota}\n***\n",
+		'no_mistakes_recorded': "No character mistakes recorded in this session.",
 		'session_summary': "In this session #{sessions}, I sent {calls} {kindstring} to you and you got {callsget_len} of them: {percentage:.1f}%",
+		'how_many': "\nHow many do you want to receive? (ENTER for endless)> ",
 		'first_shot': "\t{first_shot} of these have been taken at the first shot: {first_shot_percentage:.1f}%",
 		'with_repetition': "\twhile {repetitions} {kindstring} with repetition: {repetitions_percentage:.1f}%.",
 		'speed_summary': "You ran with a minimum speed of {minwpm} up to {maxwpm}: range of {range_wpm} WPM.\n\tAverage receiving speed: {average_wpm:.1f} WPM.",
@@ -88,7 +90,7 @@ translations = {
 		#Qen
 	},
 	'it': {
-		'welcome_message': "\nCWAPU - VERSIONE: {version} DI GABRY - IZ4APU.\n\t----UTILITÀ PER IL TUO CW----\n\t\tPremi 'm' per il menu.",
+		'welcome_message': "\nCWAPU - VERSIONE: {version} DI GABRY - IZ4APU.\n\t----UTILITÀ PER IL TUO CW----\n\t\tLancio app: {count}. Scrivi 'm' per il menu.",
 		'list_of_wrong_words': "\nElenco delle parole copiate male:",
 		'wrong_word_entry': "\n\t({k}) TX: {tx}, RX: {rx}, DIF: {dif};",
 		'select_language': "Seleziona la lingua: ",
@@ -171,6 +173,8 @@ translations = {
 		'character_mistakes': "Carattere: errori = Percentuale",
 		'total_mistakes': "\nErrori totali: {global_mistakes} su {send_char} = {mistake_percentage:.2f}%",
 		'never_misspelled': "\nCaratteri mai sbagliati: {good_letters}",
+		'how_many': "\nQuanti ne vuoi ricevere? (INVIO per infinito)> ",
+		'no_mistakes_recorded': "Nessun errore sui caratteri registrato in questa sessione.",
 		'fix_yes': "Vuoi che il cw rimanga alla stessa velocità?	(y|n)> ",
 		'h_keyboard': "Benvenuto nella sezione dove potrai ascoltare il CW e configurare tutti i suoi parametri.\nQuesti parametri saranno validi e attivi in tutto CWAPU e verranno salvati automaticamente quando esci dall'app.\nOra, leggi attentamente quanto segue:\n\tPremi Invio senza digitare nulla per uscire e tornare al menu principale;\n\tdigita .w seguito da un valore numerico per impostare il WPM;\n\tdigita .h seguito da un valore per il pitch del picco della nota CW che vuoi usare;\n\tdigita .l seguito da un valore per impostare la linea, il default è 30;\n\tdigita .s seguito da un valore per impostare lo spazio, il default è 50;\n\tdigita .p proprio come .s ma per i punti;\n\tdigita .v seguito da un valore tra 0 e 100 per impostare il volume;\n\tdigita .f1 .f2 .f3 o .f4 per cambiare la forma d'onda;\n\tdigita .m seguito da millisecondi per impostare il fade in e out per la nota CW;\n\tdigita .sr per impostare il sample rate da inviare alla tua scheda audio;\n\tdigita ? per vedere questo messaggio di aiuto;\n\tdigita ?? per visualizzare i parametri CW;\n\tdigita .rs per reimpostare il CW al peso standard di 1/3\n\tdigitare .sv <testo> per salvare il CW in un file .wav\n",
 		#Qit
