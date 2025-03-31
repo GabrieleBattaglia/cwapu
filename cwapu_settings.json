@@ -1,11 +1,11 @@
 {
     "app_info": {
-        "launch_count": 0
+        "launch_count": 1
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 30,
-        "pitch": 550,
+        "speed": 45,
+        "pitch": 640,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
