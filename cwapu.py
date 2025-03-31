@@ -3,7 +3,7 @@
 # GitHub publishing on july 2nd, 2024.
 
 #QI
-import sys, random, pickle, string, pyperclip, re, difflib
+import sys, random, json, string, pyperclip, re, difflib, os
 import datetime as dt
 from GBUtils import key, dgt, menu, CWzator
 from time import localtime as lt
@@ -15,39 +15,32 @@ def Trnsl(key, lang='en', **kwargs):
 		return value
 	return value.format(**kwargs)
 
-app_language = ''
-overall_speed=0
-session_speed=0
-overall_pitch=0
-overall_dashes=0
-overall_spaces=0
-overall_dots=0
-overall_volume=0
-overall_ms=0
-overall_wave=0
-overall_fs=0
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
-try:
-	f=open("CWapu_Overall.pkl", "rb")
-	app_language, overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave = pickle.load(f)
-	session_speed=overall_speed
-	f.close()
-	print(Trnsl('o_set_loaded',lang=app_language))
-except IOError:
-	app_language, overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave = 'en', 18, 550, 30, 50, 50, 0.5, 1, 5, 1
-	session_speed=overall_speed
-	overall_settings_changed=True
-	print(Trnsl('o_set_created',lang=app_language))
 #QConstants
 VERS="2.8.1, (2025-03-25)"
+SETTINGS_FILE = "cwapu_settings.json"
+DEFAULT_DATA = {
+    "app_info": {
+        "launch_count": 0 # Inizierà da 1 al primo caricamento
+    },
+    "overall_settings": {
+        "app_language": "en", "speed": 18, "pitch": 550, "dashes": 30,
+        "spaces": 50, "dots": 50, "volume": 0.5, "ms": 1,
+        "fs_index": 5, "wave_index": 1
+    },
+    "rxing_stats": {
+        "total_calls": 0, "sessions": 1, "total_correct": 0,
+        "total_wrong_items": 0, "total_time_seconds": 0.0
+    },
+    "counting_stats": {
+        "exercise_number": 1
+    }
+}
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
-MNMAIN = Trnsl('menu_main', lang=app_language)
-MNRX = Trnsl('menu_rx', lang=app_language)
-MNRXKIND = Trnsl('menu_rx_kind', lang=app_language)
 MDL={'a0a':4,
 					'a0aa':6,
 					'a0aaa':15,
@@ -64,8 +57,55 @@ MDL={'a0a':4,
 #QVariable
 customized_set=''
 words=[]
+app_data = {}
 
 #qf
+def load_settings():
+	"""Carica le impostazioni dal file JSON o restituisce i default."""
+	global overall_settings_changed
+	if os.path.exists(SETTINGS_FILE):
+		try:
+			with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
+				loaded_data = json.load(f)
+				merged_data = {}
+				for main_key, default_values in DEFAULT_DATA.items():
+					# Prende la sezione dai dati caricati, o un dizionario vuoto se la sezione manca
+					loaded_section = loaded_data.get(main_key, {})
+					# Inizia con i default per quella sezione
+					merged_section = default_values.copy()
+					# Aggiorna con i valori effettivamente presenti nel file caricato
+					merged_section.update(loaded_section)
+					merged_data[main_key] = merged_section
+				# Messaggio basato sulla lingua caricata (se presente)
+				loaded_lang = merged_data.get('overall_settings', {}).get('app_language', 'en')
+				print(Trnsl('o_set_loaded', lang=loaded_lang))
+				return merged_data
+		except (json.JSONDecodeError, IOError, TypeError) as e: # Aggiunto TypeError
+			print(f"Errore nel caricare o leggere {SETTINGS_FILE}: {e}. Uso i valori di default.")
+			overall_settings_changed = True # Forza salvataggio se il file era corrotto o illeggibile
+			return DEFAULT_DATA.copy() # Restituisci una copia dei default
+	else:
+		default_lang = DEFAULT_DATA.get('overall_settings', {}).get('app_language', 'en')
+		print(Trnsl('o_set_created', lang=default_lang))
+		overall_settings_changed = True # Deve essere salvato alla fine
+		return DEFAULT_DATA.copy() # Restituisci una copia dei default
+def save_settings(data):
+	"""Salva le impostazioni correnti nel file JSON."""
+	global app_language # Necessario per Trnsl qui sotto
+	try:
+		data_to_save = data.copy()
+		if "rxing_stats" in data_to_save and isinstance(data_to_save["rxing_stats"].get("total_time"), dt.timedelta):
+			data_to_save["rxing_stats"]["total_time_seconds"] = data_to_save["rxing_stats"]["total_time"].total_seconds()
+			data_to_save["rxing_stats"].pop("total_time", None) # Rimuovi il timedelta
+		elif "rxing_stats" in data_to_save and "total_time" in data_to_save["rxing_stats"]:
+			data_to_save["rxing_stats"].pop("total_time", None)
+		with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
+			json.dump(data_to_save, f, indent=4, ensure_ascii=False) # indent=4 per leggibilità, ensure_ascii=False per caratteri speciali
+		print(Trnsl('o_set_saved', lang=app_language)) # Usa la lingua corrente dell'app
+	except IOError as e:
+		print(f"Errore nel salvare {SETTINGS_FILE}: {e}")
+	except TypeError as e:
+		print(f"Errore di tipo durante la preparazione dei dati per JSON: {e} - Dati: {data_to_save}")
 def ItemChooser(items):
 	for i, item in enumerate(items, start=1):
 		print(f"{i}. {item}")
@@ -261,14 +301,10 @@ def Txing():
 	print(Trnsl('bye_message', lang=app_language))
 	return
 def Count():
+	global app_data 
 	print(Trnsl('counting_prompt', lang=app_language))
 	from	GBUtils import Acusticator as Ac
-	try:
-		f=open("CWapu_Index.pkl", "rb")
-		esnum=pickle.load(f)
-		f.close()
-	except IOError:
-		esnum=1
+	esnum = app_data['counting_stats'].get('exercise_number', 1) 
 	cont = 0
 	corr = 0
 	scelta = ""
@@ -319,26 +355,12 @@ def Count():
 				f.write(Trnsl('empty_note', lang=app_language) + "\n***\n")
 	else:
 		print(Trnsl('groups_received_few', lang=app_language, cont=cont))
-	f=open("CWapu_Index.pkl", "wb")
-	esnum+=1
-	pickle.dump(esnum, f)
-	f.close()
+	esnum = app_data['counting_stats'].get('exercise_number', 1) + 1 
+	app_data['counting_stats']['exercise_number'] = esnum
+	global overall_settings_changed
+	overall_settings_changed = True # Segnala che i dati sono cambiati	
 	print(Trnsl('bye_message', lang=app_language))
 	return
-def GroupMistakesByFrequency(dict_mistakes):
-	total_mistakes = sum(count for count, _ in dict_mistakes.values())
-	grouped_errors = {}
-	for letter, (count, _) in dict_mistakes.items():
-		percentage = round(count / total_mistakes * 100, 2)
-		key = (count, percentage)
-		if key not in grouped_errors:
-			grouped_errors[key] = []
-		grouped_errors[key].append(letter)
-	formatted_output = []
-	for (count, percentage), letters in sorted(grouped_errors.items(), reverse=True):
-		letter_group = " ".join(sorted(letters))
-		formatted_output.append(f"{letter_group}: {count} = {percentage}%")
-	return formatted_output
 def MistakesCollectorInStrings(right, received):
 	differences = []
 	# Usa SequenceMatcher per individuare le differenze con precisione
@@ -349,28 +371,13 @@ def MistakesCollectorInStrings(right, received):
 		elif tag == 'insert':
 			differences.extend(received[j1:j2])
 	return ''.join(differences)
-def MistakesCollectorInLists(rights, received):
-	errors = {}
-	for right, rxed in zip(rights, received):
-		s = difflib.SequenceMatcher(None, right, rxed)
-		for tag, i1, i2, j1, j2 in s.get_opcodes():
-			if tag == 'replace' or tag == 'delete':
-				for char in right[i1:i2]:
-					errors[char] = errors.get(char, 0) + 1
-			elif tag == 'insert':
-				for char in rxed[j1:j2]:
-					errors[char] = errors.get(char, 0) + 1
-	ordered_mistakes = dict(sorted(errors.items(), key=lambda item: item[1], reverse=True))
-	total_mistakes = sum(ordered_mistakes.values())
-	perc_mistakes = {k: (v, v / total_mistakes * 100) for k, v in ordered_mistakes.items()}
-	return perc_mistakes
-def AlwaysRight(yep, nope):
-	letters = set("".join(yep))
-	letters_misspelled = set(nope.keys())
-	return letters - letters_misspelled
+def AlwaysRight(sent_items, error_counts_dict):
+	letters_sent = set("".join(sent_items))
+	letters_misspelled = set(error_counts_dict.keys())
+	return letters_sent - letters_misspelled
 def Rxing():
 	# receiving exercise
-	global words, overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume
+	global app_data, overall_settings_changed
 	print(Trnsl('time_to_receive', lang=app_language))
 	try:
 		with open('words.txt', 'r', encoding='utf-8') as file:
@@ -380,18 +387,25 @@ def Rxing():
 	except FileNotFoundError:
 		print(Trnsl('file_not_found', lang=app_language))
 		del MNRXKIND["5"]
-	try:
-		f=open("CWapu_Rxing.pkl", "rb")
-		totalcalls, sessions, totalget, totalwrong, totaltime = pickle.load(f)
-		f.close()
-		print(Trnsl('got_data', lang=app_language, wpm=overall_speed, sessions=sessions-1, totalcalls=totalcalls, totalget=totalget, totalwrong=totalwrong, totaltime=str(totaltime)[:-5]))
-	except IOError:
-		print(Trnsl('first_class', lang=app_language))
-		totalcalls, sessions, totalget, totalwrong, totaltime = 0, 1, 0, 0, dt.datetime.now()-dt.datetime.now()
-	calls, callsget, callswrong, callsrepeated, minwpm, maxwpm, repeatedflag = 1, [], [], 0, 100, 14, False
-	global customized_set
-	callssend=[]; average_rwpm=0.0
+	rx_stats = app_data['rxing_stats']
+	totalcalls = rx_stats.get('total_calls', 0)
+	sessions = rx_stats.get('sessions', 1)
+	totalget = rx_stats.get('total_correct', 0) 
+	totalwrong = rx_stats.get('total_wrong_items', 0) 
+	totaltime_seconds = rx_stats.get('total_time_seconds', 0.0)
+	totaltime = dt.timedelta(seconds=totaltime_seconds) 
+	print(Trnsl('got_data', lang=app_language, wpm=overall_speed, sessions=sessions-1,
+                totalcalls=totalcalls, totalget=totalget, totalwrong=totalwrong,
+                totaltime=str(totaltime).split('.')[0]))	
+	callssend=[]; average_rwpm=0.0 
 	dz_mistakes={}
+	calls = 1             # Contatore progressivo per la sessione corrente (mostrato nel prompt)
+	callsget = []         # Lista dei qrz/gruppi indovinati CORRETTAMENTE in questa sessione
+	callswrong = []       # Lista dei qrz/gruppi ORIGINALI che sono stati sbagliati in questa sessione
+	callsrepeated = 0     # Contatore di quanti item corretti sono stati indovinati dopo una ripetizione
+	minwpm = 100          # WPM minimo raggiunto in questa sessione (inizializzato alto)
+	maxwpm = 0            # WPM massimo raggiunto in questa sessione (inizializzato basso)
+	repeatedflag = False  # Flag per indicare se l'ultimo item è stato ripetuto
 	overall_speed=dgt(prompt=Trnsl('set_wpm', lang=app_language, wpm=overall_speed),kind="i",imin=10,imax=85,default=overall_speed)
 	rwpm=overall_speed
 	print(Trnsl('select_exercise', lang=app_language))
@@ -409,6 +423,7 @@ def Rxing():
 		else:
 			length=dgt(prompt=Trnsl('give_length', lang=app_language),kind="i",imin=1,imax=7)
 	else: kindstring="Call-like"
+	how_many_calls=dgt(prompt=Trnsl('how_many', lang=app_language),kind="i",imin=10,imax=1000,default=0)
 	tmp_fix_speed=key(Trnsl('fix_yes', lang=app_language)).lower()
 	if tmp_fix_speed=="y":
 		fix_speed=True
@@ -419,6 +434,8 @@ def Rxing():
 	print(Trnsl('begin_session', lang=app_language, sessions=sessions))
 	starttime=dt.datetime.now()
 	while True:
+		if how_many_calls > 0 and len(callssend) >= how_many_calls:
+			break
 		if call_or_groups == "1":
 			c=random.choices(list(MDL.keys()), weights=MDL.values(), k=1)
 			qrz=Mkdqrz(c)
@@ -429,88 +446,167 @@ def Rxing():
 		plo,rwpm=CWzator(msg=qrz, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if guess==".":
-			calls-=1
 			break
-		elif guess == "" or "?" in guess:
+		needs_processing = True
+		if guess == "" or guess.endswith("?"):
 			repeatedflag=True
-			prompt = f"S{sessions}-#{calls} - WPM{rwpm:.0f}/{(average_rwpm / len(callsget) if len(callsget) else rwpm):.2f} - +{len(callsget)}/-{len(callswrong)} - % {guess[:-1]}"
+			partial_input = ""
+			prompt_indicator = "%" 
+			if guess.endswith("?"):
+				partial_input = guess[:-1]
+				prompt_indicator = f"% {partial_input}"
+			prompt = f"S{sessions}-#{calls} - WPM{rwpm:.0f}/{(average_rwpm / len(callsget) if len(callsget) else rwpm):.2f} - +{len(callsget)}/-{len(callswrong)} - {prompt_indicator}"
 			plo,rwpm=CWzator(msg=qrz, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-			guess=guess[:-1] + dgt(prompt=prompt, kind="s", smin=0, smax=64)
-		callssend.append(qrz.lower())
-		guess=guess.lower(); qrz=qrz.lower()
-		if qrz == guess:
-			callsget.append(qrz)
-			average_rwpm+=rwpm
-			if repeatedflag: callsrepeated+=1
-			if not fix_speed and overall_speed<100: overall_speed+=1
-		else:
-			callswrong.append(qrz.lower())
-			diff=MistakesCollectorInStrings(qrz,guess)
-			diff_ratio=(1 - difflib.SequenceMatcher(None,qrz,guess).ratio()) * 100
-			print(f"TX: {qrz} RX: {guess} <>: {diff} RT: {int(diff_ratio):d}")
-			dz_mistakes[len(callssend)]=(qrz,guess)
-			if not fix_speed and overall_speed>15: overall_speed-=1
-		calls+=1
-		if overall_speed>maxwpm: maxwpm=overall_speed
-		if overall_speed<minwpm: minwpm=overall_speed
-		repeatedflag=False
+			new_guess = dgt(prompt=prompt, kind="s", smin=0, smax=64) 
+			if new_guess == ".":
+				needs_processing = False
+				break
+			else:
+				guess = partial_input + new_guess
+		if needs_processing:
+			original_qrz = qrz.lower()
+			callssend.append(original_qrz)
+			guess = guess.lower()
+			if original_qrz == guess:
+				callsget.append(original_qrz)
+				average_rwpm+=rwpm
+				if repeatedflag: callsrepeated+=1
+				if not fix_speed and overall_speed<100: overall_speed+=1
+			else:
+				callswrong.append(original_qrz)
+				diff=MistakesCollectorInStrings(original_qrz, guess)
+				diff_ratio=(1 - difflib.SequenceMatcher(None, original_qrz, guess).ratio()) * 100
+				print(f"TX: {original_qrz.upper()} RX: {guess.upper()} <>: {diff.upper()} RT: {int(diff_ratio):d}")
+				dz_mistakes[len(callssend)] = (original_qrz, guess)
+				if not fix_speed and overall_speed > 15: overall_speed -= 1
+			calls += 1
+			if overall_speed > maxwpm: maxwpm = overall_speed
+			if overall_speed < minwpm: minwpm = overall_speed
+			repeatedflag = False
 	exerctime=dt.datetime.now()-starttime
 	print(Trnsl('over_check', lang=app_language))
-	if calls>9 and len(callsget)>0:
-		send_char=0
-		for j in callssend:
-			send_char+=len(j)
-		print(Trnsl('session_summary', lang=app_language, sessions=sessions, calls=calls, kindstring=kindstring, callsget_len=len(callsget), percentage=len(callsget)*100/calls))
+	if len(callssend) >= 10: 
+		send_char = sum(len(j) for j in callssend) 
+		total_sent_processed = len(callssend)
+		percentage_correct = (len(callsget) * 100 / total_sent_processed) if total_sent_processed > 0 else 0
+		print(Trnsl('session_summary', lang=app_language,
+            sessions=sessions,
+            calls=total_sent_processed,        # <--- MODIFICA QUI: usa il conteggio reale
+            kindstring=kindstring,
+            callsget_len=len(callsget),
+            percentage=percentage_correct)) # <--- MODIFICA QUI: usa la percentuale corretta		
+		first_shot_correct = len(callsget) - callsrepeated
+		first_shot_percentage = (first_shot_correct * 100 / len(callsget)) if len(callsget) > 0 else 0
+		repetitions_percentage = (callsrepeated * 100 / len(callsget)) if len(callsget) > 0 else 0		
 		print(Trnsl('first_shot', lang=app_language, first_shot=len(callsget)-callsrepeated, first_shot_percentage=(len(callsget)-callsrepeated)*100/len(callsget)))
 		print(Trnsl('with_repetition', lang=app_language, repetitions=callsrepeated, kindstring=kindstring, repetitions_percentage=callsrepeated*100/len(callsget)))
 		print(Trnsl('speed_summary', lang=app_language, minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm-minwpm, average_wpm=average_rwpm/len(callsget)))
-		dict_mistakes = MistakesCollectorInLists(callssend, callswrong)
-		results=GroupMistakesByFrequency(dict_mistakes)
+		avg_wpm_calc = (average_rwpm / len(callsget)) if len(callsget) > 0 else overall_speed # Usa overall_speed se non ci sono risposte corrette
+		char_error_counts = {} # Dizionario per accumulare gli errori: {'carattere': conteggio}
+		total_mistakes_calculated = 0 # Contatore separato per il totale errori		print(Trnsl('character_mistakes', lang=app_language))
+		for right_str, received_str in dz_mistakes.values():
+			s = difflib.SequenceMatcher(None, right_str, received_str)
+			for tag, i1, i2, j1, j2 in s.get_opcodes():
+				if tag == 'replace':
+					for char in right_str[i1:i2]:
+						char_error_counts[char] = char_error_counts.get(char, 0) + 1
+						total_mistakes_calculated += 1
+				elif tag == 'delete':
+					for char in right_str[i1:i2]:
+						char_error_counts[char] = char_error_counts.get(char, 0) + 1
+						total_mistakes_calculated += 1
+				elif tag == 'insert':
+					for char in received_str[j1:j2]:
+						char_error_counts[char] = char_error_counts.get(char, 0) + 1
+						total_mistakes_calculated += 1
 		print(Trnsl('character_mistakes', lang=app_language))
-		for item in results:
-			print(item.upper())
-		global_mistakes = sum([v[0] for v in dict_mistakes.values()])
-		print(Trnsl('total_mistakes', lang=app_language, global_mistakes=global_mistakes, send_char=send_char, mistake_percentage=global_mistakes*100/send_char))
-		good_letters = AlwaysRight(callssend, dict_mistakes)
-		print(Trnsl('never_misspelled', lang=app_language, good_letters=" ".join(sorted(good_letters)).upper()))
+		if total_mistakes_calculated > 0:
+			sorted_errors = sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0]))
+			for char, count in sorted_errors:
+				percentage = round(count / total_mistakes_calculated * 100, 2)
+				print(f"{char.upper()}: {count} = {percentage}%") # Stampa diretta
+			mistake_percentage = (total_mistakes_calculated * 100 / send_char) if send_char > 0 else 0
+			print(Trnsl('total_mistakes', lang=app_language, global_mistakes=total_mistakes_calculated, send_char=send_char, mistake_percentage=mistake_percentage))
+			good_letters = AlwaysRight(callssend, char_error_counts) # Passa il dizionario degli errori
+			print(Trnsl('never_misspelled', lang=app_language, good_letters=" ".join(sorted(good_letters)).upper()))
+		else:
+			print(Trnsl('no_mistakes_recorded', lang=app_language)) # Aggiungi una traduzione per questo caso
 		f=open("CWapu_Diary.txt", "a", encoding='utf-8')
 		print(Trnsl('report_saved', lang=app_language))
 		date = f"{lt()[0]}/{lt()[1]}/{lt()[2]}"
 		time = f"{lt()[3]}, {lt()[4]}"
 		f.write(Trnsl('receiving_exercise_report', lang=app_language, sessions=sessions, date=date, time=time))
-		f.write(Trnsl('session_summary', lang=app_language, sessions=sessions, calls=calls, kindstring=kindstring, callsget_len=len(callsget), percentage=len(callsget)*100/calls) + "\n")
-		f.write(Trnsl('first_shot', lang=app_language, first_shot=len(callsget)-callsrepeated, first_shot_percentage=(len(callsget)-callsrepeated)*100/len(callsget)) + "\n")
-		f.write(Trnsl('with_repetition', lang=app_language, repetitions=callsrepeated, kindstring=kindstring, repetitions_percentage=callsrepeated*100/len(callsget)) + "\n")
-		f.write(Trnsl('speed_summary', lang=app_language, minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm-minwpm, average_wpm=average_rwpm/len(callsget)) + "\n")
+		f.write(Trnsl('session_summary', lang=app_language,
+              sessions=sessions,
+              calls=total_sent_processed, # <-- Stessa modifica qui
+              kindstring=kindstring,
+              callsget_len=len(callsget),
+              percentage=percentage_correct) + "\n") # <-- Stessa modifica qui
+		f.write(Trnsl('first_shot', lang=app_language, first_shot=first_shot_correct, first_shot_percentage=first_shot_percentage) + "\n")
+		f.write(Trnsl('with_repetition', lang=app_language, repetitions=callsrepeated, kindstring=kindstring, repetitions_percentage=repetitions_percentage) + "\n")
+		f.write(Trnsl('speed_summary', lang=app_language, minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm-minwpm, average_wpm=avg_wpm_calc) + "\n")
 		f.write(Trnsl('character_mistakes', lang=app_language))
-		for item in results:
-			f.write("\n"+item.upper())
+		if total_mistakes_calculated > 0:
+			for char, count in sorted_errors: # Usa la stessa lista ordinata
+				percentage = round(count / total_mistakes_calculated * 100, 2)
+				f.write(f"\n{char.upper()}: {count} = {percentage}%")
+			f.write("\n") # Aggiungi newline dopo la lista
+			f.write(Trnsl('total_mistakes', lang=app_language, global_mistakes=total_mistakes_calculated, send_char=send_char, mistake_percentage=mistake_percentage))
+			f.write(Trnsl('never_misspelled', lang=app_language, good_letters=" ".join(sorted(good_letters)).upper()))
+		else:
+			f.write("\n" + Trnsl('no_mistakes_recorded', lang=app_language) + "\n")
 		f.write(Trnsl('list_of_wrong_words', lang=app_language))
-		for k, v in dz_mistakes.items():
-			rslt=MistakesCollectorInStrings(v[0],v[1])
-			f.write(Trnsl('wrong_word_entry', lang=app_language, k=k, tx=v[0], rx=v[1], dif=rslt))
-		f.write(Trnsl('total_mistakes', lang=app_language, global_mistakes=global_mistakes, send_char=send_char, mistake_percentage=global_mistakes*100/send_char))
-		f.write(Trnsl('never_misspelled', lang=app_language, good_letters=" ".join(sorted(good_letters)).upper()))
+		# Ordina dz_mistakes per chiave (numero progressivo) prima di scrivere
+		for k, v in sorted(dz_mistakes.items()):
+			rslt = MistakesCollectorInStrings(v[0], v[1]) # Questa funzione può rimanere per il dettaglio
+			f.write(Trnsl('wrong_word_entry', lang=app_language, k=k, tx=v[0].upper(), rx=v[1].upper(), dif=rslt.upper()))
 		nota=dgt(prompt=Trnsl('note_on_exercise', lang=app_language), kind="s", smin=0, smax=512)
 		if nota != "":
 			f.write(Trnsl('note_with_text', lang=app_language, nota=nota))
 		else:
 			f.write("\n" + Trnsl('empty_note', lang=app_language) + "\n***\n")
-		f.close()
-	else: print(Trnsl('received_too_few', lang=app_language, kindstring=kindstring))
-	totalcalls+=calls
-	totalget+=len(callsget)
-	totalwrong+=len(callswrong)
-	totaltime+=exerctime
-	sessions+=1
-	f=open("CWapu_Rxing.pkl", "wb")
-	pickle.dump([totalcalls, sessions, totalget, totalwrong, totaltime], f)
-	f.close()
-	print(Trnsl('session_saved', lang=app_language, session_number=sessions-1, duration=str(exerctime)[:-5]))
+		f.close()	
+	else:
+		print(Trnsl('received_too_few', lang=app_language, kindstring=kindstring)) # Usa len(callssend)?		
+	current_session_items = len(callssend)
+	current_session_correct = len(callsget)
+	current_session_wrong = len(dz_mistakes)
+	new_totalcalls = totalcalls + current_session_items
+	new_totalget = totalget + current_session_correct
+	new_totalwrong = totalwrong + current_session_wrong
+	new_totaltime = totaltime + exerctime # Somma di timedelta
+	app_data['rxing_stats'].update({
+		"total_calls": new_totalcalls,
+		"sessions": sessions + 1, # Incrementa il numero di sessione per il prossimo avvio
+		"total_correct": new_totalget,
+		"total_wrong_items": new_totalwrong,
+		"total_time_seconds": new_totaltime.total_seconds() # Salva come secondi totali
+	})
+	overall_settings_changed = True # Segnala che i dati globali sono cambiati e vanno salvati
+	print(Trnsl('session_saved', lang=app_language, session_number=sessions, duration=str(exerctime).split('.')[0]))
 	return
 
 #main
-print(Trnsl('welcome_message', lang=app_language, version=VERS))
+global MNMAIN, MNRX, MNRXKIND 
+app_data = load_settings()
+app_data['app_info']['launch_count'] = app_data.get('app_info', {}).get('launch_count', 0) + 1
+launch_count = app_data['app_info']['launch_count'] 
+overall_settings = app_data['overall_settings']
+app_language = overall_settings.get('app_language', 'en') # Usa .get per sicurezza
+MNMAIN = Trnsl('menu_main', lang=app_language)
+MNRX = Trnsl('menu_rx', lang=app_language)
+MNRXKIND = Trnsl('menu_rx_kind', lang=app_language)
+overall_speed = overall_settings.get('speed', 18)
+overall_pitch = overall_settings.get('pitch', 550)
+overall_dashes = overall_settings.get('dashes', 30)
+overall_spaces = overall_settings.get('spaces', 50)
+overall_dots = overall_settings.get('dots', 50)
+overall_volume = overall_settings.get('volume', 0.5)
+overall_ms = overall_settings.get('ms', 1)
+overall_fs = overall_settings.get('fs_index', 5)
+overall_wave = overall_settings.get('wave_index', 1)
+session_speed = overall_speed # Imposta session_speed iniziale
+print(Trnsl('welcome_message', lang=app_language, version=VERS, count=launch_count)) # Aggiunto count=launch_count
 print(f"\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {WAVE_TYPES[overall_wave-1]}, MS:	{overall_ms}, FS: {SAMPLE_RATES[overall_fs]}.")
 
 while True:
@@ -532,11 +628,19 @@ while True:
 	elif k=="m": menu(d=Trnsl('menu_main', lang=app_language),show_only=True)
 	elif k=="w": CreateDictionary()
 	elif k=="q": break
-print(Trnsl('exit_message', lang=app_language))
-if overall_settings_changed or session_speed!=overall_speed:
-	f=open("CWapu_Overall.pkl", "wb")
-	pickle.dump([app_language, overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave],f)
-	f.close()
-	print(Trnsl('o_set_saved',lang=app_language))
+print(Trnsl('o_set_saved',lang=app_language))
+app_data['overall_settings'].update({
+    "app_language": app_language,
+    "speed": overall_speed,
+    "pitch": overall_pitch,
+    "dashes": overall_dashes,
+    "spaces": overall_spaces,
+    "dots": overall_dots,
+    "volume": overall_volume,
+    "ms": overall_ms,
+    "fs_index": overall_fs, # Salva l'indice numerico
+    "wave_index": overall_wave # Salva l'indice numerico
+})
+save_settings(app_data)
 CWzator(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], sync=False, wv=overall_wave)
 sys.exit()
