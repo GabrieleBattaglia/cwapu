@@ -377,7 +377,7 @@ def AlwaysRight(sent_items, error_counts_dict):
 	return letters_sent - letters_misspelled
 def Rxing():
 	# receiving exercise
-	global app_data, overall_settings_changed
+	global app_data, overall_settings_changed, overall_speed
 	print(Trnsl('time_to_receive', lang=app_language))
 	try:
 		with open('words.txt', 'r', encoding='utf-8') as file:
