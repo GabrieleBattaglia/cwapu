@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 1
+        "launch_count": 3
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 45,
+        "speed": 30,
         "pitch": 640,
         "dashes": 30,
         "spaces": 50,
@@ -15,11 +15,11 @@
         "wave_index": 3
     },
     "rxing_stats": {
-        "total_calls": 4073,
-        "sessions": 78,
-        "total_correct": 2536,
+        "total_calls": 4123,
+        "sessions": 79,
+        "total_correct": 2586,
         "total_wrong_items": 1535,
-        "total_time_seconds": 17640.715456
+        "total_time_seconds": 17787.842545
     },
     "counting_stats": {
         "exercise_number": 100
