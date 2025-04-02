@@ -19,7 +19,7 @@ overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 #QConstants
-VERS="2.8.1, (2025-03-25)"
+VERS="3.0.0, (2025-04-02)"
 SETTINGS_FILE = "cwapu_settings.json"
 DEFAULT_DATA = {
     "app_info": {

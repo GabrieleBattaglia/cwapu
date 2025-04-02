@@ -2,7 +2,7 @@ CWAPU WHATSNEW AND TODO
 Todo:
 	1.
 ChangeLog:
-	3.0
+	3.0.0
 		+ Added migrate.py to switch from 2 to 3 version of cwapu, please run migrate.py (or .exe) then delete it.
 		+ switched from pickle to json and unified all settings for better and more easy implementations
 		+ Improved calculation for mistake in r exercise

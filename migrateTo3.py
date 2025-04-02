@@ -129,3 +129,4 @@ if __name__ == "__main__":
             print("Migrazione annullata.")
             exit()
     migrate()
+    wait=input("Premi Invio per chiudere...")
