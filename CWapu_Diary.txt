@@ -158,3 +158,19 @@ Elenco delle parole copiate male:
 	(7) TX: JWH, RX: JWS, DIF: H;
 	(37) TX: SXC, RX: HXC, DIF: S;Nota: passato perchè sotto al 5% di errore
 ***
+
+Esercizio di ricezione #81 eseguito il 2025/4/3 alle 12, 34 minuti:
+In questa sessione #81, ti ho inviato 50 Group e ne hai ricevuti 49: 98.0%
+	41 di questi sono stati ricevuti al primo ascolto: 83.7%
+	mentre 8 Group al secondo tentativo: 16.3%.
+Durante la sessione, la tua velocità minima è stata 36, la massima di 36: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 36.0 WPM.
+Carattere: errori = Percentuale
+D: 1 = 50.0%
+Z: 1 = 50.0%
+
+Errori totali: 2 su 150 = 1.33%
+Caratteri mai sbagliati: A B C E F G H I J K L M N O P Q R S T U V W X Y
+Elenco delle parole copiate male:
+	(7) TX: GDZ, RX: GZZ, DIF: DZ;Nota: passato
+***
