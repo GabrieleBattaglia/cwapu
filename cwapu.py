@@ -19,7 +19,7 @@ overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 #QConstants
-VERS="3.0.0, (2025-04-02)"
+VERS="3.0.1, (2025-04-10"
 SETTINGS_FILE = "cwapu_settings.json"
 DEFAULT_DATA = {
     "app_info": {
@@ -377,7 +377,7 @@ def AlwaysRight(sent_items, error_counts_dict):
 	return letters_sent - letters_misspelled
 def Rxing():
 	# receiving exercise
-	global app_data, overall_settings_changed, overall_speed
+	global app_data, overall_settings_changed, overall_speed, words
 	print(Trnsl('time_to_receive', lang=app_language))
 	try:
 		with open('words.txt', 'r', encoding='utf-8') as file:

@@ -3,7 +3,9 @@ Todo:
 	1.
 ChangeLog:
 	Important before switching from 2.x to 3.x version:
-		run migrate within the same folder as cwapu.exe. If you got a good response, you may delete it and all the .pkl file as cwapu will use cwapu_settings.json as its default saved settings file.
+		run migrate within the same folder as cwapu.exe. If you got a good response, you may delete it and all 	the .pkl file as cwapu will use cwapu_settings.json as its default saved settings file.
+	3.0.1
+	= Fixed a non-global variable in R.5 section
 	3.0.0
 		+ Added migrate.py to switch from 2 to 3 version of cwapu, please run migrate.py (or .exe) then delete it.
 		+ switched from pickle to json and unified all settings for better and more easy implementations
