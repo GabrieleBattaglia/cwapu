@@ -225,3 +225,25 @@ Elenco delle parole copiate male:
 	(48) TX: GOFFRE, RX: GOFFIE, DIF: R;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #83 eseguito il 2025/4/15 alle 22, 35 minuti:
+In questa sessione #83, ti ho inviato 50 Group e ne hai ricevuti 46: 92.0%
+	38 di questi sono stati ricevuti al primo ascolto: 82.6%
+	mentre 8 Group al secondo tentativo: 17.4%.
+Durante la sessione, la tua velocità minima è stata 36, la massima di 36: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 36.0 WPM.
+Carattere: errori = Percentuale
+S: 2 = 33.33%
+B: 1 = 16.67%
+H: 1 = 16.67%
+I: 1 = 16.67%
+Q: 1 = 16.67%
+
+Errori totali: 6 su 150 = 4.00%
+Caratteri mai sbagliati: A C D E G J K L M N O P R T U V W X Y Z
+Elenco delle parole copiate male:
+	(30) TX: SSE, RX: SHE, DIF: S;
+	(40) TX: BIB, RX: BSD, DIF: IB;
+	(44) TX: GHS, RX: GSS, DIF: HS;
+	(45) TX: ZQN, RX: ZYN, DIF: Q;Nota: 4% passato
+***
