@@ -1,6 +1,6 @@
 {
     "app_info": {
-        "launch_count": 10
+        "launch_count": 11
     },
     "overall_settings": {
         "app_language": "it",
@@ -9,17 +9,17 @@
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
-        "volume": 0.25,
+        "volume": 0.22,
         "ms": 2,
         "fs_index": 2,
-        "wave_index": 3
+        "wave_index": 1
     },
     "rxing_stats": {
-        "total_calls": 4423,
-        "sessions": 85,
-        "total_correct": 2841,
-        "total_wrong_items": 1580,
-        "total_time_seconds": 18781.430623
+        "total_calls": 4473,
+        "sessions": 86,
+        "total_correct": 2885,
+        "total_wrong_items": 1586,
+        "total_time_seconds": 18935.997119
     },
     "counting_stats": {
         "exercise_number": 100
