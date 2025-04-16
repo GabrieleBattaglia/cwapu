@@ -247,3 +247,39 @@ Elenco delle parole copiate male:
 	(44) TX: GHS, RX: GSS, DIF: HS;
 	(45) TX: ZQN, RX: ZYN, DIF: Q;Nota: 4% passato
 ***
+
+Esercizio di ricezione #84 eseguito il 2025/4/16 alle 12, 30 minuti:
+In questa sessione #84, ti ho inviato 50 Group e ne hai ricevuti 38: 76.0%
+	32 di questi sono stati ricevuti al primo ascolto: 84.2%
+	mentre 6 Group al secondo tentativo: 15.8%.
+Durante la sessione, la tua velocità minima è stata 38, la massima di 38: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 38.0 WPM.
+Carattere: errori = Percentuale
+B: 3 = 23.08%
+U: 2 = 15.38%
+A: 1 = 7.69%
+G: 1 = 7.69%
+H: 1 = 7.69%
+M: 1 = 7.69%
+N: 1 = 7.69%
+P: 1 = 7.69%
+Q: 1 = 7.69%
+Z: 1 = 7.69%
+
+Errori totali: 13 su 150 = 8.67%
+Caratteri mai sbagliati: C D E F I J K L O R S T V W X Y
+Elenco delle parole copiate male:
+	(1) TX: UVZ, RX: VVZ, DIF: U;
+	(6) TX: HPV, RX: HFV, DIF: P;
+	(7) TX: MJB, RX: GJP, DIF: MB;
+	(8) TX: GVD, RX: ZVD, DIF: G;
+	(20) TX: PCA, RX: PC, DIF: A;
+	(22) TX: HUI, RX: HVI, DIF: U;
+	(27) TX: RBR, RX: RDR, DIF: B;
+	(34) TX: SEZ, RX: SED, DIF: Z;
+	(35) TX: PQA, RX: PYA, DIF: Q;
+	(36) TX: GCB, RX: GCD, DIF: B;
+	(38) TX: YNI, RX: YMI, DIF: N;
+	(49) TX: VFH, RX: VFS, DIF: H;
+Nota: nessuna
+***
