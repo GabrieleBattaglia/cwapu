@@ -283,3 +283,28 @@ Elenco delle parole copiate male:
 	(49) TX: VFH, RX: VFS, DIF: H;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #85 eseguito il 2025/4/16 alle 23, 11 minuti:
+In questa sessione #85, ti ho inviato 50 Group e ne hai ricevuti 44: 88.0%
+	36 di questi sono stati ricevuti al primo ascolto: 81.8%
+	mentre 8 Group al secondo tentativo: 18.2%.
+Durante la sessione, la tua velocità minima è stata 38, la massima di 38: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 38.0 WPM.
+Carattere: errori = Percentuale
+H: 1 = 16.67%
+J: 1 = 16.67%
+Q: 1 = 16.67%
+V: 1 = 16.67%
+W: 1 = 16.67%
+Y: 1 = 16.67%
+
+Errori totali: 6 su 150 = 4.00%
+Caratteri mai sbagliati: A B C D E F G I K L M N O P R S T U X Z
+Elenco delle parole copiate male:
+	(25) TX: NVH, RX: NVS, DIF: H;
+	(27) TX: EGW, RX: EGP, DIF: W;
+	(28) TX: DOY, RX: DOC, DIF: Y;
+	(29) TX: ZJT, RX: ZPT, DIF: J;
+	(32) TX: STV, RX: STU, DIF: V;
+	(48) TX: JBQ, RX: JBY, DIF: Q;Nota: passato
+***
