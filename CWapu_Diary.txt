@@ -308,3 +308,40 @@ Elenco delle parole copiate male:
 	(32) TX: STV, RX: STU, DIF: V;
 	(48) TX: JBQ, RX: JBY, DIF: Q;Nota: passato
 ***
+
+Esercizio di ricezione #86 eseguito il 2025/4/17 alle 11, 14 minuti:
+In questa sessione #86, ti ho inviato 50 Group e ne hai ricevuti 38: 76.0%
+	20 di questi sono stati ricevuti al primo ascolto: 52.6%
+	mentre 18 Group al secondo tentativo: 47.4%.
+Durante la sessione, la tua velocità minima è stata 40, la massima di 40: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 40.0 WPM.
+Carattere: errori = Percentuale
+V: 3 = 18.75%
+P: 2 = 12.5%
+Z: 2 = 12.5%
+F: 1 = 6.25%
+G: 1 = 6.25%
+H: 1 = 6.25%
+I: 1 = 6.25%
+J: 1 = 6.25%
+L: 1 = 6.25%
+O: 1 = 6.25%
+S: 1 = 6.25%
+W: 1 = 6.25%
+
+Errori totali: 16 su 150 = 10.67%
+Caratteri mai sbagliati: A B C D E K M N Q R T U X Y
+Elenco delle parole copiate male:
+	(6) TX: KSL, RX: KIL, DIF: S;
+	(8) TX: NZD, RX: NGD, DIF: Z;
+	(10) TX: GGW, RX: GLR, DIF: GW;
+	(11) TX: YQZ, RX: YQD, DIF: Z;
+	(12) TX: GFV, RX: GRU, DIF: FV;
+	(14) TX: HLV, RX: HRU, DIF: LV;
+	(22) TX: HKH, RX: HKD, DIF: H;
+	(23) TX: OCL, RX: GCL, DIF: O;
+	(26) TX: JPI, RX: JWE, DIF: PI;
+	(38) TX: AVF, RX: AUF, DIF: V;
+	(44) TX: XJG, RX: XWG, DIF: J;
+	(46) TX: JPC, RX: JJC, DIF: P;Nota: bocciato
+***
