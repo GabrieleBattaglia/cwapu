@@ -345,3 +345,51 @@ Elenco delle parole copiate male:
 	(44) TX: XJG, RX: XWG, DIF: J;
 	(46) TX: JPC, RX: JJC, DIF: P;Nota: bocciato
 ***
+
+Esercizio di ricezione #87 eseguito il 2025/4/17 alle 22, 45 minuti:
+In questa sessione #87, ti ho inviato 25 Group e ne hai ricevuti 19: 76.0%
+	10 di questi sono stati ricevuti al primo ascolto: 52.6%
+	mentre 9 Group al secondo tentativo: 47.4%.
+Durante la sessione, la tua velocità minima è stata 30, la massima di 30: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 30.0 WPM.
+Carattere: errori = Percentuale
+U: 2 = 33.33%
+7: 1 = 16.67%
+G: 1 = 16.67%
+H: 1 = 16.67%
+N: 1 = 16.67%
+
+Errori totali: 6 su 75 = 8.00%
+Caratteri mai sbagliati: 0 1 2 3 9 A B D E F I J K L M O P Q R S T V W X Y Z
+Elenco delle parole copiate male:
+	(2) TX: NLJ, RX: DLJ, DIF: N;
+	(5) TX: UEE, RX: VEE, DIF: U;
+	(9) TX: U2H, RX: V2H, DIF: U;
+	(17) TX: WGS, RX: WMS, DIF: G;
+	(18) TX: OEH, RX: OES, DIF: H;
+	(23) TX: 7IW, RX: ZIW, DIF: 7;Nota: mentre facevo teatro
+***
+
+Esercizio di ricezione #88 eseguito il 2025/4/18 alle 9, 31 minuti:
+In questa sessione #88, ti ho inviato 50 Group e ne hai ricevuti 45: 90.0%
+	31 di questi sono stati ricevuti al primo ascolto: 68.9%
+	mentre 14 Group al secondo tentativo: 31.1%.
+Durante la sessione, la tua velocità minima è stata 40, la massima di 40: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 40.0 WPM.
+Carattere: errori = Percentuale
+B: 1 = 16.67%
+E: 1 = 16.67%
+G: 1 = 16.67%
+L: 1 = 16.67%
+S: 1 = 16.67%
+V: 1 = 16.67%
+
+Errori totali: 6 su 150 = 4.00%
+Caratteri mai sbagliati: A C D F H I J K M N O P Q R T U W X Y Z
+Elenco delle parole copiate male:
+	(3) TX: XBR, RX: XDR, DIF: B;
+	(4) TX: JLV, RX: JLO, DIF: V;
+	(5) TX: ULE, RX: URI, DIF: LE;
+	(20) TX: EWG, RX: EWP, DIF: G;
+	(25) TX: ZSR, RX: ZIR, DIF: S;Nota: passato
+***
