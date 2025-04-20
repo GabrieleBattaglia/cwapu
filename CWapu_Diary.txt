@@ -393,3 +393,57 @@ Elenco delle parole copiate male:
 	(20) TX: EWG, RX: EWP, DIF: G;
 	(25) TX: ZSR, RX: ZIR, DIF: S;Nota: passato
 ***
+
+Esercizio di ricezione #89 eseguito il 2025/4/20 alle 8, 22 minuti:
+In questa sessione #89, ti ho inviato 50 Group e ne hai ricevuti 37: 74.0%
+	28 di questi sono stati ricevuti al primo ascolto: 75.7%
+	mentre 9 Group al secondo tentativo: 24.3%.
+Durante la sessione, la tua velocità minima è stata 40, la massima di 40: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 40.0 WPM.
+Carattere: errori = Percentuale
+B: 4 = 30.77%
+A: 3 = 23.08%
+U: 3 = 23.08%
+P: 2 = 15.38%
+V: 1 = 7.69%
+
+Errori totali: 13 su 150 = 8.67%
+Caratteri mai sbagliati: C D E F G H I J K L M N O Q R S T W X Y Z
+Elenco delle parole copiate male:
+	(1) TX: KUE, RX: KVE, DIF: U;
+	(10) TX: SAB, RX: SUB, DIF: A;
+	(16) TX: TAQ, RX: TKQ, DIF: A;
+	(17) TX: WZP, RX: WZR, DIF: P;
+	(18) TX: ETV, RX: ETU, DIF: V;
+	(23) TX: LBX, RX: LDX, DIF: B;
+	(29) TX: IXU, RX: IXV, DIF: U;
+	(31) TX: VWB, RX: VWD, DIF: B;
+	(34) TX: ABX, RX: ADX, DIF: B;
+	(36) TX: ZBS, RX: ZDS, DIF: B;
+	(39) TX: XPS, RX: XWS, DIF: P;
+	(43) TX: AOV, RX: AAOV, DIF: A;
+	(47) TX: MGU, RX: MGV, DIF: U;Nota: bocciato
+***
+
+Esercizio di ricezione #90 eseguito il 2025/4/20 alle 17, 56 minuti:
+In questa sessione #90, ti ho inviato 50 Group e ne hai ricevuti 45: 90.0%
+	29 di questi sono stati ricevuti al primo ascolto: 64.4%
+	mentre 16 Group al secondo tentativo: 35.6%.
+Durante la sessione, la tua velocità minima è stata 40, la massima di 40: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 40.0 WPM.
+Carattere: errori = Percentuale
+D: 1 = 20.0%
+H: 1 = 20.0%
+S: 1 = 20.0%
+U: 1 = 20.0%
+Z: 1 = 20.0%
+
+Errori totali: 5 su 150 = 3.33%
+Caratteri mai sbagliati: A B C E F G I J K L M N O P Q R T V W X Y
+Elenco delle parole copiate male:
+	(4) TX: NHD, RX: NHB, DIF: D;
+	(8) TX: KGH, RX: KGS, DIF: H;
+	(14) TX: UOQ, RX: VOQ, DIF: U;
+	(16) TX: PXS, RX: PXR, DIF: S;
+	(31) TX: FPZ, RX: FPG, DIF: Z;Nota: passato
+***
