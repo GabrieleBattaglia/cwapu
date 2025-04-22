@@ -447,3 +447,62 @@ Elenco delle parole copiate male:
 	(16) TX: PXS, RX: PXR, DIF: S;
 	(31) TX: FPZ, RX: FPG, DIF: Z;Nota: passato
 ***
+
+Esercizio di ricezione #91 eseguito il 2025/4/22 alle 19, 19 minuti:
+In questa sessione #91, ti ho inviato 50 Group e ne hai ricevuti 46: 92.0%
+	38 di questi sono stati ricevuti al primo ascolto: 82.6%
+	mentre 8 Group al secondo tentativo: 17.4%.
+Durante la sessione, la tua velocità minima è stata 40, la massima di 40: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 40.0 WPM.
+Carattere: errori = Percentuale
+A: 1 = 20.0%
+I: 1 = 20.0%
+M: 1 = 20.0%
+Q: 1 = 20.0%
+V: 1 = 20.0%
+
+Errori totali: 5 su 150 = 3.33%
+Caratteri mai sbagliati: B C D E F G H J K L N O P R S T U W X Y Z
+Elenco delle parole copiate male:
+	(2) TX: NMI, RX: NGE, DIF: MI;
+	(5) TX: FFV, RX: FFU, DIF: V;
+	(16) TX: TKA, RX: TKU, DIF: A;
+	(34) TX: PLQ, RX: PLY, DIF: Q;Nota: passato
+***
+
+Esercizio di ricezione #92 eseguito il 2025/4/22 alle 19, 25 minuti:
+In questa sessione #92, ti ho inviato 50 words e ne hai ricevuti 35: 70.0%
+	30 di questi sono stati ricevuti al primo ascolto: 85.7%
+	mentre 5 words al secondo tentativo: 14.3%.
+Durante la sessione, la tua velocità minima è stata 30, la massima di 30: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 30.0 WPM.
+Carattere: errori = Percentuale
+I: 8 = 44.44%
+D: 3 = 16.67%
+E: 2 = 11.11%
+L: 1 = 5.56%
+R: 1 = 5.56%
+S: 1 = 5.56%
+T: 1 = 5.56%
+Z: 1 = 5.56%
+
+Errori totali: 18 su 270 = 6.67%
+Caratteri mai sbagliati: A B C F G H K M N O P U V Y È
+Elenco delle parole copiate male:
+	(1) TX: VELADE, RX: VELANE, DIF: D;
+	(3) TX: ERINNI, RX: IRINNE, DIF: EI;
+	(8) TX: CREBRI, RX: CREBIS, DIF: RS;
+	(11) TX: GHINDI, RX: GHINDE, DIF: I;
+	(17) TX: CUDU, RX: CUBU, DIF: D;
+	(18) TX: ANSANO, RX: ANSIANO, DIF: I;
+	(19) TX: IUBILA, RX: IUBURA, DIF: IL;
+	(21) TX: FAVORI, RX: FAVORE, DIF: I;
+	(25) TX: EDIMA, RX: EDEMA, DIF: I;
+	(27) TX: ZUMAVA, RX: GUMAVA, DIF: Z;
+	(29) TX: OFFESI, RX: OFFESE, DIF: I;
+	(33) TX: MEVIO, RX: MEVEO, DIF: I;
+	(34) TX: STRATI, RX: STRANI, DIF: T;
+	(35) TX: DEST, RX: BEST, DIF: D;
+	(49) TX: TURATE, RX: TURATI, DIF: E;
+Nota: nessuna
+***
