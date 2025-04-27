@@ -506,3 +506,66 @@ Elenco delle parole copiate male:
 	(49) TX: TURATE, RX: TURATI, DIF: E;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #93 eseguito il 2025/4/27 alle 23, 5 minuti:
+In questa sessione #93, ti ho inviato 50 words e ne hai ricevuti 19: 38.0%
+	15 di questi sono stati ricevuti al primo ascolto: 78.9%
+	mentre 4 words al secondo tentativo: 21.1%.
+Durante la sessione, la tua velocità minima è stata 17, la massima di 33: pari ad una variazione di 16 WPM.
+	La velocità media di ricezione è di: 26.3 WPM.
+Carattere: errori = Percentuale
+I: 7 = 15.56%
+A: 5 = 11.11%
+E: 4 = 8.89%
+T: 4 = 8.89%
+U: 4 = 8.89%
+N: 3 = 6.67%
+P: 3 = 6.67%
+2: 2 = 4.44%
+B: 2 = 4.44%
+C: 2 = 4.44%
+M: 2 = 4.44%
+G: 1 = 2.22%
+H: 1 = 2.22%
+L: 1 = 2.22%
+O: 1 = 2.22%
+R: 1 = 2.22%
+S: 1 = 2.22%
+V: 1 = 2.22%
+
+Errori totali: 45 su 268 = 16.79%
+Caratteri mai sbagliati: 1 D F Z
+Elenco delle parole copiate male:
+	(2) TX: B12, RX: B21, DIF: 22;
+	(5) TX: DIGGIA, RX: DIGGIS, DIF: A;
+	(7) TX: DILLA, RX: DILSIA, DIF: L;
+	(8) TX: ALBICO, RX: ALDICO, DIF: B;
+	(12) TX: GRUMA, RX: GRUNA, DIF: M;
+	(13) TX: GLORIE, RX: GLORS, DIF: IE;
+	(14) TX: TENUTO, RX: TENO, DIF: UT;
+	(16) TX: DUCTUS, RX: DUCTAS, DIF: U;
+	(17) TX: LIMITI, RX: LIMIT, DIF: I;
+	(18) TX: CANTO, RX: CAIS, DIF: NTO;
+	(19) TX: CUPE, RX: UWE, DIF: CP;
+	(22) TX: SCEMI, RX: HCEMI, DIF: S;
+	(24) TX: DONNAI, RX: DONNEI, DIF: A;
+	(25) TX: DOGAVA, RX: DOGIVA, DIF: A;
+	(26) TX: PRUDI, RX: PRUDE, DIF: I;
+	(27) TX: DIEATA, RX: DIETAI, DIF: AI;
+	(29) TX: AFACHE, RX: AFACIE, DIF: H;
+	(30) TX: MAGNUM, RX: MAGNUS, DIF: M;
+	(31) TX: ARRIVI, RX: ARRIVA, DIF: I;
+	(32) TX: LOMPI, RX: LOMLO, DIF: PI;
+	(36) TX: FETEVO, RX: FETIUO, DIF: EV;
+	(37) TX: NERITA, RX: NERINA, DIF: T;
+	(38) TX: NEVERA, RX: REVERA, DIF: N;
+	(40) TX: LUC, RX: LUB, DIF: C;
+	(41) TX: BIMANA, RX: DIMAIA, DIF: BN;
+	(43) TX: PULGA, RX: JALGA, DIF: PU;
+	(44) TX: PITIE, RX: PITI, DIF: E;
+	(45) TX: UDRAI, RX: KD, DIF: URAI;
+	(46) TX: IGOR, RX: IMOR, DIF: G;
+	(47) TX: TRETO, RX: TREEO, DIF: T;
+	(49) TX: DEPURA, RX: DIPURA, DIF: E;
+Nota: nessuna
+***
