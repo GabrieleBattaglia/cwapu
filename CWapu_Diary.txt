@@ -605,3 +605,43 @@ Elenco delle parole copiate male:
 	(48) TX: ANONE, RX: ANONI, DIF: E;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #95 eseguito il 2025/5/1 alle 10, 25 minuti:
+In questa sessione #95, ti ho inviato 50 Group e ne hai ricevuti 44: 88.0%
+	32 di questi sono stati ricevuti al primo ascolto: 72.7%
+	mentre 12 Group al secondo tentativo: 27.3%.
+Durante la sessione, la tua velocità minima è stata 40, la massima di 40: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 40.0 WPM.
+Carattere: errori = Percentuale
+P: 3 = 50.0%
+B: 1 = 16.67%
+M: 1 = 16.67%
+Y: 1 = 16.67%
+
+Errori totali: 6 su 150 = 4.00%
+Caratteri mai sbagliati: A C D E F G H I J K L N O Q R S T U V W X Z
+Elenco delle parole copiate male:
+	(2) TX: YOZ, RX: QOZ, DIF: Y;
+	(4) TX: JPE, RX: JWE, DIF: P;
+	(15) TX: FGB, RX: FGD, DIF: B;
+	(30) TX: GPT, RX: GWT, DIF: P;
+	(39) TX: FPR, RX: FWR, DIF: P;
+	(40) TX: LMQ, RX: LOQ, DIF: M;Nota: passa
+***
+
+Esercizio di ricezione #96 eseguito il 2025/5/2 alle 15, 1 minuti:
+In questa sessione #96, ti ho inviato 50 Group e ne hai ricevuti 48: 96.0%
+	29 di questi sono stati ricevuti al primo ascolto: 60.4%
+	mentre 19 Group al secondo tentativo: 39.6%.
+Durante la sessione, la tua velocità minima è stata 42, la massima di 42: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 42.0 WPM.
+Carattere: errori = Percentuale
+C: 1 = 50.0%
+U: 1 = 50.0%
+
+Errori totali: 2 su 150 = 1.33%
+Caratteri mai sbagliati: A B D E F G H I J K L M N O P Q R S T V W X Y Z
+Elenco delle parole copiate male:
+	(25) TX: SYU, RX: SYV, DIF: U;
+	(41) TX: CSH, RX: KSH, DIF: C;Nota: passato
+***
