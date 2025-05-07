@@ -645,3 +645,69 @@ Elenco delle parole copiate male:
 	(25) TX: SYU, RX: SYV, DIF: U;
 	(41) TX: CSH, RX: KSH, DIF: C;Nota: passato
 ***
+
+Esercizio di ricezione #97 eseguito il 2025/5/7 alle 11, 13 minuti:
+In questa sessione #97, ti ho inviato 50 Group e ne hai ricevuti 41: 82.0%
+	26 di questi sono stati ricevuti al primo ascolto: 63.4%
+	mentre 15 Group al secondo tentativo: 36.6%.
+Durante la sessione, la tua velocità minima è stata 44, la massima di 44: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 44.0 WPM.
+Carattere: errori = Percentuale
+W: 2 = 20.0%
+B: 1 = 10.0%
+D: 1 = 10.0%
+H: 1 = 10.0%
+I: 1 = 10.0%
+J: 1 = 10.0%
+N: 1 = 10.0%
+S: 1 = 10.0%
+V: 1 = 10.0%
+
+Errori totali: 10 su 150 = 6.67%
+Caratteri mai sbagliati: A C E F G K L M O P Q R T U X Y Z
+Elenco delle parole copiate male:
+	(1) TX: WGH, RX: WGS, DIF: H;
+	(2) TX: PWE, RX: PRE, DIF: W;
+	(8) TX: GGD, RX: GGZ, DIF: D;
+	(13) TX: BKJ, RX: DKP, DIF: BJ;
+	(14) TX: CZI, RX: CZS, DIF: I;
+	(18) TX: DVN, RX: DVD, DIF: N;
+	(30) TX: UAW, RX: UAR, DIF: W;
+	(46) TX: KIV, RX: KIU, DIF: V;
+	(47) TX: GSA, RX: GIA, DIF: S;Nota: bocciato
+***
+
+Esercizio di ricezione #98 eseguito il 2025/5/7 alle 11, 16 minuti:
+In questa sessione #98, ti ho inviato 50 Group e ne hai ricevuti 36: 72.0%
+	20 di questi sono stati ricevuti al primo ascolto: 55.6%
+	mentre 16 Group al secondo tentativo: 44.4%.
+Durante la sessione, la tua velocità minima è stata 44, la massima di 44: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 44.0 WPM.
+Carattere: errori = Percentuale
+B: 4 = 25.0%
+U: 3 = 18.75%
+V: 3 = 18.75%
+G: 2 = 12.5%
+C: 1 = 6.25%
+I: 1 = 6.25%
+S: 1 = 6.25%
+Z: 1 = 6.25%
+
+Errori totali: 16 su 150 = 10.67%
+Caratteri mai sbagliati: A D E F H J K L M N O P Q R T W X Y
+Elenco delle parole copiate male:
+	(8) TX: KBU, RX: KDV, DIF: BU;
+	(9) TX: FBR, RX: FDR, DIF: B;
+	(10) TX: ZKH, RX: GKH, DIF: Z;
+	(12) TX: QIG, RX: QIZ, DIF: G;
+	(17) TX: JCY, RX: JKY, DIF: C;
+	(18) TX: IMV, RX: IMU, DIF: V;
+	(22) TX: OKU, RX: OKA, DIF: U;
+	(23) TX: OGV, RX: OZU, DIF: GV;
+	(27) TX: BGI, RX: BGS, DIF: I;
+	(30) TX: ZUO, RX: ZVO, DIF: U;
+	(35) TX: BWO, RX: DWO, DIF: B;
+	(39) TX: MVN, RX: MUN, DIF: V;
+	(47) TX: SXB, RX: HXB, DIF: S;
+	(48) TX: QLB, RX: QLD, DIF: B;Nota: bocciato
+***
