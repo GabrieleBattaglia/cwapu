@@ -1,6 +1,6 @@
 {
     "app_info": {
-        "launch_count": 22
+        "launch_count": 23
     },
     "overall_settings": {
         "app_language": "it",
@@ -15,11 +15,11 @@
         "wave_index": 3
     },
     "rxing_stats": {
-        "total_calls": 5098,
-        "sessions": 99,
-        "total_correct": 3373,
-        "total_wrong_items": 1723,
-        "total_time_seconds": 21295.212538
+        "total_calls": 5148,
+        "sessions": 100,
+        "total_correct": 3407,
+        "total_wrong_items": 1739,
+        "total_time_seconds": 21476.975883
     },
     "counting_stats": {
         "exercise_number": 100

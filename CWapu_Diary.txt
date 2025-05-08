@@ -711,3 +711,45 @@ Elenco delle parole copiate male:
 	(47) TX: SXB, RX: HXB, DIF: S;
 	(48) TX: QLB, RX: QLD, DIF: B;Nota: bocciato
 ***
+
+Esercizio di ricezione #99 eseguito il 2025/5/8 alle 16, 14 minuti:
+In questa sessione #99, ti ho inviato 50 Group e ne hai ricevuti 34: 68.0%
+	16 di questi sono stati ricevuti al primo ascolto: 47.1%
+	mentre 18 Group al secondo tentativo: 52.9%.
+Durante la sessione, la tua velocità minima è stata 44, la massima di 44: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 44.0 WPM.
+Carattere: errori = Percentuale
+B: 4 = 20.0%
+P: 3 = 15.0%
+H: 2 = 10.0%
+R: 2 = 10.0%
+W: 2 = 10.0%
+F: 1 = 5.0%
+G: 1 = 5.0%
+N: 1 = 5.0%
+Q: 1 = 5.0%
+U: 1 = 5.0%
+V: 1 = 5.0%
+Z: 1 = 5.0%
+
+Errori totali: 20 su 150 = 13.33%
+Caratteri mai sbagliati: A C D E I J K L M O S T X Y
+Elenco delle parole copiate male:
+	(1) TX: APF, RX: AJF, DIF: P;
+	(5) TX: BKQ, RX: BKX, DIF: Q;
+	(6) TX: XLW, RX: XRL, DIF: RW;
+	(15) TX: DVH, RX: DUS, DIF: VH;
+	(16) TX: YEH, RX: YES, DIF: H;
+	(19) TX: NBG, RX: NDG, DIF: B;
+	(20) TX: MPY, RX: MWY, DIF: P;
+	(25) TX: LKU, RX: LKX, DIF: U;
+	(27) TX: YPW, RX: YPG, DIF: W;
+	(29) TX: TPY, RX: TWY, DIF: P;
+	(32) TX: BZG, RX: ZGG, DIF: BG;
+	(33) TX: GKB, RX: GKG, DIF: B;
+	(34) TX: NLQ, RX: DLQ, DIF: N;
+	(36) TX: GIB, RX: GID, DIF: B;
+	(41) TX: QZR, RX: QGL, DIF: ZR;
+	(50) TX: DFC, RX: DRC, DIF: F;
+Nota: nessuna
+***
