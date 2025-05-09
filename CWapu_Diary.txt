@@ -753,3 +753,42 @@ Elenco delle parole copiate male:
 	(50) TX: DFC, RX: DRC, DIF: F;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #100 eseguito il 2025/5/9 alle 15, 25 minuti:
+In questa sessione #100, ti ho inviato 50 Group e ne hai ricevuti 37: 74.0%
+	17 di questi sono stati ricevuti al primo ascolto: 45.9%
+	mentre 20 Group al secondo tentativo: 54.1%.
+Durante la sessione, la tua velocità minima è stata 44, la massima di 44: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 44.0 WPM.
+Carattere: errori = Percentuale
+D: 2 = 11.76%
+G: 2 = 11.76%
+I: 2 = 11.76%
+O: 2 = 11.76%
+B: 1 = 5.88%
+C: 1 = 5.88%
+E: 1 = 5.88%
+F: 1 = 5.88%
+K: 1 = 5.88%
+Q: 1 = 5.88%
+R: 1 = 5.88%
+S: 1 = 5.88%
+Z: 1 = 5.88%
+
+Errori totali: 17 su 150 = 11.33%
+Caratteri mai sbagliati: A H J L M N P T U V W X Y
+Elenco delle parole copiate male:
+	(1) TX: WUD, RX: WUB, DIF: D;
+	(4) TX: HSZ, RX: HSB, DIF: Z;
+	(5) TX: JLG, RX: JLP, DIF: G;
+	(8) TX: YOK, RX: YOC, DIF: K;
+	(12) TX: MCE, RX: MKE, DIF: C;
+	(18) TX: JGD, RX: J, DIF: GD;
+	(26) TX: BJQ, RX: BJO, DIF: Q;
+	(31) TX: HGS, RX: HGH, DIF: S;
+	(32) TX: BRF, RX: DLF, DIF: BR;
+	(44) TX: BMO, RX: BOM, DIF: OO;
+	(45) TX: VIH, RX: VSH, DIF: I;
+	(47) TX: UIF, RX: USR, DIF: IF;
+	(50) TX: EYP, RX: IYP, DIF: E;Nota: boccaiato
+***
