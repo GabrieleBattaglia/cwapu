@@ -1,7 +1,9 @@
 CWAPU WHATSNEW AND TODO
 Todo:
-	1.
+	1. Idea: statistica generale su lettere sbagliate. Tenere il conteggio e percentuali di tutte le sbagliate, tutti gli esercizi, degli ultimi x mesi.
+	2.
 ChangeLog:
+	3.x.x
 	Important before switching from 2.x to 3.x version:
 		run migrate within the same folder as cwapu.exe. If you got a good response, you may delete it and all 	the .pkl file as cwapu will use cwapu_settings.json as its default saved settings file.
 	3.0.1

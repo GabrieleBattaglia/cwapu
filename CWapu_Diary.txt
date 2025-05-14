@@ -792,3 +792,243 @@ Elenco delle parole copiate male:
 	(47) TX: UIF, RX: USR, DIF: IF;
 	(50) TX: EYP, RX: IYP, DIF: E;Nota: boccaiato
 ***
+
+Esercizio di ricezione #101 eseguito il 2025/5/11 alle 7, 14 minuti:
+In questa sessione #101, ti ho inviato 50 Group e ne hai ricevuti 41: 82.0%
+	21 di questi sono stati ricevuti al primo ascolto: 51.2%
+	mentre 20 Group al secondo tentativo: 48.8%.
+Durante la sessione, la tua velocità minima è stata 44, la massima di 44: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 44.0 WPM.
+Carattere: errori = Percentuale
+H: 2 = 20.0%
+S: 2 = 20.0%
+V: 2 = 20.0%
+B: 1 = 10.0%
+I: 1 = 10.0%
+N: 1 = 10.0%
+U: 1 = 10.0%
+
+Errori totali: 10 su 150 = 6.67%
+Caratteri mai sbagliati: A C D E F G J K L M O P Q R T W X Y Z
+Elenco delle parole copiate male:
+	(3) TX: NIB, RX: NID, DIF: B;
+	(12) TX: DVP, RX: DUP, DIF: V;
+	(17) TX: BUI, RX: BUS, DIF: I;
+	(29) TX: AGN, RX: AGR, DIF: N;
+	(32) TX: LVS, RX: LUH, DIF: VS;
+	(33) TX: EZU, RX: EZV, DIF: U;
+	(37) TX: JHR, RX: JSR, DIF: H;
+	(39) TX: XSW, RX: XIW, DIF: S;
+	(44) TX: XHX, RX: XSX, DIF: H;Nota: bocciato
+***
+
+Esercizio di ricezione #102 eseguito il 2025/5/11 alle 7, 25 minuti:
+In questa sessione #102, ti ho inviato 150 Group e ne hai ricevuti 79: 52.7%
+	21 di questi sono stati ricevuti al primo ascolto: 26.6%
+	mentre 58 Group al secondo tentativo: 73.4%.
+Durante la sessione, la tua velocità minima è stata 40, la massima di 57: pari ad una variazione di 17 WPM.
+	La velocità media di ricezione è di: 48.4 WPM.
+Carattere: errori = Percentuale
+H: 10 = 10.2%
+P: 9 = 9.18%
+B: 8 = 8.16%
+S: 8 = 8.16%
+L: 6 = 6.12%
+U: 6 = 6.12%
+F: 5 = 5.1%
+G: 5 = 5.1%
+Z: 5 = 5.1%
+D: 4 = 4.08%
+I: 4 = 4.08%
+O: 4 = 4.08%
+V: 4 = 4.08%
+Y: 4 = 4.08%
+W: 3 = 3.06%
+A: 2 = 2.04%
+N: 2 = 2.04%
+Q: 2 = 2.04%
+T: 2 = 2.04%
+C: 1 = 1.02%
+E: 1 = 1.02%
+J: 1 = 1.02%
+K: 1 = 1.02%
+R: 1 = 1.02%
+
+Errori totali: 98 su 450 = 21.78%
+Caratteri mai sbagliati: M X
+Elenco delle parole copiate male:
+	(4) TX: JSU, RX: JIU, DIF: S;
+	(6) TX: CPV, RX: CYV, DIF: P;
+	(7) TX: UOS, RX: UOH, DIF: S;
+	(8) TX: LEB, RX: LED, DIF: B;
+	(10) TX: FNL, RX: FRL, DIF: N;
+	(11) TX: PLH, RX: PRH, DIF: L;
+	(14) TX: SPX, RX: SWX, DIF: P;
+	(16) TX: CZG, RX: CGG, DIF: ZG;
+	(22) TX: VGH, RX: VGV, DIF: H;
+	(24) TX: CHF, RX: CSF, DIF: H;
+	(27) TX: SHY, RX: SSZ, DIF: HY;
+	(30) TX: VIK, RX: USK, DIF: VI;
+	(34) TX: ZAE, RX: ZIE, DIF: A;
+	(35) TX: RZZ, RX: RPP, DIF: ZZ;
+	(36) TX: NLA, RX: NRA, DIF: L;
+	(38) TX: NDA, RX: NNU, DIF: DA;
+	(41) TX: MKF, RX: MKR, DIF: F;
+	(44) TX: KBA, RX: KDA, DIF: B;
+	(45) TX: PRF, RX: WRR, DIF: PF;
+	(47) TX: WTX, RX: ATX, DIF: W;
+	(48) TX: DHV, RX: NSV, DIF: DH;
+	(52) TX: NUP, RX: NAP, DIF: U;
+	(56) TX: XQE, RX: XGE, DIF: Q;
+	(60) TX: BDU, RX: DDA, DIF: BU;
+	(61) TX: OYF, RX: OYW, DIF: F;
+	(62) TX: VGQ, RX: UMQ, DIF: VG;
+	(63) TX: HAH, RX: SAH, DIF: H;
+	(66) TX: OSY, RX: OIZ, DIF: SY;
+	(67) TX: QYO, RX: QMO, DIF: Y;
+	(69) TX: SPO, RX: SWQ, DIF: PO;
+	(70) TX: NOU, RX: NTQ, DIF: OU;
+	(73) TX: BRW, RX: DRM, DIF: BW;
+	(74) TX: VQS, RX: VQH, DIF: S;
+	(75) TX: HYP, RX: HQS, DIF: YP;
+	(77) TX: TBF, RX: TGF, DIF: B;
+	(78) TX: PFQ, RX: PRQ, DIF: F;
+	(79) TX: RQM, RX: RKM, DIF: Q;
+	(80) TX: QQW, RX: QQA, DIF: W;
+	(82) TX: NSW, RX: DSW, DIF: N;
+	(83) TX: EYH, RX: EYS, DIF: H;
+	(84) TX: HJA, RX: HWA, DIF: J;
+	(85) TX: UDL, RX: VDR, DIF: UL;
+	(86) TX: YSZ, RX: YIZ, DIF: S;
+	(87) TX: IXU, RX: IKX, DIF: KU;
+	(88) TX: NPX, RX: NWX, DIF: P;
+	(89) TX: FPH, RX: FPS, DIF: H;
+	(90) TX: MHW, RX: MSW, DIF: H;
+	(96) TX: ZGH, RX: ZZS, DIF: GH;
+	(98) TX: UIO, RX: USQ, DIF: IO;
+	(99) TX: FIU, RX: FSU, DIF: I;
+	(103) TX: BDX, RX: DDX, DIF: B;
+	(104) TX: AKV, RX: AKX, DIF: V;
+	(108) TX: KEU, RX: KIU, DIF: E;
+	(111) TX: FLY, RX: FRY, DIF: L;
+	(112) TX: MVF, RX: MUF, DIF: V;
+	(116) TX: JTF, RX: JTR, DIF: F;
+	(119) TX: WPA, RX: PWA, DIF: PP;
+	(121) TX: VDF, RX: VNF, DIF: D;
+	(126) TX: HTZ, RX: HMH, DIF: TZ;
+	(127) TX: ULX, RX: URX, DIF: L;
+	(128) TX: QDU, RX: QNX, DIF: DU;
+	(129) TX: BPI, RX: DPS, DIF: BI;
+	(131) TX: EQP, RX: EQ=, DIF: P;
+	(132) TX: ZOV, RX: GNV, DIF: ZO;
+	(134) TX: GHS, RX: GSS, DIF: HS;
+	(136) TX: UCZ, RX: UYZ, DIF: C;
+	(140) TX: BLR, RX: BRR, DIF: LR;
+	(141) TX: KKT, RX: KKE, DIF: T;
+	(143) TX: ZBG, RX: GZN, DIF: GBG;
+	(147) TX: UHS, RX: UHH, DIF: S;
+	(149) TX: SNX, RX: HNX, DIF: S;
+Nota: nessuna
+***
+
+Esercizio di ricezione #103 eseguito il 2025/5/13 alle 19, 2 minuti:
+In questa sessione #103, ti ho inviato 25 words e ne hai ricevuti 14: 56.0%
+	11 di questi sono stati ricevuti al primo ascolto: 78.6%
+	mentre 3 words al secondo tentativo: 21.4%.
+Durante la sessione, la tua velocità minima è stata 35, la massima di 35: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 35.0 WPM.
+Carattere: errori = Percentuale
+I: 3 = 18.75%
+E: 2 = 12.5%
+M: 2 = 12.5%
+T: 2 = 12.5%
+A: 1 = 6.25%
+B: 1 = 6.25%
+L: 1 = 6.25%
+O: 1 = 6.25%
+R: 1 = 6.25%
+U: 1 = 6.25%
+W: 1 = 6.25%
+
+Errori totali: 16 su 131 = 12.21%
+Caratteri mai sbagliati: C D G H N P S V Y Z
+Elenco delle parole copiate male:
+	(2) TX: BISCI, RX: BISCE, DIF: I;
+	(4) TX: IMAN, RX: STAN, DIF: IM;
+	(6) TX: MILZO, RX: LIZO, DIF: ML;
+	(14) TX: SALUTE, RX: SALVE, DIF: UT;
+	(15) TX: ONTICI, RX: ONDICE, DIF: TI;
+	(19) TX: ZELARE, RX: ZELARI, DIF: E;
+	(20) TX: SWAN, RX: SPAN, DIF: W;
+	(21) TX: GHELLO, RX: GHELLI, DIF: O;
+	(23) TX: SABIN, RX: SADIN, DIF: B;
+	(24) TX: ERNICA, RX: ERNICE, DIF: A;
+	(25) TX: TORERA, RX: TORINA, DIF: ER;
+Nota: nessuna
+***
+
+Esercizio di ricezione #104 eseguito il 2025/5/14 alle 13, 21 minuti:
+In questa sessione #104, ti ho inviato 75 words e ne hai ricevuti 43: 57.3%
+	24 di questi sono stati ricevuti al primo ascolto: 55.8%
+	mentre 19 words al secondo tentativo: 44.2%.
+Durante la sessione, la tua velocità minima è stata 36, la massima di 50: pari ad una variazione di 14 WPM.
+	La velocità media di ricezione è di: 43.6 WPM.
+Carattere: errori = Percentuale
+I: 14 = 22.22%
+S: 7 = 11.11%
+T: 7 = 11.11%
+E: 4 = 6.35%
+R: 4 = 6.35%
+A: 3 = 4.76%
+G: 3 = 4.76%
+M: 3 = 4.76%
+U: 3 = 4.76%
+B: 2 = 3.17%
+D: 2 = 3.17%
+L: 2 = 3.17%
+N: 2 = 3.17%
+C: 1 = 1.59%
+H: 1 = 1.59%
+O: 1 = 1.59%
+P: 1 = 1.59%
+Q: 1 = 1.59%
+Y: 1 = 1.59%
+Z: 1 = 1.59%
+
+Errori totali: 63 su 352 = 17.90%
+Caratteri mai sbagliati: F K V W
+Elenco delle parole copiate male:
+	(4) TX: SOLTA, RX: SOLITA, DIF: I;
+	(9) TX: KAURI, RX: KAUSI, DIF: R;
+	(16) TX: ATTAI, RX: ATTEA, DIF: EI;
+	(17) TX: GRECA, RX: GECA, DIF: R;
+	(18) TX: ZUGHI, RX: GUISI, DIF: ZGHSI;
+	(20) TX: PALMI, RX: PALME, DIF: I;
+	(21) TX: LEVIN, RX: VEVEN, DIF: LI;
+	(22) TX: WHITE, RX: WHERE, DIF: ITRE;
+	(25) TX: SUTTO, RX: , DIF: SUTTO;
+	(26) TX: AMBIA, RX: AMBEA, DIF: I;
+	(29) TX: MISSI, RX: MESSI, DIF: I;
+	(35) TX: BEUVE, RX: BEVVE, DIF: U;
+	(37) TX: KILTS, RX: KILI, DIF: TS;
+	(38) TX: STATU, RX: SATU, DIF: T;
+	(42) TX: SALSA, RX: SALVA, DIF: S;
+	(44) TX: EDILE, RX: EBREA, DIF: DILA;
+	(45) TX: TOTEM, RX: TONEO, DIF: TM;
+	(46) TX: INACO, RX: SACCO, DIF: INC;
+	(48) TX: SMAGO, RX: SAGGIO, DIF: MGI;
+	(50) TX: MASTI, RX: MASIA, DIF: TA;
+	(53) TX: BOTI, RX: DOTI, DIF: B;
+	(55) TX: TERME, RX: TERNI, DIF: ME;
+	(58) TX: INSTA, RX: INITA, DIF: S;
+	(59) TX: TORBI, RX: TORDI, DIF: B;
+	(62) TX: CUGNO, RX: CUANO, DIF: G;
+	(65) TX: SUADE, RX: SUANE, DIF: D;
+	(68) TX: LUMPY, RX: LUMNO, DIF: PY;
+	(69) TX: SAGRO, RX: SUGEO, DIF: AR;
+	(70) TX: LUSSO, RX: LUSIO, DIF: S;
+	(71) TX: OLEAI, RX: OLENA, DIF: NI;
+	(72) TX: GNAIS, RX: GENIA, DIF: EIIS;
+	(75) TX: AEQUO, RX: AENIO, DIF: QU;
+Nota: nessuna
+***
