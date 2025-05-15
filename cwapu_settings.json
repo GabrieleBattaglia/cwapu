@@ -1,11 +1,11 @@
 {
     "app_info": {
-        "launch_count": 27
+        "launch_count": 32
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 46,
-        "pitch": 640,
+        "speed": 40,
+        "pitch": 343,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
@@ -15,13 +15,36 @@
         "wave_index": 3
     },
     "rxing_stats": {
-        "total_calls": 5498,
-        "sessions": 105,
-        "total_correct": 3621,
-        "total_wrong_items": 1875,
-        "total_time_seconds": 22892.468723
+        "total_calls": 5518,
+        "sessions": 106,
+        "total_correct": 3636,
+        "total_wrong_items": 1880,
+        "total_time_seconds": 22968.966868
     },
     "counting_stats": {
         "exercise_number": 100
+    },
+    "historical_rx_data": {
+        "max_sessions_to_keep": 20,
+        "report_interval": 3,
+        "sessions_log": [
+            {
+                "timestamp_iso": "2025-05-15T18:38:03.163074",
+                "duration_seconds": 76.498145,
+                "wpm_min": 31,
+                "wpm_max": 40,
+                "wpm_avg": 35.2,
+                "items_sent_session": 20,
+                "items_correct_session": 15,
+                "chars_sent_session": 73,
+                "errors_detail_session": {
+                    "u": 1,
+                    "e": 1,
+                    "m": 1,
+                    "i": 2
+                },
+                "total_errors_chars_session": 5
+            }
+        ]
     }
 }

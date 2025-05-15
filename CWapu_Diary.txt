@@ -1032,3 +1032,26 @@ Elenco delle parole copiate male:
 	(75) TX: AEQUO, RX: AENIO, DIF: QU;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #105 eseguito il 2025/5/15 alle 18, 39 minuti:
+In questa sessione #105, ti ho inviato 20 words e ne hai ricevuti 15: 75.0%
+	11 di questi sono stati ricevuti al primo ascolto: 73.3%
+	mentre 4 words al secondo tentativo: 26.7%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 40: pari ad una variazione di 9 WPM.
+	La velocità media di ricezione è di: 35.2 WPM.
+Carattere: errori = Percentuale
+I: 2 = 40.0%
+E: 1 = 20.0%
+M: 1 = 20.0%
+U: 1 = 20.0%
+
+Errori totali: 5 su 73 = 6.85%
+Caratteri mai sbagliati: A C D F G H K L N O P Q R S T V X
+Elenco delle parole copiate male:
+	(8) TX: SPUT, RX: SPST, DIF: U;
+	(9) TX: ERIC, RX: TRIC, DIF: E;
+	(13) TX: FAMA, RX: FANA, DIF: M;
+	(16) TX: MICI, RX: MICK, DIF: I;
+	(17) TX: UHIA, RX: UHSA, DIF: I;
+Nota: nessuna
+***
