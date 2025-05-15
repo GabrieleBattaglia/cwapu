@@ -1,7 +1,35 @@
 translations = {
 	'en': {
 		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tLaunch: {count}. Type 'm' for menu.",
+		'report_header_appname': "CWAPU",
+		'historical_stats_report_title': "Historical Rx Exercises Statistics Report",
+		'report_generated_on': "Report generated on",
+		'stats_based_on_exercises': "Statistics based on {count} exercises",
+		'overall_speed_stats': "Overall Speed Statistics",
+		'min_wpm': "Min WPM",
+		'max_wpm': "Max WPM",
+		'avg_wpm_cpm_based': "Avg WPM (CPM-based)",
+		'overall_error_stats': "Overall Error Statistics",
+		'total_chars_sent_in_block': "Total characters sent (in block)",
+		'total_errors_in_block': "Total errors (in block)",
+		'error_details_by_char': "Error details by character",
+		'of_total_chars': "of total chars",
+		'variations_from_previous_block': "Variations From Previous Block",
+		'exercises_articles': "exercises", # Used like: {count} exercises
+		'vs': "vs.",
+		'change': "Change",
+		'overall_error_rate': "Overall error rate",
+		'error_details_variations': "Character Error Details Variations",
+		'no_errors_in_either_block': "No errors recorded in either reference block.",
+		'rate_change_char': "Rate change",
+		'historical_report_implementation_pending':"Historical report: implementation pending.",
+		'unexpected_error_generating_report':"Unexpected error generating report: {e}",
+		'error_saving_historical_report':"Error saving historical report {filename}: {e}",
+		'historical_report_saved_to':"Historical report saved to: {filename}",
+		'no_sessions_in_current_block_for_report':"No sessions in current block to report.",
 		'not_a_valid_language': "Not a valid language",
+		'no_historical_data_to_report':"No historical data available to report.",
+		'generating_historical_report':"Generating historical report...",
 		'select_language': "Select your language / Seleziona la lingua: ",
 		'menu_prompt': "It's not a command!",
 		'fix_yes': "Do you want the cw stay at the same speed?	(y|n)> ",
@@ -63,9 +91,28 @@ translations = {
 		'file_not_found': "File words.txt not found. Please provide a dictionary file: 1 word per line.",
 		'first_class': "Oops, this is your first class, probably. So I'm creating the record.",
 		'got_data': "I got your data from disk, so:\nYour actual WPM is {wpm} and you did {sessions} sessions.\nI sent to you {totalcalls} total pseudo-calls or groups, and you got {totalget} of them, while {totalwrong} were missed\nYour overall time receiving pseudo-calls is {totaltime}.",
+		'exercises_to_next_report':"{count} exercises remaining until the next global report generation",
 		'set_wpm': "Do you want to set your WPM? Enter to accept {wpm}> ",
-		"h_keyboard": "Welcome to the section where you can listen to CW and configure all its parameters.\nThese parameters will be valid and active throughout CWAPU and will be saved automatically when you exit the app.\nNow, carefully read the following:\n\tPress Enter without typing anything to exit and return to the main menu;\n\ttype .w followed by a numeric value to set the WPM;\n\ttype .h followed by a value for the pitch of the CW note peak you want to use;\n\ttype .l followed by a value to set the line, default is 30;\n\ttype .s followed by a value to set the space, default is 50;\n\ttype .p just like .s but for dots;\n\ttype .v followed by a value between 0 and 100 to set the volume;\n\ttype .f1 .f2 .f3 or .f4 to change the waveform;\n\ttype .m followed by a milliseconds to set up the fade in and out for CW note;\n\ttype .sr to set the sample rate to send to your soundcard;\n\ttype ? to see this help message;\n\ttype ?? to view the CW parameters;\n\ttype .rs to reset CW to the standard weight of 1/3\n\ttype .sv <text> to save cw in a .wav file\n",
-		'empty_clipboard': "empty",
+		'h_keyboard':
+    "Welcome to the section where you can listen to CW and configure all its parameters.\n" \
+    "These parameters will be valid and active throughout CWAPU and will be saved automatically when you exit the app.\n" \
+    "Now, please read the following carefully:\n" \
+    "\tPress Enter without typing anything to exit and return to the main menu;\n" \
+    "\ttype .w followed by a numeric value to set the WPM;\n" \
+    "\ttype .h followed by a value for the pitch of the CW note peak you want to use;\n" \
+    "\ttype .l followed by a value to set the dash length, default is 30;\n" \
+    "\ttype .s followed by a value to set the space length, default is 50;\n" \
+    "\ttype .p just like .s but for dots;\n" \
+    "\ttype .v followed by a value between 0 and 100 to set the volume;\n" \
+    "\ttype .f1 .f2 .f3 or .f4 to change the waveform;\n" \
+    "\ttype .m followed by milliseconds to set the fade in and out for the CW note;\n" \
+    "\ttype .g followed by a value to set the number of exercises for global statistics;\n" \
+    "\ttype .x followed by a value to set how often (in exercises) to update global stats;\n" \
+    "\ttype .sr to set the sample rate to send to your sound card;\n" \
+    "\ttype ? to see this help message;\n" \
+    "\ttype ?? to display the set parameters;\n" \
+    "\ttype .rs to reset CW to the standard 1/3 weight\n" \
+    "\ttype .sv <text> to save the CW to a .wav file\n",		'empty_clipboard': "empty",
 		'not_a_command': "It's not a command!",
 		'press_m_for_menu': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tPress 'm' for menu.",
 		'o_set_loaded':"General settings loaded",
@@ -174,9 +221,55 @@ translations = {
 		'total_mistakes': "\nErrori totali: {global_mistakes} su {send_char} = {mistake_percentage:.2f}%",
 		'never_misspelled': "\nCaratteri mai sbagliati: {good_letters}",
 		'how_many': "\nQuanti ne vuoi ricevere? (INVIO per infinito)> ",
+		'exercises_to_next_report':"{count} esercizi mancanti alla prossima generazione del report globale",
 		'no_mistakes_recorded': "Nessun errore sui caratteri registrato in questa sessione.",
 		'fix_yes': "Vuoi che il cw rimanga alla stessa velocità?	(y|n)> ",
-		'h_keyboard': "Benvenuto nella sezione dove potrai ascoltare il CW e configurare tutti i suoi parametri.\nQuesti parametri saranno validi e attivi in tutto CWAPU e verranno salvati automaticamente quando esci dall'app.\nOra, leggi attentamente quanto segue:\n\tPremi Invio senza digitare nulla per uscire e tornare al menu principale;\n\tdigita .w seguito da un valore numerico per impostare il WPM;\n\tdigita .h seguito da un valore per il pitch del picco della nota CW che vuoi usare;\n\tdigita .l seguito da un valore per impostare la linea, il default è 30;\n\tdigita .s seguito da un valore per impostare lo spazio, il default è 50;\n\tdigita .p proprio come .s ma per i punti;\n\tdigita .v seguito da un valore tra 0 e 100 per impostare il volume;\n\tdigita .f1 .f2 .f3 o .f4 per cambiare la forma d'onda;\n\tdigita .m seguito da millisecondi per impostare il fade in e out per la nota CW;\n\tdigita .sr per impostare il sample rate da inviare alla tua scheda audio;\n\tdigita ? per vedere questo messaggio di aiuto;\n\tdigita ?? per visualizzare i parametri CW;\n\tdigita .rs per reimpostare il CW al peso standard di 1/3\n\tdigitare .sv <testo> per salvare il CW in un file .wav\n",
+		'h_keyboard':
+			"Benvenuto nella sezione dove potrai ascoltare il CW e configurare tutti i suoi parametri.\nQuesti parametri saranno validi e attivi in tutto CWAPU e verranno salvati automaticamente quando esci dall'app.\nOra, leggi attentamente quanto segue:\n" \
+			"tPremi Invio senza digitare nulla per uscire e tornare al menu principale;\n" \
+			"\tdigita .w seguito da un valore numerico per impostare il WPM;\n"\
+			"\tdigita .h seguito da un valore per il pitch del picco della nota CW che vuoi usare;\n"\
+			"\tdigita .l seguito da un valore per impostare la linea, il default è 30;\n"\
+			"\tdigita .s seguito da un valore per impostare lo spazio, il default è 50;\n"\
+			"\tdigita .p proprio come .s ma per i punti;\n"\
+			"\tdigita .v seguito da un valore tra 0 e 100 per impostare il volume;\n"\
+			"\tdigita .f1 .f2 .f3 o .f4 per cambiare la forma d'onda;\n"\
+			"\tdigita .m seguito da millisecondi per impostare il fade in e out per la nota CW;\n"\
+			"\tdigita .g seguito da un valore per impostare la quantità di esercizi per le statistiche globali;\n"\
+			"\tdigita .x seguito da un valore per impostare ogni quanti esercizi aggiornare le stats globali;\n"\
+			"\tdigita .sr per impostare il sample rate da inviare alla tua scheda audio;\n"\
+			"\tdigita ? per vedere questo messaggio di aiuto;\n"\
+			"\tdigita ?? per visualizzare i parametri impostati;\n"\
+			"\tdigita .rs per reimpostare il CW al peso standard di 1/3\n"\
+			"\tdigita .sv <testo> per salvare il CW in un file .wav\n",
+		'generating_historical_report':"Generazione report storico in corso...",
+		'historical_report_implementation_pending':"Report storico: implementazione da completare.",
+		'no_historical_data_to_report':"Nessun dato salvato disponibile per il report.",
+		'no_sessions_in_current_block_for_report':"Nessuna sessione nel blocco corrente da riportare.",
+		'historical_report_saved_to':"Report storico salvato in: {filename}",
+		'error_saving_historical_report':"Errore durante il salvataggio del report storico {filename}: {e}",
+		'unexpected_error_generating_report':"Errore imprevisto durante la generazione del report: {e}",
+		'report_header_appname': "CWAPU", # Puoi personalizzare se preferisci
+		'historical_stats_report_title': "Report Statistiche Storiche Esercizi Rx",
+		'report_generated_on': "Report generato il",
+		'stats_based_on_exercises': "Statistiche basate su {count} esercizi",
+		'overall_speed_stats': "Statistiche Velocità Complessive",
+		'min_wpm': "WPM Min",
+		'max_wpm': "WPM Max",
+		'avg_wpm_cpm_based': "WPM Medio (su CPM)",
+		'overall_error_stats': "Statistiche Errori Complessive",
+		'total_chars_sent_in_block': "Caratteri totali inviati (nel blocco)",
+		'total_errors_in_block': "Errori totali (nel blocco)",
+		'error_details_by_char': "Dettaglio errori per carattere",
+		'of_total_chars': "dei car. tot.", # Abbreviato per brevità, o "dei caratteri totali"
+		'variations_from_previous_block': "Variazioni Rispetto al Blocco Precedente",
+		'exercises_articles': "esercizi", # Usato come: {count} esercizi
+		'vs': "vs.", # O "contro"
+		'change': "Variazione",
+		'overall_error_rate': "Tasso errore generale",
+		'error_details_variations': "Variazioni Dettaglio Errori per Carattere",
+		'no_errors_in_either_block': "Nessun errore registrato in nessuno dei due blocchi di riferimento.",
+		'rate_change_char': "Variaz. tasso",
 		#Qit
 	}
 }
