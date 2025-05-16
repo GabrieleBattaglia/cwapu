@@ -1400,3 +1400,30 @@ Elenco delle parole copiate male:
 	(50) TX: WM8PE, RX: WM7PE, DIF: 8;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #118 eseguito il 2025/5/16 alle 15, 43 minuti:
+In questa sessione #118, ti ho inviato 20 Group e ne hai ricevuti 14: 70.0%
+	8 di questi sono stati ricevuti al primo ascolto: 57.1%
+	mentre 6 Group al secondo tentativo: 42.9%.
+Durante la sessione, la tua velocità minima è stata 33, la massima di 40: pari ad una variazione di 7 WPM.
+	La velocità media di ricezione è di: 36.5 WPM.
+Carattere: errori = Percentuale
+1: 1 = 14.29%
+B: 1 = 14.29%
+D: 1 = 14.29%
+H: 1 = 14.29%
+I: 1 = 14.29%
+S: 1 = 14.29%
+Y: 1 = 14.29%
+
+Errori totali: 7 su 60 = 11.67%
+Caratteri mai sbagliati: 0 3 5 8 9 A C E F G K L M N O P R U V W X Z
+Elenco delle parole copiate male:
+	(7) TX: C0I, RX: C0E, DIF: I;
+	(11) TX: NHY, RX: N5C, DIF: HY;
+	(12) TX: S0V, RX: H0V, DIF: S;
+	(14) TX: 8YB, RX: 8YD, DIF: B;
+	(16) TX: UDK, RX: UNK, DIF: D;
+	(17) TX: 5M1, RX: 5MJ, DIF: 1;
+Nota: nessuna
+***
