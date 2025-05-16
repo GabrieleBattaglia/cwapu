@@ -19,7 +19,7 @@ overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 #QConstants
-VERS="3.1.0, (2025-05-15"
+VERS="3.1.8, (2025-05-16"
 SETTINGS_FILE = "cwapu_settings.json"
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 100
 HISTORICAL_RX_REPORT_INTERVAL = 10 # Ogni quanti esercizi generare il report
@@ -283,7 +283,7 @@ def KeyboardCW():
 						if len(sessions_log) > new_val_g: 
 							app_data['historical_rx_data']['sessions_log'] = sessions_log[-new_val_g:]
 						overall_settings_changed = True
-					feedback_cw = f"bk max exercises {new_val_g} bk"
+					feedback_cw = f"bk rx group is {new_val_g} bk"
 					command_processed_internally = True
 				
 				elif cmd_letter == "x":
@@ -293,7 +293,7 @@ def KeyboardCW():
 					if actual_val_x != new_val_x:
 						app_data['historical_rx_data']['report_interval'] = new_val_x
 						overall_settings_changed = True
-					feedback_cw = f"bk report interval {new_val_x} bk"
+					feedback_cw = f"bk rx group interval is {new_val_x} bk"
 					command_processed_internally = True
 
 				# Comandi CW esistenti
@@ -314,12 +314,12 @@ def KeyboardCW():
 					feedback_cw = f"bk r ms is {overall_ms} bk"
 					command_processed_internally = True
 				elif cmd_letter=="f": 
-					new_wave_idx_user = max(1, min(len(WAVE_TYPES), value_int)) # Utente input 1-4
-					new_wave_idx_0based = new_wave_idx_user - 1 # Converti in indice 0-based
+					new_wave_idx_user = max(1, min(len(WAVE_TYPES), value_int))
+					new_wave_idx_0based = new_wave_idx_user
 					if overall_wave != new_wave_idx_0based: 
 						overall_wave = new_wave_idx_0based
 						overall_settings_changed=True
-					feedback_cw = f"bk r wave is {WAVE_TYPES[overall_wave]} bk"
+					feedback_cw = f"bk r wave is {WAVE_TYPES[overall_wave-1]} bk"
 					command_processed_internally = True
 				elif cmd_letter=="h":
 					if overall_pitch != value_int:
@@ -624,7 +624,7 @@ def Rxing():
 		else:
 			qrz=GeneratingGroup(kind=kind, length=length, wpm=overall_speed)
 		pitch=random.randint(250, 1050)
-		prompt = f"S{sessions}-#{calls} - WPM{rwpm:.0f}/{(average_rwpm / len(callsget) if len(callsget) else rwpm):.2f} - +{len(callsget)}/-{len(callswrong)} - > "
+		prompt = f"S{sessions}-#{calls} - WPM{rwpm:.0f}/{(average_rwpm / len(callsget) if len(callsget) else rwpm):.2f} - +{len(callsget)}/-{len(callswrong)}> "
 		plo,rwpm=CWzator(msg=qrz, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if guess==".":
@@ -633,7 +633,7 @@ def Rxing():
 		if guess == "" or guess.endswith("?"):
 			repeatedflag=True
 			partial_input = ""
-			prompt_indicator = "%" 
+			prompt_indicator = "% "
 			if guess.endswith("?"):
 				partial_input = guess[:-1]
 				prompt_indicator = f"% {partial_input}"
@@ -826,13 +826,11 @@ def _calculate_aggregates(session_list):
 	wpm_min_overall = min(valid_min_wpms) if valid_min_wpms else 0
 	wpm_max_overall = max(valid_max_wpms) if valid_max_wpms else 0
 
-	# WPM medio basato su CPM (caratteri totali / tempo totale in minuti)
-	total_duration_minutes = total_duration_seconds / 60.0
-	wpm_avg_overall_cpm_based = 0.0
-	if total_duration_minutes > 0:
-		cpm_avg_overall = total_chars_sent_overall / total_duration_minutes
-		wpm_avg_overall_cpm_based = cpm_avg_overall / 5.0 # Assumendo 5 caratteri per parola (standard PARIS)
-
+	if session_list:
+		sum_of_session_avg_wpms = sum(s.get("wpm_avg", 0.0) for s in session_list) # Usa 0.0 come default se 'wpm_avg' manca
+		wpm_avg_of_session_avgs = sum_of_session_avg_wpms / len(session_list)
+	else:
+		wpm_avg_of_session_avgs = 0.0
 	total_items_sent = sum(s.get("items_sent_session", 0) for s in session_list)
 	total_items_correct = sum(s.get("items_correct_session", 0) for s in session_list)
 	
@@ -842,13 +840,12 @@ def _calculate_aggregates(session_list):
 		total_errors_chars_overall += s.get("total_errors_chars_session", 0)
 		for char, count in s.get("errors_detail_session", {}).items():
 			aggregated_errors_detail[char] = aggregated_errors_detail.get(char, 0) + count
-			
 	return {
 		"num_sessions_in_block": len(session_list),
 		"total_duration_seconds": total_duration_seconds,
 		"wpm_min_overall": wpm_min_overall,
 		"wpm_max_overall": wpm_max_overall,
-		"wpm_avg_overall_cpm_based": wpm_avg_overall_cpm_based,
+		"wpm_avg_of_session_avgs": wpm_avg_of_session_avgs, # CHIAVE MODIFICATA/NUOVA
 		"total_items_sent": total_items_sent,
 		"total_items_correct": total_items_correct,
 		"total_chars_sent_overall": total_chars_sent_overall,
@@ -879,10 +876,11 @@ def generate_historical_rx_report():
 	if not current_block_sessions:
 		print(Trnsl('no_sessions_in_current_block_for_report', lang=app_language)) # Crea traduzione
 		return
-		
 	current_aggregates = _calculate_aggregates(current_block_sessions)
 	num_sessions_in_current_report = current_aggregates["num_sessions_in_block"]
-
+	g_value = historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+	x_value = historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+	report_filename = f"CWapu_Historical_Statistics_G_{g_value}_X_{x_value}.txt"
 	# Determina il blocco precedente per il calcolo delle variazioni
 	previous_aggregates = None
 	if len(sessions_log) >= report_gen_interval: # Deve esserci almeno un intervallo di sessioni passate
@@ -895,12 +893,6 @@ def generate_historical_rx_report():
 			
 			if previous_block_sessions:
 				previous_aggregates = _calculate_aggregates(previous_block_sessions)
-
-	# Nome del file del report
-	report_filename = f"cwapu_super_global_stats_last_{num_sessions_in_current_report}.txt"
-	# Crea traduzioni per le etichette nel file di report
-	# Es: 'report_generated_on', 'stats_based_on_exercises', 'overall_speed_stats', 'min_wpm', 'max_wpm', 'avg_wpm', ...
-	
 	try:
 		with open(report_filename, "w", encoding="utf-8") as f:
 			timestamp_now = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -908,12 +900,10 @@ def generate_historical_rx_report():
 			f.write(f"{Trnsl('report_generated_on', lang=app_language)}: {timestamp_now}\n")
 			f.write(Trnsl('stats_based_on_exercises', lang=app_language, count=num_sessions_in_current_report) + "\n")
 			f.write("--------------------------------------------------\n")
-			
-			# Statistiche di Velocità Correnti
 			f.write(f"{Trnsl('overall_speed_stats', lang=app_language)}:\n")
-			f.write(f"  {Trnsl('min_wpm', lang=app_language)}: {current_aggregates['wpm_min_overall']:.1f} WPM\n")
-			f.write(f"  {Trnsl('max_wpm', lang=app_language)}: {current_aggregates['wpm_max_overall']:.1f} WPM\n")
-			f.write(f"  {Trnsl('avg_wpm_cpm_based', lang=app_language)}: {current_aggregates['wpm_avg_overall_cpm_based']:.1f} WPM\n")
+			f.write(f"  {Trnsl('min_wpm', lang=app_language)}: {current_aggregates['wpm_min_overall']:.2f} WPM\n")
+			f.write(f"  {Trnsl('max_wpm', lang=app_language)}: {current_aggregates['wpm_max_overall']:.2f} WPM\n")
+			f.write(f"  {Trnsl('avg_wpm_of_session_avgs_label', lang=app_language)}: {current_aggregates['wpm_avg_of_session_avgs']:.2f} WPM\n")
 			f.write("\n")
 
 			# Statistiche Errori Correnti
@@ -938,14 +928,12 @@ def generate_historical_rx_report():
 				f.write("--------------------------------------------------\n")
 				f.write(f"{Trnsl('variations_from_previous_block', lang=app_language)} (vs {previous_aggregates['num_sessions_in_block']} {Trnsl('exercises_articles', lang=app_language)})\n")
 				f.write("--------------------------------------------------\n")
-
-				# Variazione WPM Medio
-				prev_wpm_avg = previous_aggregates['wpm_avg_overall_cpm_based']
-				curr_wpm_avg = current_aggregates['wpm_avg_overall_cpm_based']
+				# Variazione WPM Medio (usando la nuova metrica)
+				prev_wpm_avg = previous_aggregates['wpm_avg_of_session_avgs']
+				curr_wpm_avg = current_aggregates['wpm_avg_of_session_avgs']
 				delta_wpm = curr_wpm_avg - prev_wpm_avg
-				perc_delta_wpm_str = f"({(delta_wpm / prev_wpm_avg * 100):+.2f}%)" if prev_wpm_avg != 0 else ""
-				f.write(f"  {Trnsl('avg_wpm_cpm_based', lang=app_language)}: {curr_wpm_avg:.1f} WPM ({Trnsl('vs', lang=app_language)} {prev_wpm_avg:.1f} WPM). {Trnsl('change', lang=app_language)}: {delta_wpm:+.1f} WPM {perc_delta_wpm_str}\n")
-
+				perc_delta_wpm_str = f"({(delta_wpm / prev_wpm_avg * 100):+.2f}%)" if prev_wpm_avg != 0 else "" # Formattazione a 2 decimali
+				f.write(f"  {Trnsl('avg_wpm_of_session_avgs_label', lang=app_language)}: {curr_wpm_avg:.2f} WPM ({Trnsl('vs', lang=app_language)} {prev_wpm_avg:.2f} WPM). {Trnsl('change', lang=app_language)}: {delta_wpm:+.2f} WPM {perc_delta_wpm_str}\n")
 				# Variazione Tasso di Errore Generale
 				prev_total_chars = previous_aggregates['total_chars_sent_overall']
 				prev_total_errs = previous_aggregates['total_errors_chars_overall']
@@ -960,18 +948,21 @@ def generate_historical_rx_report():
 				
 				# Variazioni per errori specifici (Top N errori o tutti)
 				f.write(f"  {Trnsl('error_details_variations', lang=app_language)}:\n")
-				all_error_chars = set(current_aggregates['aggregated_errors_detail'].keys()) | set(previous_aggregates['aggregated_errors_detail'].keys())
-				if not all_error_chars:
+				all_error_chars_set = set(current_aggregates['aggregated_errors_detail'].keys()) | set(previous_aggregates['aggregated_errors_detail'].keys())
+				if not all_error_chars_set:
 					f.write(f"    {Trnsl('no_errors_in_either_block', lang=app_language)}\n")
-				
-				sorted_all_error_chars = sorted(list(all_error_chars))
-				for char_err in sorted_all_error_chars:
-					curr_count = current_aggregates['aggregated_errors_detail'].get(char_err, 0)
-					prev_count = previous_aggregates['aggregated_errors_detail'].get(char_err, 0)
-					curr_err_char_rate = (curr_count / total_chars * 100) if total_chars > 0 else 0.0
-					prev_err_char_rate = (prev_count / prev_total_chars * 100) if prev_total_chars > 0 else 0.0
-					delta_char_rate = curr_err_char_rate - prev_err_char_rate
-					f.write(f"    '{char_err.upper()}': {curr_err_char_rate:.2f}% ({curr_count}) {Trnsl('vs', lang=app_language)} {prev_err_char_rate:.2f}% ({prev_count}). {Trnsl('rate_change_char', lang=app_language)}: {delta_char_rate:+.2f}%\n")
+				else:
+					sorted_chars_for_variation = sorted(
+						list(all_error_chars_set),
+						key=lambda char_key: (-current_aggregates['aggregated_errors_detail'].get(char_key, 0), char_key)
+					)
+					for char_err in sorted_chars_for_variation: # Itera sulla lista ordinata
+						curr_count = current_aggregates['aggregated_errors_detail'].get(char_err, 0)
+						prev_count = previous_aggregates['aggregated_errors_detail'].get(char_err, 0)
+						curr_err_char_rate = (curr_count / total_chars * 100) if total_chars > 0 else 0.0
+						prev_err_char_rate = (prev_count / prev_total_chars * 100) if prev_total_chars > 0 else 0.0
+						delta_char_rate = curr_err_char_rate - prev_err_char_rate
+						f.write(f"    '{char_err.upper()}': {curr_err_char_rate:.2f}% ({curr_count}) {Trnsl('vs', lang=app_language)} {prev_err_char_rate:.2f}% ({prev_count}). {Trnsl('rate_change_char', lang=app_language)}: {delta_char_rate:+.2f}%\n")
 			print(Trnsl('historical_report_saved_to', lang=app_language, filename=report_filename))
 	except IOError as e:
 		print(Trnsl('error_saving_historical_report', lang=app_language, filename=report_filename, e=str(e)))
