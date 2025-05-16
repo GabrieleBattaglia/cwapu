@@ -1,6 +1,7 @@
 translations = {
 	'en': {
 		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tLaunch: {count}. Type 'm' for menu.",
+		'avg_wpm_of_session_avgs_label':"Avg WPM (average of sessions)",
 		'report_header_appname': "CWAPU",
 		'historical_stats_report_title': "Historical Rx Exercises Statistics Report",
 		'report_generated_on': "Report generated on",
@@ -270,6 +271,7 @@ translations = {
 		'error_details_variations': "Variazioni Dettaglio Errori per Carattere",
 		'no_errors_in_either_block': "Nessun errore registrato in nessuno dei due blocchi di riferimento.",
 		'rate_change_char': "Variaz. tasso",
+		'avg_wpm_of_session_avgs_label':"WPM Medio (media delle sessioni)",
 		#Qit
 	}
 }
