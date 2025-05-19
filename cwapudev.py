@@ -15,11 +15,11 @@ def Trnsl(key, lang='en', **kwargs):
 		return value
 	return value.format(**kwargs)
 
+#QConstants
+VERS="3.3.2, (2025-05-19)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
-#QConstants
-VERS="3.1.8, (2025-05-16"
 SETTINGS_FILE = "cwapu_settings.json"
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 100
 HISTORICAL_RX_REPORT_INTERVAL = 10 # Ogni quanti esercizi generare il report
@@ -67,6 +67,98 @@ words=[]
 app_data = {}
 
 #qf
+def crea_report_grafico(current_aggregates, previous_aggregates, 
+                        g_val, x_val, num_sessions_in_report, 
+                        output_filename, lang='en'):
+	"""
+	Crea un report grafico delle statistiche storiche e lo salva come immagine.
+	"""
+	print(f"DEBUG: Funzione crea_report_grafico CHIAMATA. File di output target: {output_filename}")
+	try:
+		import matplotlib
+		# Imposta il backend non interattivo PRIMA di importare pyplot.
+		# Questo è cruciale per evitare problemi in ambienti senza GUI.
+		matplotlib.use('Agg') 
+		import matplotlib.pyplot as plt
+		import numpy as np
+	except ImportError:
+		# Messaggio specifico se matplotlib o numpy non sono installati.
+		# Assicurati di avere la chiave 'matplotlib_not_found_error' nelle traduzioni.
+		# IT: "Libreria Matplotlib/Numpy non trovata. Impossibile generare il report grafico. Per installarla: pip install matplotlib numpy"
+		# EN: "Matplotlib/Numpy library not found. Cannot generate graphical report. To install it: pip install matplotlib numpy"
+		print(Trnsl('matplotlib_not_found_error', lang=lang))
+		return # Esce dalla funzione se le librerie non sono disponibili.
+	except Exception as e_import:
+		# Cattura QUALSIASI ALTRO errore che potrebbe verificarsi durante l'importazione o .use('Agg')
+		# Assicurati di avere la chiave 'error_importing_matplotlib' nelle traduzioni.
+		# IT: "Errore imprevisto durante l'importazione di Matplotlib: {error}"
+		# EN: "Unexpected error while importing Matplotlib: {error}"
+		print(Trnsl('error_importing_matplotlib', lang=lang, error=str(e_import)))
+		return # Esce dalla funzione.
+	print(f"DEBUG: Inizio creazione report grafico: {output_filename}") # Messaggio di debug
+	print(f"DEBUG: Dati correnti ricevuti: {bool(current_aggregates)}")
+	print(f"DEBUG: Dati precedenti ricevuti: {bool(previous_aggregates)}")
+
+	# Impostazioni preliminari per lo stile scuro e i colori
+	plt.style.use('dark_background') # Applica uno stile scuro predefinito
+	fig_width_inches = 10 # Larghezza immagine (es. 10 pollici * 100 DPI = 1000 pixel)
+	fig_height_inches = 16 # Altezza immagine (più alta per permettere lo scorrimento)
+                           # Potremmo renderla dinamica più avanti
+
+	# Colori (esempi, possiamo affinarli)
+	text_color = 'white'
+	# Scala colori: rosso (cattivo) -> arancio -> giallo -> verde (buono) -> azzurro -> blu (ottimo)
+	color_error_high = '#FF4136' # Rosso
+	color_warning = '#FF851B'    # Arancio
+	color_neutral = '#FFDC00'    # Giallo
+	color_good = '#2ECC40'       # Verde
+	color_excellent = '#7FDBFF'  # Azzurro Chiaro
+	color_data_bar = '#0074D9'   # Blu per barre generiche
+
+	# Crea la figura e gli assi principali (per ora un solo set di assi)
+	# Potremmo usare subplots per dividere l'immagine in pannelli
+	fig, ax = plt.subplots(figsize=(fig_width_inches, fig_height_inches))
+	fig.patch.set_facecolor('#222222') # Colore di sfondo della figura intera
+	ax.set_facecolor('#333333')      # Colore di sfondo del pannello grafico principale
+
+	# --- INIZIO CONTENUTO GRAFICO (Placeholder) ---
+	
+	# Titolo generale dell'immagine
+	title_text = f"{Trnsl('report_header_appname', lang=lang)} - {Trnsl('historical_stats_report_title', lang=lang)}"
+	subtitle_text = Trnsl('stats_based_on_exercises', lang=lang, count=num_sessions_in_report) + \
+	                f" (G={g_val}, X={x_val})"
+	generation_time_text = f"{Trnsl('report_generated_on', lang=lang)}: {dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+
+	# Posizionamento del testo (esempio, richiederà aggiustamenti)
+	# Useremo fig.text per testo relativo all'intera figura, o ax.text per testo relativo a un pannello.
+	# Per ora, un semplice testo sull'asse principale.
+	ax.text(0.5, 0.95, title_text, color=text_color, ha='center', va='center', fontsize=16, transform=ax.transAxes)
+	ax.text(0.5, 0.92, subtitle_text, color=text_color, ha='center', va='center', fontsize=12, transform=ax.transAxes)
+	ax.text(0.5, 0.89, generation_time_text, color=text_color, ha='center', va='center', fontsize=10, transform=ax.transAxes)
+
+	# Rimuovi gli assi cartesiani se il primo pannello è solo testo o se li gestiamo diversamente
+	ax.set_axis_off()
+
+
+	# Esempio: Aggiungiamo un testo per WPM medio (solo per vedere qualcosa)
+	avg_wpm_text = f"{Trnsl('avg_wpm_of_session_avgs_label', lang=lang)}: {current_aggregates['wpm_avg_of_session_avgs']:.2f} WPM"
+	ax.text(0.1, 0.80, avg_wpm_text, color=color_good, fontsize=14, transform=ax.transAxes)
+
+
+	# --- FINE CONTENUTO GRAFICO (Placeholder) ---
+
+	try:
+		# Salva la figura
+		# bbox_inches='tight' rimuove eccessivo spazio bianco attorno al grafico
+		# pad_inches definisce il padding
+		plt.savefig(output_filename, dpi=120, bbox_inches='tight', pad_inches=0.3, facecolor=fig.get_facecolor())
+		plt.close(fig) # Chiudi la figura per liberare memoria
+		print(f"DEBUG: Report grafico salvato con successo: {output_filename}")
+	except Exception as e_save:
+		plt.close(fig) # Assicurati di chiudere la figura anche in caso di errore
+		# Crea traduzione per questo messaggio specifico
+		print(Trnsl('error_saving_graphical_file', lang=lang, filename=output_filename, error=str(e_save)))
+
 def load_settings():
 	"""Carica le impostazioni dal file JSON o restituisce i default."""
 	global overall_settings_changed # Flag per indicare se le impostazioni devono essere salvate all'uscita
@@ -650,12 +742,14 @@ def Rxing():
 			callssend.append(original_qrz)
 			guess = guess.lower()
 			if original_qrz == guess:
+				tplo,trwpm=CWzator(msg="r _ _ ", wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave,sync=True)
 				callsget.append(original_qrz)
 				average_rwpm+=rwpm
 				if repeatedflag: callsrepeated+=1
 				if not fix_speed and overall_speed<100: overall_speed+=1
 			else:
 				callswrong.append(original_qrz)
+				tplo,trwpm=CWzator(msg="? _ _ ", wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave,sync=True)
 				diff=MistakesCollectorInStrings(original_qrz, guess)
 				diff_ratio=(1 - difflib.SequenceMatcher(None, original_qrz, guess).ratio()) * 100
 				print(f"TX: {original_qrz.upper()} RX: {guess.upper()} <>: {diff.upper()} RT: {int(diff_ratio):d}")
@@ -717,18 +811,23 @@ def Rxing():
 		historical_rx_settings = app_data.get('historical_rx_data', {})
 		max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
 		report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+		# 'callssend' è la lista degli item (stringhe) originali inviati, già in minuscolo.
+		sent_chars_detail_this_session = {}
+		for item_str in callssend: # 'callssend' contiene gli item della sessione corrente
+			for char_sent in item_str:
+				sent_chars_detail_this_session[char_sent] = sent_chars_detail_this_session.get(char_sent, 0) + 1		
 		session_data_for_history = {
-			"timestamp_iso": starttime.isoformat(), # 'starttime' è definito all'inizio dell'esercizio Rxing
+			"timestamp_iso": starttime.isoformat(),
 			"duration_seconds": exerctime.total_seconds(),
 			"wpm_min": minwpm,
 			"wpm_max": maxwpm,
 			"wpm_avg": avg_wpm_calc,
 			"items_sent_session": len(callssend),
 			"items_correct_session": len(callsget),
-			"chars_sent_session": send_char, 
-			"errors_detail_session": char_error_counts, 
-			"total_errors_chars_session": total_mistakes_calculated 
-		}
+			"chars_sent_session": send_char,
+			"errors_detail_session": char_error_counts,
+			"total_errors_chars_session": total_mistakes_calculated,
+			"sent_chars_detail_session": sent_chars_detail_this_session}
 		historical_rx_log = app_data.get('historical_rx_data', {}).get('sessions_log', [])
 		historical_rx_log.append(session_data_for_history)
 		while len(historical_rx_log) > max_sessions_to_keep:
@@ -815,17 +914,18 @@ def _calculate_aggregates(session_list):
 			"total_chars_sent_overall": 0, "aggregated_errors_detail": {},
 			"total_errors_chars_overall": 0
 		}
-
 	total_duration_seconds = sum(s.get("duration_seconds", 0) for s in session_list)
 	total_chars_sent_overall = sum(s.get("chars_sent_session", 0) for s in session_list)
-	
+	aggregated_sent_chars_detail = {}
+	for s in session_list:
+		for char, count in s.get("sent_chars_detail_session", {}).items():
+			aggregated_sent_chars_detail[char] = aggregated_sent_chars_detail.get(char, 0) + count	
 	# WPM min e max complessivi
 	# Filtra i valori non significativi (es. 0 se non impostato, o 100 per minwpm iniziale)
 	valid_min_wpms = [s.get("wpm_min", 0) for s in session_list if s.get("wpm_min", 0) > 0 and s.get("wpm_min", 0) != 100]
 	valid_max_wpms = [s.get("wpm_max", 0) for s in session_list if s.get("wpm_max", 0) > 0]
 	wpm_min_overall = min(valid_min_wpms) if valid_min_wpms else 0
 	wpm_max_overall = max(valid_max_wpms) if valid_max_wpms else 0
-
 	if session_list:
 		sum_of_session_avg_wpms = sum(s.get("wpm_avg", 0.0) for s in session_list) # Usa 0.0 come default se 'wpm_avg' manca
 		wpm_avg_of_session_avgs = sum_of_session_avg_wpms / len(session_list)
@@ -833,7 +933,6 @@ def _calculate_aggregates(session_list):
 		wpm_avg_of_session_avgs = 0.0
 	total_items_sent = sum(s.get("items_sent_session", 0) for s in session_list)
 	total_items_correct = sum(s.get("items_correct_session", 0) for s in session_list)
-	
 	aggregated_errors_detail = {}
 	total_errors_chars_overall = 0
 	for s in session_list:
@@ -845,34 +944,30 @@ def _calculate_aggregates(session_list):
 		"total_duration_seconds": total_duration_seconds,
 		"wpm_min_overall": wpm_min_overall,
 		"wpm_max_overall": wpm_max_overall,
-		"wpm_avg_of_session_avgs": wpm_avg_of_session_avgs, # CHIAVE MODIFICATA/NUOVA
+		"wpm_avg_of_session_avgs": wpm_avg_of_session_avgs, 
 		"total_items_sent": total_items_sent,
 		"total_items_correct": total_items_correct,
 		"total_chars_sent_overall": total_chars_sent_overall,
-		"aggregated_errors_detail": aggregated_errors_detail,
-		"total_errors_chars_overall": total_errors_chars_overall
+		"aggregated_errors_detail": aggregated_errors_detail, # Errori commessi
+		"total_errors_chars_overall": total_errors_chars_overall,
+		"aggregated_sent_chars_detail": aggregated_sent_chars_detail # <-- NUOVA CHIAVE AGGIUNTA (Caratteri inviati)
 	}
 
 def generate_historical_rx_report():
 	global app_data, app_language # Necessario per Trnsl e accedere ai dati
-
 	historical_data = app_data.get('historical_rx_data', {})
 	sessions_log = historical_data.get('sessions_log', [])
 	# max_sessions_to_keep determina il 'target' N per il report
 	max_sessions_for_report_config = historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
 	# report_interval è ogni quante sessioni si genera il report (e quindi per il delta)
 	report_gen_interval = historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
-
-
 	if not sessions_log:
 		print(Trnsl('no_historical_data_to_report', lang=app_language)) # Crea traduzione
 		return
-
 	# Determina il blocco corrente di sessioni per il report
 	# Prende le ultime 'max_sessions_for_report_config' sessioni, o meno se non ce ne sono abbastanza
 	num_to_take_current = min(len(sessions_log), max_sessions_for_report_config)
 	current_block_sessions = sessions_log[-num_to_take_current:] if num_to_take_current > 0 else []
-
 	if not current_block_sessions:
 		print(Trnsl('no_sessions_in_current_block_for_report', lang=app_language)) # Crea traduzione
 		return
@@ -890,7 +985,6 @@ def generate_historical_rx_report():
 			num_to_take_previous = min(end_index_prev_block, max_sessions_for_report_config)
 			start_index_prev_block = max(0, end_index_prev_block - num_to_take_previous)
 			previous_block_sessions = sessions_log[start_index_prev_block:end_index_prev_block]
-			
 			if previous_block_sessions:
 				previous_aggregates = _calculate_aggregates(previous_block_sessions)
 	try:
@@ -905,7 +999,6 @@ def generate_historical_rx_report():
 			f.write(f"  {Trnsl('max_wpm', lang=app_language)}: {current_aggregates['wpm_max_overall']:.2f} WPM\n")
 			f.write(f"  {Trnsl('avg_wpm_of_session_avgs_label', lang=app_language)}: {current_aggregates['wpm_avg_of_session_avgs']:.2f} WPM\n")
 			f.write("\n")
-
 			# Statistiche Errori Correnti
 			f.write(f"{Trnsl('overall_error_stats', lang=app_language)}:\n")
 			total_chars = current_aggregates['total_chars_sent_overall']
@@ -913,17 +1006,17 @@ def generate_historical_rx_report():
 			overall_error_rate = (total_errs / total_chars * 100) if total_chars > 0 else 0.0
 			f.write(f"  {Trnsl('total_chars_sent_in_block', lang=app_language)}: {total_chars}\n")
 			f.write(f"  {Trnsl('total_errors_in_block', lang=app_language)}: {total_errs} ({overall_error_rate:.2f}%)\n")
-			
 			if current_aggregates['aggregated_errors_detail']:
 				f.write(f"  {Trnsl('error_details_by_char', lang=app_language)}:\n")
 				# Ordina per conteggio (decrescente) e poi per carattere
 				sorted_errors = sorted(current_aggregates['aggregated_errors_detail'].items(), key=lambda item: (-item[1], item[0]))
 				for char, count in sorted_errors:
-					percentage = (count / total_chars * 100) if total_chars > 0 else 0.0
-					f.write(f"    '{char.upper()}': {count} ({percentage:.2f}% {Trnsl('of_total_chars', lang=app_language)})\n")
+					percentage_vs_total_block_chars = (count / total_chars * 100) if total_chars > 0 else 0.0
+					total_sent_of_this_char = current_aggregates.get('aggregated_sent_chars_detail', {}).get(char, 0)
+					percentage_vs_this_char_sent = (count / total_sent_of_this_char * 100) if total_sent_of_this_char > 0 else 0.0
+					f.write(f"    '{char.upper()}': {count} ({percentage_vs_total_block_chars:.2f}% {Trnsl('of_total_chars', lang=app_language)}, " \
+			        f"{percentage_vs_this_char_sent:.2f}% {Trnsl('of_specific_char_sent', lang=app_language, char_upper=char.upper())})\n")
 			f.write("\n")
-
-			# Variazioni rispetto al blocco precedente
 			if previous_aggregates and previous_aggregates["num_sessions_in_block"] > 0:
 				f.write("--------------------------------------------------\n")
 				f.write(f"{Trnsl('variations_from_previous_block', lang=app_language)} (vs {previous_aggregates['num_sessions_in_block']} {Trnsl('exercises_articles', lang=app_language)})\n")
@@ -959,15 +1052,47 @@ def generate_historical_rx_report():
 					for char_err in sorted_chars_for_variation: # Itera sulla lista ordinata
 						curr_count = current_aggregates['aggregated_errors_detail'].get(char_err, 0)
 						prev_count = previous_aggregates['aggregated_errors_detail'].get(char_err, 0)
-						curr_err_char_rate = (curr_count / total_chars * 100) if total_chars > 0 else 0.0
-						prev_err_char_rate = (prev_count / prev_total_chars * 100) if prev_total_chars > 0 else 0.0
-						delta_char_rate = curr_err_char_rate - prev_err_char_rate
-						f.write(f"    '{char_err.upper()}': {curr_err_char_rate:.2f}% ({curr_count}) {Trnsl('vs', lang=app_language)} {prev_err_char_rate:.2f}% ({prev_count}). {Trnsl('rate_change_char', lang=app_language)}: {delta_char_rate:+.2f}%\n")
-			print(Trnsl('historical_report_saved_to', lang=app_language, filename=report_filename))
+						total_chars_curr_block = current_aggregates['total_chars_sent_overall']
+						total_chars_prev_block = previous_aggregates['total_chars_sent_overall']
+						curr_rate_vs_total_chars = (curr_count / total_chars_curr_block * 100) if total_chars_curr_block > 0 else 0.0
+						curr_total_sent_of_this_char = current_aggregates.get('aggregated_sent_chars_detail', {}).get(char_err, 0)
+						curr_rate_vs_specific_char = (curr_count / curr_total_sent_of_this_char * 100) if curr_total_sent_of_this_char > 0 else 0.0
+						prev_rate_vs_total_chars = (prev_count / total_chars_prev_block * 100) if total_chars_prev_block > 0 else 0.0
+						prev_total_sent_of_this_char = previous_aggregates.get('aggregated_sent_chars_detail', {}).get(char_err, 0)
+						prev_rate_vs_specific_char = (prev_count / prev_total_sent_of_this_char * 100) if prev_total_sent_of_this_char > 0 else 0.0
+						delta_rate_vs_total_chars = curr_rate_vs_total_chars - prev_rate_vs_total_chars
+						delta_rate_vs_specific_char = curr_rate_vs_specific_char - prev_rate_vs_specific_char
+						output_line = (
+							f"    '{char_err.upper()}': "
+							f"{curr_count} ({curr_rate_vs_total_chars:.2f}% {Trnsl('of_total_chars', lang=app_language)}, {curr_rate_vs_specific_char:.2f}% {Trnsl('of_specific_char_sent', lang=app_language, char_upper=char_err.upper())}) "
+							f"{Trnsl('vs', lang=app_language)} "
+							f"{prev_count} ({prev_rate_vs_total_chars:.2f}% {Trnsl('of_total_chars', lang=app_language)}, {prev_rate_vs_specific_char:.2f}% {Trnsl('of_specific_char_sent', lang=app_language, char_upper=char_err.upper())}). "
+							f"{Trnsl('delta_rate_total_label', lang=app_language)} {delta_rate_vs_total_chars:+.2f}%, "
+							f"{Trnsl('delta_rate_specific_label', lang=app_language, char_upper=char_err.upper())} {delta_rate_vs_specific_char:+.2f}%\n")
+						f.write(output_line)
+				print(Trnsl('historical_report_saved_to', lang=app_language, filename=report_filename))
 	except IOError as e:
 		print(Trnsl('error_saving_historical_report', lang=app_language, filename=report_filename, e=str(e)))
 	except Exception as e:
 		print(Trnsl('unexpected_error_generating_report', lang=app_language, e=str(e)))
+		# Genera anche il report grafico
+		try:
+			# Prepara il nome del file per il grafico (stesso nome base, estensione .png)
+			base_report_filename, _ = os.path.splitext(report_filename)
+			graphic_report_filename = base_report_filename + ".png"
+			# Passiamo i dati necessari alla funzione di creazione del grafico
+			crea_report_grafico(
+				current_aggregates,
+				previous_aggregates, # Può essere None
+				g_value,             # Già definito in questa funzione
+				x_value,             # Già definito in questa funzione
+				num_sessions_in_current_report, # Già definito
+				graphic_report_filename,
+				app_language
+			)
+			print(Trnsl('graphical_report_saved_to', lang=app_language, filename=graphic_report_filename)) # Crea traduzione
+		except Exception as e_graph:
+			print(Trnsl('error_generating_graphical_report', lang=app_language, error=str(e_graph)))
 
 #main
 global MNMAIN, MNRX, MNRXKIND 
