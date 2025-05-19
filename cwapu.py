@@ -19,11 +19,13 @@ overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 #QConstants
-VERS="3.0.1, (2025-04-10"
+VERS="3.1.8, (2025-05-16"
 SETTINGS_FILE = "cwapu_settings.json"
+HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 100
+HISTORICAL_RX_REPORT_INTERVAL = 10 # Ogni quanti esercizi generare il report
 DEFAULT_DATA = {
     "app_info": {
-        "launch_count": 0 # Inizierà da 1 al primo caricamento
+        "launch_count": 0 
     },
     "overall_settings": {
         "app_language": "en", "speed": 18, "pitch": 550, "dashes": 30,
@@ -34,10 +36,16 @@ DEFAULT_DATA = {
         "total_calls": 0, "sessions": 1, "total_correct": 0,
         "total_wrong_items": 0, "total_time_seconds": 0.0
     },
-    "counting_stats": {
+    "counting_stats": { # "counting_stats" termina qui
         "exercise_number": 1
+    }, # Aggiungi una virgola qui per separarlo dalla nuova sezione
+    "historical_rx_data": { # <-- "historical_rx_data" è ora una CHIAVE DI PRIMO LIVELLO
+        "max_sessions_to_keep": HISTORICAL_RX_MAX_SESSIONS_DEFAULT,
+        "report_interval": HISTORICAL_RX_REPORT_INTERVAL, 
+        "sessions_log": [] 
     }
-}
+} # Chiusura di DEFAULT_DATA
+
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -53,7 +61,6 @@ MDL={'a0a':4,
 					'a00a':3,
 					'a00aa':3,
 					'a00aaa':4}
-
 #QVariable
 customized_set=''
 words=[]
@@ -62,33 +69,83 @@ app_data = {}
 #qf
 def load_settings():
 	"""Carica le impostazioni dal file JSON o restituisce i default."""
-	global overall_settings_changed
+	global overall_settings_changed # Flag per indicare se le impostazioni devono essere salvate all'uscita
+
 	if os.path.exists(SETTINGS_FILE):
 		try:
 			with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
-				loaded_data = json.load(f)
-				merged_data = {}
-				for main_key, default_values in DEFAULT_DATA.items():
-					# Prende la sezione dai dati caricati, o un dizionario vuoto se la sezione manca
-					loaded_section = loaded_data.get(main_key, {})
-					# Inizia con i default per quella sezione
+				loaded_data = json.load(f) # Carica i dati dal file JSON
+			
+			merged_data = {} # Dizionario che conterrà le impostazioni finali
+			
+			# Itera su ogni sezione definita in DEFAULT_DATA
+			for main_key, default_values in DEFAULT_DATA.items():
+				# Estrae la sezione corrispondente dai dati caricati; usa un dizionario vuoto se la sezione non c'è nel file
+				loaded_section = loaded_data.get(main_key, {})
+				
+				# Inizia con una copia dei valori di default per la sezione corrente
+				# Questo assicura che tutte le chiavi previste esistano
+				if isinstance(default_values, dict):
 					merged_section = default_values.copy()
-					# Aggiorna con i valori effettivamente presenti nel file caricato
+				else: # Se il valore di default non è un dizionario (improbabile per le sezioni principali, ma per sicurezza)
+					merged_section = default_values 
+
+
+				# Logica di unione specifica per la sezione 'historical_rx_data'
+				if main_key == "historical_rx_data":
+					if isinstance(merged_section, dict): # Assicura che merged_section sia un dizionario
+						# max_sessions_to_keep: usa il valore caricato se esiste e valido, altrimenti default
+						if "max_sessions_to_keep" in loaded_section and isinstance(loaded_section["max_sessions_to_keep"], int):
+							merged_section["max_sessions_to_keep"] = loaded_section["max_sessions_to_keep"]
+						# else: il valore di default da default_values.copy() è già in merged_section
+						
+						# report_interval: usa il valore caricato se esiste e valido, altrimenti default
+						if "report_interval" in loaded_section and isinstance(loaded_section["report_interval"], int):
+							merged_section["report_interval"] = loaded_section["report_interval"]
+						# else: il valore di default è già in merged_section
+
+						# sessions_log: usa il valore caricato se esiste ed è una lista, altrimenti default (lista vuota)
+						if "sessions_log" in loaded_section and isinstance(loaded_section["sessions_log"], list):
+							merged_section["sessions_log"] = loaded_section["sessions_log"]
+						# else: il valore di default (lista vuota) è già in merged_section
+				
+				# Logica di unione per tutte le altre sezioni (es. app_info, overall_settings)
+				# Esegue l'update solo se sia merged_section (dai default) sia loaded_section (dal file) sono dizionari
+				elif isinstance(merged_section, dict) and isinstance(loaded_section, dict):
 					merged_section.update(loaded_section)
-					merged_data[main_key] = merged_section
-				# Messaggio basato sulla lingua caricata (se presente)
-				loaded_lang = merged_data.get('overall_settings', {}).get('app_language', 'en')
-				print(Trnsl('o_set_loaded', lang=loaded_lang))
-				return merged_data
-		except (json.JSONDecodeError, IOError, TypeError) as e: # Aggiunto TypeError
-			print(f"Errore nel caricare o leggere {SETTINGS_FILE}: {e}. Uso i valori di default.")
-			overall_settings_changed = True # Forza salvataggio se il file era corrotto o illeggibile
-			return DEFAULT_DATA.copy() # Restituisci una copia dei default
-	else:
-		default_lang = DEFAULT_DATA.get('overall_settings', {}).get('app_language', 'en')
-		print(Trnsl('o_set_created', lang=default_lang))
-		overall_settings_changed = True # Deve essere salvato alla fine
-		return DEFAULT_DATA.copy() # Restituisci una copia dei default
+				# Se loaded_section non è un dizionario (es. era null nel JSON e .get ha restituito {} o il valore non-dict stesso),
+				# merged_section manterrà i valori di default (o il valore non-dict di default).
+				# Questo previene errori se il file JSON ha una struttura inattesa per una sezione.
+
+				# Assegna la sezione processata (unita o di default) a merged_data
+				merged_data[main_key] = merged_section
+			
+			# Determina la lingua per i messaggi di sistema, con fallback robusti
+			overall_settings_default = DEFAULT_DATA.get('overall_settings', {})
+			app_language_default = overall_settings_default.get('app_language', 'en')
+			
+			loaded_overall_settings = merged_data.get('overall_settings', overall_settings_default)
+			current_app_language = loaded_overall_settings.get('app_language', app_language_default)
+			
+			print(Trnsl('o_set_loaded', lang=current_app_language))
+			return merged_data
+
+		except (json.JSONDecodeError, IOError, TypeError) as e:
+			# Se c'è un errore nel caricare, leggere o processare il file, usa i valori di default completi
+			print(f"{Trnsl('error_loading_settings_file', lang=DEFAULT_DATA.get('overall_settings', {}).get('app_language', 'en'))} {SETTINGS_FILE}: {e}. {Trnsl('using_default_values', lang=DEFAULT_DATA.get('overall_settings', {}).get('app_language', 'en'))}")
+			overall_settings_changed = True # Forza il salvataggio delle impostazioni di default all'uscita
+			# Restituisce una copia "profonda" dei default per evitare modifiche accidentali a DEFAULT_DATA
+			return {k: (v.copy() if isinstance(v, dict) else v) for k, v in DEFAULT_DATA.items()}
+
+	else: # Il file SETTINGS_FILE non esiste
+		# Determina la lingua di default per il messaggio di creazione
+		overall_settings_default = DEFAULT_DATA.get('overall_settings', {})
+		app_language_default = overall_settings_default.get('app_language', 'en')
+
+		print(Trnsl('o_set_created', lang=app_language_default))
+		overall_settings_changed = True # Le impostazioni di default devono essere salvate all'uscita
+		return {k: (v.copy() if isinstance(v, dict) else v) for k, v in DEFAULT_DATA.items()}
+
 def save_settings(data):
 	"""Salva le impostazioni correnti nel file JSON."""
 	global app_language # Necessario per Trnsl qui sotto
@@ -118,95 +175,216 @@ def ItemChooser(items):
 			print("Inserisci un numero valido.")
 def KeyboardCW():
 	'''Settings for CW and tx with keyboard'''
-	global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_settings_changed,	overall_ms, overall_fs, overall_wave
-	print("\n"+Trnsl("h_keyboard",lang=app_language))
+	global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_settings_changed, overall_ms, overall_fs, overall_wave
+	global app_data 
+
+	# Non è più necessario caricare qui current_max_sessions_g e current_report_interval_x per il prompt,
+	# ma verranno letti da app_data quando servono per i comandi.
+
+	print("\n"+Trnsl("h_keyboard",lang=app_language)) # La tua stringa di aiuto principale da translations.py
+	
 	tosave=False
 	rwpm=overall_speed
+
 	while True:
-		if overall_speed!=rwpm:
-			cmd_prompt=f"RWPM: {rwpm:.2f}"
+		# Preparazione del prompt (solo WPM/RWPM come da tua preferenza)
+		if rwpm is not None and overall_speed != rwpm :
+			current_prompt = f"RWPM: {rwpm:.2f}"
 		else:
-			cmd_prompt=f"WPM: {overall_speed}"
+			current_prompt = f"WPM: {overall_speed}"
+		
 		if tosave:
-			tosave=False
-			print(cmd_prompt+" SV>",end="",	flush=True)
-		print(cmd_prompt+"> ",end="",	flush=True)
-		msg=sys.stdin.readline()
-		msg=msg[:-1]+" "
-		if msg==" ":
-			plo,rwpm=CWzator(msg="73", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+			print(current_prompt + " SV>", end="", flush=True)
+			tosave = False
+		else:
+			print(current_prompt + "> ", end="", flush=True)
+		
+		msg_input = sys.stdin.readline()
+		if not msg_input: 
 			break
-		elif msg=="? ":
+		msg = msg_input[:-1] + " " 
+		msg_for_cw = msg # Di default, ciò che l'utente scrive viene inviato a CW
+
+		# Gestione comandi base
+		if msg == " ": 
+			plo, rwpm_temp = CWzator(msg="73", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+			if rwpm_temp is not None: rwpm = rwpm_temp
+			break
+		elif msg == "? ":
 			print("\n"+Trnsl("h_keyboard",lang=app_language))
-			msg=""
-		elif msg=="?? ":
-			print(f"WPM: {overall_speed}, Hz: {overall_pitch}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {WAVE_TYPES[overall_wave-1]}, MS:	{overall_ms}, FS: {SAMPLE_RATES[overall_fs]}.")
-			msg=""
-		elif msg==".sr ":
-			overall_fs=ItemChooser(SAMPLE_RATES)
-			plo,rwpm=CWzator(msg=f"bk fs is {SAMPLE_RATES[overall_fs]} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-			overall_settings_changed=True
-			msg=""
-		elif msg==".rs ":
-			overall_dashes, overall_spaces, overall_dots = 30, 50, 50
-			plo,rwpm=CWzator(msg="bk reset ok bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-			msg=""
+			msg_for_cw = "" 
+		elif msg == "?? ":
+			current_max_sessions_g_val = app_data.get('historical_rx_data', {}).get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+			current_report_interval_x_val = app_data.get('historical_rx_data', {}).get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+			print(f"WPM: {overall_speed}, Hz: {overall_pitch}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {WAVE_TYPES[overall_wave]}, MS: {overall_ms}, FS: {SAMPLE_RATES[overall_fs]}.")
+			print(f"\tMax Exercises History (g): {current_max_sessions_g_val}, Report Interval (x): {current_report_interval_x_val}") # Visualizza i valori qui
+			msg_for_cw = "" 
+		elif msg == ".sr ":
+			new_fs_index = ItemChooser(SAMPLE_RATES)
+			if new_fs_index != overall_fs : 
+				overall_fs = new_fs_index
+				overall_settings_changed = True
+			plo,rwpm_temp=CWzator(msg=f"bk fs is {SAMPLE_RATES[overall_fs]} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+			if rwpm_temp is not None: rwpm = rwpm_temp
+			msg_for_cw = "" 
+		elif msg == ".rs ":
+			if not (overall_dashes == 30 and overall_spaces == 50 and overall_dots == 50):
+				overall_dashes, overall_spaces, overall_dots = 30, 50, 50
+				overall_settings_changed = True
+			plo,rwpm_temp=CWzator(msg="bk reset ok bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+			if rwpm_temp is not None: rwpm = rwpm_temp
+			msg_for_cw = "" 
 		elif msg.startswith(".sv "):
-			msg=msg[4:]
-			tosave=True
+			msg_for_cw = msg[4:] 
+			tosave = True
+		
+		# Logica per comandi che iniziano con "." (es. .w20, .g 100, .g100)
 		elif msg.startswith("."):
-			msg = msg.lstrip('.')
-			match = re.match(r'([a-zA-Z]+)(\d+)', msg)
-			if match:
-				cmd = match.group(1)
-				value = match.group(2)
-				overall_settings_changed=True
-			else:
-				plo,rwpm=CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, sync=True)
-			if cmd=="w":
-				overall_speed=int(value)
-				overall_speed = max(5, min(99, overall_speed))
-				plo,rwpm=CWzator(msg=f"bk r w is {overall_speed} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-				msg=""
-			elif cmd=="m":
-				overall_ms=int(value)
-				overall_ms = max(1, min(30, overall_ms))
-				plo,rwpm=CWzator(msg=f"bk r ms is {overall_ms} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-				msg=""
-			elif cmd=="f":
-				overall_wave=int(value)
-				overall_wave= max(1, min(4, overall_wave))
-				plo,rwpm=CWzator(msg=f"bk r wave is {WAVE_TYPES[overall_wave-1]} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-				msg=""
-			elif cmd=="h":
-				overall_pitch=int(value)
-				overall_pitch = max(130, min(2700, overall_pitch))
-				plo,rwpm=CWzator(msg=f"bk r h is {overall_pitch} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-				msg=""
-			elif cmd=="l":
-				overall_dashes=int(value)
-				overall_dashes = max(1, min(99, overall_dashes))
-				plo,rwpm=CWzator(msg=f"bk r l is {overall_dashes} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-				msg=""
-			elif cmd=="s":
-				overall_spaces=int(value)
-				overall_spaces = max(3, min(99, overall_spaces))
-				plo,rwpm=CWzator(msg=f"bk r s is {overall_spaces} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-				msg=""
-			elif cmd=="p":
-				overall_dots=int(value)
-				overall_dots = max(1, min(99, overall_dots))
-				plo,rwpm=CWzator(msg=f"bk r p is {overall_dots} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-				msg=""
-			elif cmd=="v":
-				overall_volume=int(value)
-				overall_volume = max(0, min(100, overall_volume))
-				overall_volume/=100
-				plo,rwpm=CWzator(msg=f"bk r v is {int(overall_volume*100)} bk", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-				msg=""
-		if msg: plo,rwpm=CWzator(msg=msg, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, file=tosave)
-	print("Ciao\n")
+			command_candidate_str = msg[1:].strip() # Rimuove "." e spazi extra
+			
+			cmd_letter = ""
+			value_int = None
+			parsed_as_command_with_value = False # True se l'input matcha un formato comando+valore
+
+			# Tentativo 1: Formato ".cmd VALORE" (es. ".g 100")
+			parts = command_candidate_str.split(maxsplit=1)
+			if len(parts) == 2 and parts[1].isdigit():
+				cmd_letter = parts[0].lower()
+				value_int = int(parts[1])
+				parsed_as_command_with_value = True
+			
+			# Tentativo 2: Formato ".cmdVALORE" (es. ".g100"), solo se il Tentativo 1 non ha prodotto 2 parti
+			# o se il primo tentativo non era un comando riconosciuto (parsed_as_command_with_value rimarrebbe False per il cmd specifico)
+			# In realtà, se il tentativo 1 non ha prodotto due parti (es. .g100 -> parts = ["g100"]), allora proviamo il re.match.
+			if not parsed_as_command_with_value or (len(parts) == 1 and not parts[0].isdigit()): # len(parts)==1 per ".g100"
+				# Se parts[0] è solo un numero (es. ".123"), non è un comando compatto cmd+valore
+				candidate_for_compact = parts[0] if len(parts) == 1 else command_candidate_str
+				match_compact = re.match(r'([a-zA-Z]+)(\d+)', candidate_for_compact)
+				if match_compact:
+					# Se l'input originale era solo ".cmdVAL" (es. ".g100", command_candidate_str=="g100")
+					# E non ".cmdVAL altro testo"
+					if candidate_for_compact == match_compact.group(0): # Assicura che l'intero candidato sia stato consumato dal match
+						cmd_letter = match_compact.group(1).lower()
+						value_int = int(match_compact.group(2))
+						parsed_as_command_with_value = True # Ora sappiamo che è un comando con valore
+
+			command_processed_internally = False # Flag per indicare se il comando è stato gestito dalla logica qui sotto
+			feedback_cw = ""
+
+			if parsed_as_command_with_value and cmd_letter and value_int is not None:
+				# Blocco unico per gestire TUTTI i comandi che hanno una lettera e un valore intero
+				if cmd_letter == "g":
+					min_val_g, max_val_g = 20, 5000 # Limiti per .g
+					actual_val_g = app_data.get('historical_rx_data', {}).get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+					new_val_g = max(min_val_g, min(max_val_g, value_int))
+					if actual_val_g != new_val_g:
+						app_data['historical_rx_data']['max_sessions_to_keep'] = new_val_g
+						sessions_log = app_data['historical_rx_data'].get('sessions_log', [])
+						if len(sessions_log) > new_val_g: 
+							app_data['historical_rx_data']['sessions_log'] = sessions_log[-new_val_g:]
+						overall_settings_changed = True
+					feedback_cw = f"bk rx group is {new_val_g} bk"
+					command_processed_internally = True
+				
+				elif cmd_letter == "x":
+					min_val_x, max_val_x = 3, 30 # Limiti per .x
+					actual_val_x = app_data.get('historical_rx_data', {}).get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+					new_val_x = max(min_val_x, min(max_val_x, value_int))
+					if actual_val_x != new_val_x:
+						app_data['historical_rx_data']['report_interval'] = new_val_x
+						overall_settings_changed = True
+					feedback_cw = f"bk rx group interval is {new_val_x} bk"
+					command_processed_internally = True
+
+				# Comandi CW esistenti
+				elif cmd_letter=="w":
+					if overall_speed != value_int: # Controlla prima di limitare per il feedback corretto
+						new_speed = max(5, min(99, value_int))
+						if overall_speed != new_speed:
+							overall_speed = new_speed
+							overall_settings_changed=True
+					feedback_cw = f"bk r w is {overall_speed} bk"
+					command_processed_internally = True
+				elif cmd_letter=="m":
+					if overall_ms != value_int:
+						new_ms = max(1, min(30, value_int))
+						if overall_ms != new_ms:
+							overall_ms = new_ms
+							overall_settings_changed=True
+					feedback_cw = f"bk r ms is {overall_ms} bk"
+					command_processed_internally = True
+				elif cmd_letter=="f": 
+					new_wave_idx_user = max(1, min(len(WAVE_TYPES), value_int))
+					new_wave_idx_0based = new_wave_idx_user
+					if overall_wave != new_wave_idx_0based: 
+						overall_wave = new_wave_idx_0based
+						overall_settings_changed=True
+					feedback_cw = f"bk r wave is {WAVE_TYPES[overall_wave-1]} bk"
+					command_processed_internally = True
+				elif cmd_letter=="h":
+					if overall_pitch != value_int:
+						new_pitch = max(130, min(2700, value_int))
+						if overall_pitch != new_pitch:
+							overall_pitch = new_pitch
+							overall_settings_changed=True
+					feedback_cw = f"bk r h is {overall_pitch} bk"
+					command_processed_internally = True
+				elif cmd_letter=="l":
+					if overall_dashes != value_int:
+						new_dashes = max(1, min(99, value_int))
+						if overall_dashes != new_dashes:
+							overall_dashes = new_dashes
+							overall_settings_changed=True
+					feedback_cw = f"bk r l is {overall_dashes} bk"
+					command_processed_internally = True
+				elif cmd_letter=="s":
+					if overall_spaces != value_int:
+						new_spaces = max(3, min(99, value_int))
+						if overall_spaces != new_spaces:
+							overall_spaces = new_spaces
+							overall_settings_changed=True
+					feedback_cw = f"bk r s is {overall_spaces} bk"
+					command_processed_internally = True
+				elif cmd_letter=="p":
+					if overall_dots != value_int:
+						new_dots = max(1, min(99, value_int))
+						if overall_dots != new_dots:
+							overall_dots = new_dots
+							overall_settings_changed=True
+					feedback_cw = f"bk r p is {overall_dots} bk"
+					command_processed_internally = True
+				elif cmd_letter=="v":
+					new_volume_percent = max(0, min(100, value_int))
+					if abs(overall_volume * 100 - new_volume_percent) > 0.01 : 
+						overall_volume = new_volume_percent / 100.0
+						overall_settings_changed=True
+					feedback_cw = f"bk r v is {new_volume_percent} bk"
+					command_processed_internally = True
+				
+				# Se un comando è stato processato e c'è un messaggio di feedback CW
+				if command_processed_internally and feedback_cw:
+					plo,rwpm_temp=CWzator(msg=feedback_cw, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+					if rwpm_temp is not None: rwpm = rwpm_temp
+			
+			# Se il comando è stato processato internamente (cambio di settaggio), non inviare l'input originale a CW.
+			if command_processed_internally:
+				msg_for_cw = "" 
+			# Altrimenti, se l'input iniziava con "." ma non era un comando riconosciuto (es. ".testo"),
+			# msg_for_cw manterrà l'input originale e verrà inviato a CWzator sotto.
+		
+		# Invio finale a CWzator se msg_for_cw non è stato svuotato
+		if msg_for_cw.strip(): 
+			plo,rwpm_temp=CWzator(msg=msg_for_cw, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, file=tosave)
+			if rwpm_temp is not None: 
+				rwpm = rwpm_temp
+			elif msg_for_cw.strip() : # Se c'era testo ma CWzator ha fallito (es. carattere non valido in msg_for_cw)
+				rwpm = overall_speed # Resetta rwpm per evitare None nel prompt
+			if tosave: tosave = False 
+	
+	# Uscita dal loop while
+	print(Trnsl('bye_message', lang=app_language) + "\n") 
 	return
+
 def LangSelector():
 	print("\n" + Trnsl('select_language', lang=app_language) + "\n")
 	return menu(MNLANG, ntf=Trnsl('not_a_valid_language', lang=app_language), show=True, keyslist=True)
@@ -406,6 +584,10 @@ def Rxing():
 	minwpm = 100          # WPM minimo raggiunto in questa sessione (inizializzato alto)
 	maxwpm = 0            # WPM massimo raggiunto in questa sessione (inizializzato basso)
 	repeatedflag = False  # Flag per indicare se l'ultimo item è stato ripetuto
+	# Carica le impostazioni per la cronologia all'inizio della sessione Rxing
+	historical_rx_settings = app_data.get('historical_rx_data', {})
+	max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+	report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
 	overall_speed=dgt(prompt=Trnsl('set_wpm', lang=app_language, wpm=overall_speed),kind="i",imin=10,imax=85,default=overall_speed)
 	rwpm=overall_speed
 	print(Trnsl('select_exercise', lang=app_language))
@@ -442,7 +624,7 @@ def Rxing():
 		else:
 			qrz=GeneratingGroup(kind=kind, length=length, wpm=overall_speed)
 		pitch=random.randint(250, 1050)
-		prompt = f"S{sessions}-#{calls} - WPM{rwpm:.0f}/{(average_rwpm / len(callsget) if len(callsget) else rwpm):.2f} - +{len(callsget)}/-{len(callswrong)} - > "
+		prompt = f"S{sessions}-#{calls} - WPM{rwpm:.0f}/{(average_rwpm / len(callsget) if len(callsget) else rwpm):.2f} - +{len(callsget)}/-{len(callswrong)}> "
 		plo,rwpm=CWzator(msg=qrz, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if guess==".":
@@ -451,7 +633,7 @@ def Rxing():
 		if guess == "" or guess.endswith("?"):
 			repeatedflag=True
 			partial_input = ""
-			prompt_indicator = "%" 
+			prompt_indicator = "% "
 			if guess.endswith("?"):
 				partial_input = guess[:-1]
 				prompt_indicator = f"% {partial_input}"
@@ -531,6 +713,33 @@ def Rxing():
 			print(Trnsl('never_misspelled', lang=app_language, good_letters=" ".join(sorted(good_letters)).upper()))
 		else:
 			print(Trnsl('no_mistakes_recorded', lang=app_language)) # Aggiungi una traduzione per questo caso
+		# Logica per salvare i dati storici della sessione
+		historical_rx_settings = app_data.get('historical_rx_data', {})
+		max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+		report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+		session_data_for_history = {
+			"timestamp_iso": starttime.isoformat(), # 'starttime' è definito all'inizio dell'esercizio Rxing
+			"duration_seconds": exerctime.total_seconds(),
+			"wpm_min": minwpm,
+			"wpm_max": maxwpm,
+			"wpm_avg": avg_wpm_calc,
+			"items_sent_session": len(callssend),
+			"items_correct_session": len(callsget),
+			"chars_sent_session": send_char, 
+			"errors_detail_session": char_error_counts, 
+			"total_errors_chars_session": total_mistakes_calculated 
+		}
+		historical_rx_log = app_data.get('historical_rx_data', {}).get('sessions_log', [])
+		historical_rx_log.append(session_data_for_history)
+		while len(historical_rx_log) > max_sessions_to_keep:
+			historical_rx_log.pop(0)
+		if 'historical_rx_data' not in app_data: 
+			app_data['historical_rx_data'] = DEFAULT_DATA['historical_rx_data'].copy()
+		app_data['historical_rx_data']['sessions_log'] = historical_rx_log
+		overall_settings_changed = True
+		if sessions > 0 and report_interval > 0 and (sessions % report_interval == 0):
+			print(Trnsl('generating_historical_report', lang=app_language)) 
+			generate_historical_rx_report()
 		f=open("CWapu_Diary.txt", "a", encoding='utf-8')
 		print(Trnsl('report_saved', lang=app_language))
 		date = f"{lt()[0]}/{lt()[1]}/{lt()[2]}"
@@ -560,6 +769,13 @@ def Rxing():
 		for k, v in sorted(dz_mistakes.items()):
 			rslt = MistakesCollectorInStrings(v[0], v[1]) # Questa funzione può rimanere per il dettaglio
 			f.write(Trnsl('wrong_word_entry', lang=app_language, k=k, tx=v[0].upper(), rx=v[1].upper(), dif=rslt.upper()))
+		if report_interval > 0: # Assicurati che l'intervallo sia valido
+			completed_in_cycle = sessions % report_interval
+			if completed_in_cycle == 0:
+				exercises_pending = report_interval # Quindi ne mancano 'report_interval' per il PROSSIMO
+			else:
+				exercises_pending = report_interval - completed_in_cycle
+		print(Trnsl('exercises_to_next_report', lang=app_language, count=exercises_pending))
 		nota=dgt(prompt=Trnsl('note_on_exercise', lang=app_language), kind="s", smin=0, smax=512)
 		if nota != "":
 			f.write(Trnsl('note_with_text', lang=app_language, nota=nota))
@@ -585,6 +801,173 @@ def Rxing():
 	overall_settings_changed = True # Segnala che i dati globali sono cambiati e vanno salvati
 	print(Trnsl('session_saved', lang=app_language, session_number=sessions, duration=str(exerctime).split('.')[0]))
 	return
+
+def _calculate_aggregates(session_list):
+	"""
+	Calcola statistiche aggregate da una lista di dati di sessione.
+	Restituisce un dizionario con le statistiche aggregate.
+	"""
+	if not session_list:
+		return {
+			"num_sessions_in_block": 0, "total_duration_seconds": 0.0,
+			"wpm_min_overall": 0, "wpm_max_overall": 0, "wpm_avg_overall_cpm_based": 0.0,
+			"total_items_sent": 0, "total_items_correct": 0,
+			"total_chars_sent_overall": 0, "aggregated_errors_detail": {},
+			"total_errors_chars_overall": 0
+		}
+
+	total_duration_seconds = sum(s.get("duration_seconds", 0) for s in session_list)
+	total_chars_sent_overall = sum(s.get("chars_sent_session", 0) for s in session_list)
+	
+	# WPM min e max complessivi
+	# Filtra i valori non significativi (es. 0 se non impostato, o 100 per minwpm iniziale)
+	valid_min_wpms = [s.get("wpm_min", 0) for s in session_list if s.get("wpm_min", 0) > 0 and s.get("wpm_min", 0) != 100]
+	valid_max_wpms = [s.get("wpm_max", 0) for s in session_list if s.get("wpm_max", 0) > 0]
+	wpm_min_overall = min(valid_min_wpms) if valid_min_wpms else 0
+	wpm_max_overall = max(valid_max_wpms) if valid_max_wpms else 0
+
+	if session_list:
+		sum_of_session_avg_wpms = sum(s.get("wpm_avg", 0.0) for s in session_list) # Usa 0.0 come default se 'wpm_avg' manca
+		wpm_avg_of_session_avgs = sum_of_session_avg_wpms / len(session_list)
+	else:
+		wpm_avg_of_session_avgs = 0.0
+	total_items_sent = sum(s.get("items_sent_session", 0) for s in session_list)
+	total_items_correct = sum(s.get("items_correct_session", 0) for s in session_list)
+	
+	aggregated_errors_detail = {}
+	total_errors_chars_overall = 0
+	for s in session_list:
+		total_errors_chars_overall += s.get("total_errors_chars_session", 0)
+		for char, count in s.get("errors_detail_session", {}).items():
+			aggregated_errors_detail[char] = aggregated_errors_detail.get(char, 0) + count
+	return {
+		"num_sessions_in_block": len(session_list),
+		"total_duration_seconds": total_duration_seconds,
+		"wpm_min_overall": wpm_min_overall,
+		"wpm_max_overall": wpm_max_overall,
+		"wpm_avg_of_session_avgs": wpm_avg_of_session_avgs, # CHIAVE MODIFICATA/NUOVA
+		"total_items_sent": total_items_sent,
+		"total_items_correct": total_items_correct,
+		"total_chars_sent_overall": total_chars_sent_overall,
+		"aggregated_errors_detail": aggregated_errors_detail,
+		"total_errors_chars_overall": total_errors_chars_overall
+	}
+
+def generate_historical_rx_report():
+	global app_data, app_language # Necessario per Trnsl e accedere ai dati
+
+	historical_data = app_data.get('historical_rx_data', {})
+	sessions_log = historical_data.get('sessions_log', [])
+	# max_sessions_to_keep determina il 'target' N per il report
+	max_sessions_for_report_config = historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+	# report_interval è ogni quante sessioni si genera il report (e quindi per il delta)
+	report_gen_interval = historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+
+
+	if not sessions_log:
+		print(Trnsl('no_historical_data_to_report', lang=app_language)) # Crea traduzione
+		return
+
+	# Determina il blocco corrente di sessioni per il report
+	# Prende le ultime 'max_sessions_for_report_config' sessioni, o meno se non ce ne sono abbastanza
+	num_to_take_current = min(len(sessions_log), max_sessions_for_report_config)
+	current_block_sessions = sessions_log[-num_to_take_current:] if num_to_take_current > 0 else []
+
+	if not current_block_sessions:
+		print(Trnsl('no_sessions_in_current_block_for_report', lang=app_language)) # Crea traduzione
+		return
+	current_aggregates = _calculate_aggregates(current_block_sessions)
+	num_sessions_in_current_report = current_aggregates["num_sessions_in_block"]
+	g_value = historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+	x_value = historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+	report_filename = f"CWapu_Historical_Statistics_G_{g_value}_X_{x_value}.txt"
+	# Determina il blocco precedente per il calcolo delle variazioni
+	previous_aggregates = None
+	if len(sessions_log) >= report_gen_interval: # Deve esserci almeno un intervallo di sessioni passate
+		end_index_prev_block = len(sessions_log) - report_gen_interval
+		if end_index_prev_block > 0:
+			# Il blocco precedente ha la stessa logica di lunghezza del blocco corrente
+			num_to_take_previous = min(end_index_prev_block, max_sessions_for_report_config)
+			start_index_prev_block = max(0, end_index_prev_block - num_to_take_previous)
+			previous_block_sessions = sessions_log[start_index_prev_block:end_index_prev_block]
+			
+			if previous_block_sessions:
+				previous_aggregates = _calculate_aggregates(previous_block_sessions)
+	try:
+		with open(report_filename, "w", encoding="utf-8") as f:
+			timestamp_now = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+			f.write(f"{Trnsl('report_header_appname', lang=app_language)} - {Trnsl('historical_stats_report_title', lang=app_language)}\n")
+			f.write(f"{Trnsl('report_generated_on', lang=app_language)}: {timestamp_now}\n")
+			f.write(Trnsl('stats_based_on_exercises', lang=app_language, count=num_sessions_in_current_report) + "\n")
+			f.write("--------------------------------------------------\n")
+			f.write(f"{Trnsl('overall_speed_stats', lang=app_language)}:\n")
+			f.write(f"  {Trnsl('min_wpm', lang=app_language)}: {current_aggregates['wpm_min_overall']:.2f} WPM\n")
+			f.write(f"  {Trnsl('max_wpm', lang=app_language)}: {current_aggregates['wpm_max_overall']:.2f} WPM\n")
+			f.write(f"  {Trnsl('avg_wpm_of_session_avgs_label', lang=app_language)}: {current_aggregates['wpm_avg_of_session_avgs']:.2f} WPM\n")
+			f.write("\n")
+
+			# Statistiche Errori Correnti
+			f.write(f"{Trnsl('overall_error_stats', lang=app_language)}:\n")
+			total_chars = current_aggregates['total_chars_sent_overall']
+			total_errs = current_aggregates['total_errors_chars_overall']
+			overall_error_rate = (total_errs / total_chars * 100) if total_chars > 0 else 0.0
+			f.write(f"  {Trnsl('total_chars_sent_in_block', lang=app_language)}: {total_chars}\n")
+			f.write(f"  {Trnsl('total_errors_in_block', lang=app_language)}: {total_errs} ({overall_error_rate:.2f}%)\n")
+			
+			if current_aggregates['aggregated_errors_detail']:
+				f.write(f"  {Trnsl('error_details_by_char', lang=app_language)}:\n")
+				# Ordina per conteggio (decrescente) e poi per carattere
+				sorted_errors = sorted(current_aggregates['aggregated_errors_detail'].items(), key=lambda item: (-item[1], item[0]))
+				for char, count in sorted_errors:
+					percentage = (count / total_chars * 100) if total_chars > 0 else 0.0
+					f.write(f"    '{char.upper()}': {count} ({percentage:.2f}% {Trnsl('of_total_chars', lang=app_language)})\n")
+			f.write("\n")
+
+			# Variazioni rispetto al blocco precedente
+			if previous_aggregates and previous_aggregates["num_sessions_in_block"] > 0:
+				f.write("--------------------------------------------------\n")
+				f.write(f"{Trnsl('variations_from_previous_block', lang=app_language)} (vs {previous_aggregates['num_sessions_in_block']} {Trnsl('exercises_articles', lang=app_language)})\n")
+				f.write("--------------------------------------------------\n")
+				# Variazione WPM Medio (usando la nuova metrica)
+				prev_wpm_avg = previous_aggregates['wpm_avg_of_session_avgs']
+				curr_wpm_avg = current_aggregates['wpm_avg_of_session_avgs']
+				delta_wpm = curr_wpm_avg - prev_wpm_avg
+				perc_delta_wpm_str = f"({(delta_wpm / prev_wpm_avg * 100):+.2f}%)" if prev_wpm_avg != 0 else "" # Formattazione a 2 decimali
+				f.write(f"  {Trnsl('avg_wpm_of_session_avgs_label', lang=app_language)}: {curr_wpm_avg:.2f} WPM ({Trnsl('vs', lang=app_language)} {prev_wpm_avg:.2f} WPM). {Trnsl('change', lang=app_language)}: {delta_wpm:+.2f} WPM {perc_delta_wpm_str}\n")
+				# Variazione Tasso di Errore Generale
+				prev_total_chars = previous_aggregates['total_chars_sent_overall']
+				prev_total_errs = previous_aggregates['total_errors_chars_overall']
+				prev_err_rate = (prev_total_errs / prev_total_chars * 100) if prev_total_chars > 0 else 0.0
+				
+				curr_err_rate = overall_error_rate # Già calcolato sopra
+				delta_err_rate = curr_err_rate - prev_err_rate
+				# Nota: per i tassi di errore, una diminuzione è positiva.
+				# La percentuale di cambiamento di un tasso di errore può essere meno intuitiva, quindi mostriamo la variazione assoluta del tasso.
+				f.write(f"  {Trnsl('overall_error_rate', lang=app_language)}: {curr_err_rate:.2f}% ({Trnsl('vs', lang=app_language)} {prev_err_rate:.2f}%). {Trnsl('change', lang=app_language)}: {delta_err_rate:+.2f}%\n")
+				f.write("\n")
+				
+				# Variazioni per errori specifici (Top N errori o tutti)
+				f.write(f"  {Trnsl('error_details_variations', lang=app_language)}:\n")
+				all_error_chars_set = set(current_aggregates['aggregated_errors_detail'].keys()) | set(previous_aggregates['aggregated_errors_detail'].keys())
+				if not all_error_chars_set:
+					f.write(f"    {Trnsl('no_errors_in_either_block', lang=app_language)}\n")
+				else:
+					sorted_chars_for_variation = sorted(
+						list(all_error_chars_set),
+						key=lambda char_key: (-current_aggregates['aggregated_errors_detail'].get(char_key, 0), char_key)
+					)
+					for char_err in sorted_chars_for_variation: # Itera sulla lista ordinata
+						curr_count = current_aggregates['aggregated_errors_detail'].get(char_err, 0)
+						prev_count = previous_aggregates['aggregated_errors_detail'].get(char_err, 0)
+						curr_err_char_rate = (curr_count / total_chars * 100) if total_chars > 0 else 0.0
+						prev_err_char_rate = (prev_count / prev_total_chars * 100) if prev_total_chars > 0 else 0.0
+						delta_char_rate = curr_err_char_rate - prev_err_char_rate
+						f.write(f"    '{char_err.upper()}': {curr_err_char_rate:.2f}% ({curr_count}) {Trnsl('vs', lang=app_language)} {prev_err_char_rate:.2f}% ({prev_count}). {Trnsl('rate_change_char', lang=app_language)}: {delta_char_rate:+.2f}%\n")
+			print(Trnsl('historical_report_saved_to', lang=app_language, filename=report_filename))
+	except IOError as e:
+		print(Trnsl('error_saving_historical_report', lang=app_language, filename=report_filename, e=str(e)))
+	except Exception as e:
+		print(Trnsl('unexpected_error_generating_report', lang=app_language, e=str(e)))
 
 #main
 global MNMAIN, MNRX, MNRXKIND 

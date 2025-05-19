@@ -1,6 +1,14 @@
 translations = {
 	'en': {
 		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tLaunch: {count}. Type 'm' for menu.",
+		'delta_rate_specific_label': "Δ Rate (vs '{char_upper}' sent):",
+		'delta_rate_total_label': "Δ Rate (vs total):",
+		'rate_change_specific_char':"Rate change (of '{char_upper}' sent)",
+		'error_detail_line_format':"'{char_upper}': {count} ({perc_vs_total:.2f}% {of_total_chars_label}, {perc_vs_specific:.2f}% {of_specific_char_sent_label})",
+		'of_specific_char_sent':"% of '{char_upper}' sent",
+		'error_saving_graphical_file: ':"Error saving graphical file {filename}: {error}",
+		'error_generating_graphical_report: ':"Error generating graphical report: {error}",
+		'graphical_report_saved_to':"Graphical report saved to: {filename}",
 		'avg_wpm_of_session_avgs_label':"Avg WPM (average of sessions)",
 		'report_header_appname': "CWAPU",
 		'historical_stats_report_title': "Historical Rx Exercises Statistics Report",
@@ -272,6 +280,14 @@ translations = {
 		'no_errors_in_either_block': "Nessun errore registrato in nessuno dei due blocchi di riferimento.",
 		'rate_change_char': "Variaz. tasso",
 		'avg_wpm_of_session_avgs_label':"WPM Medio (media delle sessioni)",
+		'graphical_report_saved_to':"Report grafico salvato in: {filename}",
+		'error_generating_graphical_report: ':"Errore durante il salvataggio del report grafico: {error}",
+		'error_saving_graphical_file: ':"Errore durante il salvataggio del file grafico {filename}: {error}",
+		'of_specific_char_sent':"% delle '{char_upper}' inviate",
+		'error_detail_line_format':"'{char_upper}': {count} ({perc_vs_total:.2f}% {of_total_chars_label}, {perc_vs_specific:.2f}% {of_specific_char_sent_label})",
+		'rate_change_specific_char':"Variaz. tasso (su '{char_upper}' inv.)",
+		'delta_rate_total_label': "Δ Tasso (vs tot):",
+		'delta_rate_specific_label': "Δ Tasso (vs '{char_upper}' inv.):",
 		#Qit
 	}
 }
