@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERS="3.5.4, (2025-05-21)"
+VERS="3.5.5, (2025-05-21)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -273,16 +273,12 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 		color, symbol = get_delta_color_and_symbol(delta_rate, higher_is_better=False)
 		fig.text(x_text_start + 0.4, y_cursor, f"{Trnsl('vs', lang=lang)} {overall_error_rate_prev:.2f}% ({symbol} {delta_rate:+.2f} punti %)", color=color, ha='left', va='top', fontsize=10, style='italic')
 	y_cursor -= section_spacing_fig
-	
 	# --- SEZIONE DETTAGLIO ERRORI PER CARATTERE (BLOCCO CORRENTE) ---
 	fig.text(0.5, y_cursor, Trnsl('error_details_by_char', lang=lang), color=color_excellent, ha='center', va='top', fontsize=14, weight='bold')
 	y_cursor -= line_height_fig * 0.06
-
-	top_n_errors_to_display = 10 # Quanti errori principali mostrare
+	top_n_errors_to_display = 10 
 
 	if current_aggregates['aggregated_errors_detail']:
-		# Prepara i dati per il grafico
-		# Ordina per conteggio (decrescente) e poi per carattere, prendi i top N
 		sorted_char_errors = sorted(
 			current_aggregates['aggregated_errors_detail'].items(), 
 			key=lambda item: (-item[1], item[0])
@@ -291,64 +287,94 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 		error_chars = [item[0].upper() for item in sorted_char_errors]
 		error_counts = [item[1] for item in sorted_char_errors]
 		
-		if error_counts: # Procedi solo se ci sono errori da plottare
-			# Calcola l'altezza necessaria per l'area del grafico errori
-			height_per_error_bar_fig = 0.030 # Altezza per ogni barra di errore
-			ax_err_needed_height_fig = height_per_error_bar_fig * len(error_chars) + 0.03 # Aggiungi un po' di padding
+		if error_counts:
+			height_per_error_bar_fig = 0.035 # Aumentata leggermente per più spazio
+			ax_err_needed_height_fig = height_per_error_bar_fig * len(error_chars) + 0.03
 			
-			ax_err_left = 0.15
-			ax_err_width = 0.70 # Larghezza per le barre e le annotazioni
+			ax_err_left = 0.10 # Lasciamo spazio a sinistra
+			ax_err_width = 0.80 # Più largo per accomodare barre e testo
 			ax_err_bottom = y_cursor - ax_err_needed_height_fig
 			
 			ax_char_err = fig.add_axes([ax_err_left, ax_err_bottom, ax_err_width, ax_err_needed_height_fig])
 			ax_char_err.set_facecolor('#383c44')
 
 			y_positions = np.arange(len(error_chars))
+			bar_draw_visual_height = 0.6 # Altezza visiva della barra nelle coordinate y_positions
+
+			# Scala X: da 0 al massimo errore + buffer
+			max_error_val = max(error_counts) if error_counts else 1
+			# Larghezza effettiva dell'asse X per il plottaggio. Le barre saranno centrate in questo spazio.
+			# Questo determina anche la posizione delle linee verticali di riferimento.
+			plot_area_width = max_error_val * 1.1 
+			ax_char_err.set_xlim(0, plot_area_width) 
+
+			# Calcola i left offset per centrare ogni barra
+			left_offsets = [(plot_area_width - count) / 2 for count in error_counts]
+
+			# Colori per le barre (logica già implementata)
+			bar_colors_list = []
+			for i in range(len(sorted_char_errors)):
+				if i < 3: bar_colors_list.append(color_error_high)
+				elif i < 7: bar_colors_list.append(color_neutral)
+				else: bar_colors_list.append(color_good)
 			
-			bars = ax_char_err.barh(y_positions, error_counts, height=0.6, color=color_warning, 
+			bars = ax_char_err.barh(y_positions, error_counts, height=bar_draw_visual_height, 
+			                        left=left_offsets, # Applica i left offset per centrare
+			                        color=bar_colors_list,
 			                        edgecolor=text_color, linewidth=0.5, zorder=2)
 			
 			ax_char_err.set_yticks(y_positions)
 			ax_char_err.set_yticklabels(error_chars, color=text_color, fontsize=9, weight='bold')
-			ax_char_err.invert_yaxis() # Errore più frequente in alto
+			ax_char_err.invert_yaxis() 
+			ax_char_err.tick_params(axis='y', length=0) # Nasconde i trattini delle y-ticks
 
-			# Impostazioni asse X
-			max_error_count_for_scale = max(error_counts) if error_counts else 1
-			ax_char_err.set_xlim(0, max_error_count_for_scale * 1.1) # Un po' di spazio a destra
-			ax_char_err.set_xlabel(Trnsl('error_count_header', lang=lang), color=text_color, fontsize=10)
-			ax_char_err.tick_params(axis='x', colors=text_color, labelsize=9)
-			ax_char_err.spines['bottom'].set_color(text_color)
+			# Rimuovi etichette e linea dell'asse X dato che le barre sono centrate
+			ax_char_err.set_xticks([]) # Nasconde i numeri sull'asse X
+			ax_char_err.set_xlabel("") # Rimuove l'etichetta "Numero Errori"
+			ax_char_err.spines['bottom'].set_visible(False) # Nasconde la linea dell'asse X
 			ax_char_err.spines['top'].set_visible(False)
 			ax_char_err.spines['right'].set_visible(False)
-			ax_char_err.spines['left'].set_visible(False) # Le etichette dei caratteri sono sull'asse Y
-			ax_char_err.tick_params(axis='y', length=0)
+			ax_char_err.spines['left'].set_visible(False)
 
+			# Linee di riferimento verticali basate sulla barra più lunga (la prima)
+			if error_counts:
+				longest_bar_width = error_counts[0]
+				left_longest_bar = left_offsets[0]
+				right_longest_bar = left_offsets[0] + longest_bar_width
+				
+				# Estensione verticale delle linee: dal bordo superiore della prima barra (in alto)
+				# al bordo inferiore dell'ultima barra (in basso)
+				y_top_line = y_positions[0] + bar_draw_visual_height / 2
+				y_bottom_line = y_positions[-1] - bar_draw_visual_height / 2
 
-			# Aggiungi annotazioni testuali (conteggio e percentuali) per ogni barra
+				ax_char_err.vlines(x=left_longest_bar, ymin=y_bottom_line, ymax=y_top_line,
+				                   color='white', linestyle='--', linewidth=0.75, alpha=0.7, zorder=1)
+				ax_char_err.vlines(x=right_longest_bar, ymin=y_bottom_line, ymax=y_top_line,
+				                   color='white', linestyle='--', linewidth=0.75, alpha=0.7, zorder=1)
+
+			# Aggiungi annotazioni testuali (conteggio e percentuali)
 			total_chars_in_block_for_perc = current_aggregates['total_chars_sent_overall']
 			aggregated_sent_chars_for_perc = current_aggregates.get('aggregated_sent_chars_detail', {})
 
-			for i, bar in enumerate(bars):
-				char = error_chars[i].lower() # Carattere in minuscolo per lookup
+			for i, bar_patch in enumerate(bars): # bar_patch è l'oggetto Rectangle della barra
+				char_l = error_chars[i].lower() # Carattere per lookup
 				count = error_counts[i]
 				
 				perc_vs_total = (count / total_chars_in_block_for_perc * 100) if total_chars_in_block_for_perc > 0 else 0.0
-				
-				sent_of_this_char = aggregated_sent_chars_for_perc.get(char, 0)
+				sent_of_this_char = aggregated_sent_chars_for_perc.get(char_l, 0)
 				perc_vs_specific = (count / sent_of_this_char * 100) if sent_of_this_char > 0 else 0.0
 				
 				annotation_text = f" {count} " \
 				                  f"({perc_vs_total:.1f}% {Trnsl('of_total_chars', lang=lang)}, " \
-				                  f"{perc_vs_specific:.1f}% {Trnsl('of_specific_char_sent', lang=lang, char_upper=char.upper())})"
+				                  f"{perc_vs_specific:.1f}% {Trnsl('of_specific_char_sent', lang=lang, char_upper=error_chars[i])})"
 				
-				ax_char_err.text(bar.get_width() + max_error_count_for_scale * 0.01, # Posizione x leggermente dopo la barra
-				                 bar.get_y() + bar.get_height() / 2,        # Posizione y centrata sulla barra
-				                 annotation_text,
-				                 va='center', ha='left', color=text_color, fontsize=8)
-
-			y_cursor = ax_err_bottom - section_spacing_fig # Aggiorna y_cursor globale
+				# Posiziona il testo a destra della barra
+				text_x_pos = bar_patch.get_x() + bar_patch.get_width() + plot_area_width * 0.01
+				ax_char_err.text(text_x_pos, bar_patch.get_y() + bar_patch.get_height() / 2,
+				                 annotation_text, va='center', ha='left', color=text_color, fontsize=8)
+			y_cursor = ax_err_bottom - section_spacing_fig
 		else: # Non ci sono errori di dettaglio da plottare
-			no_detail_errors_text = Trnsl('no_detailed_errors_to_display', lang=lang) # Crea traduzione
+			no_detail_errors_text = Trnsl('no_detailed_errors_to_display', lang=lang)
 			fig.text(0.5, y_cursor - line_height_fig, no_detail_errors_text, color=text_color, 
 			         ha='center', va='top', fontsize=10, style='italic')
 			y_cursor -= (line_height_fig * 2 + section_spacing_fig) # Spazio per il messaggio
