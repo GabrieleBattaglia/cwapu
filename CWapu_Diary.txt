@@ -1611,3 +1611,99 @@ Elenco delle parole copiate male:
 	(19) TX: 9S9, RX: 9H9, DIF: S;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #178 eseguito il 2025/5/21 alle 19, 17 minuti:
+In questa sessione #178, ti ho inviato 20 words e ne hai ricevuti 14: 70.0%
+	11 di questi sono stati ricevuti al primo ascolto: 78.6%
+	mentre 3 words al secondo tentativo: 21.4%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 40: pari ad una variazione di 9 WPM.
+	La velocità media di ricezione è di: 34.9 WPM.
+Carattere: errori = Percentuale
+    'A': 2 (2.15% dei car. tot., 14.29% delle 'A' inviate)
+    'R': 2 (2.15% dei car. tot., 18.18% delle 'R' inviate)
+    'E': 1 (1.08% dei car. tot., 12.50% delle 'E' inviate)
+    'I': 1 (1.08% dei car. tot., 10.00% delle 'I' inviate)
+    'S': 1 (1.08% dei car. tot., 20.00% delle 'S' inviate)
+
+Errori totali: 7 su 93 = 7.53%
+Caratteri mai sbagliati: B C D F G K L M N O P T U V
+Elenco delle parole copiate male:
+	(6) TX: NILLA, RX: NELLA, DIF: I;
+	(9) TX: VORAI, RX: VORRAI, DIF: R;
+	(14) TX: UVOSE, RX: UVOI, DIF: SE;
+	(15) TX: BOTAI, RX: BOTTI, DIF: A;
+	(19) TX: CRACK, RX: CRICK, DIF: A;
+	(20) TX: RARA, RX: RAPA, DIF: R;
+Nota: nessuna
+***
+
+Esercizio di ricezione #179 eseguito il 2025/5/21 alle 19, 20 minuti:
+In questa sessione #179, ti ho inviato 20 Group e ne hai ricevuti 4: 20.0%
+	1 di questi sono stati ricevuti al primo ascolto: 25.0%
+	mentre 3 Group al secondo tentativo: 75.0%.
+Durante la sessione, la tua velocità minima è stata 38, la massima di 38: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 38.0 WPM.
+Carattere: errori = Percentuale
+    'B': 3 (2.14% dei car. tot., 42.86% delle 'B' inviate)
+    'C': 3 (2.14% dei car. tot., 30.00% delle 'C' inviate)
+    'L': 3 (2.14% dei car. tot., 42.86% delle 'L' inviate)
+    'O': 3 (2.14% dei car. tot., 37.50% delle 'O' inviate)
+    'R': 3 (2.14% dei car. tot., 42.86% delle 'R' inviate)
+    'T': 3 (2.14% dei car. tot., 50.00% delle 'T' inviate)
+    'D': 2 (1.43% dei car. tot., 50.00% delle 'D' inviate)
+    'H': 2 (1.43% dei car. tot., 33.33% delle 'H' inviate)
+    'M': 2 (1.43% dei car. tot., 33.33% delle 'M' inviate)
+    'P': 2 (1.43% dei car. tot., 50.00% delle 'P' inviate)
+    'Q': 2 (1.43% dei car. tot., 25.00% delle 'Q' inviate)
+    'A': 1 (0.71% dei car. tot., 25.00% delle 'A' inviate)
+    'E': 1 (0.71% dei car. tot., 25.00% delle 'E' inviate)
+    'F': 1 (0.71% dei car. tot., 14.29% delle 'F' inviate)
+    'K': 1 (0.71% dei car. tot., 25.00% delle 'K' inviate)
+    'S': 1 (0.71% dei car. tot., 16.67% delle 'S' inviate)
+    'U': 1 (0.71% dei car. tot., 16.67% delle 'U' inviate)
+    'V': 1 (0.71% dei car. tot., 16.67% delle 'V' inviate)
+    'W': 1 (0.71% dei car. tot., 14.29% delle 'W' inviate)
+    'X': 1 (0.71% dei car. tot., 16.67% delle 'X' inviate)
+    'Z': 1 (0.71% dei car. tot., 25.00% delle 'Z' inviate)
+
+Errori totali: 38 su 140 = 27.14%
+Caratteri mai sbagliati: G I N Y
+Elenco delle parole copiate male:
+	(1) TX: WOCBLXP, RX: WOCBURX, DIF: LP;
+	(3) TX: SCUTVQU, RX: SCUVQU, DIF: T;
+	(4) TX: KFGBGCL, RX: KFGBGRL, DIF: C;
+	(6) TX: QVTRIQL, RX: QVRIC, DIF: TQL;
+	(7) TX: MBECLWP, RX: MBECWP, DIF: L;
+	(8) TX: RINHXYK, RX: RINHBYK, DIF: X;
+	(9) TX: ICOVILB, RX: ICOVILAD, DIF: B;
+	(10) TX: LQUWAVM, RX: LQUWVW, DIF: AM;
+	(11) TX: BTCUBDV, RX: , DIF: BTCUBDV;
+	(12) TX: XZFWKFK, RX: XZFWCK, DIF: CFK;
+	(13) TX: TTTRHSH, RX: TTTRSSH, DIF: H;
+	(14) TX: XHRPOWD, RX: XHFD, DIF: RPOW;
+	(15) TX: SZOMHFQ, RX: F, DIF: SZOMHQ;
+	(16) TX: WIPQQEO, RX: WIPQQIK, DIF: EO;
+	(18) TX: LNRFUCC, RX: LNFUCC, DIF: R;
+	(20) TX: EZORNDQ, RX: EZONNQ, DIF: RD;Nota: inserita lunghezza errata gruppo
+***
+
+Esercizio di ricezione #180 eseguito il 2025/5/21 alle 19, 22 minuti:
+In questa sessione #180, ti ho inviato 20 Group e ne hai ricevuti 17: 85.0%
+	9 di questi sono stati ricevuti al primo ascolto: 52.9%
+	mentre 8 Group al secondo tentativo: 47.1%.
+Durante la sessione, la tua velocità minima è stata 39, la massima di 52: pari ad una variazione di 13 WPM.
+	La velocità media di ricezione è di: 45.4 WPM.
+Carattere: errori = Percentuale
+    'D': 1 (1.67% dei car. tot., 25.00% delle 'D' inviate)
+    'E': 1 (1.67% dei car. tot., 25.00% delle 'E' inviate)
+    'U': 1 (1.67% dei car. tot., 33.33% delle 'U' inviate)
+    'V': 1 (1.67% dei car. tot., 16.67% delle 'V' inviate)
+
+Errori totali: 4 su 60 = 6.67%
+Caratteri mai sbagliati: A B C F G H I J K L N O P Q R X Y Z
+Elenco delle parole copiate male:
+	(13) TX: UVU, RX: UUU, DIF: VU;
+	(16) TX: EQE, RX: EQI, DIF: E;
+	(17) TX: ZDH, RX: ZGH, DIF: D;
+Nota: nessuna
+***
