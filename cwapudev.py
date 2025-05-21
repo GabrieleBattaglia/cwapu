@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERS="3.3.2, (2025-05-19)"
+VERS="3.5.4, (2025-05-21)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -73,90 +73,323 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 	"""
 	Crea un report grafico delle statistiche storiche e lo salva come immagine.
 	"""
-	print(f"DEBUG: Funzione crea_report_grafico CHIAMATA. File di output target: {output_filename}")
 	try:
 		import matplotlib
-		# Imposta il backend non interattivo PRIMA di importare pyplot.
-		# Questo è cruciale per evitare problemi in ambienti senza GUI.
-		matplotlib.use('Agg') 
+		matplotlib.use('Agg') # Imposta il backend non interattivo PRIMA di importare pyplot
 		import matplotlib.pyplot as plt
 		import numpy as np
 	except ImportError:
-		# Messaggio specifico se matplotlib o numpy non sono installati.
-		# Assicurati di avere la chiave 'matplotlib_not_found_error' nelle traduzioni.
-		# IT: "Libreria Matplotlib/Numpy non trovata. Impossibile generare il report grafico. Per installarla: pip install matplotlib numpy"
-		# EN: "Matplotlib/Numpy library not found. Cannot generate graphical report. To install it: pip install matplotlib numpy"
 		print(Trnsl('matplotlib_not_found_error', lang=lang))
-		return # Esce dalla funzione se le librerie non sono disponibili.
+		return
 	except Exception as e_import:
-		# Cattura QUALSIASI ALTRO errore che potrebbe verificarsi durante l'importazione o .use('Agg')
-		# Assicurati di avere la chiave 'error_importing_matplotlib' nelle traduzioni.
-		# IT: "Errore imprevisto durante l'importazione di Matplotlib: {error}"
-		# EN: "Unexpected error while importing Matplotlib: {error}"
 		print(Trnsl('error_importing_matplotlib', lang=lang, error=str(e_import)))
-		return # Esce dalla funzione.
-	print(f"DEBUG: Inizio creazione report grafico: {output_filename}") # Messaggio di debug
+		return
+
+	print(f"DEBUG: Inizio creazione report grafico (dopo imports): {output_filename}")
 	print(f"DEBUG: Dati correnti ricevuti: {bool(current_aggregates)}")
 	print(f"DEBUG: Dati precedenti ricevuti: {bool(previous_aggregates)}")
 
-	# Impostazioni preliminari per lo stile scuro e i colori
-	plt.style.use('dark_background') # Applica uno stile scuro predefinito
-	fig_width_inches = 10 # Larghezza immagine (es. 10 pollici * 100 DPI = 1000 pixel)
-	fig_height_inches = 16 # Altezza immagine (più alta per permettere lo scorrimento)
-                           # Potremmo renderla dinamica più avanti
+	# Impostazioni preliminari
+	plt.style.use('dark_background')
+	fig_width_inches = 10 
+	fig_height_inches = 16 # Altezza generosa per contenuti futuri e scorrimento
 
-	# Colori (esempi, possiamo affinarli)
 	text_color = 'white'
-	# Scala colori: rosso (cattivo) -> arancio -> giallo -> verde (buono) -> azzurro -> blu (ottimo)
 	color_error_high = '#FF4136' # Rosso
 	color_warning = '#FF851B'    # Arancio
 	color_neutral = '#FFDC00'    # Giallo
 	color_good = '#2ECC40'       # Verde
 	color_excellent = '#7FDBFF'  # Azzurro Chiaro
-	color_data_bar = '#0074D9'   # Blu per barre generiche
+	# color_data_bar = '#0074D9' # Blu (non usato in questa versione WPM)
 
-	# Crea la figura e gli assi principali (per ora un solo set di assi)
-	# Potremmo usare subplots per dividere l'immagine in pannelli
-	fig, ax = plt.subplots(figsize=(fig_width_inches, fig_height_inches))
-	fig.patch.set_facecolor('#222222') # Colore di sfondo della figura intera
-	ax.set_facecolor('#333333')      # Colore di sfondo del pannello grafico principale
+	fig = plt.figure(figsize=(fig_width_inches, fig_height_inches))
+	fig.patch.set_facecolor('#222222')
 
-	# --- INIZIO CONTENUTO GRAFICO (Placeholder) ---
+	# --- COORDINATE E LAYOUT ---
+	# Useremo coordinate relative alla figura per posizionare testo e assi
+	# (0,0) è in basso a sinistra, (1,1) in alto a destra della figura.
 	
-	# Titolo generale dell'immagine
+	y_cursor = 0.98    # Cursore Y corrente, parte dall'alto
+	line_height_fig = 0.030 # Altezza di una riga di testo in coordinate della figura
+	section_spacing_fig = 0.04 # Spazio tra sezioni in coordinate della figura
+
+	# --- INTESTAZIONE DEL REPORT (Testo) ---
 	title_text = f"{Trnsl('report_header_appname', lang=lang)} - {Trnsl('historical_stats_report_title', lang=lang)}"
+	fig.text(0.5, y_cursor, title_text, color=text_color, ha='center', va='top', fontsize=16, weight='bold')
+	y_cursor -= line_height_fig * 1.5
+
 	subtitle_text = Trnsl('stats_based_on_exercises', lang=lang, count=num_sessions_in_report) + \
 	                f" (G={g_val}, X={x_val})"
+	fig.text(0.5, y_cursor, subtitle_text, color=text_color, ha='center', va='top', fontsize=12)
+	y_cursor -= line_height_fig
+
 	generation_time_text = f"{Trnsl('report_generated_on', lang=lang)}: {dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+	fig.text(0.5, y_cursor, generation_time_text, color=text_color, ha='center', va='top', fontsize=10, style='italic')
+	y_cursor -= section_spacing_fig * 1.5 # Più spazio prima del primo pannello grafico
 
-	# Posizionamento del testo (esempio, richiederà aggiustamenti)
-	# Useremo fig.text per testo relativo all'intera figura, o ax.text per testo relativo a un pannello.
-	# Per ora, un semplice testo sull'asse principale.
-	ax.text(0.5, 0.95, title_text, color=text_color, ha='center', va='center', fontsize=16, transform=ax.transAxes)
-	ax.text(0.5, 0.92, subtitle_text, color=text_color, ha='center', va='center', fontsize=12, transform=ax.transAxes)
-	ax.text(0.5, 0.89, generation_time_text, color=text_color, ha='center', va='center', fontsize=10, transform=ax.transAxes)
+	# Funzione helper per i colori delle variazioni
+	def get_delta_color_and_symbol(delta_value, higher_is_better=True, tolerance=0.01):
+		symbol = ""
+		color_to_use = color_neutral # Default a neutral
+		if higher_is_better:
+			if delta_value > tolerance: color_to_use = color_good; symbol = "▲"
+			elif delta_value < -tolerance: color_to_use = color_error_high; symbol = "▼"
+			else: symbol = "~" # neutro
+		else: # Lower is better
+			if delta_value < -tolerance: color_to_use = color_good; symbol = "▼"
+			elif delta_value > tolerance: color_to_use = color_error_high; symbol = "▲"
+			else: symbol = "~" # neutro
+		return color_to_use, symbol
+	# --- PANNELLO STATISTICHE WPM (Grafico a Barre Orizzontali) ---
+	fig.text(0.5, y_cursor, Trnsl('overall_speed_stats', lang=lang), color=color_excellent, ha='center', va='top', fontsize=14, weight='bold')
+	y_cursor -= line_height_fig * 0.06 # Aumentato leggermente lo spazio dopo il titolo sezione WPM
 
-	# Rimuovi gli assi cartesiani se il primo pannello è solo testo o se li gestiamo diversamente
-	ax.set_axis_off()
+	wpm_metrics_data = [ # Rinomino per chiarezza, contiene i dati
+		{'label_key': 'min_wpm', 'curr': current_aggregates['wpm_min_overall'], 
+		 'prev': previous_aggregates['wpm_min_overall'] if previous_aggregates else None, 'higher_better': True},
+		{'label_key': 'avg_wpm_of_session_avgs_label', 'curr': current_aggregates['wpm_avg_of_session_avgs'], 
+		 'prev': previous_aggregates['wpm_avg_of_session_avgs'] if previous_aggregates else None, 'higher_better': True},
+		{'label_key': 'max_wpm', 'curr': current_aggregates['wpm_max_overall'], 
+		 'prev': previous_aggregates['wpm_max_overall'] if previous_aggregates else None, 'higher_better': True}
+	]
+	
+	num_wpm_metrics = len(wpm_metrics_data)
+
+	# Altezza per ogni gruppo di metriche WPM (Min, Avg, Max) in coordinate della figura.
+	# Ogni gruppo conterrà una barra per il corrente, una per il precedente (se esiste), e testo.
+	# AUMENTIAMO SIGNIFICATIVAMENTE QUESTI VALORI per dare più spazio
+	height_per_wpm_metric_group_fig = 0.07  # Es. 7% dell'altezza della figura per ogni metrica (Min, Avg, Max)
+	ax_wpm_needed_height_fig = height_per_wpm_metric_group_fig * num_wpm_metrics
+	
+	# Posizionamento dell'area grafici WPM
+	ax_wpm_left = 0.20  # Spostato a destra per fare spazio alle etichette Y
+	ax_wpm_width = 0.55 # Larghezza dell'area delle barre
+	ax_wpm_bottom = y_cursor - ax_wpm_needed_height_fig 
+	ax_variation_text_left = ax_wpm_left + ax_wpm_width + 0.03 # Dove inizia il testo delle variazioni
+
+	ax_wpm = fig.add_axes([ax_wpm_left, ax_wpm_bottom, ax_wpm_width, ax_wpm_needed_height_fig])
+	ax_wpm.set_facecolor('#383c44') # Sfondo per questa specifica area
+	wpm_scale_min = 0
+	wpm_scale_max = 100
+	ax_wpm.set_xlim(wpm_scale_min, wpm_scale_max)
+	ax_wpm.set_xlabel("WPM", color=text_color, fontsize=10)
+	ax_wpm.tick_params(axis='x', colors=text_color, labelsize=9)
+	ax_wpm.spines['bottom'].set_color(text_color)
+	ax_wpm.spines['top'].set_visible(False)
+	ax_wpm.spines['right'].set_visible(False)
+	ax_wpm.spines['left'].set_visible(False) # Nascondiamo la spina sinistra perché le etichette y fungeranno da guida
+
+	# Impostazione delle etichette Y per le metriche WPM
+	# Le posizioni y per le etichette (e i centri dei gruppi di barre) saranno 0, 1, 2... N-1
+	# Matplotlib le piazzerà uniformemente. Le disegneremo dall'alto verso il basso.
+	y_tick_positions = np.arange(num_wpm_metrics) 
+	metric_labels = [Trnsl(m['label_key'], lang=lang) for m in wpm_metrics_data]
+	
+	ax_wpm.set_yticks(y_tick_positions)
+	ax_wpm.set_yticklabels(metric_labels[::-1]) # Inverti le etichette per l'ordine dall'alto verso il basso
+	ax_wpm.tick_params(axis='y', colors=text_color, labelsize=10, length=0) # length=0 per nascondere i trattini
+	ax_wpm.invert_yaxis() # L'etichetta superiore (Min WPM) sarà in alto
+
+	bar_draw_height = 0.35 # Altezza di una singola barra (es. corrente o precedente) in coordinate dati dell'asse Y di ax_wpm
+	                       # (0.35 significa che ogni barra occupa il 35% dello spazio verticale allocato alla sua metrica)
+
+	for i, metric in enumerate(wpm_metrics_data):
+		y_group_center = y_tick_positions[i] # Il centro del gruppo di barre per questa metrica (0, 1, 2)
+
+		# Barra di sfondo (scala) - opzionale, ma può aiutare a dare contesto
+		ax_wpm.barh(y_group_center, wpm_scale_max - wpm_scale_min, height=bar_draw_height * 2.2, left=wpm_scale_min, 
+		            color='#555555', edgecolor=text_color, linewidth=0.5, zorder=1, alpha=0.5)
+
+		# Valore precedente (se esiste) - disegnato sopra la linea centrale del gruppo
+		y_prev_bar_pos = y_group_center - bar_draw_height / 2.1 # Leggermente sopra il centro (- perché asse Y è invertito)
+		if metric['prev'] is not None:
+			ax_wpm.barh(y_prev_bar_pos, metric['prev'] - wpm_scale_min, height=bar_draw_height, left=wpm_scale_min, 
+			            color=color_neutral, zorder=2, alpha=0.8, edgecolor=text_color, linewidth=0.5)
+			ax_wpm.text(metric['prev'] + 0.015 * wpm_scale_max, y_prev_bar_pos, f"{metric['prev']:.2f}", 
+			            color=text_color, ha='left', va='center', fontsize=9)
+		
+		# Valore corrente - disegnato sotto la linea centrale del gruppo
+		y_curr_bar_pos = y_group_center + bar_draw_height / 2.1 # Leggermente sotto il centro (+ perché asse Y è invertito)
+		ax_wpm.barh(y_curr_bar_pos, metric['curr'] - wpm_scale_min, height=bar_draw_height, left=wpm_scale_min, 
+		            color=color_good, zorder=3, edgecolor=text_color, linewidth=0.5)
+		ax_wpm.text(metric['curr'] + 0.015 * wpm_scale_max, y_curr_bar_pos, f"{metric['curr']:.2f}", 
+		            color=text_color, ha='left', va='center', fontsize=9, weight='bold')
+
+		# Variazione testuale (posizionata a destra dell'area del grafico ax_wpm, usando coordinate della figura)
+		if metric['prev'] is not None:
+			delta = metric['curr'] - metric['prev']
+			color_txt, symbol = get_delta_color_and_symbol(delta, higher_is_better=metric['higher_better'], tolerance=0.05)
+			perc_delta_str = f" ({(delta / metric['prev'] * 100):+.2f}%)" if metric['prev'] != 0 else ""
+			
+			# Calcola la posizione y per fig.text allineata verticalmente con y_group_center di ax_wpm
+			# (0,0) di ax_wpm è (ax_wpm_left, ax_wpm_bottom) in coordinate figura
+			# L'asse y di ax_wpm va da 0 a num_wpm_metrics-1 (invertito). y_group_center è in queste coordinate.
+			# Normalizziamo y_group_center rispetto all'altezza di ax_wpm e poi scaliamo per ax_wpm_needed_height_fig
+			# L'asse Y di ax_wpm è invertito, quindi y_group_center=0 è in alto.
+			norm_y_in_ax = (y_group_center + 0.5) / num_wpm_metrics # +0.5 per centrare nel "blocco" della metrica
+			y_fig_coord_for_text = ax_wpm_bottom + (1 - norm_y_in_ax) * ax_wpm_needed_height_fig # (1-norm) perché y_cursor è top-down
+
+			fig.text(ax_variation_text_left, y_fig_coord_for_text, 
+			         f"{symbol} {delta:+.2f}{perc_delta_str}", color=color_txt, 
+			         ha='left', va='center', fontsize=10)
+	
+	# Legenda (opzionale, se i colori non sono autoesplicativi)
+	# Se necessario, aggiungi una legenda usando fig.legend(...) come avevamo discusso.
+	# Per ora, i colori rosso/verde per precedente/attuale sono abbastanza standard.
+	# Potremmo aggiungere etichette testuali "Attuale:" e "Precedente:" vicino alle barre se serve.
+	# Data la nuova disposizione con etichette Y, la legenda precedente potrebbe non essere ideale.
+	# Valutiamo se è necessaria dopo aver visto questo layout.
+
+	y_cursor = ax_wpm_bottom - section_spacing_fig # Aggiorna y_cursor globale per il pannello successivo
+	# --- PANNELLO STATISTICHE ERRORI COMPLESSIVE (Testuale per ora) ---
+	fig.text(0.5, y_cursor, Trnsl('overall_error_stats', lang=lang), color=color_excellent, ha='center', va='top', fontsize=14, weight='bold')
+	y_cursor -= line_height_fig * 1.2
+
+	# ... (Logica per stampare testualmente Total Chars Sent e Overall Error Rate come fatto prima, usando fig.text e y_cursor)
+	# Esempio per Total Chars (adattare x_label, x_value, x_prev_value, x_delta se necessario o usare layout più semplice)
+	# Per semplicità, usiamo un layout più lineare qui:
+	x_text_start = 0.1
+	label_overall_err = Trnsl('total_chars_sent_in_block', lang=lang)
+	value_overall_err_str = f"{current_aggregates['total_chars_sent_overall']}"
+	fig.text(x_text_start, y_cursor, f"{label_overall_err}: {value_overall_err_str}", color=text_color, ha='left', va='top', fontsize=11)
+	if previous_aggregates:
+		prev_val = previous_aggregates['total_chars_sent_overall']
+		delta = current_aggregates['total_chars_sent_overall'] - prev_val
+		perc_delta_str = f" ({(delta / prev_val * 100):+.2f}%)" if prev_val != 0 else ""
+		fig.text(x_text_start + 0.4, y_cursor, f"{Trnsl('vs', lang=lang)} {prev_val} ({delta:+}{perc_delta_str})", color=color_neutral, ha='left', va='top', fontsize=10, style='italic')
+	y_cursor -= line_height_fig
+
+	total_chars_curr = current_aggregates['total_chars_sent_overall']
+	total_errs_curr = current_aggregates['total_errors_chars_overall']
+	overall_error_rate_curr = (total_errs_curr / total_chars_curr * 100) if total_chars_curr > 0 else 0.0
+	label_overall_err = Trnsl('overall_error_rate', lang=lang)
+	value_overall_err_str = f"{overall_error_rate_curr:.2f}% ({total_errs_curr}/{total_chars_curr})"
+	fig.text(x_text_start, y_cursor, f"{label_overall_err}: {value_overall_err_str}", color=text_color, ha='left', va='top', fontsize=11)
+	if previous_aggregates:
+		total_chars_prev = previous_aggregates['total_chars_sent_overall']
+		total_errs_prev = previous_aggregates['total_errors_chars_overall']
+		overall_error_rate_prev = (total_errs_prev / total_chars_prev * 100) if total_chars_prev > 0 else 0.0
+		delta_rate = overall_error_rate_curr - overall_error_rate_prev
+		color, symbol = get_delta_color_and_symbol(delta_rate, higher_is_better=False)
+		fig.text(x_text_start + 0.4, y_cursor, f"{Trnsl('vs', lang=lang)} {overall_error_rate_prev:.2f}% ({symbol} {delta_rate:+.2f} punti %)", color=color, ha='left', va='top', fontsize=10, style='italic')
+	y_cursor -= section_spacing_fig
+	
+	# --- SEZIONE DETTAGLIO ERRORI PER CARATTERE (BLOCCO CORRENTE) ---
+	fig.text(0.5, y_cursor, Trnsl('error_details_by_char', lang=lang), color=color_excellent, ha='center', va='top', fontsize=14, weight='bold')
+	y_cursor -= line_height_fig * 0.06
+
+	top_n_errors_to_display = 10 # Quanti errori principali mostrare
+
+	if current_aggregates['aggregated_errors_detail']:
+		# Prepara i dati per il grafico
+		# Ordina per conteggio (decrescente) e poi per carattere, prendi i top N
+		sorted_char_errors = sorted(
+			current_aggregates['aggregated_errors_detail'].items(), 
+			key=lambda item: (-item[1], item[0])
+		)[:top_n_errors_to_display]
+
+		error_chars = [item[0].upper() for item in sorted_char_errors]
+		error_counts = [item[1] for item in sorted_char_errors]
+		
+		if error_counts: # Procedi solo se ci sono errori da plottare
+			# Calcola l'altezza necessaria per l'area del grafico errori
+			height_per_error_bar_fig = 0.030 # Altezza per ogni barra di errore
+			ax_err_needed_height_fig = height_per_error_bar_fig * len(error_chars) + 0.03 # Aggiungi un po' di padding
+			
+			ax_err_left = 0.15
+			ax_err_width = 0.70 # Larghezza per le barre e le annotazioni
+			ax_err_bottom = y_cursor - ax_err_needed_height_fig
+			
+			ax_char_err = fig.add_axes([ax_err_left, ax_err_bottom, ax_err_width, ax_err_needed_height_fig])
+			ax_char_err.set_facecolor('#383c44')
+
+			y_positions = np.arange(len(error_chars))
+			
+			bars = ax_char_err.barh(y_positions, error_counts, height=0.6, color=color_warning, 
+			                        edgecolor=text_color, linewidth=0.5, zorder=2)
+			
+			ax_char_err.set_yticks(y_positions)
+			ax_char_err.set_yticklabels(error_chars, color=text_color, fontsize=9, weight='bold')
+			ax_char_err.invert_yaxis() # Errore più frequente in alto
+
+			# Impostazioni asse X
+			max_error_count_for_scale = max(error_counts) if error_counts else 1
+			ax_char_err.set_xlim(0, max_error_count_for_scale * 1.1) # Un po' di spazio a destra
+			ax_char_err.set_xlabel(Trnsl('error_count_header', lang=lang), color=text_color, fontsize=10)
+			ax_char_err.tick_params(axis='x', colors=text_color, labelsize=9)
+			ax_char_err.spines['bottom'].set_color(text_color)
+			ax_char_err.spines['top'].set_visible(False)
+			ax_char_err.spines['right'].set_visible(False)
+			ax_char_err.spines['left'].set_visible(False) # Le etichette dei caratteri sono sull'asse Y
+			ax_char_err.tick_params(axis='y', length=0)
 
 
-	# Esempio: Aggiungiamo un testo per WPM medio (solo per vedere qualcosa)
-	avg_wpm_text = f"{Trnsl('avg_wpm_of_session_avgs_label', lang=lang)}: {current_aggregates['wpm_avg_of_session_avgs']:.2f} WPM"
-	ax.text(0.1, 0.80, avg_wpm_text, color=color_good, fontsize=14, transform=ax.transAxes)
+			# Aggiungi annotazioni testuali (conteggio e percentuali) per ogni barra
+			total_chars_in_block_for_perc = current_aggregates['total_chars_sent_overall']
+			aggregated_sent_chars_for_perc = current_aggregates.get('aggregated_sent_chars_detail', {})
 
+			for i, bar in enumerate(bars):
+				char = error_chars[i].lower() # Carattere in minuscolo per lookup
+				count = error_counts[i]
+				
+				perc_vs_total = (count / total_chars_in_block_for_perc * 100) if total_chars_in_block_for_perc > 0 else 0.0
+				
+				sent_of_this_char = aggregated_sent_chars_for_perc.get(char, 0)
+				perc_vs_specific = (count / sent_of_this_char * 100) if sent_of_this_char > 0 else 0.0
+				
+				annotation_text = f" {count} " \
+				                  f"({perc_vs_total:.1f}% {Trnsl('of_total_chars', lang=lang)}, " \
+				                  f"{perc_vs_specific:.1f}% {Trnsl('of_specific_char_sent', lang=lang, char_upper=char.upper())})"
+				
+				ax_char_err.text(bar.get_width() + max_error_count_for_scale * 0.01, # Posizione x leggermente dopo la barra
+				                 bar.get_y() + bar.get_height() / 2,        # Posizione y centrata sulla barra
+				                 annotation_text,
+				                 va='center', ha='left', color=text_color, fontsize=8)
 
-	# --- FINE CONTENUTO GRAFICO (Placeholder) ---
+			y_cursor = ax_err_bottom - section_spacing_fig # Aggiorna y_cursor globale
+		else: # Non ci sono errori di dettaglio da plottare
+			no_detail_errors_text = Trnsl('no_detailed_errors_to_display', lang=lang) # Crea traduzione
+			fig.text(0.5, y_cursor - line_height_fig, no_detail_errors_text, color=text_color, 
+			         ha='center', va='top', fontsize=10, style='italic')
+			y_cursor -= (line_height_fig * 2 + section_spacing_fig) # Spazio per il messaggio
+	else: # current_aggregates['aggregated_errors_detail'] è vuoto o non esiste
+		no_errors_text = Trnsl('no_errors_recorded_for_block', lang=lang) # Crea traduzione
+		fig.text(0.5, y_cursor - line_height_fig, no_errors_text, color=text_color, 
+		         ha='center', va='top', fontsize=10, style='italic')
+		y_cursor -= (line_height_fig * 2 + section_spacing_fig)
+
+	# --- SEZIONE VARIAZIONI ERRORI PER CARATTERE ---
+	# TODO: Implementare visualizzazione variazioni errori (testuale o grafica)
+	# y_cursor = y_cursor - altezza_sezione_variazioni_errori - section_spacing_fig
+	# Per ora, solo un commento nel codice:
+	# print("Placeholder per variazioni errori carattere")
+	if previous_aggregates and previous_aggregates["num_sessions_in_block"] > 0: # Solo se ci sono dati precedenti
+		fig.text(0.5, y_cursor, Trnsl('error_details_variations', lang=lang), color=color_excellent, ha='center', va='top', fontsize=14, weight='bold')
+		y_cursor -= line_height_fig * 1.2
+		# Qui andrebbe la logica per visualizzare le variazioni degli errori per carattere
+		# Per ora, un semplice messaggio
+		fig.text(0.5, y_cursor - line_height_fig, 
+		         f"({Trnsl('visualization_to_be_implemented', lang=lang)})", # Crea traduzione
+		         color=color_warning, ha='center', va='top', fontsize=10, style='italic')
+		y_cursor -= (line_height_fig * 2 + section_spacing_fig)
+
+	# Assicurati che y_cursor non vada sotto zero se aggiungi molti elementi.
+	# Se necessario, aumenta fig_height_inches all'inizio.
+	# Rimuoviamo gli assi dell'ax principale se non li usiamo più attivamente
+	# ax_main = fig.get_axes()[0] # Prende il primo ax creato con plt.figure() se non si usa subplots()
+	# ax_main.set_axis_off() # Questo era per l'ax iniziale, ma ora abbiamo aggiunto ax_wpm e ax_char_err.
+	# La figura di per sé non ha assi da spegnere, solo gli oggetti Axes.
+
+	# Il salvataggio rimane alla fine
+	# Se necessario, aumenta fig_height_inches all'inizio.
 
 	try:
-		# Salva la figura
-		# bbox_inches='tight' rimuove eccessivo spazio bianco attorno al grafico
-		# pad_inches definisce il padding
 		plt.savefig(output_filename, dpi=120, bbox_inches='tight', pad_inches=0.3, facecolor=fig.get_facecolor())
-		plt.close(fig) # Chiudi la figura per liberare memoria
+		plt.close(fig) 
 		print(f"DEBUG: Report grafico salvato con successo: {output_filename}")
 	except Exception as e_save:
-		plt.close(fig) # Assicurati di chiudere la figura anche in caso di errore
-		# Crea traduzione per questo messaggio specifico
+		if 'fig' in locals() and fig: # Assicurati che fig esista prima di chiuderla
+			plt.close(fig)
 		print(Trnsl('error_saving_graphical_file', lang=lang, filename=output_filename, error=str(e_save)))
 
 def load_settings():
@@ -250,7 +483,7 @@ def save_settings(data):
 			data_to_save["rxing_stats"].pop("total_time", None)
 		with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
 			json.dump(data_to_save, f, indent=4, ensure_ascii=False) # indent=4 per leggibilità, ensure_ascii=False per caratteri speciali
-		print(Trnsl('o_set_saved', lang=app_language)) # Usa la lingua corrente dell'app
+		print(Trnsl('o_set_saved', lang=app_language))
 	except IOError as e:
 		print(f"Errore nel salvare {SETTINGS_FILE}: {e}")
 	except TypeError as e:
@@ -763,6 +996,10 @@ def Rxing():
 	print(Trnsl('over_check', lang=app_language))
 	if len(callssend) >= 10: 
 		send_char = sum(len(j) for j in callssend) 
+		sent_chars_detail_this_session = {}
+		for item_str in callssend: # 'callssend' contiene gli item della sessione corrente
+			for char_sent in item_str:
+				sent_chars_detail_this_session[char_sent] = sent_chars_detail_this_session.get(char_sent, 0) + 1		
 		total_sent_processed = len(callssend)
 		percentage_correct = (len(callsget) * 100 / total_sent_processed) if total_sent_processed > 0 else 0
 		print(Trnsl('session_summary', lang=app_language,
@@ -799,8 +1036,11 @@ def Rxing():
 		if total_mistakes_calculated > 0:
 			sorted_errors = sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0]))
 			for char, count in sorted_errors:
-				percentage = round(count / total_mistakes_calculated * 100, 2)
-				print(f"{char.upper()}: {count} = {percentage}%") # Stampa diretta
+				percentage_vs_total_session_chars = (count / send_char * 100) if send_char > 0 else 0.0
+				total_sent_of_this_char_session = sent_chars_detail_this_session.get(char, 0)
+				percentage_vs_this_char_sent_session = (count / total_sent_of_this_char_session * 100) if total_sent_of_this_char_session > 0 else 0.0
+				print(f"    '{char.upper()}': {count} ({percentage_vs_total_session_chars:.2f}% {Trnsl('of_total_chars', lang=app_language)}, " \
+			 	     f"{percentage_vs_this_char_sent_session:.2f}% {Trnsl('of_specific_char_sent', lang=app_language, char_upper=char.upper())})")
 			mistake_percentage = (total_mistakes_calculated * 100 / send_char) if send_char > 0 else 0
 			print(Trnsl('total_mistakes', lang=app_language, global_mistakes=total_mistakes_calculated, send_char=send_char, mistake_percentage=mistake_percentage))
 			good_letters = AlwaysRight(callssend, char_error_counts) # Passa il dizionario degli errori
@@ -812,10 +1052,6 @@ def Rxing():
 		max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
 		report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
 		# 'callssend' è la lista degli item (stringhe) originali inviati, già in minuscolo.
-		sent_chars_detail_this_session = {}
-		for item_str in callssend: # 'callssend' contiene gli item della sessione corrente
-			for char_sent in item_str:
-				sent_chars_detail_this_session[char_sent] = sent_chars_detail_this_session.get(char_sent, 0) + 1		
 		session_data_for_history = {
 			"timestamp_iso": starttime.isoformat(),
 			"duration_seconds": exerctime.total_seconds(),
@@ -855,9 +1091,12 @@ def Rxing():
 		f.write(Trnsl('speed_summary', lang=app_language, minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm-minwpm, average_wpm=avg_wpm_calc) + "\n")
 		f.write(Trnsl('character_mistakes', lang=app_language))
 		if total_mistakes_calculated > 0:
-			for char, count in sorted_errors: # Usa la stessa lista ordinata
-				percentage = round(count / total_mistakes_calculated * 100, 2)
-				f.write(f"\n{char.upper()}: {count} = {percentage}%")
+			for char, count in sorted_errors:
+				percentage_vs_total_session_chars = (count / send_char * 100) if send_char > 0 else 0.0
+				total_sent_of_this_char_session = sent_chars_detail_this_session.get(char, 0)
+				percentage_vs_this_char_sent_session = (count / total_sent_of_this_char_session * 100) if total_sent_of_this_char_session > 0 else 0.0
+				f.write(f"\n    '{char.upper()}': {count} ({percentage_vs_total_session_chars:.2f}% {Trnsl('of_total_chars', lang=app_language)}, " \
+				        f"{percentage_vs_this_char_sent_session:.2f}% {Trnsl('of_specific_char_sent', lang=app_language, char_upper=char.upper())})")
 			f.write("\n") # Aggiungi newline dopo la lista
 			f.write(Trnsl('total_mistakes', lang=app_language, global_mistakes=total_mistakes_calculated, send_char=send_char, mistake_percentage=mistake_percentage))
 			f.write(Trnsl('never_misspelled', lang=app_language, good_letters=" ".join(sorted(good_letters)).upper()))
@@ -975,7 +1214,7 @@ def generate_historical_rx_report():
 	num_sessions_in_current_report = current_aggregates["num_sessions_in_block"]
 	g_value = historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
 	x_value = historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
-	report_filename = f"CWapu_Historical_Statistics_G_{g_value}_X_{x_value}.txt"
+	report_filename = f"CWapu_Historical_Statistics_G_{g_value}_X_{x_value}.html"
 	# Determina il blocco precedente per il calcolo delle variazioni
 	previous_aggregates = None
 	if len(sessions_log) >= report_gen_interval: # Deve esserci almeno un intervallo di sessioni passate
@@ -989,70 +1228,155 @@ def generate_historical_rx_report():
 				previous_aggregates = _calculate_aggregates(previous_block_sessions)
 	try:
 		with open(report_filename, "w", encoding="utf-8") as f:
+			# --- INIZIO DOCUMENTO HTML ---
+			f.write("<!DOCTYPE html>\n")
+			f.write("<html lang=\"{html_lang}\">\n".format(html_lang=app_language[:2])) # Usa solo la parte 'it' o 'en'
+			f.write("<head>\n")
+			f.write("    <meta charset=\"UTF-8\">\n")
+			f.write(f"    <title>{Trnsl('historical_stats_report_title', lang=app_language)} G{g_value} X{x_value}</title>\n")
+			# --- CSS STYLES ---
+			f.write("    <style>\n")
+			f.write("        body { background-color: #282c34; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }\n")
+			f.write("        .container { max-width: 1200px; margin: auto; background-color: #333740; padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.5); }\n")
+			f.write("        h1, h2, h3 { color: #61afef; border-bottom: 2px solid #61afef; padding-bottom: 5px; margin-top: 30px; }\n")
+			f.write("        h1 { text-align: center; font-size: 2em; margin-bottom: 10px; }\n")
+			f.write("        .report-subtitle { text-align: center; font-size: 0.9em; color: #abb2bf; margin-bottom: 5px; }\n")
+			f.write("        .report-generation-time { text-align: center; font-size: 0.8em; color: #888; margin-bottom: 30px; }\n")
+			f.write("        table { border-collapse: collapse; width: 100%; margin-top: 15px; margin-bottom: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.3); }\n")
+			f.write("        th, td { border: 1px solid #4b5260; padding: 10px; text-align: left; font-size: 0.9em; }\n")
+			f.write("        th { background-color: #3a3f4b; color: #98c379; font-weight: bold; }\n")
+			f.write("        tr:nth-child(even) { background-color: #383c44; }\n")
+			f.write("        tr:hover { background-color: #484e59; }\n")
+			f.write("        .good { color: #98c379; font-weight: bold; } /* Verde per miglioramenti */\n")
+			f.write("        .bad { color: #e06c75; font-weight: bold; } /* Rosso per peggioramenti */\n")
+			f.write("        .neutral { color: #e5c07b; } /* Giallo/Arancio per neutrali o minimi */\n")
+			f.write("        .char-emphasis { font-weight: bold; color: #c678dd; } /* Viola per il carattere in analisi */\n")
+			f.write("        .details-label { font-style: italic; color: #abb2bf; font-size: 0.85em; }\n")
+			f.write("    </style>\n")
+			f.write("</head>\n")
+			f.write("<body>\n")
+			f.write("    <div class=\"container\">\n")
+			# --- INTESTAZIONE GENERALE DEL REPORT ---
+			f.write(f"<h1>{Trnsl('report_header_appname', lang=app_language)} - {Trnsl('historical_stats_report_title', lang=app_language)}</h1>\n")
+			f.write(f"<p class=\"report-subtitle\">{Trnsl('stats_based_on_exercises', lang=app_language, count=num_sessions_in_current_report)} (G={g_value}, X={x_value})</p>\n")
 			timestamp_now = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-			f.write(f"{Trnsl('report_header_appname', lang=app_language)} - {Trnsl('historical_stats_report_title', lang=app_language)}\n")
-			f.write(f"{Trnsl('report_generated_on', lang=app_language)}: {timestamp_now}\n")
-			f.write(Trnsl('stats_based_on_exercises', lang=app_language, count=num_sessions_in_current_report) + "\n")
-			f.write("--------------------------------------------------\n")
-			f.write(f"{Trnsl('overall_speed_stats', lang=app_language)}:\n")
-			f.write(f"  {Trnsl('min_wpm', lang=app_language)}: {current_aggregates['wpm_min_overall']:.2f} WPM\n")
-			f.write(f"  {Trnsl('max_wpm', lang=app_language)}: {current_aggregates['wpm_max_overall']:.2f} WPM\n")
-			f.write(f"  {Trnsl('avg_wpm_of_session_avgs_label', lang=app_language)}: {current_aggregates['wpm_avg_of_session_avgs']:.2f} WPM\n")
-			f.write("\n")
-			# Statistiche Errori Correnti
-			f.write(f"{Trnsl('overall_error_stats', lang=app_language)}:\n")
-			total_chars = current_aggregates['total_chars_sent_overall']
-			total_errs = current_aggregates['total_errors_chars_overall']
-			overall_error_rate = (total_errs / total_chars * 100) if total_chars > 0 else 0.0
-			f.write(f"  {Trnsl('total_chars_sent_in_block', lang=app_language)}: {total_chars}\n")
-			f.write(f"  {Trnsl('total_errors_in_block', lang=app_language)}: {total_errs} ({overall_error_rate:.2f}%)\n")
+			f.write(f"<p class=\"report-generation-time\">{Trnsl('report_generated_on', lang=app_language)}: {timestamp_now}</p>\n")
+			# Helper function per i colori delle variazioni (puoi definirla all'inizio di generate_historical_rx_report o globalmente se serve altrove)
+			def get_delta_class(delta_value, higher_is_better=True, tolerance=0.01):
+				if higher_is_better:
+					if delta_value > tolerance: return "good"
+					if delta_value < -tolerance: return "bad"
+				else: # Lower is better (es. per tassi di errore)
+					if delta_value < -tolerance: return "good"
+					if delta_value > tolerance: return "bad"
+				return "neutral"
+			# --- SEZIONE STATISTICHE VELOCITÀ ---
+			f.write(f"<h2>{Trnsl('overall_speed_stats', lang=app_language)}</h2>\n")
+			f.write("<table>\n")
+			f.write(f"  <thead><tr><th>{Trnsl('metric', lang=app_language)}</th><th>{Trnsl('current_value', lang=app_language)}</th>") # Crea trad: 'metric', 'current_value'
+			if previous_aggregates:
+				f.write(f"<th>{Trnsl('previous_value', lang=app_language)}</th><th>{Trnsl('change', lang=app_language)}</th>") # Crea trad: 'previous_value'
+			f.write("</tr></thead>\n")
+			f.write("  <tbody>\n")
+			# Min WPM
+			f.write(f"    <tr><td>{Trnsl('min_wpm', lang=app_language)}</td><td>{current_aggregates['wpm_min_overall']:.2f} WPM</td>")
+			if previous_aggregates:
+				prev_val = previous_aggregates['wpm_min_overall']
+				delta = current_aggregates['wpm_min_overall'] - prev_val
+				delta_class = get_delta_class(delta, higher_is_better=True) # Più alto è meglio per min WPM (se >0)
+				perc_delta_str = f" ({(delta / prev_val * 100):+.2f}%)" if prev_val != 0 else ""
+				f.write(f"<td>{prev_val:.2f} WPM</td><td class=\"{delta_class}\">{delta:+.2f} WPM{perc_delta_str}</td>")
+			f.write("</tr>\n")
+			# Max WPM
+			f.write(f"    <tr><td>{Trnsl('max_wpm', lang=app_language)}</td><td>{current_aggregates['wpm_max_overall']:.2f} WPM</td>")
+			if previous_aggregates:
+				prev_val = previous_aggregates['wpm_max_overall']
+				delta = current_aggregates['wpm_max_overall'] - prev_val
+				delta_class = get_delta_class(delta, higher_is_better=True)
+				perc_delta_str = f" ({(delta / prev_val * 100):+.2f}%)" if prev_val != 0 else ""
+				f.write(f"<td>{prev_val:.2f} WPM</td><td class=\"{delta_class}\">{delta:+.2f} WPM{perc_delta_str}</td>")
+			f.write("</tr>\n")
+			# Avg WPM
+			f.write(f"    <tr><td>{Trnsl('avg_wpm_of_session_avgs_label', lang=app_language)}</td><td>{current_aggregates['wpm_avg_of_session_avgs']:.2f} WPM</td>")
+			if previous_aggregates:
+				prev_val = previous_aggregates['wpm_avg_of_session_avgs']
+				delta = current_aggregates['wpm_avg_of_session_avgs'] - prev_val
+				delta_class = get_delta_class(delta, higher_is_better=True)
+				perc_delta_str = f" ({(delta / prev_val * 100):+.2f}%)" if prev_val != 0 else ""
+				f.write(f"<td>{prev_val:.2f} WPM</td><td class=\"{delta_class}\">{delta:+.2f} WPM{perc_delta_str}</td>")
+			f.write("</tr>\n")
+			f.write("  </tbody>\n</table>\n")
+			# --- SEZIONE STATISTICHE ERRORI COMPLESSIVE ---
+			f.write(f"<h2>{Trnsl('overall_error_stats', lang=app_language)}</h2>\n")
+			f.write("<table>\n")
+			f.write(f"  <thead><tr><th>{Trnsl('metric', lang=app_language)}</th><th>{Trnsl('current_value', lang=app_language)}</th>")
+			if previous_aggregates:
+				f.write(f"<th>{Trnsl('previous_value', lang=app_language)}</th><th>{Trnsl('change', lang=app_language)}</th>")
+			f.write("</tr></thead>\n")
+			f.write("  <tbody>\n")
+			# Total Chars Sent
+			f.write(f"    <tr><td>{Trnsl('total_chars_sent_in_block', lang=app_language)}</td><td>{current_aggregates['total_chars_sent_overall']}</td>")
+			if previous_aggregates:
+				prev_val = previous_aggregates['total_chars_sent_overall']
+				delta = current_aggregates['total_chars_sent_overall'] - prev_val
+				# Per i caratteri inviati, la variazione è solo informativa, non "buona" o "cattiva" di per sé
+				perc_delta_str = f" ({(delta / prev_val * 100):+.2f}%)" if prev_val != 0 else ""
+				f.write(f"<td>{prev_val}</td><td>{delta:+} {perc_delta_str}</td>")
+			f.write("</tr>\n")
+			# Total Errors & Overall Error Rate
+			total_chars_curr = current_aggregates['total_chars_sent_overall']
+			total_errs_curr = current_aggregates['total_errors_chars_overall']
+			overall_error_rate_curr = (total_errs_curr / total_chars_curr * 100) if total_chars_curr > 0 else 0.0
+			f.write(f"    <tr><td>{Trnsl('overall_error_rate', lang=app_language)}</td><td>{total_errs_curr} / {total_chars_curr} ({overall_error_rate_curr:.2f}%)</td>")
+			if previous_aggregates:
+				total_chars_prev = previous_aggregates['total_chars_sent_overall']
+				total_errs_prev = previous_aggregates['total_errors_chars_overall']
+				overall_error_rate_prev = (total_errs_prev / total_chars_prev * 100) if total_chars_prev > 0 else 0.0
+				delta_rate = overall_error_rate_curr - overall_error_rate_prev
+				delta_class = get_delta_class(delta_rate, higher_is_better=False) # Più basso è meglio per il tasso di errore
+				f.write(f"<td>{total_errs_prev} / {total_chars_prev} ({overall_error_rate_prev:.2f}%)</td><td class=\"{delta_class}\">{delta_rate:+.2f} punti %</td>")
+			f.write("</tr>\n")
+			f.write("  </tbody>\n</table>\n")
+			# --- SEZIONE DETTAGLIO ERRORI PER CARATTERE (BLOCCO CORRENTE) ---
 			if current_aggregates['aggregated_errors_detail']:
-				f.write(f"  {Trnsl('error_details_by_char', lang=app_language)}:\n")
-				# Ordina per conteggio (decrescente) e poi per carattere
+				f.write(f"<h2>{Trnsl('error_details_by_char', lang=app_language)}</h2>\n")
+				f.write("<table>\n")
+				# Crea trad: 'char_header', 'error_count_header', 'perc_vs_total_chars_header', 'perc_vs_spec_char_header'
+				f.write(f"  <thead><tr><th>{Trnsl('char_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('error_count_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('perc_vs_total_chars_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('perc_vs_spec_char_header', lang=app_language)}</th></tr></thead>\n")
+				f.write("  <tbody>\n")
 				sorted_errors = sorted(current_aggregates['aggregated_errors_detail'].items(), key=lambda item: (-item[1], item[0]))
 				for char, count in sorted_errors:
-					percentage_vs_total_block_chars = (count / total_chars * 100) if total_chars > 0 else 0.0
+					percentage_vs_total_block_chars = (count / total_chars_curr * 100) if total_chars_curr > 0 else 0.0
 					total_sent_of_this_char = current_aggregates.get('aggregated_sent_chars_detail', {}).get(char, 0)
 					percentage_vs_this_char_sent = (count / total_sent_of_this_char * 100) if total_sent_of_this_char > 0 else 0.0
-					f.write(f"    '{char.upper()}': {count} ({percentage_vs_total_block_chars:.2f}% {Trnsl('of_total_chars', lang=app_language)}, " \
-			        f"{percentage_vs_this_char_sent:.2f}% {Trnsl('of_specific_char_sent', lang=app_language, char_upper=char.upper())})\n")
-			f.write("\n")
+					f.write(f"    <tr><td class=\"char-emphasis\">'{char.upper()}'</td><td>{count}</td><td>{percentage_vs_total_block_chars:.2f}%</td>" \
+					        f"<td>{percentage_vs_this_char_sent:.2f}% <span class=\"details-label\">({Trnsl('of_specific_char_sent_count', lang=app_language, char_upper=char.upper(), count=total_sent_of_this_char)})</span></td></tr>\n") # Crea trad: 'of_specific_char_sent_count'
+				f.write("  </tbody>\n</table>\n")
+			# --- SEZIONE VARIAZIONI ERRORI PER CARATTERE (se dati precedenti esistono) ---
 			if previous_aggregates and previous_aggregates["num_sessions_in_block"] > 0:
-				f.write("--------------------------------------------------\n")
-				f.write(f"{Trnsl('variations_from_previous_block', lang=app_language)} (vs {previous_aggregates['num_sessions_in_block']} {Trnsl('exercises_articles', lang=app_language)})\n")
-				f.write("--------------------------------------------------\n")
-				# Variazione WPM Medio (usando la nuova metrica)
-				prev_wpm_avg = previous_aggregates['wpm_avg_of_session_avgs']
-				curr_wpm_avg = current_aggregates['wpm_avg_of_session_avgs']
-				delta_wpm = curr_wpm_avg - prev_wpm_avg
-				perc_delta_wpm_str = f"({(delta_wpm / prev_wpm_avg * 100):+.2f}%)" if prev_wpm_avg != 0 else "" # Formattazione a 2 decimali
-				f.write(f"  {Trnsl('avg_wpm_of_session_avgs_label', lang=app_language)}: {curr_wpm_avg:.2f} WPM ({Trnsl('vs', lang=app_language)} {prev_wpm_avg:.2f} WPM). {Trnsl('change', lang=app_language)}: {delta_wpm:+.2f} WPM {perc_delta_wpm_str}\n")
-				# Variazione Tasso di Errore Generale
-				prev_total_chars = previous_aggregates['total_chars_sent_overall']
-				prev_total_errs = previous_aggregates['total_errors_chars_overall']
-				prev_err_rate = (prev_total_errs / prev_total_chars * 100) if prev_total_chars > 0 else 0.0
-				
-				curr_err_rate = overall_error_rate # Già calcolato sopra
-				delta_err_rate = curr_err_rate - prev_err_rate
-				# Nota: per i tassi di errore, una diminuzione è positiva.
-				# La percentuale di cambiamento di un tasso di errore può essere meno intuitiva, quindi mostriamo la variazione assoluta del tasso.
-				f.write(f"  {Trnsl('overall_error_rate', lang=app_language)}: {curr_err_rate:.2f}% ({Trnsl('vs', lang=app_language)} {prev_err_rate:.2f}%). {Trnsl('change', lang=app_language)}: {delta_err_rate:+.2f}%\n")
-				f.write("\n")
-				
-				# Variazioni per errori specifici (Top N errori o tutti)
-				f.write(f"  {Trnsl('error_details_variations', lang=app_language)}:\n")
+				f.write(f"<h2>{Trnsl('error_details_variations', lang=app_language)}</h2>\n")
+				f.write(f"<p class=\"report-subtitle\">{Trnsl('variations_vs_block_of', lang=app_language, count=previous_aggregates['num_sessions_in_block'])}</p>\n") # Crea trad: 'variations_vs_block_of'
+				f.write("<table>\n")
+				f.write(f"  <thead><tr><th>{Trnsl('char_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('curr_error_count_header', lang=app_language)}</th><th>{Trnsl('curr_perc_vs_total_header', lang=app_language)}</th><th>{Trnsl('curr_perc_vs_spec_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('prev_error_count_header', lang=app_language)}</th><th>{Trnsl('prev_perc_vs_total_header', lang=app_language)}</th><th>{Trnsl('prev_perc_vs_spec_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('delta_rate_total_header', lang=app_language)}</th><th>{Trnsl('delta_rate_spec_header', lang=app_language)}</th></tr></thead>\n")
+				f.write("  <tbody>\n")
 				all_error_chars_set = set(current_aggregates['aggregated_errors_detail'].keys()) | set(previous_aggregates['aggregated_errors_detail'].keys())
 				if not all_error_chars_set:
-					f.write(f"    {Trnsl('no_errors_in_either_block', lang=app_language)}\n")
+					f.write(f"    <tr><td colspan=\"9\" style=\"text-align:center;\">{Trnsl('no_errors_in_either_block', lang=app_language)}</td></tr>\n")
 				else:
 					sorted_chars_for_variation = sorted(
 						list(all_error_chars_set),
 						key=lambda char_key: (-current_aggregates['aggregated_errors_detail'].get(char_key, 0), char_key)
 					)
-					for char_err in sorted_chars_for_variation: # Itera sulla lista ordinata
+					for char_err in sorted_chars_for_variation:
 						curr_count = current_aggregates['aggregated_errors_detail'].get(char_err, 0)
 						prev_count = previous_aggregates['aggregated_errors_detail'].get(char_err, 0)
-						total_chars_curr_block = current_aggregates['total_chars_sent_overall']
+						total_chars_curr_block = current_aggregates['total_chars_sent_overall'] # alias total_chars
 						total_chars_prev_block = previous_aggregates['total_chars_sent_overall']
 						curr_rate_vs_total_chars = (curr_count / total_chars_curr_block * 100) if total_chars_curr_block > 0 else 0.0
 						curr_total_sent_of_this_char = current_aggregates.get('aggregated_sent_chars_detail', {}).get(char_err, 0)
@@ -1062,37 +1386,45 @@ def generate_historical_rx_report():
 						prev_rate_vs_specific_char = (prev_count / prev_total_sent_of_this_char * 100) if prev_total_sent_of_this_char > 0 else 0.0
 						delta_rate_vs_total_chars = curr_rate_vs_total_chars - prev_rate_vs_total_chars
 						delta_rate_vs_specific_char = curr_rate_vs_specific_char - prev_rate_vs_specific_char
-						output_line = (
-							f"    '{char_err.upper()}': "
-							f"{curr_count} ({curr_rate_vs_total_chars:.2f}% {Trnsl('of_total_chars', lang=app_language)}, {curr_rate_vs_specific_char:.2f}% {Trnsl('of_specific_char_sent', lang=app_language, char_upper=char_err.upper())}) "
-							f"{Trnsl('vs', lang=app_language)} "
-							f"{prev_count} ({prev_rate_vs_total_chars:.2f}% {Trnsl('of_total_chars', lang=app_language)}, {prev_rate_vs_specific_char:.2f}% {Trnsl('of_specific_char_sent', lang=app_language, char_upper=char_err.upper())}). "
-							f"{Trnsl('delta_rate_total_label', lang=app_language)} {delta_rate_vs_total_chars:+.2f}%, "
-							f"{Trnsl('delta_rate_specific_label', lang=app_language, char_upper=char_err.upper())} {delta_rate_vs_specific_char:+.2f}%\n")
-						f.write(output_line)
-				print(Trnsl('historical_report_saved_to', lang=app_language, filename=report_filename))
+						delta_total_class = get_delta_class(delta_rate_vs_total_chars, higher_is_better=False)
+						delta_specific_class = get_delta_class(delta_rate_vs_specific_char, higher_is_better=False)
+
+						f.write(f"    <tr><td class=\"char-emphasis\">'{char_err.upper()}'</td>" \
+						        f"<td>{curr_count}</td><td>{curr_rate_vs_total_chars:.2f}%</td><td>{curr_rate_vs_specific_char:.2f}% <span class=\"details-label\">({Trnsl('of_n_sent', lang=app_language, count=curr_total_sent_of_this_char)})</span></td>" \
+						        f"<td>{prev_count}</td><td>{prev_rate_vs_total_chars:.2f}%</td><td>{prev_rate_vs_specific_char:.2f}% <span class=\"details-label\">({Trnsl('of_n_sent', lang=app_language, count=prev_total_sent_of_this_char)})</span></td>" \
+						        f"<td class=\"{delta_total_class}\">{delta_rate_vs_total_chars:+.2f} %</td><td class=\"{delta_specific_class}\">{delta_rate_vs_specific_char:+.2f} %</td></tr>\n") # Crea trad 'of_n_sent'
+				f.write("  </tbody>\n</table>\n")
+
+			# --- FINE DOCUMENTO HTML ---
+			f.write("    </div>\n") # Chiudi container
+			f.write("</body>\n")
+			f.write("</html>\n")
+			
+			print(Trnsl('historical_report_saved_to', lang=app_language, filename=report_filename))
+	
 	except IOError as e:
 		print(Trnsl('error_saving_historical_report', lang=app_language, filename=report_filename, e=str(e)))
 	except Exception as e:
 		print(Trnsl('unexpected_error_generating_report', lang=app_language, e=str(e)))
-		# Genera anche il report grafico
-		try:
-			# Prepara il nome del file per il grafico (stesso nome base, estensione .png)
-			base_report_filename, _ = os.path.splitext(report_filename)
-			graphic_report_filename = base_report_filename + ".png"
-			# Passiamo i dati necessari alla funzione di creazione del grafico
-			crea_report_grafico(
-				current_aggregates,
-				previous_aggregates, # Può essere None
-				g_value,             # Già definito in questa funzione
-				x_value,             # Già definito in questa funzione
-				num_sessions_in_current_report, # Già definito
-				graphic_report_filename,
-				app_language
-			)
-			print(Trnsl('graphical_report_saved_to', lang=app_language, filename=graphic_report_filename)) # Crea traduzione
-		except Exception as e_graph:
-			print(Trnsl('error_generating_graphical_report', lang=app_language, error=str(e_graph)))
+
+	# Genera anche il report grafico
+	try:
+		# Prepara il nome del file per il grafico (stesso nome base, estensione .png)
+		base_report_filename, _ = os.path.splitext(report_filename)
+		graphic_report_filename = base_report_filename + ".png"
+		# Passiamo i dati necessari alla funzione di creazione del grafico
+		crea_report_grafico(
+			current_aggregates,
+			previous_aggregates, # Può essere None
+			g_value,             # Già definito in questa funzione
+			x_value,             # Già definito in questa funzione
+			num_sessions_in_current_report, # Già definito
+			graphic_report_filename,
+			app_language
+		)
+		print(Trnsl('graphical_report_saved_to', lang=app_language, filename=graphic_report_filename)) # Crea traduzione
+	except Exception as e_graph:
+		print(Trnsl('error_generating_graphical_report', lang=app_language, error=str(e_graph)))
 
 #main
 global MNMAIN, MNRX, MNRXKIND 

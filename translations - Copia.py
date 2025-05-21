@@ -1,10 +1,6 @@
-# Version 2
 translations = {
 	'en': {
 		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tLaunch: {count}. Type 'm' for menu.",
-		'no_detailed_errors_to_display': "No detailed errors to display in the chart.",
-		'no_errors_recorded_for_block': "No errors recorded for this block of sessions.",
-		'visualization_to_be_implemented': "Visualization to be implemented", 
 		'metric': "Metric",
 		'current_value': "Current Value",
 		'previous_value': "Previous Value",
@@ -24,6 +20,8 @@ translations = {
 		'of_n_sent': "of {count} sent", # Etichetta generica per dettaglio in cella (conteggio inviati)
 		'delta_rate_total_label': "Δ Rate (vs total chars):",
 		'delta_rate_specific_label': "Δ Rate (vs '{char_upper}' sent):",
+		'delta_rate_specific_label': "Δ Rate (vs '{char_upper}' sent):",
+		'delta_rate_total_label': "Δ Rate (vs total):",
 		'rate_change_specific_char':"Rate change (of '{char_upper}' sent)",
 		'error_detail_line_format':"'{char_upper}': {count} ({perc_vs_total:.2f}% {of_total_chars_label}, {perc_vs_specific:.2f}% {of_specific_char_sent_label})",
 		'of_specific_char_sent':"of '{char_upper}' sent",
@@ -52,6 +50,7 @@ translations = {
 		'error_details_variations': "Character Error Details Variations",
 		'no_errors_in_either_block': "No errors recorded in either reference block.",
 		'rate_change_char': "Rate change",
+		'historical_report_implementation_pending':"Historical report: implementation pending.",
 		'unexpected_error_generating_report':"Unexpected error generating report: {e}",
 		'error_saving_historical_report':"Error saving historical report {filename}: {e}",
 		'historical_report_saved_to':"Historical report saved to: {filename}",
@@ -123,26 +122,25 @@ translations = {
 		'exercises_to_next_report':"{count} exercises remaining until the next global report generation",
 		'set_wpm': "Do you want to set your WPM? Enter to accept {wpm}> ",
 		'h_keyboard':
-			"Welcome to the section where you can listen to CW and configure all its parameters.\n" \
-			"These parameters will be valid and active throughout CWAPU and will be saved automatically when you exit the app.\n" \
-			"Now, please read the following carefully:\n" \
-			"\tPress Enter without typing anything to exit and return to the main menu;\n" \
-			"\ttype .w followed by a numeric value to set the WPM;\n" \
-			"\ttype .h followed by a value for the pitch of the CW note peak you want to use;\n" \
-			"\ttype .l followed by a value to set the dash length, default is 30;\n" \
-			"\ttype .s followed by a value to set the space length, default is 50;\n" \
-			"\ttype .p just like .s but for dots;\n" \
-			"\ttype .v followed by a value between 0 and 100 to set the volume;\n" \
-			"\ttype .f1 .f2 .f3 or .f4 to change the waveform;\n" \
-			"\ttype .m followed by milliseconds to set the fade in and out for the CW note;\n" \
-			"\ttype .g followed by a value to set the number of exercises for global statistics;\n" \
-			"\ttype .x followed by a value to set how often (in exercises) to update global stats;\n" \
-			"\ttype .sr to set the sample rate to send to your sound card;\n" \
-			"\ttype ? to see this help message;\n" \
-			"\ttype ?? to display the set parameters;\n" \
-			"\ttype .rs to reset CW to the standard 1/3 weight\n" \
-			"\ttype .sv <text> to save the CW to a .wav file\n",
-		'empty_clipboard': "empty",
+    "Welcome to the section where you can listen to CW and configure all its parameters.\n" \
+    "These parameters will be valid and active throughout CWAPU and will be saved automatically when you exit the app.\n" \
+    "Now, please read the following carefully:\n" \
+    "\tPress Enter without typing anything to exit and return to the main menu;\n" \
+    "\ttype .w followed by a numeric value to set the WPM;\n" \
+    "\ttype .h followed by a value for the pitch of the CW note peak you want to use;\n" \
+    "\ttype .l followed by a value to set the dash length, default is 30;\n" \
+    "\ttype .s followed by a value to set the space length, default is 50;\n" \
+    "\ttype .p just like .s but for dots;\n" \
+    "\ttype .v followed by a value between 0 and 100 to set the volume;\n" \
+    "\ttype .f1 .f2 .f3 or .f4 to change the waveform;\n" \
+    "\ttype .m followed by milliseconds to set the fade in and out for the CW note;\n" \
+    "\ttype .g followed by a value to set the number of exercises for global statistics;\n" \
+    "\ttype .x followed by a value to set how often (in exercises) to update global stats;\n" \
+    "\ttype .sr to set the sample rate to send to your sound card;\n" \
+    "\ttype ? to see this help message;\n" \
+    "\ttype ?? to display the set parameters;\n" \
+    "\ttype .rs to reset CW to the standard 1/3 weight\n" \
+    "\ttype .sv <text> to save the CW to a .wav file\n",		'empty_clipboard': "empty",
 		'not_a_command': "It's not a command!",
 		'press_m_for_menu': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tPress 'm' for menu.",
 		'o_set_loaded':"General settings loaded",
@@ -273,6 +271,7 @@ translations = {
 			"\tdigita .rs per reimpostare il CW al peso standard di 1/3\n"\
 			"\tdigita .sv <testo> per salvare il CW in un file .wav\n",
 		'generating_historical_report':"Generazione report storico in corso...",
+		'historical_report_implementation_pending':"Report storico: implementazione da completare.",
 		'no_historical_data_to_report':"Nessun dato salvato disponibile per il report.",
 		'no_sessions_in_current_block_for_report':"Nessuna sessione nel blocco corrente da riportare.",
 		'historical_report_saved_to':"Report storico salvato in: {filename}",
@@ -327,9 +326,6 @@ translations = {
 		'of_n_sent': "su {count} inv.",
 		'delta_rate_total_label': "Δ Tasso (vs tot. caratt.):",
 		'delta_rate_specific_label': "Δ Tasso (vs '{char_upper}' inv.):",
-		'no_detailed_errors_to_display': "Nessun errore di dettaglio da visualizzare nel grafico.",
-		'no_errors_recorded_for_block': "Nessun errore registrato per questo blocco di sessioni.",
-		'visualization_to_be_implemented': "Visualizzazione da implementare",
 		#Qit
 	}
 }
