@@ -1,8 +1,14 @@
 CWAPU WHATSNEW AND TODO
 Todo:
-	2.
+	2. idea, report txt>htm? Per migliore layout in tabella
+	3. Report fine esercizio, classifica errori, riportare anche perc del singolo car. sul tot di quel singolo car inviato.
+	4.
 
 ChangeLog:
+	3.5.x
+		Preparing for graphical stats
+		Inserted new statistics for errors on a specific caracter based on how many of that character has been sent
+		Changin report from txt to html for a better readability
 	3.1.8
 		Small fix to the prompt
 		+SUPER global stats, or historical statistics. Controlled by g and x parameters it saves your result across a long period of time. See K ssection to customize
