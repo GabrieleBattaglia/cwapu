@@ -1707,3 +1707,65 @@ Elenco delle parole copiate male:
 	(17) TX: ZDH, RX: ZGH, DIF: D;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #181 eseguito il 2025/5/22 alle 14, 5 minuti:
+In questa sessione #181, ti ho inviato 20 Group e ne hai ricevuti 16: 80.0%
+	13 di questi sono stati ricevuti al primo ascolto: 81.2%
+	mentre 3 Group al secondo tentativo: 18.8%.
+Durante la sessione, la tua velocità minima è stata 30, la massima di 45: pari ad una variazione di 15 WPM.
+	La velocità media di ricezione è di: 36.6 WPM.
+Carattere: errori = Percentuale
+    'S': 2 (3.33% dei car. tot., 50.00% delle 'S' inviate)
+    'B': 1 (1.67% dei car. tot., 50.00% delle 'B' inviate)
+    'V': 1 (1.67% dei car. tot., 33.33% delle 'V' inviate)
+
+Errori totali: 4 su 60 = 6.67%
+Caratteri mai sbagliati: A C E F G H I J K L M N O P Q R T W X Z
+Elenco delle parole copiate male:
+	(2) TX: AHB, RX: AHD, DIF: B;
+	(18) TX: NLV, RX: NLX, DIF: V;
+	(19) TX: KKS, RX: KKH, DIF: S;
+	(20) TX: SLP, RX: HLP, DIF: S;
+Nota: nessuna
+***
+
+Esercizio di ricezione #182 eseguito il 2025/5/22 alle 14, 9 minuti:
+In questa sessione #182, ti ho inviato 35 words e ne hai ricevuti 20: 57.1%
+	14 di questi sono stati ricevuti al primo ascolto: 70.0%
+	mentre 6 words al secondo tentativo: 30.0%.
+Durante la sessione, la tua velocità minima è stata 38, la massima di 47: pari ad una variazione di 9 WPM.
+	La velocità media di ricezione è di: 41.0 WPM.
+Carattere: errori = Percentuale
+    'I': 3 (1.85% dei car. tot., 20.00% delle 'I' inviate)
+    'R': 2 (1.23% dei car. tot., 10.53% delle 'R' inviate)
+    'U': 2 (1.23% dei car. tot., 66.67% delle 'U' inviate)
+    'Z': 2 (1.23% dei car. tot., 66.67% delle 'Z' inviate)
+    'A': 1 (0.62% dei car. tot., 3.85% delle 'A' inviate)
+    'E': 1 (0.62% dei car. tot., 9.09% delle 'E' inviate)
+    'H': 1 (0.62% dei car. tot., 100.00% delle 'H' inviate)
+    'K': 1 (0.62% dei car. tot., 100.00% delle 'K' inviate)
+    'L': 1 (0.62% dei car. tot., 12.50% delle 'L' inviate)
+    'S': 1 (0.62% dei car. tot., 20.00% delle 'S' inviate)
+    'T': 1 (0.62% dei car. tot., 16.67% delle 'T' inviate)
+    'W': 1 (0.62% dei car. tot., 100.00% delle 'W' inviate)
+
+Errori totali: 17 su 162 = 10.49%
+Caratteri mai sbagliati: B C D F G M N O P V
+Elenco delle parole copiate male:
+	(1) TX: CREMI, RX: CREME, DIF: I;
+	(2) TX: BROLI, RX: BROLE, DIF: I;
+	(4) TX: LIBRA, RX: LIBIA, DIF: R;
+	(5) TX: GRUA, RX: GURA, DIF: UU;
+	(7) TX: ZANNO, RX: GANNO, DIF: Z;
+	(9) TX: TASCA, RX: TARCO, DIF: SA;
+	(12) TX: AGATI, RX: AGAI, DIF: T;
+	(13) TX: FRALI, RX: FRALE, DIF: I;
+	(14) TX: PENCE, RX: PINCE, DIF: E;
+	(16) TX: KORO, RX: CORO, DIF: K;
+	(20) TX: SAR, RX: SAI, DIF: R;
+	(22) TX: CROWN, RX: CROPN, DIF: W;
+	(24) TX: REFAH, RX: REFAS, DIF: H;
+	(27) TX: AZIL, RX: AZIE, DIF: L;
+	(33) TX: FELZE, RX: FELGE, DIF: Z;
+Nota: nessuna
+***
