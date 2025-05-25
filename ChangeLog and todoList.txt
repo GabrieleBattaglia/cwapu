@@ -6,6 +6,8 @@ Todo:
 
 ChangeLog:
 	3.5.x
+		Increased DPI to the historical report PGN up to 300 DPI
+		Added new words.txt (Italian only)
 		Preparing for graphical stats
 		Inserted new statistics for errors on a specific caracter based on how many of that character has been sent
 		Changin report from txt to html for a better readability

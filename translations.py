@@ -1,7 +1,10 @@
-# Version 2
+# Version 3
 translations = {
 	'en': {
 		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tLaunch: {count}. Type 'm' for menu.",
+		'delta_rate_specific_label_short': "Δ% Specific Error Rate",
+		'no_error_variations_to_display': "No significant character error variations to display.",
+		'no_previous_data_for_variations': "Previous data not available to calculate variations.",
 		'no_detailed_errors_to_display': "No detailed errors to display in the chart.",
 		'no_errors_recorded_for_block': "No errors recorded for this block of sessions.",
 		'visualization_to_be_implemented': "Visualization to be implemented", 
@@ -330,6 +333,9 @@ translations = {
 		'no_detailed_errors_to_display': "Nessun errore di dettaglio da visualizzare nel grafico.",
 		'no_errors_recorded_for_block': "Nessun errore registrato per questo blocco di sessioni.",
 		'visualization_to_be_implemented': "Visualizzazione da implementare",
+		'delta_rate_specific_label_short': "Variaz. % Err. Spec.",
+		'no_error_variations_to_display': "Nessuna variazione significativa degli errori per carattere da visualizzare.",
+		'no_previous_data_for_variations': "Dati precedenti non disponibili per calcolare le variazioni.",
 		#Qit
 	}
 }

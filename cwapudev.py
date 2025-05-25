@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERS="3.5.5, (2025-05-21)"
+VERS="3.5.11, (2025-05-25)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -85,23 +85,18 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 		print(Trnsl('error_importing_matplotlib', lang=lang, error=str(e_import)))
 		return
 
-	print(f"DEBUG: Inizio creazione report grafico (dopo imports): {output_filename}")
-	print(f"DEBUG: Dati correnti ricevuti: {bool(current_aggregates)}")
-	print(f"DEBUG: Dati precedenti ricevuti: {bool(previous_aggregates)}")
-
 	# Impostazioni preliminari
 	plt.style.use('dark_background')
 	fig_width_inches = 10 
 	fig_height_inches = 16 # Altezza generosa per contenuti futuri e scorrimento
 
 	text_color = 'white'
+	color_error_very_high = '#B22222' # Firebrick, un rosso cupo
 	color_error_high = '#FF4136' # Rosso
 	color_warning = '#FF851B'    # Arancio
 	color_neutral = '#FFDC00'    # Giallo
 	color_good = '#2ECC40'       # Verde
 	color_excellent = '#7FDBFF'  # Azzurro Chiaro
-	# color_data_bar = '#0074D9' # Blu (non usato in questa versione WPM)
-
 	fig = plt.figure(figsize=(fig_width_inches, fig_height_inches))
 	fig.patch.set_facecolor('#222222')
 
@@ -142,8 +137,7 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 		return color_to_use, symbol
 	# --- PANNELLO STATISTICHE WPM (Grafico a Barre Orizzontali) ---
 	fig.text(0.5, y_cursor, Trnsl('overall_speed_stats', lang=lang), color=color_excellent, ha='center', va='top', fontsize=14, weight='bold')
-	y_cursor -= line_height_fig * 0.06 # Aumentato leggermente lo spazio dopo il titolo sezione WPM
-
+	y_cursor -= line_height_fig * 2.0 # Spazio doppio dopo il titolo della sezione
 	wpm_metrics_data = [ # Rinomino per chiarezza, contiene i dati
 		{'label_key': 'min_wpm', 'curr': current_aggregates['wpm_min_overall'], 
 		 'prev': previous_aggregates['wpm_min_overall'] if previous_aggregates else None, 'higher_better': True},
@@ -232,22 +226,26 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 			fig.text(ax_variation_text_left, y_fig_coord_for_text, 
 			         f"{symbol} {delta:+.2f}{perc_delta_str}", color=color_txt, 
 			         ha='left', va='center', fontsize=10)
+	# Aggiungi una legenda solo se ci sono dati precedenti da mostrare
+	if any(metric['prev'] is not None for metric in wpm_metrics_data):
+		legend_elements = [
+			plt.Rectangle((0, 0), 1, 1, color=color_good, label=Trnsl('current_value', lang=lang)),
+			plt.Rectangle((0, 0), 1, 1, color=color_neutral, alpha=0.8, label=Trnsl('previous_value', lang=lang))
+		]
+		# Posiziona la legenda sopra e a destra dell'area dei grafici WPM
+		fig.legend(handles=legend_elements, 
+		           loc='upper left', # Posizionamento relativo a bbox_to_anchor
+		           bbox_to_anchor=(ax_wpm_left + ax_wpm_width + 0.01, ax_wpm_bottom + ax_wpm_needed_height_fig + 0.03), # A destra e leggermente sopra ax_wpm
+		           fontsize=8, 
+		           ncol=1, # Una colonna per la legenda
+		           facecolor='#444444', 
+		           edgecolor=text_color,
+		           labelcolor=text_color) # Colore del testo della legenda
 	
-	# Legenda (opzionale, se i colori non sono autoesplicativi)
-	# Se necessario, aggiungi una legenda usando fig.legend(...) come avevamo discusso.
-	# Per ora, i colori rosso/verde per precedente/attuale sono abbastanza standard.
-	# Potremmo aggiungere etichette testuali "Attuale:" e "Precedente:" vicino alle barre se serve.
-	# Data la nuova disposizione con etichette Y, la legenda precedente potrebbe non essere ideale.
-	# Valutiamo se è necessaria dopo aver visto questo layout.
-
 	y_cursor = ax_wpm_bottom - section_spacing_fig # Aggiorna y_cursor globale per il pannello successivo
-	# --- PANNELLO STATISTICHE ERRORI COMPLESSIVE (Testuale per ora) ---
 	fig.text(0.5, y_cursor, Trnsl('overall_error_stats', lang=lang), color=color_excellent, ha='center', va='top', fontsize=14, weight='bold')
 	y_cursor -= line_height_fig * 1.2
-
 	# ... (Logica per stampare testualmente Total Chars Sent e Overall Error Rate come fatto prima, usando fig.text e y_cursor)
-	# Esempio per Total Chars (adattare x_label, x_value, x_prev_value, x_delta se necessario o usare layout più semplice)
-	# Per semplicità, usiamo un layout più lineare qui:
 	x_text_start = 0.1
 	label_overall_err = Trnsl('total_chars_sent_in_block', lang=lang)
 	value_overall_err_str = f"{current_aggregates['total_chars_sent_overall']}"
@@ -385,38 +383,187 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 		y_cursor -= (line_height_fig * 2 + section_spacing_fig)
 
 	# --- SEZIONE VARIAZIONI ERRORI PER CARATTERE ---
-	# TODO: Implementare visualizzazione variazioni errori (testuale o grafica)
-	# y_cursor = y_cursor - altezza_sezione_variazioni_errori - section_spacing_fig
-	# Per ora, solo un commento nel codice:
-	# print("Placeholder per variazioni errori carattere")
-	if previous_aggregates and previous_aggregates["num_sessions_in_block"] > 0: # Solo se ci sono dati precedenti
+	if previous_aggregates and previous_aggregates["num_sessions_in_block"] > 0:
 		fig.text(0.5, y_cursor, Trnsl('error_details_variations', lang=lang), color=color_excellent, ha='center', va='top', fontsize=14, weight='bold')
-		y_cursor -= line_height_fig * 1.2
-		# Qui andrebbe la logica per visualizzare le variazioni degli errori per carattere
-		# Per ora, un semplice messaggio
-		fig.text(0.5, y_cursor - line_height_fig, 
-		         f"({Trnsl('visualization_to_be_implemented', lang=lang)})", # Crea traduzione
-		         color=color_warning, ha='center', va='top', fontsize=10, style='italic')
+		y_cursor -= line_height_fig * 0.06 # Spazio dopo il titolo
+
+		# Prepara i dati per questo grafico
+		# Useremo i caratteri da 'sorted_chars_for_variation' (usato per il report HTML e ordinato per errore corrente)
+		# ma solo quelli per cui possiamo calcolare un delta.
+		variation_data = []
+		
+		# Dobbiamo accedere a total_chars_curr_block e total_chars_prev_block
+		# Assicurati che siano stati definiti prima se non lo sono già globalmente in questa funzione
+		total_chars_curr_block = current_aggregates['total_chars_sent_overall']
+		total_chars_prev_block = previous_aggregates['total_chars_sent_overall']
+
+		# Ricreiamo sorted_chars_for_variation basandoci sui caratteri presenti in current_aggregates con errori
+		# e che potrebbero avere un corrispettivo in previous_aggregates
+		# Prendiamo i caratteri che hanno errori nel blocco corrente O precedente per avere una lista completa
+		# La lista sarà ordinata come nel report HTML (per errore corrente decrescente)
+		
+		# Considera i caratteri che hanno errori nel blocco corrente o precedente
+		# o che sono stati inviati in entrambi per un confronto completo.
+		all_relevant_chars = set(current_aggregates['aggregated_errors_detail'].keys()) | \
+		                     set(previous_aggregates['aggregated_errors_detail'].keys()) | \
+		                     set(current_aggregates['aggregated_sent_chars_detail'].keys()) & \
+		                     set(previous_aggregates['aggregated_sent_chars_detail'].keys())
+
+		# Ordina questi caratteri in base al conteggio errori corrente (per coerenza con il grafico sopra)
+		# e prendi i primi N (es. top_n_errors_to_display)
+		temp_sorted_chars = sorted(
+			list(all_relevant_chars),
+			key=lambda char_key: (-current_aggregates['aggregated_errors_detail'].get(char_key, 0), char_key)
+		)
+
+		for char_err_lcase in temp_sorted_chars: # char_err è già minuscolo qui se viene da .keys()
+			curr_count = current_aggregates['aggregated_errors_detail'].get(char_err_lcase, 0)
+			prev_count = previous_aggregates['aggregated_errors_detail'].get(char_err_lcase, 0)
+
+			curr_total_sent_of_this_char = current_aggregates.get('aggregated_sent_chars_detail', {}).get(char_err_lcase, 0)
+			prev_total_sent_of_this_char = previous_aggregates.get('aggregated_sent_chars_detail', {}).get(char_err_lcase, 0)
+
+			# Calcola delta_rate_vs_specific_char solo se il carattere è stato inviato in entrambi i periodi
+			# o almeno nel periodo precedente per avere una base di confronto sensata per la variazione.
+			if prev_total_sent_of_this_char > 0 or curr_total_sent_of_this_char > 0 : # Deve essere stato inviato almeno una volta per avere un tasso
+				curr_rate_vs_specific_char = (curr_count / curr_total_sent_of_this_char * 100) if curr_total_sent_of_this_char > 0 else 0.0
+				# Se non è stato inviato nel periodo precedente, consideriamo il suo tasso di errore precedente come 0 
+				# se non aveva errori e non era inviato, o non definito se aveva errori ma non era inviato (impossibile)
+				# Se non è stato inviato nel periodo precedente, il concetto di "variazione del tasso" è meno diretto.
+				# Per semplicità: se un carattere non era inviato prima, il suo "tasso di errore precedente specifico" può essere 0.
+				prev_rate_vs_specific_char = (prev_count / prev_total_sent_of_this_char * 100) if prev_total_sent_of_this_char > 0 else 0.0
+				
+				# Calcola delta solo se ha senso (es. se era inviato prima o lo è ora)
+				# Se non era inviato prima e ora sì con errori, il delta è il tasso attuale.
+				# Se era inviato prima e ora no, il delta è meno il tasso precedente.
+				# La nostra formula delta = curr - prev gestisce questo.
+				delta = curr_rate_vs_specific_char - prev_rate_vs_specific_char
+				variation_data.append({'char': char_err_lcase.upper(), 'delta': delta})
+		
+		# Mostra solo i primi N caratteri per cui abbiamo una variazione, ordinati per errore corrente
+		# (l'ordinamento è già fatto da temp_sorted_chars)
+		variation_data_to_plot = variation_data[:top_n_errors_to_display]
+
+		if variation_data_to_plot:
+			deltas_for_scaling = [item['delta'] for item in variation_data_to_plot]
+			
+			# Definizione dinamica dei colori
+			bar_colors_variation = []
+			stable_low, stable_high = -1.0, 1.0 # Soglie per "Arancione"
+			
+			improving_deltas = sorted([d for d in deltas_for_scaling if d < stable_low]) # Es. [-10, -8, -2]
+			worsening_deltas = sorted([d for d in deltas_for_scaling if d > stable_high]) # Es. [2, 5, 12]
+
+			# Soglie per Verde/Giallo (miglioramenti)
+			threshold_giallo_verde_split = np.median(improving_deltas) if improving_deltas else stable_low
+			
+			# Soglie per Rosso/RossoCupo (peggioramenti)
+			threshold_rosso_rossocupo_split = np.median(worsening_deltas) if worsening_deltas else stable_high
+
+			for delta_val in deltas_for_scaling:
+				if delta_val < stable_low: # Miglioramento
+					if delta_val <= threshold_giallo_verde_split and improving_deltas : # Miglioramento drastico
+						bar_colors_variation.append(color_good) # Verde
+					else: # Miglioramento lieve
+						bar_colors_variation.append(color_neutral) # Giallo
+				elif delta_val > stable_high: # Peggioramento
+					if delta_val >= threshold_rosso_rossocupo_split and worsening_deltas: # Peggioramento drastico
+						bar_colors_variation.append(color_error_very_high) # Rosso Cupo
+					else: # Peggioramento lieve
+						bar_colors_variation.append(color_error_high) # Rosso
+				else: # Stabile
+					bar_colors_variation.append(color_warning) # Arancione
+			
+			# Creazione Assi per questo grafico
+			height_per_var_bar_fig = 0.035
+			ax_var_needed_height_fig = height_per_var_bar_fig * len(variation_data_to_plot) + 0.04
+			
+			ax_var_left = 0.15
+			ax_var_width = 0.70
+			ax_var_bottom = y_cursor - ax_var_needed_height_fig
+
+			ax_err_var = fig.add_axes([ax_var_left, ax_var_bottom, ax_var_width, ax_var_needed_height_fig])
+			ax_err_var.set_facecolor('#383c44')
+
+			var_chars = [item['char'] for item in variation_data_to_plot]
+			var_deltas = [item['delta'] for item in variation_data_to_plot]
+			
+			y_var_positions = np.arange(len(var_chars))
+			
+			# Determina la scala X basata sul massimo delta assoluto
+			max_abs_delta = max(abs(d) for d in var_deltas) if var_deltas else 1.0
+			axis_limit = max_abs_delta * 1.15 # Un po' di padding oltre le linee di riferimento
+			ax_err_var.set_xlim(-axis_limit, axis_limit)
+			
+			# Linea centrale a x=0
+			ax_err_var.axvline(0, color='white', linestyle=':', linewidth=0.7, alpha=0.7, zorder=1)
+
+			# Linee di riferimento verticali esterne
+			line_ref_pos = max_abs_delta # Posizione effettiva delle linee
+			ax_err_var.axvline(-line_ref_pos, color='white', linestyle='--', linewidth=0.75, alpha=0.5, zorder=1)
+			ax_err_var.axvline(line_ref_pos, color='white', linestyle='--', linewidth=0.75, alpha=0.5, zorder=1)
+
+			# Disegna le barre
+			for i in range(len(var_chars)):
+				delta_val = var_deltas[i]
+				bar_width = abs(delta_val)
+				bar_left = delta_val if delta_val < 0 else 0
+				ax_err_var.barh(y_var_positions[i], bar_width, left=bar_left, 
+				                color=bar_colors_variation[i], height=0.5, 
+				                edgecolor=text_color, linewidth=0.5, zorder=2)
+				# Etichetta con il valore del delta
+				text_x_pos = delta_val + (axis_limit * 0.02 * (1 if delta_val >= 0 else -1)) # Piccolo offset
+				ha_align = 'left' if delta_val >= 0 else 'right'
+				ax_err_var.text(text_x_pos, y_var_positions[i], f"{delta_val:+.1f}%", 
+				                va='center', ha=ha_align, color=text_color, fontsize=8)
+
+			ax_err_var.set_yticks(y_var_positions)
+			ax_err_var.set_yticklabels(var_chars, color=text_color, fontsize=9)
+			ax_err_var.invert_yaxis()
+			ax_err_var.tick_params(axis='y', length=0)
+			
+			ax_err_var.set_xlabel(Trnsl('delta_rate_specific_label_short', lang=lang), color=text_color, fontsize=10) # Crea trad: es. "Variaz. % Err. Spec."
+			ax_err_var.tick_params(axis='x', colors=text_color, labelsize=9)
+			ax_err_var.spines['bottom'].set_color(text_color)
+			ax_err_var.spines['top'].set_visible(False)
+			ax_err_var.spines['right'].set_visible(False)
+			ax_err_var.spines['left'].set_visible(False)
+
+			y_cursor = ax_var_bottom - section_spacing_fig
+		else: # Non ci sono variazioni da plottare
+			no_variations_text = Trnsl('no_error_variations_to_display', lang=lang) # Crea traduzione
+			fig.text(0.5, y_cursor - line_height_fig, no_variations_text, color=text_color, 
+			         ha='center', va='top', fontsize=10, style='italic')
+			y_cursor -= (line_height_fig * 2 + section_spacing_fig)
+	else: # Non ci sono dati precedenti
+		no_previous_data_text = Trnsl('no_previous_data_for_variations', lang=lang) # Crea traduzione
+		fig.text(0.5, y_cursor - line_height_fig, no_previous_data_text, color=text_color, 
+		         ha='center', va='top', fontsize=10, style='italic')
 		y_cursor -= (line_height_fig * 2 + section_spacing_fig)
-
-	# Assicurati che y_cursor non vada sotto zero se aggiungi molti elementi.
-	# Se necessario, aumenta fig_height_inches all'inizio.
-	# Rimuoviamo gli assi dell'ax principale se non li usiamo più attivamente
-	# ax_main = fig.get_axes()[0] # Prende il primo ax creato con plt.figure() se non si usa subplots()
-	# ax_main.set_axis_off() # Questo era per l'ax iniziale, ma ora abbiamo aggiunto ax_wpm e ax_char_err.
-	# La figura di per sé non ha assi da spegnere, solo gli oggetti Axes.
-
-	# Il salvataggio rimane alla fine
-	# Se necessario, aumenta fig_height_inches all'inizio.
-
+	# ... (y_cursor e fine della funzione con plt.savefig) ...
 	try:
-		plt.savefig(output_filename, dpi=120, bbox_inches='tight', pad_inches=0.3, facecolor=fig.get_facecolor())
+		png_filename = output_filename # output_filename dovrebbe già essere .png
+		plt.savefig(png_filename, 
+		            dpi=400,
+		            bbox_inches='tight', 
+		            pad_inches=0.3, 
+		            facecolor=fig.get_facecolor())
+		print(f"DEBUG: Report grafico PNG salvato con successo: {png_filename}")
+
+		# SALVATAGGIO SVG PER TEST DIAGNOSTICO
+		svg_filename = png_filename.replace(".png", ".svg")
+		plt.savefig(svg_filename, 
+		            format='svg', # Specifica il formato SVG
+		            bbox_inches='tight', 
+		            pad_inches=0.3, 
+		            facecolor=fig.get_facecolor())
+		print(f"DEBUG: Report grafico SVG salvato con successo: {svg_filename}")
+
 		plt.close(fig) 
-		print(f"DEBUG: Report grafico salvato con successo: {output_filename}")
 	except Exception as e_save:
-		if 'fig' in locals() and fig: # Assicurati che fig esista prima di chiuderla
+		if 'fig' in locals() and fig: 
 			plt.close(fig)
-		print(Trnsl('error_saving_graphical_file', lang=lang, filename=output_filename, error=str(e_save)))
+		print(Trnsl('error_saving_graphical_file', lang=lang, filename=output_filename, error=str(e_save))) # output_filename qui si riferisce al target originale
 
 def load_settings():
 	"""Carica le impostazioni dal file JSON o restituisce i default."""
