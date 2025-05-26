@@ -2296,3 +2296,39 @@ Elenco delle parole copiate male:
 	(50) TX: TIBIE, RX: TIBEI, DIF: EE;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #197 eseguito il 2025/5/26 alle 16, 18 minuti:
+In questa sessione #197, ti ho inviato 40 words e ne hai ricevuti 27: 67.5%
+	20 di questi sono stati ricevuti al primo ascolto: 74.1%
+	mentre 7 words al secondo tentativo: 25.9%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 44: pari ad una variazione di 13 WPM.
+	La velocità media di ricezione è di: 37.7 WPM.
+Carattere: errori = Percentuale
+    'I': 5 (2.62% dei car. tot., 31.25% delle 'I' inviate)
+    'S': 2 (1.05% dei car. tot., 14.29% delle 'S' inviate)
+    'T': 2 (1.05% dei car. tot., 15.38% delle 'T' inviate)
+    'A': 1 (0.52% dei car. tot., 5.00% delle 'A' inviate)
+    'B': 1 (0.52% dei car. tot., 14.29% delle 'B' inviate)
+    'E': 1 (0.52% dei car. tot., 4.55% delle 'E' inviate)
+    'M': 1 (0.52% dei car. tot., 16.67% delle 'M' inviate)
+    'W': 1 (0.52% dei car. tot., 50.00% delle 'W' inviate)
+    'Z': 1 (0.52% dei car. tot., 100.00% delle 'Z' inviate)
+
+Errori totali: 15 su 191 = 7.85%
+Caratteri mai sbagliati: C D F G H J L N O P R U V Ì Ò
+Elenco delle parole copiate male:
+	(9) TX: BUI, RX: BUS, DIF: I;
+	(10) TX: BAIA, RX: BARA, DIF: I;
+	(13) TX: SWEET, RX: SPEET, DIF: W;
+	(15) TX: MAGHI, RX: MAGHE, DIF: I;
+	(16) TX: ONTE, RX: ONNE, DIF: T;
+	(17) TX: BONZE, RX: DONDE, DIF: BZ;
+	(23) TX: TACHI, RX: TACHE, DIF: I;
+	(26) TX: STAME, RX: STATE, DIF: M;
+	(29) TX: TOMBA, RX: TOMBE, DIF: A;
+	(32) TX: PUOTE, RX: PUOE, DIF: T;
+	(34) TX: VINTI, RX: VINTE, DIF: I;
+	(36) TX: OCCHE, RX: OCCHI, DIF: E;
+	(39) TX: RAIS, RX: RASI, DIF: SS;
+Nota: nessuna
+***
