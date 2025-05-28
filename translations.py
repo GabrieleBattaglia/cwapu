@@ -2,6 +2,13 @@
 translations = {
 	'en': {
 		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tLaunch: {count}. Type 'm' for menu.",
+		'custom_set_use_prefill_prompt': "Start with a pre-filled character group?",
+		'yes_key_default': "y",
+		'no_key_default': "n",
+		'custom_set_prefilled_with_errors': "Group pre-filled with frequent errors: {chars}",
+		'custom_set_prefilled_with_random': "Group pre-filled with random characters: {chars}",
+		'custom_set_prefill_failed_no_chars': "Prefill failed: no valid characters available.",
+		'custom_set_modify_prompt_intro': "Enter/toggle characters. Press Enter when done.",
 		'delta_rate_specific_label_short': "Δ% Specific Error Rate",
 		'no_error_variations_to_display': "No significant character error variations to display.",
 		'no_previous_data_for_variations': "Previous data not available to calculate variations.",
@@ -336,6 +343,13 @@ translations = {
 		'delta_rate_specific_label_short': "Variaz. % Err. Spec.",
 		'no_error_variations_to_display': "Nessuna variazione significativa degli errori per carattere da visualizzare.",
 		'no_previous_data_for_variations': "Dati precedenti non disponibili per calcolare le variazioni.",
+		'custom_set_use_prefill_prompt': "Vuoi iniziare con un gruppo di caratteri precompilato?",
+		'yes_key_default': "s",
+		'no_key_default': "n",
+		'custom_set_prefilled_with_errors': "Gruppo precompilato con errori frequenti: {chars}",
+		'custom_set_prefilled_with_random': "Gruppo precompilato con caratteri casuali: {chars}",
+		'custom_set_prefill_failed_no_chars': "Impossibile precompilare: nessun carattere valido disponibile.",
+		'custom_set_modify_prompt_intro': "Inserisci/modifica caratteri (toggle). Invio per terminare.",
 		#Qit
 	}
 }

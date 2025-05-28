@@ -16,13 +16,14 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERS="3.5.11, (2025-05-25)"
+VERS="3.7.1, (2025-05-28)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 SETTINGS_FILE = "cwapu_settings.json"
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 100
 HISTORICAL_RX_REPORT_INTERVAL = 10 # Ogni quanti esercizi generare il report
+VALID_MORSE_CHARS_FOR_CUSTOM_SET = {k for k in CWzator(msg=-1) if k != " " and k.isprintable()}
 DEFAULT_DATA = {
     "app_info": {
         "launch_count": 0 
@@ -387,142 +388,121 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 		fig.text(0.5, y_cursor, Trnsl('error_details_variations', lang=lang), color=color_excellent, ha='center', va='top', fontsize=14, weight='bold')
 		y_cursor -= line_height_fig * 0.06 # Spazio dopo il titolo
 
-		# Prepara i dati per questo grafico
-		# Useremo i caratteri da 'sorted_chars_for_variation' (usato per il report HTML e ordinato per errore corrente)
-		# ma solo quelli per cui possiamo calcolare un delta.
-		variation_data = []
+		# Prepara i dati: caratteri con errori attuali (fino a top_n) per cui esiste un delta
+		# La lista 'sorted_char_errors' (caratteri ordinati per errore attuale) è definita nel pannello precedente.
+		# Se non lo è, o se vuoi un ordinamento diverso per questo grafico (es. per magnitudine del delta),
+		# dovresti ricalcolare la lista di caratteri qui.
+		# Per coerenza, usiamo i caratteri dal grafico precedente (top N errori attuali)
+		# e filtriamo quelli per cui si può calcolare una variazione.
 		
-		# Dobbiamo accedere a total_chars_curr_block e total_chars_prev_block
-		# Assicurati che siano stati definiti prima se non lo sono già globalmente in questa funzione
-		total_chars_curr_block = current_aggregates['total_chars_sent_overall']
-		total_chars_prev_block = previous_aggregates['total_chars_sent_overall']
+		# Se sorted_char_errors non è definito in questo scope, prendilo da current_aggregates:
+		# (Assumendo che top_n_errors_to_display sia definito globalmente nella funzione)
+		if 'sorted_char_errors' not in locals() and 'error_chars' not in locals(): # Se il grafico precedente non è stato disegnato
+			 # Fallback: prendi tutti i caratteri con errori attuali o precedenti
+			_potential_chars = list(set(current_aggregates['aggregated_errors_detail'].keys()) | set(previous_aggregates['aggregated_errors_detail'].keys()))
+			_sorted_potential_chars = sorted(
+			    _potential_chars,
+			    key=lambda char_key: (-current_aggregates['aggregated_errors_detail'].get(char_key, 0), char_key)
+			)
+			chars_for_variation_plot = [item.lower() for item in _sorted_potential_chars][:top_n_errors_to_display]
+		elif 'error_chars' in locals():
+			chars_for_variation_plot = [char.lower() for char in error_chars] # Usa gli stessi caratteri, in minuscolo per lookup
+		else:
+			chars_for_variation_plot = []
+		variation_data_list = []
+		for char_lcase in chars_for_variation_plot:
+			curr_count = current_aggregates['aggregated_errors_detail'].get(char_lcase, 0)
+			prev_count = previous_aggregates['aggregated_errors_detail'].get(char_lcase, 0)
 
-		# Ricreiamo sorted_chars_for_variation basandoci sui caratteri presenti in current_aggregates con errori
-		# e che potrebbero avere un corrispettivo in previous_aggregates
-		# Prendiamo i caratteri che hanno errori nel blocco corrente O precedente per avere una lista completa
-		# La lista sarà ordinata come nel report HTML (per errore corrente decrescente)
+			curr_total_sent = current_aggregates.get('aggregated_sent_chars_detail', {}).get(char_lcase, 0)
+			prev_total_sent = previous_aggregates.get('aggregated_sent_chars_detail', {}).get(char_lcase, 0)
+
+			# Calcola delta solo se il carattere era presente in modo significativo per il calcolo del tasso
+			if curr_total_sent > 0 or prev_total_sent > 0: # Deve essere stato inviato almeno una volta
+				curr_rate_spec = (curr_count / curr_total_sent * 100) if curr_total_sent > 0 else 0.0
+				prev_rate_spec = (prev_count / prev_total_sent * 100) if prev_total_sent > 0 else 0.0
+				# Se un carattere non è stato inviato nel periodo precedente, ma ora sì con errori,
+				# il suo prev_rate_spec è 0, quindi il delta sarà curr_rate_spec.
+				# Se è stato inviato prima ma ora non più, curr_rate_spec è 0, delta è -prev_rate_spec.
+				delta = curr_rate_spec - prev_rate_spec
+				variation_data_list.append({'char': char_lcase.upper(), 'delta': delta})
 		
-		# Considera i caratteri che hanno errori nel blocco corrente o precedente
-		# o che sono stati inviati in entrambi per un confronto completo.
-		all_relevant_chars = set(current_aggregates['aggregated_errors_detail'].keys()) | \
-		                     set(previous_aggregates['aggregated_errors_detail'].keys()) | \
-		                     set(current_aggregates['aggregated_sent_chars_detail'].keys()) & \
-		                     set(previous_aggregates['aggregated_sent_chars_detail'].keys())
+		if variation_data_list:
+			# Ordina per magnitudine del delta (decrescente) se vuoi evidenziare i maggiori cambiamenti
+			# Oppure mantieni l'ordine per errore corrente per coerenza con il grafico sopra.
+			# Per ora, manteniamo l'ordine dato da chars_for_variation_plot.
 
-		# Ordina questi caratteri in base al conteggio errori corrente (per coerenza con il grafico sopra)
-		# e prendi i primi N (es. top_n_errors_to_display)
-		temp_sorted_chars = sorted(
-			list(all_relevant_chars),
-			key=lambda char_key: (-current_aggregates['aggregated_errors_detail'].get(char_key, 0), char_key)
-		)
-
-		for char_err_lcase in temp_sorted_chars: # char_err è già minuscolo qui se viene da .keys()
-			curr_count = current_aggregates['aggregated_errors_detail'].get(char_err_lcase, 0)
-			prev_count = previous_aggregates['aggregated_errors_detail'].get(char_err_lcase, 0)
-
-			curr_total_sent_of_this_char = current_aggregates.get('aggregated_sent_chars_detail', {}).get(char_err_lcase, 0)
-			prev_total_sent_of_this_char = previous_aggregates.get('aggregated_sent_chars_detail', {}).get(char_err_lcase, 0)
-
-			# Calcola delta_rate_vs_specific_char solo se il carattere è stato inviato in entrambi i periodi
-			# o almeno nel periodo precedente per avere una base di confronto sensata per la variazione.
-			if prev_total_sent_of_this_char > 0 or curr_total_sent_of_this_char > 0 : # Deve essere stato inviato almeno una volta per avere un tasso
-				curr_rate_vs_specific_char = (curr_count / curr_total_sent_of_this_char * 100) if curr_total_sent_of_this_char > 0 else 0.0
-				# Se non è stato inviato nel periodo precedente, consideriamo il suo tasso di errore precedente come 0 
-				# se non aveva errori e non era inviato, o non definito se aveva errori ma non era inviato (impossibile)
-				# Se non è stato inviato nel periodo precedente, il concetto di "variazione del tasso" è meno diretto.
-				# Per semplicità: se un carattere non era inviato prima, il suo "tasso di errore precedente specifico" può essere 0.
-				prev_rate_vs_specific_char = (prev_count / prev_total_sent_of_this_char * 100) if prev_total_sent_of_this_char > 0 else 0.0
-				
-				# Calcola delta solo se ha senso (es. se era inviato prima o lo è ora)
-				# Se non era inviato prima e ora sì con errori, il delta è il tasso attuale.
-				# Se era inviato prima e ora no, il delta è meno il tasso precedente.
-				# La nostra formula delta = curr - prev gestisce questo.
-				delta = curr_rate_vs_specific_char - prev_rate_vs_specific_char
-				variation_data.append({'char': char_err_lcase.upper(), 'delta': delta})
-		
-		# Mostra solo i primi N caratteri per cui abbiamo una variazione, ordinati per errore corrente
-		# (l'ordinamento è già fatto da temp_sorted_chars)
-		variation_data_to_plot = variation_data[:top_n_errors_to_display]
-
-		if variation_data_to_plot:
-			deltas_for_scaling = [item['delta'] for item in variation_data_to_plot]
+			deltas_values = [item['delta'] for item in variation_data_list]
 			
-			# Definizione dinamica dei colori
+			# Scala colori dinamica a 5 livelli
 			bar_colors_variation = []
-			stable_low, stable_high = -1.0, 1.0 # Soglie per "Arancione"
-			
-			improving_deltas = sorted([d for d in deltas_for_scaling if d < stable_low]) # Es. [-10, -8, -2]
-			worsening_deltas = sorted([d for d in deltas_for_scaling if d > stable_high]) # Es. [2, 5, 12]
+			# Soglie per Giallo (stabilità/minimo cambiamento)
+			stable_threshold_abs = 1.0 # Es. +/- 1.0 punto percentuale è considerato "stabile" (Giallo)
 
-			# Soglie per Verde/Giallo (miglioramenti)
-			threshold_giallo_verde_split = np.median(improving_deltas) if improving_deltas else stable_low
-			
-			# Soglie per Rosso/RossoCupo (peggioramenti)
-			threshold_rosso_rossocupo_split = np.median(worsening_deltas) if worsening_deltas else stable_high
+			# Filtra i delta significativi per definire le altre categorie
+			significant_improvements = sorted([d for d in deltas_values if d < -stable_threshold_abs]) # Es. [-10, -5, -2]
+			significant_worsenings = sorted([d for d in deltas_values if d > stable_threshold_abs])  # Es. [2, 5, 10]
 
-			for delta_val in deltas_for_scaling:
-				if delta_val < stable_low: # Miglioramento
-					if delta_val <= threshold_giallo_verde_split and improving_deltas : # Miglioramento drastico
-						bar_colors_variation.append(color_good) # Verde
-					else: # Miglioramento lieve
-						bar_colors_variation.append(color_neutral) # Giallo
-				elif delta_val > stable_high: # Peggioramento
-					if delta_val >= threshold_rosso_rossocupo_split and worsening_deltas: # Peggioramento drastico
-						bar_colors_variation.append(color_error_very_high) # Rosso Cupo
-					else: # Peggioramento lieve
-						bar_colors_variation.append(color_error_high) # Rosso
-				else: # Stabile
-					bar_colors_variation.append(color_warning) # Arancione
+			# Soglie per Verde/Azzurro (miglioramenti)
+			split_azzurro_verde = np.median(significant_improvements) if significant_improvements else -stable_threshold_abs
+			
+			# Soglie per Arancione/RossoCupo (peggioramenti)
+			split_arancione_rossocupo = np.median(significant_worsenings) if significant_worsenings else stable_threshold_abs
+
+			for d_val in deltas_values:
+				if d_val < -stable_threshold_abs: # Miglioramento significativo
+					if d_val <= split_azzurro_verde and significant_improvements: bar_colors_variation.append(color_excellent) # Azzurro
+					else: bar_colors_variation.append(color_good) # Verde
+				elif d_val > stable_threshold_abs: # Peggioramento significativo
+					if d_val >= split_arancione_rossocupo and significant_worsenings: bar_colors_variation.append(color_error_very_high) # Rosso Cupo
+					else: bar_colors_variation.append(color_warning) # Arancione
+				else: # Stabile/Minimo cambiamento
+					bar_colors_variation.append(color_neutral) # Giallo
 			
 			# Creazione Assi per questo grafico
-			height_per_var_bar_fig = 0.035
-			ax_var_needed_height_fig = height_per_var_bar_fig * len(variation_data_to_plot) + 0.04
+			height_per_var_bar_fig = 0.035 
+			ax_var_needed_height_fig = height_per_var_bar_fig * len(variation_data_list) + 0.05 # Un po' di padding
 			
 			ax_var_left = 0.15
-			ax_var_width = 0.70
+			ax_var_width = 0.70 
 			ax_var_bottom = y_cursor - ax_var_needed_height_fig
 
 			ax_err_var = fig.add_axes([ax_var_left, ax_var_bottom, ax_var_width, ax_var_needed_height_fig])
 			ax_err_var.set_facecolor('#383c44')
 
-			var_chars = [item['char'] for item in variation_data_to_plot]
-			var_deltas = [item['delta'] for item in variation_data_to_plot]
+			plot_chars = [item['char'] for item in variation_data_list]
+			plot_deltas = [item['delta'] for item in variation_data_list]
 			
-			y_var_positions = np.arange(len(var_chars))
+			y_var_positions = np.arange(len(plot_chars))
 			
-			# Determina la scala X basata sul massimo delta assoluto
-			max_abs_delta = max(abs(d) for d in var_deltas) if var_deltas else 1.0
-			axis_limit = max_abs_delta * 1.15 # Un po' di padding oltre le linee di riferimento
-			ax_err_var.set_xlim(-axis_limit, axis_limit)
+			max_abs_delta_val = max(abs(d) for d in plot_deltas) if plot_deltas else 1.0
+			axis_plot_limit = max_abs_delta_val * 1.15 
+			ax_err_var.set_xlim(-axis_plot_limit, axis_plot_limit)
 			
-			# Linea centrale a x=0
 			ax_err_var.axvline(0, color='white', linestyle=':', linewidth=0.7, alpha=0.7, zorder=1)
+			ax_err_var.axvline(-max_abs_delta_val, color='white', linestyle='--', linewidth=0.75, alpha=0.5, zorder=1)
+			ax_err_var.axvline(max_abs_delta_val, color='white', linestyle='--', linewidth=0.75, alpha=0.5, zorder=1)
 
-			# Linee di riferimento verticali esterne
-			line_ref_pos = max_abs_delta # Posizione effettiva delle linee
-			ax_err_var.axvline(-line_ref_pos, color='white', linestyle='--', linewidth=0.75, alpha=0.5, zorder=1)
-			ax_err_var.axvline(line_ref_pos, color='white', linestyle='--', linewidth=0.75, alpha=0.5, zorder=1)
-
-			# Disegna le barre
-			for i in range(len(var_chars)):
-				delta_val = var_deltas[i]
-				bar_width = abs(delta_val)
-				bar_left = delta_val if delta_val < 0 else 0
-				ax_err_var.barh(y_var_positions[i], bar_width, left=bar_left, 
+			for i in range(len(plot_chars)):
+				delta_val = plot_deltas[i]
+				bar_w = abs(delta_val)
+				bar_l = delta_val if delta_val < 0 else 0
+				ax_err_var.barh(y_var_positions[i], bar_w, left=bar_l, 
 				                color=bar_colors_variation[i], height=0.5, 
 				                edgecolor=text_color, linewidth=0.5, zorder=2)
-				# Etichetta con il valore del delta
-				text_x_pos = delta_val + (axis_limit * 0.02 * (1 if delta_val >= 0 else -1)) # Piccolo offset
-				ha_align = 'left' if delta_val >= 0 else 'right'
-				ax_err_var.text(text_x_pos, y_var_positions[i], f"{delta_val:+.1f}%", 
-				                va='center', ha=ha_align, color=text_color, fontsize=8)
+				
+				text_x_offset = axis_plot_limit * 0.02 # Piccolo offset dal bordo della barra
+				ha_val = 'right' if delta_val < 0 else 'left'
+				text_x = delta_val - text_x_offset if delta_val < 0 else delta_val + text_x_offset
+				ax_err_var.text(text_x, y_var_positions[i], f"{delta_val:+.1f}%", 
+				                va='center', ha=ha_val, color=text_color, fontsize=8)
 
 			ax_err_var.set_yticks(y_var_positions)
-			ax_err_var.set_yticklabels(var_chars, color=text_color, fontsize=9)
+			ax_err_var.set_yticklabels(plot_chars, color=text_color, fontsize=9)
 			ax_err_var.invert_yaxis()
 			ax_err_var.tick_params(axis='y', length=0)
 			
-			ax_err_var.set_xlabel(Trnsl('delta_rate_specific_label_short', lang=lang), color=text_color, fontsize=10) # Crea trad: es. "Variaz. % Err. Spec."
+			ax_err_var.set_xlabel(Trnsl('delta_rate_specific_label_short', lang=lang), color=text_color, fontsize=10)
 			ax_err_var.tick_params(axis='x', colors=text_color, labelsize=9)
 			ax_err_var.spines['bottom'].set_color(text_color)
 			ax_err_var.spines['top'].set_visible(False)
@@ -530,35 +510,20 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 			ax_err_var.spines['left'].set_visible(False)
 
 			y_cursor = ax_var_bottom - section_spacing_fig
-		else: # Non ci sono variazioni da plottare
-			no_variations_text = Trnsl('no_error_variations_to_display', lang=lang) # Crea traduzione
-			fig.text(0.5, y_cursor - line_height_fig, no_variations_text, color=text_color, 
-			         ha='center', va='top', fontsize=10, style='italic')
+		else:
+			fig.text(0.5, y_cursor - line_height_fig, Trnsl('no_error_variations_to_display', lang=lang), 
+			         color=text_color, ha='center', va='top', fontsize=10, style='italic')
 			y_cursor -= (line_height_fig * 2 + section_spacing_fig)
-	else: # Non ci sono dati precedenti
-		no_previous_data_text = Trnsl('no_previous_data_for_variations', lang=lang) # Crea traduzione
-		fig.text(0.5, y_cursor - line_height_fig, no_previous_data_text, color=text_color, 
-		         ha='center', va='top', fontsize=10, style='italic')
+	else: 
+		fig.text(0.5, y_cursor - line_height_fig, Trnsl('no_previous_data_for_variations', lang=lang), 
+		         color=text_color, ha='center', va='top', fontsize=10, style='italic')
 		y_cursor -= (line_height_fig * 2 + section_spacing_fig)
-	# ... (y_cursor e fine della funzione con plt.savefig) ...
 	try:
-		png_filename = output_filename # output_filename dovrebbe già essere .png
-		plt.savefig(png_filename, 
-		            dpi=400,
-		            bbox_inches='tight', 
-		            pad_inches=0.3, 
-		            facecolor=fig.get_facecolor())
-		print(f"DEBUG: Report grafico PNG salvato con successo: {png_filename}")
-
-		# SALVATAGGIO SVG PER TEST DIAGNOSTICO
-		svg_filename = png_filename.replace(".png", ".svg")
-		plt.savefig(svg_filename, 
+		plt.savefig(output_filename, 
 		            format='svg', # Specifica il formato SVG
 		            bbox_inches='tight', 
 		            pad_inches=0.3, 
 		            facecolor=fig.get_facecolor())
-		print(f"DEBUG: Report grafico SVG salvato con successo: {svg_filename}")
-
 		plt.close(fig) 
 	except Exception as e_save:
 		if 'fig' in locals() and fig: 
@@ -924,20 +889,66 @@ def FilterWord(w):
 		if scelta=="y": break
 	if ex: return w
 	else: return w1
+
 def CustomSet(overall_speed):
-	cs=set(); prompt=""
-	print(Trnsl('custom_set_prompt', lang=app_language))
+	global app_data, app_language # Per accedere al log storico e alle traduzioni
+	cs = set() # Il set che conterrà i caratteri scelti dall'utente
+	prefill_prompt_text = Trnsl('custom_set_use_prefill_prompt', lang=app_language)
+	yes_char = Trnsl('yes_key_default', lang=app_language)
+	no_char = Trnsl('no_key_default', lang=app_language)
+	use_prefill_choice = key(prompt=f"{prefill_prompt_text} [{yes_char}/{no_char}]: ").lower()
+	if use_prefill_choice == yes_char:
+		prefilled_chars_list = []
+		sessions_log = app_data.get('historical_rx_data', {}).get('sessions_log', [])
+		if sessions_log:
+			aggregated_session_errors = {}
+			for session_data in sessions_log:
+				for char, count in session_data.get('errors_detail_session', {}).items():
+					if isinstance(char, str) and len(char) == 1 and char.lower() in VALID_MORSE_CHARS_FOR_CUSTOM_SET:
+						aggregated_session_errors[char.lower()] = aggregated_session_errors.get(char.lower(), 0) + count
+			if aggregated_session_errors:
+				sorted_errors_from_log = sorted(aggregated_session_errors.items(), key=lambda item: (-item[1], item[0]))
+				prefilled_chars_list = [char for char, count in sorted_errors_from_log[:10]]
+		if prefilled_chars_list:
+			print(Trnsl('custom_set_prefilled_with_errors', lang=app_language, chars=", ".join(c.upper() for c in prefilled_chars_list)))
+			for char_err in prefilled_chars_list:
+				cs.add(char_err) # Aggiunti già in minuscolo
+		else:
+			random_chars_pool = list(VALID_MORSE_CHARS_FOR_CUSTOM_SET)
+			if random_chars_pool:
+				num_to_add = min(10, len(random_chars_pool))
+				cs.update(random.sample(random_chars_pool, num_to_add))
+				if cs:
+					print(Trnsl('custom_set_prefilled_with_random', lang=app_language, chars=", ".join(sorted(c.upper() for c in cs))))
+				else: # Improbabile se random_chars_pool non è vuoto, ma per sicurezza
+					print(Trnsl('custom_set_prefill_failed_no_chars', lang=app_language))
+			else: # Se VALID_MORSE_CHARS_FOR_CUSTOM_SET fosse vuoto (improbabile)
+				print(Trnsl('custom_set_prefill_failed_no_chars', lang=app_language))
+	print(Trnsl('custom_set_modify_prompt_intro', lang=app_language))
 	while True:
-		prompt=''.join(sorted(cs))
-		scelta = key(prompt="\n"+prompt)
-		if scelta=="\r" and len(cs)>=2:
-			scelta=""
-			break
-		elif scelta not in cs and scelta!="\r":
-			cs.add(scelta)
-			plo,rwpm=CWzator(msg=scelta, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-		else: plo,rwpm=CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-	return "".join(cs)
+		current_set_display = "".join(sorted(list(cs))) # Mostra i caratteri ordinati
+		user_input_char = key(prompt="\n"+current_set_display)
+		if user_input_char == "\r":  # Tasto Invio
+			if len(cs) >= 2:
+				break # Esce dal loop per iniziare l'esercizio
+			else:
+				CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+				continue # Continua il loop per permettere all'utente di aggiungere caratteri
+		# Se l'input è un singolo carattere stampabile (la funzione key() dovrebbe restituire solo questo o tasti speciali)
+		if len(user_input_char) == 1 and user_input_char.isprintable():
+			char_typed_lower = user_input_char.lower()
+			if char_typed_lower not in VALID_MORSE_CHARS_FOR_CUSTOM_SET:
+				CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+				continue
+			if char_typed_lower in cs:
+				cs.remove(char_typed_lower)
+			else:
+				cs.add(char_typed_lower)
+				CWzator(msg=char_typed_lower, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+		elif user_input_char != "\r": # Evita il '?' se era solo un input non valido ma non Invio
+			CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+	return "".join(sorted(list(cs))) # Restituisce una stringa ordinata dei caratteri nel set
+
 def GeneratingGroup(kind, length, wpm):
 	if kind == "1":
 		return ''.join(random.choice(string.ascii_letters) for _ in range(length))
@@ -1053,7 +1064,7 @@ def AlwaysRight(sent_items, error_counts_dict):
 	return letters_sent - letters_misspelled
 def Rxing():
 	# receiving exercise
-	global app_data, overall_settings_changed, overall_speed, words
+	global app_data, overall_settings_changed, overall_speed, words, customized_set
 	print(Trnsl('time_to_receive', lang=app_language))
 	try:
 		with open('words.txt', 'r', encoding='utf-8') as file:
@@ -1582,9 +1593,8 @@ def generate_historical_rx_report():
 
 	# Genera anche il report grafico
 	try:
-		# Prepara il nome del file per il grafico (stesso nome base, estensione .png)
 		base_report_filename, _ = os.path.splitext(report_filename)
-		graphic_report_filename = base_report_filename + ".png"
+		graphic_report_filename = base_report_filename + ".svg"
 		# Passiamo i dati necessari alla funzione di creazione del grafico
 		crea_report_grafico(
 			current_aggregates,
