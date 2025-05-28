@@ -5,12 +5,12 @@ Todo:
 	4.
 
 ChangeLog:
-	3.5.x
-		Increased DPI to the historical report PGN up to 300 DPI
-		Added new words.txt (Italian only)
-		Preparing for graphical stats
-		Inserted new statistics for errors on a specific caracter based on how many of that character has been sent
-		Changin report from txt to html for a better readability
+	3.7.1
+		+Improved the custom map for exercise, section R.4, now with autofill of the most problematic character, from your historical report
+		=For graphical historical has been choosen the svg format that you can open up with almost every browser
+		+Added new words.txt (Italian only)
+		+Inserted new statistics for errors on a specific caracter based on how many of that character has been sent
+		+Changin report from txt to html for a better readability
 	3.1.8
 		Small fix to the prompt
 		+SUPER global stats, or historical statistics. Controlled by g and x parameters it saves your result across a long period of time. See K ssection to customize
