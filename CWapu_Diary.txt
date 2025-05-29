@@ -2568,3 +2568,51 @@ Elenco delle parole copiate male:
 	(28) TX: MIRERA, RX: MERARI, DIF: IRRI;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #206 eseguito il 2025/5/29 alle 11, 53 minuti:
+In questa sessione #206, ti ho inviato 35 words e ne hai ricevuti 17: 48.6%
+	10 di questi sono stati ricevuti al primo ascolto: 58.8%
+	mentre 7 words al secondo tentativo: 41.2%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 40: pari ad una variazione di 6 WPM.
+	La velocità media di ricezione è di: 36.9 WPM.
+Carattere: errori = Percentuale
+    'I': 8 (3.35% dei car. tot., 33.33% delle 'I' inviate)
+    'E': 7 (2.93% dei car. tot., 30.43% delle 'E' inviate)
+    'R': 6 (2.51% dei car. tot., 31.58% delle 'R' inviate)
+    'A': 5 (2.09% dei car. tot., 15.62% delle 'A' inviate)
+    'N': 5 (2.09% dei car. tot., 38.46% delle 'N' inviate)
+    'T': 5 (2.09% dei car. tot., 35.71% delle 'T' inviate)
+    'M': 4 (1.67% dei car. tot., 33.33% delle 'M' inviate)
+    'G': 3 (1.26% dei car. tot., 33.33% delle 'G' inviate)
+    'S': 3 (1.26% dei car. tot., 16.67% delle 'S' inviate)
+    'O': 2 (0.84% dei car. tot., 10.00% delle 'O' inviate)
+    'D': 1 (0.42% dei car. tot., 20.00% delle 'D' inviate)
+    'F': 1 (0.42% dei car. tot., 20.00% delle 'F' inviate)
+    'P': 1 (0.42% dei car. tot., 25.00% delle 'P' inviate)
+    'Q': 1 (0.42% dei car. tot., 100.00% delle 'Q' inviate)
+    'U': 1 (0.42% dei car. tot., 20.00% delle 'U' inviate)
+    'Z': 1 (0.42% dei car. tot., 20.00% delle 'Z' inviate)
+
+Errori totali: 54 su 239 = 22.59%
+Caratteri mai sbagliati: B C H L V W Ò
+Elenco delle parole copiate male:
+	(1) TX: DEMENZE, RX: DENTISTE, DIF: MNZE;
+	(2) TX: WHIGS, RX: WISHSED, DIF: ISIGED;
+	(3) TX: INALERA, RX: INALIA, DIF: ER;
+	(5) TX: RIFINITO, RX: RIFERIMENTO, DIF: ERMEI;
+	(7) TX: SBIZZIRE, RX: SBIZZARIE, DIF: ARR;
+	(8) TX: PRESSURA, RX: PESSURA, DIF: R;
+	(9) TX: ASBESTO, RX: ASBESO, DIF: T;
+	(10) TX: ABBAIAI, RX: ABBAIA, DIF: I;
+	(13) TX: GRANITI, RX: GRANITE, DIF: I;
+	(17) TX: STANGARE, RX: , DIF: STANGARE;
+	(19) TX: CHEQUE, RX: CHIEKE, DIF: IQU;
+	(21) TX: VAMP, RX: VANG, DIF: MP;
+	(24) TX: ODOGRAFI, RX: ODORAVI, DIF: GF;
+	(26) TX: FUGANTE, RX: FUGATINE, DIF: TIT;
+	(29) TX: LUMACONE, RX: LUNACONE, DIF: M;
+	(30) TX: MARNOSI, RX: MARGHE, DIF: NOSI;
+	(31) TX: PANTANE, RX: PANATE, DIF: AAN;
+	(34) TX: NEOSTOMI, RX: MESOMIE, DIF: NOTE;
+Nota: nessuna
+***
