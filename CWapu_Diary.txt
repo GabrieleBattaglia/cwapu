@@ -2616,3 +2616,60 @@ Elenco delle parole copiate male:
 	(34) TX: NEOSTOMI, RX: MESOMIE, DIF: NOTE;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #207 eseguito il 2025/5/30 alle 10, 20 minuti:
+In questa sessione #207, ti ho inviato 50 words e ne hai ricevuti 22: 44.0%
+	18 di questi sono stati ricevuti al primo ascolto: 81.8%
+	mentre 4 words al secondo tentativo: 18.2%.
+Durante la sessione, la tua velocità minima è stata 33, la massima di 44: pari ad una variazione di 11 WPM.
+	La velocità media di ricezione è di: 37.7 WPM.
+Carattere: errori = Percentuale
+    'I': 15 (4.23% dei car. tot., 32.61% delle 'I' inviate)
+    'T': 11 (3.10% dei car. tot., 47.83% delle 'T' inviate)
+    'E': 8 (2.25% dei car. tot., 23.53% delle 'E' inviate)
+    'N': 7 (1.97% dei car. tot., 33.33% delle 'N' inviate)
+    'A': 5 (1.41% dei car. tot., 11.90% delle 'A' inviate)
+    'S': 5 (1.41% dei car. tot., 18.52% delle 'S' inviate)
+    'B': 3 (0.85% dei car. tot., 25.00% delle 'B' inviate)
+    'R': 3 (0.85% dei car. tot., 12.00% delle 'R' inviate)
+    'M': 2 (0.56% dei car. tot., 18.18% delle 'M' inviate)
+    'Z': 2 (0.56% dei car. tot., 66.67% delle 'Z' inviate)
+    'C': 1 (0.28% dei car. tot., 7.14% delle 'C' inviate)
+    'D': 1 (0.28% dei car. tot., 14.29% delle 'D' inviate)
+    'G': 1 (0.28% dei car. tot., 7.14% delle 'G' inviate)
+    'L': 1 (0.28% dei car. tot., 7.14% delle 'L' inviate)
+    'O': 1 (0.28% dei car. tot., 3.85% delle 'O' inviate)
+
+Errori totali: 66 su 355 = 18.59%
+Caratteri mai sbagliati: F H P U V Ò
+Elenco delle parole copiate male:
+	(1) TX: LIDITE, RX: LIDATE, DIF: I;
+	(2) TX: VERSERA, RX: VERSIA, DIF: ER;
+	(10) TX: MENZIONE, RX: MIGLIORE, DIF: ENZN;
+	(11) TX: SARCOIDE, RX: SARCOSIE, DIF: SD;
+	(12) TX: LUSINGA, RX: LUSCORE, DIF: INGA;
+	(15) TX: ITALESI, RX: ITALIASE, DIF: IASSI;
+	(16) TX: MALGARBO, RX: MALGARE, DIF: BO;
+	(18) TX: BIFFATO, RX: BEFFATO, DIF: I;
+	(19) TX: GENIENE, RX: GENITE, DIF: TNE;
+	(20) TX: LIBIDICA, RX: LIDIDIATE, DIF: IBCTE;
+	(21) TX: NASTRARE, RX: NASCARE, DIF: TR;
+	(22) TX: PROAVA, RX: PROATTIVA, DIF: TTI;
+	(23) TX: BAULIERA, RX: BAURICA, DIF: LER;
+	(25) TX: MEMBRANE, RX: MEMORIA, DIF: BINE;
+	(27) TX: NURAGHI, RX: NURAGHE, DIF: I;
+	(28) TX: MALONICI, RX: MALONICA, DIF: I;
+	(31) TX: FRUTICE, RX: FRUICE, DIF: T;
+	(33) TX: SCAMORZA, RX: SCAMORGA, DIF: Z;
+	(35) TX: EVITATA, RX: EVITARE, DIF: TA;
+	(38) TX: BASTIAMO, RX: BASAICO, DIF: TAM;
+	(39) TX: DOGATI, RX: DOGATE, DIF: I;
+	(40) TX: SCISTI, RX: SCESE, DIF: ITI;
+	(42) TX: RUNICA, RX: RUDICA, DIF: N;
+	(43) TX: GIALLUME, RX: GIALLUGE, DIF: M;
+	(44) TX: STIRASTE, RX: SIRISA, DIF: TISSTE;
+	(48) TX: UDINE, RX: UDITE, DIF: N;
+	(49) TX: PREMORTO, RX: PREMORIATO, DIF: IA;
+	(50) TX: GLOBOSE, RX: GLOBOSI, DIF: E;
+Nota: nessuna
+***
