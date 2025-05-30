@@ -1,8 +1,72 @@
 CWAPU WHATSNEW AND TODO
 Todo:
-	2. idea, report txt>htm? Per migliore layout in tabella
-	3. Report fine esercizio, classifica errori, riportare anche perc del singolo car. sul tot di quel singolo car inviato.
 	4.
+	Ottima visione per il nuovo menu degli esercizi Rx! Renderlo basato su switcher on/off è un approccio molto flessibile e moderno. E hai ragione, la gestione della generazione dei gruppi misti è il cuore della questione.
+Affrontiamo i tuoi punti:
+**1. Soluzione per il Display degli Switcher (Curses vs. ANSI Escape Codes)**
+Entrambe le soluzioni sono valide, ma hanno pro e contro:
+* **Libreria `curses` (con `windows-curses`):** Molto potente e robusta per creare interfacce utente testuali complesse e a schermo intero. Gestisce automaticamente le differenze tra terminali, il posizionamento del cursore, finestre, ecc. Tuttavia, ha una curva di apprendimento più ripida e introduce una dipendenza esterna (`windows-curses`) che gli utenti Windows dovrebbero installare. Potrebbe essere un po' eccessiva se l'unica esigenza è aggiornare dinamicamente poche righe di un menu.
+* **Sequenze di Escape ANSI:** Sono comandi testuali standard interpretati dalla maggior parte dei terminali moderni (incluso il Terminale Windows e le console più recenti di Windows 10/11) per fare cose come muovere il cursore, cambiare colori, pulire parti dello schermo.
+    * **Pro:** Più leggere, non richiedono librerie esterne aggiuntive (se il terminale le supporta nativamente, come ormai fanno quasi tutti). Per aggiornare un singolo carattere (es. da `< >` a `<X>`) in una posizione nota, sono relativamente semplici da usare: sposti il cursore, stampi il nuovo carattere.
+    * **Contro:** Possono essere un po' più "fragili" se si cerca di fare cose molto complesse o se si devono supportare terminali molto vecchi o esoterici (non è il nostro caso, dato che ci concentriamo su Windows moderno). La loro sintassi è un po' criptica (es. `\033[<riga>;<colonna>H` per muovere il cursore).
+**Mia Proposta:** Per la tua esigenza specifica (aggiornare lo stato di 5-6 interruttori in un menu testuale), **le sequenze di Escape ANSI sono probabilmente la soluzione più semplice da implementare inizialmente e più leggera**, senza aggiungere dipendenze. Possiamo creare piccole funzioni helper per mascherare la complessità dei codici ANSI (es. `move_cursor(riga, colonna)` e `print_at(riga, colonna, testo)`).
+**2. Logica di Generazione degli Esercizi Misti**
+La tua idea di come generare gli esercizi è chiara e funzionale:
+* L'utente imposta gli switcher ON/OFF (Lettere, Numeri, Simboli, Parole, QRZ; Custom esclude gli altri).
+* L'utente imposta una `lunghezza_gruppo` che si applica a Lettere, Numeri, Simboli.
+* Per ogni gruppo da generare nella sessione di esercizi:
+    1.  Si sceglie **casualmente uno** tra i tipi di switcher attualmente **ATTIVI**.
+    2.  Se il tipo scelto è "Parole", si pesca una parola dalla lista (filtrata per lunghezza quando lo switcher "Parole" è stato attivato).
+    3.  Se il tipo scelto è "QRZ", si genera un nominativo fittizio.
+    4.  Se il tipo scelto è "Lettere", "Numeri" o "Simboli", si genera un gruppo della `lunghezza_gruppo` specificata, pescando caratteri dal rispettivo pool.
+Questo richiederà una nuova funzione "dispatcher" che, dato lo stato degli switcher e la lunghezza, produce il singolo item per l'esercizio.
+**3. Filtro Lunghezza Parole**
+Sì, chiedere il filtro min/max per la lunghezza delle parole (`FilterWord`) ogni volta che lo switcher "Parole" viene attivato (passa da OFF a ON) è la soluzione giusta per garantire che la lista di parole usata sia sempre quella desiderata dall'utente in quel momento.
+**Struttura dell'Implementazione (come la vedo io, ancora a livello di discussione):**
+A.  **Nuova Funzione per il Menu Rx (es. `gestisci_menu_rx_avanzato`)**
+    * Questa funzione sostituirebbe le attuali chiamate a `menu(d=MNRX, ...)` e `menu(d=MNRXKIND, ...)` in `Rxing()`.
+    * **Stato Interno:** Manterrà un dizionario con lo stato ON/OFF di ogni switcher (es. `stati_switcher = {'lettere': False, 'numeri': False, ...}`).
+    * **Pool di Caratteri per Simboli:** Dovremo definire quali caratteri dal tuo `morse_map` sono considerati "simboli" (escludendo lettere e numeri). Potremmo farlo una volta all'inizio del programma.
+        ```python
+        # Esempio di come potremmo definire i pool (globalmente o dove serve)
+        LETTERE_MORSE = {k for k in morse_map if 'a' <= k <= 'z'}
+        NUMERI_MORSE  = {k for k in morse_map if '0' <= k <= '9'}
+        SIMBOLI_MORSE = VALID_MORSE_CHARS_FOR_CUSTOM_SET - LETTERE_MORSE - NUMERI_MORSE
+        ```
+    * **Display del Menu (con ANSI):**
+        * Una funzione interna `disegna_menu(stati_switcher)` che stampa l'intero menu con gli stati `< >` o `<X>`. Chiamata all'inizio.
+        * Una funzione interna `aggiorna_switcher_display(riga_menu, stato_on)` che usa codici ANSI per andare alla riga giusta e scrivere solo `<X>` o `< >`.
+    * **Loop di Input:**
+        1.  Chiama `disegna_menu()`.
+        2.  Prompt per l'utente: "Scegli opzione (1-L, 2-N, 3-S, 4-P, 5-Q, 6-C) o Invio per iniziare: ".
+        3.  L'utente preme un tasto:
+            * Se è un numero da 1 a 6: aggiorna `stati_switcher` (gestendo l'esclusività di "Custom"). Se "Parole" viene attivato, chiama `FilterWord(words)` e salva la lista filtrata (es. in una variabile locale a `gestisci_menu_rx_avanzato` o globale se necessario altrove). Chiama `aggiorna_switcher_display()` per la riga modificata. Torna al punto 2.
+            * Se è Invio: verifica che almeno uno switcher sia attivo (o che "Custom" sia attivo e `customized_set` non sia vuoto). Se sì, esce dal loop e restituisce le scelte. Altrimenti, messaggio di errore e torna al punto 2.
+    * **Valori Restituiti:**
+        * Una lista dei tipi di switcher attivi (es. `['lettere', 'numeri', 'parole']`).
+        * La `lunghezza_gruppo` (se Lettere, Numeri o Simboli sono attivi, altrimenti un valore di default o non rilevante).
+        * La stringa del `customized_set` se lo switcher "Custom" è attivo.
+        * La lista di `parole_filtrate` se lo switcher "Parole" è attivo.
+B.  **Modifiche a `Rxing()`:**
+    * All'inizio, chiama `gestisci_menu_rx_avanzato()` per ottenere le `scelte_utente` e `lunghezza_gruppo`.
+    * Nel loop principale dell'esercizio (dove generi `how_many_calls` item):
+        * Chiama una nuova funzione, es. `genera_item_esercizio_misto(scelte_utente, lunghezza_gruppo, customized_set_string, parole_filtrate)`, che restituirà il singolo `qrz` da trasmettere.
+C.  **Nuova Funzione `genera_item_esercizio_misto()`:**
+    * Riceve le `scelte_utente` (lista dei tipi attivi o la stringa custom).
+    * Se le scelte indicano "Custom", usa `GeneratingGroup(kind="4", length=lunghezza_gruppo_custom, customized_set=customized_set_string, ...)` (nota: `GeneratingGroup` per `kind="4"` attualmente usa una variabile globale `customized_set`; dovremmo modificarla per accettare `customized_set_string` come parametro).
+    * Altrimenti (mix di tipi standard):
+        1.  Sceglie a caso un tipo dalla lista `scelte_utente`.
+        2.  In base al tipo scelto:
+            * "parole": `random.choice(parole_filtrate)`.
+            * "qrz": `Mkdqrz(...)`.
+            * "lettere": `GeneratingGroup(kind="1", length=lunghezza_gruppo, ...)`.
+            * "numeri": `GeneratingGroup(kind="2", length=lunghezza_gruppo, ...)`.
+            * "simboli": `GeneratingGroup(kind="NUOVO_ID_SIMBOLI", length=lunghezza_gruppo, pool_simboli=list(SIMBOLI_MORSE), ...)`. (Richiede modifica a `GeneratingGroup`).
+D.  **Modifiche a `GeneratingGroup()`:**
+    * Aggiungere un nuovo `kind` per "Simboli" che pesca da `list(SIMBOLI_MORSE)`.
+    * Modificare `kind="4"` (Custom) per accettare la stringa del set personalizzato come parametro invece di usare una variabile globale.
+Cosa ne pensi di questa suddivisione e dell'uso delle sequenze ANSI per il display? Se sei d'accordo, possiamo iniziare a dettagliare il codice per la funzione del menu.
+5.
 
 ChangeLog:
 	3.7.1
