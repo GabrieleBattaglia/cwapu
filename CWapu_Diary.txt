@@ -2673,3 +2673,37 @@ Elenco delle parole copiate male:
 	(50) TX: GLOBOSE, RX: GLOBOSI, DIF: E;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #208 eseguito il 2025/5/30 alle 21, 57 minuti:
+In questa sessione #208, ti ho inviato 33 Group e ne hai ricevuti 22: 66.7%
+	18 di questi sono stati ricevuti al primo ascolto: 81.8%
+	mentre 4 Group al secondo tentativo: 18.2%.
+Durante la sessione, la tua velocità minima è stata 33, la massima di 44: pari ad una variazione di 11 WPM.
+	La velocità media di ricezione è di: 38.4 WPM.
+Carattere: errori = Percentuale
+    'V': 3 (3.03% dei car. tot., 50.00% delle 'V' inviate)
+    'A': 2 (2.02% dei car. tot., 40.00% delle 'A' inviate)
+    'G': 2 (2.02% dei car. tot., 40.00% delle 'G' inviate)
+    'B': 1 (1.01% dei car. tot., 50.00% delle 'B' inviate)
+    'H': 1 (1.01% dei car. tot., 33.33% delle 'H' inviate)
+    'U': 1 (1.01% dei car. tot., 20.00% delle 'U' inviate)
+    'X': 1 (1.01% dei car. tot., 50.00% delle 'X' inviate)
+    'Y': 1 (1.01% dei car. tot., 20.00% delle 'Y' inviate)
+    'Z': 1 (1.01% dei car. tot., 50.00% delle 'Z' inviate)
+
+Errori totali: 13 su 99 = 13.13%
+Caratteri mai sbagliati: C D E F J K L M N O P Q R S T W
+Elenco delle parole copiate male:
+	(2) TX: EUP, RX: AEP, DIF: AU;
+	(7) TX: AQH, RX: AQS, DIF: H;
+	(9) TX: OVW, RX: OUW, DIF: V;
+	(13) TX: YDJ, RX: QDJ, DIF: Y;
+	(15) TX: BVF, RX: DUF, DIF: BV;
+	(19) TX: GHZ, RX: GHB, DIF: Z;
+	(21) TX: CGF, RX: CDF, DIF: G;
+	(22) TX: PVM, RX: PUM, DIF: V;
+	(27) TX: NEA, RX: NE, DIF: A;
+	(29) TX: NHX, RX: NHZ, DIF: X;
+	(32) TX: GEQ, RX: MEQ, DIF: G;
+Nota: nessuna
+***
