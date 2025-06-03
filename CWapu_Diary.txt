@@ -2860,3 +2860,26 @@ Elenco delle parole copiate male:
 	(33) TX: PQU, RX: PQA, DIF: U;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #213 eseguito il 2025/6/3 alle 22, 11 minuti:
+In questa sessione #213, ti ho inviato 40 words e ne hai ricevuti 35: 87.5%
+	29 di questi sono stati ricevuti al primo ascolto: 82.9%
+	mentre 6 words al secondo tentativo: 17.1%.
+Durante la sessione, la tua velocità minima è stata 30, la massima di 30: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 30.0 WPM.
+Carattere: errori = Percentuale
+    'E': 2 (1.06% dei car. tot., 11.76% delle 'E' inviate)
+    'A': 1 (0.53% dei car. tot., 5.56% delle 'A' inviate)
+    'H': 1 (0.53% dei car. tot., 33.33% delle 'H' inviate)
+    'R': 1 (0.53% dei car. tot., 12.50% delle 'R' inviate)
+
+Errori totali: 5 su 188 = 2.66%
+Caratteri mai sbagliati: B C D F G I J K L M N O P Q S T U V Ò
+Elenco delle parole copiate male:
+	(14) TX: BEARE, RX: BEARI, DIF: E;
+	(21) TX: LESTA, RX: LISTA, DIF: E;
+	(33) TX: BOH, RX: BOS, DIF: H;
+	(34) TX: SPIRI, RX: SPIAI, DIF: R;
+	(39) TX: SABBA, RX: SABBI, DIF: A;
+Nota: nessuna
+***
