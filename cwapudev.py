@@ -21,6 +21,13 @@ overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 SETTINGS_FILE = "cwapu_settings.json"
+RX_SWITCHER_ITEMS = [
+    {'id': '1', 'key_state': 'parole',  'label_key': 'menu_rx_switcher_parole', 'is_exclusive': False},
+    {'id': '2', 'key_state': 'lettere', 'label_key': 'menu_rx_switcher_lettere', 'is_exclusive': False},
+    {'id': '3', 'key_state': 'numeri',  'label_key': 'menu_rx_switcher_numeri', 'is_exclusive': False},
+    {'id': '4', 'key_state': 'simboli', 'label_key': 'menu_rx_switcher_simboli', 'is_exclusive': False},
+    {'id': '5', 'key_state': 'qrz',     'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False},
+    {'id': '6', 'key_state': 'custom',  'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True}]
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 100
 HISTORICAL_RX_REPORT_INTERVAL = 10 # Ogni quanti esercizi generare il report
 VALID_MORSE_CHARS_FOR_CUSTOM_SET = {k for k in CWzator(msg=-1) if k != " " and k.isprintable()}
@@ -39,8 +46,16 @@ DEFAULT_DATA = {
     },
     "counting_stats": { # "counting_stats" termina qui
         "exercise_number": 1
-    }, # Aggiungi una virgola qui per separarlo dalla nuova sezione
-    "historical_rx_data": { # <-- "historical_rx_data" è ora una CHIAVE DI PRIMO LIVELLO
+    },
+				"rx_menu_switcher_states": {
+					"parole": True,
+					"lettere": False,
+					"numeri": False,
+					"simboli": False,
+					"qrz": False,
+					"custom": False,
+				},
+				"historical_rx_data": {
         "max_sessions_to_keep": HISTORICAL_RX_MAX_SESSIONS_DEFAULT,
         "report_interval": HISTORICAL_RX_REPORT_INTERVAL, 
         "sessions_log": [] 
@@ -68,6 +83,14 @@ words=[]
 app_data = {}
 
 #qf
+def move_cursor(riga, colonna):
+	"""Muove il cursore alla riga e colonna specificata (1-based)."""
+	sys.stdout.write(f"\033[{riga};{colonna}H")
+
+def clear_line_from_cursor():
+	"""Pulisce la linea dalla posizione attuale del cursore fino alla fine."""
+	sys.stdout.write("\033[K")
+
 def crea_report_grafico(current_aggregates, previous_aggregates, 
                         g_val, x_val, num_sessions_in_report, 
                         output_filename, lang='en'):
