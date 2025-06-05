@@ -16,18 +16,18 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERS="4.0.0, (2025-06-05)"
+VERSION="4.0.6, (2025-06-05)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 SETTINGS_FILE = "cwapu_settings.json"
 RX_SWITCHER_ITEMS = [
-    {'id': '1', 'key_state': 'parole',  'label_key': 'menu_rx_switcher_parole', 'is_exclusive': False},
-    {'id': '2', 'key_state': 'lettere', 'label_key': 'menu_rx_switcher_lettere', 'is_exclusive': False},
-    {'id': '3', 'key_state': 'numeri',  'label_key': 'menu_rx_switcher_numeri', 'is_exclusive': False},
-    {'id': '4', 'key_state': 'simboli', 'label_key': 'menu_rx_switcher_simboli', 'is_exclusive': False},
-    {'id': '5', 'key_state': 'qrz',     'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False},
-    {'id': '6', 'key_state': 'custom',  'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True}]
+	{'id': '1', 'key_state': 'parole',  'label_key': 'menu_rx_switcher_parole', 'is_exclusive': False},
+	{'id': '2', 'key_state': 'lettere', 'label_key': 'menu_rx_switcher_lettere', 'is_exclusive': False},
+	{'id': '3', 'key_state': 'numeri',  'label_key': 'menu_rx_switcher_numeri', 'is_exclusive': False},
+	{'id': '4', 'key_state': 'simboli', 'label_key': 'menu_rx_switcher_simboli', 'is_exclusive': False},
+	{'id': '5', 'key_state': 'qrz',     'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False},
+	{'id': '6', 'key_state': 'custom',  'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True}]
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 100
 HISTORICAL_RX_REPORT_INTERVAL = 10 # Ogni quanti esercizi generare il report
 VALID_MORSE_CHARS_FOR_CUSTOM_SET = {k for k in CWzator(msg=-1) if k != " " and k.isprintable()}
@@ -88,6 +88,12 @@ words=[]
 app_data = {}
 
 #qf
+def _clear_screen_ansi():
+	"""Pulisce lo schermo usando ANSI e posiziona il cursore in alto a sinistra."""
+	sys.stdout.write("\033[2J") # Comando ANSI per pulire l'intero schermo
+	sys.stdout.write("\033[H")  # Comando ANSI per muovere il cursore a Home (riga 1, colonna 1)
+	sys.stdout.flush()
+
 def genera_singolo_item_esercizio_misto(active_switcher_states, group_length_for_generated, 
                                         custom_set_active_string, parole_filtrate_list):
 	global overall_speed # Usato da GeneratingGroup
@@ -143,199 +149,238 @@ def genera_singolo_item_esercizio_misto(active_switcher_states, group_length_for
 
 def seleziona_modalita_rx():
 	global app_data, app_language, overall_settings_changed, words, overall_speed
-	global overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave # Per CWzator
-	global SAMPLE_RATES, WAVE_TYPES # Per CWzator
+	global overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave 
+	global SAMPLE_RATES, WAVE_TYPES 
+	global HISTORICAL_RX_MAX_SESSIONS_DEFAULT, HISTORICAL_RX_REPORT_INTERVAL 
+	global DEFAULT_DATA 
+	global RX_SWITCHER_ITEMS # Assicurati sia globale
+	global VALID_MORSE_CHARS_FOR_CUSTOM_SET # Assicurati sia globale
 
-	# 1. Carica/Inizializza stati e configurazioni
 	switcher_settings_key = 'rx_menu_switcher_states'
-	if switcher_settings_key not in app_data: # Assicura che la sezione esista
+	if switcher_settings_key not in app_data:
 		app_data[switcher_settings_key] = DEFAULT_DATA[switcher_settings_key].copy()
 	
-	current_switcher_states = app_data[switcher_settings_key].copy() # Lavora su una copia locale
-
-	# Inizializza/carica dati specifici per gli switcher "Parole" e "Custom"
-	# Questi verranno usati e potenzialmente aggiornati durante la sessione del menu
-	parole_filtrate_sessione = None # Sarà popolata se 'parole' è o diventa attivo
+	current_switcher_states = app_data[switcher_settings_key].copy()
+	parole_filtrate_sessione = None
 	custom_set_string_sessione = current_switcher_states.get('custom_set_string', "")
 
-	# Se 'parole' è attivo all'inizio e abbiamo filtri salvati, applichiamoli subito
 	if current_switcher_states.get('parole'):
 		min_len = current_switcher_states.get('parole_filter_min', 0)
 		max_len = current_switcher_states.get('parole_filter_max', 0)
-		if min_len > 0 and max_len > 0 and min_len <= max_len: # Se esiste un filtro valido salvato
-			# Applica il filtro senza chiedere all'utente
+		if min_len > 0 and max_len > 0 and min_len <= max_len:
 			parole_filtrate_sessione = [w for w in words if len(w) >= min_len and len(w) <= max_len]
-			if not parole_filtrate_sessione: # Il filtro salvato non produce risultati
-				print(Trnsl('parole_filter_no_results_on_load', lang=app_language)) # Necessaria traduzione
-				current_switcher_states['parole'] = False # Disattiva parole se il filtro non dà risultati
-				# Potremmo anche resettare i filtri salvati qui o avvisare l'utente in modo più persistente
-		# Se non c'è un filtro salvato valido, FilterWord verrà chiamato se l'utente attiva/conferma 'parole'
-
-	MENU_BASE_ROW = 3 # Riga da cui inizia la stampa effettiva del menu (1-based), lascia spazio per un titolo sopra
+			if not parole_filtrate_sessione:
+				current_switcher_states['parole'] = False 
+		else:
+			current_switcher_states['parole'] = False
 	
-	# Funzione interna per disegnare/aggiornare una singola riga dello switcher
-	def _update_switcher_display_line(index, is_on_state):
+	if current_switcher_states.get('custom') and not custom_set_string_sessione:
+		current_switcher_states['custom'] = False
+
+	MENU_BASE_ROW = 3 
+	user_message_line_row = MENU_BASE_ROW + len(RX_SWITCHER_ITEMS) + 1 # Riga per messaggi utente
+	prompt_actual_line_row = MENU_BASE_ROW + len(RX_SWITCHER_ITEMS) + 2 # Riga per il prompt effettivo <1>[2]...
+
+	# Helper per singola riga switcher (invariato dalla tua ultima implementazione)
+	def _display_single_switcher_line(index, is_on_state):
 		item_config = RX_SWITCHER_ITEMS[index]
 		riga_da_scrivere = MENU_BASE_ROW + index
 		_move_cursor(riga_da_scrivere, 1)
-		
 		label_text_trans = Trnsl(item_config['label_key'], lang=app_language)
 		status_marker = "<X>" if is_on_state else "< >"
 		status_text_trans = Trnsl('switcher_status_on_label', lang=app_language) if is_on_state else Trnsl('switcher_status_off_label', lang=app_language)
 		display_label_cased = label_text_trans.upper() if is_on_state else label_text_trans.lower()
-		
 		line_output = f"{item_config['id']}. {display_label_cased} {status_marker} {status_text_trans}"
-		sys.stdout.write(line_output)
-		_clear_line_from_cursor()
-		sys.stdout.flush()
+		sys.stdout.write(line_output); _clear_line_from_cursor(); sys.stdout.flush()
 
-	# Funzione interna per disegnare/aggiornare la riga di summary e il prompt di input
-	def _update_summary_and_prompt_line(current_states_dict):
-		summary_line_row = MENU_BASE_ROW + len(RX_SWITCHER_ITEMS)
-		_move_cursor(summary_line_row, 1)
+	# Helper per disegnare l'interfaccia e restituire la stringa di prompt
+	def _redraw_menu_interface_and_get_prompt_string(current_states_dict, message_for_user=""):
+		_move_cursor(MENU_BASE_ROW - 1, 1) 
+		sys.stdout.write(Trnsl('rx_switcher_menu_title', lang=app_language)); _clear_line_from_cursor(); print() # Titolo
+
+		for idx_draw_menu, item_config_menu in enumerate(RX_SWITCHER_ITEMS):
+			_display_single_switcher_line(idx_draw_menu, current_states_dict[item_config_menu['key_state']])
+
+		# Riga per il messaggio utente (sopra il prompt degli switcher)
+		_move_cursor(user_message_line_row, 1)
+		if message_for_user:
+			sys.stdout.write(message_for_user); _clear_line_from_cursor();
+		else:
+			_clear_line_from_cursor() # Pulisci se non ci sono messaggi
+
+		# Costruisci la stringa di prompt con lo stato degli switcher
+		_move_cursor(prompt_actual_line_row, 1) # Posiziona per dove key() stamperà il prompt
 		status_display_parts = []
-		for item_cfg in RX_SWITCHER_ITEMS:
-			is_on = current_states_dict.get(item_cfg['key_state'], False)
-			status_display_parts.append(f"[{item_cfg['id']}]" if is_on else f"<{item_cfg['id']}>")
-		summary_line_text = " ".join(status_display_parts)
-		sys.stdout.write(summary_line_text)
-		_clear_line_from_cursor()
-		prompt_line_row = summary_line_row + 1
-		_move_cursor(prompt_line_row, 1)
-		prompt_text_trans = Trnsl('rx_switcher_menu_prompt', lang=app_language)
-		sys.stdout.write(prompt_text_trans) # Es. "Scegli (1-6) o Invio: "
-		_clear_line_from_cursor()
+		for item_cfg_summary in RX_SWITCHER_ITEMS:
+			is_on_summary = current_states_dict.get(item_cfg_summary['key_state'], False)
+			status_display_parts.append(f"[{item_cfg_summary['id']}]" if is_on_summary else f"<{item_cfg_summary['id']}>")
+		
+		# La stringa di prompt che verrà passata a key()
+		# key() stamperà questa stringa e poi attenderà l'input sulla stessa riga
+		prompt_string_for_key_func = " ".join(status_display_parts) + ": " 
+		sys.stdout.write(prompt_string_for_key_func) # Stampa il prompt
+		_clear_line_from_cursor() # Pulisce il resto della riga
+		sys.stdout.flush() # Assicura che sia visibile
+		return prompt_string_for_key_func # Restituisci per key(), anche se già stampato.
+                                          # O modifica key() per non stampare se prompt è None/vuoto
+                                          # Oppure, se key() stampa sempre il suo prompt, questa funzione
+                                          # non dovrebbe fare sys.stdout.write(prompt_string_for_key_func)
+                                          # ma solo costruirla e restituirla.
+                                          # Per ora, la stampo qui e la passo a key(),
+                                          # sperando che key() non la ristampi o che la sovrascrittura sia ok.
+                                          # L'IDEALE SAREBBE: key() prende il prompt e lo stampa.
+                                          # Quindi questa funzione NON dovrebbe stampare l'ultima riga, ma solo restituirla.
+
+	# Per un'esperienza utente migliore con key(), modifichiamo _redraw_menu_interface_and_get_prompt_string
+	# per NON stampare l'ultima riga del prompt, ma solo costruirla e restituirla.
+	# La funzione key() si occuperà di stamparla.
+
+	def _redraw_menu_interface_for_key_prompt(current_states_dict, message_for_user=""):
+		# Stampa titolo e righe switcher (come sopra)
+		_move_cursor(MENU_BASE_ROW - 1, 1) 
+		sys.stdout.write(Trnsl('rx_switcher_menu_title', lang=app_language)); _clear_line_from_cursor(); print()
+
+		for idx_redraw, item_config_redraw in enumerate(RX_SWITCHER_ITEMS):
+			_display_single_switcher_line(idx_redraw, current_states_dict[item_config_redraw['key_state']])
+
+		# Riga per il messaggio utente
+		_move_cursor(user_message_line_row, 1)
+		if message_for_user:
+			sys.stdout.write(message_for_user); _clear_line_from_cursor();
+		else:
+			_clear_line_from_cursor()
+		
+		# Costruisci la stringa prompt per key()
+		status_display_parts = []
+		for item_cfg_key_prompt in RX_SWITCHER_ITEMS:
+			is_on_key_prompt = current_states_dict.get(item_cfg_key_prompt['key_state'], False)
+			status_display_parts.append(f"[{item_cfg_key_prompt['id']}]" if is_on_key_prompt else f"<{item_cfg_key_prompt['id']}>")
+		
+		# La riga effettiva dove key() stamperà il suo prompt e attenderà input
+		_move_cursor(prompt_actual_line_row, 1) 
+		_clear_line_from_cursor() # Pulisci la riga del prompt prima che key() scriva
 		sys.stdout.flush()
-		return prompt_line_row, len(prompt_text_trans) # Restituisce riga e offset per input()
-	# Disegna il menu iniziale
-	_move_cursor(MENU_BASE_ROW -1, 1) # Riga per il titolo
-	sys.stdout.write(Trnsl('rx_switcher_menu_title', lang=app_language)); _clear_line_from_cursor(); print() # Aggiunto print() per newline dopo titolo
-	for idx, item_config_loop in enumerate(RX_SWITCHER_ITEMS):
-		_update_switcher_display_line(idx, current_switcher_states[item_config_loop['key_state']])
+		return " ".join(status_display_parts) + ": " # Stringa da passare a key(prompt=...)
+	user_message_content = "" 
+	# Loop Principale del Menu
 	while True:
-		riga_per_input, colonna_per_input_offset = _update_summary_and_prompt_line(current_switcher_states)
-		_move_cursor(riga_per_input, colonna_per_input_offset + 1) # Posiziona cursore per input()
-		scelta = input()
-
-		if not scelta: # INVIO per iniziare l'esercizio
-			active_standard_kinds_list = [item['key_state'] for item in RX_SWITCHER_ITEMS if current_switcher_states.get(item['key_state'])]
-			
-			if not active_standard_kinds_list:
-				_move_cursor(riga_per_input + 1, 1); sys.stdout.write(Trnsl('rx_switcher_no_selection_error', lang=app_language)); _clear_line_from_cursor(); time.sleep(1.5)
-				_move_cursor(riga_per_input + 1, 1); _clear_line_from_cursor() # Pulisci messaggio errore
+		prompt_string = _redraw_menu_interface_for_key_prompt(current_switcher_states, user_message_content)
+		user_message_content = "" # Resetta messaggio dopo averlo preparato per la visualizzazione
+		scelta = key(prompt=prompt_string) 
+		if not scelta or scelta == "\r": # INVIO (key() potrebbe restituire "" o "\r" per Invio)
+			active_switches_final = [item['key_state'] for item in RX_SWITCHER_ITEMS if current_switcher_states.get(item['key_state'])]
+			if not active_switches_final:
+				user_message_content = Trnsl('rx_switcher_no_selection_error', lang=app_language)
+				CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 				continue
-
-			group_len = 0
-			# Chiedi lunghezza solo se uno switcher che la usa è attivo (lettere, numeri, simboli, custom)
-			if any(s in ['lettere', 'numeri', 'simboli', 'custom'] for s in active_standard_kinds_list):
-				_move_cursor(riga_per_input + 1, 1)
-				prompt_len = Trnsl('rx_switcher_group_length_prompt', lang=app_language)
-				sys.stdout.write(prompt_len); _clear_line_from_cursor(); sys.stdout.flush()
-				_move_cursor(riga_per_input + 1, len(prompt_len) + 1)
-				len_str = input()
-				if len_str.isdigit() and 1 <= int(len_str) <= 7:
-					group_len = int(len_str)
+			if current_switcher_states.get('parole') and not parole_filtrate_sessione:
+				user_message_content = Trnsl('parole_filter_not_set_error', lang=app_language)
+				CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+				continue
+			if current_switcher_states.get('custom') and (not custom_set_string_sessione or len(custom_set_string_sessione) < 2):
+				user_message_content = Trnsl('custom_set_invalid_or_empty_error', lang=app_language)
+				CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+				continue
+			group_len_val_final = 0
+			# Determina se chiedere la lunghezza del gruppo
+			ask_for_length = False
+			if current_switcher_states.get('lettere') or \
+			   current_switcher_states.get('numeri') or \
+			   current_switcher_states.get('simboli'):
+				ask_for_length = True
+			if ask_for_length:
+				_move_cursor(prompt_actual_line_row + 1, 1) 
+				prompt_len_text_final = Trnsl('rx_switcher_group_length_prompt', lang=app_language)
+				# Dobbiamo passare il prompt a key() o usare input() per la lunghezza
+				# Usiamo input() per la lunghezza per semplicità, dato che key() è per singolo carattere
+				sys.stdout.write(prompt_len_text_final); _clear_line_from_cursor(); sys.stdout.flush()
+				_move_cursor(prompt_actual_line_row + 1, len(prompt_len_text_final) + 1)
+				len_str_final = input()
+				if len_str_final.isdigit() and 1 <= int(len_str_final) <= 7:
+					group_len_val_final = int(len_str_final)
 				else:
-					_move_cursor(riga_per_input + 2, 1); sys.stdout.write(Trnsl('rx_switcher_invalid_length_error', lang=app_language)); _clear_line_from_cursor(); time.sleep(1.5)
-					_move_cursor(riga_per_input + 2, 1); _clear_line_from_cursor()
+					user_message_content = Trnsl('rx_switcher_invalid_length_error', lang=app_language)
+					CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 					continue
-			
-			# Salva lo stato finale degli switcher e le configurazioni associate
-			app_data[switcher_settings_key] = current_switcher_states.copy() # Salva tutti gli stati ON/OFF
-			# parole_filter_min/max e custom_set_string sono già aggiornati in current_switcher_states se modificati
+			app_data[switcher_settings_key].update(current_switcher_states) 
 			overall_settings_changed = True
-			
-			# Pulisci l'area del menu prima di uscire (opzionale, ma buona pratica)
-			for i in range(len(RX_SWITCHER_ITEMS) + 3): # Titolo + items + riga summary + riga prompt
-			    _move_cursor(MENU_BASE_ROW -1 + i, 1)
-			    _clear_line_from_cursor()
-			_move_cursor(MENU_BASE_ROW,1) # Riposiziona il cursore all'inizio dell'area menu
-
+			for i_clean_final in range(len(RX_SWITCHER_ITEMS) + 4): 
+				_move_cursor(MENU_BASE_ROW - 1 + i_clean_final, 1)
+				_clear_line_from_cursor()
+			_move_cursor(MENU_BASE_ROW, 1)
 			return {
-				"active_switcher_states": current_switcher_states, # Passa l'intero dizionario degli stati
-				"parole_filtrate": parole_filtrate_sessione if current_switcher_states.get('parole') else None,
-				"custom_set_string": custom_set_string_sessione if current_switcher_states.get('custom') else None,
-				"group_length": group_len
+				"active_switcher_states": current_switcher_states,
+				"parole_filtrate_list": parole_filtrate_sessione if current_switcher_states.get('parole') else None,
+				"custom_set_string_active": custom_set_string_sessione if current_switcher_states.get('custom') else None,
+				"group_length_for_generated": group_len_val_final 
 			}
 
 		elif scelta.isdigit() and '1' <= scelta <= str(len(RX_SWITCHER_ITEMS)):
 			chosen_idx = int(scelta) - 1
-			item_key_selected = RX_SWITCHER_ITEMS[chosen_idx]['key_state']
+			item_key_toggle_loop = RX_SWITCHER_ITEMS[chosen_idx]['key_state']
 			
-			# Toggle dello stato
-			current_switcher_states[item_key_selected] = not current_switcher_states[item_key_selected]
-			overall_settings_changed = True # Lo stato è cambiato, segna per salvare
-
-			# Logica specifica se si ATTIVA "Parole" o "Custom"
-			if current_switcher_states[item_key_selected]: # Se lo switcher è stato appena ATTIVATO
-				if item_key_selected == 'parole':
-					# Se non ci sono filtri validi salvati o se parole_filtrate_sessione non è ancora stato impostato
-					min_len_saved = current_switcher_states.get('parole_filter_min', 0)
-					max_len_saved = current_switcher_states.get('parole_filter_max', 0)
-					if not (min_len_saved > 0 and max_len_saved > 0 and min_len_saved <= max_len_saved and parole_filtrate_sessione is not None) :
-						_move_cursor(riga_per_input + 1, 1); sys.stdout.write(Trnsl('parole_filter_invoking', lang=app_language)); _clear_line_from_cursor(); time.sleep(0.2)
-						# Chiamata a FilterWord e salvataggio dei nuovi min/max
-						# FilterWord modifica la lista 'words' globale o restituisce una nuova lista? Assumiamo restituisca una nuova lista.
-						# 'words' è la lista globale non filtrata.
-						# Dobbiamo passare la lista 'words' originale a FilterWord.
-						# Il risultato di FilterWord (che è una lista di parole) lo salviamo in parole_filtrate_sessione.
-						# FilterWord chiede min/max all'utente. Quei min/max vanno salvati in current_switcher_states.
-						# Questo richiede che FilterWord restituisca anche min/max, o che li chiediamo qui.
-						# Semplifichiamo: FilterWord chiede e filtra. Qui non salviamo min/max se non modifichiamo FilterWord.
-						# Per ora, chiamiamo FilterWord che chiederà all'utente.
-						# Per salvare min/max, FilterWord dovrebbe restituirli o dovremmo chiederli qui.
-						# Per ora, non salvo i min/max chiesti da FilterWord, ma uso la lista filtrata.
-						# Per un salvataggio corretto dei min/max, FilterWord andrebbe adattata o la logica di input min/max fatta qui.
-						#
-						# **MODIFICA TEMPORANEA PER SEMPLICITA' QUI:**
-						# Assumiamo che FilterWord sia già stato chiamato se i filtri sono presenti,
-						# altrimenti, se l'utente attiva 'parole' e i filtri NON sono buoni,
-						# deve usare il comando .tL-M per impostarli. Qui attiviamo solo lo switcher.
-						# Se i filtri non sono buoni, parole_filtrate_sessione sarà None e l'esercizio parole non partirà.
-						# Questo evita di chiamare FilterWord (che ha il suo loop di input) da dentro questo menu.
-						# L'utente userà .tL-M per impostare i filtri.
-						if min_len_saved > 0 and max_len_saved > 0 and min_len_saved <= max_len_saved:
-						    parole_filtrate_sessione = [w for w in words if len(w) >= min_len_saved and len(w) <= max_len_saved]
-						    if not parole_filtrate_sessione:
-						        _move_cursor(riga_per_input + 1, 1); sys.stdout.write(Trnsl('parole_filter_no_results_with_saved', lang=app_language)); _clear_line_from_cursor(); time.sleep(1.5) # Crea traduzione
-						        _move_cursor(riga_per_input + 1, 1); _clear_line_from_cursor()
-						        current_switcher_states['parole'] = False # Disattiva se non ci sono risultati
-						else: # Filtri salvati non validi, l'utente deve usare .tL-M
-						    _move_cursor(riga_per_input + 1, 1); sys.stdout.write(Trnsl('parole_filter_use_dot_command', lang=app_language)); _clear_line_from_cursor(); time.sleep(1.5) # Crea traduzione
-						    _move_cursor(riga_per_input + 1, 1); _clear_line_from_cursor()
-						    current_switcher_states['parole'] = False # Disattiva se i filtri non sono impostati
-
-				elif item_key_selected == 'custom':
-					# Se il custom_set_string salvato è vuoto o se custom_set_string_sessione non è (ancora) valido
+			current_switcher_states[item_key_toggle_loop] = not current_switcher_states[item_key_toggle_loop]
+			# Non impostare overall_settings_changed qui, ma solo all'uscita con Invio
+			
+			if current_switcher_states[item_key_toggle_loop]: # Se è stato appena ATTIVATO
+				if item_key_toggle_loop == 'parole':
+					min_len_saved_loop = current_switcher_states.get('parole_filter_min', 0)
+					max_len_saved_loop = current_switcher_states.get('parole_filter_max', 0)
+					if not (min_len_saved_loop > 0 and max_len_saved_loop > 0 and min_len_saved_loop <= max_len_saved_loop):
+						user_message_content = Trnsl('parole_filter_use_dot_command', lang=app_language)
+						current_switcher_states['parole'] = False 
+						parole_filtrate_sessione = None
+					else:
+						parole_filtrate_sessione = [w for w in words if len(w) >= min_len_saved_loop and len(w) <= max_len_saved_loop]
+						if not parole_filtrate_sessione:
+							user_message_content = Trnsl('parole_filter_no_results_with_saved', lang=app_language)
+							current_switcher_states['parole'] = False
+						else:
+							user_message_content = Trnsl('parole_filter_applied_from_settings', lang=app_language, count=len(parole_filtrate_sessione))
+				
+				elif item_key_toggle_loop == 'custom':
 					if not custom_set_string_sessione or len(custom_set_string_sessione) < 2:
-						_move_cursor(riga_per_input + 1, 1); sys.stdout.write(Trnsl('custom_set_invoking', lang=app_language)); _clear_line_from_cursor(); time.sleep(0.2)
-						# CustomSet ora ha la sua logica di prefill.
-						# overall_speed è necessario per il feedback CW in CustomSet.
-						custom_set_string_nuovo = CustomSet(overall_speed)
+						# Pulisci l'area del menu prima di chiamare CustomSet
+						for i_clean_cs in range(len(RX_SWITCHER_ITEMS) + 4): _move_cursor(MENU_BASE_ROW -1 + i_clean_cs, 1); _clear_line_from_cursor()
+						_move_cursor(1,1); sys.stdout.write(Trnsl('custom_set_invoking', lang=app_language) + "\n\n"); sys.stdout.flush()
+						
+						custom_set_string_nuovo = CustomSet(overall_speed) # CustomSet ora usa \n nel suo prompt
+						
+						# Dopo CustomSet, è necessario ridisegnare il menu switcher,
+						# quindi non stampiamo messaggi qui che verrebbero sovrascritti.
+						# Il loop principale ridisegnerà tutto.
 						if len(custom_set_string_nuovo) >= 2:
 							custom_set_string_sessione = custom_set_string_nuovo
-							current_switcher_states['custom_set_string'] = custom_set_string_nuovo # Salva il nuovo set
-						else: # L'utente è uscito da CustomSet senza un set valido
-							current_switcher_states['custom'] = False # Disattiva lo switcher Custom
-							custom_set_string_sessione = "" # Resetta
+							current_switcher_states['custom_set_string'] = custom_set_string_nuovo 
+						else:
+							user_message_content = Trnsl('custom_set_not_created_deactivating', lang=app_language)
+							current_switcher_states['custom'] = False
+							custom_set_string_sessione = ""
 							current_switcher_states['custom_set_string'] = ""
-					# Se custom_set_string_sessione era già valido e caricato, non serve richiamare CustomSet
-					# a meno che non si voglia permettere la modifica ogni volta che si attiva.
-					# Per ora, se esiste e valido, si usa. L'utente userà .y per modificarlo.
-					# Se lo switcher custom viene disattivato, custom_set_string_sessione rimane, ma lo switcher è off.
+					else: 
+						user_message_content = Trnsl('custom_set_loaded_from_settings', lang=app_language, set_string=custom_set_string_sessione) 
+			
+			# Aggiornamento visivo immediato solo per la riga dello switcher toccato
+			# (il summary e il prompt verranno ridisegnati dal ciclo principale)
+			# Questo non è necessario se _redraw_menu_interface_for_key_prompt ridisegna tutto ogni volta.
+			# _display_single_switcher_line(chosen_idx, current_switcher_states[item_key_toggle_loop])
+			# E la riga summary andrebbe aggiornata.
+			# Per semplicità, il loop principale che chiama _redraw_menu_interface_for_key_prompt gestirà il ridisegno completo.
+			pass # L'intero menu verrà ridisegnato all'inizio del prossimo ciclo.
 
-			# Aggiorna solo la riga modificata del menu
-			_update_switcher_display_line(chosen_idx, current_switcher_states[item_key_selected])
-		else: # Input non valido
+		else: # Input non valido (non Invio, non 1-6)
+			user_message_content = Trnsl('invalid_menu_choice', lang=app_language)
 			CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-			time.sleep(0.5)
-	return None
+			# Non c'è bisogno di time.sleep(0.5) qui perché il loop ridisegnerà il menu
+			# e il messaggio, e attenderà il prossimo input.
 
-def move_cursor(riga, colonna):
+	return None # Non dovrebbe essere raggiunto
+
+def _move_cursor(riga, colonna):
 	"""Muove il cursore alla riga e colonna specificata (1-based)."""
 	sys.stdout.write(f"\033[{riga};{colonna}H")
 
-def clear_line_from_cursor():
+def _clear_line_from_cursor():
 	"""Pulisce la linea dalla posizione attuale del cursore fino alla fine."""
 	sys.stdout.write("\033[K")
 
@@ -365,7 +410,7 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 	text_color = 'white'
 	color_error_very_high = '#B22222' # Firebrick, un rosso cupo
 	color_error_high = '#FF4136' # Rosso
-	color_warning = '#FF851B'    # Arancio
+	color_warning = '#FF851B'
 	color_neutral = '#FFDC00'    # Giallo
 	color_good = '#2ECC40'       # Verde
 	color_excellent = '#7FDBFF'  # Azzurro Chiaro
@@ -458,46 +503,30 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 
 	bar_draw_height = 0.35 # Altezza di una singola barra (es. corrente o precedente) in coordinate dati dell'asse Y di ax_wpm
 	                       # (0.35 significa che ogni barra occupa il 35% dello spazio verticale allocato alla sua metrica)
-
 	for i, metric in enumerate(wpm_metrics_data):
 		y_group_center = y_tick_positions[i] # Il centro del gruppo di barre per questa metrica (0, 1, 2)
-
-		# Barra di sfondo (scala) - opzionale, ma può aiutare a dare contesto
 		ax_wpm.barh(y_group_center, wpm_scale_max - wpm_scale_min, height=bar_draw_height * 2.2, left=wpm_scale_min, 
-		            color='#555555', edgecolor=text_color, linewidth=0.5, zorder=1, alpha=0.5)
-
-		# Valore precedente (se esiste) - disegnato sopra la linea centrale del gruppo
-		y_prev_bar_pos = y_group_center - bar_draw_height / 2.1 # Leggermente sopra il centro (- perché asse Y è invertito)
+					color='#555555', edgecolor=text_color, linewidth=0.5, zorder=1, alpha=0.5)
+		y_curr_bar_pos = y_group_center - bar_draw_height / 2.1 # MODIFICATO: ora ha il '-' per andare più in alto
+		ax_wpm.barh(y_curr_bar_pos, metric['curr'] - wpm_scale_min, height=bar_draw_height, left=wpm_scale_min, 
+					color=color_good, zorder=3, edgecolor=text_color, linewidth=0.5)
+		ax_wpm.text(metric['curr'] + 0.015 * wpm_scale_max, y_curr_bar_pos, f"{metric['curr']:.2f}", 
+					color=text_color, ha='left', va='center', fontsize=9, weight='bold')
+		y_prev_bar_pos = y_group_center + bar_draw_height / 2.1 # MODIFICATO: ora ha il '+' per andare più in basso
 		if metric['prev'] is not None:
 			ax_wpm.barh(y_prev_bar_pos, metric['prev'] - wpm_scale_min, height=bar_draw_height, left=wpm_scale_min, 
-			            color=color_neutral, zorder=2, alpha=0.8, edgecolor=text_color, linewidth=0.5)
+						color=color_neutral, zorder=2, alpha=0.8, edgecolor=text_color, linewidth=0.5)
 			ax_wpm.text(metric['prev'] + 0.015 * wpm_scale_max, y_prev_bar_pos, f"{metric['prev']:.2f}", 
-			            color=text_color, ha='left', va='center', fontsize=9)
-		
-		# Valore corrente - disegnato sotto la linea centrale del gruppo
-		y_curr_bar_pos = y_group_center + bar_draw_height / 2.1 # Leggermente sotto il centro (+ perché asse Y è invertito)
-		ax_wpm.barh(y_curr_bar_pos, metric['curr'] - wpm_scale_min, height=bar_draw_height, left=wpm_scale_min, 
-		            color=color_good, zorder=3, edgecolor=text_color, linewidth=0.5)
-		ax_wpm.text(metric['curr'] + 0.015 * wpm_scale_max, y_curr_bar_pos, f"{metric['curr']:.2f}", 
-		            color=text_color, ha='left', va='center', fontsize=9, weight='bold')
-
-		# Variazione testuale (posizionata a destra dell'area del grafico ax_wpm, usando coordinate della figura)
+						color=text_color, ha='left', va='center', fontsize=9)
 		if metric['prev'] is not None:
 			delta = metric['curr'] - metric['prev']
 			color_txt, symbol = get_delta_color_and_symbol(delta, higher_is_better=metric['higher_better'], tolerance=0.05)
 			perc_delta_str = f" ({(delta / metric['prev'] * 100):+.2f}%)" if metric['prev'] != 0 else ""
-			
-			# Calcola la posizione y per fig.text allineata verticalmente con y_group_center di ax_wpm
-			# (0,0) di ax_wpm è (ax_wpm_left, ax_wpm_bottom) in coordinate figura
-			# L'asse y di ax_wpm va da 0 a num_wpm_metrics-1 (invertito). y_group_center è in queste coordinate.
-			# Normalizziamo y_group_center rispetto all'altezza di ax_wpm e poi scaliamo per ax_wpm_needed_height_fig
-			# L'asse Y di ax_wpm è invertito, quindi y_group_center=0 è in alto.
-			norm_y_in_ax = (y_group_center + 0.5) / num_wpm_metrics # +0.5 per centrare nel "blocco" della metrica
-			y_fig_coord_for_text = ax_wpm_bottom + (1 - norm_y_in_ax) * ax_wpm_needed_height_fig # (1-norm) perché y_cursor è top-down
-
+			norm_y_in_ax = (y_group_center + 0.5) / num_wpm_metrics 
+			y_fig_coord_for_text = ax_wpm_bottom + (1 - norm_y_in_ax) * ax_wpm_needed_height_fig 
 			fig.text(ax_variation_text_left, y_fig_coord_for_text, 
-			         f"{symbol} {delta:+.2f}{perc_delta_str}", color=color_txt, 
-			         ha='left', va='center', fontsize=10)
+					 f"{symbol} {delta:+.2f}{perc_delta_str}", color=color_txt, 
+					 ha='left', va='center', fontsize=10)
 	# Aggiungi una legenda solo se ci sono dati precedenti da mostrare
 	if any(metric['prev'] is not None for metric in wpm_metrics_data):
 		legend_elements = [
@@ -951,9 +980,21 @@ def KeyboardCW():
 		elif msg == "?? ":
 			current_max_sessions_g_val = app_data.get('historical_rx_data', {}).get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
 			current_report_interval_x_val = app_data.get('historical_rx_data', {}).get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
-			print(f"WPM: {overall_speed}, Hz: {overall_pitch}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {WAVE_TYPES[overall_wave]}, MS: {overall_ms}, FS: {SAMPLE_RATES[overall_fs]}.")
-			print(f"\tMax Exercises History (g): {current_max_sessions_g_val}, Report Interval (x): {current_report_interval_x_val}") # Visualizza i valori qui
-			msg_for_cw = "" 
+			switcher_states_config = app_data.get('rx_menu_switcher_states', {})
+			parole_min = switcher_states_config.get('parole_filter_min', 0)
+			parole_max = switcher_states_config.get('parole_filter_max', 0)
+			custom_set_str = switcher_states_config.get('custom_set_string', "")
+			t_filter_display = f"{parole_min}-{parole_max}" if parole_min > 0 and parole_max > 0 else Trnsl('filter_not_set_label', lang=app_language)
+			y_custom_set_display = f"\"{custom_set_str}\"" if custom_set_str else Trnsl('set_empty_label', lang=app_language)
+			base_settings_line1 = f"\n\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {int(overall_volume*100)}"
+			base_settings_line2 = f"\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {WAVE_TYPES[overall_wave-1]}, MS: {overall_ms}, FS: {SAMPLE_RATES[overall_fs]}."
+			history_settings_line = f"\tMax Exercises History (g): {current_max_sessions_g_val}, Report Interval (x): {current_report_interval_x_val}."
+			new_filter_settings_line = f"\tWord Filter (T): {t_filter_display}, Custom Set (Y): {y_custom_set_display}"
+			print(base_settings_line1)
+			print(base_settings_line2)
+			print(history_settings_line)
+			print(new_filter_settings_line)
+			msg_for_cw = "bk r parameters are bk" 
 		elif msg == ".sr ":
 			new_fs_index = ItemChooser(SAMPLE_RATES)
 			if new_fs_index != overall_fs : 
@@ -972,7 +1013,6 @@ def KeyboardCW():
 		elif msg.startswith(".sv "):
 			msg_for_cw = msg[4:] 
 			tosave = True
-		
 		elif msg.startswith("."):
 			command_candidate_str = msg[1:].strip() # Es. "y", "t2-5", "w20"
 			cmd_letter_parsed = ""
@@ -1004,11 +1044,11 @@ def KeyboardCW():
 					if custom_string_result:
 						feedback_cw = Trnsl('custom_set_updated_short_feedback', lang=app_language, num_chars=len(custom_string_result))
 					else:
-						feedback_cw = "bk custom set empty bk"
+						feedback_cw = "bk r custom set empty bk"
 					command_processed_internally = True
 					print("\n" + Trnsl("h_keyboard", lang=app_language))
-				else: # Input come ".yalfa"
-					feedback_cw = "?" # Considerato errore di formato
+				else:
+					feedback_cw = "?"
 					command_processed_internally = True # Gestito come errore, non inviare come CW
 			elif cmd_letter_parsed == 't':
 				if is_value_special_format and '-' in value_str_parsed:
@@ -1024,12 +1064,12 @@ def KeyboardCW():
 							app_data['rx_menu_switcher_states']['parole_filter_min'] = p_min_validated
 							app_data['rx_menu_switcher_states']['parole_filter_max'] = p_max_validated
 							overall_settings_changed = True
-						feedback_cw = f"bk word filter {p_min_validated}-{p_max_validated} bk"
+						feedback_cw = f"bk r word filter is {p_min_validated} {p_max_validated} bk"
 						command_processed_internally = True
 					else: # Formato L-M non corretto dopo .t
 						feedback_cw = "?"
 						command_processed_internally = True 
-				else: # Manca il valore L-M dopo .t o formato errato
+				else:
 					feedback_cw = "?"
 					command_processed_internally = True
 			elif is_value_numeric_type and value_int_parsed is not None:
@@ -1043,7 +1083,7 @@ def KeyboardCW():
 						if len(sessions_log) > new_val_g: 
 							app_data['historical_rx_data']['sessions_log'] = sessions_log[-new_val_g:]
 						overall_settings_changed = True
-					feedback_cw = f"bk max exercises {new_val_g} bk" # Modificato per chiarezza
+					feedback_cw = f"bk r max exercises is {new_val_g} bk"
 					command_processed_internally = True
 				elif cmd_letter_parsed == "x":
 					min_val_x, max_val_x = 3, 30
@@ -1052,7 +1092,7 @@ def KeyboardCW():
 					if actual_val_x != new_val_x:
 						app_data['historical_rx_data']['report_interval'] = new_val_x
 						overall_settings_changed = True
-					feedback_cw = f"bk report interval {new_val_x} bk" # Modificato
+					feedback_cw = f"bk r report interval is {new_val_x} bk"
 					command_processed_internally = True
 				elif cmd_letter_parsed=="w":
 					if overall_speed != value_int_parsed:
@@ -1394,12 +1434,12 @@ def Rxing():
                 totaltime=str(totaltime).split('.')[0]))	
 	callssend=[]; average_rwpm=0.0 
 	dz_mistakes={}
-	calls = 1             # Contatore progressivo per la sessione corrente (mostrato nel prompt)
-	callsget = []         # Lista dei qrz/gruppi indovinati CORRETTAMENTE in questa sessione
-	callswrong = []       # Lista dei qrz/gruppi ORIGINALI che sono stati sbagliati in questa sessione
-	callsrepeated = 0     # Contatore di quanti item corretti sono stati indovinati dopo una ripetizione
-	minwpm = 100          # WPM minimo raggiunto in questa sessione (inizializzato alto)
-	maxwpm = 0            # WPM massimo raggiunto in questa sessione (inizializzato basso)
+	calls = 1
+	callsget = []
+	callswrong = []
+	callsrepeated = 0
+	minwpm = 100
+	maxwpm = 0
 	repeatedflag = False  # Flag per indicare se l'ultimo item è stato ripetuto
 	# Carica le impostazioni per la cronologia all'inizio della sessione Rxing
 	historical_rx_settings = app_data.get('historical_rx_data', {})
@@ -1414,6 +1454,7 @@ def Rxing():
 	parole_filtrate_per_sessione = menu_config_scelta['parole_filtrate_list']
 	custom_set_attivo_per_sessione = menu_config_scelta['custom_set_string_active']
 	lunghezza_gruppo_per_generati = menu_config_scelta['group_length_for_generated']
+	_clear_screen_ansi()
 	active_labels_for_display = []
 	for item_cfg_ks in RX_SWITCHER_ITEMS:
 		if active_states.get(item_cfg_ks['key_state']):
@@ -1456,7 +1497,7 @@ def Rxing():
 				partial_input = guess[:-1]
 				prompt_indicator = f"% {partial_input}"
 			prompt = f"S{sessions}-#{calls} - WPM{rwpm:.0f}/{(average_rwpm / len(callsget) if len(callsget) else rwpm):.2f} - +{len(callsget)}/-{len(callswrong)} - {prompt_indicator}"
-			plo,rwpm=CWzator(msg=qrz, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+			plo,rwpm=CWzator(msg=qrz_to_send, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 			new_guess = dgt(prompt=prompt, kind="s", smin=0, smax=64) 
 			if new_guess == ".":
 				needs_processing = False
@@ -1464,7 +1505,7 @@ def Rxing():
 			else:
 				guess = partial_input + new_guess
 		if needs_processing:
-			original_qrz = qrz.lower()
+			original_qrz = qrz_to_send
 			callssend.append(original_qrz)
 			guess = guess.lower()
 			if original_qrz == guess:
@@ -1727,7 +1768,6 @@ def generate_historical_rx_report():
 			f.write("<head>\n")
 			f.write("    <meta charset=\"UTF-8\">\n")
 			f.write(f"    <title>{Trnsl('historical_stats_report_title', lang=app_language)} G{g_value} X{x_value}</title>\n")
-			# --- CSS STYLES ---
 			f.write("    <style>\n")
 			f.write("        body { background-color: #282c34; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }\n")
 			f.write("        .container { max-width: 1200px; margin: auto; background-color: #333740; padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.5); }\n")
@@ -1938,11 +1978,13 @@ overall_ms = overall_settings.get('ms', 1)
 overall_fs = overall_settings.get('fs_index', 5)
 overall_wave = overall_settings.get('wave_index', 1)
 session_speed = overall_speed # Imposta session_speed iniziale
-print(Trnsl('welcome_message', lang=app_language, version=VERS, count=launch_count)) # Aggiunto count=launch_count
+_clear_screen_ansi()
+print(Trnsl('welcome_message', lang=app_language, version=VERSION, count=launch_count)) # Aggiunto count=launch_count
 print(f"\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {int(overall_volume*100)}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {WAVE_TYPES[overall_wave-1]}, MS:	{overall_ms}, FS: {SAMPLE_RATES[overall_fs]}.")
 
 while True:
 	k=menu(d=MNMAIN,show=False,keyslist=True,full_keyslist=False, ntf=Trnsl('not_a_command', lang=app_language))
+	_clear_screen_ansi()
 	if k=="c": Count()
 	elif k=="t": Txing()
 	elif k=="r": Rxing()
@@ -1973,5 +2015,7 @@ app_data['overall_settings'].update({
     "wave_index": overall_wave # Salva l'indice numerico
 })
 save_settings(app_data)
+print("hpe cuagn - 73 de I4APU - Gabe in Bologna, JN54pl.")
 CWzator(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], sync=False, wv=overall_wave)
+_clear_screen_ansi()
 sys.exit()

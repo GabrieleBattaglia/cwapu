@@ -2883,3 +2883,75 @@ Elenco delle parole copiate male:
 	(39) TX: SABBA, RX: SABBI, DIF: A;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #214 eseguito il 2025/6/5 alle 13, 28 minuti:
+In questa sessione #214, ti ho inviato 20 Numeri e ne hai ricevuti 18: 90.0%
+	15 di questi sono stati ricevuti al primo ascolto: 83.3%
+	mentre 3 Numeri al secondo tentativo: 16.7%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 31: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 31.0 WPM.
+Carattere: errori = Percentuale
+    '7': 1 (1.67% dei car. tot., 20.00% delle '7' inviate)
+    '8': 1 (1.67% dei car. tot., 10.00% delle '8' inviate)
+
+Errori totali: 2 su 60 = 3.33%
+Caratteri mai sbagliati: 0 1 2 3 4 5 6 9
+Elenco delle parole copiate male:
+	(15) TX: 948, RX: 947, DIF: 8;
+	(19) TX: 787, RX: 786, DIF: 7;
+Nota: nessuna
+***
+
+Esercizio di ricezione #215 eseguito il 2025/6/5 alle 19, 16 minuti:
+In questa sessione #215, ti ho inviato 20 Numeri e ne hai ricevuti 19: 95.0%
+	19 di questi sono stati ricevuti al primo ascolto: 100.0%
+	mentre 0 Numeri al secondo tentativo: 0.0%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 31: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 31.0 WPM.
+Carattere: errori = Percentuale
+    '2': 1 (1.67% dei car. tot., 12.50% delle '2' inviate)
+
+Errori totali: 1 su 60 = 1.67%
+Caratteri mai sbagliati: 0 1 3 4 5 6 7 8 9
+Elenco delle parole copiate male:
+	(15) TX: 462, RX: 463, DIF: 2;
+Nota: nessuna
+***
+
+Esercizio di ricezione #216 eseguito il 2025/6/5 alle 21, 7 minuti:
+In questa sessione #216, ti ho inviato 15 Lettere e ne hai ricevuti 14: 93.3%
+	14 di questi sono stati ricevuti al primo ascolto: 100.0%
+	mentre 0 Lettere al secondo tentativo: 0.0%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 31: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 31.0 WPM.
+Carattere: errori = Percentuale
+    'B': 1 (3.33% dei car. tot., 50.00% delle 'B' inviate)
+
+Errori totali: 1 su 30 = 3.33%
+Caratteri mai sbagliati: A C D F G I J L M N O P Q T V W X Z
+Elenco delle parole copiate male:
+	(5) TX: GB, RX: GD, DIF: B;
+Nota: nessuna
+***
+
+Esercizio di ricezione #217 eseguito il 2025/6/5 alle 22, 52 minuti:
+In questa sessione #217, ti ho inviato 30 Misto (Parole, Lettere, Numeri) e ne hai ricevuti 26: 86.7%
+	22 di questi sono stati ricevuti al primo ascolto: 84.6%
+	mentre 4 Misto (Parole, Lettere, Numeri) al secondo tentativo: 15.4%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 34: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 34.0 WPM.
+Carattere: errori = Percentuale
+    'H': 1 (1.30% dei car. tot., 33.33% delle 'H' inviate)
+    'I': 1 (1.30% dei car. tot., 25.00% delle 'I' inviate)
+    'U': 1 (1.30% dei car. tot., 16.67% delle 'U' inviate)
+    'Z': 1 (1.30% dei car. tot., 100.00% delle 'Z' inviate)
+
+Errori totali: 4 su 77 = 5.19%
+Caratteri mai sbagliati: 0 1 2 4 5 8 A B C D E F G J K M N O P R S T V W
+Elenco delle parole copiate male:
+	(2) TX: UR, RX: VR, DIF: U;
+	(4) TX: BARI, RX: BARE, DIF: I;
+	(19) TX: JZ, RX: JG, DIF: Z;
+	(25) TX: DEH, RX: DES, DIF: H;
+Nota: nessuna
+***

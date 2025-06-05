@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 88
+        "launch_count": 93
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 30,
+        "speed": 34,
         "pitch": 550,
         "dashes": 30,
         "spaces": 50,
@@ -15,154 +15,30 @@
         "wave_index": 1
     },
     "rxing_stats": {
-        "total_calls": 8428,
-        "sessions": 214,
-        "total_correct": 5647,
-        "total_wrong_items": 2779,
-        "total_time_seconds": 36766.532334
+        "total_calls": 8513,
+        "sessions": 218,
+        "total_correct": 5724,
+        "total_wrong_items": 2787,
+        "total_time_seconds": 37102.944122
     },
     "counting_stats": {
         "exercise_number": 100
     },
+    "rx_menu_switcher_states": {
+        "parole": true,
+        "lettere": true,
+        "numeri": true,
+        "simboli": false,
+        "qrz": false,
+        "custom": false,
+        "parole_filter_min": 1,
+        "parole_filter_max": 5,
+        "custom_set_string": "abdeinrstu"
+    },
     "historical_rx_data": {
-        "max_sessions_to_keep": 50,
+        "max_sessions_to_keep": 70,
         "report_interval": 3,
         "sessions_log": [
-            {
-                "timestamp_iso": "2025-05-20T14:24:05.195197",
-                "duration_seconds": 83.361094,
-                "wpm_min": 41,
-                "wpm_max": 52,
-                "wpm_avg": 45.6,
-                "items_sent_session": 20,
-                "items_correct_session": 15,
-                "chars_sent_session": 60,
-                "errors_detail_session": {
-                    "b": 1,
-                    "s": 2,
-                    "m": 1,
-                    "z": 1
-                },
-                "total_errors_chars_session": 5,
-                "sent_chars_detail_session": {
-                    "g": 2,
-                    "w": 2,
-                    "v": 3,
-                    "f": 2,
-                    "q": 2,
-                    "r": 2,
-                    "h": 2,
-                    "c": 1,
-                    "k": 2,
-                    "t": 1,
-                    "s": 5,
-                    "o": 2,
-                    "a": 2,
-                    "u": 3,
-                    "p": 3,
-                    "b": 1,
-                    "l": 2,
-                    "m": 7,
-                    "z": 2,
-                    "x": 4,
-                    "n": 2,
-                    "y": 2,
-                    "e": 3,
-                    "d": 1,
-                    "j": 1,
-                    "i": 1
-                }
-            },
-            {
-                "timestamp_iso": "2025-05-20T14:26:13.309944",
-                "duration_seconds": 87.994232,
-                "wpm_min": 31,
-                "wpm_max": 40,
-                "wpm_avg": 34.93333333333333,
-                "items_sent_session": 20,
-                "items_correct_session": 15,
-                "chars_sent_session": 60,
-                "errors_detail_session": {
-                    "7": 2,
-                    "6": 1,
-                    "s": 1,
-                    "j": 1,
-                    "u": 1
-                },
-                "total_errors_chars_session": 6,
-                "sent_chars_detail_session": {
-                    "j": 2,
-                    "4": 3,
-                    "0": 2,
-                    "g": 3,
-                    "q": 3,
-                    "n": 2,
-                    "a": 2,
-                    "b": 4,
-                    "2": 2,
-                    "h": 3,
-                    "y": 2,
-                    "7": 2,
-                    "k": 1,
-                    "u": 2,
-                    "i": 2,
-                    "d": 1,
-                    "l": 2,
-                    "8": 3,
-                    "o": 1,
-                    "m": 1,
-                    "6": 2,
-                    "e": 4,
-                    "c": 1,
-                    "w": 1,
-                    "s": 2,
-                    "x": 3,
-                    "z": 1,
-                    "9": 1,
-                    "v": 1,
-                    "r": 1
-                }
-            },
-            {
-                "timestamp_iso": "2025-05-20T16:40:03.045809",
-                "duration_seconds": 70.235608,
-                "wpm_min": 30,
-                "wpm_max": 43,
-                "wpm_avg": 35.529411764705884,
-                "items_sent_session": 20,
-                "items_correct_session": 17,
-                "chars_sent_session": 60,
-                "errors_detail_session": {
-                    "u": 2,
-                    "v": 1
-                },
-                "total_errors_chars_session": 3,
-                "sent_chars_detail_session": {
-                    "r": 3,
-                    "o": 9,
-                    "c": 2,
-                    "d": 3,
-                    "g": 3,
-                    "e": 2,
-                    "t": 2,
-                    "p": 3,
-                    "k": 3,
-                    "h": 2,
-                    "u": 4,
-                    "x": 2,
-                    "a": 2,
-                    "j": 2,
-                    "n": 2,
-                    "y": 2,
-                    "f": 2,
-                    "w": 2,
-                    "l": 3,
-                    "m": 3,
-                    "i": 1,
-                    "v": 2,
-                    "s": 1
-                }
-            },
             {
                 "timestamp_iso": "2025-05-20T16:41:45.375783",
                 "duration_seconds": 72.997901,
@@ -2351,6 +2227,141 @@
                     "k": 1,
                     "j": 1,
                     "h": 3
+                }
+            },
+            {
+                "timestamp_iso": "2025-06-05T13:27:06.656720",
+                "duration_seconds": 106.530032,
+                "wpm_min": 31,
+                "wpm_max": 31,
+                "wpm_avg": 31.0,
+                "items_sent_session": 20,
+                "items_correct_session": 18,
+                "chars_sent_session": 60,
+                "errors_detail_session": {
+                    "8": 1,
+                    "7": 1
+                },
+                "total_errors_chars_session": 2,
+                "sent_chars_detail_session": {
+                    "5": 7,
+                    "2": 8,
+                    "0": 3,
+                    "4": 7,
+                    "1": 6,
+                    "9": 5,
+                    "8": 10,
+                    "7": 5,
+                    "3": 7,
+                    "6": 2
+                }
+            },
+            {
+                "timestamp_iso": "2025-06-05T19:15:41.827520",
+                "duration_seconds": 76.201349,
+                "wpm_min": 31,
+                "wpm_max": 31,
+                "wpm_avg": 31.0,
+                "items_sent_session": 20,
+                "items_correct_session": 19,
+                "chars_sent_session": 60,
+                "errors_detail_session": {
+                    "2": 1
+                },
+                "total_errors_chars_session": 1,
+                "sent_chars_detail_session": {
+                    "5": 4,
+                    "9": 3,
+                    "1": 7,
+                    "7": 5,
+                    "6": 11,
+                    "3": 7,
+                    "8": 7,
+                    "0": 3,
+                    "4": 5,
+                    "2": 8
+                }
+            },
+            {
+                "timestamp_iso": "2025-06-05T21:07:12.620994",
+                "duration_seconds": 43.567605,
+                "wpm_min": 31,
+                "wpm_max": 31,
+                "wpm_avg": 31.0,
+                "items_sent_session": 15,
+                "items_correct_session": 14,
+                "chars_sent_session": 30,
+                "errors_detail_session": {
+                    "b": 1
+                },
+                "total_errors_chars_session": 1,
+                "sent_chars_detail_session": {
+                    "b": 2,
+                    "c": 2,
+                    "n": 2,
+                    "o": 2,
+                    "x": 2,
+                    "d": 1,
+                    "z": 1,
+                    "m": 1,
+                    "g": 2,
+                    "i": 1,
+                    "t": 2,
+                    "a": 1,
+                    "w": 2,
+                    "q": 3,
+                    "j": 2,
+                    "f": 1,
+                    "p": 1,
+                    "l": 1,
+                    "v": 1
+                }
+            },
+            {
+                "timestamp_iso": "2025-06-05T22:51:04.234300",
+                "duration_seconds": 110.112802,
+                "wpm_min": 34,
+                "wpm_max": 34,
+                "wpm_avg": 34.0,
+                "items_sent_session": 30,
+                "items_correct_session": 26,
+                "chars_sent_session": 77,
+                "errors_detail_session": {
+                    "u": 1,
+                    "i": 1,
+                    "z": 1,
+                    "h": 1
+                },
+                "total_errors_chars_session": 4,
+                "sent_chars_detail_session": {
+                    "d": 4,
+                    "b": 4,
+                    "u": 6,
+                    "r": 6,
+                    "n": 3,
+                    "e": 8,
+                    "a": 4,
+                    "i": 4,
+                    "p": 5,
+                    "o": 4,
+                    "s": 2,
+                    "c": 3,
+                    "4": 1,
+                    "2": 1,
+                    "f": 2,
+                    "8": 1,
+                    "1": 1,
+                    "m": 3,
+                    "v": 2,
+                    "k": 1,
+                    "j": 1,
+                    "z": 1,
+                    "w": 1,
+                    "g": 1,
+                    "h": 3,
+                    "t": 1,
+                    "5": 1,
+                    "0": 3
                 }
             }
         ]
