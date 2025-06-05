@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERS="3.7.1, (2025-05-28)"
+VERS="4.0.0, (2025-06-05)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -31,6 +31,9 @@ RX_SWITCHER_ITEMS = [
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 100
 HISTORICAL_RX_REPORT_INTERVAL = 10 # Ogni quanti esercizi generare il report
 VALID_MORSE_CHARS_FOR_CUSTOM_SET = {k for k in CWzator(msg=-1) if k != " " and k.isprintable()}
+LETTERE_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.ascii_lowercase)}
+NUMERI_MORSE_POOL  = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.digits)   }
+SIMBOLI_MORSE_POOL = VALID_MORSE_CHARS_FOR_CUSTOM_SET - LETTERE_MORSE_POOL - NUMERI_MORSE_POOL
 DEFAULT_DATA = {
     "app_info": {
         "launch_count": 0 
@@ -54,6 +57,9 @@ DEFAULT_DATA = {
 					"simboli": False,
 					"qrz": False,
 					"custom": False,
+					"parole_filter_min": 1, 
+					"parole_filter_max": 6,
+					"custom_set_string": ""
 				},
 				"historical_rx_data": {
         "max_sessions_to_keep": HISTORICAL_RX_MAX_SESSIONS_DEFAULT,
@@ -61,7 +67,6 @@ DEFAULT_DATA = {
         "sessions_log": [] 
     }
 } # Chiusura di DEFAULT_DATA
-
 MNLANG={
 	"en":"English",
 	"it":"Italiano"}
@@ -83,6 +88,249 @@ words=[]
 app_data = {}
 
 #qf
+def genera_singolo_item_esercizio_misto(active_switcher_states, group_length_for_generated, 
+                                        custom_set_active_string, parole_filtrate_list):
+	global overall_speed # Usato da GeneratingGroup
+	# Le altre variabili globali come MDL, morse_map (per VALID_MORSE_CHARS_FOR_CUSTOM_SET), ecc.
+	# sono usate dalle funzioni chiamate (Mkdqrz, GeneratingGroup)
+
+	active_and_usable_kinds = []
+	
+	# Costruisci la lista dei tipi di item effettivamente utilizzabili
+	if active_switcher_states.get('parole') and parole_filtrate_list: # Controlla anche che la lista non sia vuota
+		active_and_usable_kinds.append('parole')
+	if active_switcher_states.get('lettere'):
+		active_and_usable_kinds.append('lettere')
+	if active_switcher_states.get('numeri'):
+		active_and_usable_kinds.append('numeri')
+	if active_switcher_states.get('simboli'):
+		# Per 'simboli', GeneratingGroup avrà bisogno di un pool di simboli.
+		# Questo dipenderà da come definiamo SIMBOLI_MORSE_POOL.
+		active_and_usable_kinds.append('simboli')
+	if active_switcher_states.get('qrz'):
+		active_and_usable_kinds.append('qrz')
+	if active_switcher_states.get('custom') and custom_set_active_string and len(custom_set_active_string) >= 2:
+		active_and_usable_kinds.append('custom')
+
+	if not active_and_usable_kinds:
+		return "ERROR_NO_VALID_TYPES" # Segnala che non ci sono tipi validi attivi
+
+	chosen_kind = random.choice(active_and_usable_kinds)
+	
+	item_generato = ""
+	if chosen_kind == 'parole':
+		item_generato = random.choice(parole_filtrate_list)
+	elif chosen_kind == 'qrz':
+		# Logica per Mkdqrz come era in Rxing per call_or_groups == "1"
+		# Mkdqrz si aspetta una lista con una singola chiave da MDL come argomento.
+		random_mdl_key_list = random.choices(list(MDL.keys()), weights=list(MDL.values()), k=1)
+		item_generato = Mkdqrz(random_mdl_key_list) 
+	elif chosen_kind == 'custom':
+		# NOTA: GeneratingGroup dovrà essere modificato per accettare 'customized_set_param'
+		# e per usare 'group_length_for_generated' per il kind '4'.
+		item_generato = GeneratingGroup(kind="4", length=group_length_for_generated, 
+		                                wpm=overall_speed, customized_set_param=custom_set_active_string)
+	elif chosen_kind == 'lettere':
+		item_generato = GeneratingGroup(kind="1", length=group_length_for_generated, wpm=overall_speed)
+	elif chosen_kind == 'numeri':
+		item_generato = GeneratingGroup(kind="2", length=group_length_for_generated, wpm=overall_speed)
+	elif chosen_kind == 'simboli':
+		# NOTA: GeneratingGroup dovrà essere modificato per un nuovo 'kind' per i simboli,
+		# ad esempio "S" o "7".
+		item_generato = GeneratingGroup(kind="S", length=group_length_for_generated, wpm=overall_speed) 
+
+	return item_generato.lower() # Restituisce sempre in minuscolo per coerenza
+
+def seleziona_modalita_rx():
+	global app_data, app_language, overall_settings_changed, words, overall_speed
+	global overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave # Per CWzator
+	global SAMPLE_RATES, WAVE_TYPES # Per CWzator
+
+	# 1. Carica/Inizializza stati e configurazioni
+	switcher_settings_key = 'rx_menu_switcher_states'
+	if switcher_settings_key not in app_data: # Assicura che la sezione esista
+		app_data[switcher_settings_key] = DEFAULT_DATA[switcher_settings_key].copy()
+	
+	current_switcher_states = app_data[switcher_settings_key].copy() # Lavora su una copia locale
+
+	# Inizializza/carica dati specifici per gli switcher "Parole" e "Custom"
+	# Questi verranno usati e potenzialmente aggiornati durante la sessione del menu
+	parole_filtrate_sessione = None # Sarà popolata se 'parole' è o diventa attivo
+	custom_set_string_sessione = current_switcher_states.get('custom_set_string', "")
+
+	# Se 'parole' è attivo all'inizio e abbiamo filtri salvati, applichiamoli subito
+	if current_switcher_states.get('parole'):
+		min_len = current_switcher_states.get('parole_filter_min', 0)
+		max_len = current_switcher_states.get('parole_filter_max', 0)
+		if min_len > 0 and max_len > 0 and min_len <= max_len: # Se esiste un filtro valido salvato
+			# Applica il filtro senza chiedere all'utente
+			parole_filtrate_sessione = [w for w in words if len(w) >= min_len and len(w) <= max_len]
+			if not parole_filtrate_sessione: # Il filtro salvato non produce risultati
+				print(Trnsl('parole_filter_no_results_on_load', lang=app_language)) # Necessaria traduzione
+				current_switcher_states['parole'] = False # Disattiva parole se il filtro non dà risultati
+				# Potremmo anche resettare i filtri salvati qui o avvisare l'utente in modo più persistente
+		# Se non c'è un filtro salvato valido, FilterWord verrà chiamato se l'utente attiva/conferma 'parole'
+
+	MENU_BASE_ROW = 3 # Riga da cui inizia la stampa effettiva del menu (1-based), lascia spazio per un titolo sopra
+	
+	# Funzione interna per disegnare/aggiornare una singola riga dello switcher
+	def _update_switcher_display_line(index, is_on_state):
+		item_config = RX_SWITCHER_ITEMS[index]
+		riga_da_scrivere = MENU_BASE_ROW + index
+		_move_cursor(riga_da_scrivere, 1)
+		
+		label_text_trans = Trnsl(item_config['label_key'], lang=app_language)
+		status_marker = "<X>" if is_on_state else "< >"
+		status_text_trans = Trnsl('switcher_status_on_label', lang=app_language) if is_on_state else Trnsl('switcher_status_off_label', lang=app_language)
+		display_label_cased = label_text_trans.upper() if is_on_state else label_text_trans.lower()
+		
+		line_output = f"{item_config['id']}. {display_label_cased} {status_marker} {status_text_trans}"
+		sys.stdout.write(line_output)
+		_clear_line_from_cursor()
+		sys.stdout.flush()
+
+	# Funzione interna per disegnare/aggiornare la riga di summary e il prompt di input
+	def _update_summary_and_prompt_line(current_states_dict):
+		summary_line_row = MENU_BASE_ROW + len(RX_SWITCHER_ITEMS)
+		_move_cursor(summary_line_row, 1)
+		status_display_parts = []
+		for item_cfg in RX_SWITCHER_ITEMS:
+			is_on = current_states_dict.get(item_cfg['key_state'], False)
+			status_display_parts.append(f"[{item_cfg['id']}]" if is_on else f"<{item_cfg['id']}>")
+		summary_line_text = " ".join(status_display_parts)
+		sys.stdout.write(summary_line_text)
+		_clear_line_from_cursor()
+		prompt_line_row = summary_line_row + 1
+		_move_cursor(prompt_line_row, 1)
+		prompt_text_trans = Trnsl('rx_switcher_menu_prompt', lang=app_language)
+		sys.stdout.write(prompt_text_trans) # Es. "Scegli (1-6) o Invio: "
+		_clear_line_from_cursor()
+		sys.stdout.flush()
+		return prompt_line_row, len(prompt_text_trans) # Restituisce riga e offset per input()
+	# Disegna il menu iniziale
+	_move_cursor(MENU_BASE_ROW -1, 1) # Riga per il titolo
+	sys.stdout.write(Trnsl('rx_switcher_menu_title', lang=app_language)); _clear_line_from_cursor(); print() # Aggiunto print() per newline dopo titolo
+	for idx, item_config_loop in enumerate(RX_SWITCHER_ITEMS):
+		_update_switcher_display_line(idx, current_switcher_states[item_config_loop['key_state']])
+	while True:
+		riga_per_input, colonna_per_input_offset = _update_summary_and_prompt_line(current_switcher_states)
+		_move_cursor(riga_per_input, colonna_per_input_offset + 1) # Posiziona cursore per input()
+		scelta = input()
+
+		if not scelta: # INVIO per iniziare l'esercizio
+			active_standard_kinds_list = [item['key_state'] for item in RX_SWITCHER_ITEMS if current_switcher_states.get(item['key_state'])]
+			
+			if not active_standard_kinds_list:
+				_move_cursor(riga_per_input + 1, 1); sys.stdout.write(Trnsl('rx_switcher_no_selection_error', lang=app_language)); _clear_line_from_cursor(); time.sleep(1.5)
+				_move_cursor(riga_per_input + 1, 1); _clear_line_from_cursor() # Pulisci messaggio errore
+				continue
+
+			group_len = 0
+			# Chiedi lunghezza solo se uno switcher che la usa è attivo (lettere, numeri, simboli, custom)
+			if any(s in ['lettere', 'numeri', 'simboli', 'custom'] for s in active_standard_kinds_list):
+				_move_cursor(riga_per_input + 1, 1)
+				prompt_len = Trnsl('rx_switcher_group_length_prompt', lang=app_language)
+				sys.stdout.write(prompt_len); _clear_line_from_cursor(); sys.stdout.flush()
+				_move_cursor(riga_per_input + 1, len(prompt_len) + 1)
+				len_str = input()
+				if len_str.isdigit() and 1 <= int(len_str) <= 7:
+					group_len = int(len_str)
+				else:
+					_move_cursor(riga_per_input + 2, 1); sys.stdout.write(Trnsl('rx_switcher_invalid_length_error', lang=app_language)); _clear_line_from_cursor(); time.sleep(1.5)
+					_move_cursor(riga_per_input + 2, 1); _clear_line_from_cursor()
+					continue
+			
+			# Salva lo stato finale degli switcher e le configurazioni associate
+			app_data[switcher_settings_key] = current_switcher_states.copy() # Salva tutti gli stati ON/OFF
+			# parole_filter_min/max e custom_set_string sono già aggiornati in current_switcher_states se modificati
+			overall_settings_changed = True
+			
+			# Pulisci l'area del menu prima di uscire (opzionale, ma buona pratica)
+			for i in range(len(RX_SWITCHER_ITEMS) + 3): # Titolo + items + riga summary + riga prompt
+			    _move_cursor(MENU_BASE_ROW -1 + i, 1)
+			    _clear_line_from_cursor()
+			_move_cursor(MENU_BASE_ROW,1) # Riposiziona il cursore all'inizio dell'area menu
+
+			return {
+				"active_switcher_states": current_switcher_states, # Passa l'intero dizionario degli stati
+				"parole_filtrate": parole_filtrate_sessione if current_switcher_states.get('parole') else None,
+				"custom_set_string": custom_set_string_sessione if current_switcher_states.get('custom') else None,
+				"group_length": group_len
+			}
+
+		elif scelta.isdigit() and '1' <= scelta <= str(len(RX_SWITCHER_ITEMS)):
+			chosen_idx = int(scelta) - 1
+			item_key_selected = RX_SWITCHER_ITEMS[chosen_idx]['key_state']
+			
+			# Toggle dello stato
+			current_switcher_states[item_key_selected] = not current_switcher_states[item_key_selected]
+			overall_settings_changed = True # Lo stato è cambiato, segna per salvare
+
+			# Logica specifica se si ATTIVA "Parole" o "Custom"
+			if current_switcher_states[item_key_selected]: # Se lo switcher è stato appena ATTIVATO
+				if item_key_selected == 'parole':
+					# Se non ci sono filtri validi salvati o se parole_filtrate_sessione non è ancora stato impostato
+					min_len_saved = current_switcher_states.get('parole_filter_min', 0)
+					max_len_saved = current_switcher_states.get('parole_filter_max', 0)
+					if not (min_len_saved > 0 and max_len_saved > 0 and min_len_saved <= max_len_saved and parole_filtrate_sessione is not None) :
+						_move_cursor(riga_per_input + 1, 1); sys.stdout.write(Trnsl('parole_filter_invoking', lang=app_language)); _clear_line_from_cursor(); time.sleep(0.2)
+						# Chiamata a FilterWord e salvataggio dei nuovi min/max
+						# FilterWord modifica la lista 'words' globale o restituisce una nuova lista? Assumiamo restituisca una nuova lista.
+						# 'words' è la lista globale non filtrata.
+						# Dobbiamo passare la lista 'words' originale a FilterWord.
+						# Il risultato di FilterWord (che è una lista di parole) lo salviamo in parole_filtrate_sessione.
+						# FilterWord chiede min/max all'utente. Quei min/max vanno salvati in current_switcher_states.
+						# Questo richiede che FilterWord restituisca anche min/max, o che li chiediamo qui.
+						# Semplifichiamo: FilterWord chiede e filtra. Qui non salviamo min/max se non modifichiamo FilterWord.
+						# Per ora, chiamiamo FilterWord che chiederà all'utente.
+						# Per salvare min/max, FilterWord dovrebbe restituirli o dovremmo chiederli qui.
+						# Per ora, non salvo i min/max chiesti da FilterWord, ma uso la lista filtrata.
+						# Per un salvataggio corretto dei min/max, FilterWord andrebbe adattata o la logica di input min/max fatta qui.
+						#
+						# **MODIFICA TEMPORANEA PER SEMPLICITA' QUI:**
+						# Assumiamo che FilterWord sia già stato chiamato se i filtri sono presenti,
+						# altrimenti, se l'utente attiva 'parole' e i filtri NON sono buoni,
+						# deve usare il comando .tL-M per impostarli. Qui attiviamo solo lo switcher.
+						# Se i filtri non sono buoni, parole_filtrate_sessione sarà None e l'esercizio parole non partirà.
+						# Questo evita di chiamare FilterWord (che ha il suo loop di input) da dentro questo menu.
+						# L'utente userà .tL-M per impostare i filtri.
+						if min_len_saved > 0 and max_len_saved > 0 and min_len_saved <= max_len_saved:
+						    parole_filtrate_sessione = [w for w in words if len(w) >= min_len_saved and len(w) <= max_len_saved]
+						    if not parole_filtrate_sessione:
+						        _move_cursor(riga_per_input + 1, 1); sys.stdout.write(Trnsl('parole_filter_no_results_with_saved', lang=app_language)); _clear_line_from_cursor(); time.sleep(1.5) # Crea traduzione
+						        _move_cursor(riga_per_input + 1, 1); _clear_line_from_cursor()
+						        current_switcher_states['parole'] = False # Disattiva se non ci sono risultati
+						else: # Filtri salvati non validi, l'utente deve usare .tL-M
+						    _move_cursor(riga_per_input + 1, 1); sys.stdout.write(Trnsl('parole_filter_use_dot_command', lang=app_language)); _clear_line_from_cursor(); time.sleep(1.5) # Crea traduzione
+						    _move_cursor(riga_per_input + 1, 1); _clear_line_from_cursor()
+						    current_switcher_states['parole'] = False # Disattiva se i filtri non sono impostati
+
+				elif item_key_selected == 'custom':
+					# Se il custom_set_string salvato è vuoto o se custom_set_string_sessione non è (ancora) valido
+					if not custom_set_string_sessione or len(custom_set_string_sessione) < 2:
+						_move_cursor(riga_per_input + 1, 1); sys.stdout.write(Trnsl('custom_set_invoking', lang=app_language)); _clear_line_from_cursor(); time.sleep(0.2)
+						# CustomSet ora ha la sua logica di prefill.
+						# overall_speed è necessario per il feedback CW in CustomSet.
+						custom_set_string_nuovo = CustomSet(overall_speed)
+						if len(custom_set_string_nuovo) >= 2:
+							custom_set_string_sessione = custom_set_string_nuovo
+							current_switcher_states['custom_set_string'] = custom_set_string_nuovo # Salva il nuovo set
+						else: # L'utente è uscito da CustomSet senza un set valido
+							current_switcher_states['custom'] = False # Disattiva lo switcher Custom
+							custom_set_string_sessione = "" # Resetta
+							current_switcher_states['custom_set_string'] = ""
+					# Se custom_set_string_sessione era già valido e caricato, non serve richiamare CustomSet
+					# a meno che non si voglia permettere la modifica ogni volta che si attiva.
+					# Per ora, se esiste e valido, si usa. L'utente userà .y per modificarlo.
+					# Se lo switcher custom viene disattivato, custom_set_string_sessione rimane, ma lo switcher è off.
+
+			# Aggiorna solo la riga modificata del menu
+			_update_switcher_display_line(chosen_idx, current_switcher_states[item_key_selected])
+		else: # Input non valido
+			CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+			time.sleep(0.5)
+	return None
+
 def move_cursor(riga, colonna):
 	"""Muove il cursore alla riga e colonna specificata (1-based)."""
 	sys.stdout.write(f"\033[{riga};{colonna}H")
@@ -649,6 +897,7 @@ def save_settings(data):
 		print(f"Errore nel salvare {SETTINGS_FILE}: {e}")
 	except TypeError as e:
 		print(f"Errore di tipo durante la preparazione dei dati per JSON: {e} - Dati: {data_to_save}")
+
 def ItemChooser(items):
 	for i, item in enumerate(items, start=1):
 		print(f"{i}. {item}")
@@ -724,141 +973,154 @@ def KeyboardCW():
 			msg_for_cw = msg[4:] 
 			tosave = True
 		
-		# Logica per comandi che iniziano con "." (es. .w20, .g 100, .g100)
 		elif msg.startswith("."):
-			command_candidate_str = msg[1:].strip() # Rimuove "." e spazi extra
-			
-			cmd_letter = ""
-			value_int = None
-			parsed_as_command_with_value = False # True se l'input matcha un formato comando+valore
-
-			# Tentativo 1: Formato ".cmd VALORE" (es. ".g 100")
-			parts = command_candidate_str.split(maxsplit=1)
-			if len(parts) == 2 and parts[1].isdigit():
-				cmd_letter = parts[0].lower()
-				value_int = int(parts[1])
-				parsed_as_command_with_value = True
-			
-			# Tentativo 2: Formato ".cmdVALORE" (es. ".g100"), solo se il Tentativo 1 non ha prodotto 2 parti
-			# o se il primo tentativo non era un comando riconosciuto (parsed_as_command_with_value rimarrebbe False per il cmd specifico)
-			# In realtà, se il tentativo 1 non ha prodotto due parti (es. .g100 -> parts = ["g100"]), allora proviamo il re.match.
-			if not parsed_as_command_with_value or (len(parts) == 1 and not parts[0].isdigit()): # len(parts)==1 per ".g100"
-				# Se parts[0] è solo un numero (es. ".123"), non è un comando compatto cmd+valore
-				candidate_for_compact = parts[0] if len(parts) == 1 else command_candidate_str
-				match_compact = re.match(r'([a-zA-Z]+)(\d+)', candidate_for_compact)
-				if match_compact:
-					# Se l'input originale era solo ".cmdVAL" (es. ".g100", command_candidate_str=="g100")
-					# E non ".cmdVAL altro testo"
-					if candidate_for_compact == match_compact.group(0): # Assicura che l'intero candidato sia stato consumato dal match
-						cmd_letter = match_compact.group(1).lower()
-						value_int = int(match_compact.group(2))
-						parsed_as_command_with_value = True # Ora sappiamo che è un comando con valore
-
-			command_processed_internally = False # Flag per indicare se il comando è stato gestito dalla logica qui sotto
+			command_candidate_str = msg[1:].strip() # Es. "y", "t2-5", "w20"
+			cmd_letter_parsed = ""
+			value_int_parsed = None
+			value_str_parsed = "" # Per formati come L-M
+			is_value_numeric_type = False # Se value_int_parsed è stato impostato
+			is_value_special_format = False # Se value_str_parsed è stato impostato (per L-M)
+			match_val_num = re.match(r'([a-zA-Z])(\d+)', command_candidate_str)
+			if match_val_num and command_candidate_str == match_val_num.group(0): # Match completo
+				cmd_letter_parsed = match_val_num.group(1).lower()
+				value_int_parsed = int(match_val_num.group(2))
+				is_value_numeric_type = True
+			else:
+				parts = command_candidate_str.split(maxsplit=1) # Non serve più maxsplit=1 se gestiamo solo cmd e cmdVAL
+				cmd_letter_parsed = parts[0].lower() # La prima parte è sempre la lettera del comando
+				if len(parts) > 1:
+					value_str_parsed = parts[1] # Il resto è il valore stringa (es. "2-5" per .t)
+					is_value_special_format = True # Non è numerico, ma potrebbe essere un formato speciale
+			command_processed_internally = False
 			feedback_cw = ""
-
-			if parsed_as_command_with_value and cmd_letter and value_int is not None:
-				# Blocco unico per gestire TUTTI i comandi che hanno una lettera e un valore intero
-				if cmd_letter == "g":
-					min_val_g, max_val_g = 20, 5000 # Limiti per .g
+			if cmd_letter_parsed == 'y':
+				if command_candidate_str == 'y': # Assicura che fosse solo '.y'
+					print(Trnsl('invoking_custom_set_editor', lang=app_language))
+					custom_string_result = CustomSet(overall_speed)
+					current_saved_set = app_data['rx_menu_switcher_states'].get('custom_set_string', "")
+					if current_saved_set != custom_string_result:
+						app_data['rx_menu_switcher_states']['custom_set_string'] = custom_string_result
+						overall_settings_changed = True
+					if custom_string_result:
+						feedback_cw = Trnsl('custom_set_updated_short_feedback', lang=app_language, num_chars=len(custom_string_result))
+					else:
+						feedback_cw = "bk custom set empty bk"
+					command_processed_internally = True
+					print("\n" + Trnsl("h_keyboard", lang=app_language))
+				else: # Input come ".yalfa"
+					feedback_cw = "?" # Considerato errore di formato
+					command_processed_internally = True # Gestito come errore, non inviare come CW
+			elif cmd_letter_parsed == 't':
+				if is_value_special_format and '-' in value_str_parsed:
+					min_max_parts = value_str_parsed.split('-')
+					if len(min_max_parts) == 2 and min_max_parts[0].isdigit() and min_max_parts[1].isdigit():
+						p_min = int(min_max_parts[0])
+						p_max = int(min_max_parts[1])
+						p_min_validated = max(1, min(10, p_min))
+						p_max_validated = max(3, min(35, p_max))
+						if p_min_validated > p_max_validated: p_min_validated = p_max_validated
+						if (app_data['rx_menu_switcher_states'].get('parole_filter_min') != p_min_validated or
+							app_data['rx_menu_switcher_states'].get('parole_filter_max') != p_max_validated):
+							app_data['rx_menu_switcher_states']['parole_filter_min'] = p_min_validated
+							app_data['rx_menu_switcher_states']['parole_filter_max'] = p_max_validated
+							overall_settings_changed = True
+						feedback_cw = f"bk word filter {p_min_validated}-{p_max_validated} bk"
+						command_processed_internally = True
+					else: # Formato L-M non corretto dopo .t
+						feedback_cw = "?"
+						command_processed_internally = True 
+				else: # Manca il valore L-M dopo .t o formato errato
+					feedback_cw = "?"
+					command_processed_internally = True
+			elif is_value_numeric_type and value_int_parsed is not None:
+				if cmd_letter_parsed == "g":
+					min_val_g, max_val_g = 20, 5000
 					actual_val_g = app_data.get('historical_rx_data', {}).get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
-					new_val_g = max(min_val_g, min(max_val_g, value_int))
+					new_val_g = max(min_val_g, min(max_val_g, value_int_parsed)) # Usa value_int_parsed
 					if actual_val_g != new_val_g:
 						app_data['historical_rx_data']['max_sessions_to_keep'] = new_val_g
 						sessions_log = app_data['historical_rx_data'].get('sessions_log', [])
 						if len(sessions_log) > new_val_g: 
 							app_data['historical_rx_data']['sessions_log'] = sessions_log[-new_val_g:]
 						overall_settings_changed = True
-					feedback_cw = f"bk rx group is {new_val_g} bk"
+					feedback_cw = f"bk max exercises {new_val_g} bk" # Modificato per chiarezza
 					command_processed_internally = True
-				
-				elif cmd_letter == "x":
-					min_val_x, max_val_x = 3, 30 # Limiti per .x
+				elif cmd_letter_parsed == "x":
+					min_val_x, max_val_x = 3, 30
 					actual_val_x = app_data.get('historical_rx_data', {}).get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
-					new_val_x = max(min_val_x, min(max_val_x, value_int))
+					new_val_x = max(min_val_x, min(max_val_x, value_int_parsed)) # Usa value_int_parsed
 					if actual_val_x != new_val_x:
 						app_data['historical_rx_data']['report_interval'] = new_val_x
 						overall_settings_changed = True
-					feedback_cw = f"bk rx group interval is {new_val_x} bk"
+					feedback_cw = f"bk report interval {new_val_x} bk" # Modificato
 					command_processed_internally = True
-
-				# Comandi CW esistenti
-				elif cmd_letter=="w":
-					if overall_speed != value_int: # Controlla prima di limitare per il feedback corretto
-						new_speed = max(5, min(99, value_int))
+				elif cmd_letter_parsed=="w":
+					if overall_speed != value_int_parsed:
+						new_speed = max(5, min(99, value_int_parsed))
 						if overall_speed != new_speed:
 							overall_speed = new_speed
 							overall_settings_changed=True
 					feedback_cw = f"bk r w is {overall_speed} bk"
 					command_processed_internally = True
-				elif cmd_letter=="m":
-					if overall_ms != value_int:
-						new_ms = max(1, min(30, value_int))
+				elif cmd_letter_parsed=="m":
+					if overall_ms != value_int_parsed:
+						new_ms = max(1, min(30, value_int_parsed))
 						if overall_ms != new_ms:
 							overall_ms = new_ms
 							overall_settings_changed=True
 					feedback_cw = f"bk r ms is {overall_ms} bk"
 					command_processed_internally = True
-				elif cmd_letter=="f": 
-					new_wave_idx_user = max(1, min(len(WAVE_TYPES), value_int))
-					new_wave_idx_0based = new_wave_idx_user
-					if overall_wave != new_wave_idx_0based: 
-						overall_wave = new_wave_idx_0based
+				elif cmd_letter_parsed=="f": 
+					new_wave_idx_user = max(1, min(len(WAVE_TYPES), value_int_parsed))
+					if overall_wave != new_wave_idx_user: 
+						overall_wave = new_wave_idx_user
 						overall_settings_changed=True
-					feedback_cw = f"bk r wave is {WAVE_TYPES[overall_wave-1]} bk"
+					feedback_cw = f"bk r wave is {WAVE_TYPES[overall_wave-1]} bk" # Usa overall_wave-1 per indice 0-based
 					command_processed_internally = True
-				elif cmd_letter=="h":
-					if overall_pitch != value_int:
-						new_pitch = max(130, min(2700, value_int))
+				elif cmd_letter_parsed=="h":
+					if overall_pitch != value_int_parsed:
+						new_pitch = max(130, min(2700, value_int_parsed))
 						if overall_pitch != new_pitch:
 							overall_pitch = new_pitch
 							overall_settings_changed=True
 					feedback_cw = f"bk r h is {overall_pitch} bk"
 					command_processed_internally = True
-				elif cmd_letter=="l":
-					if overall_dashes != value_int:
-						new_dashes = max(1, min(99, value_int))
+				elif cmd_letter_parsed=="l":
+					if overall_dashes != value_int_parsed:
+						new_dashes = max(1, min(99, value_int_parsed))
 						if overall_dashes != new_dashes:
 							overall_dashes = new_dashes
 							overall_settings_changed=True
 					feedback_cw = f"bk r l is {overall_dashes} bk"
 					command_processed_internally = True
-				elif cmd_letter=="s":
-					if overall_spaces != value_int:
-						new_spaces = max(3, min(99, value_int))
+				elif cmd_letter_parsed=="s":
+					if overall_spaces != value_int_parsed:
+						new_spaces = max(3, min(99, value_int_parsed))
 						if overall_spaces != new_spaces:
 							overall_spaces = new_spaces
 							overall_settings_changed=True
 					feedback_cw = f"bk r s is {overall_spaces} bk"
 					command_processed_internally = True
-				elif cmd_letter=="p":
-					if overall_dots != value_int:
-						new_dots = max(1, min(99, value_int))
+				elif cmd_letter_parsed=="p":
+					if overall_dots != value_int_parsed:
+						new_dots = max(1, min(99, value_int_parsed))
 						if overall_dots != new_dots:
 							overall_dots = new_dots
 							overall_settings_changed=True
 					feedback_cw = f"bk r p is {overall_dots} bk"
 					command_processed_internally = True
-				elif cmd_letter=="v":
-					new_volume_percent = max(0, min(100, value_int))
+				elif cmd_letter_parsed=="v":
+					new_volume_percent = max(0, min(100, value_int_parsed))
 					if abs(overall_volume * 100 - new_volume_percent) > 0.01 : 
 						overall_volume = new_volume_percent / 100.0
 						overall_settings_changed=True
 					feedback_cw = f"bk r v is {new_volume_percent} bk"
 					command_processed_internally = True
-				
-				# Se un comando è stato processato e c'è un messaggio di feedback CW
-				if command_processed_internally and feedback_cw:
+			if command_processed_internally:
+				if feedback_cw: # Solo se un comando ha specificato un feedback
 					plo,rwpm_temp=CWzator(msg=feedback_cw, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 					if rwpm_temp is not None: rwpm = rwpm_temp
-			
-			# Se il comando è stato processato internamente (cambio di settaggio), non inviare l'input originale a CW.
-			if command_processed_internally:
-				msg_for_cw = "" 
-			# Altrimenti, se l'input iniziava con "." ma non era un comando riconosciuto (es. ".testo"),
-			# msg_for_cw manterrà l'input originale e verrà inviato a CWzator sotto.
-		
-		# Invio finale a CWzator se msg_for_cw non è stato svuotato
+				msg_for_cw = ""
 		if msg_for_cw.strip(): 
 			plo,rwpm_temp=CWzator(msg=msg_for_cw, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, file=tosave)
 			if rwpm_temp is not None: 
@@ -866,8 +1128,6 @@ def KeyboardCW():
 			elif msg_for_cw.strip() : # Se c'era testo ma CWzator ha fallito (es. carattere non valido in msg_for_cw)
 				rwpm = overall_speed # Resetta rwpm per evitare None nel prompt
 			if tosave: tosave = False 
-	
-	# Uscita dal loop while
 	print(Trnsl('bye_message', lang=app_language) + "\n") 
 	return
 
@@ -972,17 +1232,42 @@ def CustomSet(overall_speed):
 			CWzator(msg="?", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 	return "".join(sorted(list(cs))) # Restituisce una stringa ordinata dei caratteri nel set
 
-def GeneratingGroup(kind, length, wpm):
-	if kind == "1":
-		return ''.join(random.choice(string.ascii_letters) for _ in range(length))
-	elif kind == "2":
-		return ''.join(random.choice(string.digits) for _ in range(length))
-	elif kind == "3":
-		return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
-	elif kind == "4":
-		return ''.join(random.choice(customized_set) for _ in range(length))
-	elif kind == "5":
+def GeneratingGroup(kind, length, wpm, customized_set_param=None): # Aggiunto customized_set_param
+	if kind == "1": # Lettere
+		if not LETTERE_MORSE_POOL: return "ERR_LP" # Errore: Pool Lettere Vuoto
+		pool = list(LETTERE_MORSE_POOL)
+		return ''.join(random.choices(pool, k=length))
+	elif kind == "2": # Numeri
+		if not NUMERI_MORSE_POOL: return "ERR_NP" # Errore: Pool Numeri Vuoto
+		pool = list(NUMERI_MORSE_POOL)
+		return ''.join(random.choices(pool, k=length))
+	elif kind == "3": # Alfanumerici (Lettere + Numeri)
+		pool_alfanum = list(LETTERE_MORSE_POOL | NUMERI_MORSE_POOL) # Unione dei due set
+		if not pool_alfanum: return "ERR_AP" # Errore: Pool Alfanumerici Vuoto
+		return ''.join(random.choices(pool_alfanum, k=length))
+	elif kind == "4": # Custom Set
+		# Usa il parametro se fornito e valido, altrimenti tenta il globale (meno ideale), poi errore.
+		set_da_usare = None
+		if customized_set_param and len(customized_set_param) >= 1: # Lunghezza minima 1 per custom se kind 4 è scelto
+			set_da_usare = customized_set_param
+		elif customized_set and len(customized_set) >= 1: # Fallback al globale (considera di rimuoverlo)
+			set_da_usare = customized_set 
+		
+		if not set_da_usare:
+			return "ERR_CS" # Errore: Custom Set non valido o non fornito
+		# customized_set_param (o customized_set) è già una stringa di caratteri unici
+		return ''.join(random.choices(list(set_da_usare), k=length)) # random.choices su lista di caratteri del set
+	elif kind == "5": # Parole dal dizionario
+		if not words: return "ERR_WD" # Errore: Lista Parole Vuota
 		return random.choice(words)
+	elif kind == "S": # NUOVO: Simboli
+		if not SIMBOLI_MORSE_POOL: return "ERR_SP" # Errore: Pool Simboli Vuoto
+		pool = list(SIMBOLI_MORSE_POOL)
+		return ''.join(random.choices(pool, k=length))
+	
+	# Fallback se il 'kind' non è riconosciuto
+	return "ERR_KD" # Errore: Kind non Definito
+
 def Mkdqrz(c):
 	#Sub of Txing
 	q=''
@@ -1120,23 +1405,25 @@ def Rxing():
 	historical_rx_settings = app_data.get('historical_rx_data', {})
 	max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
 	report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
-	overall_speed=dgt(prompt=Trnsl('set_wpm', lang=app_language, wpm=overall_speed),kind="i",imin=10,imax=85,default=overall_speed)
-	rwpm=overall_speed
-	print(Trnsl('select_exercise', lang=app_language))
-	call_or_groups=menu(d=MNRX,show=True,keyslist=True,ntf=Trnsl('please_just_1_or_2', lang=app_language))
-	if call_or_groups == "2":
-		kind=menu(d=MNRXKIND,show=True,keyslist=True,ntf=Trnsl('choose_a_number', lang=app_language))
-		kindstring="Group"
-		if kind=="4":
-			customized_set=CustomSet(overall_speed)
-			length=dgt(prompt=Trnsl('give_length', lang=app_language), kind="i", imin=1, imax=7)
-		elif kind=="5":
-			words=FilterWord(words)
-			length=0
-			kindstring="words"
-		else:
-			length=dgt(prompt=Trnsl('give_length', lang=app_language),kind="i",imin=1,imax=7)
-	else: kindstring="Call-like"
+	overall_speed = dgt(prompt=Trnsl('set_wpm', lang=app_language, wpm=overall_speed),kind="i",imin=10,imax=85,default=overall_speed)
+	rwpm = overall_speed # rwpm per la sessione corrente
+	menu_config_scelta = seleziona_modalita_rx()
+	if not menu_config_scelta:
+		return
+	active_states = menu_config_scelta['active_switcher_states']
+	parole_filtrate_per_sessione = menu_config_scelta['parole_filtrate_list']
+	custom_set_attivo_per_sessione = menu_config_scelta['custom_set_string_active']
+	lunghezza_gruppo_per_generati = menu_config_scelta['group_length_for_generated']
+	active_labels_for_display = []
+	for item_cfg_ks in RX_SWITCHER_ITEMS:
+		if active_states.get(item_cfg_ks['key_state']):
+			active_labels_for_display.append(Trnsl(item_cfg_ks['label_key'], lang=app_language).capitalize())
+	if not active_labels_for_display:
+		kindstring = "N/A" # Non dovrebbe succedere
+	elif len(active_labels_for_display) == 1:
+		kindstring = active_labels_for_display[0]
+	else:
+		kindstring = Trnsl('mixed_exercise_types_label', lang=app_language, types=", ".join(active_labels_for_display))
 	how_many_calls=dgt(prompt=Trnsl('how_many', lang=app_language),kind="i",imin=10,imax=1000,default=0)
 	tmp_fix_speed=key(Trnsl('fix_yes', lang=app_language)).lower()
 	if tmp_fix_speed=="y":
@@ -1150,14 +1437,13 @@ def Rxing():
 	while True:
 		if how_many_calls > 0 and len(callssend) >= how_many_calls:
 			break
-		if call_or_groups == "1":
-			c=random.choices(list(MDL.keys()), weights=MDL.values(), k=1)
-			qrz=Mkdqrz(c)
-		else:
-			qrz=GeneratingGroup(kind=kind, length=length, wpm=overall_speed)
+		qrz_to_send = genera_singolo_item_esercizio_misto(active_states, lunghezza_gruppo_per_generati, custom_set_attivo_per_sessione, parole_filtrate_per_sessione)
+		if qrz_to_send is None or qrz_to_send == "ERROR_NO_VALID_TYPES":
+			print(Trnsl('error_no_item_generated_rx', lang=app_language))
+			break # Interrompe il loop dell'esercizio Rxing
 		pitch=random.randint(250, 1050)
 		prompt = f"S{sessions}-#{calls} - WPM{rwpm:.0f}/{(average_rwpm / len(callsget) if len(callsget) else rwpm):.2f} - +{len(callsget)}/-{len(callswrong)}> "
-		plo,rwpm=CWzator(msg=qrz, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+		plo,rwpm=CWzator(msg=qrz_to_send, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 		guess=dgt(prompt=prompt, kind="s", smin=0, smax=64)
 		if guess==".":
 			break
