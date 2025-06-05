@@ -4,9 +4,6 @@ translations = {
 		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tLaunch: {count}. Type 'm' for menu.",
 		'custom_set_use_prefill_prompt': "Start with a pre-filled character group?",
 		'yes_key_default': "y",
-		'no_key_default': "n",
-		'custom_set_prefilled_with_errors': "Group pre-filled with frequent errors: {chars}",
-		'custom_set_prefilled_with_random': "Group pre-filled with random characters: {chars}",
 		'custom_set_prefill_failed_no_chars': "Prefill failed: no valid characters available.",
 		'custom_set_modify_prompt_intro': "Enter/toggle characters. Press Enter when done.",
 		'invoking_custom_set_editor': "Starting Custom group editor...",
@@ -25,23 +22,18 @@ translations = {
 		'rx_switcher_group_length_prompt': "Group length (1-7 for Letters/Numbers/Symbols/Custom):",
 		'rx_switcher_invalid_length_error': "Invalid length. Please enter a number from 1 to 7.",
 		'parole_filter_no_results_with_saved': "Saved word filter yielded no results. 'Words' switcher disabled.",
-		'parole_filter_use_dot_command': "Word filter not set/valid. Use '.tL-M' in Settings (k). 'Words' switcher disabled.",
+		'parole_filter_use_dot_command': "Word filter not set/valid. Use '.t #-#' in Settings (k). 'Words' switcher disabled.",
 		'parole_filter_applied_from_settings': "Word filter applied from settings ({count} words).",
 		'custom_set_invoking': "Starting custom group configuration...",
 		'custom_set_not_created_deactivating': "Custom group not created or invalid. 'Custom' switcher disabled.",
 		'custom_set_loaded_from_settings': "Custom group loaded from settings: [{set_string}]",
 		'invalid_menu_choice': "Invalid choice.",
-		'parole_filter_not_set_error': "Error: 'Words' active but filter is not set or yields no results. Use '.tL-M'.",
-		'custom_set_invalid_or_empty_error': "Error: 'Custom' active but set is invalid or empty. Use '.y' or select characters in Custom Set menu.",
+		'parole_filter_not_set_error': "Error: 'Words' active but filter is not set or yields no results. Use '.t #-#'.",
 		'mixed_exercise_types_label': "Mixed ({types})",
 		'error_no_item_generated_rx': "Error: Could not generate exercise item with current selections. Check Rx menu settings.",
-		'custom_set_use_prefill_prompt': "Start with a pre-filled character group?",
-		'yes_key_default': "y",
 		'no_key_default': "n",
 		'custom_set_prefilled_with_errors': "Group pre-filled with frequent errors: {chars}",
 		'custom_set_prefilled_with_random': "Group pre-filled with random characters: {chars}",
-		'custom_set_prefill_failed_no_chars': "Prefill failed: no valid characters available.",
-		'custom_set_modify_prompt_intro': "Enter/toggle characters. Press Enter when done.",
 		'delta_rate_specific_label_short': "Δ% Specific Error Rate",
 		'no_error_variations_to_display': "No significant character error variations to display.",
 		'no_previous_data_for_variations': "Previous data not available to calculate variations.",
@@ -180,6 +172,8 @@ translations = {
 			"\ttype .m followed by milliseconds to set the fade in and out for the CW note;\n" \
 			"\ttype .g followed by a value to set the number of exercises for global statistics;\n" \
 			"\ttype .x followed by a value to set how often (in exercises) to update global stats;\n" \
+			"\ttype .t #-# where # are the min-max values of words lenght to choose from dictionary;\n" \
+			"\ttype .y to set a customized group of characters to train with;\n" \
 			"\ttype .sr to set the sample rate to send to your sound card;\n" \
 			"\ttype ? to see this help message;\n" \
 			"\ttype ?? to display the set parameters;\n" \
@@ -310,6 +304,8 @@ translations = {
 			"\tdigita .m seguito da millisecondi per impostare il fade in e out per la nota CW;\n"\
 			"\tdigita .g seguito da un valore per impostare la quantità di esercizi per le statistiche globali;\n"\
 			"\tdigita .x seguito da un valore per impostare ogni quanti esercizi aggiornare le stats globali;\n"\
+			"\tdigita .t #-# dove i # sono i valori minimo-massimo del filtro per la scelta delle parole;\n"\
+			"\tdigita .y per impostare un gruppo personalizzato di caratteri su cui allenarti;\n"\
 			"\tdigita .sr per impostare il sample rate da inviare alla tua scheda audio;\n"\
 			"\tdigita ? per vedere questo messaggio di aiuto;\n"\
 			"\tdigita ?? per visualizzare i parametri impostati;\n"\
@@ -377,19 +373,12 @@ translations = {
 		'no_error_variations_to_display': "Nessuna variazione significativa degli errori per carattere da visualizzare.",
 		'no_previous_data_for_variations': "Dati precedenti non disponibili per calcolare le variazioni.",
 		'custom_set_use_prefill_prompt': "Vuoi iniziare con un gruppo di caratteri precompilato?",
-		'yes_key_default': "s",
 		'no_key_default': "n",
 		'custom_set_prefilled_with_errors': "Gruppo precompilato con errori frequenti: {chars}",
 		'custom_set_prefilled_with_random': "Gruppo precompilato con caratteri casuali: {chars}",
 		'custom_set_prefill_failed_no_chars': "Impossibile precompilare: nessun carattere valido disponibile.",
 		'custom_set_modify_prompt_intro': "Inserisci/modifica caratteri (toggle). Invio per terminare.",
-		'custom_set_use_prefill_prompt': "Vuoi iniziare con un gruppo di caratteri precompilato?",
 		'yes_key_default': "s",
-		'no_key_default': "n",
-		'custom_set_prefilled_with_errors': "Gruppo precompilato con errori frequenti: {chars}",
-		'custom_set_prefilled_with_random': "Gruppo precompilato con caratteri casuali: {chars}",
-		'custom_set_prefill_failed_no_chars': "Impossibile precompilare: nessun carattere valido disponibile.",
-		'custom_set_modify_prompt_intro': "Inserisci/modifica caratteri (toggle). Invio per terminare.",
 		'invoking_custom_set_editor': "Avvio editor gruppo Custom...",
 		'custom_set_updated_short_feedback': "Set custom: {num_chars} car.", # Per feedback comando .y
 		'menu_rx_switcher_parole': "Parole",
@@ -406,14 +395,13 @@ translations = {
 		'rx_switcher_group_length_prompt': "Lunghezza gruppi (1-7 per Lettere/Numeri/Simboli/Custom):",
 		'rx_switcher_invalid_length_error': "Lunghezza non valida. Inserire un numero da 1 a 7.",
 		'parole_filter_no_results_with_saved': "Filtro parole caricato dalle impostazioni non ha prodotto risultati. Switcher 'Parole' disattivato.",
-		'parole_filter_use_dot_command': "Filtro parole non impostato/valido. Usa il comando '.tL-M' nelle Impostazioni (k). Switcher 'Parole' disattivato.",
+		'parole_filter_use_dot_command': "Filtro parole non impostato/valido. Usa il comando '.t #-#' nelle Impostazioni (k). Switcher 'Parole' disattivato.",
 		'parole_filter_applied_from_settings': "Filtro parole applicato dalle impostazioni ({count} parole).",
 		'custom_set_invoking': "Avvio configurazione gruppo personalizzato...",
 		'custom_set_not_created_deactivating': "Gruppo Custom non creato o non valido. Switcher 'Custom' disattivato.",
 		'custom_set_loaded_from_settings': "Gruppo Custom caricato dalle impostazioni: [{set_string}]",
 		'invalid_menu_choice': "Scelta non valida.",
-		'parole_filter_not_set_error': "Errore: 'Parole' attivo ma il filtro non è impostato o non produce risultati. Usa '.tL-M'.",
-		'custom_set_invalid_or_empty_error': "Errore: 'Custom' attivo ma il set non è valido o è vuoto. Usa '.y' o seleziona caratteri nel menu Custom Set.",
+		'parole_filter_not_set_error': "Errore: 'Parole' attivo ma il filtro non è impostato o non produce risultati. Usa '.t #-#'.",
 		'mixed_exercise_types_label': "Misto ({types})",
 		'error_no_item_generated_rx': "Errore: Impossibile generare item per l'esercizio con le selezioni attuali. Controlla le impostazioni del menu Rx.",
 		#Qit
