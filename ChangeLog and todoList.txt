@@ -5,6 +5,7 @@ Todo:
 
 ChangeLog:
 	4.0.x
+		+ Fixed an issue with the custom group, e.g. R.6		
 		+ upwarded the graphical bar's order in wpm graphical report. Now the current block is first, as in graphic number 3
 		+ Now new commands .t and .y are shown in the K-section
 		+ Implementing a screen cleaner to get rid of messy text in console

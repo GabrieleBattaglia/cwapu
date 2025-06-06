@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERSION="4.0.6, (2025-06-05)"
+VERSION="4.0.7, (2025-06-06)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -286,6 +286,7 @@ def seleziona_modalita_rx():
 			ask_for_length = False
 			if current_switcher_states.get('lettere') or \
 			   current_switcher_states.get('numeri') or \
+			   current_switcher_states.get('custom') or \
 			   current_switcher_states.get('simboli'):
 				ask_for_length = True
 			if ask_for_length:

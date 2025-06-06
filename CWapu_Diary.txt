@@ -2955,3 +2955,107 @@ Elenco delle parole copiate male:
 	(25) TX: DEH, RX: DES, DIF: H;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #218 eseguito il 2025/6/6 alle 8, 12 minuti:
+In questa sessione #218, ti ho inviato 40 Misto (Parole, Lettere, Numeri) e ne hai ricevuti 26: 65.0%
+	15 di questi sono stati ricevuti al primo ascolto: 57.7%
+	mentre 11 Misto (Parole, Lettere, Numeri) al secondo tentativo: 42.3%.
+Durante la sessione, la tua velocità minima è stata 35, la massima di 48: pari ad una variazione di 13 WPM.
+	La velocità media di ricezione è di: 41.2 WPM.
+Carattere: errori = Percentuale
+    'B': 5 (3.45% dei car. tot., 100.00% delle 'B' inviate)
+    'E': 4 (2.76% dei car. tot., 44.44% delle 'E' inviate)
+    'D': 2 (1.38% dei car. tot., 40.00% delle 'D' inviate)
+    'N': 2 (1.38% dei car. tot., 50.00% delle 'N' inviate)
+    'R': 2 (1.38% dei car. tot., 28.57% delle 'R' inviate)
+    'S': 2 (1.38% dei car. tot., 22.22% delle 'S' inviate)
+    '7': 1 (0.69% dei car. tot., 25.00% delle '7' inviate)
+    'A': 1 (0.69% dei car. tot., 9.09% delle 'A' inviate)
+    'G': 1 (0.69% dei car. tot., 16.67% delle 'G' inviate)
+    'M': 1 (0.69% dei car. tot., 100.00% delle 'M' inviate)
+    'O': 1 (0.69% dei car. tot., 14.29% delle 'O' inviate)
+    'P': 1 (0.69% dei car. tot., 14.29% delle 'P' inviate)
+    'U': 1 (0.69% dei car. tot., 20.00% delle 'U' inviate)
+    'Z': 1 (0.69% dei car. tot., 33.33% delle 'Z' inviate)
+
+Errori totali: 25 su 145 = 17.24%
+Caratteri mai sbagliati: 0 1 2 3 4 5 6 8 9 C F I J K L T V X Y Ò
+Elenco delle parole copiate male:
+	(9) TX: BIGIU, RX: DIGIU, DIF: B;
+	(14) TX: ZEG, RX: ZIG, DIF: E;
+	(15) TX: BESSA, RX: DISSA, DIF: BE;
+	(16) TX: ZYN, RX: GYN, DIF: Z;
+	(17) TX: CEDUI, RX: CING, DIF: EDUNG;
+	(18) TX: GYB, RX: GYD, DIF: B;
+	(20) TX: JBX, RX: JDX, DIF: B;
+	(22) TX: 187, RX: 186, DIF: 7;
+	(23) TX: BEPOP, RX: DIPÌ, DIF: BEOP;
+	(29) TX: ORMEA, RX: ORNEA, DIF: M;
+	(35) TX: SPERO, RX: SPREO, DIF: RR;
+	(36) TX: CASCA, RX: CAICA, DIF: S;
+	(38) TX: PENSA, RX: PERA, DIF: NS;
+	(39) TX: ADO, RX: INO, DIF: AD;
+Nota: nessuna
+***
+
+Esercizio di ricezione #219 eseguito il 2025/6/6 alle 12, 20 minuti:
+In questa sessione #219, ti ho inviato 15 Custom e ne hai ricevuti 15: 100.0%
+	15 di questi sono stati ricevuti al primo ascolto: 100.0%
+	mentre 0 Custom al secondo tentativo: 0.0%.
+Durante la sessione, la tua velocità minima è stata 25, la massima di 25: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 25.0 WPM.
+Carattere: errori = Percentuale
+Nessun errore sui caratteri registrato in questa sessione.
+
+Elenco delle parole copiate male:
+Nota: nessuna
+***
+
+Esercizio di ricezione #220 eseguito il 2025/6/6 alle 13, 7 minuti:
+In questa sessione #220, ti ho inviato 20 Qrz e ne hai ricevuti 18: 90.0%
+	13 di questi sono stati ricevuti al primo ascolto: 72.2%
+	mentre 5 Qrz al secondo tentativo: 27.8%.
+Durante la sessione, la tua velocità minima è stata 25, la massima di 25: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 25.0 WPM.
+Carattere: errori = Percentuale
+    'H': 1 (0.94% dei car. tot., 16.67% delle 'H' inviate)
+    'O': 1 (0.94% dei car. tot., 33.33% delle 'O' inviate)
+
+Errori totali: 2 su 106 = 1.89%
+Caratteri mai sbagliati: 0 1 2 3 4 6 7 8 9 A B C D E F G I J K L M N P Q R S T U V W X Y Z
+Elenco delle parole copiate male:
+	(15) TX: HH7C, RX: HS7C, DIF: H;
+	(18) TX: N7IOQ, RX: N7IGQ, DIF: O;
+Nota: nessuna
+***
+
+Esercizio di ricezione #221 eseguito il 2025/6/6 alle 13, 10 minuti:
+In questa sessione #221, ti ho inviato 15 Simboli e ne hai ricevuti 6: 40.0%
+	6 di questi sono stati ricevuti al primo ascolto: 100.0%
+	mentre 0 Simboli al secondo tentativo: 0.0%.
+Durante la sessione, la tua velocità minima è stata 22, la massima di 28: pari ad una variazione di 6 WPM.
+	La velocità media di ricezione è di: 25.0 WPM.
+Carattere: errori = Percentuale
+    '[': 2 (13.33% dei car. tot., 100.00% delle '[' inviate)
+    '$': 1 (6.67% dei car. tot., 100.00% delle '$' inviate)
+    '%': 1 (6.67% dei car. tot., 100.00% delle '%' inviate)
+    ')': 1 (6.67% dei car. tot., 100.00% delle ')' inviate)
+    '@': 1 (6.67% dei car. tot., 100.00% delle '@' inviate)
+    'À': 1 (6.67% dei car. tot., 100.00% delle 'À' inviate)
+    'È': 1 (6.67% dei car. tot., 100.00% delle 'È' inviate)
+    'É': 1 (6.67% dei car. tot., 50.00% delle 'É' inviate)
+
+Errori totali: 9 su 15 = 60.00%
+Caratteri mai sbagliati: ' ; Ò Ù
+Elenco delle parole copiate male:
+	(2) TX: $, RX: ), DIF: $;
+	(6) TX: ), RX: (, DIF: );
+	(7) TX: @, RX: ), DIF: @;
+	(8) TX: %, RX: J, DIF: %;
+	(9) TX: À, RX: ), DIF: À;
+	(11) TX: [, RX: (, DIF: [;
+	(12) TX: É, RX: L, DIF: É;
+	(14) TX: [, RX: (, DIF: [;
+	(15) TX: È, RX: É, DIF: È;
+Nota: nessuna
+***
