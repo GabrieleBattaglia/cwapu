@@ -1,10 +1,10 @@
 CWAPU WHATSNEW AND TODO
 Todo:
-5.  Masi suggerisce che l'ordine dei grafici wpm (primo grafico) andrebbe invertito, nuovo/vecchio, per coerenza con quelli sottostanti. Chiedere alle fidanzate una verifica, quindi procedere a correzione.
 6.
 
 ChangeLog:
-	4.0.x
+	4.0.7
+		+ Totally redrwan ot R section now with 6 switchers to turn on and off as you prefer. This is a new challenge for your exercises.
 		+ Fixed an issue with the custom group, e.g. R.6		
 		+ upwarded the graphical bar's order in wpm graphical report. Now the current block is first, as in graphic number 3
 		+ Now new commands .t and .y are shown in the K-section
