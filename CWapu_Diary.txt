@@ -3191,3 +3191,50 @@ Elenco delle parole copiate male:
 	(100) TX: PRAVO, RX: PROVA, DIF: OVVO;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #224 eseguito il 2025/6/11 alle 8, 46 minuti:
+In questa sessione #224, ti ho inviato 50 Parole e ne hai ricevuti 32: 64.0%
+	15 di questi sono stati ricevuti al primo ascolto: 46.9%
+	mentre 17 Parole al secondo tentativo: 53.1%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 46: pari ad una variazione di 15 WPM.
+	La velocità media di ricezione è di: 39.9 WPM.
+Carattere: errori = Percentuale
+    'I': 9 (3.73% dei car. tot., 25.00% delle 'I' inviate)
+    'B': 5 (2.07% dei car. tot., 83.33% delle 'B' inviate)
+    'A': 2 (0.83% dei car. tot., 7.14% delle 'A' inviate)
+    'C': 2 (0.83% dei car. tot., 22.22% delle 'C' inviate)
+    'D': 2 (0.83% dei car. tot., 40.00% delle 'D' inviate)
+    'E': 2 (0.83% dei car. tot., 12.50% delle 'E' inviate)
+    'N': 2 (0.83% dei car. tot., 28.57% delle 'N' inviate)
+    'P': 2 (0.83% dei car. tot., 40.00% delle 'P' inviate)
+    'V': 2 (0.83% dei car. tot., 25.00% delle 'V' inviate)
+    'L': 1 (0.41% dei car. tot., 7.14% delle 'L' inviate)
+    'O': 1 (0.41% dei car. tot., 4.76% delle 'O' inviate)
+    'R': 1 (0.41% dei car. tot., 6.25% delle 'R' inviate)
+    'S': 1 (0.41% dei car. tot., 10.00% delle 'S' inviate)
+    'T': 1 (0.41% dei car. tot., 7.69% delle 'T' inviate)
+    'Z': 1 (0.41% dei car. tot., 33.33% delle 'Z' inviate)
+
+Errori totali: 34 su 241 = 14.11%
+Caratteri mai sbagliati: F G H M U Ò
+Elenco delle parole copiate male:
+	(16) TX: GOTTI, RX: GOTTE, DIF: I;
+	(17) TX: BIRRO, RX: DIRRO, DIF: B;
+	(18) TX: CHEPI, RX: CHICO, DIF: EPCO;
+	(19) TX: APIDI, RX: APINI, DIF: D;
+	(21) TX: BALIA, RX: DILEA, DIF: BLIA;
+	(24) TX: BIZZO, RX: DIZZO, DIF: B;
+	(29) TX: LINDI, RX: LIBBI, DIF: ND;
+	(30) TX: AGAVE, RX: AGUE, DIF: AV;
+	(32) TX: AGITI, RX: AGITE, DIF: I;
+	(34) TX: BAGNI, RX: DAGGE, DIF: BNI;
+	(35) TX: ITTIO, RX: ITIO, DIF: T;
+	(37) TX: SUPER, RX: SVUER, DIF: VP;
+	(38) TX: LOICI, RX: LOIRE, DIF: CI;
+	(41) TX: VOCII, RX: VOCIE, DIF: I;
+	(43) TX: OSERÒ, RX: IORÒ, DIF: ISE;
+	(44) TX: GONZA, RX: GONDA, DIF: Z;
+	(45) TX: ALIBI, RX: ALIDS, DIF: BI;
+	(46) TX: RICCE, RX: LECCE, DIF: RI;
+Nota: nessuna
+***
