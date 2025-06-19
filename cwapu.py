@@ -5,7 +5,7 @@
 #QI
 import sys, random, json, string, pyperclip, re, difflib, os
 import datetime as dt
-from GBUtils import key, dgt, menu, CWzator
+from GBUtils import key, dgt, menu, CWzator, Donazione
 from time import localtime as lt
 from translations import translations
 
@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERSION="4.0.7, (2025-06-06)"
+VERSION="4.0.8, (2025-06-19)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -2019,4 +2019,5 @@ save_settings(app_data)
 print("hpe cuagn - 73 de I4APU - Gabe in Bologna, JN54pl.")
 CWzator(msg="bk hpe cuagn - 73 de iz4apu tu e e", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], sync=False, wv=overall_wave)
 _clear_screen_ansi()
+Donazione()
 sys.exit()
