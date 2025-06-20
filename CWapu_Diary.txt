@@ -3623,3 +3623,105 @@ Elenco delle parole copiate male:
 	(50) TX: 580, RX: 570, DIF: 8;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #234 eseguito il 2025/6/20 alle 11, 32 minuti:
+In questa sessione #234, ti ho inviato 50 Parole e ne hai ricevuti 26: 52.0%
+	18 di questi sono stati ricevuti al primo ascolto: 69.2%
+	mentre 8 Parole al secondo tentativo: 30.8%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 43: pari ad una variazione di 9 WPM.
+	La velocità media di ricezione è di: 37.1 WPM.
+Carattere: errori = Percentuale
+    'I': 10 (2.83% dei car. tot., 21.74% delle 'I' inviate)
+    'A': 9 (2.55% dei car. tot., 17.65% delle 'A' inviate)
+    'G': 6 (1.70% dei car. tot., 40.00% delle 'G' inviate)
+    'U': 6 (1.70% dei car. tot., 60.00% delle 'U' inviate)
+    'E': 5 (1.42% dei car. tot., 21.74% delle 'E' inviate)
+    'R': 5 (1.42% dei car. tot., 17.24% delle 'R' inviate)
+    'N': 4 (1.13% dei car. tot., 22.22% delle 'N' inviate)
+    'T': 4 (1.13% dei car. tot., 20.00% delle 'T' inviate)
+    'D': 3 (0.85% dei car. tot., 75.00% delle 'D' inviate)
+    'S': 3 (0.85% dei car. tot., 13.04% delle 'S' inviate)
+    'O': 2 (0.57% dei car. tot., 5.41% delle 'O' inviate)
+    'B': 1 (0.28% dei car. tot., 16.67% delle 'B' inviate)
+    'H': 1 (0.28% dei car. tot., 0.00% delle 'H' inviate)
+    'L': 1 (0.28% dei car. tot., 6.25% delle 'L' inviate)
+    'V': 1 (0.28% dei car. tot., 50.00% delle 'V' inviate)
+    'Z': 1 (0.28% dei car. tot., 12.50% delle 'Z' inviate)
+
+Errori totali: 62 su 353 = 17.56%
+Caratteri mai sbagliati: C F K M P Ò
+Elenco delle parole copiate male:
+	(4) TX: GIGANTI, RX: GIGINTI, DIF: A;
+	(6) TX: ASTENUTA, RX: STENAVA, DIF: AUTVA;
+	(9) TX: FOSFITO, RX: FOSFIO, DIF: T;
+	(10) TX: SGRONDA, RX: STRONZA, DIF: GD;
+	(11) TX: AIUTASSI, RX: ASSUNSI, DIF: AIUTUNS;
+	(12) TX: TRALIGNO, RX: TRALEGIO, DIF: EGGN;
+	(13) TX: POSTURE, RX: POSTUME, DIF: R;
+	(18) TX: IPACUSIA, RX: SPAICCI, DIF: IIUSA;
+	(19) TX: BARRAGES, RX: BARRIGHE, DIF: AHS;
+	(22) TX: TANNATI, RX: TANNAI, DIF: T;
+	(24) TX: PAONAZZO, RX: PAGAZZO, DIF: ON;
+	(26) TX: MANZIA, RX: MANZEA, DIF: I;
+	(27) TX: TIRRENI, RX: TERRENI, DIF: I;
+	(28) TX: SENNAAR, RX: SENNAI, DIF: AR;
+	(29) TX: BALZERA, RX: BALGERA, DIF: Z;
+	(33) TX: RIPUDIÒ, RX: REPUTINÒ, DIF: IDN;
+	(35) TX: MICELIO, RX: MICELO, DIF: I;
+	(43) TX: PATRIA, RX: PATERI, DIF: EA;
+	(44) TX: ALOIDE, RX: ALOINE, DIF: D;
+	(46) TX: PANURGO, RX: PANZOI, DIF: URGI;
+	(47) TX: TURTUREA, RX: TURBATA, DIF: BAURE;
+	(48) TX: SEMICI, RX: SIMICI, DIF: E;
+	(49) TX: SEGLIERO, RX: SGE, DIF: GGLIERO;
+	(50) TX: ARCIERI, RX: ARCIERE, DIF: I;
+Nota: nessuna
+***
+
+Esercizio di ricezione #235 eseguito il 2025/6/20 alle 15, 7 minuti:
+In questa sessione #235, ti ho inviato 100 Lettere e ne hai ricevuti 79: 79.0%
+	54 di questi sono stati ricevuti al primo ascolto: 68.4%
+	mentre 25 Lettere al secondo tentativo: 31.6%.
+Durante la sessione, la tua velocità minima è stata 40, la massima di 40: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 40.0 WPM.
+Carattere: errori = Percentuale
+    'B': 3 (1.00% dei car. tot., 33.33% delle 'B' inviate)
+    'I': 3 (1.00% dei car. tot., 21.43% delle 'I' inviate)
+    'L': 3 (1.00% dei car. tot., 20.00% delle 'L' inviate)
+    'D': 2 (0.67% dei car. tot., 18.18% delle 'D' inviate)
+    'J': 2 (0.67% dei car. tot., 10.53% delle 'J' inviate)
+    'R': 2 (0.67% dei car. tot., 16.67% delle 'R' inviate)
+    'U': 2 (0.67% dei car. tot., 20.00% delle 'U' inviate)
+    'Z': 2 (0.67% dei car. tot., 33.33% delle 'Z' inviate)
+    'C': 1 (0.33% dei car. tot., 11.11% delle 'C' inviate)
+    'E': 1 (0.33% dei car. tot., 7.14% delle 'E' inviate)
+    'N': 1 (0.33% dei car. tot., 9.09% delle 'N' inviate)
+    'P': 1 (0.33% dei car. tot., 8.33% delle 'P' inviate)
+    'S': 1 (0.33% dei car. tot., 11.11% delle 'S' inviate)
+
+Errori totali: 24 su 300 = 8.00%
+Caratteri mai sbagliati: A F G H K M O Q T V W X Y
+Elenco delle parole copiate male:
+	(6) TX: ELB, RX: ELD, DIF: B;
+	(7) TX: HII, RX: HIS, DIF: I;
+	(10) TX: RME, RX: RMI, DIF: E;
+	(17) TX: GJC, RX: GJG, DIF: C;
+	(24) TX: XBE, RX: XDE, DIF: B;
+	(34) TX: PVL, RX: WVL, DIF: P;
+	(46) TX: POU, RX: POV, DIF: U;
+	(56) TX: MJD, RX: MWD, DIF: J;
+	(62) TX: URU, RX: ULU, DIF: R;
+	(64) TX: JFG, RX: WFG, DIF: J;
+	(67) TX: XNX, RX: XDX, DIF: N;
+	(68) TX: ORS, RX: ORH, DIF: S;
+	(69) TX: KNI, RX: KNS, DIF: I;
+	(76) TX: HUQ, RX: HVQ, DIF: U;
+	(78) TX: HYI, RX: HYS, DIF: I;
+	(81) TX: KZD, RX: KGD, DIF: Z;
+	(86) TX: BLD, RX: DLB, DIF: DLLD;
+	(89) TX: FLJ, RX: FRJ, DIF: L;
+	(97) TX: FLZ, RX: FLG, DIF: Z;
+	(98) TX: CGR, RX: CGD, DIF: R;
+	(100) TX: BZU, RX: DZU, DIF: B;
+Nota: nessuna
+***

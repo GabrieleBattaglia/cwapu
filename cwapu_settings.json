@@ -1,25 +1,25 @@
 {
     "app_info": {
-        "launch_count": 107
+        "launch_count": 109
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 44,
+        "speed": 40,
         "pitch": 550,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
-        "volume": 0.13,
+        "volume": 0.3,
         "ms": 4,
         "fs_index": 2,
         "wave_index": 1
     },
     "rxing_stats": {
-        "total_calls": 9243,
-        "sessions": 234,
-        "total_correct": 6200,
-        "total_wrong_items": 3041,
-        "total_time_seconds": 41960.070587
+        "total_calls": 9393,
+        "sessions": 236,
+        "total_correct": 6305,
+        "total_wrong_items": 3086,
+        "total_time_seconds": 42709.197468
     },
     "counting_stats": {
         "exercise_number": 100
@@ -27,7 +27,7 @@
     "rx_menu_switcher_states": {
         "parole": false,
         "lettere": true,
-        "numeri": true,
+        "numeri": false,
         "simboli": false,
         "qrz": false,
         "custom": false,
@@ -3195,6 +3195,112 @@
                     "m": 4,
                     "h": 1,
                     "q": 1
+                }
+            },
+            {
+                "timestamp_iso": "2025-06-20T11:26:17.634451",
+                "duration_seconds": 381.200002,
+                "wpm_min": 34,
+                "wpm_max": 43,
+                "wpm_avg": 37.07692307692308,
+                "items_sent_session": 50,
+                "items_correct_session": 26,
+                "chars_sent_session": 353,
+                "errors_detail_session": {
+                    "a": 9,
+                    "u": 6,
+                    "t": 4,
+                    "v": 1,
+                    "g": 6,
+                    "d": 3,
+                    "i": 10,
+                    "n": 4,
+                    "s": 3,
+                    "e": 5,
+                    "r": 5,
+                    "h": 1,
+                    "o": 2,
+                    "z": 1,
+                    "b": 1,
+                    "l": 1
+                },
+                "total_errors_chars_session": 62,
+                "sent_chars_detail_session": {
+                    "c": 18,
+                    "o": 37,
+                    "k": 1,
+                    "e": 23,
+                    "r": 29,
+                    "n": 18,
+                    "l": 16,
+                    "a": 51,
+                    "m": 10,
+                    "i": 46,
+                    "g": 15,
+                    "t": 20,
+                    "ò": 2,
+                    "s": 23,
+                    "u": 10,
+                    "p": 10,
+                    "f": 4,
+                    "d": 4,
+                    "b": 6,
+                    "z": 8,
+                    "v": 2
+                }
+            },
+            {
+                "timestamp_iso": "2025-06-20T15:01:29.813927",
+                "duration_seconds": 367.926879,
+                "wpm_min": 40,
+                "wpm_max": 40,
+                "wpm_avg": 40.0,
+                "items_sent_session": 100,
+                "items_correct_session": 79,
+                "chars_sent_session": 300,
+                "errors_detail_session": {
+                    "b": 3,
+                    "i": 3,
+                    "e": 1,
+                    "c": 1,
+                    "p": 1,
+                    "u": 2,
+                    "j": 2,
+                    "r": 2,
+                    "n": 1,
+                    "s": 1,
+                    "z": 2,
+                    "d": 2,
+                    "l": 3
+                },
+                "total_errors_chars_session": 24,
+                "sent_chars_detail_session": {
+                    "r": 12,
+                    "w": 9,
+                    "i": 14,
+                    "t": 8,
+                    "j": 19,
+                    "q": 9,
+                    "c": 9,
+                    "d": 11,
+                    "n": 11,
+                    "f": 16,
+                    "e": 14,
+                    "l": 15,
+                    "b": 9,
+                    "h": 11,
+                    "v": 9,
+                    "p": 12,
+                    "m": 9,
+                    "g": 17,
+                    "y": 12,
+                    "a": 13,
+                    "s": 9,
+                    "o": 15,
+                    "k": 14,
+                    "x": 7,
+                    "u": 10,
+                    "z": 6
                 }
             }
         ]
