@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 106
+        "launch_count": 107
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 30,
+        "speed": 44,
         "pitch": 550,
         "dashes": 30,
         "spaces": 50,
@@ -15,19 +15,19 @@
         "wave_index": 1
     },
     "rxing_stats": {
-        "total_calls": 9193,
-        "sessions": 233,
-        "total_correct": 6168,
-        "total_wrong_items": 3023,
-        "total_time_seconds": 41716.947727
+        "total_calls": 9243,
+        "sessions": 234,
+        "total_correct": 6200,
+        "total_wrong_items": 3041,
+        "total_time_seconds": 41960.070587
     },
     "counting_stats": {
         "exercise_number": 100
     },
     "rx_menu_switcher_states": {
-        "parole": true,
-        "lettere": false,
-        "numeri": false,
+        "parole": false,
+        "lettere": true,
+        "numeri": true,
         "simboli": false,
         "qrz": false,
         "custom": false,
@@ -3131,6 +3131,69 @@
                     "z": 5,
                     "h": 2,
                     "ò": 3,
+                    "q": 1
+                }
+            },
+            {
+                "timestamp_iso": "2025-06-20T07:36:55.546370",
+                "duration_seconds": 243.12286,
+                "wpm_min": 31,
+                "wpm_max": 49,
+                "wpm_avg": 41.21875,
+                "items_sent_session": 50,
+                "items_correct_session": 32,
+                "chars_sent_session": 150,
+                "errors_detail_session": {
+                    "2": 2,
+                    "9": 3,
+                    "7": 8,
+                    "z": 2,
+                    "0": 1,
+                    "8": 3,
+                    "m": 2,
+                    "u": 1,
+                    "6": 1,
+                    "l": 1,
+                    "i": 1,
+                    "p": 1
+                },
+                "total_errors_chars_session": 26,
+                "sent_chars_detail_session": {
+                    "4": 6,
+                    "5": 5,
+                    "3": 12,
+                    "8": 15,
+                    "9": 7,
+                    "0": 10,
+                    "w": 4,
+                    "s": 2,
+                    "y": 3,
+                    "7": 14,
+                    "1": 5,
+                    "2": 7,
+                    "6": 3,
+                    "r": 1,
+                    "z": 4,
+                    "o": 4,
+                    "k": 3,
+                    "d": 3,
+                    "i": 4,
+                    "j": 3,
+                    "c": 3,
+                    "v": 2,
+                    "f": 2,
+                    "p": 2,
+                    "t": 1,
+                    "l": 3,
+                    "b": 2,
+                    "u": 2,
+                    "n": 2,
+                    "e": 2,
+                    "g": 2,
+                    "x": 2,
+                    "a": 4,
+                    "m": 4,
+                    "h": 1,
                     "q": 1
                 }
             }
