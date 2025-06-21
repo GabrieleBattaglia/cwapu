@@ -3725,3 +3725,28 @@ Elenco delle parole copiate male:
 	(100) TX: BZU, RX: DZU, DIF: B;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #236 eseguito il 2025/6/21 alle 7, 41 minuti:
+In questa sessione #236, ti ho inviato 50 Lettere e ne hai ricevuti 45: 90.0%
+	36 di questi sono stati ricevuti al primo ascolto: 80.0%
+	mentre 9 Lettere al secondo tentativo: 20.0%.
+Durante la sessione, la tua velocità minima è stata 38, la massima di 38: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 38.0 WPM.
+Carattere: errori = Percentuale
+    'A': 1 (0.67% dei car. tot., 20.00% delle 'A' inviate)
+    'B': 1 (0.67% dei car. tot., 20.00% delle 'B' inviate)
+    'I': 1 (0.67% dei car. tot., 14.29% delle 'I' inviate)
+    'K': 1 (0.67% dei car. tot., 16.67% delle 'K' inviate)
+    'S': 1 (0.67% dei car. tot., 33.33% delle 'S' inviate)
+    'Z': 1 (0.67% dei car. tot., 20.00% delle 'Z' inviate)
+
+Errori totali: 6 su 150 = 4.00%
+Caratteri mai sbagliati: C D E F G H J L M N O P Q R T U V W X Y
+Elenco delle parole copiate male:
+	(37) TX: BIK, RX: DIX, DIF: BK;
+	(44) TX: BZA, RX: BGA, DIF: Z;
+	(46) TX: PSA, RX: PSU, DIF: A;
+	(47) TX: XYI, RX: XYE, DIF: I;
+	(49) TX: ZSA, RX: ZIA, DIF: S;
+Nota: nessuna
+***
