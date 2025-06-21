@@ -1,25 +1,25 @@
 {
     "app_info": {
-        "launch_count": 109
+        "launch_count": 110
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 40,
+        "speed": 38,
         "pitch": 550,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
-        "volume": 0.3,
+        "volume": 0.25,
         "ms": 4,
         "fs_index": 2,
         "wave_index": 1
     },
     "rxing_stats": {
-        "total_calls": 9393,
-        "sessions": 236,
-        "total_correct": 6305,
-        "total_wrong_items": 3086,
-        "total_time_seconds": 42709.197468
+        "total_calls": 9443,
+        "sessions": 237,
+        "total_correct": 6350,
+        "total_wrong_items": 3091,
+        "total_time_seconds": 42891.498196
     },
     "counting_stats": {
         "exercise_number": 100
@@ -3301,6 +3301,53 @@
                     "x": 7,
                     "u": 10,
                     "z": 6
+                }
+            },
+            {
+                "timestamp_iso": "2025-06-21T07:38:15.350839",
+                "duration_seconds": 182.300728,
+                "wpm_min": 38,
+                "wpm_max": 38,
+                "wpm_avg": 38.0,
+                "items_sent_session": 50,
+                "items_correct_session": 45,
+                "chars_sent_session": 150,
+                "errors_detail_session": {
+                    "b": 1,
+                    "k": 1,
+                    "z": 1,
+                    "a": 1,
+                    "i": 1,
+                    "s": 1
+                },
+                "total_errors_chars_session": 6,
+                "sent_chars_detail_session": {
+                    "l": 9,
+                    "h": 5,
+                    "v": 7,
+                    "c": 6,
+                    "m": 6,
+                    "i": 7,
+                    "y": 6,
+                    "p": 7,
+                    "t": 4,
+                    "w": 7,
+                    "r": 11,
+                    "f": 6,
+                    "d": 6,
+                    "n": 4,
+                    "x": 10,
+                    "j": 7,
+                    "z": 5,
+                    "g": 4,
+                    "k": 6,
+                    "o": 4,
+                    "e": 3,
+                    "q": 4,
+                    "u": 3,
+                    "s": 3,
+                    "b": 5,
+                    "a": 5
                 }
             }
         ]
