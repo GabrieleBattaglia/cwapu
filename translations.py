@@ -2,6 +2,8 @@
 translations = {
 	'en': {
 		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tLaunch: {count}. Type 'm' for menu.",
+		'chars_to_next_report_progress': "Current section completion:\n({x} / {y}) = {z}% (-{w}) to next report generation.",
+		'reports_disabled': "Automatic report generation is disabled.",
 		'custom_set_use_prefill_prompt': "Start with a pre-filled character group?",
 		'yes_key_default': "y",
 		'custom_set_prefill_failed_no_chars': "Prefill failed: no valid characters available.",
@@ -155,7 +157,6 @@ translations = {
 		'file_not_found': "File words.txt not found. Please provide a dictionary file: 1 word per line.",
 		'first_class': "Oops, this is your first class, probably. So I'm creating the record.",
 		'got_data': "I got your data from disk, so:\nYour actual WPM is {wpm} and you did {sessions} sessions.\nI sent to you {totalcalls} total pseudo-calls or groups, and you got {totalget} of them, while {totalwrong} were missed\nYour overall time receiving pseudo-calls is {totaltime}.",
-		'exercises_to_next_report':"{count} exercises remaining until the next global report generation",
 		'set_wpm': "Do you want to set your WPM? Enter to accept {wpm}> ",
 		'h_keyboard':
 			"Welcome to the section where you can listen to CW and configure all its parameters.\n" \
@@ -171,7 +172,7 @@ translations = {
 			"\ttype .f1 .f2 .f3 or .f4 to change the waveform;\n" \
 			"\ttype .m followed by milliseconds to set the fade in and out for the CW note;\n" \
 			"\ttype .g followed by a value to set the number of exercises for global statistics;\n" \
-			"\ttype .x followed by a value to set how often (in exercises) to update global stats;\n" \
+			"\ttype .x followed by a value to set how often (in characters) to update global stats;\n" \
 			"\ttype .t #-# where # are the min-max values of words lenght to choose from dictionary;\n" \
 			"\ttype .y to set a customized group of characters to train with;\n" \
 			"\ttype .sr to set the sample rate to send to your sound card;\n" \
@@ -288,7 +289,6 @@ translations = {
 		'total_mistakes': "\nErrori totali: {global_mistakes} su {send_char} = {mistake_percentage:.2f}%",
 		'never_misspelled': "\nCaratteri mai sbagliati: {good_letters}",
 		'how_many': "\nQuanti ne vuoi ricevere? (INVIO per infinito)> ",
-		'exercises_to_next_report':"{count} esercizi mancanti alla prossima generazione del report globale",
 		'no_mistakes_recorded': "Nessun errore sui caratteri registrato in questa sessione.",
 		'fix_yes': "Vuoi che il cw rimanga alla stessa velocità?	(y|n)> ",
 		'h_keyboard':
@@ -303,7 +303,7 @@ translations = {
 			"\tdigita .f1 .f2 .f3 o .f4 per cambiare la forma d'onda;\n"\
 			"\tdigita .m seguito da millisecondi per impostare il fade in e out per la nota CW;\n"\
 			"\tdigita .g seguito da un valore per impostare la quantità di esercizi per le statistiche globali;\n"\
-			"\tdigita .x seguito da un valore per impostare ogni quanti esercizi aggiornare le stats globali;\n"\
+			"\tdigita .x seguito da un valore per impostare ogni quanti caratteri aggiornare le stats globali;\n"\
 			"\tdigita .t #-# dove i # sono i valori minimo-massimo del filtro per la scelta delle parole;\n"\
 			"\tdigita .y per impostare un gruppo personalizzato di caratteri su cui allenarti;\n"\
 			"\tdigita .sr per impostare il sample rate da inviare alla tua scheda audio;\n"\
@@ -404,6 +404,8 @@ translations = {
 		'parole_filter_not_set_error': "Errore: 'Parole' attivo ma il filtro non è impostato o non produce risultati. Usa '.t #-#'.",
 		'mixed_exercise_types_label': "Misto ({types})",
 		'error_no_item_generated_rx': "Errore: Impossibile generare item per l'esercizio con le selezioni attuali. Controlla le impostazioni del menu Rx.",
+		'chars_to_next_report_progress': "Completamento sezione corrente:\n({x} / {y}) = {z}% (-{w}) alla prossima generazione.",
+		'reports_disabled': "La generazione automatica dei report è disabilitata."
 		#Qit
 	}
 }

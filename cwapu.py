@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERSION="4.0.8, (2025-06-19)"
+VERSION="4.1.0, (2025-06-26)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -29,7 +29,7 @@ RX_SWITCHER_ITEMS = [
 	{'id': '5', 'key_state': 'qrz',     'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False},
 	{'id': '6', 'key_state': 'custom',  'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True}]
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 100
-HISTORICAL_RX_REPORT_INTERVAL = 10 # Ogni quanti esercizi generare il report
+HISTORICAL_RX_REPORT_INTERVAL = 2000
 VALID_MORSE_CHARS_FOR_CUSTOM_SET = {k for k in CWzator(msg=-1) if k != " " and k.isprintable()}
 LETTERE_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.ascii_lowercase)}
 NUMERI_MORSE_POOL  = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.digits)   }
@@ -64,6 +64,7 @@ DEFAULT_DATA = {
 				"historical_rx_data": {
         "max_sessions_to_keep": HISTORICAL_RX_MAX_SESSIONS_DEFAULT,
         "report_interval": HISTORICAL_RX_REPORT_INTERVAL, 
+        "chars_since_last_report": 0,
         "sessions_log": [] 
     }
 } # Chiusura di DEFAULT_DATA
@@ -989,7 +990,7 @@ def KeyboardCW():
 			y_custom_set_display = f"\"{custom_set_str}\"" if custom_set_str else Trnsl('set_empty_label', lang=app_language)
 			base_settings_line1 = f"\n\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {int(overall_volume*100)}"
 			base_settings_line2 = f"\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {WAVE_TYPES[overall_wave-1]}, MS: {overall_ms}, FS: {SAMPLE_RATES[overall_fs]}."
-			history_settings_line = f"\tMax Exercises History (g): {current_max_sessions_g_val}, Report Interval (x): {current_report_interval_x_val}."
+			history_settings_line = f"\tMax Exercises History (g): {current_max_sessions_g_val}, Report size (x): {current_report_interval_x_val}."
 			new_filter_settings_line = f"\tWord Filter (T): {t_filter_display}, Custom Set (Y): {y_custom_set_display}"
 			print(base_settings_line1)
 			print(base_settings_line2)
@@ -1087,13 +1088,13 @@ def KeyboardCW():
 					feedback_cw = f"bk r max exercises is {new_val_g} bk"
 					command_processed_internally = True
 				elif cmd_letter_parsed == "x":
-					min_val_x, max_val_x = 3, 30
+					min_val_x, max_val_x = 500, 15000
 					actual_val_x = app_data.get('historical_rx_data', {}).get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
 					new_val_x = max(min_val_x, min(max_val_x, value_int_parsed)) # Usa value_int_parsed
 					if actual_val_x != new_val_x:
 						app_data['historical_rx_data']['report_interval'] = new_val_x
 						overall_settings_changed = True
-					feedback_cw = f"bk r report interval is {new_val_x} bk"
+					feedback_cw = f"bk r report size is {new_val_x} bk"
 					command_processed_internally = True
 				elif cmd_letter_parsed=="w":
 					if overall_speed != value_int_parsed:
@@ -1605,11 +1606,13 @@ def Rxing():
 			historical_rx_log.pop(0)
 		if 'historical_rx_data' not in app_data: 
 			app_data['historical_rx_data'] = DEFAULT_DATA['historical_rx_data'].copy()
+		app_data['historical_rx_data']['chars_since_last_report'] = app_data['historical_rx_data'].get('chars_since_last_report', 0) + send_char
 		app_data['historical_rx_data']['sessions_log'] = historical_rx_log
 		overall_settings_changed = True
-		if sessions > 0 and report_interval > 0 and (sessions % report_interval == 0):
+		if report_interval > 0 and app_data['historical_rx_data']['chars_since_last_report'] >= report_interval:
 			print(Trnsl('generating_historical_report', lang=app_language)) 
 			generate_historical_rx_report()
+			app_data['historical_rx_data']['chars_since_last_report'] = 0
 		f=open("CWapu_Diary.txt", "a", encoding='utf-8')
 		print(Trnsl('report_saved', lang=app_language))
 		date = f"{lt()[0]}/{lt()[1]}/{lt()[2]}"
@@ -1642,13 +1645,18 @@ def Rxing():
 		for k, v in sorted(dz_mistakes.items()):
 			rslt = MistakesCollectorInStrings(v[0], v[1]) # Questa funzione può rimanere per il dettaglio
 			f.write(Trnsl('wrong_word_entry', lang=app_language, k=k, tx=v[0].upper(), rx=v[1].upper(), dif=rslt.upper()))
-		if report_interval > 0: # Assicurati che l'intervallo sia valido
-			completed_in_cycle = sessions % report_interval
-			if completed_in_cycle == 0:
-				exercises_pending = report_interval # Quindi ne mancano 'report_interval' per il PROSSIMO
-			else:
-				exercises_pending = report_interval - completed_in_cycle
-		print(Trnsl('exercises_to_next_report', lang=app_language, count=exercises_pending))
+		if report_interval > 0:
+			chars_done = app_data['historical_rx_data'].get('chars_since_last_report', 0)
+			chars_target = report_interval
+			percentage_done = (chars_done / chars_target * 100) if chars_target > 0 else 0.0
+			chars_missing = chars_target - chars_done
+			print(Trnsl('chars_to_next_report_progress', lang=app_language, 
+						x=chars_done, 
+						y=chars_target, 
+						z=f"{percentage_done:.2f}", 
+						w=chars_missing))
+		else:
+			print(Trnsl('reports_disabled', lang=app_language))
 		nota=dgt(prompt=Trnsl('note_on_exercise', lang=app_language), kind="s", smin=0, smax=512)
 		if nota != "":
 			f.write(Trnsl('note_with_text', lang=app_language, nota=nota))
