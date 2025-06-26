@@ -4217,3 +4217,191 @@ Elenco delle parole copiate male:
 	(19) TX: BVX, RX: DVX, DIF: B;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #251 eseguito il 2025/6/26 alle 18, 51 minuti:
+In questa sessione #251, ti ho inviato 50 Misto (Lettere, Numeri) e ne hai ricevuti 34: 68.0%
+	25 di questi sono stati ricevuti al primo ascolto: 73.5%
+	mentre 9 Misto (Lettere, Numeri) al secondo tentativo: 26.5%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 50: pari ad una variazione di 19 WPM.
+	La velocità media di ricezione è di: 41.6 WPM.
+Carattere: errori = Percentuale
+    '7': 4 (2.67% dei car. tot., 28.57% delle '7' inviate)
+    'H': 3 (2.00% dei car. tot., 50.00% delle 'H' inviate)
+    '2': 2 (1.33% dei car. tot., 22.22% delle '2' inviate)
+    'P': 2 (1.33% dei car. tot., 50.00% delle 'P' inviate)
+    '8': 1 (0.67% dei car. tot., 33.33% delle '8' inviate)
+    '9': 1 (0.67% dei car. tot., 50.00% delle '9' inviate)
+    'B': 1 (0.67% dei car. tot., 33.33% delle 'B' inviate)
+    'D': 1 (0.67% dei car. tot., 16.67% delle 'D' inviate)
+    'F': 1 (0.67% dei car. tot., 20.00% delle 'F' inviate)
+    'I': 1 (0.67% dei car. tot., 33.33% delle 'I' inviate)
+    'S': 1 (0.67% dei car. tot., 50.00% delle 'S' inviate)
+    'Z': 1 (0.67% dei car. tot., 25.00% delle 'Z' inviate)
+
+Errori totali: 19 su 150 = 12.67%
+Caratteri mai sbagliati: 0 1 3 4 5 6 A C E G J K L M N O Q T U V W X Y
+Elenco delle parole copiate male:
+	(13) TX: DHI, RX: DSI, DIF: H;
+	(17) TX: UDH, RX: UDS, DIF: H;
+	(19) TX: 787, RX: 878, DIF: 87;
+	(22) TX: 723, RX: 823, DIF: 7;
+	(23) TX: 207, RX: 307, DIF: 2;
+	(25) TX: IHS, RX: IHH, DIF: S;
+	(26) TX: PZB, RX: JZB, DIF: P;
+	(27) TX: 620, RX: 630, DIF: 2;
+	(34) TX: AZD, RX: AGN, DIF: ZD;
+	(35) TX: WBW, RX: WDW, DIF: B;
+	(40) TX: SHE, RX: SSE, DIF: H;
+	(42) TX: UFP, RX: UFC, DIF: P;
+	(44) TX: 417, RX: 418, DIF: 7;
+	(47) TX: DFK, RX: DRK, DIF: F;
+	(48) TX: 785, RX: 895, DIF: 79;
+	(50) TX: HAI, RX: HAS, DIF: I;
+Nota: nessuna
+***
+
+Esercizio di ricezione #252 eseguito il 2025/6/26 alle 19, 34 minuti:
+In questa sessione #252, ti ho inviato 75 Parole e ne hai ricevuti 41: 54.7%
+	29 di questi sono stati ricevuti al primo ascolto: 70.7%
+	mentre 12 Parole al secondo tentativo: 29.3%.
+Durante la sessione, la tua velocità minima è stata 30, la massima di 43: pari ad una variazione di 13 WPM.
+	La velocità media di ricezione è di: 35.6 WPM.
+Carattere: errori = Percentuale
+    'I': 15 (2.82% dei car. tot., 18.99% delle 'I' inviate)
+    'R': 10 (1.88% dei car. tot., 25.64% delle 'R' inviate)
+    'E': 8 (1.51% dei car. tot., 16.33% delle 'E' inviate)
+    'A': 7 (1.32% dei car. tot., 12.07% delle 'A' inviate)
+    'T': 7 (1.32% dei car. tot., 20.00% delle 'T' inviate)
+    'D': 3 (0.56% dei car. tot., 20.00% delle 'D' inviate)
+    'G': 3 (0.56% dei car. tot., 21.43% delle 'G' inviate)
+    'N': 3 (0.56% dei car. tot., 10.71% delle 'N' inviate)
+    'L': 2 (0.38% dei car. tot., 8.00% delle 'L' inviate)
+    'O': 2 (0.38% dei car. tot., 5.13% delle 'O' inviate)
+    'U': 2 (0.38% dei car. tot., 13.33% delle 'U' inviate)
+    'B': 1 (0.19% dei car. tot., 9.09% delle 'B' inviate)
+    'C': 1 (0.19% dei car. tot., 3.70% delle 'C' inviate)
+
+Errori totali: 64 su 531 = 12.05%
+Caratteri mai sbagliati: F H M P S V Z À Ì Ò
+Elenco delle parole copiate male:
+	(5) TX: DEFLUIRO, RX: DEFLUIRE, DIF: O;
+	(6) TX: REDITURO, RX: REDITIVO, DIF: UR;
+	(9) TX: FELSITE, RX: FELSINE, DIF: T;
+	(10) TX: NIDIFUGA, RX: DEFUNESO, DIF: NIIGA;
+	(11) TX: RIEDUCHI, RX: REDUCHI, DIF: I;
+	(12) TX: SEDEI, RX: STENI, DIF: TDE;
+	(18) TX: RIGO, RX: REGO, DIF: I;
+	(19) TX: AFTOSE, RX: AFTOSI, DIF: E;
+	(20) TX: ADDITATA, RX: ADITTA, DIF: DA;
+	(21) TX: ATIMIE, RX: ATEMIE, DIF: I;
+	(22) TX: ADIBII, RX: ADEBII, DIF: I;
+	(36) TX: LEVERAGE, RX: LIVERANÒ, DIF: EGE;
+	(37) TX: SPRUZZI, RX: SPEZZI, DIF: RU;
+	(38) TX: ILLATIVE, RX: ILLAVA, DIF: TIE;
+	(39) TX: OVARICI, RX: OVACINE, DIF: RINE;
+	(40) TX: FOSFATO, RX: FOSFORO, DIF: ATRO;
+	(41) TX: RIPULITE, RX: RAPUNTINE, DIF: ILT;
+	(43) TX: INLIBRA, RX: INFIDA, DIF: LBR;
+	(46) TX: TROTTA, RX: TROTA, DIF: T;
+	(48) TX: SUDAVATE, RX: SUBIVATE, DIF: DA;
+	(50) TX: SGRAVITO, RX: SGAVITO, DIF: R;
+	(55) TX: CANAPINO, RX: CANPITO, DIF: AN;
+	(56) TX: IMPERLO, RX: IMPELLO, DIF: R;
+	(59) TX: PARIGINI, RX: PARTINE, DIF: IGI;
+	(60) TX: TALLOLIO, RX: TALLOLO, DIF: I;
+	(61) TX: SERVAL, RX: SERVOL, DIF: A;
+	(62) TX: RIFUSE, RX: REFUSE, DIF: I;
+	(63) TX: VENTITRE, RX: VENTIRE, DIF: T;
+	(64) TX: ESILIERÀ, RX: ESILITÀ, DIF: ER;
+	(65) TX: CERCHERO, RX: CERCHIANO, DIF: ER;
+	(67) TX: SBUFFARE, RX: SBUFFATE, DIF: R;
+	(69) TX: RITINSE, RX: RITANSE, DIF: I;
+	(73) TX: GRADUI, RX: GRADUE, DIF: I;
+	(75) TX: BIANCICA, RX: BIANCIRE, DIF: CA;
+Nota: nessuna
+***
+
+Esercizio di ricezione #253 eseguito il 2025/6/26 alle 19, 43 minuti:
+In questa sessione #253, ti ho inviato 50 Numeri e ne hai ricevuti 29: 58.0%
+	19 di questi sono stati ricevuti al primo ascolto: 65.5%
+	mentre 10 Numeri al secondo tentativo: 34.5%.
+Durante la sessione, la tua velocità minima è stata 37, la massima di 49: pari ad una variazione di 12 WPM.
+	La velocità media di ricezione è di: 42.0 WPM.
+Carattere: errori = Percentuale
+    '7': 11 (5.50% dei car. tot., 33.33% delle '7' inviate)
+    '2': 6 (3.00% dei car. tot., 31.58% delle '2' inviate)
+    '8': 5 (2.50% dei car. tot., 20.83% delle '8' inviate)
+    '9': 4 (2.00% dei car. tot., 23.53% delle '9' inviate)
+    '1': 2 (1.00% dei car. tot., 11.76% delle '1' inviate)
+    '6': 2 (1.00% dei car. tot., 10.53% delle '6' inviate)
+    '3': 1 (0.50% dei car. tot., 6.25% delle '3' inviate)
+    '4': 1 (0.50% dei car. tot., 5.88% delle '4' inviate)
+
+Errori totali: 32 su 200 = 16.00%
+Caratteri mai sbagliati: 0 5
+Elenco delle parole copiate male:
+	(3) TX: 7262, RX: 7373, DIF: 262;
+	(4) TX: 4887, RX: 4886, DIF: 7;
+	(7) TX: 1579, RX: 1569, DIF: 7;
+	(8) TX: 9817, RX: 9811, DIF: 7;
+	(12) TX: 0978, RX: 0988, DIF: 78;
+	(13) TX: 0202, RX: 0201, DIF: 2;
+	(14) TX: 9282, RX: 9290, DIF: 82;
+	(18) TX: 8074, RX: 7074, DIF: 8;
+	(21) TX: 1573, RX: 1563, DIF: 7;
+	(26) TX: 0427, RX: 0437, DIF: 2;
+	(31) TX: 7989, RX: 7988, DIF: 9;
+	(33) TX: 4693, RX: 4653, DIF: 9;
+	(37) TX: 9278, RX: 9088, DIF: 278;
+	(38) TX: 7408, RX: 7308, DIF: 4;
+	(40) TX: 4806, RX: 4706, DIF: 8;
+	(42) TX: 7597, RX: 7508, DIF: 97;
+	(43) TX: 5157, RX: 5156, DIF: 7;
+	(44) TX: 9979, RX: 9989, DIF: 7;
+	(47) TX: 6416, RX: 6374, DIF: 3716;
+	(48) TX: 5395, RX: 5351, DIF: 91;
+	(50) TX: 5373, RX: 5383, DIF: 7;
+Nota: nessuna
+***
+
+Esercizio di ricezione #254 eseguito il 2025/6/26 alle 23, 5 minuti:
+In questa sessione #254, ti ho inviato 30 Parole e ne hai ricevuti 15: 50.0%
+	7 di questi sono stati ricevuti al primo ascolto: 46.7%
+	mentre 8 Parole al secondo tentativo: 53.3%.
+Durante la sessione, la tua velocità minima è stata 40, la massima di 46: pari ad una variazione di 6 WPM.
+	La velocità media di ricezione è di: 42.5 WPM.
+Carattere: errori = Percentuale
+    'E': 8 (3.96% dei car. tot., 47.06% delle 'E' inviate)
+    'A': 6 (2.97% dei car. tot., 25.00% delle 'A' inviate)
+    'T': 6 (2.97% dei car. tot., 28.57% delle 'T' inviate)
+    'I': 5 (2.48% dei car. tot., 21.74% delle 'I' inviate)
+    'R': 4 (1.98% dei car. tot., 30.77% delle 'R' inviate)
+    'V': 4 (1.98% dei car. tot., 44.44% delle 'V' inviate)
+    'L': 2 (0.99% dei car. tot., 18.18% delle 'L' inviate)
+    'N': 2 (0.99% dei car. tot., 22.22% delle 'N' inviate)
+    'P': 2 (0.99% dei car. tot., 28.57% delle 'P' inviate)
+    'S': 2 (0.99% dei car. tot., 15.38% delle 'S' inviate)
+    'C': 1 (0.50% dei car. tot., 33.33% delle 'C' inviate)
+    'G': 1 (0.50% dei car. tot., 16.67% delle 'G' inviate)
+    'O': 1 (0.50% dei car. tot., 4.76% delle 'O' inviate)
+
+Errori totali: 44 su 202 = 21.78%
+Caratteri mai sbagliati: B D H M U Z Ò
+Elenco delle parole copiate male:
+	(2) TX: GUIDERAI, RX: GUIDARE, DIF: ARRAI;
+	(3) TX: ABUSASTI, RX: ABUSIVE, DIF: ASTVE;
+	(4) TX: PIORNO, RX: GIORNO, DIF: P;
+	(5) TX: PAGATELO, RX: AGINO, DIF: PATEL;
+	(6) TX: SLENTO, RX: SLITO, DIF: EN;
+	(9) TX: OSTINAI, RX: OSTINA, DIF: I;
+	(11) TX: MORTORI, RX: MORMORE, DIF: TI;
+	(12) TX: TUMULTO, RX: TUMULANO, DIF: T;
+	(13) TX: SLEGAVO, RX: SLEGANO, DIF: V;
+	(18) TX: TENIE, RX: TENIS, DIF: E;
+	(19) TX: VAGLIATO, RX: VAGLIO, DIF: AT;
+	(21) TX: MIETESTI, RX: MITICO, DIF: ETESCO;
+	(22) TX: MAVORZI, RX: MAUROZZO, DIF: VRI;
+	(27) TX: SVELTINA, RX: SVITAVA, DIF: ELINVA;
+	(30) TX: DIMAGRI, RX: DIMAGIGE, DIF: RGE;
+Nota: nessuna
+***
