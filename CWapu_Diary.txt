@@ -4110,3 +4110,66 @@ Elenco delle parole copiate male:
 	(30) TX: REOSTATO, RX: RIOTTOSO, DIF: ETAT;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #246 eseguito il 2025/6/26 alle 15, 7 minuti:
+In questa sessione #246, ti ho inviato 50 Lettere e ne hai ricevuti 46: 92.0%
+	39 di questi sono stati ricevuti al primo ascolto: 84.8%
+	mentre 7 Lettere al secondo tentativo: 15.2%.
+Durante la sessione, la tua velocità minima è stata 35, la massima di 35: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 35.0 WPM.
+Carattere: errori = Percentuale
+    'Z': 2 (1.33% dei car. tot., 28.57% delle 'Z' inviate)
+    'B': 1 (0.67% dei car. tot., 20.00% delle 'B' inviate)
+    'X': 1 (0.67% dei car. tot., 14.29% delle 'X' inviate)
+
+Errori totali: 4 su 150 = 2.67%
+Caratteri mai sbagliati: A C D E F G H I J K L M N O P Q R S T U V W Y
+Elenco delle parole copiate male:
+	(2) TX: CBS, RX: CDS, DIF: B;
+	(7) TX: CYX, RX: CYZ, DIF: X;
+	(17) TX: WYZ, RX: WYG, DIF: Z;
+	(30) TX: GCZ, RX: GCG, DIF: Z;
+Nota: nessuna
+***
+
+Esercizio di ricezione #247 eseguito il 2025/6/26 alle 15, 9 minuti:
+In questa sessione #247, ti ho inviato 20 Lettere e ne hai ricevuti 16: 80.0%
+	12 di questi sono stati ricevuti al primo ascolto: 75.0%
+	mentre 4 Lettere al secondo tentativo: 25.0%.
+Durante la sessione, la tua velocità minima è stata 36, la massima di 48: pari ad una variazione di 12 WPM.
+	La velocità media di ricezione è di: 41.4 WPM.
+Carattere: errori = Percentuale
+    'K': 1 (1.67% dei car. tot., 50.00% delle 'K' inviate)
+    'O': 1 (1.67% dei car. tot., 33.33% delle 'O' inviate)
+    'Q': 1 (1.67% dei car. tot., 100.00% delle 'Q' inviate)
+    'U': 1 (1.67% dei car. tot., 100.00% delle 'U' inviate)
+    'Z': 1 (1.67% dei car. tot., 25.00% delle 'Z' inviate)
+
+Errori totali: 5 su 60 = 8.33%
+Caratteri mai sbagliati: A B C D E F H I J L M N P R S T V W X Y
+Elenco delle parole copiate male:
+	(4) TX: OEP, RX: MEP, DIF: O;
+	(16) TX: CZK, RX: CZQ, DIF: K;
+	(17) TX: WSQ, RX: WSY, DIF: Q;
+	(19) TX: PZU, RX: PGV, DIF: ZU;
+Nota: nessuna
+***
+
+Esercizio di ricezione #248 eseguito il 2025/6/26 alle 15, 11 minuti:
+In questa sessione #248, ti ho inviato 20 Lettere e ne hai ricevuti 18: 90.0%
+	13 di questi sono stati ricevuti al primo ascolto: 72.2%
+	mentre 5 Lettere al secondo tentativo: 27.8%.
+Durante la sessione, la tua velocità minima è stata 31, la massima di 46: pari ad una variazione di 15 WPM.
+	La velocità media di ricezione è di: 38.3 WPM.
+Carattere: errori = Percentuale
+    'E': 1 (1.67% dei car. tot., 100.00% delle 'E' inviate)
+    'H': 1 (1.67% dei car. tot., 50.00% delle 'H' inviate)
+    'Z': 1 (1.67% dei car. tot., 50.00% delle 'Z' inviate)
+
+Errori totali: 3 su 60 = 5.00%
+Caratteri mai sbagliati: B C D F G I J K L M N O P Q R S V W X Y
+Elenco delle parole copiate male:
+	(16) TX: ZER, RX: GIR, DIF: ZE;
+	(19) TX: YQH, RX: YQS, DIF: H;
+Nota: nessuna
+***
