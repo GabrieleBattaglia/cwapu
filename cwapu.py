@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERSION="4.1.0, (2025-06-26)"
+VERSION="4.1.1, (2025-06-26)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -862,14 +862,10 @@ def load_settings():
 						# max_sessions_to_keep: usa il valore caricato se esiste e valido, altrimenti default
 						if "max_sessions_to_keep" in loaded_section and isinstance(loaded_section["max_sessions_to_keep"], int):
 							merged_section["max_sessions_to_keep"] = loaded_section["max_sessions_to_keep"]
-						# else: il valore di default da default_values.copy() è già in merged_section
-						
-						# report_interval: usa il valore caricato se esiste e valido, altrimenti default
 						if "report_interval" in loaded_section and isinstance(loaded_section["report_interval"], int):
 							merged_section["report_interval"] = loaded_section["report_interval"]
-						# else: il valore di default è già in merged_section
-
-						# sessions_log: usa il valore caricato se esiste ed è una lista, altrimenti default (lista vuota)
+						if "chars_since_last_report" in loaded_section and isinstance(loaded_section["chars_since_last_report"], int):
+							merged_section["chars_since_last_report"] = loaded_section["chars_since_last_report"]
 						if "sessions_log" in loaded_section and isinstance(loaded_section["sessions_log"], list):
 							merged_section["sessions_log"] = loaded_section["sessions_log"]
 						# else: il valore di default (lista vuota) è già in merged_section
