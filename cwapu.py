@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERSION="4.1.1, (2025-06-26)"
+VERSION="4.1.2, (2025-06-26)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -29,7 +29,7 @@ RX_SWITCHER_ITEMS = [
 	{'id': '5', 'key_state': 'qrz',     'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False},
 	{'id': '6', 'key_state': 'custom',  'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True}]
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 100
-HISTORICAL_RX_REPORT_INTERVAL = 2000
+HISTORICAL_RX_REPORT_INTERVAL = 3500
 VALID_MORSE_CHARS_FOR_CUSTOM_SET = {k for k in CWzator(msg=-1) if k != " " and k.isprintable()}
 LETTERE_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.ascii_lowercase)}
 NUMERI_MORSE_POOL  = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.digits)   }
