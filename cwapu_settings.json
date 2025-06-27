@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 127
+        "launch_count": 128
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 45,
+        "speed": 46,
         "pitch": 550,
         "dashes": 30,
         "spaces": 50,
@@ -15,18 +15,18 @@
         "wave_index": 1
     },
     "rxing_stats": {
-        "total_calls": 10148,
-        "sessions": 255,
-        "total_correct": 6818,
-        "total_wrong_items": 3328,
-        "total_time_seconds": 47093.92344
+        "total_calls": 10223,
+        "sessions": 256,
+        "total_correct": 6856,
+        "total_wrong_items": 3365,
+        "total_time_seconds": 47452.089513
     },
     "counting_stats": {
         "exercise_number": 100
     },
     "rx_menu_switcher_states": {
-        "parole": true,
-        "lettere": false,
+        "parole": false,
+        "lettere": true,
         "numeri": false,
         "simboli": false,
         "qrz": false,
@@ -38,7 +38,7 @@
     "historical_rx_data": {
         "max_sessions_to_keep": 100,
         "report_interval": 3500,
-        "chars_since_last_report": 1233,
+        "chars_since_last_report": 1458,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-05-20T16:41:45.375783",
@@ -4222,6 +4222,69 @@
                     "c": 3,
                     "h": 1,
                     "z": 1
+                }
+            },
+            {
+                "timestamp_iso": "2025-06-27T07:28:39.394634",
+                "duration_seconds": 358.166073,
+                "wpm_min": 44,
+                "wpm_max": 55,
+                "wpm_avg": 49.39473684210526,
+                "items_sent_session": 75,
+                "items_correct_session": 38,
+                "chars_sent_session": 225,
+                "errors_detail_session": {
+                    "b": 5,
+                    "p": 4,
+                    "w": 2,
+                    "a": 1,
+                    "z": 5,
+                    "s": 2,
+                    "k": 2,
+                    "v": 1,
+                    "h": 4,
+                    "f": 3,
+                    "g": 2,
+                    "r": 4,
+                    "l": 2,
+                    "x": 2,
+                    "u": 1,
+                    "o": 1,
+                    "i": 2,
+                    "c": 2,
+                    "m": 1,
+                    "j": 2,
+                    "q": 3,
+                    "t": 1
+                },
+                "total_errors_chars_session": 52,
+                "sent_chars_detail_session": {
+                    "l": 6,
+                    "g": 9,
+                    "b": 7,
+                    "f": 8,
+                    "a": 8,
+                    "m": 13,
+                    "j": 9,
+                    "r": 13,
+                    "u": 8,
+                    "q": 9,
+                    "i": 8,
+                    "o": 10,
+                    "n": 8,
+                    "x": 6,
+                    "s": 10,
+                    "w": 9,
+                    "k": 13,
+                    "p": 5,
+                    "h": 12,
+                    "e": 8,
+                    "v": 6,
+                    "z": 17,
+                    "y": 5,
+                    "t": 7,
+                    "d": 7,
+                    "c": 4
                 }
             }
         ]

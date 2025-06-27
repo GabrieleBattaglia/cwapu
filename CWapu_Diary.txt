@@ -4405,3 +4405,76 @@ Elenco delle parole copiate male:
 	(30) TX: DIMAGRI, RX: DIMAGIGE, DIF: RGE;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #255 eseguito il 2025/6/27 alle 7, 34 minuti:
+In questa sessione #255, ti ho inviato 75 Lettere e ne hai ricevuti 38: 50.7%
+	13 di questi sono stati ricevuti al primo ascolto: 34.2%
+	mentre 25 Lettere al secondo tentativo: 65.8%.
+Durante la sessione, la tua velocità minima è stata 44, la massima di 55: pari ad una variazione di 11 WPM.
+	La velocità media di ricezione è di: 49.4 WPM.
+Carattere: errori = Percentuale
+    'B': 5 (2.22% dei car. tot., 71.43% delle 'B' inviate)
+    'Z': 5 (2.22% dei car. tot., 29.41% delle 'Z' inviate)
+    'H': 4 (1.78% dei car. tot., 33.33% delle 'H' inviate)
+    'P': 4 (1.78% dei car. tot., 80.00% delle 'P' inviate)
+    'R': 4 (1.78% dei car. tot., 30.77% delle 'R' inviate)
+    'F': 3 (1.33% dei car. tot., 37.50% delle 'F' inviate)
+    'Q': 3 (1.33% dei car. tot., 33.33% delle 'Q' inviate)
+    'C': 2 (0.89% dei car. tot., 50.00% delle 'C' inviate)
+    'G': 2 (0.89% dei car. tot., 22.22% delle 'G' inviate)
+    'I': 2 (0.89% dei car. tot., 25.00% delle 'I' inviate)
+    'J': 2 (0.89% dei car. tot., 22.22% delle 'J' inviate)
+    'K': 2 (0.89% dei car. tot., 15.38% delle 'K' inviate)
+    'L': 2 (0.89% dei car. tot., 33.33% delle 'L' inviate)
+    'S': 2 (0.89% dei car. tot., 20.00% delle 'S' inviate)
+    'W': 2 (0.89% dei car. tot., 22.22% delle 'W' inviate)
+    'X': 2 (0.89% dei car. tot., 33.33% delle 'X' inviate)
+    'A': 1 (0.44% dei car. tot., 12.50% delle 'A' inviate)
+    'M': 1 (0.44% dei car. tot., 7.69% delle 'M' inviate)
+    'O': 1 (0.44% dei car. tot., 10.00% delle 'O' inviate)
+    'T': 1 (0.44% dei car. tot., 14.29% delle 'T' inviate)
+    'U': 1 (0.44% dei car. tot., 12.50% delle 'U' inviate)
+    'V': 1 (0.44% dei car. tot., 16.67% delle 'V' inviate)
+
+Errori totali: 52 su 225 = 23.11%
+Caratteri mai sbagliati: D E N Y
+Elenco delle parole copiate male:
+	(1) TX: LGB, RX: LGZ, DIF: B;
+	(10) TX: PWN, RX: RGN, DIF: PW;
+	(11) TX: UPH, RX: UWH, DIF: P;
+	(14) TX: WZO, RX: AWO, DIF: AZ;
+	(15) TX: ORS, RX: ORH, DIF: S;
+	(17) TX: VZK, RX: VZX, DIF: K;
+	(18) TX: BVR, RX: BUR, DIF: V;
+	(19) TX: HZY, RX: SZY, DIF: H;
+	(24) TX: ZFR, RX: RGR, DIF: ZFGR;
+	(25) TX: EKH, RX: EXH, DIF: K;
+	(27) TX: SZB, RX: SGL, DIF: ZB;
+	(28) TX: LZS, RX: RZS, DIF: L;
+	(30) TX: XQD, RX: KQD, DIF: X;
+	(33) TX: HLZ, RX: SLD, DIF: HZ;
+	(34) TX: NXM, RX: NKM, DIF: X;
+	(35) TX: TKU, RX: TKX, DIF: U;
+	(38) TX: JHB, RX: JSB, DIF: H;
+	(42) TX: GGV, RX: GMV, DIF: G;
+	(47) TX: USO, RX: USQ, DIF: O;
+	(48) TX: NSI, RX: NII, DIF: SI;
+	(49) TX: HCM, RX: HKW, DIF: CM;
+	(50) TX: OWR, RX: ORR, DIF: WR;
+	(52) TX: RPF, RX: RSR, DIF: PF;
+	(53) TX: AJT, RX: AWT, DIF: J;
+	(55) TX: TJZ, RX: TJN, DIF: Z;
+	(58) TX: JMJ, RX: JMO, DIF: J;
+	(59) TX: ZQQ, RX: ZYY, DIF: QQ;
+	(60) TX: XFD, RX: XAD, DIF: F;
+	(61) TX: KZQ, RX: KZO, DIF: Q;
+	(66) TX: ZDI, RX: ZDS, DIF: I;
+	(67) TX: BYH, RX: DYS, DIF: BH;
+	(68) TX: KTL, RX: KAD, DIF: TL;
+	(69) TX: QZR, RX: QZL, DIF: R;
+	(71) TX: PCX, RX: WKX, DIF: PC;
+	(72) TX: HKB, RX: HKD, DIF: B;
+	(73) TX: BWW, RX: DWW, DIF: B;
+	(74) TX: ZYR, RX: ZYL, DIF: R;
+Nota: nessuna
+***
