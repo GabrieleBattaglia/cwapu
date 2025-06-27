@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERSION="4.1.2, (2025-06-26)"
+VERSION="4.1.3, (2025-06-26)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -1647,6 +1647,7 @@ def Rxing():
 			percentage_done = (chars_done / chars_target * 100) if chars_target > 0 else 0.0
 			chars_missing = chars_target - chars_done
 			print(Trnsl('chars_to_next_report_progress', lang=app_language, 
+						s=send_char,
 						x=chars_done, 
 						y=chars_target, 
 						z=f"{percentage_done:.2f}", 

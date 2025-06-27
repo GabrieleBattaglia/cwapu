@@ -2,7 +2,7 @@
 translations = {
 	'en': {
 		'welcome_message': "\nCWAPU - VERSION: {version} BY GABE - IZ4APU.\n\t----UTILITIES FOR YOUR CW----\n\t\tLaunch: {count}. Type 'm' for menu.",
-		'chars_to_next_report_progress': "Current section completion:\n({x} / {y}) = {z}% (-{w}) to next report generation.",
+		'chars_to_next_report_progress': "Current section completion:\n+{s} -> ({x} / {y}) = {z}% (-{w}) to next report generation.",
 		'reports_disabled': "Automatic report generation is disabled.",
 		'custom_set_use_prefill_prompt': "Start with a pre-filled character group?",
 		'yes_key_default': "y",
@@ -404,7 +404,7 @@ translations = {
 		'parole_filter_not_set_error': "Errore: 'Parole' attivo ma il filtro non è impostato o non produce risultati. Usa '.t #-#'.",
 		'mixed_exercise_types_label': "Misto ({types})",
 		'error_no_item_generated_rx': "Errore: Impossibile generare item per l'esercizio con le selezioni attuali. Controlla le impostazioni del menu Rx.",
-		'chars_to_next_report_progress': "Completamento sezione corrente:\n({x} / {y}) = {z}% (-{w}) alla prossima generazione.",
+		'chars_to_next_report_progress': "Completamento sezione corrente:\n+{s} -> ({x} / {y}) = {z}% (-{w}) alla prossima generazione.",
 		'reports_disabled': "La generazione automatica dei report è disabilitata."
 		#Qit
 	}
