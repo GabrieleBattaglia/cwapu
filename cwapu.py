@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERSION="4.1.3, (2025-06-26)"
+VERSION="4.1.4, (2025-06-28)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -1757,15 +1757,20 @@ def generate_historical_rx_report():
 	report_filename = f"CWapu_Historical_Statistics_G_{g_value}_X_{x_value}.html"
 	# Determina il blocco precedente per il calcolo delle variazioni
 	previous_aggregates = None
-	if len(sessions_log) >= report_gen_interval: # Deve esserci almeno un intervallo di sessioni passate
-		end_index_prev_block = len(sessions_log) - report_gen_interval
-		if end_index_prev_block > 0:
-			# Il blocco precedente ha la stessa logica di lunghezza del blocco corrente
-			num_to_take_previous = min(end_index_prev_block, max_sessions_for_report_config)
-			start_index_prev_block = max(0, end_index_prev_block - num_to_take_previous)
-			previous_block_sessions = sessions_log[start_index_prev_block:end_index_prev_block]
-			if previous_block_sessions:
-				previous_aggregates = _calculate_aggregates(previous_block_sessions)
+	# La dimensione del blocco corrente è definita da 'g' (max_sessions_for_report_config)
+	# o dal numero totale di sessioni se sono meno di 'g'.
+	num_sessions_in_current_block = current_aggregates["num_sessions_in_block"]
+	# Ha senso cercare un blocco precedente solo se abbiamo più sessioni di quelle nel blocco corrente.
+	if len(sessions_log) > num_sessions_in_current_block:
+		# L'indice di fine del blocco precedente è semplicemente l'inizio di quello corrente.
+		end_index_prev_block = len(sessions_log) - num_sessions_in_current_block
+		# Determiniamo quante sessioni prendere per il blocco precedente.
+		# Di norma è 'g', ma potrebbe essere meno se siamo all'inizio della cronologia.
+		num_to_take_previous = min(end_index_prev_block, max_sessions_for_report_config)
+		start_index_prev_block = max(0, end_index_prev_block - num_to_take_previous)
+		previous_block_sessions = sessions_log[start_index_prev_block:end_index_prev_block]
+		if previous_block_sessions:
+			previous_aggregates = _calculate_aggregates(previous_block_sessions)
 	try:
 		with open(report_filename, "w", encoding="utf-8") as f:
 			# --- INIZIO DOCUMENTO HTML ---
