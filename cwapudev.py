@@ -1,4 +1,4 @@
-# CWAPU - Utility per il CW, di Gabry, IZ4APU
+# CWAPUDEV - Utility per il CW, di Gabry, IZ4APU
 # Data concepimento 21/12/2022.
 # GitHub publishing on july 2nd, 2024.
 
@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERSION="4.1.5, (2025-07-05)"
+VERSION="4.1.4, (2025-06-28)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -836,24 +836,33 @@ def crea_report_grafico(current_aggregates, previous_aggregates,
 def load_settings():
 	"""Carica le impostazioni dal file JSON o restituisce i default."""
 	global overall_settings_changed # Flag per indicare se le impostazioni devono essere salvate all'uscita
+
 	if os.path.exists(SETTINGS_FILE):
 		try:
 			with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
 				loaded_data = json.load(f) # Carica i dati dal file JSON
+			
 			merged_data = {} # Dizionario che conterrà le impostazioni finali
+			
+			# Itera su ogni sezione definita in DEFAULT_DATA
 			for main_key, default_values in DEFAULT_DATA.items():
+				# Estrae la sezione corrispondente dai dati caricati; usa un dizionario vuoto se la sezione non c'è nel file
 				loaded_section = loaded_data.get(main_key, {})
 				
+				# Inizia con una copia dei valori di default per la sezione corrente
+				# Questo assicura che tutte le chiavi previste esistano
 				if isinstance(default_values, dict):
 					merged_section = default_values.copy()
 				else: # Se il valore di default non è un dizionario (improbabile per le sezioni principali, ma per sicurezza)
 					merged_section = default_values 
+
+
+				# Logica di unione specifica per la sezione 'historical_rx_data'
 				if main_key == "historical_rx_data":
 					if isinstance(merged_section, dict): # Assicura che merged_section sia un dizionario
+						# max_sessions_to_keep: usa il valore caricato se esiste e valido, altrimenti default
 						if "max_sessions_to_keep" in loaded_section and isinstance(loaded_section["max_sessions_to_keep"], int):
 							merged_section["max_sessions_to_keep"] = loaded_section["max_sessions_to_keep"]
-						if "historical_reports" in loaded_section and isinstance(loaded_section["historical_reports"], list):
-							merged_section["historical_reports"] = loaded_section["historical_reports"]
 						if "report_interval" in loaded_section and isinstance(loaded_section["report_interval"], int):
 							merged_section["report_interval"] = loaded_section["report_interval"]
 						if "chars_since_last_report" in loaded_section and isinstance(loaded_section["chars_since_last_report"], int):
@@ -1599,23 +1608,8 @@ def Rxing():
 		overall_settings_changed = True
 		if report_interval > 0 and app_data['historical_rx_data']['chars_since_last_report'] >= report_interval:
 			print(Trnsl('generating_historical_report', lang=app_language)) 
-			sessions_log = app_data.get('historical_rx_data', {}).get('sessions_log', [])
-			chars_to_account_for = app_data['historical_rx_data']['chars_since_last_report']
-			sessions_for_this_report = []
-			accumulated_chars = 0
-			for session in reversed(sessions_log):
-				sessions_for_this_report.insert(0, session)
-				accumulated_chars += session.get("chars_sent_session", 0)
-				if accumulated_chars >= chars_to_account_for:
-					break
-			new_report_aggregates = generate_historical_rx_report(sessions_for_this_report)
-			if new_report_aggregates:
-				historical_reports = app_data.get('historical_rx_data', {}).get('historical_reports', [])
-				historical_reports.append(new_report_aggregates)
-				app_data['historical_rx_data']['historical_reports'] = historical_reports
-			chars_in_this_report = accumulated_chars
-			overshoot = chars_in_this_report - report_interval
-			app_data['historical_rx_data']['chars_since_last_report'] = max(0, overshoot)
+			generate_historical_rx_report()
+			app_data['historical_rx_data']['chars_since_last_report'] = 0
 		f=open("CWapu_Diary.txt", "a", encoding='utf-8')
 		print(Trnsl('report_saved', lang=app_language))
 		date = f"{lt()[0]}/{lt()[1]}/{lt()[2]}"
@@ -1739,30 +1733,50 @@ def _calculate_aggregates(session_list):
 		"aggregated_sent_chars_detail": aggregated_sent_chars_detail # <-- NUOVA CHIAVE AGGIUNTA (Caratteri inviati)
 	}
 
-def generate_historical_rx_report(sessions_for_current_report):
-	"""
-	Genera i report (HTML e grafico) per il blocco di sessioni fornito,
-	confrontandoli con l'ultimo report storico salvato.
-	Restituisce i dati aggregati del report corrente per poterli salvare.
-	"""
+def generate_historical_rx_report():
 	global app_data, app_language # Necessario per Trnsl e accedere ai dati
-	if not sessions_for_current_report:
-		print(Trnsl('no_sessions_in_current_block_for_report', lang=app_language))
-		return None # Non c'è nulla da fare
-	current_aggregates = _calculate_aggregates(sessions_for_current_report)
-	num_sessions_in_current_report = current_aggregates["num_sessions_in_block"]
 	historical_data = app_data.get('historical_rx_data', {})
-	historical_reports_list = historical_data.get('historical_reports', [])
-	previous_aggregates = None # Default a None
-	if historical_reports_list:
-		previous_aggregates = historical_reports_list[-1]
+	sessions_log = historical_data.get('sessions_log', [])
+	# max_sessions_to_keep determina il 'target' N per il report
+	max_sessions_for_report_config = historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+	# report_interval è ogni quante sessioni si genera il report (e quindi per il delta)
+	report_gen_interval = historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+	if not sessions_log:
+		print(Trnsl('no_historical_data_to_report', lang=app_language)) # Crea traduzione
+		return
+	# Determina il blocco corrente di sessioni per il report
+	# Prende le ultime 'max_sessions_for_report_config' sessioni, o meno se non ce ne sono abbastanza
+	num_to_take_current = min(len(sessions_log), max_sessions_for_report_config)
+	current_block_sessions = sessions_log[-num_to_take_current:] if num_to_take_current > 0 else []
+	if not current_block_sessions:
+		print(Trnsl('no_sessions_in_current_block_for_report', lang=app_language)) # Crea traduzione
+		return
+	current_aggregates = _calculate_aggregates(current_block_sessions)
+	num_sessions_in_current_report = current_aggregates["num_sessions_in_block"]
 	g_value = historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
 	x_value = historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
 	report_filename = f"CWapu_Historical_Statistics_G_{g_value}_X_{x_value}.html"
+	# Determina il blocco precedente per il calcolo delle variazioni
+	previous_aggregates = None
+	# La dimensione del blocco corrente è definita da 'g' (max_sessions_for_report_config)
+	# o dal numero totale di sessioni se sono meno di 'g'.
+	num_sessions_in_current_block = current_aggregates["num_sessions_in_block"]
+	# Ha senso cercare un blocco precedente solo se abbiamo più sessioni di quelle nel blocco corrente.
+	if len(sessions_log) > num_sessions_in_current_block:
+		# L'indice di fine del blocco precedente è semplicemente l'inizio di quello corrente.
+		end_index_prev_block = len(sessions_log) - num_sessions_in_current_block
+		# Determiniamo quante sessioni prendere per il blocco precedente.
+		# Di norma è 'g', ma potrebbe essere meno se siamo all'inizio della cronologia.
+		num_to_take_previous = min(end_index_prev_block, max_sessions_for_report_config)
+		start_index_prev_block = max(0, end_index_prev_block - num_to_take_previous)
+		previous_block_sessions = sessions_log[start_index_prev_block:end_index_prev_block]
+		if previous_block_sessions:
+			previous_aggregates = _calculate_aggregates(previous_block_sessions)
 	try:
 		with open(report_filename, "w", encoding="utf-8") as f:
+			# --- INIZIO DOCUMENTO HTML ---
 			f.write("<!DOCTYPE html>\n")
-			f.write("<html lang=\"{html_lang}\">\n".format(html_lang=app_language[:2]))
+			f.write("<html lang=\"{html_lang}\">\n".format(html_lang=app_language[:2])) # Usa solo la parte 'it' o 'en'
 			f.write("<head>\n")
 			f.write("    <meta charset=\"UTF-8\">\n")
 			f.write(f"    <title>{Trnsl('historical_stats_report_title', lang=app_language)} G{g_value} X{x_value}</title>\n")
@@ -1787,50 +1801,57 @@ def generate_historical_rx_report(sessions_for_current_report):
 			f.write("</head>\n")
 			f.write("<body>\n")
 			f.write("    <div class=\"container\">\n")
+			# --- INTESTAZIONE GENERALE DEL REPORT ---
 			f.write(f"<h1>{Trnsl('report_header_appname', lang=app_language)} - {Trnsl('historical_stats_report_title', lang=app_language)}</h1>\n")
 			f.write(f"<p class=\"report-subtitle\">{Trnsl('stats_based_on_exercises', lang=app_language, count=num_sessions_in_current_report)} (G={g_value}, X={x_value})</p>\n")
 			timestamp_now = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 			f.write(f"<p class=\"report-generation-time\">{Trnsl('report_generated_on', lang=app_language)}: {timestamp_now}</p>\n")
+			# Helper function per i colori delle variazioni (puoi definirla all'inizio di generate_historical_rx_report o globalmente se serve altrove)
 			def get_delta_class(delta_value, higher_is_better=True, tolerance=0.01):
 				if higher_is_better:
 					if delta_value > tolerance: return "good"
 					if delta_value < -tolerance: return "bad"
-				else:
+				else: # Lower is better (es. per tassi di errore)
 					if delta_value < -tolerance: return "good"
 					if delta_value > tolerance: return "bad"
 				return "neutral"
+			# --- SEZIONE STATISTICHE VELOCITÀ ---
 			f.write(f"<h2>{Trnsl('overall_speed_stats', lang=app_language)}</h2>\n")
 			f.write("<table>\n")
-			f.write(f"  <thead><tr><th>{Trnsl('metric', lang=app_language)}</th><th>{Trnsl('current_value', lang=app_language)}</th>")
+			f.write(f"  <thead><tr><th>{Trnsl('metric', lang=app_language)}</th><th>{Trnsl('current_value', lang=app_language)}</th>") # Crea trad: 'metric', 'current_value'
 			if previous_aggregates:
-				f.write(f"<th>{Trnsl('previous_value', lang=app_language)}</th><th>{Trnsl('change', lang=app_language)}</th>")
+				f.write(f"<th>{Trnsl('previous_value', lang=app_language)}</th><th>{Trnsl('change', lang=app_language)}</th>") # Crea trad: 'previous_value'
 			f.write("</tr></thead>\n")
 			f.write("  <tbody>\n")
+			# Min WPM
 			f.write(f"    <tr><td>{Trnsl('min_wpm', lang=app_language)}</td><td>{current_aggregates['wpm_min_overall']:.2f} WPM</td>")
 			if previous_aggregates:
-				prev_val = previous_aggregates.get('wpm_min_overall', 0)
+				prev_val = previous_aggregates['wpm_min_overall']
 				delta = current_aggregates['wpm_min_overall'] - prev_val
-				delta_class = get_delta_class(delta, higher_is_better=True)
+				delta_class = get_delta_class(delta, higher_is_better=True) # Più alto è meglio per min WPM (se >0)
 				perc_delta_str = f" ({(delta / prev_val * 100):+.2f}%)" if prev_val != 0 else ""
 				f.write(f"<td>{prev_val:.2f} WPM</td><td class=\"{delta_class}\">{delta:+.2f} WPM{perc_delta_str}</td>")
 			f.write("</tr>\n")
+			# Max WPM
 			f.write(f"    <tr><td>{Trnsl('max_wpm', lang=app_language)}</td><td>{current_aggregates['wpm_max_overall']:.2f} WPM</td>")
 			if previous_aggregates:
-				prev_val = previous_aggregates.get('wpm_max_overall', 0)
+				prev_val = previous_aggregates['wpm_max_overall']
 				delta = current_aggregates['wpm_max_overall'] - prev_val
 				delta_class = get_delta_class(delta, higher_is_better=True)
 				perc_delta_str = f" ({(delta / prev_val * 100):+.2f}%)" if prev_val != 0 else ""
 				f.write(f"<td>{prev_val:.2f} WPM</td><td class=\"{delta_class}\">{delta:+.2f} WPM{perc_delta_str}</td>")
 			f.write("</tr>\n")
+			# Avg WPM
 			f.write(f"    <tr><td>{Trnsl('avg_wpm_of_session_avgs_label', lang=app_language)}</td><td>{current_aggregates['wpm_avg_of_session_avgs']:.2f} WPM</td>")
 			if previous_aggregates:
-				prev_val = previous_aggregates.get('wpm_avg_of_session_avgs', 0)
+				prev_val = previous_aggregates['wpm_avg_of_session_avgs']
 				delta = current_aggregates['wpm_avg_of_session_avgs'] - prev_val
 				delta_class = get_delta_class(delta, higher_is_better=True)
 				perc_delta_str = f" ({(delta / prev_val * 100):+.2f}%)" if prev_val != 0 else ""
 				f.write(f"<td>{prev_val:.2f} WPM</td><td class=\"{delta_class}\">{delta:+.2f} WPM{perc_delta_str}</td>")
 			f.write("</tr>\n")
 			f.write("  </tbody>\n</table>\n")
+			# --- SEZIONE STATISTICHE ERRORI COMPLESSIVE ---
 			f.write(f"<h2>{Trnsl('overall_error_stats', lang=app_language)}</h2>\n")
 			f.write("<table>\n")
 			f.write(f"  <thead><tr><th>{Trnsl('metric', lang=app_language)}</th><th>{Trnsl('current_value', lang=app_language)}</th>")
@@ -1838,60 +1859,73 @@ def generate_historical_rx_report(sessions_for_current_report):
 				f.write(f"<th>{Trnsl('previous_value', lang=app_language)}</th><th>{Trnsl('change', lang=app_language)}</th>")
 			f.write("</tr></thead>\n")
 			f.write("  <tbody>\n")
+			# Total Chars Sent
 			f.write(f"    <tr><td>{Trnsl('total_chars_sent_in_block', lang=app_language)}</td><td>{current_aggregates['total_chars_sent_overall']}</td>")
 			if previous_aggregates:
-				prev_val = previous_aggregates.get('total_chars_sent_overall', 0)
+				prev_val = previous_aggregates['total_chars_sent_overall']
 				delta = current_aggregates['total_chars_sent_overall'] - prev_val
+				# Per i caratteri inviati, la variazione è solo informativa, non "buona" o "cattiva" di per sé
 				perc_delta_str = f" ({(delta / prev_val * 100):+.2f}%)" if prev_val != 0 else ""
 				f.write(f"<td>{prev_val}</td><td>{delta:+} {perc_delta_str}</td>")
 			f.write("</tr>\n")
+			# Total Errors & Overall Error Rate
 			total_chars_curr = current_aggregates['total_chars_sent_overall']
 			total_errs_curr = current_aggregates['total_errors_chars_overall']
 			overall_error_rate_curr = (total_errs_curr / total_chars_curr * 100) if total_chars_curr > 0 else 0.0
 			f.write(f"    <tr><td>{Trnsl('overall_error_rate', lang=app_language)}</td><td>{total_errs_curr} / {total_chars_curr} ({overall_error_rate_curr:.2f}%)</td>")
 			if previous_aggregates:
-				total_chars_prev = previous_aggregates.get('total_chars_sent_overall', 0)
-				total_errs_prev = previous_aggregates.get('total_errors_chars_overall', 0)
+				total_chars_prev = previous_aggregates['total_chars_sent_overall']
+				total_errs_prev = previous_aggregates['total_errors_chars_overall']
 				overall_error_rate_prev = (total_errs_prev / total_chars_prev * 100) if total_chars_prev > 0 else 0.0
 				delta_rate = overall_error_rate_curr - overall_error_rate_prev
-				delta_class = get_delta_class(delta_rate, higher_is_better=False)
+				delta_class = get_delta_class(delta_rate, higher_is_better=False) # Più basso è meglio per il tasso di errore
 				f.write(f"<td>{total_errs_prev} / {total_chars_prev} ({overall_error_rate_prev:.2f}%)</td><td class=\"{delta_class}\">{delta_rate:+.2f} punti %</td>")
 			f.write("</tr>\n")
 			f.write("  </tbody>\n</table>\n")
-			if current_aggregates.get('aggregated_errors_detail', {}):
+			# --- SEZIONE DETTAGLIO ERRORI PER CARATTERE (BLOCCO CORRENTE) ---
+			if current_aggregates['aggregated_errors_detail']:
 				f.write(f"<h2>{Trnsl('error_details_by_char', lang=app_language)}</h2>\n")
 				f.write("<table>\n")
-				f.write(f"  <thead><tr><th>{Trnsl('char_header', lang=app_language)}</th><th>{Trnsl('error_count_header', lang=app_language)}</th><th>{Trnsl('perc_vs_total_chars_header', lang=app_language)}</th><th>{Trnsl('perc_vs_spec_char_header', lang=app_language)}</th></tr></thead>\n")
+				# Crea trad: 'char_header', 'error_count_header', 'perc_vs_total_chars_header', 'perc_vs_spec_char_header'
+				f.write(f"  <thead><tr><th>{Trnsl('char_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('error_count_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('perc_vs_total_chars_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('perc_vs_spec_char_header', lang=app_language)}</th></tr></thead>\n")
 				f.write("  <tbody>\n")
 				sorted_errors = sorted(current_aggregates['aggregated_errors_detail'].items(), key=lambda item: (-item[1], item[0]))
 				for char, count in sorted_errors:
 					percentage_vs_total_block_chars = (count / total_chars_curr * 100) if total_chars_curr > 0 else 0.0
 					total_sent_of_this_char = current_aggregates.get('aggregated_sent_chars_detail', {}).get(char, 0)
 					percentage_vs_this_char_sent = (count / total_sent_of_this_char * 100) if total_sent_of_this_char > 0 else 0.0
-					f.write(f"    <tr><td class=\"char-emphasis\">'{char.upper()}'</td><td>{count}</td><td>{percentage_vs_total_block_chars:.2f}%</td><td>{percentage_vs_this_char_sent:.2f}% <span class=\"details-label\">({Trnsl('of_specific_char_sent_count', lang=app_language, char_upper=char.upper(), count=total_sent_of_this_char)})</span></td></tr>\n")
+					f.write(f"    <tr><td class=\"char-emphasis\">'{char.upper()}'</td><td>{count}</td><td>{percentage_vs_total_block_chars:.2f}%</td>" \
+					        f"<td>{percentage_vs_this_char_sent:.2f}% <span class=\"details-label\">({Trnsl('of_specific_char_sent_count', lang=app_language, char_upper=char.upper(), count=total_sent_of_this_char)})</span></td></tr>\n") # Crea trad: 'of_specific_char_sent_count'
 				f.write("  </tbody>\n</table>\n")
-			if previous_aggregates and previous_aggregates.get("num_sessions_in_block", 0) > 0:
+			# --- SEZIONE VARIAZIONI ERRORI PER CARATTERE (se dati precedenti esistono) ---
+			if previous_aggregates and previous_aggregates["num_sessions_in_block"] > 0:
 				f.write(f"<h2>{Trnsl('error_details_variations', lang=app_language)}</h2>\n")
-				f.write(f"<p class=\"report-subtitle\">{Trnsl('variations_vs_block_of', lang=app_language, count=previous_aggregates.get('num_sessions_in_block', 0))}</p>\n")
+				f.write(f"<p class=\"report-subtitle\">{Trnsl('variations_vs_block_of', lang=app_language, count=previous_aggregates['num_sessions_in_block'])}</p>\n") # Crea trad: 'variations_vs_block_of'
 				f.write("<table>\n")
 				f.write(f"  <thead><tr><th>{Trnsl('char_header', lang=app_language)}</th>" \
-						f"<th>{Trnsl('curr_error_count_header', lang=app_language)}</th><th>{Trnsl('curr_perc_vs_total_header', lang=app_language)}</th><th>{Trnsl('curr_perc_vs_spec_header', lang=app_language)}</th>" \
-						f"<th>{Trnsl('prev_error_count_header', lang=app_language)}</th><th>{Trnsl('prev_perc_vs_total_header', lang=app_language)}</th><th>{Trnsl('prev_perc_vs_spec_header', lang=app_language)}</th>" \
-						f"<th>{Trnsl('delta_rate_total_header', lang=app_language)}</th><th>{Trnsl('delta_rate_spec_header', lang=app_language)}</th></tr></thead>\n")
+				        f"<th>{Trnsl('curr_error_count_header', lang=app_language)}</th><th>{Trnsl('curr_perc_vs_total_header', lang=app_language)}</th><th>{Trnsl('curr_perc_vs_spec_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('prev_error_count_header', lang=app_language)}</th><th>{Trnsl('prev_perc_vs_total_header', lang=app_language)}</th><th>{Trnsl('prev_perc_vs_spec_header', lang=app_language)}</th>" \
+				        f"<th>{Trnsl('delta_rate_total_header', lang=app_language)}</th><th>{Trnsl('delta_rate_spec_header', lang=app_language)}</th></tr></thead>\n")
 				f.write("  <tbody>\n")
-				all_error_chars_set = set(current_aggregates.get('aggregated_errors_detail', {}).keys()) | set(previous_aggregates.get('aggregated_errors_detail', {}).keys())
+				all_error_chars_set = set(current_aggregates['aggregated_errors_detail'].keys()) | set(previous_aggregates['aggregated_errors_detail'].keys())
 				if not all_error_chars_set:
 					f.write(f"    <tr><td colspan=\"9\" style=\"text-align:center;\">{Trnsl('no_errors_in_either_block', lang=app_language)}</td></tr>\n")
 				else:
-					sorted_chars_for_variation = sorted(list(all_error_chars_set), key=lambda char_key: (-current_aggregates.get('aggregated_errors_detail', {}).get(char_key, 0), char_key))
+					sorted_chars_for_variation = sorted(
+						list(all_error_chars_set),
+						key=lambda char_key: (-current_aggregates['aggregated_errors_detail'].get(char_key, 0), char_key)
+					)
 					for char_err in sorted_chars_for_variation:
-						curr_count = current_aggregates.get('aggregated_errors_detail', {}).get(char_err, 0)
-						total_chars_curr_block = current_aggregates.get('total_chars_sent_overall', 1)
+						curr_count = current_aggregates['aggregated_errors_detail'].get(char_err, 0)
+						prev_count = previous_aggregates['aggregated_errors_detail'].get(char_err, 0)
+						total_chars_curr_block = current_aggregates['total_chars_sent_overall'] # alias total_chars
+						total_chars_prev_block = previous_aggregates['total_chars_sent_overall']
 						curr_rate_vs_total_chars = (curr_count / total_chars_curr_block * 100) if total_chars_curr_block > 0 else 0.0
 						curr_total_sent_of_this_char = current_aggregates.get('aggregated_sent_chars_detail', {}).get(char_err, 0)
 						curr_rate_vs_specific_char = (curr_count / curr_total_sent_of_this_char * 100) if curr_total_sent_of_this_char > 0 else 0.0
-						prev_count = previous_aggregates.get('aggregated_errors_detail', {}).get(char_err, 0)
-						total_chars_prev_block = previous_aggregates.get('total_chars_sent_overall', 1)
 						prev_rate_vs_total_chars = (prev_count / total_chars_prev_block * 100) if total_chars_prev_block > 0 else 0.0
 						prev_total_sent_of_this_char = previous_aggregates.get('aggregated_sent_chars_detail', {}).get(char_err, 0)
 						prev_rate_vs_specific_char = (prev_count / prev_total_sent_of_this_char * 100) if prev_total_sent_of_this_char > 0 else 0.0
@@ -1899,37 +1933,42 @@ def generate_historical_rx_report(sessions_for_current_report):
 						delta_rate_vs_specific_char = curr_rate_vs_specific_char - prev_rate_vs_specific_char
 						delta_total_class = get_delta_class(delta_rate_vs_total_chars, higher_is_better=False)
 						delta_specific_class = get_delta_class(delta_rate_vs_specific_char, higher_is_better=False)
+
 						f.write(f"    <tr><td class=\"char-emphasis\">'{char_err.upper()}'</td>" \
-								f"<td>{curr_count}</td><td>{curr_rate_vs_total_chars:.2f}%</td><td>{curr_rate_vs_specific_char:.2f}% <span class=\"details-label\">({Trnsl('of_n_sent', lang=app_language, count=curr_total_sent_of_this_char)})</span></td>" \
-								f"<td>{prev_count}</td><td>{prev_rate_vs_total_chars:.2f}%</td><td>{prev_rate_vs_specific_char:.2f}% <span class=\"details-label\">({Trnsl('of_n_sent', lang=app_language, count=prev_total_sent_of_this_char)})</span></td>" \
-								f"<td class=\"{delta_total_class}\">{delta_rate_vs_total_chars:+.2f} %</td><td class=\"{delta_specific_class}\">{delta_rate_vs_specific_char:+.2f} %</td></tr>\n")
+						        f"<td>{curr_count}</td><td>{curr_rate_vs_total_chars:.2f}%</td><td>{curr_rate_vs_specific_char:.2f}% <span class=\"details-label\">({Trnsl('of_n_sent', lang=app_language, count=curr_total_sent_of_this_char)})</span></td>" \
+						        f"<td>{prev_count}</td><td>{prev_rate_vs_total_chars:.2f}%</td><td>{prev_rate_vs_specific_char:.2f}% <span class=\"details-label\">({Trnsl('of_n_sent', lang=app_language, count=prev_total_sent_of_this_char)})</span></td>" \
+						        f"<td class=\"{delta_total_class}\">{delta_rate_vs_total_chars:+.2f} %</td><td class=\"{delta_specific_class}\">{delta_rate_vs_specific_char:+.2f} %</td></tr>\n") # Crea trad 'of_n_sent'
 				f.write("  </tbody>\n</table>\n")
-			f.write("    </div>\n")
+
+			# --- FINE DOCUMENTO HTML ---
+			f.write("    </div>\n") # Chiudi container
 			f.write("</body>\n")
 			f.write("</html>\n")
+			
 			print(Trnsl('historical_report_saved_to', lang=app_language, filename=report_filename))
+	
 	except IOError as e:
 		print(Trnsl('error_saving_historical_report', lang=app_language, filename=report_filename, e=str(e)))
-		return None # Restituisci None in caso di errore
 	except Exception as e:
 		print(Trnsl('unexpected_error_generating_report', lang=app_language, e=str(e)))
-		return None # Restituisci None in caso di errore
+
+	# Genera anche il report grafico
 	try:
 		base_report_filename, _ = os.path.splitext(report_filename)
 		graphic_report_filename = base_report_filename + ".svg"
+		# Passiamo i dati necessari alla funzione di creazione del grafico
 		crea_report_grafico(
 			current_aggregates,
-			previous_aggregates,
-			g_value,
-			x_value,
-			num_sessions_in_current_report,
+			previous_aggregates, # Può essere None
+			g_value,             # Già definito in questa funzione
+			x_value,             # Già definito in questa funzione
+			num_sessions_in_current_report, # Già definito
 			graphic_report_filename,
 			app_language
 		)
-		print(Trnsl('graphical_report_saved_to', lang=app_language, filename=graphic_report_filename))
+		print(Trnsl('graphical_report_saved_to', lang=app_language, filename=graphic_report_filename)) # Crea traduzione
 	except Exception as e_graph:
 		print(Trnsl('error_generating_graphical_report', lang=app_language, error=str(e_graph)))
-	return current_aggregates
 
 #main
 global MNMAIN, MNRX, MNRXKIND 
