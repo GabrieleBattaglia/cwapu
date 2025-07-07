@@ -1,0 +1,26 @@
+name: "build and upload"
+on:
+  push: 
+    branches: main
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:        
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: |
+          pip install pyperclip pyinstaller numpy scipy sounddevice
+      - name: Build executable
+        run: |
+          pyinstaller --onefile cwapu.py
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: cwapu-macos   
+          path: dist/cwapu
+
