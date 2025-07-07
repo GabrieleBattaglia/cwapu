@@ -18,7 +18,7 @@ jobs:
           curl -o GBUtils.py https://raw.githubusercontent.com/GabrieleBattaglia/GBUtils/refs/heads/main/GBUtils.py
       - name: Build executable
         run: |
-          pyinstaller --onefile cwapu.py
+          pyinstaller --onefile --arch universal2 cwapu.py
       - name: Upload executable
         uses: actions/upload-artifact@v4
         with:
