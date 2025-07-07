@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERSION="4.1.5, (2025-07-05)"
+VERSION="4.1.6, (2025-07-06)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -1752,10 +1752,17 @@ def generate_historical_rx_report(sessions_for_current_report):
 	current_aggregates = _calculate_aggregates(sessions_for_current_report)
 	num_sessions_in_current_report = current_aggregates["num_sessions_in_block"]
 	historical_data = app_data.get('historical_rx_data', {})
-	historical_reports_list = historical_data.get('historical_reports', [])
+	full_sessions_log = historical_data.get('sessions_log', [])
+	num_sessions_in_current_block = len(sessions_for_current_report)
 	previous_aggregates = None # Default a None
-	if historical_reports_list:
-		previous_aggregates = historical_reports_list[-1]
+	# Controlliamo se esistono sessioni PRIMA di quelle del blocco corrente
+	if len(full_sessions_log) > num_sessions_in_current_block:
+		num_previous_sessions = len(full_sessions_log) - num_sessions_in_current_block
+		# Prendiamo tutte le sessioni tranne le ultime, che costituiscono il blocco corrente
+		previous_block_sessions = full_sessions_log[:num_previous_sessions]
+		if previous_block_sessions:
+			# Calcoliamo al momento le statistiche aggregate di tutto lo storico precedente
+			previous_aggregates = _calculate_aggregates(previous_block_sessions)
 	g_value = historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
 	x_value = historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
 	report_filename = f"CWapu_Historical_Statistics_G_{g_value}_X_{x_value}.html"

@@ -1,9 +1,11 @@
 CWAPU WHATSNEW AND TODO
 Todo:
-6.
+6. Nuova funzione statistica che legga lo storico esercizi e crei una timeline con il tempo trascorso e i cambiamenti di lettere errate e velocità.
+7.
 
 ChangeLog:
-	4.0.7
+	4.1.6
+		+ Fixed an important error occurred in RX exercise when the comparison between the current block and the stored blocks didn't happen
 		+ Totally redrwan ot R section now with 6 switchers to turn on and off as you prefer. This is a new challenge for your exercises.
 		+ Fixed an issue with the custom group, e.g. R.6		
 		+ upwarded the graphical bar's order in wpm graphical report. Now the current block is first, as in graphic number 3
