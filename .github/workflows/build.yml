@@ -15,6 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install pyperclip pyinstaller numpy scipy sounddevice
+          curl -o GBUtils.py https://raw.githubusercontent.com/GabrieleBattaglia/GBUtils/refs/heads/main/GBUtils.py
       - name: Build executable
         run: |
           pyinstaller --onefile cwapu.py
