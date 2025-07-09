@@ -6275,3 +6275,38 @@ Elenco delle parole copiate male:
 	(60) TX: MINIATA, RX: MINITA, DIF: A;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #293 eseguito il 2025/7/8 alle 17, 37 minuti:
+In questa sessione #293, ti ho inviato 50 Parole e ne hai ricevuti 37: 74.0%
+	25 di questi sono stati ricevuti al primo ascolto: 67.6%
+	mentre 12 Parole al secondo tentativo: 32.4%.
+Durante la sessione, la tua velocità minima è stata 35, la massima di 35: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 35.0 WPM.
+Carattere: errori = Percentuale
+    'I': 9 (2.85% dei car. tot., 26.47% delle 'I' inviate)
+    'E': 3 (0.95% dei car. tot., 9.68% delle 'E' inviate)
+    'N': 3 (0.95% dei car. tot., 27.27% delle 'N' inviate)
+    'T': 3 (0.95% dei car. tot., 11.54% delle 'T' inviate)
+    'A': 2 (0.63% dei car. tot., 4.26% delle 'A' inviate)
+    'G': 2 (0.63% dei car. tot., 20.00% delle 'G' inviate)
+    'R': 2 (0.63% dei car. tot., 6.45% delle 'R' inviate)
+    'S': 1 (0.32% dei car. tot., 4.35% delle 'S' inviate)
+
+Errori totali: 25 su 316 = 7.91%
+Caratteri mai sbagliati: B C D F H L M O P U V W X Z À Ì Ò
+Elenco delle parole copiate male:
+	(2) TX: ARRECHI, RX: ARRICCHI, DIF: E;
+	(5) TX: STALAG, RX: STALAÒ, DIF: G;
+	(10) TX: FERIRSI, RX: FERIRES, DIF: EI;
+	(15) TX: ATTINTI, RX: ATTEND, DIF: ITI;
+	(16) TX: SANSOSE, RX: STETOSI, DIF: ANSE;
+	(21) TX: GIOVERÀ, RX: GIOVELÀ, DIF: R;
+	(22) TX: ISATICO, RX: ISTACO, DIF: TTI;
+	(24) TX: CLARINO, RX: CLAUDIO, DIF: RN;
+	(26) TX: ADALI, RX: ADALE, DIF: I;
+	(35) TX: TREMOLI, RX: TREMOLO, DIF: I;
+	(39) TX: SFINIRÒ, RX: SFIDERÒ, DIF: NI;
+	(41) TX: SIZIGIE, RX: SEZIONE, DIF: IGI;
+	(50) TX: PAPULA, RX: PAPUALA, DIF: A;
+Nota: nessuna
+***
