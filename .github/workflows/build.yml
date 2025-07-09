@@ -14,8 +14,11 @@ jobs:
           python-version: '3.13'
       - name: Install dependencies
         run: |
-          pip install universalPip
-          uPip install pyperclip pyinstaller numpy scipy sounddevice
+          pip install universalPip pyinstaller
+          sed -i '' -e 's/uPip\.cli/universalPip\.cli/g' "$(which uPip)"
+          uPip --install pyperclip 
+          uPip --install scipy 
+          uPip --install sounddevice
           curl -o GBUtils.py https://raw.githubusercontent.com/GabrieleBattaglia/GBUtils/refs/heads/main/GBUtils.py
       - name: Build executable
         run: |
