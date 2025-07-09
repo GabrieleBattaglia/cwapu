@@ -14,7 +14,6 @@ jobs:
           python-version: '3.13'
       - name: Install dependencies
         run: |
-          export ARCHFLAGS="-arch arm64 -arch x86_64"
           pip install --upgrade pip
           pip install  pyinstaller scipy sounddevice pyperclip
           curl -o GBUtils.py https://raw.githubusercontent.com/GabrieleBattaglia/GBUtils/refs/heads/main/GBUtils.py
