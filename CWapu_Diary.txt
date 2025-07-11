@@ -6615,3 +6615,53 @@ Elenco delle parole copiate male:
 	(72) TX: AERINA, RX: AIDIA, DIF: ERN;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #300 eseguito il 2025/7/11 alle 7, 50 minuti:
+In questa sessione #300, ti ho inviato 50 Parole e ne hai ricevuti 28: 56.0%
+	24 di questi sono stati ricevuti al primo ascolto: 85.7%
+	mentre 4 Parole al secondo tentativo: 14.3%.
+Durante la sessione, la tua velocità minima è stata 30, la massima di 40: pari ad una variazione di 10 WPM.
+	La velocità media di ricezione è di: 34.1 WPM.
+Carattere: errori = Percentuale
+    'I': 7 (2.19% dei car. tot., 17.95% delle 'I' inviate)
+    'E': 6 (1.88% dei car. tot., 20.00% delle 'E' inviate)
+    'N': 5 (1.56% dei car. tot., 25.00% delle 'N' inviate)
+    'T': 5 (1.56% dei car. tot., 23.81% delle 'T' inviate)
+    'A': 3 (0.94% dei car. tot., 8.11% delle 'A' inviate)
+    'G': 3 (0.94% dei car. tot., 30.00% delle 'G' inviate)
+    'R': 3 (0.94% dei car. tot., 13.04% delle 'R' inviate)
+    'D': 2 (0.62% dei car. tot., 40.00% delle 'D' inviate)
+    'M': 2 (0.62% dei car. tot., 22.22% delle 'M' inviate)
+    'S': 2 (0.62% dei car. tot., 11.76% delle 'S' inviate)
+    'Z': 2 (0.62% dei car. tot., 50.00% delle 'Z' inviate)
+    'L': 1 (0.31% dei car. tot., 6.25% delle 'L' inviate)
+    'W': 1 (0.31% dei car. tot., 100.00% delle 'W' inviate)
+    'À': 1 (0.31% dei car. tot., 100.00% delle 'À' inviate)
+
+Errori totali: 43 su 320 = 13.44%
+Caratteri mai sbagliati: B C F H O P U V Ì Ò
+Elenco delle parole copiate male:
+	(3) TX: ANAFASE, RX: ANAFASI, DIF: E;
+	(4) TX: LUDIBRI, RX: LUDIBIDI, DIF: RDI;
+	(6) TX: RALEIGH, RX: RALESTEH, DIF: IG;
+	(9) TX: VOLGERÀ, RX: VOLGERÒ, DIF: À;
+	(10) TX: ZOTICHE, RX: MOTICHE, DIF: Z;
+	(15) TX: INGRANA, RX: INGANNA, DIF: RN;
+	(19) TX: ARMIERI, RX: ARMIRI, DIF: E;
+	(20) TX: RIMBUCA, RX: RIMBUCHI, DIF: A;
+	(21) TX: FAVORI, RX: FAVOLE, DIF: RI;
+	(25) TX: BELANTI, RX: BELATI, DIF: N;
+	(29) TX: WIGNER, RX: PEGIR, DIF: WGNE;
+	(33) TX: CAUDINO, RX: CAUNIO, DIF: DN;
+	(34) TX: MISEGLI, RX: MISTERI, DIF: TGL;
+	(35) TX: INSETTI, RX: INSISTE, DIF: ISTTTI;
+	(36) TX: PINZAVA, RX: PINGAVA, DIF: Z;
+	(38) TX: RIMONTI, RX: RIMONTE, DIF: I;
+	(41) TX: POTAVO, RX: POTEVO, DIF: A;
+	(42) TX: PROTIRO, RX: PROTERO, DIF: I;
+	(43) TX: ADENOMA, RX: EDNOGA, DIF: AEM;
+	(45) TX: PACHINO, RX: PACHIO, DIF: N;
+	(48) TX: SMENTI, RX: HANDI, DIF: SMET;
+	(49) TX: GATTICE, RX: GATTICA, DIF: E;
+Nota: nessuna
+***

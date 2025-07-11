@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 160
+        "launch_count": 161
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 30,
+        "speed": 36,
         "pitch": 510,
         "dashes": 30,
         "spaces": 50,
@@ -15,11 +15,11 @@
         "wave_index": 1
     },
     "rxing_stats": {
-        "total_calls": 12724,
-        "sessions": 300,
-        "total_correct": 8414,
-        "total_wrong_items": 4308,
-        "total_time_seconds": 62061.110866
+        "total_calls": 12774,
+        "sessions": 301,
+        "total_correct": 8442,
+        "total_wrong_items": 4330,
+        "total_time_seconds": 62431.36897
     },
     "counting_stats": {
         "exercise_number": 100
@@ -38,7 +38,7 @@
     "historical_rx_data": {
         "max_sessions_to_keep": 100,
         "report_interval": 3500,
-        "chars_since_last_report": 2073,
+        "chars_since_last_report": 2393,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-07-05T16:59:41.565693",
@@ -1152,6 +1152,59 @@
                     "j": 1,
                     "ò": 2,
                     "q": 2
+                }
+            },
+            {
+                "timestamp_iso": "2025-07-11T07:44:45.823991",
+                "duration_seconds": 370.258104,
+                "wpm_min": 30,
+                "wpm_max": 40,
+                "wpm_avg": 34.07142857142857,
+                "items_sent_session": 50,
+                "items_correct_session": 28,
+                "chars_sent_session": 320,
+                "errors_detail_session": {
+                    "e": 6,
+                    "r": 3,
+                    "d": 2,
+                    "i": 7,
+                    "g": 3,
+                    "à": 1,
+                    "z": 2,
+                    "n": 5,
+                    "a": 3,
+                    "w": 1,
+                    "t": 5,
+                    "l": 1,
+                    "s": 2,
+                    "m": 2
+                },
+                "total_errors_chars_session": 43,
+                "sent_chars_detail_session": {
+                    "l": 16,
+                    "u": 9,
+                    "c": 14,
+                    "i": 39,
+                    "d": 5,
+                    "a": 37,
+                    "b": 6,
+                    "o": 28,
+                    "n": 20,
+                    "g": 10,
+                    "s": 17,
+                    "f": 6,
+                    "e": 30,
+                    "r": 23,
+                    "h": 4,
+                    "m": 9,
+                    "v": 6,
+                    "à": 1,
+                    "z": 4,
+                    "t": 21,
+                    "p": 12,
+                    "ì": 1,
+                    "ò": 1,
+                    "w": 1
                 }
             }
         ],
