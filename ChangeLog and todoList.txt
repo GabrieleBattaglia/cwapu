@@ -4,9 +4,10 @@ Todo:
 7.
 
 ChangeLog:
+	4.2.0
 	4.1.6
 		+ Fixed an important error occurred in RX exercise when the comparison between the current block and the stored blocks didn't happen
-		+ Totally redrwan ot R section now with 6 switchers to turn on and off as you prefer. This is a new challenge for your exercises.
+		+ Totally redrawn R section now with 6 switchers to turn on and off as you prefer. This is a new challenge for your exercises.
 		+ Fixed an issue with the custom group, e.g. R.6		
 		+ upwarded the graphical bar's order in wpm graphical report. Now the current block is first, as in graphic number 3
 		+ Now new commands .t and .y are shown in the K-section
