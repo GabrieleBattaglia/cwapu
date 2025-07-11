@@ -16,7 +16,7 @@ def Trnsl(key, lang='en', **kwargs):
 	return value.format(**kwargs)
 
 #QConstants
-VERSION="4.2.0, (2025-07-06)"
+VERSION="4.2.0, (2025-07-11)"
 overall_settings_changed=False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -843,7 +843,6 @@ def load_settings():
 			merged_data = {} # Dizionario che conterrà le impostazioni finali
 			for main_key, default_values in DEFAULT_DATA.items():
 				loaded_section = loaded_data.get(main_key, {})
-				
 				if isinstance(default_values, dict):
 					merged_section = default_values.copy()
 				else: # Se il valore di default non è un dizionario (improbabile per le sezioni principali, ma per sicurezza)
@@ -861,7 +860,6 @@ def load_settings():
 						if "sessions_log" in loaded_section and isinstance(loaded_section["sessions_log"], list):
 							merged_section["sessions_log"] = loaded_section["sessions_log"]
 						# else: il valore di default (lista vuota) è già in merged_section
-				
 				# Logica di unione per tutte le altre sezioni (es. app_info, overall_settings)
 				# Esegue l'update solo se sia merged_section (dai default) sia loaded_section (dal file) sono dizionari
 				elif isinstance(merged_section, dict) and isinstance(loaded_section, dict):
@@ -869,32 +867,25 @@ def load_settings():
 				# Se loaded_section non è un dizionario (es. era null nel JSON e .get ha restituito {} o il valore non-dict stesso),
 				# merged_section manterrà i valori di default (o il valore non-dict di default).
 				# Questo previene errori se il file JSON ha una struttura inattesa per una sezione.
-
 				# Assegna la sezione processata (unita o di default) a merged_data
 				merged_data[main_key] = merged_section
-			
 			# Determina la lingua per i messaggi di sistema, con fallback robusti
 			overall_settings_default = DEFAULT_DATA.get('overall_settings', {})
 			app_language_default = overall_settings_default.get('app_language', 'en')
-			
 			loaded_overall_settings = merged_data.get('overall_settings', overall_settings_default)
 			current_app_language = loaded_overall_settings.get('app_language', app_language_default)
-			
 			print(Trnsl('o_set_loaded', lang=current_app_language))
 			return merged_data
-
 		except (json.JSONDecodeError, IOError, TypeError) as e:
 			# Se c'è un errore nel caricare, leggere o processare il file, usa i valori di default completi
 			print(f"{Trnsl('error_loading_settings_file', lang=DEFAULT_DATA.get('overall_settings', {}).get('app_language', 'en'))} {SETTINGS_FILE}: {e}. {Trnsl('using_default_values', lang=DEFAULT_DATA.get('overall_settings', {}).get('app_language', 'en'))}")
 			overall_settings_changed = True # Forza il salvataggio delle impostazioni di default all'uscita
 			# Restituisce una copia "profonda" dei default per evitare modifiche accidentali a DEFAULT_DATA
 			return {k: (v.copy() if isinstance(v, dict) else v) for k, v in DEFAULT_DATA.items()}
-
 	else: # Il file SETTINGS_FILE non esiste
 		# Determina la lingua di default per il messaggio di creazione
 		overall_settings_default = DEFAULT_DATA.get('overall_settings', {})
 		app_language_default = overall_settings_default.get('app_language', 'en')
-
 		print(Trnsl('o_set_created', lang=app_language_default))
 		overall_settings_changed = True # Le impostazioni di default devono essere salvate all'uscita
 		return {k: (v.copy() if isinstance(v, dict) else v) for k, v in DEFAULT_DATA.items()}
@@ -1427,6 +1418,7 @@ def Rxing():
 	calls = 1
 	callsget = []
 	callswrong = []
+	item_details = []
 	callsrepeated = 0
 	minwpm = 100
 	maxwpm = 0
@@ -1502,10 +1494,12 @@ def Rxing():
 				tplo,trwpm=CWzator(msg="r _ _ ", wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave,sync=True)
 				callsget.append(original_qrz)
 				average_rwpm+=rwpm
+				item_details.append({'wpm': rwpm, 'correct': True})
 				if repeatedflag: callsrepeated+=1
 				if not fix_speed and overall_speed<100: overall_speed+=1
 			else:
 				callswrong.append(original_qrz)
+				item_details.append({'wpm': rwpm, 'correct': False})
 				tplo,trwpm=CWzator(msg="? _ _ ", wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume,	ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave,sync=True)
 				diff=MistakesCollectorInStrings(original_qrz, guess)
 				diff_ratio=(1 - difflib.SequenceMatcher(None, original_qrz, guess).ratio()) * 100
@@ -1584,6 +1578,7 @@ def Rxing():
 			"wpm_avg": avg_wpm_calc,
 			"items_sent_session": len(callssend),
 			"items_correct_session": len(callsget),
+			"item_details": item_details,
 			"chars_sent_session": send_char,
 			"errors_detail_session": char_error_counts,
 			"total_errors_chars_session": total_mistakes_calculated,
@@ -1981,6 +1976,11 @@ while True:
 		else: plo,rwpm=CWzator(msg=Trnsl('empty_clipboard', lang=app_language), wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 	elif k=="m": menu(d=Trnsl('menu_main', lang=app_language),show_only=True)
 	elif k=="w": CreateDictionary()
+	elif k=="s":
+		import timeline
+		log_sessioni = app_data.get("historical_rx_data", {}).get("sessions_log", [])
+		report = timeline.genera_report_temporale_completo(dati_sessioni=log_sessioni, Trnsl=Trnsl,	lang=app_language)
+		print(report)
 	elif k=="q": break
 app_data['overall_settings'].update({
     "app_language": app_language,
