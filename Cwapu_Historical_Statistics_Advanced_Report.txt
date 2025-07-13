@@ -1,0 +1,138 @@
+--- Riepilogo Attività ---
+Numero totale di sessioni: 38
+Prima sessione: Sabato 5 Luglio 2025, 16:59
+Ultima sessione: Domenica 13 Luglio 2025, 22:33
+Periodo coperto: 8 giorni
+-------------------------
+
+--- Distribuzione Oraria delle Sessioni ---
+   - Fascia oraria 17 - 18: 8 sessioni (21.05%), durata 28 minuti
+   - Fascia oraria 19 - 20: 5 sessioni (13.16%), durata 24 minuti, 29 secondi
+   - Fascia oraria 18 - 19: 5 sessioni (13.16%), durata 20 minuti, 31 secondi
+   - Fascia oraria 15 - 16: 2 sessioni (5.26%), durata 16 minuti, 23 secondi
+   - Fascia oraria 13 - 14: 3 sessioni (7.89%), durata 16 minuti, 18 secondi
+   - Fascia oraria 07 - 08: 2 sessioni (5.26%), durata 13 minuti, 6 secondi
+   - Fascia oraria 12 - 13: 2 sessioni (5.26%), durata 9 minuti, 49 secondi
+   - Fascia oraria 08 - 09: 1 sessioni (2.63%), durata 9 minuti, 28 secondi
+   - Fascia oraria 06 - 07: 2 sessioni (5.26%), durata 9 minuti, 16 secondi
+   - Fascia oraria 21 - 22: 1 sessioni (2.63%), durata 6 minuti, 40 secondi
+   - Fascia oraria 10 - 11: 2 sessioni (5.26%), durata 5 minuti, 53 secondi
+   - Fascia oraria 22 - 23: 1 sessioni (2.63%), durata 4 minuti, 30 secondi
+   - Fascia oraria 16 - 17: 1 sessioni (2.63%), durata 3 minuti, 27 secondi
+   - Fascia oraria 09 - 10: 1 sessioni (2.63%), durata 3 minuti, 21 secondi
+   - Fascia oraria 14 - 15: 1 sessioni (2.63%), durata 1 minuti, 12 secondi
+   - Fascia oraria 20 - 21: 1 sessioni (2.63%), durata 1 minuti, 10 secondi
+Picco di attività orario: 17:00.
+-------------------------
+
+--- Distribuzione Settimanale ---
+   - Domenica: 16 sessioni (42.11%), durata 1 ore, 4 minuti, 37 secondi
+   - Giovedì: 3 sessioni (7.89%), durata 25 minuti, 26 secondi
+   - Venerdì: 6 sessioni (15.79%), durata 22 minuti, 55 secondi
+   - Sabato: 6 sessioni (15.79%), durata 22 minuti, 13 secondi
+   - Lunedì: 3 sessioni (7.89%), durata 16 minuti, 53 secondi
+   - Mercoledì: 3 sessioni (7.89%), durata 15 minuti, 31 secondi
+   - Martedì: 1 sessioni (2.63%), durata 6 minuti, 5 secondi
+Picco di attività settimanale: Domenica.
+-------------------------
+
+--- Distribuzione Mensile ---
+   - Luglio: 38 sessioni (100.00%), durata 2 ore, 53 minuti, 42 secondi
+Picco di attività mensile: Luglio.
+
+--- Distribuzione Stagionale ---
+   - Estate: 38 sessioni (100.00%), durata 2 ore, 53 minuti, 42 secondi
+--- Analisi della Performance: Velocità (WPM) ---
+Velocità media reale: 38.17 WPM.
+Consistenza WPM reale (dev. std): 4.44.
+-------------------------
+
+--- Analisi degli Errori sui Caratteri ---
+Primi 10 caratteri critici (per tasso di errore):
+   - Carattere '7': Tasso errore 32.88% (24 errori su 73 invii)
+   - Carattere 'i': Tasso errore 23.99% (179 errori su 746 invii)
+   - Carattere 'n': Tasso errore 23.01% (84 errori su 365 invii)
+   - Carattere 'd': Tasso errore 22.48% (49 errori su 218 invii)
+   - Carattere 'h': Tasso errore 24.69% (20 errori su 81 invii)
+   - Carattere 'b': Tasso errore 21.82% (36 errori su 165 invii)
+   - Carattere 'r': Tasso errore 18.66% (92 errori su 493 invii)
+   - Carattere '2': Tasso errore 22.58% (14 errori su 62 invii)
+   - Carattere 'u': Tasso errore 18.36% (38 errori su 207 invii)
+   - Carattere 'e': Tasso errore 15.92% (103 errori su 647 invii)
+
+Approfondimento sull'evoluzione del carattere '7':
+Tasso errore prima metà: 34.88%.
+Tasso errore seconda metà: 30.00%.
+Tendenza per '7': miglioramento.
+
+Primi 10 caratteri più accurati (tra quelli più praticati):
+   - Carattere 'o': Tasso errore 4.22% (25 errori su 593 invii)
+   - Carattere 'c': Tasso errore 5.50% (18 errori su 327 invii)
+   - Carattere 'p': Tasso errore 5.28% (13 errori su 246 invii)
+   - Carattere '5': Tasso errore 3.08% (2 errori su 65 invii)
+   - Carattere 'a': Tasso errore 9.79% (78 errori su 797 invii)
+   - Carattere '1': Tasso errore 5.88% (4 errori su 68 invii)
+   - Carattere 'f': Tasso errore 8.81% (14 errori su 159 invii)
+   - Carattere 'v': Tasso errore 9.68% (18 errori su 186 invii)
+   - Carattere 'l': Tasso errore 11.46% (37 errori su 323 invii)
+   - Carattere '0': Tasso errore 7.79% (6 errori su 77 invii)--- Analisi Avanzata della Velocità (WPM) ---
+
+Prospettive sulla Velocità Media:
+  - Media Aritmetica: 39.88 WPM (il valore 'classico')
+  - Media Ponderata (per durata): 39.13 WPM (dà più peso alle sessioni lunghe)
+  - Media Quadratica (RMS): 40.25 WPM (dà più peso alle velocità più alte)
+
+Frequenza e Consistenza:
+  - Moda (velocità più frequente): 37 WPM
+  - Dispersione (Range Interquartile): 6.89 WPM (un valore basso indica grande consistenza)
+     (Il 50% delle tue sessioni ha una velocità media tra 35.98 e 42.87 WPM)
+
+Trend Recente:
+  - Velocità media nelle ultime 12 settimane: 39.88 WPM
+--- Analisi Avanzata ---
+Accuratezza media complessiva: 60.84%.
+Andamento accuratezza: da 65.95% (prima metà) a 55.73% (seconda metà). Tendenza: peggioramento.
+-------------------------
+
+--- Correlazione Velocità-Accuratezza ---
+Coefficiente di correlazione: -0.14.
+Interpretazione: Nessuna correlazione significativa tra velocità e accuratezza.
+-------------------------
+
+--- Analisi Durata Sessioni ---
+Durata media di una sessione: 4 minuti, 34 secondi
+Sessione più corta: 35 secondi (Domenica 6 Luglio 2025).
+Sessione più lunga: 9 minuti, 28 secondi (Giovedì 10 Luglio 2025).
+
+--- Distribuzione Tempo Totale di Allenamento ---
+Ora di maggiore dedizione: 17:00, con un totale di 28 min e 0 sec di pratica.
+Giorno di maggiore dedizione: Domenica, con un totale di 64 min e 37 sec di pratica.
+
+--- Analisi Granulare Velocità/Accuratezza ---
+Media WPM su item corretti: 37.58
+Media WPM su item errati: 38.84
+Conclusione: al diminuire della velocità di ricezione, aumenta l'accuratezza.
+--- Confronto Feriali vs. Weekend ---
+
+Giorni Feriali (Lun-Ven):
+  - Sessioni totali: 16
+  - WPM medio: 38.82
+  - Accuratezza media: 64.12%
+  - Tempo totale di pratica: 1 ore e 26 minuti
+
+Weekend (Sab-Dom):
+  - Sessioni totali: 22
+  - WPM medio: 40.65
+  - Accuratezza media: 58.45%
+  - Tempo totale di pratica: 1 ore e 26 minuti
+
+Conclusione:
+In media, tendi a dedicare più tempo alla pratica nei singoli giorni del weekend che in quelli feriali. Nel weekend la tua velocità media è maggiore. La tua accuratezza è più alta nei giorni feriali.
+--- Performance di Picco per Stagione ---
+  - Primavera: Nessun dato disponibile.
+  - Estate: Picco WPM 72, Picco Accuratezza 91.00%
+  - Autunno: Nessun dato disponibile.
+  - Inverno: Nessun dato disponibile.
+
+Conclusione:
+Hai raggiunto i tuoi picchi sia di velocità (72 WPM) che di accuratezza (91.00%) durante la stagione: Estate.

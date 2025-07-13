@@ -503,7 +503,17 @@ translations = {
 		"correlation_coefficient": "Coefficiente di correlazione: {r:.2f}.",
 		"correlation_interpretation": "Interpretazione: {interpretation}",
 		"duration_analysis_title": "\n--- Analisi Durata Sessioni ---",
-		"avg_duration": "Durata media di una sessione: {min} minuti e {sec} secondi."
+		"custom_set_invalid_or_empty_error":	"Errore: il set personalizzato non	è valido o è vuoto. Controlla le impostazioni.",
+		"avg_duration": "Durata media di una sessione: {min} minuti e {sec} secondi.",
+		"error_importing_matplotlib":	"Errore durante l'importazione di matplotlib. Assicurati che sia installato correttamente.",
+		"error_loading_settings_file":	"Errore durante il caricamento del file di impostazioni: {error}",
+		"using_default_values ":	"Utilizzo valori predefiniti per le impostazioni.",
+		"filter_not_set_label":	"Filtro non impostato",
+		"set_empty_label ":	"Set vuoto",
+		"char_header":	"Carattere",
+		"error_generating_graphical_report ": "Errore durante la generazione del report grafico: {error}",
+		'custom_set_invalid_or_empty_error': "Errore: il set personalizzato non è valido o è vuoto. Controlla le impostazioni.",
+		"matplotlib_not_found_error ": "Matplotlib non trovato. Non posso generare report grafici."
 		#Qit
 	}
 }

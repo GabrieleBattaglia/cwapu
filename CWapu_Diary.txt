@@ -6861,3 +6861,504 @@ Elenco delle parole copiate male:
 	(35) TX: RECHERO, RX: RICHEQUÀ, DIF: ERO;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #305 eseguito il 2025/7/11 alle 18, 3 minuti:
+In questa sessione #305, ti ho inviato 20 Misto (Lettere, Numeri) e ne hai ricevuti 15: 75.0%
+	13 di questi sono stati ricevuti al primo ascolto: 86.7%
+	mentre 2 Misto (Lettere, Numeri) al secondo tentativo: 13.3%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 34: pari ad una variazione di 0 WPM.
+	La velocità media di ricezione è di: 34.0 WPM.
+Carattere: errori = Percentuale
+    '7': 2 (3.33% dei car. tot., 25.00% delle '7' inviate)
+    '2': 1 (1.67% dei car. tot., 100.00% delle '2' inviate)
+    '3': 1 (1.67% dei car. tot., 20.00% delle '3' inviate)
+    '6': 1 (1.67% dei car. tot., 25.00% delle '6' inviate)
+    'H': 1 (1.67% dei car. tot., 50.00% delle 'H' inviate)
+
+Errori totali: 6 su 60 = 10.00%
+Caratteri mai sbagliati: 0 4 5 8 9 B C E F J K N O P Q R V W X
+Elenco delle parole copiate male:
+	(3) TX: 797, RX: 798, DIF: 7;
+	(4) TX: 930, RX: 920, DIF: 3;
+	(7) TX: 970, RX: 980, DIF: 7;
+	(19) TX: 926, RX: 989, DIF: 26;
+	(20) TX: RJH, RX: RJW, DIF: H;
+Nota: nessuna
+***
+
+Esercizio di ricezione #306 eseguito il 2025/7/12 alle 20, 39 minuti:
+In questa sessione #306, ti ho inviato 12 Menu_rx_switcher_lettere e ne hai ricevuti 11: 91.7%
+	11 di questi sono stati ricevuti al primo ascolto: 100.0%
+	mentre 0 Menu_rx_switcher_lettere al secondo tentativo: 0.0%.
+Durante la sessione, la tua velocità minima è stata 35, la massima di 44: pari ad una variazione di 9 WPM.
+	La velocità media di ricezione è di: 38.5 WPM.
+Carattere: errori = Percentuale
+Esercizio di ricezione #306 eseguito il 2025/7/12 alle 20, 43 minuti:
+In questa sessione #306, ti ho inviato 20 Menu_rx_switcher_lettere e ne hai ricevuti 15: 75.0%
+	14 di questi sono stati ricevuti al primo ascolto: 93.3%
+	mentre 1 Menu_rx_switcher_lettere al secondo tentativo: 6.7%.
+Durante la sessione, la tua velocità minima è stata 33, la massima di 46: pari ad una variazione di 13 WPM.
+	La velocità media di ricezione è di: 39.3 WPM.
+Carattere: errori = Percentuale
+    'B': 1 (2.5% dei car. tot., 100.0% delle 'B' inviate)
+    'H': 1 (2.5% dei car. tot., 100.0% delle 'H' inviate)
+    'L': 1 (2.5% dei car. tot., 50.0% delle 'L' inviate)
+    'P': 1 (2.5% dei car. tot., 50.0% delle 'P' inviate)
+    'S': 1 (2.5% dei car. tot., 25.0% delle 'S' inviate)
+
+Errori totali: 5 su 40 = 12.50%
+Caratteri mai sbagliati: A C D E G I K M N O Q R T V W X Z
+Elenco delle parole copiate male:
+	(1) TX: VH, RX: VS, DIF: H;
+	(12) TX: LM, RX: FM, DIF: L;
+	(13) TX: BI, RX: DI, DIF: B;
+	(19) TX: MS, RX: MU, DIF: S;
+	(20) TX: PN, RX: AN, DIF: P;
+Nota: nessuna
+***
+
+Esercizio di ricezione #307 eseguito il 2025/7/13 alle 10, 22 minuti:
+In questa sessione #307, ti ho inviato 27 Menu_rx_switcher_parole e ne hai ricevuti 12: 44.4%
+	10 di questi sono stati ricevuti al primo ascolto: 83.3%
+	mentre 2 Menu_rx_switcher_parole al secondo tentativo: 16.7%.
+Durante la sessione, la tua velocità minima è stata 35, la massima di 40: pari ad una variazione di 5 WPM.
+	La velocità media di ricezione è di: 37.3 WPM.
+Carattere: errori = Percentuale
+    'T': 7 (3.9% dei car. tot., 58.3% delle 'T' inviate)
+    'A': 5 (2.8% dei car. tot., 17.9% delle 'A' inviate)
+    'E': 5 (2.8% dei car. tot., 33.3% delle 'E' inviate)
+    'I': 5 (2.8% dei car. tot., 22.7% delle 'I' inviate)
+    'D': 2 (1.1% dei car. tot., 25.0% delle 'D' inviate)
+    'F': 2 (1.1% dei car. tot., 100.0% delle 'F' inviate)
+    'H': 2 (1.1% dei car. tot., 40.0% delle 'H' inviate)
+    'R': 2 (1.1% dei car. tot., 16.7% delle 'R' inviate)
+    'S': 2 (1.1% dei car. tot., 25.0% delle 'S' inviate)
+    'B': 1 (0.6% dei car. tot., 20.0% delle 'B' inviate)
+    'C': 1 (0.6% dei car. tot., 8.3% delle 'C' inviate)
+    'L': 1 (0.6% dei car. tot., 20.0% delle 'L' inviate)
+    'N': 1 (0.6% dei car. tot., 10.0% delle 'N' inviate)
+    'P': 1 (0.6% dei car. tot., 12.5% delle 'P' inviate)
+    'V': 1 (0.6% dei car. tot., 25.0% delle 'V' inviate)
+
+Errori totali: 38 su 181 = 20.99%
+Caratteri mai sbagliati: G M O U À Ò
+Elenco delle parole copiate male:
+	(1) TX: CAUSAI, RX: CAUSATI, DIF: T;
+	(4) TX: ABBUFFI, RX: ABUSSI, DIF: BFF;
+	(5) TX: ABITERA, RX: ADEBATI, DIF: DEATTERA;
+	(6) TX: PASERAN, RX: PASTERN, DIF: TA;
+	(9) TX: INVIAVI, RX: INVITATI, DIF: TV;
+	(10) TX: TARCHIE, RX: TARDISE, DIF: CHS;
+	(14) TX: VAGHERÒ, RX: VAGIRÒ, DIF: HE;
+	(15) TX: DOCENTI, RX: DOCENTE, DIF: I;
+	(18) TX: EMENDO, RX: EMERGO, DIF: ND;
+	(21) TX: ANCHINI, RX: INCHINA, DIF: AI;
+	(22) TX: CASCHI, RX: CASCHE, DIF: I;
+	(23) TX: CHIARE, RX: CHIARI, DIF: E;
+	(25) TX: GIRASTE, RX: GIRASE, DIF: T;
+	(26) TX: IMBESTI, RX: IMBETE, DIF: SI;
+	(27) TX: PELTRAI, RX: , DIF: PELTRAI;
+Nota: nessuna
+***
+
+Esercizio di ricezione #308 eseguito il 2025/7/13 alle 11, 2 minuti:
+In questa sessione #308, ti ho inviato 20 Parole e ne hai ricevuti 11: 55.0%
+	9 di questi sono stati ricevuti al primo ascolto: 81.8%
+	mentre 2 Parole al secondo tentativo: 18.2%.
+Durante la sessione, la tua velocità minima è stata 32, la massima di 38: pari ad una variazione di 6 WPM.
+	La velocità media di ricezione è di: 34.5 WPM.
+Carattere: errori = Percentuale
+    'N': 3 (2.3% dei car. tot., 25.0% delle 'N' inviate)
+    'E': 2 (1.5% dei car. tot., 20.0% delle 'E' inviate)
+    'I': 2 (1.5% dei car. tot., 10.5% delle 'I' inviate)
+    'R': 2 (1.5% dei car. tot., 20.0% delle 'R' inviate)
+    'S': 2 (1.5% dei car. tot., 16.7% delle 'S' inviate)
+    'C': 1 (0.8% dei car. tot., 16.7% delle 'C' inviate)
+    'O': 1 (0.8% dei car. tot., 6.2% delle 'O' inviate)
+
+Errori totali: 13 su 130 = 10.00%
+Caratteri mai sbagliati: A B D F G H L M P T U V À Ò
+Elenco delle parole copiate male:
+	(1) TX: SOAVITÀ, RX: SOARVITÀ, DIF: R;
+	(2) TX: STRINA, RX: STRIDA, DIF: N;
+	(4) TX: RIUNITA, RX: RIUSCITA, DIF: N;
+	(5) TX: FINSERO, RX: FINIRÒ, DIF: SEO;
+	(10) TX: STANANO, RX: STANATO, DIF: N;
+	(11) TX: TRANCHE, RX: STANCHE, DIF: SR;
+	(14) TX: SBIECA, RX: SBECCA, DIF: IC;
+	(18) TX: TEACEE, RX: TACEE, DIF: E;
+	(19) TX: NIOBI, RX: NIOBE, DIF: I;
+Nota: nessuna
+***
+
+Esercizio di ricezione #309 eseguito il 2025/7/13 alle 13, 45 minuti:
+In questa sessione #309, ti ho inviato 32 Parole e ne hai ricevuti 17: 53.1%
+	13 di questi sono stati ricevuti al primo ascolto: 76.5%
+	mentre 4 Parole al secondo tentativo: 23.5%.
+Durante la sessione, la tua velocità minima è stata 35, la massima di 40: pari ad una variazione di 5 WPM.
+	La velocità media di ricezione è di: 37.0 WPM.
+Carattere: errori = Percentuale
+    'R': 8 (3.9% dei car. tot., 50.0% delle 'R' inviate)
+    'E': 5 (2.5% dei car. tot., 22.7% delle 'E' inviate)
+    'I': 5 (2.5% dei car. tot., 23.8% delle 'I' inviate)
+    'M': 4 (2.0% dei car. tot., 80.0% delle 'M' inviate)
+    'D': 3 (1.5% dei car. tot., 42.9% delle 'D' inviate)
+    'N': 3 (1.5% dei car. tot., 23.1% delle 'N' inviate)
+    'A': 2 (1.0% dei car. tot., 7.7% delle 'A' inviate)
+    'C': 2 (1.0% dei car. tot., 20.0% delle 'C' inviate)
+    'B': 1 (0.5% dei car. tot., 20.0% delle 'B' inviate)
+    'L': 1 (0.5% dei car. tot., 10.0% delle 'L' inviate)
+    'O': 1 (0.5% dei car. tot., 5.6% delle 'O' inviate)
+    'Q': 1 (0.5% dei car. tot., 100.0% delle 'Q' inviate)
+    'S': 1 (0.5% dei car. tot., 12.5% delle 'S' inviate)
+
+Errori totali: 37 su 204 = 18.14%
+Caratteri mai sbagliati: F G P T U V Z Ò
+Elenco delle parole copiate male:
+	(2) TX: SDOLERE, RX: SBOLERE, DIF: D;
+	(3) TX: GAMBA, RX: MAGMA, DIF: MAMMBA;
+	(6) TX: ICONICA, RX: SCONCIA, DIF: ICC;
+	(10) TX: TENACIE, RX: TEACIDE, DIF: ND;
+	(11) TX: PIRENEI, RX: PERNIE, DIF: ERNRNEI;
+	(12) TX: BISARCA, RX: BAUCA, DIF: ISR;
+	(14) TX: GANGLI, RX: GANGLE, DIF: I;
+	(16) TX: REFILI, RX: REFILE, DIF: I;
+	(17) TX: IMBORSA, RX: IMBOLSA, DIF: R;
+	(18) TX: URODELO, RX: UIDONO, DIF: RDEL;
+	(23) TX: RIVENNE, RX: LIVINNE, DIF: RE;
+	(24) TX: EQUOREO, RX: ECUOTO, DIF: QRE;
+	(26) TX: NUDISMO, RX: NUDISSO, DIF: M;
+	(27) TX: ARSERO, RX: ARSENO, DIF: R;
+	(30) TX: FUNGERO, RX: FUNGERÒ, DIF: O;
+Nota: nessuna
+***
+
+Esercizio di ricezione #310 eseguito il 2025/7/13 alle 14, 20 minuti:
+In questa sessione #310, ti ho inviato 20 Parole e ne hai ricevuti 11: 55.0%
+	10 di questi sono stati ricevuti al primo ascolto: 90.9%
+	mentre 1 Parole al secondo tentativo: 9.1%.
+Durante la sessione, la tua velocità minima è stata 37, la massima di 43: pari ad una variazione di 6 WPM.
+	La velocità media di ricezione è di: 39.1 WPM.
+Carattere: errori = Percentuale
+    'N': 5 (3.8% dei car. tot., 50.0% delle 'N' inviate)
+    'I': 3 (2.3% dei car. tot., 15.8% delle 'I' inviate)
+    'V': 2 (1.5% dei car. tot., 50.0% delle 'V' inviate)
+    'B': 1 (0.8% dei car. tot., 100.0% delle 'B' inviate)
+    'E': 1 (0.8% dei car. tot., 7.7% delle 'E' inviate)
+    'G': 1 (0.8% dei car. tot., 33.3% delle 'G' inviate)
+    'H': 1 (0.8% dei car. tot., 0.0% delle 'H' inviate)
+    'R': 1 (0.8% dei car. tot., 20.0% delle 'R' inviate)
+    'T': 1 (0.8% dei car. tot., 12.5% delle 'T' inviate)
+    'Z': 1 (0.8% dei car. tot., 100.0% delle 'Z' inviate)
+
+Errori totali: 17 su 130 = 13.08%
+Caratteri mai sbagliati: A C D F L M O P S Ò
+Elenco delle parole copiate male:
+	(1) TX: MEDIATE, RX: MEDITATE, DIF: T;
+	(2) TX: ZEBRATI, RX: GELATI, DIF: ZBR;
+	(4) TX: ACINOSE, RX: ACIDOSE, DIF: N;
+	(7) TX: AGRESTI, RX: AGRESTE, DIF: I;
+	(9) TX: FINNICO, RX: FINICO, DIF: N;
+	(13) TX: ANGINA, RX: ANZICA, DIF: GN;
+	(17) TX: INVENTÒ, RX: ASDUTÒ, DIF: INVEN;
+	(18) TX: PALAIE, RX: PALATE, DIF: I;
+	(19) TX: SANCIVO, RX: SANCHIO, DIF: HV;
+Nota: nessuna
+***
+
+Esercizio di ricezione #310 eseguito il 2025/7/13 alle 15, 21 minuti:
+In questa sessione #310, ti ho inviato 61 Parole e ne hai ricevuti 29: 47.5%
+	24 di questi sono stati ricevuti al primo ascolto: 82.8%
+	mentre 5 Parole al secondo tentativo: 17.2%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 42: pari ad una variazione di 8 WPM.
+	La velocità media di ricezione è di: 37.1 WPM.
+Carattere: errori = Percentuale
+    'I': 19 (5.2% dei car. tot., 39.6% delle 'I' inviate)
+    'R': 9 (2.4% dei car. tot., 31.0% delle 'R' inviate)
+    'E': 7 (1.9% dei car. tot., 18.4% delle 'E' inviate)
+    'T': 7 (1.9% dei car. tot., 25.0% delle 'T' inviate)
+    'N': 6 (1.6% dei car. tot., 35.3% delle 'N' inviate)
+    'A': 4 (1.1% dei car. tot., 9.8% delle 'A' inviate)
+    'B': 2 (0.5% dei car. tot., 25.0% delle 'B' inviate)
+    'M': 2 (0.5% dei car. tot., 25.0% delle 'M' inviate)
+    'P': 2 (0.5% dei car. tot., 14.3% delle 'P' inviate)
+    'U': 2 (0.5% dei car. tot., 16.7% delle 'U' inviate)
+    'C': 1 (0.3% dei car. tot., 7.1% delle 'C' inviate)
+    'D': 1 (0.3% dei car. tot., 16.7% delle 'D' inviate)
+    'G': 1 (0.3% dei car. tot., 11.1% delle 'G' inviate)
+    'L': 1 (0.3% dei car. tot., 5.9% delle 'L' inviate)
+    'S': 1 (0.3% dei car. tot., 5.9% delle 'S' inviate)
+
+Errori totali: 65 su 368 = 17.66%
+Caratteri mai sbagliati: F J K O V Z À Ò
+Elenco delle parole copiate male:
+	(1) TX: CISTI, RX: CISTE, DIF: I;
+	(2) TX: VENERE, RX: VENIRE, DIF: E;
+	(7) TX: BILBAO, RX: DILETTO, DIF: BBA;
+	(9) TX: ASSOLDI, RX: ASSOLDO, DIF: I;
+	(10) TX: PILEATA, RX: PELATO, DIF: IEA;
+	(14) TX: LACERO, RX: LACIO, DIF: ER;
+	(15) TX: PAREMIA, RX: PARTITA, DIF: EMT;
+	(16) TX: ASTEMIE, RX: ASTINE, DIF: INMIE;
+	(20) TX: BARENE, RX: BARNE, DIF: E;
+	(21) TX: TOLTA, RX: TOLGA, DIF: T;
+	(22) TX: ONRATO, RX: ORNATO, DIF: RR;
+	(23) TX: RIMANE, RX: RIMATE, DIF: N;
+	(24) TX: SUBIREI, RX: SUBIRNE, DIF: NI;
+	(26) TX: COMPERI, RX: COMPRESE, DIF: RRI;
+	(27) TX: OVOCITO, RX: OVOCIO, DIF: T;
+	(28) TX: STIVALE, RX: SEVALE, DIF: TI;
+	(31) TX: GAUDETE, RX: GAUDENTE, DIF: N;
+	(33) TX: SPARUTA, RX: SPARVA, DIF: UT;
+	(34) TX: AUSTRI, RX: , DIF: AUSTRI;
+	(35) TX: LENII, RX: LINEE, DIF: INNII;
+	(38) TX: AVVIINO, RX: AVVIANO, DIF: I;
+	(40) TX: PUBERI, RX: PUBELI, DIF: R;
+	(43) TX: JODLER, RX: JOILER, DIF: D;
+	(45) TX: JOCKER, RX: JOKER, DIF: C;
+	(48) TX: MINUGIE, RX: MINUTE, DIF: GI;
+	(49) TX: GALIGAI, RX: GALIGE, DIF: AI;
+	(50) TX: PIPARE, RX: PAPERE, DIF: PIPE;
+	(52) TX: CODICI, RX: CODICE, DIF: I;
+	(54) TX: OOCITI, RX: OOCIT, DIF: I;
+	(57) TX: GLIELO, RX: GLERO, DIF: IL;
+	(59) TX: IDRURI, RX: IDUTI, DIF: RR;
+	(61) TX: BAZZUTA, RX: BAZZUCA, DIF: T;
+Nota: nessuna
+***
+
+Esercizio di ricezione #311 eseguito il 2025/7/13 alle 17, 47 minuti:
+In questa sessione #311, ti ho inviato 40 Misto (Parole, Numeri) e ne hai ricevuti 20: 50.0%
+	19 di questi sono stati ricevuti al primo ascolto: 95.0%
+	mentre 1 Misto (Parole, Numeri) al secondo tentativo: 5.0%.
+Durante la sessione, la tua velocità minima è stata 36, la massima di 42: pari ad una variazione di 6 WPM.
+	La velocità media di ricezione è di: 38.7 WPM.
+Carattere: errori = Percentuale
+    'N': 7 (4.4% dei car. tot., 70.0% delle 'N' inviate)
+    'A': 6 (3.8% dei car. tot., 27.3% delle 'A' inviate)
+    'I': 5 (3.1% dei car. tot., 33.3% delle 'I' inviate)
+    'R': 4 (2.5% dei car. tot., 40.0% delle 'R' inviate)
+    'U': 3 (1.9% dei car. tot., 42.9% delle 'U' inviate)
+    'D': 2 (1.2% dei car. tot., 200.0% delle 'D' inviate)
+    'E': 2 (1.2% dei car. tot., 28.6% delle 'E' inviate)
+    'Z': 2 (1.2% dei car. tot., 40.0% delle 'Z' inviate)
+    'Ò': 2 (1.2% dei car. tot., 100.0% delle 'Ò' inviate)
+    '2': 1 (0.6% dei car. tot., 33.3% delle '2' inviate)
+    'C': 1 (0.6% dei car. tot., 20.0% delle 'C' inviate)
+    'F': 1 (0.6% dei car. tot., 33.3% delle 'F' inviate)
+    'G': 1 (0.6% dei car. tot., 20.0% delle 'G' inviate)
+    'L': 1 (0.6% dei car. tot., 16.7% delle 'L' inviate)
+    'M': 1 (0.6% dei car. tot., 20.0% delle 'M' inviate)
+    'O': 1 (0.6% dei car. tot., 6.7% delle 'O' inviate)
+    'S': 1 (0.6% dei car. tot., 14.3% delle 'S' inviate)
+    'T': 1 (0.6% dei car. tot., 10.0% delle 'T' inviate)
+
+Errori totali: 42 su 160 = 26.25%
+Caratteri mai sbagliati: 0 1 5 6 7 8 B P V
+Elenco delle parole copiate male:
+	(4) TX: INVAN, RX: INVITI, DIF: AN;
+	(5) TX: PIGMEA, RX: PIGMA, DIF: E;
+	(8) TX: OLEARIO, RX: OLENADRO, DIF: NDI;
+	(9) TX: 2, RX: , DIF: 2;
+	(13) TX: BARACCA, RX: BATOCCA, DIF: RA;
+	(15) TX: GIONA, RX: GIOCA, DIF: N;
+	(16) TX: ZAZZERA, RX: ZANGERA, DIF: ZZ;
+	(18) TX: INOLTRÒ, RX: IMOLTRÀ, DIF: NÒ;
+	(23) TX: SIGLATO, RX: SINATO, DIF: GL;
+	(24) TX: MULINO, RX: MULITO, DIF: N;
+	(25) TX: COMMUTÒ, RX: COMMITÀ, DIF: UÒ;
+	(28) TX: RONFARE, RX: PODRESTA, DIF: RNFASTA;
+	(31) TX: TONERA, RX: TORNERA, DIF: R;
+	(33) TX: RAGUSEA, RX: RAGUSA, DIF: E;
+	(34) TX: MUCIDA, RX: , DIF: MUCIDA;
+	(35) TX: SUFFUSO, RX: SUFFISSO, DIF: U;
+	(36) TX: GUAZZI, RX: GUZZI, DIF: A;
+	(38) TX: STRINO, RX: STIMO, DIF: RN;
+	(39) TX: PANIONI, RX: PANIONE, DIF: I;
+	(40) TX: BARSOI, RX: BARIOSO, DIF: IOI;
+Nota: nessuna
+***
+
+Esercizio di ricezione #312 eseguito il 2025/7/13 alle 18, 53 minuti:
+In questa sessione #312, ti ho inviato 47 Parole e ne hai ricevuti 26: 55.3%
+	17 di questi sono stati ricevuti al primo ascolto: 65.4%
+	mentre 9 Parole al secondo tentativo: 34.6%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 43: pari ad una variazione di 9 WPM.
+	La velocità media di ricezione è di: 37.7 WPM.
+Carattere: errori = Percentuale
+    'E': 9 (3.0% dei car. tot., 30.0% delle 'E' inviate)
+    'I': 5 (1.7% dei car. tot., 12.2% delle 'I' inviate)
+    'R': 4 (1.3% dei car. tot., 16.0% delle 'R' inviate)
+    'L': 3 (1.0% dei car. tot., 20.0% delle 'L' inviate)
+    'A': 2 (0.7% dei car. tot., 6.2% delle 'A' inviate)
+    'D': 2 (0.7% dei car. tot., 22.2% delle 'D' inviate)
+    'G': 2 (0.7% dei car. tot., 33.3% delle 'G' inviate)
+    'N': 2 (0.7% dei car. tot., 20.0% delle 'N' inviate)
+    'S': 2 (0.7% dei car. tot., 13.3% delle 'S' inviate)
+    'T': 2 (0.7% dei car. tot., 9.1% delle 'T' inviate)
+    'B': 1 (0.3% dei car. tot., 33.3% delle 'B' inviate)
+    'H': 1 (0.3% dei car. tot., 25.0% delle 'H' inviate)
+    'M': 1 (0.3% dei car. tot., 8.3% delle 'M' inviate)
+    'O': 1 (0.3% dei car. tot., 4.2% delle 'O' inviate)
+    'U': 1 (0.3% dei car. tot., 11.1% delle 'U' inviate)
+    'W': 1 (0.3% dei car. tot., 50.0% delle 'W' inviate)
+
+Errori totali: 39 su 299 = 13.04%
+Caratteri mai sbagliati: C F P V Ò
+Elenco delle parole copiate male:
+	(2) TX: PERIURI, RX: PERIENE, DIF: URI;
+	(5) TX: SPICCHI, RX: SPECCHI, DIF: I;
+	(6) TX: DUVETS, RX: DUVETI, DIF: S;
+	(7) TX: WINNER, RX: WINTER, DIF: N;
+	(8) TX: METRETA, RX: MEROLATA, DIF: TE;
+	(12) TX: BATTER, RX: BATTERE, DIF: E;
+	(13) TX: LITIASI, RX: LETITIS, DIF: ETAI;
+	(15) TX: TOSERO, RX: TOSERÒ, DIF: O;
+	(16) TX: OPERAIE, RX: OPERAI, DIF: E;
+	(20) TX: OMAGGIO, RX: OMOGGIO, DIF: A;
+	(23) TX: ALLEA, RX: ALFA, DIF: LE;
+	(24) TX: PRECISÒ, RX: PRACHIÒ, DIF: EHS;
+	(28) TX: WOMAN, RX: POMAN, DIF: W;
+	(29) TX: SEDURLA, RX: SIBULLA, DIF: EDR;
+	(34) TX: OFFRILE, RX: OFFILE, DIF: R;
+	(38) TX: OBERAVA, RX: ODORAVA, DIF: BE;
+	(39) TX: DISSODI, RX: BISSODI, DIF: D;
+	(40) TX: MAPPATI, RX: MAPPATE, DIF: I;
+	(44) TX: SCHELMI, RX: SCHERZI, DIF: LM;
+	(45) TX: SVIGNI, RX: SVEGLI, DIF: EGLGNI;
+	(47) TX: PICRICI, RX: PICICI, DIF: R;
+Nota: nessuna
+***
+
+Esercizio di ricezione #313 eseguito il 2025/7/13 alle 19, 52 minuti:
+In questa sessione #313, ti ho inviato 15 Parole e ne hai ricevuti 6: 40.0%
+	4 di questi sono stati ricevuti al primo ascolto: 66.7%
+	mentre 2 Parole al secondo tentativo: 33.3%.
+Durante la sessione, la tua velocità minima è stata 37, la massima di 43: pari ad una variazione di 6 WPM.
+	La velocità media di ricezione è di: 40.7 WPM.
+Carattere: errori = Percentuale
+    'I': 3 (3.2% dei car. tot., 27.3% delle 'I' inviate)
+    'R': 3 (3.2% dei car. tot., 42.9% delle 'R' inviate)
+    'A': 2 (2.2% dei car. tot., 15.4% delle 'A' inviate)
+    'N': 2 (2.2% dei car. tot., 50.0% delle 'N' inviate)
+    'V': 2 (2.2% dei car. tot., 50.0% delle 'V' inviate)
+    'F': 1 (1.1% dei car. tot., 25.0% delle 'F' inviate)
+    'L': 1 (1.1% dei car. tot., 14.3% delle 'L' inviate)
+    'S': 1 (1.1% dei car. tot., 33.3% delle 'S' inviate)
+    'T': 1 (1.1% dei car. tot., 33.3% delle 'T' inviate)
+
+Errori totali: 16 su 93 = 17.20%
+Caratteri mai sbagliati: B C E H M O P Q U Z À
+Elenco delle parole copiate male:
+	(3) TX: ANTE, RX: ANNE, DIF: T;
+	(4) TX: PROPILE, RX: PROPRIE, DIF: RL;
+	(7) TX: RAION, RX: RAINO, DIF: NN;
+	(8) TX: ATTRAI, RX: ATTIMA, DIF: RI;
+	(10) TX: UVIFERO, RX: VULNERO, DIF: VVIF;
+	(11) TX: SFASCI, RX: SFICI, DIF: AS;
+	(12) TX: CULLERO, RX: CULLEO, DIF: R;
+	(13) TX: ALCANO, RX: VULCANO, DIF: A;
+	(14) TX: SQUAMI, RX: SQUAME, DIF: I;
+Nota: nessuna
+***
+
+Esercizio di ricezione #314 eseguito il 2025/7/13 alle 21, 37 minuti:
+In questa sessione #314, ti ho inviato 50 Parole e ne hai ricevuti 29: 58.0%
+	20 di questi sono stati ricevuti al primo ascolto: 69.0%
+	mentre 9 Parole al secondo tentativo: 31.0%.
+Durante la sessione, la tua velocità minima è stata 34, la massima di 48: pari ad una variazione di 14 WPM.
+	La velocità media di ricezione è di: 35.8 WPM.
+Carattere: errori = Percentuale
+    'A': 8 (2.6% dei car. tot., 20.0% delle 'A' inviate)
+    'I': 7 (2.2% dei car. tot., 24.1% delle 'I' inviate)
+    'R': 6 (1.9% dei car. tot., 25.0% delle 'R' inviate)
+    'E': 5 (1.6% dei car. tot., 14.7% delle 'E' inviate)
+    'T': 5 (1.6% dei car. tot., 20.8% delle 'T' inviate)
+    'N': 3 (1.0% dei car. tot., 11.1% delle 'N' inviate)
+    'L': 2 (0.6% dei car. tot., 13.3% delle 'L' inviate)
+    'B': 1 (0.3% dei car. tot., 33.3% delle 'B' inviate)
+    'D': 1 (0.3% dei car. tot., 16.7% delle 'D' inviate)
+    'G': 1 (0.3% dei car. tot., 12.5% delle 'G' inviate)
+    'O': 1 (0.3% dei car. tot., 2.8% delle 'O' inviate)
+    'S': 1 (0.3% dei car. tot., 6.7% delle 'S' inviate)
+    'U': 1 (0.3% dei car. tot., 16.7% delle 'U' inviate)
+
+Errori totali: 42 su 312 = 13.46%
+Caratteri mai sbagliati: C F H M P V Y Z Ò
+Elenco delle parole copiate male:
+	(1) TX: NAFTOLO, RX: NAFOLO, DIF: T;
+	(3) TX: MIELOSA, RX: MIROSA, DIF: EL;
+	(5) TX: OLIERA, RX: OLESTA, DIF: IR;
+	(6) TX: POTEREI, RX: POTERSI, DIF: E;
+	(7) TX: TRINCHE, RX: ORECHE, DIF: TIN;
+	(8) TX: BOURREE, RX: BOURNEE, DIF: R;
+	(12) TX: ADOPRI, RX: ADOPRA, DIF: I;
+	(13) TX: DEMOLII, RX: NEMOLEE, DIF: DII;
+	(16) TX: AZULENE, RX: AZURENE, DIF: L;
+	(19) TX: RENTREE, RX: RENTAEE, DIF: R;
+	(20) TX: USARNE, RX: USCIRNE, DIF: A;
+	(23) TX: BELAVA, RX: DELIVA, DIF: BA;
+	(24) TX: TIGRINE, RX: TIZIANO, DIF: GRAE;
+	(26) TX: GILSON, RX: GILION, DIF: S;
+	(30) TX: MIRMECO, RX: MIRMICO, DIF: E;
+	(34) TX: FLOAT, RX: FLATA, DIF: OA;
+	(37) TX: SOLARI, RX: SOLARE, DIF: I;
+	(42) TX: PONENTI, RX: POTENTI, DIF: N;
+	(47) TX: OSSUTE, RX: OSSATE, DIF: U;
+	(48) TX: PERENTA, RX: PIRATE, DIF: IRATRENTA;
+	(50) TX: PALPATA, RX: PALPO, DIF: ATA;
+Nota: nessuna
+***
+
+Esercizio di ricezione #315 eseguito il 2025/7/13 alle 22, 37 minuti:
+In questa sessione #315, ti ho inviato 37 Lettere e ne hai ricevuti 16: 43.2%
+	12 di questi sono stati ricevuti al primo ascolto: 75.0%
+	mentre 4 Lettere al secondo tentativo: 25.0%.
+Durante la sessione, la tua velocità minima è stata 36, la massima di 45: pari ad una variazione di 9 WPM.
+	La velocità media di ricezione è di: 35.5 WPM.
+Carattere: errori = Percentuale
+    'S': 4 (2.7% dei car. tot., 44.4% delle 'S' inviate)
+    'B': 3 (2.0% dei car. tot., 75.0% delle 'B' inviate)
+    'K': 3 (2.0% dei car. tot., 75.0% delle 'K' inviate)
+    'V': 3 (2.0% dei car. tot., 33.3% delle 'V' inviate)
+    'Z': 3 (2.0% dei car. tot., 50.0% delle 'Z' inviate)
+    'F': 2 (1.4% dei car. tot., 40.0% delle 'F' inviate)
+    'I': 2 (1.4% dei car. tot., 100.0% delle 'I' inviate)
+    'L': 2 (1.4% dei car. tot., 28.6% delle 'L' inviate)
+    'T': 2 (1.4% dei car. tot., 33.3% delle 'T' inviate)
+    'U': 2 (1.4% dei car. tot., 33.3% delle 'U' inviate)
+    'G': 1 (0.7% dei car. tot., 11.1% delle 'G' inviate)
+    'H': 1 (0.7% dei car. tot., 25.0% delle 'H' inviate)
+    'M': 1 (0.7% dei car. tot., 20.0% delle 'M' inviate)
+    'N': 1 (0.7% dei car. tot., 50.0% delle 'N' inviate)
+    'P': 1 (0.7% dei car. tot., 25.0% delle 'P' inviate)
+    'Q': 1 (0.7% dei car. tot., 20.0% delle 'Q' inviate)
+    'R': 1 (0.7% dei car. tot., 16.7% delle 'R' inviate)
+    'W': 1 (0.7% dei car. tot., 11.1% delle 'W' inviate)
+
+Errori totali: 34 su 148 = 22.97%
+Caratteri mai sbagliati: A C D E J X Y
+Elenco delle parole copiate male:
+	(1) TX: JRVV, RX: JUVV, DIF: R;
+	(2) TX: RSZJ, RX: RIZJ, DIF: S;
+	(3) TX: EXTC, RX: EXEC, DIF: T;
+	(4) TX: CSMC, RX: CIMC, DIF: S;
+	(5) TX: TCGV, RX: TCGU, DIF: V;
+	(7) TX: SJZM, RX: SZJM, DIF: ZZ;
+	(8) TX: CQZJ, RX: CQDJ, DIF: Z;
+	(9) TX: WLBW, RX: WLDM, DIF: BW;
+	(10) TX: KVNM, RX: KUMN, DIF: VM;
+	(13) TX: GSHY, RX: GHHY, DIF: S;
+	(14) TX: HPDU, RX: SPDV, DIF: HU;
+	(17) TX: ZUXK, RX: ZUKX, DIF: KK;
+	(18) TX: PXIB, RX: PKSX, DIF: KSIB;
+	(19) TX: VVPK, RX: VUWK, DIF: VP;
+	(20) TX: RLTD, RX: LRDN, DIF: LLTN;
+	(23) TX: LEBW, RX: LEDW, DIF: B;
+	(24) TX: UAGF, RX: UAGK, DIF: F;
+	(26) TX: GTKF, RX: GTKZ, DIF: F;
+	(30) TX: GEGQ, RX: GEGY, DIF: Q;
+	(34) TX: SQGU, RX: SQDR, DIF: GU;
+	(37) TX: DAYI, RX: DAYS, DIF: I;
+Nota: nessuna
+***
