@@ -35,7 +35,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.3.16, 2025-07-15)'
+VERSION = '4.3.7, 2025-07-14)'
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -1295,21 +1295,7 @@ def Rxing():
         historical_rx_settings = app_data.get('historical_rx_data', {})
         max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
         report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
-        corrected_item_details = [{'rwpm': item['wpm'], 'correct': item['correct']} for item in item_details]
-        session_data_for_history = {
-            'timestamp_iso': starttime.isoformat(),
-            'duration_seconds': exerctime.total_seconds(),
-            'rwpm_min': minwpm, # Il nome qui potrebbe diventare 'rwpm_min' per coerenza
-            'rwpm_max': maxwpm, # e qui 'rwpm_max'
-            'rwpm_avg': avg_wpm_calc,  # <-- Chiave CHIARA E UNIVOCA
-            'items_sent_session': len(callssend),
-            'items_correct_session': len(callsget),
-            'item_details': corrected_item_details, # <-- Ora contiene la chiave 'rwpm'
-            'chars_sent_session': send_char,
-            'errors_detail_session': char_error_counts,
-            'total_errors_chars_session': total_mistakes_calculated,
-            'sent_chars_detail_session': sent_chars_detail_this_session
-        }
+        session_data_for_history = {'timestamp_iso': starttime.isoformat(), 'duration_seconds': exerctime.total_seconds(), 'wpm_min': minwpm, 'wpm_max': maxwpm, 'wpm_avg': avg_wpm_calc, 'items_sent_session': len(callssend), 'items_correct_session': len(callsget), 'item_details': item_details, 'chars_sent_session': send_char, 'errors_detail_session': char_error_counts, 'total_errors_chars_session': total_mistakes_calculated, 'sent_chars_detail_session': sent_chars_detail_this_session}
         historical_rx_log = app_data.get('historical_rx_data', {}).get('sessions_log', [])
         historical_rx_log.append(session_data_for_history)
         x = len(historical_rx_log)
@@ -1423,12 +1409,12 @@ def _calculate_aggregates(session_list):
     for s in session_list:
         for char, count in s.get('sent_chars_detail_session', {}).items():
             aggregated_sent_chars_detail[char] = aggregated_sent_chars_detail.get(char, 0) + count
-    valid_min_wpms = [s.get('rwpm_min', 0) for s in session_list if s.get('rwpm_min', 0) > 0 and s.get('rwpm_min', 0) != 100]
-    valid_max_wpms = [s.get('rwpm_max', 0) for s in session_list if s.get('rwpm_max', 0) > 0]
+    valid_min_wpms = [s.get('wpm_min', 0) for s in session_list if s.get('wpm_min', 0) > 0 and s.get('wpm_min', 0) != 100]
+    valid_max_wpms = [s.get('wpm_max', 0) for s in session_list if s.get('wpm_max', 0) > 0]
     wpm_min_overall = min(valid_min_wpms) if valid_min_wpms else 0
     wpm_max_overall = max(valid_max_wpms) if valid_max_wpms else 0
     if session_list:
-        sum_of_session_avg_wpms = sum((s.get('rwpm_avg', 0.0) for s in session_list))
+        sum_of_session_avg_wpms = sum((s.get('wpm_avg', 0.0) for s in session_list))
         wpm_avg_of_session_avgs = sum_of_session_avg_wpms / len(session_list)
     else:
         wpm_avg_of_session_avgs = 0.0
@@ -1591,7 +1577,7 @@ def generate_historical_rx_report(sessions_for_current_report):
                 f.write('  </tbody>\n</table>\n')
             if previous_aggregates and previous_aggregates.get('num_sessions_in_block', 0) > 0:
                 f.write(_('<h2>Variazioni Dettaglio Errori per Carattere</h2>\n'))
-                f.write(_('<p class="report-subtitle">Variazioni rispetto al blocco di {count} esercizi precedente</p>\n').format(count=previous_aggregates['num_sessions_in_block']))
+                f.write(_('<p class="report-subtitle">Variazioni rispetto al blocco di {count} esercizi precedente</p>\n'))
                 f.write('<table>\n')
                 f.write(_('  <thead><tr><th>Carattere</th><th>Err. Att.</th><th>%Tot Att.</th><th>%Spec Att.</th><th>Err. Prec.</th><th>%Tot Prec.</th><th>%Spec Prec.</th><th>Δ% Tot. Caratt.</th><th>Δ% Caratt. Spec.</th></tr></thead>\n'))
                 f.write('  <tbody>\n')
@@ -1615,22 +1601,8 @@ def generate_historical_rx_report(sessions_for_current_report):
                         delta_rate_vs_specific_char = curr_rate_vs_specific_char - prev_rate_vs_specific_char
                         delta_total_class = get_delta_class(delta_rate_vs_total_chars, higher_is_better=False)
                         delta_specific_class = get_delta_class(delta_rate_vs_specific_char, higher_is_better=False)
-                        f.write(_('     <tr><td class="char-emphasis">\'{}\'</td><td>{curr_count}</td><td>{curr_rate_vs_total_chars:.2f}%</td><td>{curr_rate_vs_specific_char:.2f}% <span class="details-label">(su {curr_sent_count} inv.)</span></td><td>{prev_count}</td><td>{prev_rate_vs_total_chars:.2f}%</td><td>{prev_rate_vs_specific_char:.2f}% <span class="details-label">(su {prev_sent_count} inv.)</span></td><td class="{delta_total_class}">{delta_rate_vs_total_chars:+.2f} %</td><td class="{delta_specific_class}">{delta_rate_vs_specific_char:+.2f} %</td></tr>\n').format(
-                            char_err.upper(),
-                            curr_count=curr_count,
-                            curr_rate_vs_total_chars=curr_rate_vs_total_chars,
-                            curr_rate_vs_specific_char=curr_rate_vs_specific_char,
-                            curr_sent_count=curr_total_sent_of_this_char,
-                            prev_count=prev_count,  # <-- Parametro che mancava
-                            prev_rate_vs_total_chars=prev_rate_vs_total_chars,
-                            prev_rate_vs_specific_char=prev_rate_vs_specific_char,
-                            prev_sent_count=prev_total_sent_of_this_char,
-                            delta_total_class=delta_total_class,
-                            delta_rate_vs_total_chars=delta_rate_vs_total_chars,
-                            delta_specific_class=delta_specific_class,
-                            delta_rate_vs_specific_char=delta_rate_vs_specific_char
-                        ))
-                        f.write('  </tbody>\n</table>\n')
+                        f.write(_('    <tr><td class="char-emphasis">\'{}\'</td><td>{curr_count}</td><td>{curr_rate_vs_total_chars}%</td><td>{curr_rate_vs_specific_char}% <span class="details-label">(su {count} inv.)</span></td><td>{prev_count}</td><td>{prev_rate_vs_total_chars}%</td><td>{prev_rate_vs_specific_char}% <span class="details-label">(su {count} inv.)</span></td><td class="{delta_total_class}">{delta_rate_vs_total_chars} %</td><td class="{delta_specific_class}">{delta_rate_vs_specific_char} %</td></tr>\n').format(char_err.upper(), curr_count=curr_count, curr_rate_vs_total_chars=curr_rate_vs_total_chars, curr_rate_vs_specific_char=curr_rate_vs_specific_char, prev_count=prev_count, prev_rate_vs_total_chars=prev_rate_vs_total_chars, prev_rate_vs_specific_char=prev_rate_vs_specific_char, delta_total_class=delta_total_class, delta_rate_vs_total_chars=delta_rate_vs_total_chars, delta_specific_class=delta_specific_class, delta_rate_vs_specific_char=delta_rate_vs_specific_char))
+                f.write('  </tbody>\n</table>\n')
             f.write('    </div>\n')
             f.write('</body>\n')
             f.write('</html>\n')
@@ -1661,7 +1633,6 @@ def generate_historical_rx_report(sessions_for_current_report):
     except Exception as e_graph:
         print(_('Errore durante la generazione del report grafico'))
     return current_aggregates
-
 global MNMAIN, MNRX, MNRXKIND
 app_data = load_settings()
 app_data['app_info']['launch_count'] = app_data.get('app_info', {}).get('launch_count', 0) + 1
@@ -1707,15 +1678,8 @@ while True:
         _clear_screen_ansi()
         import timeline
         log_sessioni = app_data.get('historical_rx_data', {}).get('sessions_log', [])
-        report_con_header = timeline.genera_report_temporale_completo(log_sessioni, _, app_language)
-        riga_separatore = '-' * 75
-        stringa_traducibile = _('--- Fine Report - Bye da CWAPU {version} ---')
-        footer_formattato = stringa_traducibile.format(version=VERSION)
-        footer = f"\n{riga_separatore}\n"
-        footer += f"{footer_formattato.center(70)}\n"
-        footer += f"{riga_separatore}\n"
-        report_finale = report_con_header + footer
-        print(report_finale)
+        report = timeline.genera_report_temporale_completo(log_sessioni, _, app_language)
+        print(report)
         prompt_salvataggio = _('Vuoi salvare il report in un file di testo? (Invio per Sì / altro tasto per No): ')
         scelta = key(prompt=prompt_salvataggio).strip()
         if scelta == '':
@@ -1723,7 +1687,7 @@ while True:
             percorso_file_report = os.path.join(USER_DATA_PATH, nome_file_report)
             try:
                 with open(percorso_file_report, 'w', encoding='utf-8') as f:
-                    f.write(report_finale)
+                    f.write(report)
                     print(_("\nReport salvato con successo in: {}").format(percorso_file_report))
             except IOError as e:
                 print(_("\nErrore durante il salvataggio del file: {}").format(e))
