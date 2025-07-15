@@ -3,10 +3,13 @@ Todo:
 7.
 
 ChangeLog:
-	4.2.20
+	4.3.9
+		+ Migliorato layout del report statisco sezione S.
 		+ Nuova funzione statistica che legge lo storico esercizi e crea una timeline con il tempo trascorso e i cambiamenti di lettere errate e velocità.
 		+ Ora viene salvato il dettaglio sulla velocità di ogni gruppo inviato.
 		+ stampa informativa sulla gestione delle sessioni salvate nello storico. Ora è trasparente il comportamento dell'app quando salva o elimina blocchi dal diario di bordo.
+		+ CORREZIONE CRITICA: implementato novo algoritmo per rilevare gli errori, ora usiamo il metodo di wilson che pondera l'errore basato sul tasso di invio di quel singolo carattere. Tutte le sezioni di cwapu che rilevano errori utilizzano ora questa formula
+		+ Pulizia interna al codice e refactoring delle variabili che gestiscono la velocità wpm nell'esercizio sezione r. Ora maggior pulizia e robustezza.
 	4.1.6
 		+ Fixed an important error occurred in RX exercise when the comparison between the current block and the stored blocks didn't happen
 		+ Totally redrawn R section now with 6 switchers to turn on and off as you prefer. This is a new challenge for your exercises.
