@@ -3,7 +3,9 @@ Todo:
 7.
 
 ChangeLog:
+	4.4.x
 	4.3.17
+		+ Ripristinato esercizio R4, lettere e numeri
 		+ Aggiunta quantità esercizi per giorno al totale e ai quartili, nella sezione statistiche (S dal menù princpale
 		+ Migliorato layout del report statisco sezione S.
 		+ molte altre migliorie al layout della sezione S del menù principale.
