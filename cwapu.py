@@ -35,7 +35,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.3.16, 2025-07-15)'
+VERSION = '4.3.17, 2025-07-17)'
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']

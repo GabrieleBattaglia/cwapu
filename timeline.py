@@ -60,17 +60,36 @@ def genera_report_attivita(df: pd.DataFrame, _, lang, giorni ,mesi) -> str:
     total_duration_overall = df['duration_seconds'].sum()
     if df.empty:
         return _('Nessun dato da analizzare.')
+    def _formatta_delta_temporale(delta, _):
+        parti = []
+        secondi_totali = int(delta.total_seconds())
+        giorni, secondi_rimanenti = divmod(secondi_totali, 86400)
+        # Approssimazione: 365 giorni/anno, 30 giorni/mese
+        anni, giorni_rimanenti = divmod(giorni, 365)
+        mesi, giorni_finali = divmod(giorni_rimanenti, 30)
+        ore, secondi_rimanenti = divmod(secondi_rimanenti, 3600)
+        minuti, sec_finali = divmod(secondi_rimanenti, 60)
+        if anni > 0: parti.append(_("{} anni").format(anni))
+        if mesi > 0: parti.append(_("{} mesi").format(mesi))
+        if giorni_finali > 0: parti.append(_("{} giorni").format(giorni_finali))
+        if ore > 0: parti.append(_("{} ore").format(ore))
+        if minuti > 0: parti.append(_("{} minuti").format(minuti))
+        return ", ".join(parti) if parti else _("Meno di un minuto")
     report_lines.append(_('--- Riepilogo Attività ---'))
     prima_sessione = df['timestamp_iso'].min()
     ultima_sessione = df['timestamp_iso'].max()
-    giorni_coperti = (ultima_sessione - prima_sessione).days
+    delta_coperto = ultima_sessione - prima_sessione
+    periodo_coperto_str = _formatta_delta_temporale(delta_coperto, _)
+    giorni_coperti = delta_coperto.days
     prima_sessione_str = f"{giorni[prima_sessione.weekday()]} {prima_sessione.day} {mesi[prima_sessione.month]} {prima_sessione.year}, {prima_sessione.strftime('%H:%M')}"
     ultima_sessione_str = f"{giorni[ultima_sessione.weekday()]} {ultima_sessione.day} {mesi[ultima_sessione.month]} {ultima_sessione.year}, {ultima_sessione.strftime('%H:%M')}"
-    report_lines.append(_('Numero totale di sessioni: {}').format(total_sessions))
-    report_lines.append(_('Prima sessione: {}').format(prima_sessione_str))
-    report_lines.append(_('Ultima sessione: {}').format(ultima_sessione_str))
-    report_lines.append(_('Periodo coperto: {} giorni').format(giorni_coperti))
-    report_lines.append('-' * 25)
+    report_lines.append(_('  Numero totale di sessioni: {}').format(total_sessions))
+    report_lines.append(_('  Prima sessione: {}').format(prima_sessione_str))
+    report_lines.append(_('  Ultima sessione: {}').format(ultima_sessione_str))
+    report_lines.append(_('  Periodo coperto: {}').format(periodo_coperto_str))
+    if giorni_coperti > 0:
+        frequenza_media = total_sessions / giorni_coperti
+        report_lines.append(_('  Frequenza media: {:.2f} esercizi/giorno').format(frequenza_media))
     report_lines.append(_('--- Distribuzione Oraria delle Sessioni ---'))
     hourly_stats = df.groupby(df['timestamp_iso'].dt.hour).agg(
         count=('timestamp_iso', 'size'),
@@ -589,6 +608,24 @@ def genera_report_quartili(df: pd.DataFrame, _, lang, giorni, mesi) -> str:
             linea_str.append(f"{diff_str_formatted}{nome_q}={val_str_formatted}")
             last_val_sec = val_sec
         report_lines.append("  "+" ".join(linea_str))
+    report_lines.append(_('  --- Frequenza Esercizi per Giorno ---'))
+    frequenza_parts = []
+    for nome_q, q_df in quartili_df.items():
+        if not q_df.empty and len(q_df) > 1:
+            num_esercizi = len(q_df)
+            start_ts = q_df['timestamp_iso'].min()
+            end_ts = q_df['timestamp_iso'].max()
+            giorni_quartile = (end_ts - start_ts).days
+            if giorni_quartile > 0:
+                frequenza = num_esercizi / giorni_quartile
+                frequenza_parts.append(f"{nome_q}: {frequenza:.2f} es./giorno")
+            else:
+                # Non calcolabile se tutte le sessioni sono nello stesso giorno
+                frequenza_parts.append(f"{nome_q}: N/D")
+        else:
+            # Non calcolabile per quartile vuoto o con una sola sessione
+            frequenza_parts.append(f"{nome_q}: N/D")
+    report_lines.append("  " + ", ".join(frequenza_parts))
     report_lines.append(_('  --- Evoluzione dei 3 Caratteri Più Critici (Stima Errore ± Incertezza) ---'))
     global_errors = {}
     global_sents = {}

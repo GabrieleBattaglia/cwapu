@@ -3,8 +3,10 @@ Todo:
 7.
 
 ChangeLog:
-	4.3.9
+	4.3.17
+		+ Aggiunta quantità esercizi per giorno al totale e ai quartili, nella sezione statistiche (S dal menù princpale
 		+ Migliorato layout del report statisco sezione S.
+		+ molte altre migliorie al layout della sezione S del menù principale.
 		+ Nuova funzione statistica che legge lo storico esercizi e crea una timeline con il tempo trascorso e i cambiamenti di lettere errate e velocità.
 		+ Ora viene salvato il dettaglio sulla velocità di ogni gruppo inviato.
 		+ stampa informativa sulla gestione delle sessioni salvate nello storico. Ora è trasparente il comportamento dell'app quando salva o elimina blocchi dal diario di bordo.
