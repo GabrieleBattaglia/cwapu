@@ -35,20 +35,64 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.3.17, 2025-07-17)'
+VERSION = '4.4.0, 2025-07-17)'
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 USER_DATA_PATH = get_user_data_path()
 SETTINGS_FILE = os.path.join(USER_DATA_PATH, 'cwapu_settings.json')
-RX_SWITCHER_ITEMS = [{'id': '1', 'key_state': _('parole'), 'label_key': 'menu_rx_switcher_parole', 'is_exclusive': False}, {'id': '2', 'key_state': _('lettere'), 'label_key': 'menu_rx_switcher_lettere', 'is_exclusive': False}, {'id': '3', 'key_state': _('numeri'), 'label_key': 'menu_rx_switcher_numeri', 'is_exclusive': False}, {'id': '4', 'key_state': _('simboli'), 'label_key': 'menu_rx_switcher_simboli', 'is_exclusive': False}, {'id': '5', 'key_state': 'qrz', 'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False}, {'id': '6', 'key_state': _('custom'), 'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True}]
+RX_SWITCHER_ITEMS = [
+    {'id': '1', 'key_state': _('parole'), 'label_key': 'menu_rx_switcher_parole', 'is_exclusive': False},
+    {'id': '2', 'key_state': _('lettere'), 'label_key': 'menu_rx_switcher_lettere', 'is_exclusive': False},
+    {'id': '3', 'key_state': _('numeri'), 'label_key': 'menu_rx_switcher_numeri', 'is_exclusive': False},
+    {'id': '4', 'key_state': _('lettere e numeri'), 'label_key': 'menu_rx_switcher_lettere_numeri', 'is_exclusive': False},
+    {'id': '5', 'key_state': _('simboli'), 'label_key': 'menu_rx_switcher_simboli', 'is_exclusive': False},
+    {'id': '6', 'key_state': 'qrz', 'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False},
+    {'id': '7', 'key_state': _('custom'), 'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True}
+]
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 730
 HISTORICAL_RX_REPORT_INTERVAL = 3500
 VALID_MORSE_CHARS_FOR_CUSTOM_SET = {k for k in CWzator(msg=-1) if k != ' ' and k.isprintable()}
 LETTERE_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.ascii_lowercase)}
 NUMERI_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.digits)}
 SIMBOLI_MORSE_POOL = VALID_MORSE_CHARS_FOR_CUSTOM_SET - LETTERE_MORSE_POOL - NUMERI_MORSE_POOL
-DEFAULT_DATA = {'app_info': {'launch_count': 0}, 'overall_settings': {'app_language': 'en', 'speed': 18, 'pitch': 550, 'dashes': 30, 'spaces': 50, 'dots': 50, 'volume': 0.5, 'ms': 1, 'fs_index': 5, 'wave_index': 1}, 'rxing_stats': {'total_calls': 0, 'sessions': 1, 'total_correct': 0, 'total_wrong_items': 0, 'total_time_seconds': 0.0}, 'counting_stats': {'exercise_number': 1}, 'rx_menu_switcher_states': {'parole': True, 'lettere': False, 'numeri': False, 'simboli': False, 'qrz': False, 'custom': False, 'parole_filter_min': 1, 'parole_filter_max': 6, 'custom_set_string': ''}, 'historical_rx_data': {'max_sessions_to_keep': HISTORICAL_RX_MAX_SESSIONS_DEFAULT, 'report_interval': HISTORICAL_RX_REPORT_INTERVAL, 'chars_since_last_report': 0, 'sessions_log': [], 'historical_reports': []}}
+DEFAULT_DATA = {
+    'app_info': {
+        'launch_count': 0},
+        'overall_settings': {'app_language': 'en',
+                            'speed': 18,
+                            'pitch': 550,
+                            'dashes': 30,
+                            'spaces': 50,
+                            'dots': 50,
+                            'volume': 0.5,
+                            'ms': 1,
+                            'fs_index': 5,
+                            'wave_index': 1},
+                        'rxing_stats': {
+                            'total_calls': 0,
+                            'sessions': 1,
+                            'total_correct': 0,
+                            'total_wrong_items': 0,
+                            'total_time_seconds': 0.0},
+                        'counting_stats': {
+                            'exercise_number': 1},
+                        'rx_menu_switcher_states': {
+                            'parole': True,
+                            'lettere': False,
+                            'numeri': False,
+                            'lettere e numeri': False,
+                            'simboli': False,
+                            'qrz': False,
+                            'custom': False,
+                            'parole_filter_min': 3,
+                            'parole_filter_max': 7,
+                            'custom_set_string': ''},
+                        'historical_rx_data': {
+                            'max_sessions_to_keep': HISTORICAL_RX_MAX_SESSIONS_DEFAULT, 'report_interval': HISTORICAL_RX_REPORT_INTERVAL,
+                            'chars_since_last_report': 0,
+                            'sessions_log': [],
+                            'historical_reports': []}}
 MDL = {'a0a': 4, 'a0aa': 6, 'a0aaa': 15, 'aa0a': 6, 'aa0aa': 18, 'aa0aaa': 36, '0a0a': 2, '0a0aa': 2, '0a0aaa': 2, 'a00a': 3, 'a00aa': 3, 'a00aaa': 4}
 words = []
 app_data = {}
@@ -68,6 +112,8 @@ def genera_singolo_item_esercizio_misto(active_switcher_states, group_length_for
         active_and_usable_kinds.append('lettere')
     if active_switcher_states.get('numeri'):
         active_and_usable_kinds.append('numeri')
+    if active_switcher_states.get('lettere e numeri'):
+        active_and_usable_kinds.append('lettere e numeri')
     if active_switcher_states.get('simboli'):
         active_and_usable_kinds.append('simboli')
     if active_switcher_states.get('qrz'):
@@ -89,6 +135,8 @@ def genera_singolo_item_esercizio_misto(active_switcher_states, group_length_for
         item_generato = GeneratingGroup(kind='1', length=group_length_for_generated, wpm=overall_speed)
     elif chosen_kind == 'numeri':
         item_generato = GeneratingGroup(kind='2', length=group_length_for_generated, wpm=overall_speed)
+    elif chosen_kind == 'lettere e numeri':
+        item_generato = GeneratingGroup(kind='3', length=group_length_for_generated, wpm=overall_speed)
     elif chosen_kind == 'simboli':
         item_generato = GeneratingGroup(kind='S', length=group_length_for_generated, wpm=overall_speed)
     return item_generato.lower()
@@ -176,7 +224,7 @@ def seleziona_modalita_rx():
                 continue
             group_len_val_final = 0
             ask_for_length = False
-            if current_switcher_states.get('lettere') or current_switcher_states.get('numeri') or current_switcher_states.get('custom') or current_switcher_states.get('simboli'):
+            if current_switcher_states.get('lettere') or current_switcher_states.get('numeri') or current_switcher_states.get('custom') or current_switcher_states.get('lettere e numeri') or current_switcher_states.get('simboli'):
                 ask_for_length = True
             if ask_for_length:
                 _move_cursor(prompt_actual_line_row + 1, 1)
@@ -999,6 +1047,11 @@ def GeneratingGroup(kind, length, wpm, customized_set_param=None):
         if not NUMERI_MORSE_POOL:
             return 'ERR_NP'
         pool = list(NUMERI_MORSE_POOL)
+        return ''.join(random.choices(pool, k=length))
+    elif kind == '3':
+        if not LETTERE_MORSE_POOL and not NUMERI_MORSE_POOL:
+            return 'ERR_LNP' # Errore: pool lettere e numeri vuoto
+        pool = list(LETTERE_MORSE_POOL | NUMERI_MORSE_POOL)
         return ''.join(random.choices(pool, k=length))
     elif kind == '4':
         if not customized_set_param or len(customized_set_param) < 1:

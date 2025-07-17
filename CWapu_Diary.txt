@@ -8012,3 +8012,70 @@ Elenco delle parole copiate male:
 	(50) TX: 931, RX: 832, DIF: 91;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #333 eseguito il 2025/7/17 alle 9, 24 minuti:
+In questa sessione #333, ti ho inviato 50 Misto (Lettere, Numeri) e ne hai ricevuti 43: 86.0%
+	24 di questi sono stati ricevuti al primo ascolto: 55.8%
+	mentre 19 Misto (Lettere, Numeri) al secondo tentativo: 44.2%.
+Durante la sessione, la tua velocità minima è stata 42.00, la massima di 42.00: pari ad una variazione di 0.00 WPM.
+	La velocità media di ricezione è di: 42.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'B': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.9%]    'G': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.9%]    'V': 2 errori su 8 invii. Tasso errore stimato: [7.1% - 59.1%]    'D': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'I': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'O': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'U': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 10 su 150 = 6.67%
+Caratteri mai sbagliati: 0 1 2 3 4 5 6 7 8 9 A C E F H K L M N P Q S T W X Y Z
+Elenco delle parole copiate male:
+	(6) TX: IVS, RX: IUS, DIF: V;
+	(15) TX: SGI, RX: SGE, DIF: I;
+	(38) TX: IGY, RX: IZY, DIF: G;
+	(44) TX: WNB, RX: WND, DIF: B;
+	(46) TX: GON, RX: QND, DIF: GOD;
+	(47) TX: VBQ, RX: VDQ, DIF: B;
+	(48) TX: TVU, RX: TUU, DIF: VU;
+Nota: nessuna
+***
+
+Esercizio di ricezione #334 eseguito il 2025/7/17 alle 10, 15 minuti:
+In questa sessione #334, ti ho inviato 28 Lettere e numeri e ne hai ricevuti 17: 60.7%
+	4 di questi sono stati ricevuti al primo ascolto: 23.5%
+	mentre 13 Lettere e numeri al secondo tentativo: 76.5%.
+Durante la sessione, la tua velocità minima è stata 41.00, la massima di 49.00: pari ad una variazione di 8.00 WPM.
+	La velocità media di ricezione è di: 43.41 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '2': 3 errori su 4 invii. Tasso errore stimato: [30.1% - 95.4%]    'B': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    '5': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    '8': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    '9': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'E': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'H': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'I': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'P': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'Q': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'V': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'W': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 15 su 84 = 17.86%
+Caratteri mai sbagliati: 0 3 4 6 7 A C D F G J K L M N O R S T U Z
+Elenco delle parole copiate male:
+	(1) TX: 0BJ, RX: 0DJ, DIF: B;
+	(4) TX: 7V9, RX: 749, DIF: V;
+	(5) TX: F9O, RX: FOW, DIF: 9W;
+	(7) TX: 3BA, RX: 3DA, DIF: B;
+	(9) TX: 5P8, RX: HJG, DIF: 5P8;
+	(12) TX: 2OR, RX: 3OR, DIF: 2;
+	(14) TX: 2HG, RX: 3HG, DIF: 2;
+	(18) TX: HJJ, RX: 5JJ, DIF: H;
+	(20) TX: DI4, RX: DS4, DIF: I;
+	(23) TX: F02, RX: F0J, DIF: 2;
+	(28) TX: IEQ, RX: IGA, DIF: EQ;
+Nota: nessuna
+***
+
+Esercizio di ricezione #335 eseguito il 2025/7/17 alle 11, 39 minuti:
+In questa sessione #335, ti ho inviato 25 Lettere e numeri e ne hai ricevuti 18: 72.0%
+	6 di questi sono stati ricevuti al primo ascolto: 33.3%
+	mentre 12 Lettere e numeri al secondo tentativo: 66.7%.
+Durante la sessione, la tua velocità minima è stata 30.55, la massima di 43.75: pari ad una variazione di 13.20 WPM.
+	La velocità media di ricezione è di: 34.97 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'U': 2 errori su 2 invii. Tasso errore stimato: [34.2% - 100.0%]    '2': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    '5': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'C': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'D': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'H': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'J': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'L': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'R': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'V': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'Z': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 12 su 75 = 16.00%
+Caratteri mai sbagliati: 0 1 3 4 6 7 8 9 A B E F I K N O P Q S T W X Y
+Elenco delle parole copiate male:
+	(4) TX: SCH, RX: S, DIF: CH;
+	(6) TX: X5B, RX: XHB, DIF: 5;
+	(7) TX: 41Z, RX: 418, DIF: Z;
+	(12) TX: 72K, RX: 73K, DIF: 2;
+	(18) TX: ODH, RX: OBH, DIF: D;
+	(24) TX: 6UJ, RX: 6V2, DIF: UJ;
+	(25) TX: RVR, RX: LUR, DIF: LUVR;
+Nota: nessuna
+***

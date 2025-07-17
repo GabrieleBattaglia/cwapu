@@ -1,5 +1,5 @@
 # TIMELINE Calcola statistiche basate su cwapu_settings.json creato da cwapu.
-# V4. Creato in data giovedì 10 luglio 2025 da Gabriele Battaglia e Gemini 2.5 Pro
+# V5. Creato in data giovedì 10 luglio 2025 da Gabriele Battaglia e Gemini 2.5 Pro
 import json, math
 import numpy as np
 import pandas as pd
