@@ -1,9 +1,12 @@
 CWAPU WHATSNEW AND TODO
 Todo:
-7.
+7. dopo sessione più corta e lunga, aggiungere il totale del tempo di esercizio.
+8.
 
 ChangeLog:
 	4.4.x
+		+ Aggiunta riga di sicurezza alle funzioni che calcolano il Wilson per prevenire radici quadrate negative sul tasso d'errore
+		+ corretti 2 problemi nella generazione dei report htlm e svg
 	4.3.17
 		+ Ripristinato esercizio R4, lettere e numeri
 		+ Aggiunta quantità esercizi per giorno al totale e ai quartili, nella sezione statistiche (S dal menù princpale

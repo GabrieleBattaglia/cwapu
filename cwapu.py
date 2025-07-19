@@ -35,7 +35,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.4.0, 2025-07-17)'
+VERSION = '4.4.3, 2025-07-18)'
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -401,7 +401,7 @@ def crea_report_grafico(current_aggregates, previous_aggregates, g_val, x_val, n
     ax_wpm.spines['right'].set_visible(False)
     ax_wpm.spines['left'].set_visible(False)
     y_tick_positions = np.arange(num_wpm_metrics)
-    metric_labels = [m['label'] for m in wpm_metrics_data]
+    metric_labels = [m['label_key'] for m in wpm_metrics_data] # <-- CORRETTO
     ax_wpm.set_yticks(y_tick_positions)
     ax_wpm.set_yticklabels(metric_labels[::-1])
     ax_wpm.tick_params(axis='y', colors=text_color, labelsize=10, length=0)
@@ -1669,20 +1669,20 @@ def generate_historical_rx_report(sessions_for_current_report):
                         delta_total_class = get_delta_class(delta_rate_vs_total_chars, higher_is_better=False)
                         delta_specific_class = get_delta_class(delta_rate_vs_specific_char, higher_is_better=False)
                         f.write(_('     <tr><td class="char-emphasis">\'{}\'</td><td>{curr_count}</td><td>{curr_rate_vs_total_chars:.2f}%</td><td>{curr_rate_vs_specific_char:.2f}% <span class="details-label">(su {curr_sent_count} inv.)</span></td><td>{prev_count}</td><td>{prev_rate_vs_total_chars:.2f}%</td><td>{prev_rate_vs_specific_char:.2f}% <span class="details-label">(su {prev_sent_count} inv.)</span></td><td class="{delta_total_class}">{delta_rate_vs_total_chars:+.2f} %</td><td class="{delta_specific_class}">{delta_rate_vs_specific_char:+.2f} %</td></tr>\n').format(
-                            char_err.upper(),
-                            curr_count=curr_count,
-                            curr_rate_vs_total_chars=curr_rate_vs_total_chars,
-                            curr_rate_vs_specific_char=curr_rate_vs_specific_char,
-                            curr_sent_count=curr_total_sent_of_this_char,
-                            prev_count=prev_count,  # <-- Parametro che mancava
-                            prev_rate_vs_total_chars=prev_rate_vs_total_chars,
-                            prev_rate_vs_specific_char=prev_rate_vs_specific_char,
-                            prev_sent_count=prev_total_sent_of_this_char,
-                            delta_total_class=delta_total_class,
-                            delta_rate_vs_total_chars=delta_rate_vs_total_chars,
-                            delta_specific_class=delta_specific_class,
-                            delta_rate_vs_specific_char=delta_rate_vs_specific_char
-                        ))
+                                    char_err.upper(),
+                                    curr_count=curr_count,
+                                    curr_rate_vs_total_chars=curr_rate_vs_total_chars,
+                                    curr_rate_vs_specific_char=curr_rate_vs_specific_char,
+                                    curr_sent_count=curr_total_sent_of_this_char,
+                                    prev_count=prev_count,  # <-- PARAMETRO AGGIUNTO
+                                    prev_rate_vs_total_chars=prev_rate_vs_total_chars,
+                                    prev_rate_vs_specific_char=prev_rate_vs_specific_char,
+                                    prev_sent_count=prev_total_sent_of_this_char,
+                                    delta_total_class=delta_total_class,
+                                    delta_rate_vs_total_chars=delta_rate_vs_total_chars,
+                                    delta_specific_class=delta_specific_class,
+                                    delta_rate_vs_specific_char=delta_rate_vs_specific_char
+                                ))
                         f.write('  </tbody>\n</table>\n')
             f.write('    </div>\n')
             f.write('</body>\n')

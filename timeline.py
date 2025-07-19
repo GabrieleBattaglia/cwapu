@@ -12,6 +12,7 @@ def wilson_score_upper_bound(errori, invii, confidenza=0.95):
     """
     if invii == 0:
         return 1.0 # Il caso peggiore
+    errori = min(errori, invii)
     z = 1.96 # Valore Z per una confidenza del 95%
     p_hat = errori / invii
     
@@ -27,6 +28,7 @@ def wilson_score_lower_bound(errori, invii, confidenza=0.95):
     """
     if invii == 0:
         return 0
+    errori = min(errori, invii)
     z = 1.96 # Valore Z per una confidenza del 95%
     p_hat = errori / invii
     # Formula del limite inferiore dell'intervallo di Wilson
