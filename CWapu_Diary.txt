@@ -8250,3 +8250,37 @@ Elenco delle parole copiate male:
 	(56) TX: ASFISSI, RX: ASFISSE, DIF: I;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #341 eseguito il 2025/7/21 alle 15, 9 minuti:
+In questa sessione #341, ti ho inviato 39 Parole e ne hai ricevuti 19: 48.7%
+	14 di questi sono stati ricevuti al primo ascolto: 73.7%
+	mentre 5 Parole al secondo tentativo: 26.3%.
+Durante la sessione, la tua velocità minima è stata 37.00, la massima di 41.00: pari ad una variazione di 4.00 WPM.
+	La velocità media di ricezione è di: 38.47 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 7 errori su 28 invii. Tasso errore stimato: [12.7% - 43.4%]    'A': 5 errori su 26 invii. Tasso errore stimato: [8.5% - 37.9%]    'G': 4 errori su 9 invii. Tasso errore stimato: [18.9% - 73.3%]    'D': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    'E': 2 errori su 26 invii. Tasso errore stimato: [2.1% - 24.1%]    'N': 2 errori su 8 invii. Tasso errore stimato: [7.1% - 59.1%]    'O': 2 errori su 23 invii. Tasso errore stimato: [2.4% - 26.8%]    'P': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'Ò': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]
+
+Errori totali: 26 su 240 = 10.83%
+Caratteri mai sbagliati: B C F L M R S T U V Y Z À
+Elenco delle parole copiate male:
+	(2) TX: LENITE, RX: LENTE, DIF: I;
+	(3) TX: RUTENO, RX: RUTEO, DIF: N;
+	(4) TX: AVVIDI, RX: AVVIDE, DIF: I;
+	(6) TX: GOZZI, RX: OPIZZI, DIF: GPI;
+	(7) TX: SODDY, RX: SOBBY, DIF: DD;
+	(10) TX: ADESCO, RX: DESCO, DIF: A;
+	(12) TX: BAICOLI, RX: BAIOCOLI, DIF: O;
+	(13) TX: CREASSE, RX: CRESSI, DIF: AE;
+	(15) TX: CALANCO, RX: CALACO, DIF: N;
+	(18) TX: LIPIDI, RX: LIPIDE, DIF: I;
+	(21) TX: AGLIA, RX: GLIA, DIF: A;
+	(23) TX: BOZZAGO, RX: BOZZANO, DIF: G;
+	(25) TX: PIACERO, RX: PICERO, DIF: A;
+	(27) TX: ENGAGE, RX: ENORME, DIF: GAG;
+	(30) TX: SPIGOLI, RX: SPIGOLE, DIF: I;
+	(31) TX: SCARICÒ, RX: SCARIC, DIF: Ò;
+	(32) TX: SOFFOCA, RX: SIFFOCA, DIF: O;
+	(36) TX: SECARE, RX: SICARE, DIF: E;
+	(37) TX: APPURI, RX: APPURE, DIF: I;
+	(38) TX: PIETOSE, RX: PETOSE, DIF: I;
+Nota: nessuna
+***
