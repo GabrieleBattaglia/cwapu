@@ -8284,3 +8284,61 @@ Elenco delle parole copiate male:
 	(38) TX: PIETOSE, RX: PETOSE, DIF: I;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #342 eseguito il 2025/7/22 alle 8, 9 minuti:
+In questa sessione #342, ti ho inviato 13 Parole e ne hai ricevuti 4: 30.8%
+	3 di questi sono stati ricevuti al primo ascolto: 75.0%
+	mentre 1 Parole al secondo tentativo: 25.0%.
+Durante la sessione, la tua velocità minima è stata 33.00, la massima di 40.00: pari ad una variazione di 7.00 WPM.
+	La velocità media di ricezione è di: 35.50 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 3 errori su 15 invii. Tasso errore stimato: [7.0% - 45.2%]    'M': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'T': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.9%]    'A': 1 errori su 14 invii. Tasso errore stimato: [1.3% - 31.5%]    'E': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'G': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'H': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'P': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'Q': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'R': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'U': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 15 su 84 = 17.86%
+Caratteri mai sbagliati: B C F L N O S V À
+Elenco delle parole copiate male:
+	(2) TX: CINGHIA, RX: CINZIA, DIF: GH;
+	(3) TX: UBICATI, RX: UBRIACA, DIF: RATI;
+	(4) TX: EPITOMI, RX: EPIONI, DIF: TM;
+	(6) TX: ALBANE, RX: ALBANI, DIF: E;
+	(7) TX: MANSO, RX: MANISO, DIF: I;
+	(8) TX: CLAQUE, RX: CLACHE, DIF: QU;
+	(9) TX: BABISMO, RX: BABISO, DIF: M;
+	(10) TX: SPARIRÀ, RX: SPARIPRÀ, DIF: P;
+	(12) TX: VAGIVI, RX: VAGIVA, DIF: I;
+Nota: nessuna
+***
+
+Esercizio di ricezione #343 eseguito il 2025/7/22 alle 8, 14 minuti:
+In questa sessione #343, ti ho inviato 43 Parole e ne hai ricevuti 22: 51.2%
+	16 di questi sono stati ricevuti al primo ascolto: 72.7%
+	mentre 6 Parole al secondo tentativo: 27.3%.
+Durante la sessione, la tua velocità minima è stata 32.00, la massima di 39.00: pari ad una variazione di 7.00 WPM.
+	La velocità media di ricezione è di: 34.64 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 8 errori su 31 invii. Tasso errore stimato: [13.7% - 43.2%]    'A': 5 errori su 33 invii. Tasso errore stimato: [6.7% - 30.9%]    'B': 4 errori su 10 invii. Tasso errore stimato: [16.8% - 68.7%]    'E': 4 errori su 30 invii. Tasso errore stimato: [5.3% - 29.7%]    'R': 4 errori su 24 invii. Tasso errore stimato: [6.7% - 35.9%]    'D': 3 errori su 12 invii. Tasso errore stimato: [8.9% - 53.2%]    'M': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    'S': 3 errori su 12 invii. Tasso errore stimato: [8.9% - 53.2%]    'T': 3 errori su 20 invii. Tasso errore stimato: [5.2% - 36.0%]    'N': 2 errori su 12 invii. Tasso errore stimato: [4.7% - 44.8%]    'O': 2 errori su 23 invii. Tasso errore stimato: [2.4% - 26.8%]    'G': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'U': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'Z': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]
+
+Errori totali: 44 su 268 = 16.42%
+Caratteri mai sbagliati: C F L P V
+Elenco delle parole copiate male:
+	(5) TX: BUDINI, RX: BUDINO, DIF: I;
+	(6) TX: ROMBO, RX: ROGIO, DIF: MB;
+	(7) TX: RAPERAI, RX: RAPIRE, DIF: IRRAI;
+	(8) TX: DATASI, RX: BATII, DIF: DASI;
+	(10) TX: TALLITI, RX: TALLINI, DIF: T;
+	(11) TX: DURATO, RX: BURRATO, DIF: DR;
+	(16) TX: STEROLI, RX: STERIOL, DIF: II;
+	(17) TX: TABARRO, RX: TABLERO, DIF: AR;
+	(19) TX: BADANAI, RX: DADATI, DIF: BNA;
+	(20) TX: RASONE, RX: RAIONI, DIF: SE;
+	(21) TX: GROMMA, RX: GROONA, DIF: MM;
+	(22) TX: ASPIDE, RX: ASPINI, DIF: DE;
+	(24) TX: CARABI, RX: CARABE, DIF: I;
+	(26) TX: EDITTI, RX: EDITI, DIF: T;
+	(28) TX: RECESSE, RX: RECESSI, DIF: E;
+	(34) TX: MENSOLE, RX: MENSILE, DIF: O;
+	(36) TX: DERUBA, RX: DERFIA, DIF: UB;
+	(40) TX: IBERO, RX: IDERO, DIF: B;
+	(41) TX: FATEGLI, RX: FATIGLI, DIF: E;
+	(42) TX: MUOVESI, RX: MUOVEVI, DIF: S;
+	(43) TX: TZIGANO, RX: , DIF: TZIGANO;
+Nota: nessuna
+***
