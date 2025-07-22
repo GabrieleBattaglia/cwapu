@@ -8342,3 +8342,38 @@ Elenco delle parole copiate male:
 	(43) TX: TZIGANO, RX: , DIF: TZIGANO;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #344 eseguito il 2025/7/22 alle 14, 3 minuti:
+In questa sessione #344, ti ho inviato 47 Parole e ne hai ricevuti 26: 55.3%
+	19 di questi sono stati ricevuti al primo ascolto: 73.1%
+	mentre 7 Parole al secondo tentativo: 26.9%.
+Durante la sessione, la tua velocità minima è stata 33.00, la massima di 42.00: pari ad una variazione di 9.00 WPM.
+	La velocità media di ricezione è di: 37.92 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 9 errori su 32 invii. Tasso errore stimato: [15.6% - 45.4%]    'I': 8 errori su 36 invii. Tasso errore stimato: [11.7% - 38.1%]    'A': 6 errori su 33 invii. Tasso errore stimato: [8.6% - 34.4%]    'N': 6 errori su 24 invii. Tasso errore stimato: [12.0% - 44.9%]    'T': 5 errori su 16 invii. Tasso errore stimato: [14.2% - 55.6%]    'C': 4 errori su 13 invii. Tasso errore stimato: [12.7% - 57.6%]    'M': 3 errori su 7 invii. Tasso errore stimato: [15.8% - 75.0%]    'L': 2 errori su 18 invii. Tasso errore stimato: [3.1% - 32.8%]    'O': 2 errori su 23 invii. Tasso errore stimato: [2.4% - 26.8%]    'S': 2 errori su 18 invii. Tasso errore stimato: [3.1% - 32.8%]    'U': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    'V': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'D': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'G': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'R': 1 errori su 16 invii. Tasso errore stimato: [1.1% - 28.3%]    'Z': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]
+
+Errori totali: 55 su 292 = 18.84%
+Caratteri mai sbagliati: B F H P Y Ò
+Elenco delle parole copiate male:
+	(1) TX: VAGLIÒ, RX: VAGIÒ, DIF: L;
+	(2) TX: FREMEVO, RX: FRENULO, DIF: MEV;
+	(9) TX: ZANNUTA, RX: ZANNATA, DIF: U;
+	(10) TX: DONASTE, RX: DONATA, DIF: SE;
+	(12) TX: VINCA, RX: SCIE, DIF: VNCA;
+	(13) TX: SOMARE, RX: SONARE, DIF: M;
+	(18) TX: INGUINI, RX: INIZIANO, DIF: INGUZIANO;
+	(20) TX: LUCANA, RX: FUCAI, DIF: LNA;
+	(24) TX: MELZESE, RX: MILZEI, DIF: ESE;
+	(26) TX: TRILITI, RX: TRICLH, DIF: CITI;
+	(28) TX: ERRANTE, RX: ERRANE, DIF: T;
+	(29) TX: FAMEDI, RX: FAMES, DIF: DI;
+	(30) TX: PLUTONI, RX: PLUTONE, DIF: I;
+	(31) TX: INANITA, RX: INAILE, DIF: NTA;
+	(32) TX: SCALONI, RX: SMALONI, DIF: C;
+	(33) TX: SUBISCE, RX: SUBISTI, DIF: CE;
+	(38) TX: TORNAI, RX: MANIEI, DIF: TORAEI;
+	(40) TX: SEDIATE, RX: SEDEI, DIF: EATE;
+	(41) TX: MURICE, RX: MURICI, DIF: E;
+	(44) TX: FIORAME, RX: FIORANE, DIF: M;
+	(47) TX: RINITE, RX: RIDETE, DIF: NI;
+Nota: nessuna
+***
