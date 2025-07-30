@@ -1,5 +1,5 @@
 # TIMELINE Calcola statistiche basate su cwapu_settings.json creato da cwapu.
-# V5. Creato in data giovedì 10 luglio 2025 da Gabriele Battaglia e Gemini 2.5 Pro
+# V7. Creato in data giovedì 10 luglio 2025 da Gabriele Battaglia e Gemini 2.5 Pro
 import json, math
 import numpy as np
 import pandas as pd
@@ -77,6 +77,8 @@ def genera_report_attivita(df: pd.DataFrame, _, lang, giorni ,mesi) -> str:
         if ore > 0: parti.append(_("{} ore").format(ore))
         if minuti > 0: parti.append(_("{} minuti").format(minuti))
         return ", ".join(parti) if parti else _("Meno di un minuto")
+    durata_totale_delta = dt.timedelta(seconds=total_duration_overall)
+    durata_totale_str = _formatta_delta_temporale(durata_totale_delta, _)
     report_lines.append(_('--- Riepilogo Attività ---'))
     prima_sessione = df['timestamp_iso'].min()
     ultima_sessione = df['timestamp_iso'].max()
@@ -85,7 +87,7 @@ def genera_report_attivita(df: pd.DataFrame, _, lang, giorni ,mesi) -> str:
     giorni_coperti = delta_coperto.days
     prima_sessione_str = f"{giorni[prima_sessione.weekday()]} {prima_sessione.day} {mesi[prima_sessione.month]} {prima_sessione.year}, {prima_sessione.strftime('%H:%M')}"
     ultima_sessione_str = f"{giorni[ultima_sessione.weekday()]} {ultima_sessione.day} {mesi[ultima_sessione.month]} {ultima_sessione.year}, {ultima_sessione.strftime('%H:%M')}"
-    report_lines.append(_('  Numero totale di sessioni: {}').format(total_sessions))
+    report_lines.append(_('   Numero totale di sessioni: {} (per un totale di {})').format(total_sessions, durata_totale_str))
     report_lines.append(_('  Prima sessione: {}').format(prima_sessione_str))
     report_lines.append(_('  Ultima sessione: {}').format(ultima_sessione_str))
     report_lines.append(_('  Periodo coperto: {}').format(periodo_coperto_str))
@@ -101,11 +103,36 @@ def genera_report_attivita(df: pd.DataFrame, _, lang, giorni ,mesi) -> str:
     for hour, stats in hourly_stats.sort_values(by='total_duration', ascending=False).iterrows():
         percentage = (stats['total_duration'] / total_duration_overall) * 100 if total_duration_overall > 0 else 0
         durata_str = _formatta_durata(stats['total_duration'], _)
-        report_lines.append(_("   - Fascia oraria {start_hour:02d} - {end_hour:02d}: {count} sessioni ({percentage:.2f}%), durata {durata}").format(
+        report_lines.append(_("   - Fascia {start_hour:02d}-{end_hour:02d}: {count} sessioni ({percentage:.2f}%), durata {durata}").format(
             start_hour=hour, end_hour=hour + 1, count=int(stats['count']), percentage=percentage, durata=durata_str))
     report_lines.append(_("  Picco di attività orario: {hour:02d}:00.").format(hour=piu_intensa_ora))
+    report_lines.append(_('  --- Suddivisione Giornaliera per Fasce di 6 Ore ---'))
+    def get_fascia_6_ore(hour):
+        if 0 <= hour <= 6:
+            return "00-06"
+        elif 7 <= hour <= 12:
+            return "07-12"
+        elif 13 <= hour <= 18:
+            return "13-18"
+        else:  # Ore da 19 a 23
+            return "19-24"
+    df_copy = df.copy()
+    df_copy['fascia_6h'] = df_copy['timestamp_iso'].dt.hour.apply(get_fascia_6_ore)
+    fasce_6h_stats = df_copy.groupby('fascia_6h').agg(
+        count=('timestamp_iso', 'size'),
+        total_duration=('duration_seconds', 'sum')
+    )
+    for fascia, stats in fasce_6h_stats.sort_values(by='total_duration', ascending=False).iterrows():
+        percentage = (stats['total_duration'] / total_duration_overall) * 100 if total_duration_overall > 0 else 0
+        durata_str = _formatta_durata(stats['total_duration'], _)
+        report_lines.append(_("   - Fascia {fascia}: {count} sessioni ({percentage:.2f}%), durata {durata}").format(
+            fascia=fascia, 
+            count=int(stats['count']), 
+            percentage=percentage, 
+            durata=durata_str
+        ))
     report_lines.append('-' * 25)
-    report_lines.append(_('--- Distribuzione Settimanale ---'))
+    report_lines.append(_('  -- Distribuzione Settimanale ---'))
     weekly_stats = df.groupby(df['timestamp_iso'].dt.dayofweek).agg(
         count=('timestamp_iso', 'size'),
         total_duration=('duration_seconds', 'sum')
