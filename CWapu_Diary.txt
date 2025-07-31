@@ -215,3 +215,56 @@ Elenco delle parole copiate male:
 	(69) TX: ZITELLO, RX: ZELLO, DIF: IT;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #359 eseguito il 2025/7/31 alle 12, 26 minuti:
+In questa sessione #359, ti ho inviato 81 Parole e ne hai ricevuti 42: 51.9%
+	29 di questi sono stati ricevuti al primo ascolto: 69.0%
+	mentre 13 Parole al secondo tentativo: 31.0%.
+Durante la sessione, la tua velocità minima è stata 31.98, la massima di 41.26: pari ad una variazione di 9.28 WPM.
+	La velocità media di ricezione è di: 36.66 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 22 errori su 69 invii. Tasso errore stimato: [22.1% - 43.6%]    'E': 11 errori su 40 invii. Tasso errore stimato: [16.1% - 42.8%]    'N': 8 errori su 32 invii. Tasso errore stimato: [13.3% - 42.1%]    'T': 7 errori su 32 invii. Tasso errore stimato: [11.0% - 38.8%]    'R': 6 errori su 30 invii. Tasso errore stimato: [9.5% - 37.3%]    'G': 5 errori su 9 invii. Tasso errore stimato: [26.7% - 81.1%]    'S': 5 errori su 33 invii. Tasso errore stimato: [6.7% - 30.9%]    'D': 4 errori su 16 invii. Tasso errore stimato: [10.2% - 49.5%]    'L': 4 errori su 22 invii. Tasso errore stimato: [7.3% - 38.5%]    'A': 3 errori su 61 invii. Tasso errore stimato: [1.7% - 13.5%]    'B': 3 errori su 17 invii. Tasso errore stimato: [6.2% - 41.0%]    'C': 3 errori su 21 invii. Tasso errore stimato: [5.0% - 34.6%]    'U': 3 errori su 22 invii. Tasso errore stimato: [4.7% - 33.3%]    'M': 2 errori su 19 invii. Tasso errore stimato: [2.9% - 31.4%]    'O': 2 errori su 55 invii. Tasso errore stimato: [1.0% - 12.3%]    'P': 2 errori su 13 invii. Tasso errore stimato: [4.3% - 42.2%]    'F': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'Z': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 92 su 525 = 17.52%
+Caratteri mai sbagliati: H K Q V À Ò
+Elenco delle parole copiate male:
+	(1) TX: FONDAVI, RX: FONDAVA, DIF: I;
+	(2) TX: BIODI, RX: BIONDI, DIF: N;
+	(4) TX: ASSOLTO, RX: ASSOLUTO, DIF: U;
+	(5) TX: FUMIDE, RX: FUMINI, DIF: DE;
+	(8) TX: EVADETE, RX: EVANDE, DIF: NTE;
+	(11) TX: SONAMMO, RX: SONAMO, DIF: M;
+	(15) TX: SLITTI, RX: SLITTE, DIF: I;
+	(17) TX: CALERA, RX: CARICA, DIF: LEIC;
+	(20) TX: CAPTIVI, RX: CAPITAVI, DIF: II;
+	(22) TX: BURLONA, RX: BURRONA, DIF: L;
+	(25) TX: BENDATA, RX: BENNATA, DIF: D;
+	(26) TX: ASSITO, RX: ASIO, DIF: ST;
+	(27) TX: MEDIANI, RX: MEDANO, DIF: II;
+	(28) TX: FLUTTUO, RX: FLRUTTATO, DIF: RU;
+	(32) TX: MAIDICI, RX: MAINICI, DIF: D;
+	(35) TX: DINARO, RX: DINAMO, DIF: R;
+	(36) TX: GRILLO, RX: GRAFFO, DIF: ILL;
+	(37) TX: LAURETI, RX: LAUREATE, DIF: AI;
+	(39) TX: SEDURLO, RX: SEBELLO, DIF: DUR;
+	(40) TX: ATONE, RX: ATTONE, DIF: T;
+	(43) TX: BULIMIA, RX: BULIMA, DIF: I;
+	(45) TX: BIGAMIE, RX: ZIGATE, DIF: BMI;
+	(46) TX: INSEGNÒ, RX: INNESCÒ, DIF: NEEGN;
+	(47) TX: MOVESTI, RX: MOVESTE, DIF: I;
+	(48) TX: DELIZIE, RX: DELFINI, DIF: FZE;
+	(50) TX: SCIUPIO, RX: SCIUPO, DIF: I;
+	(51) TX: OTOGENO, RX: OTTENGO, DIF: OGG;
+	(52) TX: LACONIA, RX: LACODIA, DIF: N;
+	(54) TX: TECTITE, RX: TACETE, DIF: TACECTITE;
+	(55) TX: FUMARIE, RX: FUMARSI, DIF: SE;
+	(60) TX: EPARCA, RX: APACA, DIF: ER;
+	(66) TX: BIOPSIA, RX: DIPOIA, DIF: BPPS;
+	(67) TX: SEGUII, RX: SUMUSS, DIF: EGII;
+	(68) TX: SCANSÒ, RX: SCANIÒ, DIF: S;
+	(72) TX: MACINIO, RX: MACINO, DIF: I;
+	(75) TX: OLIARI, RX: OLIARE, DIF: I;
+	(77) TX: TSIGANO, RX: TISTATO, DIF: IIGN;
+	(79) TX: MAESTRI, RX: MAINE, DIF: INSTRI;
+	(80) TX: BOMBONA, RX: BOMZARA, DIF: BONRA;
+Nota: nessuna
+***
