@@ -812,3 +812,57 @@ Elenco delle parole copiate male:
 	(62) TX: TAPIS, RX: MAPIS, DIF: T;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #373 eseguito il 2025/8/5 alle 9, 23 minuti:
+In questa sessione #373, ti ho inviato 86 Parole e ne hai ricevuti 46: 53.5%
+	27 di questi sono stati ricevuti al primo ascolto: 58.7%
+	mentre 19 Parole al secondo tentativo: 41.3%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 45.00: pari ad una variazione di 10.00 WPM.
+	La velocità media di ricezione è di: 40.93 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 19 errori su 61 invii. Tasso errore stimato: [20.9% - 43.6%]    'E': 10 errori su 59 invii. Tasso errore stimato: [9.5% - 28.5%]    'R': 10 errori su 31 invii. Tasso errore stimato: [18.6% - 49.9%]    'N': 7 errori su 30 invii. Tasso errore stimato: [11.8% - 40.9%]    'S': 6 errori su 31 invii. Tasso errore stimato: [9.2% - 36.3%]    'G': 4 errori su 17 invii. Tasso errore stimato: [9.6% - 47.3%]    'B': 3 errori su 14 invii. Tasso errore stimato: [7.6% - 47.6%]    'D': 3 errori su 12 invii. Tasso errore stimato: [8.9% - 53.2%]    'T': 3 errori su 29 invii. Tasso errore stimato: [3.6% - 26.4%]    'A': 2 errori su 64 invii. Tasso errore stimato: [0.9% - 10.7%]    'L': 2 errori su 28 invii. Tasso errore stimato: [2.0% - 22.6%]    'U': 2 errori su 15 invii. Tasso errore stimato: [3.7% - 37.9%]    'C': 1 errori su 28 invii. Tasso errore stimato: [0.6% - 17.7%]    'H': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'M': 1 errori su 15 invii. Tasso errore stimato: [1.2% - 29.8%]    'P': 1 errori su 18 invii. Tasso errore stimato: [1.0% - 25.8%]    'V': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]
+
+Errori totali: 76 su 529 = 14.37%
+Caratteri mai sbagliati: F J K O Q Z Ò
+Elenco delle parole copiate male:
+	(1) TX: QUANT, RX: QUANTE, DIF: E;
+	(2) TX: RIEDANO, RX: RIDANO, DIF: E;
+	(6) TX: LICIE, RX: LICEI, DIF: EE;
+	(8) TX: JEPPONE, RX: JEPPONI, DIF: E;
+	(11) TX: SITUINO, RX: SITUANO, DIF: I;
+	(13) TX: LARGI, RX: LARZE, DIF: GI;
+	(18) TX: SFIBRA, RX: SFIDA, DIF: BR;
+	(20) TX: CURULI, RX: QUALE, DIF: CRUI;
+	(25) TX: BEATORI, RX: DEATONE, DIF: BRI;
+	(26) TX: PIGIANO, RX: PEZZANO, DIF: IGI;
+	(29) TX: PIGEREI, RX: PIGNE, DIF: NREI;
+	(31) TX: CONGHE, RX: CONSE, DIF: GH;
+	(32) TX: MASURI, RX: MASUSE, DIF: RI;
+	(33) TX: GENEPI, RX: GENERE, DIF: PI;
+	(34) TX: FLOSCI, RX: FLOSCE, DIF: I;
+	(37) TX: PENSA, RX: PENTA, DIF: S;
+	(39) TX: GRANITA, RX: GRADITA, DIF: N;
+	(40) TX: RIVIRO, RX: RIVERO, DIF: I;
+	(41) TX: MOBILIA, RX: MOBILITA, DIF: T;
+	(44) TX: BOCCE, RX: DOCCE, DIF: B;
+	(45) TX: APALE, RX: APARE, DIF: L;
+	(48) TX: CERRO, RX: CELLO, DIF: RR;
+	(51) TX: BUNKER, RX: BUKER, DIF: N;
+	(54) TX: ADDA, RX: ABBA, DIF: DD;
+	(55) TX: COLTRI, RX: COLTAI, DIF: R;
+	(57) TX: PUZZERA, RX: PEZZERA, DIF: U;
+	(61) TX: CUCIAMO, RX: CUCIAIO, DIF: M;
+	(62) TX: UNISONA, RX: USSINO, DIF: SSIISNA;
+	(63) TX: TANAGRE, RX: TANACCIA, DIF: GRE;
+	(64) TX: GALLICI, RX: GALLICE, DIF: I;
+	(65) TX: VERNO, RX: UERO, DIF: VN;
+	(70) TX: BIETE, RX: BITE, DIF: E;
+	(71) TX: REPLETO, RX: PAPETTO, DIF: RELT;
+	(74) TX: TENZONI, RX: TIZZONE, DIF: ENI;
+	(76) TX: STUOLI, RX: STUOLE, DIF: I;
+	(77) TX: ESILIA, RX: ESILA, DIF: I;
+	(78) TX: TIRANTE, RX: TIRANEA, DIF: TA;
+	(79) TX: SABBATI, RX: SABBATE, DIF: I;
+	(80) TX: PINZATI, RX: PIZZATE, DIF: NI;
+	(86) TX: PLAIDS, RX: PLASIA, DIF: SDS;
+Nota: nessuna
+***
