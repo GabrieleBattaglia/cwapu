@@ -1330,3 +1330,41 @@ Elenco delle parole copiate male:
 	(40) TX: GREMII, RX: GENII, DIF: RM;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #387 eseguito il 2025/9/4 alle 7, 52 minuti:
+In questa sessione #387, ti ho inviato 57 Parole e ne hai ricevuti 33: 57.9%
+	20 di questi sono stati ricevuti al primo ascolto: 60.6%
+	mentre 13 Parole al secondo tentativo: 39.4%.
+Durante la sessione, la tua velocità minima è stata 30.00, la massima di 42.00: pari ad una variazione di 12.00 WPM.
+	La velocità media di ricezione è di: 36.64 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 14 errori su 41 invii. Tasso errore stimato: [21.6% - 49.5%]    'E': 7 errori su 27 invii. Tasso errore stimato: [13.2% - 44.7%]    'A': 6 errori su 45 invii. Tasso errore stimato: [6.3% - 26.2%]    'M': 6 errori su 15 invii. Tasso errore stimato: [19.8% - 64.3%]    'S': 5 errori su 16 invii. Tasso errore stimato: [14.2% - 55.6%]    'R': 4 errori su 26 invii. Tasso errore stimato: [6.1% - 33.5%]    'G': 2 errori su 14 invii. Tasso errore stimato: [4.0% - 39.9%]    'N': 1 errori su 19 invii. Tasso errore stimato: [0.9% - 24.6%]    'O': 1 errori su 37 invii. Tasso errore stimato: [0.5% - 13.8%]    'U': 1 errori su 14 invii. Tasso errore stimato: [1.3% - 31.5%]    'Ò': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 48 su 348 = 13.79%
+Caratteri mai sbagliati: B C D F H L P Q T V Z À
+Elenco delle parole copiate male:
+	(9) TX: GESUATO, RX: GUTTO, DIF: ESA;
+	(11) TX: ASINAIO, RX: ASSASSINO, DIF: SSASAI;
+	(14) TX: MONODIE, RX: MONODE, DIF: I;
+	(15) TX: RITMO, RX: RITTO, DIF: M;
+	(16) TX: ERITEMI, RX: ARITO, DIF: EEMI;
+	(17) TX: NICROMO, RX: NECROMO, DIF: I;
+	(18) TX: PERMEA, RX: PRIMA, DIF: EIE;
+	(21) TX: NESSILI, RX: NESSALE, DIF: II;
+	(26) TX: ZOMBIES, RX: ZOMBIE, DIF: S;
+	(27) TX: SIGARAI, RX: SINDAI, DIF: GAR;
+	(29) TX: SELVOSI, RX: SELVOSO, DIF: I;
+	(30) TX: MUGNAIE, RX: MUGANGI, DIF: AAE;
+	(31) TX: MAGMI, RX: MAGGI, DIF: M;
+	(34) TX: ABBONÒ, RX: ABBONG, DIF: Ò;
+	(35) TX: RIARMO, RX: RIANG, DIF: RMO;
+	(42) TX: SMIELO, RX: SMELO, DIF: I;
+	(45) TX: INDULGE, RX: INDULI, DIF: GE;
+	(47) TX: UE, RX: FE, DIF: U;
+	(48) TX: GOMMATI, RX: GOTTATE, DIF: MMI;
+	(49) TX: RIUNII, RX: RIUEE, DIF: NII;
+	(51) TX: GRADII, RX: GRADIE, DIF: I;
+	(55) TX: SANERÒ, RX: SANEÒ, DIF: R;
+	(56) TX: GELARE, RX: GELATE, DIF: R;
+	(57) TX: ROTATI, RX: ROTATE, DIF: I;
+Nota: nessuna
+***
