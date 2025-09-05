@@ -1,0 +1,28 @@
+name: "build and upload"
+on:
+  push: 
+    branches: main
+jobs:
+  build:
+    runs-on: macOS-15
+    steps:        
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install  pyinstaller scipy sounddevice pyperclip
+          curl -o GBUtils.py https://raw.githubusercontent.com/GabrieleBattaglia/GBUtils/refs/heads/main/GBUtils.py
+      - name: Build executable
+        run: |
+          pyinstaller --onefile cwapu.py
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: cwapu-macos   
+          path: dist/cwapu
+
