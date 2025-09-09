@@ -1860,3 +1860,51 @@ Elenco delle parole copiate male:
 	(30) TX: QUEGLI, RX: QUEZEI, DIF: GL;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #404 eseguito il 2025/9/9 alle 8, 6 minuti:
+In questa sessione #404, ti ho inviato 69 Parole e ne hai ricevuti 35: 50.7%
+	21 di questi sono stati ricevuti al primo ascolto: 60.0%
+	mentre 14 Parole al secondo tentativo: 40.0%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 45.00: pari ad una variazione di 10.00 WPM.
+	La velocità media di ricezione è di: 39.37 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 17 errori su 52 invii. Tasso errore stimato: [21.5% - 46.2%]    'I': 12 errori su 61 invii. Tasso errore stimato: [11.6% - 31.3%]    'A': 11 errori su 55 invii. Tasso errore stimato: [11.6% - 32.4%]    'N': 7 errori su 27 invii. Tasso errore stimato: [13.2% - 44.7%]    'S': 7 errori su 34 invii. Tasso errore stimato: [10.3% - 36.8%]    'R': 6 errori su 32 invii. Tasso errore stimato: [8.9% - 35.3%]    'G': 3 errori su 11 invii. Tasso errore stimato: [9.7% - 56.6%]    'L': 3 errori su 20 invii. Tasso errore stimato: [5.2% - 36.0%]    'T': 3 errori su 29 invii. Tasso errore stimato: [3.6% - 26.4%]    'V': 3 errori su 7 invii. Tasso errore stimato: [15.8% - 75.0%]    'C': 2 errori su 22 invii. Tasso errore stimato: [2.5% - 27.8%]    'H': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'B': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'U': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'Z': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 79 su 445 = 17.75%
+Caratteri mai sbagliati: D F K M O P
+Elenco delle parole copiate male:
+	(3) TX: DIMAGRI, RX: DIMARE, DIF: GI;
+	(4) TX: MISSILE, RX: MESSALE, DIF: II;
+	(5) TX: DOVESSE, RX: DOVESSI, DIF: E;
+	(6) TX: INCLITE, RX: INCHITE, DIF: L;
+	(7) TX: TOMAIE, RX: TOMASE, DIF: I;
+	(8) TX: GLITTO, RX: GLITO, DIF: T;
+	(10) TX: MENTINA, RX: MENTIRE, DIF: NA;
+	(13) TX: ONLINE, RX: ONLITE, DIF: N;
+	(20) TX: AREICHE, RX: ARICHE, DIF: E;
+	(22) TX: CUPEZZA, RX: CUPIZZI, DIF: EA;
+	(23) TX: GHIANDE, RX: GISADE, DIF: HSN;
+	(27) TX: PULSAI, RX: PULIAE, DIF: SI;
+	(28) TX: LIGNEI, RX: LEGNI, DIF: IE;
+	(33) TX: STALLIE, RX: STALLEI, DIF: EE;
+	(34) TX: AFGHANE, RX: AFGANISTAN, DIF: HE;
+	(35) TX: INVITAI, RX: INVIATI, DIF: AA;
+	(36) TX: COLPIRO, RX: COLPITO, DIF: R;
+	(37) TX: REMIATE, RX: RIMASTE, DIF: EIS;
+	(40) TX: RISENTE, RX: RESTITE, DIF: ESTSEN;
+	(42) TX: CERINO, RX: CERIO, DIF: N;
+	(44) TX: MUTERAI, RX: MURATE, DIF: RARAI;
+	(45) TX: SIALICO, RX: SILICIO, DIF: AI;
+	(48) TX: ALOGENO, RX: ALLOGGIO, DIF: LEN;
+	(49) TX: LATRIA, RX: LATVIA, DIF: R;
+	(50) TX: SBRECCO, RX: INDACCO, DIF: SBRE;
+	(52) TX: UNIBILE, RX: UDIBILE, DIF: N;
+	(53) TX: REFULGE, RX: RIFARÒ, DIF: EULGE;
+	(55) TX: ESAGERI, RX: ESAUSTIVA, DIF: GERVA;
+	(57) TX: ATTINTI, RX: ATTIENE, DIF: ETI;
+	(59) TX: OPACITA, RX: OPCITA, DIF: A;
+	(61) TX: AZOICO, RX: AZZOCIO, DIF: ZCC;
+	(64) TX: BEOZIA, RX: BOZEA, DIF: EI;
+	(66) TX: SERIAVA, RX: SERVIVA, DIF: VA;
+	(67) TX: SVAGAVI, RX: SVAGISI, DIF: AVSI;
+Nota: nessuna
+***
