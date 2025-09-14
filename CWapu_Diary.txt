@@ -2061,3 +2061,53 @@ Nessun errore sui caratteri registrato in questa sessione.
 Elenco delle parole copiate male:
 Nota: nessuna
 ***
+
+Esercizio di ricezione #411 eseguito il 2025/9/14 alle 15, 3 minuti:
+In questa sessione #411, ti ho inviato 91 Parole e ne hai ricevuti 55: 60.4%
+	26 di questi sono stati ricevuti al primo ascolto: 47.3%
+	mentre 29 Parole al secondo tentativo: 52.7%.
+Durante la sessione, la tua velocità minima è stata 22.36, la massima di 42.62: pari ad una variazione di 20.26 WPM.
+	La velocità media di ricezione è di: 33.73 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 14 errori su 76 invii. Tasso errore stimato: [11.3% - 28.6%]    'E': 13 errori su 57 invii. Tasso errore stimato: [13.8% - 35.2%]    'N': 7 errori su 43 invii. Tasso errore stimato: [8.1% - 30.0%]    'A': 6 errori su 71 invii. Tasso errore stimato: [3.9% - 17.2%]    'L': 6 errori su 16 invii. Tasso errore stimato: [18.5% - 61.4%]    'R': 6 errori su 47 invii. Tasso errore stimato: [6.0% - 25.2%]    'S': 5 errori su 37 invii. Tasso errore stimato: [5.9% - 28.0%]    'T': 5 errori su 46 invii. Tasso errore stimato: [4.7% - 23.0%]    'D': 4 errori su 10 invii. Tasso errore stimato: [16.8% - 68.7%]    'M': 4 errori su 18 invii. Tasso errore stimato: [9.0% - 45.2%]    'O': 4 errori su 44 invii. Tasso errore stimato: [3.6% - 21.2%]    'U': 3 errori su 17 invii. Tasso errore stimato: [6.2% - 41.0%]    'V': 3 errori su 13 invii. Tasso errore stimato: [8.2% - 50.3%]    'B': 1 errori su 18 invii. Tasso errore stimato: [1.0% - 25.8%]    'C': 1 errori su 24 invii. Tasso errore stimato: [0.7% - 20.2%]    'G': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'H': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'X': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'Y': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]
+
+Errori totali: 86 su 588 = 14.63%
+Caratteri mai sbagliati: F P Q Z À Ò
+Elenco delle parole copiate male:
+	(4) TX: SUITES, RX: SUITIS, DIF: E;
+	(8) TX: LANISTE, RX: LANISTI, DIF: E;
+	(11) TX: SCUTATI, RX: , DIF: SCUTATI;
+	(12) TX: SOLDANI, RX: ORTIASI, DIF: ORTIAOLDAN;
+	(14) TX: FORMALE, RX: FORMARE, DIF: L;
+	(24) TX: CREARTI, RX: CREATI, DIF: R;
+	(28) TX: FEDAYIN, RX: FEDACI, DIF: YN;
+	(32) TX: IACAMAR, RX: SACAMAR, DIF: I;
+	(33) TX: EPURERO, RX: EPURIO, DIF: ER;
+	(34) TX: BARCHI, RX: BARCHE, DIF: I;
+	(36) TX: SFUMINI, RX: SFIGA, DIF: UMNI;
+	(37) TX: DILUVIO, RX: DIFUSIO, DIF: LV;
+	(38) TX: GUIDANA, RX: GUDIRANI, DIF: DDA;
+	(44) TX: MENHIR, RX: MARIA, DIF: ENHR;
+	(47) TX: IVATA, RX: IURTA, DIF: VA;
+	(49) TX: TARPANO, RX: TARPATO, DIF: N;
+	(50) TX: TELSTAR, RX: TLSARE, DIF: ETE;
+	(57) TX: BOXI, RX: BOKI, DIF: X;
+	(59) TX: ANGLE, RX: ANPESE, DIF: GLSE;
+	(60) TX: DEGNATA, RX: DEGATA, DIF: N;
+	(61) TX: SEMICA, RX: SIMECA, DIF: IMMI;
+	(62) TX: SENSILI, RX: SINISIA, DIF: SENLSIA;
+	(64) TX: BAMBI, RX: BATTI, DIF: MB;
+	(65) TX: OBOISTI, RX: OBOISI, DIF: T;
+	(69) TX: EMETTE, RX: EMETTO, DIF: E;
+	(72) TX: ARSITI, RX: ARISTI, DIF: II;
+	(73) TX: ARERO, RX: ARIRO, DIF: E;
+	(76) TX: CAMPINO, RX: CAMPION, DIF: OO;
+	(79) TX: MASTRI, RX: MASTER, DIF: EI;
+	(80) TX: TRISAVE, RX: TASSAVA, DIF: RIE;
+	(84) TX: BOLLAND, RX: BORLAN, DIF: LD;
+	(85) TX: SAVIE, RX: SAUAE, DIF: VI;
+	(86) TX: ROUNDS, RX: ROUND, DIF: S;
+	(87) TX: STRUZZI, RX: STRIZZI, DIF: U;
+	(90) TX: UNTICCE, RX: UNTICCI, DIF: E;
+	(91) TX: MERIGGI, RX: MELIGGE, DIF: RI;
+Nota: nessuna
+***
