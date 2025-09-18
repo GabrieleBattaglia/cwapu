@@ -4,7 +4,8 @@ Todo:
 8.
 
 ChangeLog:
-	4.4.x
+	4.4.4
+		+ Aggiornato e rinforzato il sistema interno dei menu.
 		+ Aggiunta riga di sicurezza alle funzioni che calcolano il Wilson per prevenire radici quadrate negative sul tasso d'errore
 		+ corretti 2 problemi nella generazione dei report htlm e svg
 	4.3.17
