@@ -2216,3 +2216,31 @@ Elenco delle parole copiate male:
 	(102) TX: INVALSA, RX: INUTIUSA, DIF: VAL;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #414 eseguito il 2025/9/18 alle 11, 42 minuti:
+In questa sessione #414, ti ho inviato 38 Parole e ne hai ricevuti 24: 63.2%
+	13 di questi sono stati ricevuti al primo ascolto: 54.2%
+	mentre 11 Parole al secondo tentativo: 45.8%.
+Durante la sessione, la tua velocità minima è stata 29.89, la massima di 41.13: pari ad una variazione di 11.24 WPM.
+	La velocità media di ricezione è di: 35.29 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 5 errori su 34 invii. Tasso errore stimato: [6.4% - 30.1%]    'M': 3 errori su 12 invii. Tasso errore stimato: [8.9% - 53.2%]    'P': 3 errori su 7 invii. Tasso errore stimato: [15.8% - 75.0%]    'A': 2 errori su 33 invii. Tasso errore stimato: [1.7% - 19.6%]    'B': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    'E': 2 errori su 18 invii. Tasso errore stimato: [3.1% - 32.8%]    'L': 2 errori su 14 invii. Tasso errore stimato: [4.0% - 39.9%]    'R': 2 errori su 15 invii. Tasso errore stimato: [3.7% - 37.9%]    'C': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'G': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'O': 1 errori su 20 invii. Tasso errore stimato: [0.9% - 23.6%]    'T': 1 errori su 16 invii. Tasso errore stimato: [1.1% - 28.3%]    'Z': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 26 su 241 = 10.79%
+Caratteri mai sbagliati: D F H N Q S U V Ò
+Elenco delle parole copiate male:
+	(4) TX: SPONDA, RX: SFONDA, DIF: P;
+	(8) TX: ABOLITE, RX: ADOLITE, DIF: B;
+	(9) TX: SLAMAVA, RX: SFAMAVA, DIF: L;
+	(13) TX: MURO, RX: OURO, DIF: M;
+	(14) TX: SCIUPII, RX: SCIUFFI, DIF: PI;
+	(20) TX: IMPEPA, RX: IMPERA, DIF: P;
+	(25) TX: LECIZI, RX: LECIDI, DIF: Z;
+	(26) TX: LIQUO, RX: LEQUIDI, DIF: IO;
+	(28) TX: APPARTO, RX: APPARATO, DIF: A;
+	(29) TX: ABBRUMA, RX: ABBRUZO, DIF: MA;
+	(31) TX: BISUNTA, RX: NESSUNA, DIF: BIT;
+	(34) TX: CRUCCHE, RX: CRUCCHI, DIF: E;
+	(36) TX: FERIRSI, RX: FERRIS, DIF: RRI;
+	(38) TX: ONEGLIA, RX: ONIMICA, DIF: EGLMIC;
+Nota: nessuna
+***

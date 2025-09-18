@@ -35,7 +35,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.4.3, 2025-07-18)'
+VERSION = '4.4.4, 2025-09-18)'
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -1735,7 +1735,7 @@ _clear_screen_ansi()
 print(_("\nCWAPU - VERSIONE: {version} DI GABRY - IZ4APU.\n\t----UTILITÀ PER IL TUO CW----\n\t\tLancio app: {count}. Scrivi 'm' per il menu.").format(version=VERSION, count=launch_count))
 print(_('\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {}, MS:\t{overall_ms}, FS: {}.').format(int(overall_volume * 100), WAVE_TYPES[overall_wave - 1], SAMPLE_RATES[overall_fs], overall_speed=overall_speed, overall_pitch=overall_pitch, overall_dashes=overall_dashes, overall_spaces=overall_spaces, overall_dots=overall_dots, overall_ms=overall_ms))
 while True:
-    k = menu(d=MNMAIN, show=False, keyslist=True, full_keyslist=False, ntf=_('Non è un comando!'))
+    k = menu(d=MNMAIN, show=False, keyslist=True, ntf=_('Non è un comando!'))
     _clear_screen_ansi()
     if k == 'c':
         Count()
