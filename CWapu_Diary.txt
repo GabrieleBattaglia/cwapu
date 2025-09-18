@@ -2153,3 +2153,66 @@ Elenco delle parole copiate male:
 	(62) TX: SPIRERA, RX: SPIRINA, DIF: ER;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #413 eseguito il 2025/9/17 alle 23, 10 minuti:
+In questa sessione #413, ti ho inviato 104 Parole e ne hai ricevuti 55: 52.9%
+	31 di questi sono stati ricevuti al primo ascolto: 56.4%
+	mentre 24 Parole al secondo tentativo: 43.6%.
+Durante la sessione, la tua velocità minima è stata 34.61, la massima di 47.25: pari ad una variazione di 12.65 WPM.
+	La velocità media di ricezione è di: 40.71 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 22 errori su 80 invii. Tasso errore stimato: [18.9% - 38.1%]    'E': 13 errori su 65 invii. Tasso errore stimato: [12.1% - 31.3%]    'N': 12 errori su 33 invii. Tasso errore stimato: [22.2% - 53.4%]    'A': 11 errori su 80 invii. Tasso errore stimato: [7.9% - 23.0%]    'T': 10 errori su 53 invii. Tasso errore stimato: [10.6% - 31.4%]    'R': 8 errori su 52 invii. Tasso errore stimato: [8.0% - 27.5%]    'G': 6 errori su 11 invii. Tasso errore stimato: [28.0% - 78.7%]    'D': 5 errori su 15 invii. Tasso errore stimato: [15.2% - 58.3%]    'L': 5 errori su 23 invii. Tasso errore stimato: [9.7% - 41.9%]    'O': 5 errori su 62 invii. Tasso errore stimato: [3.5% - 17.5%]    'S': 4 errori su 44 invii. Tasso errore stimato: [3.6% - 21.2%]    'U': 4 errori su 16 invii. Tasso errore stimato: [10.2% - 49.5%]    'V': 4 errori su 14 invii. Tasso errore stimato: [11.7% - 54.6%]    'B': 2 errori su 18 invii. Tasso errore stimato: [3.1% - 32.8%]    'H': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'F': 1 errori su 13 invii. Tasso errore stimato: [1.4% - 33.3%]    'M': 1 errori su 15 invii. Tasso errore stimato: [1.2% - 29.8%]    'P': 1 errori su 26 invii. Tasso errore stimato: [0.7% - 18.9%]    'Y': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 117 su 654 = 17.89%
+Caratteri mai sbagliati: C K Z Ò
+Elenco delle parole copiate male:
+	(1) TX: REAGIRO, RX: REAGIRE, DIF: O;
+	(3) TX: UNTUOSA, RX: UNITOSA, DIF: IU;
+	(10) TX: UVAGGIO, RX: VUGGIO, DIF: VVA;
+	(11) TX: RASENTO, RX: RASTIO, DIF: ENI;
+	(14) TX: BISI, RX: BSII, DIF: II;
+	(15) TX: SNUDATE, RX: UNITI, DIF: SUDAE;
+	(17) TX: SETA, RX: STA, DIF: E;
+	(20) TX: EVASERO, RX: EVASIO, DIF: ER;
+	(24) TX: SVANIRÒ, RX: SVANTIÒ, DIF: TR;
+	(25) TX: IDEARI, RX: SDARE, DIF: IEI;
+	(26) TX: BORNI, RX: BORDI, DIF: N;
+	(28) TX: VOLERMI, RX: VOLERME, DIF: I;
+	(35) TX: SGOLO, RX: SMOLO, DIF: G;
+	(39) TX: IRIDE, RX: IRINE, DIF: D;
+	(40) TX: SOMIGLI, RX: SOMALI, DIF: IG;
+	(42) TX: BARBUTA, RX: BARBARA, DIF: UTRA;
+	(43) TX: SFITTA, RX: SFITTI, DIF: A;
+	(44) TX: VOLANTE, RX: VORRETE, DIF: LAN;
+	(46) TX: VARINO, RX: VARIO, DIF: N;
+	(47) TX: PIERI, RX: PIERE, DIF: I;
+	(50) TX: RHYTON, RX: ASCONG, DIF: RHYTG;
+	(53) TX: BISMUTO, RX: BISOTTO, DIF: MU;
+	(54) TX: FARMISI, RX: FARMESI, DIF: I;
+	(55) TX: TARTARE, RX: TRARRE, DIF: RTA;
+	(58) TX: ROLINI, RX: ROLINE, DIF: I;
+	(60) TX: SOPIREI, RX: SOLIDI, DIF: PRE;
+	(65) TX: SDEGNAI, RX: SNIDAI, DIF: NIEGN;
+	(66) TX: NEREIDE, RX: NIREIDE, DIF: E;
+	(70) TX: LIOFILE, RX: LEONIDI, DIF: LIOFIONIDI;
+	(71) TX: VESTII, RX: VISEE, DIF: ISSTII;
+	(73) TX: GIUNONE, RX: MISURE, DIF: GSNON;
+	(74) TX: FINIATE, RX: FIDATE, DIF: NI;
+	(75) TX: RENDITA, RX: RANDAGI, DIF: EAGTA;
+	(76) TX: SGOBBA, RX: SGOZZA, DIF: BB;
+	(78) TX: BROVARE, RX: BROVARA, DIF: E;
+	(80) TX: TUELLI, RX: MURRI, DIF: TELL;
+	(83) TX: LIMANI, RX: LIMITI, DIF: ANTI;
+	(84) TX: UDITI, RX: UNITI, DIF: D;
+	(85) TX: HASHISH, RX: ASHISH, DIF: H;
+	(86) TX: NASETTO, RX: NASITO, DIF: ET;
+	(88) TX: PARVERO, RX: PARVEVA, DIF: RO;
+	(92) TX: LEMPIRA, RX: LIMPIA, DIF: ER;
+	(93) TX: PAVIDO, RX: PAVINO, DIF: D;
+	(94) TX: CUPA, RX: CUPI, DIF: A;
+	(96) TX: AZZIMI, RX: AZZIMUT, DIF: I;
+	(97) TX: POPOVA, RX: POPOSA, DIF: V;
+	(99) TX: TORNERA, RX: TORDERA, DIF: N;
+	(100) TX: LINEATO, RX: LINEATTO, DIF: T;
+	(102) TX: INVALSA, RX: INUTIUSA, DIF: VAL;
+Nota: nessuna
+***
