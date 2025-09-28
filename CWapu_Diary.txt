@@ -2743,3 +2743,48 @@ Elenco delle parole copiate male:
 	(63) TX: PALLIDA, RX: PALLINA, DIF: D;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #428 eseguito il 2025/9/28 alle 8, 0 minuti:
+In questa sessione #428, ti ho inviato 59 Parole e ne hai ricevuti 28: 47.5%
+	20 di questi sono stati ricevuti al primo ascolto: 71.4%
+	mentre 8 Parole al secondo tentativo: 28.6%.
+Durante la sessione, la tua velocità minima è stata 33.97, la massima di 43.66: pari ad una variazione di 9.69 WPM.
+	La velocità media di ricezione è di: 39.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 12 errori su 46 invii. Tasso errore stimato: [15.6% - 40.3%]    'A': 8 errori su 54 invii. Tasso errore stimato: [7.7% - 26.6%]    'R': 8 errori su 24 invii. Tasso errore stimato: [18.0% - 53.3%]    'O': 7 errori su 32 invii. Tasso errore stimato: [11.0% - 38.8%]    'D': 6 errori su 12 invii. Tasso errore stimato: [25.4% - 74.6%]    'N': 6 errori su 22 invii. Tasso errore stimato: [13.2% - 48.2%]    'S': 6 errori su 29 invii. Tasso errore stimato: [9.8% - 38.4%]    'T': 5 errori su 22 invii. Tasso errore stimato: [10.1% - 43.4%]    'E': 4 errori su 26 invii. Tasso errore stimato: [6.1% - 33.5%]    'G': 4 errori su 11 invii. Tasso errore stimato: [15.2% - 64.6%]    'L': 4 errori su 15 invii. Tasso errore stimato: [10.9% - 52.0%]    'C': 2 errori su 13 invii. Tasso errore stimato: [4.3% - 42.2%]    'M': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    'P': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'U': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'V': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]
+
+Errori totali: 77 su 374 = 20.59%
+Caratteri mai sbagliati: B F H Z À Ò
+Elenco delle parole copiate male:
+	(3) TX: CHIOSE, RX: CHIODE, DIF: S;
+	(4) TX: COLONA, RX: COLORE, DIF: NA;
+	(5) TX: ATTARDA, RX: ATTRAGA, DIF: RRD;
+	(6) TX: SBIELLA, RX: BIELLA, DIF: S;
+	(14) TX: ERRATI, RX: ERRAI, DIF: T;
+	(15) TX: INSILI, RX: INSIRE, DIF: LI;
+	(18) TX: SALDERÀ, RX: SANITÀ, DIF: LDER;
+	(19) TX: ASSENNO, RX: ASSENTÒ, DIF: NO;
+	(21) TX: ISPANA, RX: SEMBRA, DIF: IPNA;
+	(23) TX: AUDACI, RX: AUDICA, DIF: ICCI;
+	(25) TX: VINOSA, RX: VINGA, DIF: OS;
+	(26) TX: PORRI, RX: PORRE, DIF: I;
+	(27) TX: SOLINO, RX: SOLIDO, DIF: N;
+	(28) TX: PARELIO, RX: PARALELO, DIF: ALI;
+	(31) TX: GUIDATE, RX: GUDITE, DIF: DDA;
+	(33) TX: IMBRAGO, RX: SBRANO, DIF: IMG;
+	(34) TX: AMNESIA, RX: UMBRIA, DIF: ANES;
+	(35) TX: ADDENTI, RX: ADDENTE, DIF: I;
+	(36) TX: ARMARSI, RX: AMARSI, DIF: R;
+	(37) TX: MIGRARE, RX: MORIRE, DIF: ORGRA;
+	(40) TX: OBICI, RX: OBICE, DIF: I;
+	(41) TX: BOLI, RX: OBILI, DIF: OO;
+	(42) TX: ERNIATI, RX: ORDITE, DIF: ORDITRNIATI;
+	(44) TX: MEGATON, RX: METADONE, DIF: GTE;
+	(45) TX: PAVENTO, RX: PAUSINI, DIF: VETO;
+	(46) TX: BUZZAGO, RX: BUZZANO, DIF: G;
+	(48) TX: BRINARE, RX: BRINDARE, DIF: D;
+	(50) TX: MOLERÀ, RX: MOLLERÀ, DIF: L;
+	(53) TX: POSTIMI, RX: POSTINI, DIF: M;
+	(57) TX: INDUSSI, RX: SINDESI, DIF: SUS;
+	(59) TX: PUPPOLA, RX: PUPPOLO, DIF: A;
+Nota: nessuna
+***
