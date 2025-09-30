@@ -1,4 +1,4 @@
-# CWAPU - Utility per il CW, di Gabry, IZ4APU
+# CWAPUDEV - Utility per il CW, di Gabry, IZ4APU
 # Data concepimento 21/12/2022.
 # GitHub publishing on july 2nd, 2024.
 
@@ -35,7 +35,8 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.4.4, 2025-09-18)'
+VERSION = '4.5.0, 2025-09-29)'
+RX_ITEM_TIMEOUT_SECONDS = 45 # Tempo massimo per item prima di considerarlo una pausa
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -1231,7 +1232,10 @@ def Rxing():
     attesa = key()
     print(_('Iniziamo la sessione {sessions}!').format(sessions=sessions))
     starttime = dt.datetime.now()
+    active_exerctime = dt.timedelta(0)
+    total_pause_time = dt.timedelta(0)
     while True:
+        total_wait_duration_for_item = dt.timedelta(0)
         if how_many_calls > 0 and len(callssend) >= how_many_calls:
             break
         qrz_to_send = genera_singolo_item_esercizio_misto(active_states, lunghezza_gruppo_per_generati, custom_set_attivo_per_sessione, parole_filtrate_per_sessione)
@@ -1242,7 +1246,10 @@ def Rxing():
         avg_wpm_display = average_rwpm / len(callsget) if len(callsget) else rwpm
         prompt = _('S{sessions}-#{calls} - WPM{rwpm:.2f}/{avg_wpm_display:.2f} - +{correct_count}/-{wrong_count}> ').format(avg_wpm_display=avg_wpm_display, correct_count=len(callsget), wrong_count=len(callswrong), sessions=sessions, calls=calls, rwpm=rwpm)
         plo, rwpm = CWzator(msg=qrz_to_send, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+        wait_start_1 = dt.datetime.now()
         guess = dgt(prompt=prompt, kind='s', smin=0, smax=64)
+        wait_end_1 = dt.datetime.now()
+        total_wait_duration_for_item += wait_end_1 - wait_start_1 
         if guess == '.':
             break
         needs_processing = True
@@ -1255,12 +1262,23 @@ def Rxing():
                 prompt_indicator = _('% {partial_input}').format(partial_input=partial_input)
             prompt = _('S{sessions}-#{calls} - WPM{rwpm:.2f}/{:.2f} - +{}/-{} - {prompt_indicator}').format(average_rwpm / len(callsget) if len(callsget) else rwpm, len(callsget), len(callswrong), sessions=sessions, calls=calls, rwpm=rwpm, prompt_indicator=prompt_indicator)
             plo, rwpm = CWzator(msg=qrz_to_send, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+            wait_start_2 = dt.datetime.now()
             new_guess = dgt(prompt=prompt, kind='s', smin=0, smax=64)
+            wait_end_2 = dt.datetime.now()
+            total_wait_duration_for_item += wait_end_2 - wait_start_2
             if new_guess == '.':
                 needs_processing = False
                 break
             else:
                 guess = partial_input + new_guess
+        timeout_delta = dt.timedelta(seconds=RX_ITEM_TIMEOUT_SECONDS)
+        if total_wait_duration_for_item > timeout_delta:
+            active_time_for_item = timeout_delta
+            pause_for_item = total_wait_duration_for_item - timeout_delta
+            total_pause_time += pause_for_item
+        else:
+            active_time_for_item = total_wait_duration_for_item
+        active_exerctime += active_time_for_item
         if needs_processing:
             original_qrz = qrz_to_send
             callssend.append(original_qrz)
@@ -1290,7 +1308,6 @@ def Rxing():
             if rwpm < minwpm:
                 minwpm = rwpm
             repeatedflag = False
-    exerctime = dt.datetime.now() - starttime
     print(_('È finita! Ora vediamo cosa abbiamo ottenuto.'))
     if len(callssend) >= 10:
         send_char = sum((len(j) for j in callssend))
@@ -1351,7 +1368,7 @@ def Rxing():
         corrected_item_details = [{'rwpm': item['wpm'], 'correct': item['correct']} for item in item_details]
         session_data_for_history = {
             'timestamp_iso': starttime.isoformat(),
-            'duration_seconds': exerctime.total_seconds(),
+            'duration_seconds': active_exerctime.total_seconds(),
             'rwpm_min': minwpm, # Il nome qui potrebbe diventare 'rwpm_min' per coerenza
             'rwpm_max': maxwpm, # e qui 'rwpm_max'
             'rwpm_avg': avg_wpm_calc,  # <-- Chiave CHIARA E UNIVOCA
@@ -1457,10 +1474,14 @@ def Rxing():
     new_totalcalls = totalcalls + current_session_items
     new_totalget = totalget + current_session_correct
     new_totalwrong = totalwrong + current_session_wrong
-    new_totaltime = totaltime + exerctime
+    new_totaltime = totaltime + active_exerctime
     app_data['rxing_stats'].update({'total_calls': new_totalcalls, 'sessions': sessions + 1, 'total_correct': new_totalget, 'total_wrong_items': new_totalwrong, 'total_time_seconds': new_totaltime.total_seconds()})
     overall_settings_changed = True
-    print(_('Sessione {session_number}, durata: {duration} è stata salvata su disco.').format(session_number=sessions, duration=str(exerctime).split('.')[0]))
+    duration_str = str(active_exerctime).split('.')[0]
+    print(_('Sessione {session_number}, durata attiva: {duration} è stata salvata su disco.').format(session_number=sessions, duration=duration_str))
+    if total_pause_time.total_seconds() > 0:
+        pause_str = str(total_pause_time).split('.')[0]
+        print(_('\t(Tempo totale in pausa rilevato: {pause_time})').format(pause_time=pause_str))
     return
 
 def _calculate_aggregates(session_list):
