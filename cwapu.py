@@ -35,8 +35,8 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.5.0, 2025-09-29)'
-RX_ITEM_TIMEOUT_SECONDS = 45 # Tempo massimo per item prima di considerarlo una pausa
+VERSION = '4.5.1, 2025-09-30)'
+RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']

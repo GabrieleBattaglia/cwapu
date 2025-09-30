@@ -3,8 +3,9 @@ Todo:
 8.
 
 ChangeLog:
-	4.5.0
+	4.5.1
 		Inserito un sistema per limitare le pause di inattività durante l'esercizio di ricezione
+		Ridotto da 45 a 30 secondi, il tempo da considerare come utente attivo, durante l'esercizio R
 	4.4.4
 		+ Aggiornato e rinforzato il sistema interno dei menu.
 		+ Aggiunta riga di sicurezza alle funzioni che calcolano il Wilson per prevenire radici quadrate negative sul tasso d'errore
