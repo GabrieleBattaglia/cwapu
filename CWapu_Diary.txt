@@ -3518,3 +3518,52 @@ Elenco delle parole copiate male:
 	(21) TX: ALTICHE, RX: ALTECHE, DIF: I;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #446 eseguito il 2025/10/5 alle 12, 48 minuti:
+In questa sessione #446, ti ho inviato 74 Parole e ne hai ricevuti 39: 52.7%
+	26 di questi sono stati ricevuti al primo ascolto: 66.7%
+	mentre 13 Parole al secondo tentativo: 33.3%.
+Durante la sessione, la tua velocità minima è stata 34.00, la massima di 50.00: pari ad una variazione di 16.00 WPM.
+	La velocità media di ricezione è di: 42.21 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 19 errori su 54 invii. Tasso errore stimato: [23.8% - 48.5%]    'R': 8 errori su 38 invii. Tasso errore stimato: [11.1% - 36.3%]    'E': 7 errori su 46 invii. Tasso errore stimato: [7.6% - 28.2%]    'T': 7 errori su 28 invii. Tasso errore stimato: [12.7% - 43.4%]    'G': 5 errori su 18 invii. Tasso errore stimato: [12.5% - 50.9%]    'N': 5 errori su 21 invii. Tasso errore stimato: [10.6% - 45.1%]    'A': 4 errori su 63 invii. Tasso errore stimato: [2.5% - 15.2%]    'D': 4 errori su 15 invii. Tasso errore stimato: [10.9% - 52.0%]    'H': 3 errori su 7 invii. Tasso errore stimato: [15.8% - 75.0%]    'L': 3 errori su 18 invii. Tasso errore stimato: [5.8% - 39.2%]    'M': 3 errori su 20 invii. Tasso errore stimato: [5.2% - 36.0%]    'O': 2 errori su 34 invii. Tasso errore stimato: [1.6% - 19.1%]    'S': 2 errori su 22 invii. Tasso errore stimato: [2.5% - 27.8%]    'V': 2 errori su 12 invii. Tasso errore stimato: [4.7% - 44.8%]    'F': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'P': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'Q': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'W': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]
+
+Errori totali: 78 su 460 = 16.96%
+Caratteri mai sbagliati: B C K U X Y Z Ò
+Elenco delle parole copiate male:
+	(3) TX: ANDINO, RX: ANDRO, DIF: IN;
+	(5) TX: GHIERE, RX: GSID, DIF: HERE;
+	(6) TX: QWERTY, RX: QUERY, DIF: WT;
+	(7) TX: SPALANO, RX: SPALATO, DIF: N;
+	(8) TX: ORERIE, RX: ORIRE, DIF: IRRIE;
+	(9) TX: URGERAI, RX: URGENTE, DIF: RAI;
+	(10) TX: HAMSTER, RX: HAMSER, DIF: T;
+	(13) TX: SENEGAL, RX: SENTAL, DIF: EG;
+	(22) TX: ADEMPIA, RX: ADENIMA, DIF: NIPI;
+	(23) TX: OOCITO, RX: OOCINO, DIF: T;
+	(26) TX: ATTUTA, RX: ATTUA, DIF: T;
+	(27) TX: MUMMIE, RX: MUMOSE, DIF: MI;
+	(28) TX: GELARSI, RX: GELASI, DIF: R;
+	(29) TX: FRIGNI, RX: FRIGI, DIF: N;
+	(36) TX: BURGHE, RX: BRUSIE, DIF: RRGH;
+	(40) TX: MAGNANA, RX: MAGNATA, DIF: N;
+	(42) TX: OXIFILA, RX: OXILALA, DIF: FILA;
+	(44) TX: VIATICI, RX: VIATICA, DIF: I;
+	(47) TX: ARDISCA, RX: ARDESCA, DIF: I;
+	(50) TX: DRAGATO, RX: GRATTA, DIF: DGTO;
+	(51) TX: SALITI, RX: SALITE, DIF: I;
+	(52) TX: RIGIDO, RX: RIZZO, DIF: GID;
+	(57) TX: SORGERO, RX: SORERO, DIF: G;
+	(58) TX: BUZZATI, RX: BUZZALE, DIF: TI;
+	(59) TX: MALSANI, RX: MALIANE, DIF: SI;
+	(60) TX: OLIARI, RX: OLIANE, DIF: RI;
+	(61) TX: TRITAME, RX: TRISCHE, DIF: TAM;
+	(63) TX: SORVOLA, RX: SOLVERA, DIF: LVEVOL;
+	(64) TX: SEQUELA, RX: SEXUALA, DIF: QE;
+	(65) TX: FLASH, RX: FLASS, DIF: H;
+	(66) TX: CERATE, RX: CERTE, DIF: A;
+	(68) TX: STRIDII, RX: STRESS, DIF: IDII;
+	(72) TX: LEGAME, RX: LEGATE, DIF: M;
+	(73) TX: UNDSET, RX: UNIT, DIF: DSE;
+	(74) TX: RIVIENE, RX: RIVENE, DIF: I;
+Nota: nessuna
+***
