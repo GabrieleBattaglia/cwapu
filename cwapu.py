@@ -35,7 +35,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.5.1, 2025-09-30)'
+VERSION = '4.5.2, 2025-10-07)'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
@@ -893,7 +893,7 @@ def KeyboardCW():
                     command_processed_internally = True
                 elif cmd_letter_parsed == 'h':
                     if overall_pitch != value_int_parsed:
-                        new_pitch = max(130, min(2700, value_int_parsed))
+                        new_pitch = max(200, min(2700, value_int_parsed))
                         if overall_pitch != new_pitch:
                             overall_pitch = new_pitch
                             overall_settings_changed = True
