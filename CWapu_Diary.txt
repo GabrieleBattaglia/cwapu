@@ -3670,3 +3670,36 @@ Elenco delle parole copiate male:
 	(72) TX: UBA, RX: UDA, DIF: B;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #450 eseguito il 2025/10/8 alle 11, 33 minuti:
+In questa sessione #450, ti ho inviato 38 Parole e ne hai ricevuti 19: 50.0%
+	13 di questi sono stati ricevuti al primo ascolto: 68.4%
+	mentre 6 Parole al secondo tentativo: 31.6%.
+Durante la sessione, la tua velocità minima è stata 44.00, la massima di 52.00: pari ad una variazione di 8.00 WPM.
+	La velocità media di ricezione è di: 47.42 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 6 errori su 28 invii. Tasso errore stimato: [10.2% - 39.5%]    'E': 5 errori su 22 invii. Tasso errore stimato: [10.1% - 43.4%]    'G': 5 errori su 9 invii. Tasso errore stimato: [26.7% - 81.1%]    'M': 5 errori su 8 invii. Tasso errore stimato: [30.6% - 86.3%]    'T': 4 errori su 10 invii. Tasso errore stimato: [16.8% - 68.7%]    'A': 3 errori su 31 invii. Tasso errore stimato: [3.3% - 24.9%]    'L': 3 errori su 6 invii. Tasso errore stimato: [18.8% - 81.2%]    'N': 3 errori su 11 invii. Tasso errore stimato: [9.7% - 56.6%]    'R': 3 errori su 16 invii. Tasso errore stimato: [6.6% - 43.0%]    'O': 2 errori su 19 invii. Tasso errore stimato: [2.9% - 31.4%]    'U': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'B': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'S': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'V': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]
+
+Errori totali: 44 su 233 = 18.88%
+Caratteri mai sbagliati: C D F P Q Z À Ò
+Elenco delle parole copiate male:
+	(3) TX: GIOIRÀ, RX: GIOITÀ, DIF: R;
+	(9) TX: FREMETE, RX: FRITTE, DIF: EME;
+	(10) TX: QUAGGIU, RX: QUARZO, DIF: GGIU;
+	(11) TX: BASAMMO, RX: BASOTTO, DIF: AMMTTO;
+	(13) TX: RINNEGO, RX: RENNINO, DIF: ENNNEG;
+	(17) TX: IMPAURI, RX: IMPARAI, DIF: UA;
+	(18) TX: BARIAMO, RX: BARCO, DIF: IAM;
+	(23) TX: CORIMBI, RX: CORRIDOIO, DIF: RMBO;
+	(24) TX: SPINGO, RX: SPINO, DIF: G;
+	(26) TX: BALIOSO, RX: BARIOSO, DIF: L;
+	(27) TX: AGIVATE, RX: AGUATI, DIF: IVE;
+	(28) TX: FUSION, RX: FUSON, DIF: I;
+	(29) TX: ALESATI, RX: ALEATI, DIF: S;
+	(31) TX: PLAGALE, RX: PLAGARE, DIF: L;
+	(32) TX: MINUGIE, RX: MINUTE, DIF: GI;
+	(33) TX: BOATTA, RX: BOATA, DIF: T;
+	(36) TX: CLERO, RX: CERTO, DIF: LT;
+	(37) TX: ORDIVI, RX: ORDIVA, DIF: I;
+	(38) TX: LATERZA, RX: LATENZA, DIF: R;
+Nota: nessuna
+***
