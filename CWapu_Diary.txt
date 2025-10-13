@@ -4024,3 +4024,103 @@ Elenco delle parole copiate male:
 	(71) TX: FRINGE, RX: FRENOE, DIF: IG;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #458 eseguito il 2025/10/13 alle 12, 8 minuti:
+In questa sessione #458, ti ho inviato 114 Parole e ne hai ricevuti 58: 50.9%
+	34 di questi sono stati ricevuti al primo ascolto: 58.6%
+	mentre 24 Parole al secondo tentativo: 41.4%.
+Durante la sessione, la tua velocità minima è stata 38.00, la massima di 48.00: pari ad una variazione di 10.00 WPM.
+	La velocità media di ricezione è di: 41.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 26 errori su 84 invii. Tasso errore stimato: [22.1% - 41.5%]    'E': 14 errori su 69 invii. Tasso errore stimato: [12.5% - 31.2%]    'A': 12 errori su 90 invii. Tasso errore stimato: [7.8% - 21.9%]    'T': 10 errori su 39 invii. Tasso errore stimato: [14.6% - 41.1%]    'R': 9 errori su 43 invii. Tasso errore stimato: [11.4% - 35.2%]    'N': 8 errori su 40 invii. Tasso errore stimato: [10.5% - 34.8%]    'D': 7 errori su 29 invii. Tasso errore stimato: [12.2% - 42.1%]    'S': 7 errori su 47 invii. Tasso errore stimato: [7.4% - 27.7%]    'M': 6 errori su 27 invii. Tasso errore stimato: [10.6% - 40.8%]    'G': 5 errori su 24 invii. Tasso errore stimato: [9.2% - 40.5%]    'B': 3 errori su 7 invii. Tasso errore stimato: [15.8% - 75.0%]    'L': 3 errori su 24 invii. Tasso errore stimato: [4.3% - 31.0%]    'O': 3 errori su 56 invii. Tasso errore stimato: [1.8% - 14.6%]    'C': 2 errori su 31 invii. Tasso errore stimato: [1.8% - 20.7%]    'P': 2 errori su 23 invii. Tasso errore stimato: [2.4% - 26.8%]    'U': 2 errori su 21 invii. Tasso errore stimato: [2.7% - 28.9%]    'Z': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'H': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'V': 1 errori su 20 invii. Tasso errore stimato: [0.9% - 23.6%]    'Ò': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 124 su 712 = 17.42%
+Caratteri mai sbagliati: F K À
+Elenco delle parole copiate male:
+	(3) TX: ALLIEVA, RX: ALLEVA, DIF: I;
+	(4) TX: SCANNAI, RX: SCADERE, DIF: NNAI;
+	(6) TX: GANDURA, RX: GANDRA, DIF: U;
+	(7) TX: SFIAMMA, RX: SFIOTA, DIF: OTMMA;
+	(12) TX: SETACEI, RX: STACEI, DIF: E;
+	(13) TX: SCLERO, RX: SCLEAO, DIF: R;
+	(17) TX: ROMANDI, RX: ROMANI, DIF: D;
+	(20) TX: RUGGHIA, RX: RUGGISA, DIF: HS;
+	(23) TX: SFASA, RX: SFASI, DIF: A;
+	(24) TX: NUTRICI, RX: RUBRICI, DIF: NT;
+	(25) TX: MIELOMI, RX: GELOMI, DIF: MI;
+	(27) TX: VESPAIO, RX: VESPRO, DIF: AI;
+	(30) TX: ROVESCI, RX: ROVICE, DIF: ICSCI;
+	(31) TX: DEDITI, RX: DENTI, DIF: DI;
+	(32) TX: OZI, RX: OGI, DIF: Z;
+	(33) TX: CIECA, RX: CECA, DIF: I;
+	(34) TX: PAESANE, RX: PAIATE, DIF: IATSANE;
+	(36) TX: STINTE, RX: STENTE, DIF: I;
+	(39) TX: SNACK, RX: STACK, DIF: N;
+	(40) TX: SARESTE, RX: SARESE, DIF: T;
+	(43) TX: OVIEDO, RX: OFIDO, DIF: VE;
+	(44) TX: FONONI, RX: FONOI, DIF: N;
+	(47) TX: VOLUTTÀ, RX: VOLUTÀ, DIF: T;
+	(48) TX: ABDOTTO, RX: ABBOTTO, DIF: D;
+	(51) TX: ESEDRA, RX: ESILA, DIF: EDR;
+	(55) TX: NEVRITE, RX: NEVINE, DIF: RT;
+	(56) TX: SASSARI, RX: SUSSARE, DIF: AI;
+	(57) TX: TIEPIDI, RX: TIPIDI, DIF: E;
+	(58) TX: MELETI, RX: MELITI, DIF: E;
+	(61) TX: FONCE, RX: FONCI, DIF: E;
+	(62) TX: ADUSA, RX: ABUSA, DIF: D;
+	(68) TX: RENDEI, RX: RENDE, DIF: I;
+	(74) TX: RONZÒ, RX: RONG, DIF: ZÒ;
+	(75) TX: SPIGATA, RX: SPINATE, DIF: GA;
+	(76) TX: SMERDA, RX: SMERAE, DIF: DE;
+	(77) TX: STIPINO, RX: STIPATO, DIF: IN;
+	(78) TX: LINDURE, RX: LINDARE, DIF: U;
+	(79) TX: CZARDA, RX: CZONDATE, DIF: ARTE;
+	(80) TX: SUBDOLO, RX: SUDDOBO, DIF: BL;
+	(82) TX: SFIATAI, RX: SFIATE, DIF: AI;
+	(85) TX: AMOROSA, RX: AMMORMRBO, DIF: MMRBSA;
+	(86) TX: MASSIMA, RX: MASSARA, DIF: IMRA;
+	(88) TX: PEDINI, RX: PEDICE, DIF: NI;
+	(90) TX: LENISSI, RX: LENISSE, DIF: I;
+	(94) TX: GUFI, RX: GUFE, DIF: I;
+	(95) TX: APPAGA, RX: AMMARA, DIF: PPG;
+	(97) TX: PUNSI, RX: PUNII, DIF: SI;
+	(98) TX: GERUSIA, RX: GEFUSA, DIF: RI;
+	(99) TX: INFIGGE, RX: INGIFUGA, DIF: GIIGE;
+	(100) TX: SCIALBA, RX: SCALDA, DIF: IB;
+	(101) TX: BISETTE, RX: BESTII, DIF: ESTSETTE;
+	(104) TX: DIGESTI, RX: DIGISTI, DIF: E;
+	(106) TX: MORVE, RX: MOLVE, DIF: R;
+	(111) TX: PIPANDO, RX: PEPANTE, DIF: IDO;
+	(112) TX: ZUFFA, RX: ZIUFFA, DIF: I;
+	(114) TX: PUGNALO, RX: PUNIRLA, DIF: GIRLLO;
+Nota: nessuna
+***
+
+Esercizio di ricezione #459 eseguito il 2025/10/13 alle 16, 20 minuti:
+In questa sessione #459, ti ho inviato 30 Parole e ne hai ricevuti 14: 46.7%
+	8 di questi sono stati ricevuti al primo ascolto: 57.1%
+	mentre 6 Parole al secondo tentativo: 42.9%.
+Durante la sessione, la tua velocità minima è stata 38.00, la massima di 45.00: pari ad una variazione di 7.00 WPM.
+	La velocità media di ricezione è di: 40.36 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 11 errori su 26 invii. Tasso errore stimato: [25.5% - 61.1%]    'E': 8 errori su 29 invii. Tasso errore stimato: [14.7% - 45.7%]    'A': 2 errori su 20 invii. Tasso errore stimato: [2.8% - 30.1%]    'L': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    'R': 2 errori su 12 invii. Tasso errore stimato: [4.7% - 44.8%]    'S': 2 errori su 12 invii. Tasso errore stimato: [4.7% - 44.8%]    'G': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'N': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'O': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'T': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]
+
+Errori totali: 31 su 187 = 16.58%
+Caratteri mai sbagliati: B C D F M P Q U V Z Ò
+Elenco delle parole copiate male:
+	(2) TX: SIGLE, RX: SEGLI, DIF: IE;
+	(3) TX: SEPARES, RX: SEPARSE, DIF: SS;
+	(4) TX: APONIE, RX: APONTE, DIF: I;
+	(8) TX: ZAREVIC, RX: ZAREVEC, DIF: I;
+	(13) TX: COLINE, RX: COLENE, DIF: I;
+	(14) TX: CEFFONE, RX: CIFFONE, DIF: E;
+	(15) TX: BALANI, RX: BALDI, DIF: AN;
+	(16) TX: ANDRIA, RX: ANDREA, DIF: I;
+	(17) TX: TENDAMI, RX: ANDRAME, DIF: TERI;
+	(19) TX: SEMI, RX: SEME, DIF: I;
+	(21) TX: VIOLONE, RX: VEGLIONE, DIF: EGLOL;
+	(22) TX: ALGESIA, RX: ALGISA, DIF: EI;
+	(23) TX: CREDERA, RX: CREDINA, DIF: ER;
+	(26) TX: IEMALE, RX: EMPOLI, DIF: IAE;
+	(28) TX: RIDICE, RX: RADICI, DIF: IE;
+	(29) TX: ARCONTI, RX: ARCONTE, DIF: I;
+Nota: nessuna
+***

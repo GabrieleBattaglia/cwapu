@@ -1,11 +1,11 @@
 {
     "app_info": {
-        "launch_count": 326
+        "launch_count": 328
     },
     "overall_settings": {
         "app_language": "it",
         "speed": 39,
-        "pitch": 1300,
+        "pitch": 600,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
@@ -15,11 +15,11 @@
         "wave_index": 1
     },
     "rxing_stats": {
-        "total_calls": 21341,
-        "sessions": 458,
-        "total_correct": 13361,
-        "total_wrong_items": 7978,
-        "total_time_seconds": 119347.844444
+        "total_calls": 21485,
+        "sessions": 460,
+        "total_correct": 13433,
+        "total_wrong_items": 8050,
+        "total_time_seconds": 120275.945595
     },
     "counting_stats": {
         "exercise_number": 100
@@ -39,7 +39,7 @@
     "historical_rx_data": {
         "max_sessions_to_keep": 400,
         "report_interval": 3500,
-        "chars_since_last_report": 2675,
+        "chars_since_last_report": 237,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-07-07T13:49:06.014261",
@@ -42295,6 +42295,690 @@
                     "z": 2,
                     "à": 1
                 }
+            },
+            {
+                "timestamp_iso": "2025-10-13T11:53:14.686063",
+                "duration_seconds": 744.251592,
+                "rwpm_min": 38,
+                "rwpm_max": 48,
+                "rwpm_avg": 41.0,
+                "items_sent_session": 114,
+                "items_correct_session": 58,
+                "item_details": [
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 38,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 46,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 47,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 48,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 47,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 46,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 38,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 712,
+                "errors_detail_session": {
+                    "i": 26,
+                    "n": 8,
+                    "a": 12,
+                    "u": 2,
+                    "o": 3,
+                    "t": 10,
+                    "m": 6,
+                    "e": 14,
+                    "r": 9,
+                    "d": 7,
+                    "h": 1,
+                    "s": 7,
+                    "c": 2,
+                    "z": 2,
+                    "v": 1,
+                    "ò": 1,
+                    "g": 5,
+                    "b": 3,
+                    "l": 3,
+                    "p": 2
+                },
+                "total_errors_chars_session": 124,
+                "sent_chars_detail_session": {
+                    "s": 47,
+                    "c": 31,
+                    "r": 43,
+                    "u": 21,
+                    "t": 39,
+                    "o": 56,
+                    "d": 29,
+                    "i": 84,
+                    "f": 23,
+                    "e": 69,
+                    "a": 90,
+                    "l": 24,
+                    "v": 20,
+                    "n": 40,
+                    "p": 23,
+                    "g": 24,
+                    "m": 27,
+                    "b": 7,
+                    "ò": 4,
+                    "h": 2,
+                    "z": 6,
+                    "k": 1,
+                    "à": 2
+                }
+            },
+            {
+                "timestamp_iso": "2025-10-13T16:16:46.262861",
+                "duration_seconds": 183.849559,
+                "rwpm_min": 38,
+                "rwpm_max": 45,
+                "rwpm_avg": 40.357142857142854,
+                "items_sent_session": 30,
+                "items_correct_session": 14,
+                "item_details": [
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 38,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 38,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 187,
+                "errors_detail_session": {
+                    "i": 11,
+                    "e": 8,
+                    "s": 2,
+                    "a": 2,
+                    "n": 1,
+                    "t": 1,
+                    "r": 2,
+                    "g": 1,
+                    "l": 2,
+                    "o": 1
+                },
+                "total_errors_chars_session": 31,
+                "sent_chars_detail_session": {
+                    "s": 12,
+                    "m": 9,
+                    "e": 29,
+                    "n": 11,
+                    "c": 12,
+                    "i": 26,
+                    "g": 3,
+                    "l": 10,
+                    "p": 5,
+                    "a": 20,
+                    "r": 12,
+                    "o": 11,
+                    "ò": 1,
+                    "t": 8,
+                    "q": 1,
+                    "u": 3,
+                    "z": 1,
+                    "v": 3,
+                    "f": 3,
+                    "b": 3,
+                    "d": 4
+                }
             }
         ],
         "historical_reports": [
@@ -43890,6 +44574,74 @@
                     "x": 15,
                     "w": 19,
                     "j": 4
+                }
+            },
+            {
+                "num_sessions_in_block": 9,
+                "total_duration_seconds": 3729.313649,
+                "wpm_min_overall": 36,
+                "wpm_max_overall": 52,
+                "wpm_avg_of_session_avgs": 42.2019709021772,
+                "total_items_sent": 595,
+                "total_items_correct": 300,
+                "total_chars_sent_overall": 3737,
+                "aggregated_errors_detail": {
+                    "g": 23,
+                    "i": 139,
+                    "n": 44,
+                    "r": 45,
+                    "z": 8,
+                    "v": 12,
+                    "c": 11,
+                    "h": 4,
+                    "o": 15,
+                    "s": 35,
+                    "e": 75,
+                    "d": 26,
+                    "u": 22,
+                    "a": 51,
+                    "m": 17,
+                    "l": 29,
+                    "t": 31,
+                    "f": 5,
+                    "b": 11,
+                    "à": 1,
+                    "w": 2,
+                    "k": 2,
+                    "p": 4,
+                    "q": 1,
+                    "ò": 1
+                },
+                "total_errors_chars_overall": 614,
+                "aggregated_sent_chars_detail": {
+                    "m": 124,
+                    "o": 305,
+                    "n": 193,
+                    "d": 106,
+                    "a": 478,
+                    "t": 242,
+                    "e": 370,
+                    "r": 266,
+                    "g": 98,
+                    "l": 158,
+                    "i": 452,
+                    "p": 109,
+                    "ò": 23,
+                    "s": 238,
+                    "f": 82,
+                    "z": 30,
+                    "b": 69,
+                    "c": 161,
+                    "v": 92,
+                    "h": 14,
+                    "u": 106,
+                    "à": 7,
+                    "q": 5,
+                    "ì": 1,
+                    "w": 1,
+                    "k": 5,
+                    "x": 1,
+                    "y": 1
                 }
             }
         ]
