@@ -4441,3 +4441,44 @@ Elenco delle parole copiate male:
 	(78) TX: KARTING, RX: KANTINÒ, DIF: RG;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #465 eseguito il 2025/10/24 alle 13, 31 minuti:
+In questa sessione #465, ti ho inviato 60 Parole e ne hai ricevuti 33: 55.0%
+	19 di questi sono stati ricevuti al primo ascolto: 57.6%
+	mentre 14 Parole al secondo tentativo: 42.4%.
+Durante la sessione, la tua velocità minima è stata 29.00, la massima di 41.00: pari ad una variazione di 12.00 WPM.
+	La velocità media di ricezione è di: 35.42 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 14 errori su 39 invii. Tasso errore stimato: [22.7% - 51.6%]    'A': 9 errori su 53 invii. Tasso errore stimato: [9.2% - 29.2%]    'T': 6 errori su 20 invii. Tasso errore stimato: [14.5% - 51.9%]    'E': 4 errori su 41 invii. Tasso errore stimato: [3.9% - 22.5%]    'R': 4 errori su 28 invii. Tasso errore stimato: [5.7% - 31.5%]    'D': 2 errori su 13 invii. Tasso errore stimato: [4.3% - 42.2%]    'L': 2 errori su 16 invii. Tasso errore stimato: [3.5% - 36.0%]    'M': 2 errori su 13 invii. Tasso errore stimato: [4.3% - 42.2%]    'N': 2 errori su 19 invii. Tasso errore stimato: [2.9% - 31.4%]    'B': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'C': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'S': 1 errori su 26 invii. Tasso errore stimato: [0.7% - 18.9%]    'U': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'Z': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]
+
+Errori totali: 50 su 378 = 13.23%
+Caratteri mai sbagliati: F G H K O P Q V W Ò
+Elenco delle parole copiate male:
+	(1) TX: PITICHE, RX: PETRICHE, DIF: IR;
+	(6) TX: EGOISMI, RX: EGOISTI, DIF: M;
+	(7) TX: SPRETI, RX: SPRITE, DIF: ITTI;
+	(14) TX: LUNAUTA, RX: LUNAVATE, DIF: UA;
+	(17) TX: WATTEAU, RX: WATERLU, DIF: TA;
+	(21) TX: LANOSE, RX: LANOSI, DIF: E;
+	(22) TX: SEDUCA, RX: SENUSA, DIF: DC;
+	(23) TX: TUFOSA, RX: TUFOSI, DIF: A;
+	(24) TX: CHININA, RX: CHINATI, DIF: ATNA;
+	(26) TX: FIUTATO, RX: FIUTERO, DIF: AT;
+	(28) TX: SEMAIO, RX: SENUO, DIF: MAI;
+	(30) TX: COSSE, RX: COSEI, DIF: SI;
+	(31) TX: DILUVIO, RX: DURVO, DIF: ILRI;
+	(33) TX: GERMANI, RX: GERMANE, DIF: I;
+	(34) TX: GAZEBOS, RX: GABROS, DIF: ZER;
+	(41) TX: CESARI, RX: CESARA, DIF: I;
+	(43) TX: SILVIE, RX: SIVIE, DIF: L;
+	(46) TX: CANDIDE, RX: CANDITI, DIF: DE;
+	(47) TX: BOLERO, RX: BOLIO, DIF: ER;
+	(49) TX: TENDERS, RX: TENDERSI, DIF: I;
+	(50) TX: ASINAIA, RX: ASIANA, DIF: AIA;
+	(51) TX: STUOINO, RX: STUONO, DIF: I;
+	(52) TX: ATRESIA, RX: ATRESA, DIF: I;
+	(53) TX: LIBATO, RX: LIDATO, DIF: B;
+	(54) TX: BOLLITO, RX: BOLLINO, DIF: T;
+	(57) TX: SPASMI, RX: SPASMO, DIF: I;
+	(60) TX: BARDANE, RX: BARDATE, DIF: N;
+Nota: nessuna
+***
