@@ -4602,3 +4602,44 @@ Elenco delle parole copiate male:
 	(50) TX: POSTEGLI, RX: POSTEDITE, DIF: GLTE;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #470 eseguito il 2025/10/29 alle 18, 33 minuti:
+In questa sessione #470, ti ho inviato 58 Parole e ne hai ricevuti 31: 53.4%
+	19 di questi sono stati ricevuti al primo ascolto: 61.3%
+	mentre 12 Parole al secondo tentativo: 38.7%.
+Durante la sessione, la tua velocità minima è stata 37.14, la massima di 46.81: pari ad una variazione di 9.68 WPM.
+	La velocità media di ricezione è di: 40.80 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 17 errori su 57 invii. Tasso errore stimato: [19.5% - 42.7%]    'I': 14 errori su 62 invii. Tasso errore stimato: [14.0% - 34.4%]    'A': 9 errori su 65 invii. Tasso errore stimato: [7.5% - 24.3%]    'N': 8 errori su 21 invii. Tasso errore stimato: [20.8% - 59.1%]    'R': 7 errori su 46 invii. Tasso errore stimato: [7.6% - 28.2%]    'T': 6 errori su 31 invii. Tasso errore stimato: [9.2% - 36.3%]    'L': 5 errori su 18 invii. Tasso errore stimato: [12.5% - 50.9%]    'C': 4 errori su 24 invii. Tasso errore stimato: [6.7% - 35.9%]    'D': 4 errori su 12 invii. Tasso errore stimato: [13.8% - 60.9%]    'M': 3 errori su 14 invii. Tasso errore stimato: [7.6% - 47.6%]    'S': 3 errori su 22 invii. Tasso errore stimato: [4.7% - 33.3%]    'B': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'O': 1 errori su 35 invii. Tasso errore stimato: [0.5% - 14.5%]    'P': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]
+
+Errori totali: 83 su 477 = 17.40%
+Caratteri mai sbagliati: F G H Q U V Z Ò
+Elenco delle parole copiate male:
+	(1) TX: FIUTARLA, RX: FIUTALA, DIF: R;
+	(2) TX: DOSIMETRIA, RX: BOSITANA, DIF: DMERINA;
+	(3) TX: FERRAMI, RX: FERRAME, DIF: I;
+	(6) TX: RECHERETE, RX: RICHIEDERTI, DIF: EIEDEE;
+	(7) TX: INNAFFIAI, RX: INNAFFIATI, DIF: T;
+	(10) TX: SLENTERAI, RX: ILNIEARSI, DIF: ILNIEARLENTERA;
+	(14) TX: SCATOLAIE, RX: SCATTOLIME, DIF: TAM;
+	(15) TX: SVOLGESSI, RX: SVOLGESI, DIF: S;
+	(18) TX: CAUSERESTE, RX: CAUSARTI, DIF: EESE;
+	(19) TX: SPICCICANO, RX: SLICCACINO, DIF: PACCA;
+	(20) TX: BUGNAVANO, RX: BUGAVANO, DIF: N;
+	(21) TX: RIMISE, RX: REMISI, DIF: IE;
+	(25) TX: VENERANTE, RX: VENTENNE, DIF: ERANNNE;
+	(27) TX: TORPIDO, RX: TORPEDO, DIF: I;
+	(32) TX: BURLERA, RX: BURRINA, DIF: LEIN;
+	(33) TX: INDIRIZZÒ, RX: ANALIZZÒ, DIF: IDIR;
+	(34) TX: INACERBITO, RX: INCANDITO, DIF: CCERB;
+	(37) TX: OBIETTAVA, RX: OBIETAVA, DIF: T;
+	(41) TX: IMMOLATO, RX: IMOLATO, DIF: M;
+	(42) TX: BLATERATI, RX: BLATERALE, DIF: TI;
+	(43) TX: ADULAI, RX: ADURARE, DIF: LI;
+	(46) TX: IAFETICHE, RX: INFICHE, DIF: AET;
+	(47) TX: ALLEVIERÒ, RX: ALLEVERÒ, DIF: I;
+	(48) TX: BACIO, RX: BUCIO, DIF: A;
+	(54) TX: ADDEBBIA, RX: ADEBBIA, DIF: D;
+	(56) TX: STERILISCE, RX: STERICCE, DIF: LIS;
+	(58) TX: ILLUMINANO, RX: ILLUMINANTE, DIF: O;
+Nota: nessuna
+***
