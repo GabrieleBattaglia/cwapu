@@ -4643,3 +4643,43 @@ Elenco delle parole copiate male:
 	(58) TX: ILLUMINANO, RX: ILLUMINANTE, DIF: O;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #471 eseguito il 2025/10/30 alle 8, 2 minuti:
+In questa sessione #471, ti ho inviato 47 Parole e ne hai ricevuti 21: 44.7%
+	21 di questi sono stati ricevuti al primo ascolto: 100.0%
+	mentre 0 Parole al secondo tentativo: 0.0%.
+Durante la sessione, la tua velocità minima è stata 26.57, la massima di 33.68: pari ad una variazione di 7.10 WPM.
+	La velocità media di ricezione è di: 28.47 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 10 errori su 35 invii. Tasso errore stimato: [16.3% - 45.1%]    'I': 7 errori su 52 invii. Tasso errore stimato: [6.7% - 25.3%]    'A': 6 errori su 54 invii. Tasso errore stimato: [5.2% - 22.2%]    'G': 6 errori su 12 invii. Tasso errore stimato: [25.4% - 74.6%]    'L': 6 errori su 13 invii. Tasso errore stimato: [23.2% - 70.9%]    'N': 6 errori su 26 invii. Tasso errore stimato: [11.0% - 42.1%]    'R': 6 errori su 29 invii. Tasso errore stimato: [9.8% - 38.4%]    'T': 6 errori su 33 invii. Tasso errore stimato: [8.6% - 34.4%]    'O': 4 errori su 33 invii. Tasso errore stimato: [4.8% - 27.3%]    'S': 3 errori su 26 invii. Tasso errore stimato: [4.0% - 29.0%]    'C': 2 errori su 16 invii. Tasso errore stimato: [3.5% - 36.0%]    'B': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'M': 1 errori su 13 invii. Tasso errore stimato: [1.4% - 33.3%]    'U': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'Z': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 66 su 384 = 17.19%
+Caratteri mai sbagliati: D F H P V X Y Ò
+Elenco delle parole copiate male:
+	(1) TX: VIETAVATE, RX: VINTAVATE, DIF: E;
+	(2) TX: ALIENARE, RX: ALINARE, DIF: E;
+	(3) TX: INTREA, RX: INTERA, DIF: EE;
+	(4) TX: IMPUNTIVO, RX: IMPONITIVO, DIF: UI;
+	(5) TX: SOLFEGGIAI, RX: SOLFAZZATI, DIF: EGGAI;
+	(6) TX: NOMOTETICO, RX: NOMOTICO, DIF: ET;
+	(7) TX: BASCULLA, RX: BACULLA, DIF: S;
+	(10) TX: BRADLEY, RX: BRANDEY, DIF: NL;
+	(11) TX: RITENTATA, RX: RITMICA, DIF: ENTTA;
+	(15) TX: STARNUTIRÒ, RX: STARNUTÒ, DIF: IR;
+	(18) TX: STORNASTI, RX: STORNASI, DIF: T;
+	(21) TX: RILAVAI, RX: RILEVAI, DIF: A;
+	(22) TX: MIELOSA, RX: MIROSA, DIF: EL;
+	(23) TX: TRANSIGONO, RX: TRANSGONO, DIF: I;
+	(24) TX: SEGANO, RX: INONO, DIF: SEGANO;
+	(25) TX: OMOUSIANI, RX: OMOUSINGI, DIF: AG;
+	(28) TX: RIDISEGNO, RX: RIDUSSEGO, DIF: IN;
+	(30) TX: BRACATO, RX: BRACCATO, DIF: C;
+	(31) TX: GALLO, RX: ZZA, DIF: GLLO;
+	(36) TX: OSLOENSI, RX: MILOSI, DIF: MILLOENS;
+	(39) TX: ASTATICO, RX: ASTACIO, DIF: TC;
+	(40) TX: DIMAGRANO, RX: DIMANDÒ, DIF: GRAO;
+	(41) TX: IMBRANCARE, RX: SMALCARE, DIF: IBRN;
+	(44) TX: VIAGGIAVO, RX: VITAGGIAVO, DIF: T;
+	(45) TX: TERZANARIA, RX: TELEFANARIA, DIF: RZ;
+	(47) TX: VIBREREI, RX: VIRBEREI, DIF: RR;
+Nota: nessuna
+***
