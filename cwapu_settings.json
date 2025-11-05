@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 341
+        "launch_count": 342
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 31,
+        "speed": 38,
         "pitch": 600,
         "dashes": 30,
         "spaces": 60,
@@ -15,11 +15,11 @@
         "wave_index": 1
     },
     "rxing_stats": {
-        "total_calls": 22346,
-        "sessions": 473,
-        "total_correct": 13887,
-        "total_wrong_items": 8457,
-        "total_time_seconds": 125756.48306
+        "total_calls": 22393,
+        "sessions": 474,
+        "total_correct": 13914,
+        "total_wrong_items": 8477,
+        "total_time_seconds": 126097.950399
     },
     "counting_stats": {
         "exercise_number": 100
@@ -39,7 +39,7 @@
     "historical_rx_data": {
         "max_sessions_to_keep": 400,
         "report_interval": 3500,
-        "chars_since_last_report": 2878,
+        "chars_since_last_report": 3203,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-07-07T13:49:06.014261",
@@ -47125,6 +47125,246 @@
                     "m": 6,
                     "v": 3,
                     "à": 1
+                }
+            },
+            {
+                "timestamp_iso": "2025-11-05T11:09:46.337614",
+                "duration_seconds": 341.467339,
+                "rwpm_min": 31.815789473684212,
+                "rwpm_max": 41.72185430463576,
+                "rwpm_avg": 36.19268721135612,
+                "items_sent_session": 47,
+                "items_correct_session": 27,
+                "item_details": [
+                    {
+                        "rwpm": 31.815789473684212,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31.943957968476358,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32.642276422764226,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35.11335012594459,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34.69259723964869,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36.941649899396374,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 34.262048192771076,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36.1839863713799,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36.45985401459855,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37.840112201963535,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38.93169877408056,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37.11920529801325,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38.189910979228486,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38.89908256880734,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40.826271186440685,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41.72185430463576,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41.706896551724135,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39.06976744186047,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 38.69649805447471,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37.840112201963535,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38.510971786833856,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38.91050583657587,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 38.42007434944238,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37.36549165120594,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37.06994328922496,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 34.9740932642487,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36.10843373493976,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38.37623762376238,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38.25,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 38.13868613138686,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 39.156626506024104,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37.89757412398923,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37.33433734939759,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 35.14285714285714,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 34.7953216374269,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36.80672268907563,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36.455882352941174,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 35.68381430363865,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 35.51470588235294,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35.609756097560975,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 34.48905109489052,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35.63636363636364,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37.33433734939759,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37.32891832229581,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37.27106227106228,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 36.0,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36.6890756302521,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 325,
+                "errors_detail_session": {
+                    "e": 8,
+                    "f": 2,
+                    "a": 3,
+                    "n": 5,
+                    "s": 1,
+                    "r": 4,
+                    "i": 4,
+                    "t": 1,
+                    "g": 3,
+                    "o": 1,
+                    "c": 1,
+                    "h": 1,
+                    "d": 1,
+                    "v": 1
+                },
+                "total_errors_chars_session": 36,
+                "sent_chars_detail_session": {
+                    "p": 15,
+                    "r": 31,
+                    "e": 30,
+                    "s": 20,
+                    "i": 45,
+                    "a": 40,
+                    "v": 4,
+                    "t": 14,
+                    "o": 25,
+                    "l": 11,
+                    "m": 13,
+                    "f": 5,
+                    "u": 9,
+                    "b": 7,
+                    "g": 8,
+                    "n": 16,
+                    "d": 5,
+                    "z": 5,
+                    "c": 18,
+                    "h": 3,
+                    "ò": 1
                 }
             }
         ],
