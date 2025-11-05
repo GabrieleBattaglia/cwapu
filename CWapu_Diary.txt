@@ -4683,3 +4683,33 @@ Elenco delle parole copiate male:
 	(47) TX: VIBREREI, RX: VIRBEREI, DIF: RR;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #472 eseguito il 2025/11/4 alle 11, 30 minuti:
+In questa sessione #472, ti ho inviato 34 Parole e ne hai ricevuti 18: 52.9%
+	13 di questi sono stati ricevuti al primo ascolto: 72.2%
+	mentre 5 Parole al secondo tentativo: 27.8%.
+Durante la sessione, la tua velocità minima è stata 26.87, la massima di 34.56: pari ad una variazione di 7.69 WPM.
+	La velocità media di ricezione è di: 29.44 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 8 errori su 32 invii. Tasso errore stimato: [13.3% - 42.1%]    'E': 5 errori su 22 invii. Tasso errore stimato: [10.1% - 43.4%]    'N': 4 errori su 18 invii. Tasso errore stimato: [9.0% - 45.2%]    'A': 3 errori su 38 invii. Tasso errore stimato: [2.7% - 20.8%]    'T': 2 errori su 26 invii. Tasso errore stimato: [2.1% - 24.1%]    'U': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'D': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'M': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'R': 1 errori su 21 invii. Tasso errore stimato: [0.8% - 22.7%]
+
+Errori totali: 27 su 281 = 9.61%
+Caratteri mai sbagliati: B C F G L O P S V À Ò
+Elenco delle parole copiate male:
+	(3) TX: BARBOTTERA, RX: BARBOTTERI, DIF: A;
+	(4) TX: APPRENDERA, RX: APPRENDEREI, DIF: A;
+	(5) TX: SCARDINÒ, RX: SCARDIITÒ, DIF: N;
+	(6) TX: TRANCIASTE, RX: TRANCIASTI, DIF: E;
+	(10) TX: OSSIOPIA, RX: OSSOPIA, DIF: I;
+	(11) TX: ABBREVIERA, RX: ABBREVIERAI, DIF: I;
+	(13) TX: MELIORISTA, RX: MILIORISTA, DIF: E;
+	(16) TX: SDAMANO, RX: SDAMANDO, DIF: D;
+	(17) TX: SCAGNANO, RX: SCAGANO, DIF: N;
+	(21) TX: SGOMBERERÀ, RX: SGOMBRERÀ, DIF: E;
+	(22) TX: AUTOSILO, RX: AUTOSILIO, DIF: I;
+	(28) TX: RASAVATE, RX: RESTAVATE, DIF: AT;
+	(31) TX: DIGIUNO, RX: DEGUNO, DIF: II;
+	(32) TX: IPERBATI, RX: IMPERBATE, DIF: MI;
+	(33) TX: RESTAURINO, RX: RESTAVANO, DIF: URI;
+	(34) TX: COSTITUITE, RX: COSTINENTO, DIF: NENUITE;
+Nota: nessuna
+***
