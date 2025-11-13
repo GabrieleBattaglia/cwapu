@@ -4747,3 +4747,32 @@ Elenco delle parole copiate male:
 	(45) TX: SITUAVA, RX: SITUATA, DIF: V;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #474 eseguito il 2025/11/13 alle 8, 29 minuti:
+In questa sessione #474, ti ho inviato 31 Parole e ne hai ricevuti 16: 51.6%
+	9 di questi sono stati ricevuti al primo ascolto: 56.2%
+	mentre 7 Parole al secondo tentativo: 43.8%.
+Durante la sessione, la tua velocità minima è stata 35.64, la massima di 42.31: pari ad una variazione di 6.67 WPM.
+	La velocità media di ricezione è di: 37.73 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 9 errori su 34 invii. Tasso errore stimato: [14.6% - 43.1%]    'E': 8 errori su 26 invii. Tasso errore stimato: [16.5% - 50.0%]    'L': 6 errori su 8 invii. Tasso errore stimato: [40.9% - 92.9%]    'R': 4 errori su 19 invii. Tasso errore stimato: [8.5% - 43.3%]    'G': 3 errori su 12 invii. Tasso errore stimato: [8.9% - 53.2%]    'A': 2 errori su 28 invii. Tasso errore stimato: [2.0% - 22.6%]    'D': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'F': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'N': 2 errori su 12 invii. Tasso errore stimato: [4.7% - 44.8%]    'T': 2 errori su 15 invii. Tasso errore stimato: [3.7% - 37.9%]    'O': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]
+
+Errori totali: 41 su 217 = 18.89%
+Caratteri mai sbagliati: B C H M P Q S U V Ò
+Elenco delle parole copiate male:
+	(3) TX: IMPETI, RX: IMPATI, DIF: E;
+	(6) TX: VERSIERE, RX: VERSILE, DIF: LRE;
+	(8) TX: ANELANO, RX: ANDANDO, DIF: ELD;
+	(11) TX: TARIFFE, RX: MARELLA, DIF: TIFFLLA;
+	(12) TX: SORVEGLI, RX: SORVILE, DIF: ILGLI;
+	(13) TX: LINI, RX: LIDI, DIF: N;
+	(14) TX: DENIGRÒ, RX: DIGNITÒ, DIF: EGR;
+	(15) TX: CARPIATA, RX: CAPITA, DIF: RA;
+	(16) TX: SFINIRO, RX: SFIDERÒ, DIF: NIO;
+	(19) TX: BASOLAI, RX: BASOLIDIA, DIF: IDII;
+	(21) TX: SINERGIA, RX: SINIORIA, DIF: EG;
+	(22) TX: ASCITA, RX: ASCIDA, DIF: T;
+	(25) TX: DIVINITA, RX: DIVENTERA, DIF: IIER;
+	(28) TX: FUNEREE, RX: FUNEREEE, DIF: E;
+	(30) TX: GAMBATE, RX: GAMBATI, DIF: E;
+Nota: nessuna
+***
