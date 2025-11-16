@@ -4776,3 +4776,31 @@ Elenco delle parole copiate male:
 	(30) TX: GAMBATE, RX: GAMBATI, DIF: E;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #475 eseguito il 2025/11/15 alle 11, 58 minuti:
+In questa sessione #475, ti ho inviato 30 Parole e ne hai ricevuti 16: 53.3%
+	14 di questi sono stati ricevuti al primo ascolto: 87.5%
+	mentre 2 Parole al secondo tentativo: 12.5%.
+Durante la sessione, la tua velocità minima è stata 29.70, la massima di 38.13: pari ad una variazione di 8.43 WPM.
+	La velocità media di ricezione è di: 33.75 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'A': 6 errori su 28 invii. Tasso errore stimato: [10.2% - 39.5%]    'E': 6 errori su 25 invii. Tasso errore stimato: [11.5% - 43.4%]    'I': 4 errori su 22 invii. Tasso errore stimato: [7.3% - 38.5%]    'B': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    'L': 2 errori su 14 invii. Tasso errore stimato: [4.0% - 39.9%]    'N': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    'R': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'T': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'U': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]
+
+Errori totali: 26 su 210 = 12.38%
+Caratteri mai sbagliati: C D F G H M O P S V
+Elenco delle parole copiate male:
+	(1) TX: EFEBI, RX: EFEDI, DIF: B;
+	(2) TX: SVENTRO, RX: SVENTARO, DIF: A;
+	(3) TX: FISSAVI, RX: FESSUVI, DIF: IA;
+	(7) TX: POMACEO, RX: POMACIO, DIF: E;
+	(14) TX: ESOGENI, RX: ESOGENO, DIF: I;
+	(15) TX: ACCULATO, RX: ACCURATO, DIF: L;
+	(18) TX: NEURULA, RX: NEURAL, DIF: UA;
+	(19) TX: AMEREBBE, RX: AMERIBBA, DIF: EE;
+	(20) TX: UVEALE, RX: UVERAI, DIF: RLE;
+	(21) TX: LANISTA, RX: LANISTI, DIF: A;
+	(23) TX: VIBRASSE, RX: VEDRASSI, DIF: IBE;
+	(25) TX: SIBILATE, RX: SEDILATI, DIF: IBE;
+	(28) TX: GIRASTE, RX: GIRASE, DIF: T;
+	(29) TX: GITANO, RX: GINATO, DIF: NAAN;
+Nota: nessuna
+***

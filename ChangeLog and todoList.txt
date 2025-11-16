@@ -3,7 +3,8 @@ Todo:
 8.
 
 ChangeLog:
-	4.5.1
+	4.5.3
+		Rimosse le parole che necessitavano un accento e non lo avevano, dal dizionario
 		Inserito un sistema per limitare le pause di inattività durante l'esercizio di ricezione
 		Ridotto da 45 a 30 secondi, il tempo da considerare come utente attivo, durante l'esercizio R
 	4.4.4

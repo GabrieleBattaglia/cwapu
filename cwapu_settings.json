@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 344
+        "launch_count": 345
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 39,
+        "speed": 35,
         "pitch": 600,
         "dashes": 30,
         "spaces": 60,
@@ -15,11 +15,11 @@
         "wave_index": 1
     },
     "rxing_stats": {
-        "total_calls": 22424,
-        "sessions": 475,
-        "total_correct": 13930,
-        "total_wrong_items": 8492,
-        "total_time_seconds": 126334.569933
+        "total_calls": 22454,
+        "sessions": 476,
+        "total_correct": 13946,
+        "total_wrong_items": 8506,
+        "total_time_seconds": 126534.968347
     },
     "counting_stats": {
         "exercise_number": 100
@@ -39,7 +39,7 @@
     "historical_rx_data": {
         "max_sessions_to_keep": 400,
         "report_interval": 3500,
-        "chars_since_last_report": 3420,
+        "chars_since_last_report": 359,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-07-07T13:49:06.014261",
@@ -47539,6 +47539,171 @@
                     "h": 1,
                     "q": 1
                 }
+            },
+            {
+                "timestamp_iso": "2025-11-15T11:54:30.532046",
+                "duration_seconds": 200.398414,
+                "rwpm_min": 29.69924812030075,
+                "rwpm_max": 38.12925170068027,
+                "rwpm_avg": 33.745890061069446,
+                "items_sent_session": 30,
+                "items_correct_session": 16,
+                "item_details": [
+                    {
+                        "rwpm": 34.171597633136095,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 31.677852348993294,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 32.3034734917733,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 29.69924812030075,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30.155642023346303,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32.05087440381558,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31.73076923076923,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 30.900163666121113,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32.95485636114912,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33.55679702048417,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34.74729241877257,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34.86238532110092,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36.54939106901219,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37.5046554934823,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 36.257378984651716,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 35.28535980148884,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37.57314974182444,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38.12925170068027,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 36.87908496732026,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 36.54427645788337,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 35.06616257088847,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 35.10324483775811,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36.111111111111114,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 34.28099173553719,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35.66493955094992,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 33.65771812080538,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34.92569002123142,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35.859375,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 33.742911153119096,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 33.63143631436314,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 210,
+                "errors_detail_session": {
+                    "b": 3,
+                    "a": 6,
+                    "i": 4,
+                    "e": 6,
+                    "l": 2,
+                    "u": 1,
+                    "r": 1,
+                    "t": 1,
+                    "n": 2
+                },
+                "total_errors_chars_session": 26,
+                "sent_chars_detail_session": {
+                    "e": 25,
+                    "f": 6,
+                    "b": 8,
+                    "i": 22,
+                    "s": 12,
+                    "v": 5,
+                    "n": 11,
+                    "t": 11,
+                    "r": 11,
+                    "o": 18,
+                    "a": 28,
+                    "c": 13,
+                    "l": 14,
+                    "p": 5,
+                    "m": 7,
+                    "u": 7,
+                    "g": 5,
+                    "h": 1,
+                    "d": 1
+                }
             }
         ],
         "historical_reports": [
@@ -49272,6 +49437,70 @@
                     "y": 9,
                     "j": 12,
                     "é": 1
+                }
+            },
+            {
+                "num_sessions_in_block": 12,
+                "total_duration_seconds": 3794.7786669999996,
+                "wpm_min_overall": 26.574803149606304,
+                "wpm_max_overall": 52,
+                "wpm_avg_of_session_avgs": 36.489110009907506,
+                "total_items_sent": 527,
+                "total_items_correct": 284,
+                "total_chars_sent_overall": 3859,
+                "aggregated_errors_detail": {
+                    "e": 83,
+                    "n": 43,
+                    "u": 15,
+                    "r": 49,
+                    "i": 102,
+                    "v": 5,
+                    "t": 48,
+                    "g": 19,
+                    "d": 20,
+                    "b": 8,
+                    "l": 29,
+                    "c": 13,
+                    "a": 56,
+                    "o": 13,
+                    "m": 15,
+                    "ò": 2,
+                    "h": 5,
+                    "s": 22,
+                    "p": 3,
+                    "z": 2,
+                    "f": 5
+                },
+                "total_errors_chars_overall": 557,
+                "aggregated_sent_chars_detail": {
+                    "a": 510,
+                    "d": 91,
+                    "u": 102,
+                    "r": 311,
+                    "ò": 19,
+                    "e": 394,
+                    "g": 89,
+                    "n": 213,
+                    "t": 265,
+                    "c": 168,
+                    "o": 327,
+                    "l": 162,
+                    "f": 54,
+                    "i": 464,
+                    "z": 30,
+                    "s": 219,
+                    "b": 78,
+                    "v": 81,
+                    "m": 137,
+                    "p": 110,
+                    "h": 22,
+                    "q": 6,
+                    "é": 1,
+                    "k": 2,
+                    "w": 1,
+                    "y": 1,
+                    "x": 1,
+                    "à": 1
                 }
             }
         ]
