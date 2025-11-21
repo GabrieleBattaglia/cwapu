@@ -4857,3 +4857,166 @@ Elenco delle parole copiate male:
 	(30) TX: TINTRICE, RX: TENACI, DIF: ENACNTRICE;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #479 eseguito il 2025/11/18 alle 23, 9 minuti:
+In questa sessione #479, ti ho inviato 25 Parole e ne hai ricevuti 14: 56.0%
+	9 di questi sono stati ricevuti al primo ascolto: 64.3%
+	mentre 5 Parole al secondo tentativo: 35.7%.
+Durante la sessione, la tua velocità minima è stata 37.14, la massima di 42.14: pari ad una variazione di 5.01 WPM.
+	La velocità media di ricezione è di: 38.75 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 6 errori su 15 invii. Tasso errore stimato: [19.8% - 64.3%]    'R': 4 errori su 13 invii. Tasso errore stimato: [12.7% - 57.6%]    'I': 3 errori su 23 invii. Tasso errore stimato: [4.5% - 32.1%]    'U': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'A': 1 errori su 24 invii. Tasso errore stimato: [0.7% - 20.2%]    'G': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'L': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'N': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]
+
+Errori totali: 19 su 169 = 11.24%
+Caratteri mai sbagliati: C D J M O P S T V Z
+Elenco delle parole copiate male:
+	(1) TX: SUOLA, RX: SVOLA, DIF: U;
+	(2) TX: SALURESI, RX: SALVASI, DIF: URE;
+	(6) TX: TIGNOSE, RX: TIGNOSI, DIF: E;
+	(7) TX: PANNONIA, RX: PANONIA, DIF: N;
+	(11) TX: PIGIASSI, RX: PIZASSI, DIF: GI;
+	(12) TX: ACCUSAR, RX: ACCUSATI, DIF: R;
+	(14) TX: PERIELI, RX: PARERI, DIF: ARELI;
+	(16) TX: LEGGISTI, RX: LEGGISTE, DIF: I;
+	(17) TX: LESTEZZA, RX: LISTEZZA, DIF: E;
+	(19) TX: SPARASTE, RX: SPARASTI, DIF: E;
+	(25) TX: CASTRONE, RX: CASTEONI, DIF: RE;
+Nota: nessuna
+***
+
+Esercizio di ricezione #480 eseguito il 2025/11/19 alle 11, 53 minuti:
+In questa sessione #480, ti ho inviato 59 Parole e ne hai ricevuti 29: 49.2%
+	17 di questi sono stati ricevuti al primo ascolto: 58.6%
+	mentre 12 Parole al secondo tentativo: 41.4%.
+Durante la sessione, la tua velocità minima è stata 33.70, la massima di 44.01: pari ad una variazione di 10.31 WPM.
+	La velocità media di ricezione è di: 38.09 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 15 errori su 49 invii. Tasso errore stimato: [19.5% - 44.5%]    'N': 12 errori su 27 invii. Tasso errore stimato: [27.6% - 62.7%]    'A': 10 errori su 54 invii. Tasso errore stimato: [10.4% - 30.8%]    'E': 9 errori su 45 invii. Tasso errore stimato: [10.9% - 33.8%]    'T': 6 errori su 32 invii. Tasso errore stimato: [8.9% - 35.3%]    'R': 5 errori su 35 invii. Tasso errore stimato: [6.3% - 29.4%]    'L': 4 errori su 20 invii. Tasso errore stimato: [8.1% - 41.6%]    'O': 4 errori su 42 invii. Tasso errore stimato: [3.8% - 22.1%]    'S': 4 errori su 21 invii. Tasso errore stimato: [7.7% - 40.0%]    'D': 3 errori su 11 invii. Tasso errore stimato: [9.7% - 56.6%]    'C': 2 errori su 22 invii. Tasso errore stimato: [2.5% - 27.8%]    'V': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'Z': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'B': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]    'K': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'M': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]    'P': 1 errori su 13 invii. Tasso errore stimato: [1.4% - 33.3%]    'U': 1 errori su 13 invii. Tasso errore stimato: [1.4% - 33.3%]
+
+Errori totali: 83 su 442 = 18.78%
+Caratteri mai sbagliati: F G H X Ò
+Elenco delle parole copiate male:
+	(2) TX: CUCITURE, RX: CUCINARE, DIF: TU;
+	(4) TX: ADINAMIA, RX: ADAMARIA, DIF: INAR;
+	(5) TX: SETTILI, RX: SETILE, DIF: TI;
+	(7) TX: ZUMATO, RX: FUMATO, DIF: Z;
+	(9) TX: SABATICI, RX: SABUTICA, DIF: AI;
+	(10) TX: FARTELO, RX: FATICANO, DIF: REL;
+	(13) TX: PAVESATE, RX: PAUERETE, DIF: VSA;
+	(14) TX: KAPOK, RX: CAPOK, DIF: K;
+	(15) TX: DRUDE, RX: BRUNE, DIF: DD;
+	(18) TX: PREARIE, RX: PRIADE, DIF: IADARIE;
+	(23) TX: ARPINATE, RX: ARPINAI, DIF: TE;
+	(24) TX: RECIDIVO, RX: RECIDEVO, DIF: I;
+	(26) TX: VALUTATI, RX: VALUTATE, DIF: I;
+	(31) TX: FURERIA, RX: FURIRIA, DIF: E;
+	(36) TX: BIRMANI, RX: BIRRATE, DIF: MNI;
+	(37) TX: APONTINI, RX: APOLIDE, DIF: NTNI;
+	(39) TX: SALSIERA, RX: SALSIATE, DIF: ATRA;
+	(40) TX: GUASTERÒ, RX: GIUDERÒ, DIF: IAST;
+	(44) TX: SPARLAVO, RX: SLARRATO, DIF: PLV;
+	(45) TX: ROSSIGNO, RX: ROSSIGO, DIF: N;
+	(46) TX: BLINDINO, RX: BRIVIDO, DIF: LNIN;
+	(47) TX: ZAMBIANA, RX: ZAMBIARA, DIF: N;
+	(48) TX: DONEREMO, RX: DORMONO, DIF: NEENO;
+	(51) TX: TENARIE, RX: TECNICA, DIF: CICRIE;
+	(54) TX: CONGLOBA, RX: CONIGLIO, DIF: IIBA;
+	(55) TX: FUNZIONE, RX: FUNGINE, DIF: ZO;
+	(56) TX: DEFLUSSO, RX: DEFLUIRE, DIF: SSO;
+	(57) TX: BOLDONE, RX: BORDONE, DIF: L;
+	(58) TX: SFRENAVA, RX: SFREIVA, DIF: NA;
+	(59) TX: RITENEVO, RX: RITMAVA, DIF: ENEO;
+Nota: nessuna
+***
+
+Esercizio di ricezione #481 eseguito il 2025/11/19 alle 17, 43 minuti:
+In questa sessione #481, ti ho inviato 49 Parole e ne hai ricevuti 25: 51.0%
+	23 di questi sono stati ricevuti al primo ascolto: 92.0%
+	mentre 2 Parole al secondo tentativo: 8.0%.
+Durante la sessione, la tua velocità minima è stata 34.65, la massima di 39.57: pari ad una variazione di 4.93 WPM.
+	La velocità media di ricezione è di: 36.36 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 8 errori su 32 invii. Tasso errore stimato: [13.3% - 42.1%]    'I': 8 errori su 42 invii. Tasso errore stimato: [10.0% - 33.3%]    'S': 5 errori su 22 invii. Tasso errore stimato: [10.1% - 43.4%]    'N': 4 errori su 17 invii. Tasso errore stimato: [9.6% - 47.3%]    'A': 3 errori su 52 invii. Tasso errore stimato: [2.0% - 15.6%]    'R': 3 errori su 27 invii. Tasso errore stimato: [3.9% - 28.1%]    'D': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'T': 2 errori su 16 invii. Tasso errore stimato: [3.5% - 36.0%]    'B': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'C': 1 errori su 15 invii. Tasso errore stimato: [1.2% - 29.8%]    'G': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'L': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]    'M': 1 errori su 16 invii. Tasso errore stimato: [1.1% - 28.3%]    'P': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'V': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]
+
+Errori totali: 42 su 350 = 12.00%
+Caratteri mai sbagliati: F H O U Y Z À Ò
+Elenco delle parole copiate male:
+	(1) TX: RIVENDE, RX: RIVENIRE, DIF: D;
+	(3) TX: INVISCHI, RX: INVECCHI, DIF: IS;
+	(5) TX: RIPUARIE, RX: RIPUTARE, DIF: TI;
+	(7) TX: SPANSE, RX: SPANSI, DIF: E;
+	(12) TX: BISMALVE, RX: BESCIMILE, DIF: ESCSAV;
+	(13) TX: BAGLI, RX: BAGNI, DIF: L;
+	(15) TX: REGIME, RX: REGIONE, DIF: M;
+	(17) TX: GANGAVA, RX: GANDAVA, DIF: G;
+	(19) TX: STETTI, RX: STETTE, DIF: I;
+	(21) TX: MANICCIA, RX: MANNACCIA, DIF: I;
+	(22) TX: ROTANTI, RX: ROTANTE, DIF: I;
+	(24) TX: RIMPASTI, RX: RIMPARSA, DIF: RTI;
+	(28) TX: MEZZADRO, RX: MEZZANDO, DIF: NR;
+	(29) TX: HYBRIS, RX: HYBERP, DIF: EIS;
+	(30) TX: OFFERIRE, RX: OFFRIRE, DIF: E;
+	(32) TX: ROVESCE, RX: ROVESCI, DIF: E;
+	(35) TX: GINNARE, RX: GINDARE, DIF: N;
+	(37) TX: BIGAMA, RX: DIGNAME, DIF: BNA;
+	(40) TX: TIPIZZA, RX: TIMIDEZZA, DIF: PDE;
+	(41) TX: FLANELLE, RX: FLANELLA, DIF: E;
+	(43) TX: DANZATA, RX: DANZATO, DIF: A;
+	(45) TX: MONOFORE, RX: MONOFONI, DIF: RE;
+	(46) TX: OSMUNDA, RX: OSMUDIA, DIF: NI;
+	(48) TX: RONZASTE, RX: RONZATE, DIF: S;
+Nota: nessuna
+***
+
+Esercizio di ricezione #482 eseguito il 2025/11/20 alle 9, 34 minuti:
+In questa sessione #482, ti ho inviato 85 Parole e ne hai ricevuti 43: 50.6%
+	27 di questi sono stati ricevuti al primo ascolto: 62.8%
+	mentre 16 Parole al secondo tentativo: 37.2%.
+Durante la sessione, la tua velocità minima è stata 33.45, la massima di 40.69: pari ad una variazione di 7.24 WPM.
+	La velocità media di ricezione è di: 36.49 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'N': 14 errori su 34 invii. Tasso errore stimato: [26.4% - 57.8%]    'E': 13 errori su 60 invii. Tasso errore stimato: [13.1% - 33.6%]    'A': 11 errori su 78 invii. Tasso errore stimato: [8.1% - 23.5%]    'I': 10 errori su 81 invii. Tasso errore stimato: [6.8% - 21.3%]    'T': 6 errori su 42 invii. Tasso errore stimato: [6.7% - 27.8%]    'R': 5 errori su 38 invii. Tasso errore stimato: [5.8% - 27.3%]    'B': 4 errori su 13 invii. Tasso errore stimato: [12.7% - 57.6%]    'M': 3 errori su 23 invii. Tasso errore stimato: [4.5% - 32.1%]    'O': 3 errori su 55 invii. Tasso errore stimato: [1.9% - 14.9%]    'D': 2 errori su 16 invii. Tasso errore stimato: [3.5% - 36.0%]    'L': 2 errori su 27 invii. Tasso errore stimato: [2.1% - 23.4%]    'S': 2 errori su 42 invii. Tasso errore stimato: [1.3% - 15.8%]    'U': 2 errori su 17 invii. Tasso errore stimato: [3.3% - 34.3%]    'V': 2 errori su 13 invii. Tasso errore stimato: [4.3% - 42.2%]    'C': 1 errori su 26 invii. Tasso errore stimato: [0.7% - 18.9%]    'G': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]
+
+Errori totali: 81 su 616 = 13.15%
+Caratteri mai sbagliati: F H P Q W Z Ò
+Elenco delle parole copiate male:
+	(2) TX: PARATOIE, RX: PARATOSE, DIF: I;
+	(4) TX: SPALMI, RX: SPALAI, DIF: M;
+	(7) TX: DEDICAI, RX: DIDICIE, DIF: EAE;
+	(8) TX: SPOMPANO, RX: SPOMPATO, DIF: N;
+	(9) TX: INFAMAVA, RX: INFAMIA, DIF: IVA;
+	(11) TX: CARNAME, RX: CARDAME, DIF: N;
+	(14) TX: CUSCUTE, RX: CUSCINI, DIF: UTE;
+	(15) TX: COTANTO, RX: CONTATTO, DIF: NN;
+	(17) TX: SCHOONER, RX: SCHOOPER, DIF: N;
+	(18) TX: MINOICA, RX: MINOSCA, DIF: I;
+	(19) TX: ANTEPONI, RX: ANTIPODI, DIF: EN;
+	(21) TX: MARITALE, RX: MARINAI, DIF: TLE;
+	(26) TX: RINVILI, RX: INDURLI, DIF: RVI;
+	(28) TX: SBEFFARE, RX: SBUFFARE, DIF: E;
+	(29) TX: DIECI, RX: DICI, DIF: E;
+	(30) TX: SFALDATA, RX: SFALDARE, DIF: TA;
+	(31) TX: OBOISTE, RX: OBOIE, DIF: ST;
+	(34) TX: ALLEASTE, RX: ALLEATE, DIF: S;
+	(39) TX: TABAGICI, RX: TABINI, DIF: AGC;
+	(40) TX: EFFIMERA, RX: EFFIMERE, DIF: A;
+	(41) TX: SANARONO, RX: SALGONO, DIF: NAR;
+	(43) TX: BUCATAIO, RX: BUCATINO, DIF: AN;
+	(44) TX: REAGIAMO, RX: RAGIO, DIF: EAM;
+	(50) TX: ATTUTIRE, RX: ATTUATE, DIF: AIR;
+	(51) TX: APOCINI, RX: APOCIDI, DIF: N;
+	(53) TX: SPREMERÒ, RX: SPREMIÒ, DIF: ER;
+	(55) TX: COLASTE, RX: CORRESTE, DIF: LA;
+	(57) TX: SEGUIRNE, RX: SIGURENE, DIF: EIE;
+	(59) TX: RISUONA, RX: PISULA, DIF: RON;
+	(60) TX: MIOTONIA, RX: MIOTOIA, DIF: N;
+	(61) TX: SDOGATO, RX: SBOGATO, DIF: D;
+	(62) TX: MISTIONE, RX: MISSIONE, DIF: T;
+	(63) TX: BILOBATO, RX: BILBOTA, DIF: BBTO;
+	(68) TX: VIBICE, RX: VENICE, DIF: IB;
+	(69) TX: RUGGENDO, RX: RUGGINERÒ, DIF: INNDO;
+	(73) TX: MUTEZZE, RX: MITEZZA, DIF: UE;
+	(75) TX: LISIMACO, RX: LISIOCO, DIF: MA;
+	(78) TX: PERFIDI, RX: PERFIDE, DIF: I;
+	(79) TX: ALLIBARE, RX: ALLIDARE, DIF: B;
+	(80) TX: DOMINATE, RX: DOMINANTE, DIF: N;
+	(83) TX: OSSETICA, RX: OSSITICA, DIF: E;
+	(84) TX: PLANARI, RX: PLANARE, DIF: I;
+Nota: nessuna
+***
