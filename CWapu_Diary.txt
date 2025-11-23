@@ -5020,3 +5020,35 @@ Elenco delle parole copiate male:
 	(84) TX: PLANARI, RX: PLANARE, DIF: I;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #483 eseguito il 2025/11/23 alle 8, 38 minuti:
+In questa sessione #483, ti ho inviato 50 Misto (Lettere, Numeri, Lettere e numeri) e ne hai ricevuti 32: 64.0%
+	18 di questi sono stati ricevuti al primo ascolto: 56.2%
+	mentre 14 Misto (Lettere, Numeri, Lettere e numeri) al secondo tentativo: 43.8%.
+Durante la sessione, la tua velocità minima è stata 33.87, la massima di 38.48: pari ad una variazione di 4.60 WPM.
+	La velocità media di ricezione è di: 35.61 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '4': 5 errori su 12 invii. Tasso errore stimato: [19.3% - 68.0%]    '8': 4 errori su 9 invii. Tasso errore stimato: [18.9% - 73.3%]    '5': 3 errori su 10 invii. Tasso errore stimato: [10.8% - 60.3%]    '2': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    '1': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    '6': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'B': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'H': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'K': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'S': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'V': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'X': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 22 su 150 = 14.67%
+Caratteri mai sbagliati: 0 3 7 9 A D E F I J L M N O P Q R T U W Y
+Elenco delle parole copiate male:
+	(1) TX: VBI, RX: VDI, DIF: B;
+	(8) TX: O47, RX: OV7, DIF: 4;
+	(10) TX: 580, RX: 570, DIF: 8;
+	(13) TX: UK1, RX: UY2, DIF: K1;
+	(14) TX: 182, RX: 18J, DIF: 2;
+	(17) TX: U24, RX: UJV, DIF: 24;
+	(18) TX: XVR, RX: XUR, DIF: V;
+	(24) TX: LY5, RX: LYS, DIF: 5;
+	(25) TX: 085, RX: 07H, DIF: 85;
+	(27) TX: 264, RX: 26V, DIF: 4;
+	(28) TX: 283, RX: 273, DIF: 8;
+	(29) TX: DXQ, RX: DKQ, DIF: X;
+	(33) TX: 045, RX: 0VH, DIF: 45;
+	(35) TX: YSW, RX: YIW, DIF: S;
+	(37) TX: 063, RX: 073, DIF: 6;
+	(42) TX: WHA, RX: WSA, DIF: H;
+	(44) TX: 482, RX: 472, DIF: 8;
+	(47) TX: 994, RX: 99U, DIF: 4;
+Nota: nessuna
+***
