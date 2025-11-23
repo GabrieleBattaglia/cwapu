@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Statistiche Storiche Esercizi Rx G2000 X3500</title>
+    <style>
+        body { background-color: #282c34; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: auto; background-color: #333740; padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
+        h1, h2, h3 { color: #61afef; border-bottom: 2px solid #61afef; padding-bottom: 5px; margin-top: 30px; }
+        h1 { text-align: center; font-size: 2em; margin-bottom: 10px; }
+        .report-subtitle { text-align: center; font-size: 0.9em; color: #abb2bf; margin-bottom: 5px; }
+        .report-generation-time { text-align: center; font-size: 0.8em; color: #888; margin-bottom: 30px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; margin-bottom: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+        th, td { border: 1px solid #4b5260; padding: 10px; text-align: left; font-size: 0.9em; }
+        th { background-color: #3a3f4b; color: #98c379; font-weight: bold; }
+        tr:nth-child(even) { background-color: #383c44; }
+        tr:hover { background-color: #484e59; }
+        .good { color: #98c379; font-weight: bold; } /* Verde per miglioramenti */
+        .bad { color: #e06c75; font-weight: bold; } /* Rosso per peggioramenti */
+        .neutral { color: #e5c07b; } /* Giallo/Arancio per neutrali o minimi */
+        .char-emphasis { font-weight: bold; color: #c678dd; } /* Viola per il carattere in analisi */
+        .details-label { font-style: italic; color: #abb2bf; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>CWAPU - Report Statistiche Storiche Esercizi Rx</h1>
+<p class="report-subtitle">Statistiche basate su 12 esercizi (G=2000, X=3500)</p>
+<p class="report-generation-time">Report generato il: 2025-10-01 01:30:05</p>
+<h2>Statistiche Velocità Complessive</h2>
+<table>
+  <thead><tr><th>Metrica</th><th>Valore Attuale</th><th>Valore Precedente</th><th>Variazione</th></tr></thead>
+  <tbody>
+    <tr><td>WPM Min</td><td>26.39169310643207 WPM</td><td>12 WPM</td><td class="good">14.391693106432069 WPM (119.9307758869339%)</td></tr>
+    <tr><td>WPM Max</td><td>50 WPM</td><td>65.38461538461539 WPM</td><td class="bad">-15.384615384615387 WPM (-23.529411764705884%)</td></tr>
+    <tr><td>WPM Medio (media delle sessioni)</td><td>38.52650634136172 WPM</td><td>38.12123612449935 WPM</td><td class="good">0.40527021686236964 WPM (1.063108802502642%)</td></tr>
+  </tbody>
+</table>
+<h2>Statistiche Errori Complessive</h2>
+<table>
+  <thead><tr><th>Metrica</th><th>Valore Attuale</th><th>Valore Precedente</th><th>Variazione</th></tr></thead>
+  <tbody>
+    <tr><td>Caratteri totali inviati (nel blocco)</td><td>3992</td><td>38855</td><td>-34863  (-89.72590400205893%)</td></tr>
+    <tr><td>Tasso errore generale</td><td>610 / 3992 (15.280561122244487%)</td><td>5761 / 38855 (14.826920602239094%)</td><td class="bad">0.45364052000539345 punti %</td></tr>
+  </tbody>
+</table>
+<h2>Dettaglio errori per carattere</h2>
+<table>
+  <thead><tr><th>Carattere</th><th>Errori / Inviati</th><th style="text-align: center;">Intervallo Confidenza Errore (Wilson)</th></tr></thead>
+  <tbody>
+     <tr><td class="char-emphasis">'I'</td><td>110 su 459 inv.</td><td colspan="2" style="text-align:center;">[20.3% - 28.1%]</td></tr>
+     <tr><td class="char-emphasis">'E'</td><td>71 su 343 inv.</td><td colspan="2" style="text-align:center;">[16.7% - 25.3%]</td></tr>
+     <tr><td class="char-emphasis">'T'</td><td>58 su 281 inv.</td><td colspan="2" style="text-align:center;">[16.3% - 25.8%]</td></tr>
+     <tr><td class="char-emphasis">'R'</td><td>52 su 290 inv.</td><td colspan="2" style="text-align:center;">[13.9% - 22.8%]</td></tr>
+     <tr><td class="char-emphasis">'A'</td><td>46 su 484 inv.</td><td colspan="2" style="text-align:center;">[7.2% - 12.4%]</td></tr>
+     <tr><td class="char-emphasis">'N'</td><td>44 su 199 inv.</td><td colspan="2" style="text-align:center;">[16.9% - 28.4%]</td></tr>
+     <tr><td class="char-emphasis">'S'</td><td>34 su 215 inv.</td><td colspan="2" style="text-align:center;">[11.5% - 21.3%]</td></tr>
+     <tr><td class="char-emphasis">'U'</td><td>28 su 131 inv.</td><td colspan="2" style="text-align:center;">[15.2% - 29.2%]</td></tr>
+     <tr><td class="char-emphasis">'D'</td><td>26 su 104 inv.</td><td colspan="2" style="text-align:center;">[17.7% - 34.1%]</td></tr>
+     <tr><td class="char-emphasis">'O'</td><td>22 su 352 inv.</td><td colspan="2" style="text-align:center;">[4.2% - 9.3%]</td></tr>
+     <tr><td class="char-emphasis">'L'</td><td>19 su 169 inv.</td><td colspan="2" style="text-align:center;">[7.3% - 16.9%]</td></tr>
+     <tr><td class="char-emphasis">'M'</td><td>17 su 113 inv.</td><td colspan="2" style="text-align:center;">[9.6% - 22.8%]</td></tr>
+     <tr><td class="char-emphasis">'C'</td><td>14 su 183 inv.</td><td colspan="2" style="text-align:center;">[4.6% - 12.4%]</td></tr>
+     <tr><td class="char-emphasis">'G'</td><td>14 su 96 inv.</td><td colspan="2" style="text-align:center;">[8.9% - 23.0%]</td></tr>
+     <tr><td class="char-emphasis">'B'</td><td>12 su 104 inv.</td><td colspan="2" style="text-align:center;">[6.7% - 19.1%]</td></tr>
+     <tr><td class="char-emphasis">'H'</td><td>8 su 32 inv.</td><td colspan="2" style="text-align:center;">[13.3% - 42.1%]</td></tr>
+     <tr><td class="char-emphasis">'V'</td><td>8 su 82 inv.</td><td colspan="2" style="text-align:center;">[5.0% - 18.1%]</td></tr>
+     <tr><td class="char-emphasis">'P'</td><td>6 su 107 inv.</td><td colspan="2" style="text-align:center;">[2.6% - 11.7%]</td></tr>
+     <tr><td class="char-emphasis">'Z'</td><td>5 su 46 inv.</td><td colspan="2" style="text-align:center;">[4.7% - 23.0%]</td></tr>
+     <tr><td class="char-emphasis">'F'</td><td>3 su 69 inv.</td><td colspan="2" style="text-align:center;">[1.5% - 12.0%]</td></tr>
+     <tr><td class="char-emphasis">'6'</td><td>2 su 8 inv.</td><td colspan="2" style="text-align:center;">[7.1% - 59.1%]</td></tr>
+     <tr><td class="char-emphasis">'1'</td><td>1 su 8 inv.</td><td colspan="2" style="text-align:center;">[2.2% - 47.1%]</td></tr>
+     <tr><td class="char-emphasis">'3'</td><td>1 su 6 inv.</td><td colspan="2" style="text-align:center;">[3.0% - 56.4%]</td></tr>
+     <tr><td class="char-emphasis">'5'</td><td>1 su 4 inv.</td><td colspan="2" style="text-align:center;">[4.6% - 69.9%]</td></tr>
+     <tr><td class="char-emphasis">'7'</td><td>1 su 4 inv.</td><td colspan="2" style="text-align:center;">[4.6% - 69.9%]</td></tr>
+     <tr><td class="char-emphasis">'8'</td><td>1 su 8 inv.</td><td colspan="2" style="text-align:center;">[2.2% - 47.1%]</td></tr>
+     <tr><td class="char-emphasis">'9'</td><td>1 su 6 inv.</td><td colspan="2" style="text-align:center;">[3.0% - 56.4%]</td></tr>
+     <tr><td class="char-emphasis">'K'</td><td>1 su 10 inv.</td><td colspan="2" style="text-align:center;">[1.8% - 40.4%]</td></tr>
+     <tr><td class="char-emphasis">'Q'</td><td>1 su 10 inv.</td><td colspan="2" style="text-align:center;">[1.8% - 40.4%]</td></tr>
+     <tr><td class="char-emphasis">'W'</td><td>1 su 8 inv.</td><td colspan="2" style="text-align:center;">[2.2% - 47.1%]</td></tr>
+     <tr><td class="char-emphasis">'À'</td><td>1 su 6 inv.</td><td colspan="2" style="text-align:center;">[3.0% - 56.4%]</td></tr>
+     <tr><td class="char-emphasis">'Ì'</td><td>1 su 1 inv.</td><td colspan="2" style="text-align:center;">[20.7% - 100.0%]</td></tr>
+  </tbody>
+</table>
+<h2>Variazioni Dettaglio Errori per Carattere</h2>
+<p class="report-subtitle">Variazioni rispetto al blocco di 139 esercizi precedente</p>
+<table>
+  <thead><tr><th>Carattere</th><th>Err. Att.</th><th>%Tot Att.</th><th>%Spec Att.</th><th>Err. Prec.</th><th>%Tot Prec.</th><th>%Spec Prec.</th><th>Δ% Tot. Caratt.</th><th>Δ% Caratt. Spec.</th></tr></thead>
+  <tbody>
+     <tr><td class="char-emphasis">'I'</td><td>110</td><td>2.76%</td><td>23.97% <span class="details-label">(su 459 inv.)</span></td><td>1059</td><td>2.73%</td><td>24.46% <span class="details-label">(su 4330 inv.)</span></td><td class="bad">+0.03 %</td><td class="good">-0.49 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'E'</td><td>71</td><td>1.78%</td><td>20.70% <span class="details-label">(su 343 inv.)</span></td><td>641</td><td>1.65%</td><td>19.19% <span class="details-label">(su 3341 inv.)</span></td><td class="bad">+0.13 %</td><td class="bad">+1.51 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'T'</td><td>58</td><td>1.45%</td><td>20.64% <span class="details-label">(su 281 inv.)</span></td><td>374</td><td>0.96%</td><td>16.14% <span class="details-label">(su 2317 inv.)</span></td><td class="bad">+0.49 %</td><td class="bad">+4.50 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'R'</td><td>52</td><td>1.30%</td><td>17.93% <span class="details-label">(su 290 inv.)</span></td><td>406</td><td>1.04%</td><td>15.10% <span class="details-label">(su 2688 inv.)</span></td><td class="bad">+0.26 %</td><td class="bad">+2.83 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'A'</td><td>46</td><td>1.15%</td><td>9.50% <span class="details-label">(su 484 inv.)</span></td><td>483</td><td>1.24%</td><td>10.84% <span class="details-label">(su 4454 inv.)</span></td><td class="good">-0.09 %</td><td class="good">-1.34 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'N'</td><td>44</td><td>1.10%</td><td>22.11% <span class="details-label">(su 199 inv.)</span></td><td>483</td><td>1.24%</td><td>24.03% <span class="details-label">(su 2010 inv.)</span></td><td class="good">-0.14 %</td><td class="good">-1.92 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'S'</td><td>34</td><td>0.85%</td><td>15.81% <span class="details-label">(su 215 inv.)</span></td><td>300</td><td>0.77%</td><td>13.81% <span class="details-label">(su 2173 inv.)</span></td><td class="bad">+0.08 %</td><td class="bad">+2.01 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'U'</td><td>28</td><td>0.70%</td><td>21.37% <span class="details-label">(su 131 inv.)</span></td><td>187</td><td>0.48%</td><td>15.81% <span class="details-label">(su 1183 inv.)</span></td><td class="bad">+0.22 %</td><td class="bad">+5.57 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'D'</td><td>26</td><td>0.65%</td><td>25.00% <span class="details-label">(su 104 inv.)</span></td><td>231</td><td>0.59%</td><td>22.78% <span class="details-label">(su 1014 inv.)</span></td><td class="bad">+0.06 %</td><td class="bad">+2.22 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'O'</td><td>22</td><td>0.55%</td><td>6.25% <span class="details-label">(su 352 inv.)</span></td><td>164</td><td>0.42%</td><td>5.18% <span class="details-label">(su 3169 inv.)</span></td><td class="bad">+0.13 %</td><td class="bad">+1.07 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'L'</td><td>19</td><td>0.48%</td><td>11.24% <span class="details-label">(su 169 inv.)</span></td><td>192</td><td>0.49%</td><td>11.52% <span class="details-label">(su 1666 inv.)</span></td><td class="good">-0.02 %</td><td class="good">-0.28 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'M'</td><td>17</td><td>0.43%</td><td>15.04% <span class="details-label">(su 113 inv.)</span></td><td>179</td><td>0.46%</td><td>15.57% <span class="details-label">(su 1150 inv.)</span></td><td class="good">-0.03 %</td><td class="good">-0.52 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'C'</td><td>14</td><td>0.35%</td><td>7.65% <span class="details-label">(su 183 inv.)</span></td><td>74</td><td>0.19%</td><td>4.63% <span class="details-label">(su 1598 inv.)</span></td><td class="bad">+0.16 %</td><td class="bad">+3.02 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'G'</td><td>14</td><td>0.35%</td><td>14.58% <span class="details-label">(su 96 inv.)</span></td><td>188</td><td>0.48%</td><td>20.50% <span class="details-label">(su 917 inv.)</span></td><td class="good">-0.13 %</td><td class="good">-5.92 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'B'</td><td>12</td><td>0.30%</td><td>11.54% <span class="details-label">(su 104 inv.)</span></td><td>150</td><td>0.39%</td><td>16.29% <span class="details-label">(su 921 inv.)</span></td><td class="good">-0.09 %</td><td class="good">-4.75 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'H'</td><td>8</td><td>0.20%</td><td>25.00% <span class="details-label">(su 32 inv.)</span></td><td>93</td><td>0.24%</td><td>25.69% <span class="details-label">(su 362 inv.)</span></td><td class="good">-0.04 %</td><td class="good">-0.69 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'V'</td><td>8</td><td>0.20%</td><td>9.76% <span class="details-label">(su 82 inv.)</span></td><td>96</td><td>0.25%</td><td>11.27% <span class="details-label">(su 852 inv.)</span></td><td class="good">-0.05 %</td><td class="good">-1.51 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'P'</td><td>6</td><td>0.15%</td><td>5.61% <span class="details-label">(su 107 inv.)</span></td><td>57</td><td>0.15%</td><td>5.16% <span class="details-label">(su 1105 inv.)</span></td><td class="neutral">+0.00 %</td><td class="bad">+0.45 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'Z'</td><td>5</td><td>0.13%</td><td>10.87% <span class="details-label">(su 46 inv.)</span></td><td>55</td><td>0.14%</td><td>13.99% <span class="details-label">(su 393 inv.)</span></td><td class="good">-0.02 %</td><td class="good">-3.13 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'F'</td><td>3</td><td>0.08%</td><td>4.35% <span class="details-label">(su 69 inv.)</span></td><td>41</td><td>0.11%</td><td>6.11% <span class="details-label">(su 671 inv.)</span></td><td class="good">-0.03 %</td><td class="good">-1.76 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'6'</td><td>2</td><td>0.05%</td><td>25.00% <span class="details-label">(su 8 inv.)</span></td><td>14</td><td>0.04%</td><td>9.79% <span class="details-label">(su 143 inv.)</span></td><td class="bad">+0.01 %</td><td class="bad">+15.21 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'1'</td><td>1</td><td>0.03%</td><td>12.50% <span class="details-label">(su 8 inv.)</span></td><td>13</td><td>0.03%</td><td>8.90% <span class="details-label">(su 146 inv.)</span></td><td class="neutral">-0.01 %</td><td class="bad">+3.60 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'3'</td><td>1</td><td>0.03%</td><td>16.67% <span class="details-label">(su 6 inv.)</span></td><td>18</td><td>0.05%</td><td>13.64% <span class="details-label">(su 132 inv.)</span></td><td class="good">-0.02 %</td><td class="bad">+3.03 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'5'</td><td>1</td><td>0.03%</td><td>25.00% <span class="details-label">(su 4 inv.)</span></td><td>13</td><td>0.03%</td><td>10.00% <span class="details-label">(su 130 inv.)</span></td><td class="neutral">-0.01 %</td><td class="bad">+15.00 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'7'</td><td>1</td><td>0.03%</td><td>25.00% <span class="details-label">(su 4 inv.)</span></td><td>38</td><td>0.10%</td><td>19.39% <span class="details-label">(su 196 inv.)</span></td><td class="good">-0.07 %</td><td class="bad">+5.61 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'8'</td><td>1</td><td>0.03%</td><td>12.50% <span class="details-label">(su 8 inv.)</span></td><td>38</td><td>0.10%</td><td>25.00% <span class="details-label">(su 152 inv.)</span></td><td class="good">-0.07 %</td><td class="good">-12.50 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'9'</td><td>1</td><td>0.03%</td><td>16.67% <span class="details-label">(su 6 inv.)</span></td><td>13</td><td>0.03%</td><td>9.22% <span class="details-label">(su 141 inv.)</span></td><td class="neutral">-0.01 %</td><td class="bad">+7.45 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'K'</td><td>1</td><td>0.03%</td><td>10.00% <span class="details-label">(su 10 inv.)</span></td><td>18</td><td>0.05%</td><td>12.24% <span class="details-label">(su 147 inv.)</span></td><td class="good">-0.02 %</td><td class="good">-2.24 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'Q'</td><td>1</td><td>0.03%</td><td>10.00% <span class="details-label">(su 10 inv.)</span></td><td>17</td><td>0.04%</td><td>12.23% <span class="details-label">(su 139 inv.)</span></td><td class="good">-0.02 %</td><td class="good">-2.23 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'W'</td><td>1</td><td>0.03%</td><td>12.50% <span class="details-label">(su 8 inv.)</span></td><td>19</td><td>0.05%</td><td>14.07% <span class="details-label">(su 135 inv.)</span></td><td class="good">-0.02 %</td><td class="good">-1.57 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'À'</td><td>1</td><td>0.03%</td><td>16.67% <span class="details-label">(su 6 inv.)</span></td><td>4</td><td>0.01%</td><td>8.70% <span class="details-label">(su 46 inv.)</span></td><td class="bad">+0.01 %</td><td class="bad">+7.97 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'Ì'</td><td>1</td><td>0.03%</td><td>100.00% <span class="details-label">(su 1 inv.)</span></td><td>4</td><td>0.01%</td><td>20.00% <span class="details-label">(su 20 inv.)</span></td><td class="bad">+0.01 %</td><td class="bad">+80.00 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'0'</td><td>0</td><td>0.00%</td><td>0.00% <span class="details-label">(su 4 inv.)</span></td><td>8</td><td>0.02%</td><td>5.26% <span class="details-label">(su 152 inv.)</span></td><td class="good">-0.02 %</td><td class="good">-5.26 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'2'</td><td>0</td><td>0.00%</td><td>0.00% <span class="details-label">(su 12 inv.)</span></td><td>23</td><td>0.06%</td><td>11.86% <span class="details-label">(su 194 inv.)</span></td><td class="good">-0.06 %</td><td class="good">-11.86 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'4'</td><td>0</td><td>0.00%</td><td>0.00% <span class="details-label">(su 3 inv.)</span></td><td>16</td><td>0.04%</td><td>12.40% <span class="details-label">(su 129 inv.)</span></td><td class="good">-0.04 %</td><td class="good">-12.40 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'J'</td><td>0</td><td>0.00%</td><td>0.00% <span class="details-label">(su 5 inv.)</span></td><td>18</td><td>0.05%</td><td>14.06% <span class="details-label">(su 128 inv.)</span></td><td class="good">-0.05 %</td><td class="good">-14.06 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'X'</td><td>0</td><td>0.00%</td><td>0.00% <span class="details-label">(su 7 inv.)</span></td><td>9</td><td>0.02%</td><td>7.03% <span class="details-label">(su 128 inv.)</span></td><td class="good">-0.02 %</td><td class="good">-7.03 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'Y'</td><td>0</td><td>0.00%</td><td>0.00% <span class="details-label">(su 4 inv.)</span></td><td>14</td><td>0.04%</td><td>10.94% <span class="details-label">(su 128 inv.)</span></td><td class="good">-0.04 %</td><td class="good">-10.94 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'É'</td><td>0</td><td>0.00%</td><td>0.00% <span class="details-label">(su 1 inv.)</span></td><td>1</td><td>0.00%</td><td>33.33% <span class="details-label">(su 3 inv.)</span></td><td class="neutral">-0.00 %</td><td class="good">-33.33 %</td></tr>
+  </tbody>
+</table>
+     <tr><td class="char-emphasis">'Ò'</td><td>0</td><td>0.00%</td><td>0.00% <span class="details-label">(su 18 inv.)</span></td><td>10</td><td>0.03%</td><td>6.62% <span class="details-label">(su 151 inv.)</span></td><td class="good">-0.03 %</td><td class="good">-6.62 %</td></tr>
+  </tbody>
+</table>
+    </div>
+</body>
+</html>
