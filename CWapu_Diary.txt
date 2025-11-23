@@ -5052,3 +5052,39 @@ Elenco delle parole copiate male:
 	(47) TX: 994, RX: 99U, DIF: 4;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #484 eseguito il 2025/11/23 alle 14, 39 minuti:
+In questa sessione #484, ti ho inviato 48 Parole e ne hai ricevuti 26: 54.2%
+	21 di questi sono stati ricevuti al primo ascolto: 80.8%
+	mentre 5 Parole al secondo tentativo: 19.2%.
+Durante la sessione, la tua velocità minima è stata 29.68, la massima di 39.90: pari ad una variazione di 10.22 WPM.
+	La velocità media di ricezione è di: 34.22 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 10 errori su 44 invii. Tasso errore stimato: [12.8% - 37.0%]    'E': 6 errori su 28 invii. Tasso errore stimato: [10.2% - 39.5%]    'N': 5 errori su 25 invii. Tasso errore stimato: [8.9% - 39.1%]    'O': 5 errori su 32 invii. Tasso errore stimato: [6.9% - 31.8%]    'S': 5 errori su 16 invii. Tasso errore stimato: [14.2% - 55.6%]    'D': 3 errori su 13 invii. Tasso errore stimato: [8.2% - 50.3%]    'M': 3 errori su 11 invii. Tasso errore stimato: [9.7% - 56.6%]    'A': 2 errori su 35 invii. Tasso errore stimato: [1.6% - 18.6%]    'H': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'L': 2 errori su 12 invii. Tasso errore stimato: [4.7% - 44.8%]    'U': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'G': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'R': 1 errori su 21 invii. Tasso errore stimato: [0.8% - 22.7%]    'T': 1 errori su 24 invii. Tasso errore stimato: [0.7% - 20.2%]
+
+Errori totali: 48 su 332 = 14.46%
+Caratteri mai sbagliati: B C F P V X Z Ò
+Elenco delle parole copiate male:
+	(1) TX: PRECEPTI, RX: PRECIPITI, DIF: EI;
+	(4) TX: METAMERO, RX: METRONOMO, DIF: AMENOMO;
+	(5) TX: INCARNO, RX: INCARO, DIF: N;
+	(6) TX: FISSISMI, RX: FISSIMI, DIF: S;
+	(8) TX: PARVENTI, RX: PARVENTE, DIF: I;
+	(9) TX: SEVIZINO, RX: SEVIZIONE, DIF: OO;
+	(11) TX: BIUTA, RX: BEUTA, DIF: I;
+	(12) TX: MOSTRERÒ, RX: MOTORERÒ, DIF: SO;
+	(13) TX: NIDIFUGO, RX: NEFUGO, DIF: IDI;
+	(16) TX: PEDINANO, RX: PEDIANO, DIF: N;
+	(19) TX: BUGLIONI, RX: BUGLIONE, DIF: I;
+	(20) TX: BRAHMANO, RX: BRASMANO, DIF: H;
+	(26) TX: UMILIAVA, RX: UNILIAVA, DIF: M;
+	(27) TX: TUBIERE, RX: TUBERI, DIF: IE;
+	(31) TX: MIGLIORE, RX: MIZIONERE, DIF: GLNE;
+	(34) TX: SNIDATI, RX: INIZI, DIF: SDAT;
+	(35) TX: MIRTALI, RX: MIRTALE, DIF: I;
+	(39) TX: HUDSON, RX: SVIDON, DIF: HUS;
+	(41) TX: ASTENERE, RX: ASTERIOIDI, DIF: NEE;
+	(42) TX: ADDUARSI, RX: ADDUALI, DIF: RS;
+	(43) TX: IONICA, RX: SONICA, DIF: I;
+	(48) TX: BALDUINO, RX: BARBANO, DIF: LDUI;
+Nota: nessuna
+***
