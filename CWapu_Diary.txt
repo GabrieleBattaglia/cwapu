@@ -5088,3 +5088,38 @@ Elenco delle parole copiate male:
 	(48) TX: BALDUINO, RX: BARBANO, DIF: LDUI;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #485 eseguito il 2025/11/24 alle 11, 1 minuti:
+In questa sessione #485, ti ho inviato 42 Parole e ne hai ricevuti 21: 50.0%
+	10 di questi sono stati ricevuti al primo ascolto: 47.6%
+	mentre 11 Parole al secondo tentativo: 52.4%.
+Durante la sessione, la tua velocità minima è stata 33.15, la massima di 40.11: pari ad una variazione di 6.96 WPM.
+	La velocità media di ricezione è di: 36.92 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 9 errori su 34 invii. Tasso errore stimato: [14.6% - 43.1%]    'I': 9 errori su 31 invii. Tasso errore stimato: [16.1% - 46.6%]    'R': 7 errori su 22 invii. Tasso errore stimato: [16.4% - 52.7%]    'T': 6 errori su 19 invii. Tasso errore stimato: [15.4% - 54.0%]    'N': 5 errori su 18 invii. Tasso errore stimato: [12.5% - 50.9%]    'G': 4 errori su 7 invii. Tasso errore stimato: [25.0% - 84.2%]    'A': 3 errori su 33 invii. Tasso errore stimato: [3.1% - 23.6%]    'L': 3 errori su 10 invii. Tasso errore stimato: [10.8% - 60.3%]    'S': 3 errori su 14 invii. Tasso errore stimato: [7.6% - 47.6%]    'U': 3 errori su 11 invii. Tasso errore stimato: [9.7% - 56.6%]    'B': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'C': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'O': 1 errori su 22 invii. Tasso errore stimato: [0.8% - 21.8%]    'V': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]
+
+Errori totali: 56 su 276 = 20.29%
+Caratteri mai sbagliati: D F H M P X Ò
+Elenco delle parole copiate male:
+	(1) TX: BUGGERII, RX: , DIF: BUGGERII;
+	(2) TX: DECIMALI, RX: DECIMALE, DIF: I;
+	(4) TX: SINUSALE, RX: SINUSOIDE, DIF: AL;
+	(5) TX: ATRABILE, RX: AMABILE, DIF: TR;
+	(8) TX: DILEGUI, RX: DIFENDE, DIF: LGUI;
+	(9) TX: TEORESI, RX: TEORIE, DIF: ISI;
+	(10) TX: ETERICHE, RX: EMERICHE, DIF: T;
+	(11) TX: ERBIVORO, RX: ERBEVUTO, DIF: IUTRO;
+	(12) TX: PANINO, RX: PANICO, DIF: N;
+	(19) TX: EBENACEA, RX: ADIBICA, DIF: EENCEA;
+	(20) TX: OLTRA, RX: OLEDA, DIF: TR;
+	(23) TX: GRIDASTE, RX: GRIDATI, DIF: SE;
+	(25) TX: RIEDE, RX: RIDE, DIF: E;
+	(28) TX: SEDUCEVO, RX: SEDUCANO, DIF: EV;
+	(29) TX: INDURITA, RX: INDUSTRIA, DIF: STT;
+	(31) TX: MEDUSEO, RX: MEDUSO, DIF: E;
+	(34) TX: SARGASSO, RX: SUNASSO, DIF: ARG;
+	(35) TX: SFINITA, RX: SFIDATA, DIF: NI;
+	(37) TX: RAGUNATI, RX: LAGUTATE, DIF: RNI;
+	(39) TX: FATTUALE, RX: FATTURAI, DIF: RLE;
+	(42) TX: PUNTANO, RX: PUNTATO, DIF: N;
+Nota: nessuna
+***
