@@ -5551,3 +5551,49 @@ Elenco delle parole copiate male:
 	(78) TX: BLEFFA, RX: BREFFA, DIF: L;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #496 eseguito il 2025/12/10 alle 10, 44 minuti:
+In questa sessione #496, ti ho inviato 74 Parole e ne hai ricevuti 42: 56.8%
+	32 di questi sono stati ricevuti al primo ascolto: 76.2%
+	mentre 10 Parole al secondo tentativo: 23.8%.
+Durante la sessione, la tua velocità minima è stata 31.00, la massima di 44.00: pari ad una variazione di 13.00 WPM.
+	La velocità media di ricezione è di: 38.88 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 9 errori su 55 invii. Tasso errore stimato: [8.9% - 28.3%]    'I': 9 errori su 58 invii. Tasso errore stimato: [8.4% - 26.9%]    'N': 7 errori su 36 invii. Tasso errore stimato: [9.8% - 35.0%]    'T': 6 errori su 41 invii. Tasso errore stimato: [6.9% - 28.4%]    'A': 5 errori su 61 invii. Tasso errore stimato: [3.6% - 17.8%]    'R': 4 errori su 35 invii. Tasso errore stimato: [4.5% - 26.0%]    'M': 3 errori su 10 invii. Tasso errore stimato: [10.8% - 60.3%]    'L': 2 errori su 26 invii. Tasso errore stimato: [2.1% - 24.1%]    'P': 2 errori su 20 invii. Tasso errore stimato: [2.8% - 30.1%]    'S': 2 errori su 35 invii. Tasso errore stimato: [1.6% - 18.6%]    'C': 1 errori su 26 invii. Tasso errore stimato: [0.7% - 18.9%]    'O': 1 errori su 50 invii. Tasso errore stimato: [0.4% - 10.5%]    'U': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'Z': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]
+
+Errori totali: 53 su 516 = 10.27%
+Caratteri mai sbagliati: B D F G H V X À Ò
+Elenco delle parole copiate male:
+	(7) TX: STAFFILI, RX: SAFFILE, DIF: TI;
+	(12) TX: TERGERAI, RX: TERGERÀ, DIF: AI;
+	(14) TX: MANDUCO, RX: GANDUCO, DIF: M;
+	(15) TX: LOGOTETA, RX: LOGOTITA, DIF: E;
+	(16) TX: VOLTAICI, RX: VOLTACI, DIF: I;
+	(17) TX: COLEROSO, RX: COLLEROSO, DIF: L;
+	(21) TX: BALENANO, RX: BALENATO, DIF: N;
+	(23) TX: BLESE, RX: BRESE, DIF: L;
+	(26) TX: EPICARPI, RX: EPICARCI, DIF: P;
+	(29) TX: CALMASSE, RX: CALMASTI, DIF: SE;
+	(31) TX: GASISTA, RX: GASSATA, DIF: IA;
+	(32) TX: GENIENO, RX: GENITO, DIF: EN;
+	(38) TX: REGGIMI, RX: REGGITI, DIF: M;
+	(39) TX: PLATINE, RX: PLATINI, DIF: E;
+	(41) TX: INGRIPPA, RX: INGREPPI, DIF: IA;
+	(42) TX: LUPINO, RX: LUCIDO, DIF: PN;
+	(44) TX: SBOCCANO, RX: SBOCCATO, DIF: N;
+	(45) TX: TITOLARI, RX: TIMOLATI, DIF: TR;
+	(46) TX: RENDERCI, RX: RENDERI, DIF: C;
+	(49) TX: SEDARONO, RX: SEDRONO, DIF: A;
+	(52) TX: ESISTI, RX: ESITI, DIF: S;
+	(53) TX: FRONZUTE, RX: FRONDATE, DIF: ZU;
+	(54) TX: TIREREMO, RX: TERIMO, DIF: IRE;
+	(59) TX: RANETTA, RX: RANETA, DIF: T;
+	(60) TX: XANTICA, RX: XANOCRA, DIF: TIR;
+	(63) TX: GESSETTO, RX: GESSSITO, DIF: ET;
+	(64) TX: STARNI, RX: SARDI, DIF: TN;
+	(66) TX: GLOSSEMI, RX: GLOSSIMI, DIF: E;
+	(67) TX: PEDINE, RX: PEDITI, DIF: NE;
+	(70) TX: CRANICI, RX: CRANICA, DIF: I;
+	(73) TX: BALOARDO, RX: BALDOMI, DIF: OARMI;
+	(74) TX: EUFONIE, RX: EUFORICI, DIF: NE;
+Nota: nessuna
+***
