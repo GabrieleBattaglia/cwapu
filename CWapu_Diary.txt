@@ -5647,3 +5647,64 @@ Elenco delle parole copiate male:
 	(67) TX: ISOBARI, RX: ASOBRIO, DIF: IAO;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #498 eseguito il 2025/12/11 alle 18, 57 minuti:
+In questa sessione #498, ti ho inviato 95 Parole e ne hai ricevuti 48: 50.5%
+	36 di questi sono stati ricevuti al primo ascolto: 75.0%
+	mentre 12 Parole al secondo tentativo: 25.0%.
+Durante la sessione, la tua velocità minima è stata 34.00, la massima di 42.00: pari ad una variazione di 8.00 WPM.
+	La velocità media di ricezione è di: 37.67 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 18 errori su 78 invii. Tasso errore stimato: [15.1% - 33.6%]    'E': 17 errori su 65 invii. Tasso errore stimato: [17.0% - 38.0%]    'A': 13 errori su 94 invii. Tasso errore stimato: [8.3% - 22.2%]    'N': 12 errori su 32 invii. Tasso errore stimato: [22.9% - 54.7%]    'T': 12 errori su 52 invii. Tasso errore stimato: [13.7% - 36.1%]    'R': 11 errori su 51 invii. Tasso errore stimato: [12.5% - 34.6%]    'C': 4 errori su 26 invii. Tasso errore stimato: [6.1% - 33.5%]    'D': 3 errori su 15 invii. Tasso errore stimato: [7.0% - 45.2%]    'M': 3 errori su 14 invii. Tasso errore stimato: [7.6% - 47.6%]    'U': 3 errori su 22 invii. Tasso errore stimato: [4.7% - 33.3%]    'G': 2 errori su 25 invii. Tasso errore stimato: [2.2% - 25.0%]    'L': 2 errori su 28 invii. Tasso errore stimato: [2.0% - 22.6%]    'O': 2 errori su 56 invii. Tasso errore stimato: [1.0% - 12.1%]    'V': 2 errori su 14 invii. Tasso errore stimato: [4.0% - 39.9%]    'B': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'H': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'P': 1 errori su 20 invii. Tasso errore stimato: [0.9% - 23.6%]    'S': 1 errori su 34 invii. Tasso errore stimato: [0.5% - 14.9%]    'Z': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'É': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]
+
+Errori totali: 110 su 664 = 16.57%
+Caratteri mai sbagliati: F X À Ò
+Elenco delle parole copiate male:
+	(1) TX: USENET, RX: USCENTE, DIF: CTT;
+	(2) TX: MOGLI, RX: MOGLIE, DIF: E;
+	(4) TX: SARACINA, RX: SARACENA, DIF: I;
+	(8) TX: RIPESATE, RX: REPESTATE, DIF: IT;
+	(10) TX: TURAMMO, RX: TURATTO, DIF: MM;
+	(14) TX: PENERI, RX: PENARE, DIF: ARRI;
+	(16) TX: ANODICA, RX: ANODISCA, DIF: S;
+	(17) TX: ERGATIVO, RX: ERGANIVA, DIF: TO;
+	(18) TX: NAVARCO, RX: NAURACO, DIF: VR;
+	(22) TX: SAPIDA, RX: SAPRAI, DIF: RADA;
+	(23) TX: MUTULA, RX: MUTUALE, DIF: AA;
+	(27) TX: GETTÒ, RX: GATTÒ, DIF: E;
+	(29) TX: MENDACIE, RX: MINACCIA, DIF: EDCE;
+	(30) TX: ABBAIAVA, RX: ABBITAVA, DIF: AT;
+	(31) TX: FASCIOLE, RX: FASCINOSE, DIF: NL;
+	(34) TX: UXORIE, RX: UXORICI, DIF: E;
+	(35) TX: SBATTÉ, RX: SBATTÈ, DIF: É;
+	(36) TX: FICULNEE, RX: FICULEE, DIF: N;
+	(39) TX: LATTIERA, RX: LATTERIA, DIF: II;
+	(43) TX: MODULANO, RX: MODULATO, DIF: N;
+	(46) TX: PIRESSIA, RX: PERISSA, DIF: ERREI;
+	(47) TX: DETENUTE, RX: DETATURE, DIF: ATURNUTE;
+	(50) TX: UCRONICO, RX: UKROLO, DIF: CNIC;
+	(51) TX: FRUGANTE, RX: FRUGATE, DIF: N;
+	(54) TX: SPESATI, RX: SPESATE, DIF: I;
+	(57) TX: AREO, RX: AGO, DIF: RE;
+	(58) TX: CARNICCI, RX: CARDICCI, DIF: N;
+	(59) TX: REMICO, RX: RIMICO, DIF: E;
+	(60) TX: CAPTIVI, RX: CAPIVI, DIF: T;
+	(64) TX: APPUNTA, RX: APPNTA, DIF: U;
+	(65) TX: PRURITO, RX: PRUDENTE, DIF: RIO;
+	(66) TX: TRANSITÒ, RX: TRANISTÒ, DIF: II;
+	(70) TX: APOCINI, RX: APOCIDE, DIF: NI;
+	(71) TX: ARRINGHI, RX: ARRENDEVI, DIF: ENDEVNGHI;
+	(72) TX: BARBOSI, RX: BARDOSI, DIF: B;
+	(74) TX: SORORALE, RX: SOROLOI, DIF: RAE;
+	(75) TX: SALIREI, RX: SALIRE, DIF: I;
+	(76) TX: ERIGETE, RX: ERZITE, DIF: ZGE;
+	(79) TX: STOZZAVA, RX: STOZZAVI, DIF: A;
+	(80) TX: BIASIMI, RX: BIASTI, DIF: TMI;
+	(82) TX: FAUTRICI, RX: FAUCITE, DIF: TRITE;
+	(86) TX: AGGIRAVA, RX: AGGIRAVI, DIF: A;
+	(87) TX: DOPAGGIO, RX: DOPPIAGGIO, DIF: PI;
+	(89) TX: MAONIE, RX: AMOREE, DIF: AANIE;
+	(90) TX: ALETTARE, RX: ALLETTARE, DIF: L;
+	(94) TX: SEGATE, RX: SEGNO, DIF: ATE;
+	(95) TX: COETANEE, RX: COETAEE, DIF: N;
+Nota: nessuna
+***
