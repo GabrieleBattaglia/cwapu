@@ -5708,3 +5708,79 @@ Elenco delle parole copiate male:
 	(95) TX: COETANEE, RX: COETAEE, DIF: N;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #499 eseguito il 2025/12/12 alle 11, 51 minuti:
+In questa sessione #499, ti ho inviato 130 Parole e ne hai ricevuti 68: 52.3%
+	32 di questi sono stati ricevuti al primo ascolto: 47.1%
+	mentre 36 Parole al secondo tentativo: 52.9%.
+Durante la sessione, la tua velocità minima è stata 37.00, la massima di 47.00: pari ad una variazione di 10.00 WPM.
+	La velocità media di ricezione è di: 41.34 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 26 errori su 123 invii. Tasso errore stimato: [14.9% - 29.2%]    'E': 22 errori su 87 invii. Tasso errore stimato: [17.3% - 35.3%]    'N': 13 errori su 59 invii. Tasso errore stimato: [13.4% - 34.1%]    'R': 12 errori su 74 invii. Tasso errore stimato: [9.5% - 26.2%]    'A': 10 errori su 109 invii. Tasso errore stimato: [5.1% - 16.1%]    'T': 9 errori su 55 invii. Tasso errore stimato: [8.9% - 28.3%]    'C': 5 errori su 46 invii. Tasso errore stimato: [4.7% - 23.0%]    'D': 5 errori su 26 invii. Tasso errore stimato: [8.5% - 37.9%]    'L': 4 errori su 31 invii. Tasso errore stimato: [5.1% - 28.9%]    'M': 4 errori su 26 invii. Tasso errore stimato: [6.1% - 33.5%]    'O': 4 errori su 75 invii. Tasso errore stimato: [2.1% - 12.9%]    'S': 4 errori su 45 invii. Tasso errore stimato: [3.5% - 20.7%]    'G': 3 errori su 23 invii. Tasso errore stimato: [4.5% - 32.1%]    'U': 3 errori su 22 invii. Tasso errore stimato: [4.7% - 33.3%]    'V': 3 errori su 21 invii. Tasso errore stimato: [5.0% - 34.6%]    'B': 2 errori su 17 invii. Tasso errore stimato: [3.3% - 34.3%]    'Z': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'P': 1 errori su 32 invii. Tasso errore stimato: [0.6% - 15.7%]
+
+Errori totali: 132 su 901 = 14.65%
+Caratteri mai sbagliati: F H K À Ì Ò
+Elenco delle parole copiate male:
+	(2) TX: INCITA, RX: INCIDA, DIF: T;
+	(9) TX: SPANINO, RX: SPANIO, DIF: N;
+	(10) TX: DIATRIBA, RX: DIALIBA, DIF: TR;
+	(11) TX: MELLEA, RX: MILLIA, DIF: EE;
+	(12) TX: BRITANNA, RX: BRITANIA, DIF: N;
+	(13) TX: RESSE, RX: RESSI, DIF: E;
+	(14) TX: LEGNACEO, RX: LEGNACIO, DIF: E;
+	(18) TX: DESINATE, RX: BESSATE, DIF: DIN;
+	(22) TX: PREVIENI, RX: PRIVATI, DIF: EATENI;
+	(23) TX: INGERI, RX: INGLESE, DIF: LRI;
+	(24) TX: IPPICHE, RX: EPPICCHE, DIF: IC;
+	(29) TX: STERTORI, RX: STERZEREMO, DIF: TRI;
+	(31) TX: ISTMICA, RX: ISMICA, DIF: T;
+	(32) TX: SPIRANDO, RX: ISPIRANDO, DIF: I;
+	(33) TX: BERLENGO, RX: BERLINO, DIF: EG;
+	(35) TX: EUFORBIE, RX: EUFORIE, DIF: B;
+	(37) TX: GUARDINI, RX: GUARDINE, DIF: I;
+	(40) TX: TEUCRO, RX: TEUROIA, DIF: CIA;
+	(41) TX: PLEURITE, RX: PRIVATA, DIF: LEUVAE;
+	(42) TX: INTONANO, RX: INTORNO, DIF: NA;
+	(44) TX: TURGORE, RX: TURGOLI, DIF: RE;
+	(46) TX: SFOCERAI, RX: SFORARCI, DIF: CERC;
+	(47) TX: TRISTI, RX: TRISTE, DIF: I;
+	(48) TX: SUDAVI, RX: SVIVI, DIF: UDAVI;
+	(51) TX: CODARDIE, RX: CODARDI, DIF: E;
+	(56) TX: CIANCA, RX: CIANCIA, DIF: I;
+	(57) TX: GARZATA, RX: GAZATA, DIF: R;
+	(58) TX: SUCIDUME, RX: SUCIDE, DIF: UM;
+	(60) TX: IRRISA, RX: IRRITA, DIF: S;
+	(61) TX: MACCHIAI, RX: TACCHIAI, DIF: M;
+	(67) TX: BIOGRAFE, RX: BIOGRAFA, DIF: E;
+	(69) TX: TATUINO, RX: TATUO, DIF: IN;
+	(72) TX: MIOPIE, RX: MIOPI, DIF: E;
+	(74) TX: PURGAVA, RX: PURAVA, DIF: G;
+	(79) TX: ANGIOLA, RX: ANZIANA, DIF: GOLNA;
+	(80) TX: STEPPICO, RX: SERPICO, DIF: TP;
+	(83) TX: RODERETE, RX: RODERTE, DIF: E;
+	(84) TX: AUTOCORE, RX: AUTOCODE, DIF: R;
+	(86) TX: INVADERA, RX: SNAURA, DIF: IVDE;
+	(87) TX: NUMIDICI, RX: NUMERICI, DIF: ID;
+	(89) TX: GIOVATA, RX: GIOVANA, DIF: T;
+	(90) TX: EDREDONI, RX: EDRIZO, DIF: EDNI;
+	(92) TX: ASPIRAVA, RX: ISPIRAVA, DIF: A;
+	(94) TX: BARIONI, RX: BRAMA, DIF: RRIONI;
+	(98) TX: ANNUNZI, RX: ANNUABLE, DIF: NZI;
+	(100) TX: NEVRASSE, RX: NEVASSE, DIF: R;
+	(101) TX: NENFRO, RX: NEMEFAO, DIF: NR;
+	(102) TX: AGEUSIA, RX: AGUISUA, DIF: EII;
+	(105) TX: PISTRICE, RX: PISTRICI, DIF: E;
+	(106) TX: RIPATICI, RX: RIPARACI, DIF: TI;
+	(108) TX: RETORICI, RX: RITMOROI, DIF: EMOCI;
+	(109) TX: TREMENDA, RX: TREMENDI, DIF: A;
+	(112) TX: VELISMI, RX: VERSIO, DIF: LSMI;
+	(113) TX: BRUNESE, RX: BRUSIE, DIF: NSE;
+	(114) TX: BAMBAGIE, RX: MAMBAGE, DIF: BI;
+	(118) TX: CREDERAI, RX: CREDEREI, DIF: A;
+	(121) TX: SCOSTERÒ, RX: SCOTTERÒ, DIF: S;
+	(122) TX: ENEIDE, RX: EMEDE, DIF: NI;
+	(123) TX: PESTATI, RX: PISTATI, DIF: E;
+	(125) TX: RADAZZA, RX: RADRIZZA, DIF: A;
+	(128) TX: MUFLONI, RX: MUFLINE, DIF: OI;
+	(129) TX: BITORZO, RX: BIOLFO, DIF: TRZ;
+Nota: nessuna
+***
