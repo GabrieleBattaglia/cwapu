@@ -5784,3 +5784,34 @@ Elenco delle parole copiate male:
 	(129) TX: BITORZO, RX: BIOLFO, DIF: TRZ;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #500 eseguito il 2025/12/14 alle 17, 33 minuti:
+In questa sessione #500, ti ho inviato 40 Parole e ne hai ricevuti 23: 57.5%
+	23 di questi sono stati ricevuti al primo ascolto: 100.0%
+	mentre 0 Parole al secondo tentativo: 0.0%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 35.00: pari ad una variazione di 0.00 WPM.
+	La velocità media di ricezione è di: 35.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 8 errori su 35 invii. Tasso errore stimato: [12.1% - 39.0%]    'R': 7 errori su 23 invii. Tasso errore stimato: [15.6% - 50.9%]    'A': 5 errori su 36 invii. Tasso errore stimato: [6.1% - 28.7%]    'N': 5 errori su 18 invii. Tasso errore stimato: [12.5% - 50.9%]    'T': 4 errori su 19 invii. Tasso errore stimato: [8.5% - 43.3%]    'E': 2 errori su 28 invii. Tasso errore stimato: [2.0% - 22.6%]    'S': 2 errori su 22 invii. Tasso errore stimato: [2.5% - 27.8%]    'C': 1 errori su 20 invii. Tasso errore stimato: [0.9% - 23.6%]    'G': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'L': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'M': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'U': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'V': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 39 su 289 = 13.49%
+Caratteri mai sbagliati: B D F H K O P Q Z Ò
+Elenco delle parole copiate male:
+	(5) TX: QUEST, RX: QUESTA, DIF: A;
+	(6) TX: IRANIANO, RX: IRNIATO, DIF: AN;
+	(7) TX: RADAZZA, RX: RANDAZZA, DIF: N;
+	(9) TX: RITENEVI, RX: RITENEVA, DIF: I;
+	(10) TX: IPOFONIA, RX: SPROFONDA, DIF: IRI;
+	(13) TX: GIRARSI, RX: QUIRACI, DIF: GRS;
+	(14) TX: CRACKING, RX: KARCKIG, DIF: CAN;
+	(16) TX: ANZIATA, RX: ANZIANA, DIF: T;
+	(17) TX: SPAMPANA, RX: SPAMPATO, DIF: NA;
+	(18) TX: AGGETTI, RX: AGGETE, DIF: TI;
+	(19) TX: BARRISCA, RX: BARDESCA, DIF: RI;
+	(20) TX: LIMOSINE, RX: RIMOSTE, DIF: LIN;
+	(23) TX: ENTOZOO, RX: ETNOZOO, DIF: TT;
+	(28) TX: IMERESE, RX: INSERIRE, DIF: MIRSE;
+	(30) TX: MATERNE, RX: MARTINE, DIF: RER;
+	(32) TX: AMITTI, RX: AMMETTI, DIF: I;
+	(37) TX: FORATURA, RX: FORATAVA, DIF: URVA;
+Nota: nessuna
+***
