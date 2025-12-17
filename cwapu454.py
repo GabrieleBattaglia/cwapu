@@ -35,7 +35,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.7.0, 2025-12-17)'
+VERSION = '4.5.4, 2025-11-23)'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
@@ -43,13 +43,13 @@ WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 USER_DATA_PATH = get_user_data_path()
 SETTINGS_FILE = os.path.join(USER_DATA_PATH, 'cwapu_settings.json')
 RX_SWITCHER_ITEMS = [
-    {'id': '1', 'key_state': _('parole'), 'label_key': 'menu_rx_switcher_parole', 'is_exclusive': False, 'category_group': 'WORDS'},
-    {'id': '2', 'key_state': _('lettere'), 'label_key': 'menu_rx_switcher_lettere', 'is_exclusive': False, 'category_group': 'CHARS'},
-    {'id': '3', 'key_state': _('numeri'), 'label_key': 'menu_rx_switcher_numeri', 'is_exclusive': False, 'category_group': 'CHARS'},
-    {'id': '4', 'key_state': _('lettere e numeri'), 'label_key': 'menu_rx_switcher_lettere_numeri', 'is_exclusive': False, 'category_group': 'CHARS'},
-    {'id': '5', 'key_state': _('simboli'), 'label_key': 'menu_rx_switcher_simboli', 'is_exclusive': False, 'category_group': 'CHARS'},
-    {'id': '6', 'key_state': 'qrz', 'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False, 'category_group': 'QRZ'},
-    {'id': '7', 'key_state': _('custom'), 'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True, 'category_group': 'CUSTOM'}
+    {'id': '1', 'key_state': _('parole'), 'label_key': 'menu_rx_switcher_parole', 'is_exclusive': False},
+    {'id': '2', 'key_state': _('lettere'), 'label_key': 'menu_rx_switcher_lettere', 'is_exclusive': False},
+    {'id': '3', 'key_state': _('numeri'), 'label_key': 'menu_rx_switcher_numeri', 'is_exclusive': False},
+    {'id': '4', 'key_state': _('lettere e numeri'), 'label_key': 'menu_rx_switcher_lettere_numeri', 'is_exclusive': False},
+    {'id': '5', 'key_state': _('simboli'), 'label_key': 'menu_rx_switcher_simboli', 'is_exclusive': False},
+    {'id': '6', 'key_state': 'qrz', 'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False},
+    {'id': '7', 'key_state': _('custom'), 'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True}
 ]
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 730
 HISTORICAL_RX_REPORT_INTERVAL = 3500
@@ -70,21 +70,9 @@ DEFAULT_DATA = {
                             'ms': 1,
                             'fs_index': 5,
                             'wave_index': 1},
-                        'rxing_stats_words': {
+                        'rxing_stats': {
                             'total_calls': 0,
-                            'sessions': 0,
-                            'total_correct': 0,
-                            'total_wrong_items': 0,
-                            'total_time_seconds': 0.0},
-                        'rxing_stats_chars': {
-                            'total_calls': 0,
-                            'sessions': 0,
-                            'total_correct': 0,
-                            'total_wrong_items': 0,
-                            'total_time_seconds': 0.0},
-                        'rxing_stats_qrz': {
-                            'total_calls': 0,
-                            'sessions': 0,
+                            'sessions': 1,
                             'total_correct': 0,
                             'total_wrong_items': 0,
                             'total_time_seconds': 0.0},
@@ -101,19 +89,8 @@ DEFAULT_DATA = {
                             'parole_filter_min': 3,
                             'parole_filter_max': 7,
                             'custom_set_string': ''},
-                        'historical_rx_settings': {
-                            'max_sessions_to_keep': HISTORICAL_RX_MAX_SESSIONS_DEFAULT,
-                            'report_interval': HISTORICAL_RX_REPORT_INTERVAL,
-                            },
-                        'historical_rx_data_words': {
-                            'chars_since_last_report': 0,
-                            'sessions_log': [],
-                            'historical_reports': []},
-                        'historical_rx_data_chars': {
-                            'chars_since_last_report': 0,
-                            'sessions_log': [],
-                            'historical_reports': []},
-                        'historical_rx_data_qrz': {
+                        'historical_rx_data': {
+                            'max_sessions_to_keep': HISTORICAL_RX_MAX_SESSIONS_DEFAULT, 'report_interval': HISTORICAL_RX_REPORT_INTERVAL,
                             'chars_since_last_report': 0,
                             'sessions_log': [],
                             'historical_reports': []}}
@@ -273,24 +250,9 @@ def seleziona_modalita_rx():
             return {'active_switcher_states': current_switcher_states, 'parole_filtrate_list': parole_filtrate_sessione if current_switcher_states.get('parole') else None, 'custom_set_string_active': custom_set_string_sessione if current_switcher_states.get('custom') else None, 'group_length_for_generated': group_len_val_final}
         elif scelta.isdigit() and '1' <= scelta <= str(len(RX_SWITCHER_ITEMS)):
             chosen_idx = int(scelta) - 1
-            item_config_toggled = RX_SWITCHER_ITEMS[chosen_idx]
-            item_key_toggle_loop = item_config_toggled['key_state']
-            
-            # Toggle dello stato
+            item_key_toggle_loop = RX_SWITCHER_ITEMS[chosen_idx]['key_state']
             current_switcher_states[item_key_toggle_loop] = not current_switcher_states[item_key_toggle_loop]
-            is_now_active = current_switcher_states[item_key_toggle_loop]
-
-            # Logica di esclusione mutua basata su Category Group
-            if is_now_active:
-                my_group = item_config_toggled.get('category_group')
-                if my_group:
-                    for other_item in RX_SWITCHER_ITEMS:
-                        # Se l'altro item appartiene a un gruppo DIVERSO, spegnilo.
-                        # Gli item dello STESSO gruppo (es. lettere e numeri) possono coesistere.
-                        if other_item['key_state'] != item_key_toggle_loop and other_item.get('category_group') != my_group:
-                            current_switcher_states[other_item['key_state']] = False
-
-            if is_now_active:
+            if current_switcher_states[item_key_toggle_loop]:
                 if item_key_toggle_loop == 'parole':
                     min_len_saved_loop = current_switcher_states.get('parole_filter_min', 0)
                     max_len_saved_loop = current_switcher_states.get('parole_filter_max', 0)
@@ -668,75 +630,28 @@ def load_settings():
         try:
             with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
                 loaded_data = json.load(f)
-            
-            # --- Logica di Migrazione ---
-            overall_settings_changed = False # Reset per questa sezione
-
-            # Migrazione delle vecchie statistiche rxing
-            if 'rxing_stats' in loaded_data:
-                if 'rxing_stats_words' not in loaded_data:
-                    loaded_data['rxing_stats_words'] = loaded_data['rxing_stats']
-                del loaded_data['rxing_stats']
-                print(_("Migrated old 'rxing_stats' to 'rxing_stats_words'."))
-                overall_settings_changed = True
-
-            # Migrazione dei vecchi dati storici rxing
-            if 'historical_rx_data' in loaded_data:
-                old_historical_data = loaded_data['historical_rx_data']
-
-                # Migra le impostazioni condivise se non esistono ancora
-                if 'historical_rx_settings' not in loaded_data:
-                    loaded_data['historical_rx_settings'] = {
-                        'max_sessions_to_keep': old_historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT),
-                        'report_interval': old_historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL),
-                    }
-                
-                # Migra i dati effettivi (log delle sessioni) in _words
-                if 'historical_rx_data_words' not in loaded_data:
-                    loaded_data['historical_rx_data_words'] = {
-                        'chars_since_last_report': old_historical_data.get('chars_since_last_report', 0),
-                        'sessions_log': old_historical_data.get('sessions_log', []),
-                        'historical_reports': old_historical_data.get('historical_reports', [])
-                    }
-                del loaded_data['historical_rx_data']
-                print(_("Migrated old 'historical_rx_data' to 'historical_rx_data_words' and extracted settings."))
-                overall_settings_changed = True
-
-            # Fine Logica di Migrazione
-
             merged_data = {}
             for main_key, default_values in DEFAULT_DATA.items():
                 loaded_section = loaded_data.get(main_key, {})
-                # Gestione speciale per historical_rx_settings se c'è un'override nelle default_values
-                if main_key == 'historical_rx_settings' and 'max_sessions_to_keep' in loaded_section and 'report_interval' in loaded_section:
-                    merged_data[main_key] = loaded_section  # Usa i valori caricati, non i default
-                    continue
-                elif main_key == 'historical_rx_settings': # Se non ci sono override nei loaded_section per questi valori
-                    merged_data[main_key] = default_values.copy() # Usa i default
-                    if 'max_sessions_to_keep' in loaded_section:
-                        merged_data[main_key]['max_sessions_to_keep'] = loaded_section['max_sessions_to_keep']
-                    if 'report_interval' in loaded_section:
-                        merged_data[main_key]['report_interval'] = loaded_section['report_interval']
-                    continue
-                # Il resto della gestione è per le altre sezioni che non hanno logica di merge speciale
                 if isinstance(default_values, dict):
                     merged_section = default_values.copy()
-                else: # Per valori non dizionari, come liste o semplici tipi
+                else:
                     merged_section = default_values
-
-                if isinstance(merged_section, dict) and isinstance(loaded_section, dict):
-                    merged_section.update(loaded_section) # Applica i valori caricati sui default
+                if main_key == 'historical_rx_data':
+                    if isinstance(merged_section, dict):
+                        if 'max_sessions_to_keep' in loaded_section and isinstance(loaded_section['max_sessions_to_keep'], int):
+                            merged_section['max_sessions_to_keep'] = loaded_section['max_sessions_to_keep']
+                        if 'historical_reports' in loaded_section and isinstance(loaded_section['historical_reports'], list):
+                            merged_section['historical_reports'] = loaded_section['historical_reports']
+                        if 'report_interval' in loaded_section and isinstance(loaded_section['report_interval'], int):
+                            merged_section['report_interval'] = loaded_section['report_interval']
+                        if 'chars_since_last_report' in loaded_section and isinstance(loaded_section['chars_since_last_report'], int):
+                            merged_section['chars_since_last_report'] = loaded_section['chars_since_last_report']
+                        if 'sessions_log' in loaded_section and isinstance(loaded_section['sessions_log'], list):
+                            merged_section['sessions_log'] = loaded_section['sessions_log']
+                elif isinstance(merged_section, dict) and isinstance(loaded_section, dict):
+                    merged_section.update(loaded_section)
                 merged_data[main_key] = merged_section
-            
-            # Assicurati che le nuove chiavi siano inizializzate se non presenti dopo la migrazione
-            for key_suffix in ['words', 'chars', 'qrz']:
-                rx_stats_key = f'rxing_stats_{key_suffix}'
-                if rx_stats_key not in merged_data:
-                    merged_data[rx_stats_key] = DEFAULT_DATA[rx_stats_key].copy()
-                hist_data_key = f'historical_rx_data_{key_suffix}'
-                if hist_data_key not in merged_data:
-                    merged_data[hist_data_key] = DEFAULT_DATA[hist_data_key].copy()
-
             overall_settings_default = DEFAULT_DATA.get('overall_settings', {})
             app_language_default = overall_settings_default.get('app_language', 'en')
             loaded_overall_settings = merged_data.get('overall_settings', overall_settings_default)
@@ -1258,38 +1173,6 @@ def AlwaysRight(sent_items, error_counts_dict):
     letters_misspelled = set(error_counts_dict.keys())
     return letters_sent - letters_misspelled
 
-def format_duration(td):
-    """
-    Format a timedelta object into a localized string.
-    Example: 3 giorni, 15 ore, 26 minuti e 3 secondi
-    """
-    total_seconds = int(td.total_seconds())
-    days = total_seconds // 86400
-    remainder = total_seconds % 86400
-    hours = remainder // 3600
-    remainder %= 3600
-    minutes = remainder // 60
-    seconds = remainder % 60
-
-    parts = []
-    if days > 0:
-        part = _("{count} giorni") if days > 1 else _("{count} giorno")
-        parts.append(part.format(count=days))
-    if hours > 0:
-        part = _("{count} ore") if hours > 1 else _("{count} ora")
-        parts.append(part.format(count=hours))
-    if minutes > 0:
-        part = _("{count} minuti") if minutes > 1 else _("{count} minuto")
-        parts.append(part.format(count=minutes))
-    if seconds > 0 or not parts: # Show seconds if it's the only thing or > 0
-        part = _("{count} secondi") if seconds != 1 else _("{count} secondo")
-        parts.append(part.format(count=seconds))
-
-    if len(parts) == 1:
-        return parts[0]
-
-    return ", ".join(parts[:-1]) + " " + _("e") + " " + parts[-1]
-
 def Rxing():
     global app_data, overall_settings_changed, overall_speed, words, customized_set
     print(_("\nE' il momento giusto per un bell'esercizio di ricezione? Ottimo, allora sei nel posto giusto.\nIniziamo!\n\tCarico lo stato dei tuoi progressi e controllo il database del dizionario..."))
@@ -1297,55 +1180,14 @@ def Rxing():
         words = file.readlines()
         words = [line.strip() for line in words]
         print(_('Dizionario delle parole caricato con {word_count} parole.').format(word_count=len(words)))
-
-    # Sposta la selezione della modalità qui, prima della visualizzazione delle statistiche
-    menu_config_scelta = seleziona_modalita_rx()
-    if not menu_config_scelta:
-        return
-
-    # Estrai i parametri della sessione dalla scelta dell'utente
-    active_states = menu_config_scelta['active_switcher_states']
-    parole_filtrate_per_sessione = menu_config_scelta['parole_filtrate_list']
-    custom_set_attivo_per_sessione = menu_config_scelta['custom_set_string_active']
-    lunghezza_gruppo_per_generati = menu_config_scelta['group_length_for_generated']
-
-    # Determina la categoria (words, chars, qrz)
-    category_key = ""
-    # La logica è che se le "parole" sono attive, è un esercizio di parole.
-    # Altrimenti, se "qrz" è attivo, è un esercizio di qrz.
-    # Altrimenti, è un esercizio di caratteri/misto.
-    if active_states.get('parole'):
-        category_key = "words"
-    elif active_states.get('qrz'):
-        category_key = "qrz"
-    else: # Qualsiasi altra combinazione (lettere, numeri, simboli, custom, misto)
-        category_key = "chars"
-
-    # Seleziona i dizionari di statistiche e dati storici corretti per la sessione corrente
-    current_rx_stats = app_data[f'rxing_stats_{category_key}']
-    current_historical_data = app_data[f'historical_rx_data_{category_key}']
-    historical_settings = app_data['historical_rx_settings'] # Le impostazioni sono condivise per tutte le categorie
-
-    # Ora usa current_rx_stats e current_historical_data per il resto della funzione
-
-    totalcalls = current_rx_stats.get('total_calls', 0)
-    sessions = current_rx_stats.get('sessions', 0) # Inizializzato a 0 in DEFAULT_DATA
-    totalget = current_rx_stats.get('total_correct', 0)
-    totalwrong = current_rx_stats.get('total_wrong_items', 0)
-    totaltime_seconds = current_rx_stats.get('total_time_seconds', 0.0)
+    rx_stats = app_data['rxing_stats']
+    totalcalls = rx_stats.get('total_calls', 0)
+    sessions = rx_stats.get('sessions', 1)
+    totalget = rx_stats.get('total_correct', 0)
+    totalwrong = rx_stats.get('total_wrong_items', 0)
+    totaltime_seconds = rx_stats.get('total_time_seconds', 0.0)
     totaltime = dt.timedelta(seconds=totaltime_seconds)
-    formatted_time = format_duration(totaltime)
-    
-    # Messaggio di benvenuto aggiornato
-    print(_('Ho recuperato i tuoi dati dal disco per gli esercizi di {category_name}, quindi:\nLa tua attuale velocità WPM è {wpm} e hai svolto {sessions} sessioni.\nTi ho inviato {totalcalls} pseudo-call o gruppi e ne hai ricevuti correttamente {totalget}, mentre {totalwrong} li hai copiati male.\nIl tempo totale speso su questo esercizio è stato di {totaltime}.').format(
-        category_name=_('parole') if category_key == 'words' else _('caratteri/misto') if category_key == 'chars' else 'QRZ',
-        wpm=overall_speed, 
-        sessions=sessions, # Non più sessions - 1, perché sessions conterà le sessioni completate
-        totalcalls=totalcalls, 
-        totalget=totalget, 
-        totalwrong=totalwrong, 
-        totaltime=formatted_time))
-    
+    print(_('Ho recuperato i tuoi dati dal disco, quindi:\nLa tua attuale velocità WPM è {wpm} e hai svolto {sessions} sessioni.\nTi ho inviato {totalcalls} pseudo-call o gruppi e ne hai ricevuti correttamente {totalget}, mentre {totalwrong} li hai copiati male.\nIl tempo totale speso su questo esercizio è stato di {totaltime}.').format(wpm=overall_speed, sessions=sessions - 1, totalcalls=totalcalls, totalget=totalget, totalwrong=totalwrong, totaltime=str(totaltime).split('.')[0]))
     callssend = []
     average_rwpm = 0.0
     dz_mistakes = {}
@@ -1357,13 +1199,18 @@ def Rxing():
     minwpm = 100
     maxwpm = 0
     repeatedflag = False
-    
-    # Usa le impostazioni storiche condivise
-    max_sessions_to_keep = historical_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
-    report_interval = historical_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
-
+    historical_rx_settings = app_data.get('historical_rx_data', {})
+    max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+    report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
     overall_speed = dgt(prompt=_('Vuoi cambiare la velocità in WPM? Invio per accettare {wpm}> ').format(wpm=overall_speed), kind='i', imin=10, imax=85, default=overall_speed)
     rwpm = overall_speed
+    menu_config_scelta = seleziona_modalita_rx()
+    if not menu_config_scelta:
+        return
+    active_states = menu_config_scelta['active_switcher_states']
+    parole_filtrate_per_sessione = menu_config_scelta['parole_filtrate_list']
+    custom_set_attivo_per_sessione = menu_config_scelta['custom_set_string_active']
+    lunghezza_gruppo_per_generati = menu_config_scelta['group_length_for_generated']
     _clear_screen_ansi()
     active_labels_for_display = []
     for item_cfg_ks in RX_SWITCHER_ITEMS:
@@ -1515,9 +1362,64 @@ def Rxing():
             print(_('\nCaratteri mai sbagliati: {good_letters}').format(good_letters=' '.join(sorted(good_letters)).upper()))
         else:
             print(_('Nessun errore sui caratteri registrato in questa sessione.'))
-        historical_rx_settings = app_data.get('historical_rx_settings', {})
+        historical_rx_settings = app_data.get('historical_rx_data', {})
         max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
         report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+        corrected_item_details = [{'rwpm': item['wpm'], 'correct': item['correct']} for item in item_details]
+        session_data_for_history = {
+            'timestamp_iso': starttime.isoformat(),
+            'duration_seconds': active_exerctime.total_seconds(),
+            'rwpm_min': minwpm, # Il nome qui potrebbe diventare 'rwpm_min' per coerenza
+            'rwpm_max': maxwpm, # e qui 'rwpm_max'
+            'rwpm_avg': avg_wpm_calc,  # <-- Chiave CHIARA E UNIVOCA
+            'items_sent_session': len(callssend),
+            'items_correct_session': len(callsget),
+            'item_details': corrected_item_details, # <-- Ora contiene la chiave 'rwpm'
+            'chars_sent_session': send_char,
+            'errors_detail_session': char_error_counts,
+            'total_errors_chars_session': total_mistakes_calculated,
+            'sent_chars_detail_session': sent_chars_detail_this_session
+        }
+        historical_rx_log = app_data.get('historical_rx_data', {}).get('sessions_log', [])
+        historical_rx_log.append(session_data_for_history)
+        x = len(historical_rx_log)
+        g = max_sessions_to_keep
+        print(_("L'archivio ora contiene {x} sessioni salvate, ancora {g_minus_x} al raggiungimento del limite stabilito.").format(x=x, g_minus_x=g - x))
+        while len(historical_rx_log) > max_sessions_to_keep:
+            sessione_eliminata = historical_rx_log.pop(0)
+            data_sessione_str = sessione_eliminata.get('timestamp_iso', 'N/D')
+            data_sessione_dt = dt.datetime.fromisoformat(data_sessione_str).strftime('%Y-%m-%d %H:%M')
+            durata_sessione = int(sessione_eliminata.get('duration_seconds', 0))
+            contenuto_sessione = sessione_eliminata.get('chars_sent_session', 0)
+            print(_("Sessione del {data}, durata {durata}s, contenuto {contenuto} caratteri, eliminata dalla coda.").format(
+                data=data_sessione_dt, 
+                durata=durata_sessione, 
+                contenuto=contenuto_sessione
+            ))
+        if 'historical_rx_data' not in app_data:
+            app_data['historical_rx_data'] = DEFAULT_DATA['historical_rx_data'].copy()
+        app_data['historical_rx_data']['chars_since_last_report'] = app_data['historical_rx_data'].get('chars_since_last_report', 0) + send_char
+        app_data['historical_rx_data']['sessions_log'] = historical_rx_log
+        overall_settings_changed = True
+        if report_interval > 0 and app_data['historical_rx_data']['chars_since_last_report'] >= report_interval:
+            print(_('Generazione report storico in corso...'))
+            sessions_log = app_data.get('historical_rx_data', {}).get('sessions_log', [])
+            chars_to_account_for = app_data['historical_rx_data']['chars_since_last_report']
+            sessions_for_this_report = []
+            accumulated_chars = 0
+            for session in reversed(sessions_log):
+                sessions_for_this_report.insert(0, session)
+                accumulated_chars += session.get('chars_sent_session', 0)
+                if accumulated_chars >= chars_to_account_for:
+                    break
+            new_report_aggregates = generate_historical_rx_report(sessions_for_this_report)
+            if new_report_aggregates:
+                historical_reports = app_data.get('historical_rx_data', {}).get('historical_reports', [])
+                historical_reports.append(new_report_aggregates)
+                app_data['historical_rx_data']['historical_reports'] = historical_reports
+            chars_in_this_report = accumulated_chars
+            overshoot = chars_in_this_report - report_interval
+            app_data['historical_rx_data']['chars_since_last_report'] = max(0, overshoot)
         f = open('CWapu_Diary.txt', 'a', encoding='utf-8')
         print(_('Rapporto salvato su CW_Diary.txt'))
         date = _('{}/{}/{}').format(lt()[0], lt()[1], lt()[2])
@@ -1551,7 +1453,7 @@ def Rxing():
             rslt = MistakesCollectorInStrings(v[0], v[1])
             f.write(_('\n\t({k}) TX: {tx}, RX: {rx}, DIF: {dif};').format(k=k, tx=v[0].upper(), rx=v[1].upper(), dif=rslt.upper()))
         if report_interval > 0:
-            chars_done = app_data[f'historical_rx_data_{category_key}'].get('chars_since_last_report', 0)
+            chars_done = app_data['historical_rx_data'].get('chars_since_last_report', 0)
             chars_target = report_interval
             percentage_done = chars_done / chars_target * 100 if chars_target > 0 else 0.0
             chars_missing = chars_target - chars_done
@@ -1569,86 +1471,17 @@ def Rxing():
     current_session_items = len(callssend)
     current_session_correct = len(callsget)
     current_session_wrong = len(dz_mistakes)
-
-    new_totalcalls = current_rx_stats['total_calls'] + current_session_items
-    new_totalget = current_rx_stats['total_correct'] + current_session_correct
-    new_totalwrong = current_rx_stats['total_wrong_items'] + current_session_wrong
-    new_totaltime = dt.timedelta(seconds=current_rx_stats['total_time_seconds']) + active_exerctime
-    
-    current_rx_stats.update({
-        'total_calls': new_totalcalls,
-        'sessions': current_rx_stats['sessions'] + 1,
-        'total_correct': new_totalget,
-        'total_wrong_items': new_totalwrong,
-        'total_time_seconds': new_totaltime.total_seconds()
-    })
-    
-    corrected_item_details = [{'rwpm': item['wpm'], 'correct': item['correct']} for item in item_details]
-    session_data_for_history = {
-        'timestamp_iso': starttime.isoformat(),
-        'duration_seconds': active_exerctime.total_seconds(),
-        'rwpm_min': minwpm,
-        'rwpm_max': maxwpm,
-        'rwpm_avg': avg_wpm_calc,
-        'items_sent_session': len(callssend),
-        'items_correct_session': len(callsget),
-        'item_details': corrected_item_details,
-        'chars_sent_session': send_char,
-        'errors_detail_session': char_error_counts,
-        'total_errors_chars_session': total_mistakes_calculated,
-        'sent_chars_detail_session': sent_chars_detail_this_session
-    }
-
-    historical_rx_log = current_historical_data.get('sessions_log', [])
-    historical_rx_log.append(session_data_for_history)
-
-    x = len(historical_rx_log)
-    g = historical_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
-    
-    while len(historical_rx_log) > g:
-        sessione_eliminata = historical_rx_log.pop(0)
-        data_sessione_str = sessione_eliminata.get('timestamp_iso', 'N/D')
-        data_sessione_dt = dt.datetime.fromisoformat(data_sessione_str).strftime('%Y-%m-%d %H:%M')
-        durata_sessione = int(sessione_eliminata.get('duration_seconds', 0))
-        contenuto_sessione = sessione_eliminata.get('chars_sent_session', 0)
-        print(_("Sessione del {data}, durata {durata}s, contenuto {contenuto} caratteri, eliminata dalla coda degli esercizi di {category_name}.").format(
-            data=data_sessione_dt, 
-            durata=durata_sessione, 
-            contenuto=contenuto_sessione,
-            category_name=_('parole') if category_key == 'words' else _('caratteri/misto') if category_key == 'chars' else 'QRZ'))
-
-    current_historical_data['chars_since_last_report'] = current_historical_data.get('chars_since_last_report', 0) + send_char
-    current_historical_data['sessions_log'] = historical_rx_log
-
-    if report_interval > 0 and current_historical_data['chars_since_last_report'] >= report_interval:
-        print(_('Generazione report storico in corso...'))
-        sessions_log = current_historical_data.get('sessions_log', [])
-        chars_to_account_for = current_historical_data['chars_since_last_report']
-        sessions_for_this_report = []
-        accumulated_chars = 0
-        for session in reversed(sessions_log):
-            sessions_for_this_report.insert(0, session)
-            accumulated_chars += session.get('chars_sent_session', 0)
-            if accumulated_chars >= chars_to_account_for:
-                break
-        new_report_aggregates = generate_historical_rx_report(sessions_for_this_report, category_key)
-        if new_report_aggregates:
-            historical_reports = current_historical_data.get('historical_reports', [])
-            historical_reports.append(new_report_aggregates)
-            current_historical_data['historical_reports'] = historical_reports
-        chars_in_this_report = accumulated_chars
-        overshoot = chars_in_this_report - report_interval
-        current_historical_data['chars_since_last_report'] = max(0, overshoot)
-    
+    new_totalcalls = totalcalls + current_session_items
+    new_totalget = totalget + current_session_correct
+    new_totalwrong = totalwrong + current_session_wrong
+    new_totaltime = totaltime + active_exerctime
+    app_data['rxing_stats'].update({'total_calls': new_totalcalls, 'sessions': sessions + 1, 'total_correct': new_totalget, 'total_wrong_items': new_totalwrong, 'total_time_seconds': new_totaltime.total_seconds()})
     overall_settings_changed = True
-    
     duration_str = str(active_exerctime).split('.')[0]
-    print(_('\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.').format(session_number=current_rx_stats['sessions'], duration=duration_str))
+    print(_('Sessione {session_number}, durata attiva: {duration} è stata salvata su disco.').format(session_number=sessions, duration=duration_str))
     if total_pause_time.total_seconds() > 0:
         pause_str = str(total_pause_time).split('.')[0]
         print(_('\t(Tempo totale in pausa rilevato: {pause_time})').format(pause_time=pause_str))
-    print(_("L'archivio ora contiene {x} sessioni salvate per gli esercizi di {category_name}, ancora {g_minus_x} al raggiungimento del limite stabilito.").format(
-        x=x, g_minus_x=g - x, category_name=_('parole') if category_key == 'words' else _('caratteri/misto') if category_key == 'chars' else 'QRZ'))
     return
 
 def _calculate_aggregates(session_list):
@@ -1683,7 +1516,7 @@ def _calculate_aggregates(session_list):
             aggregated_errors_detail[char] = aggregated_errors_detail.get(char, 0) + count
     return {'num_sessions_in_block': len(session_list), 'total_duration_seconds': total_duration_seconds, 'wpm_min_overall': wpm_min_overall, 'wpm_max_overall': wpm_max_overall, 'wpm_avg_of_session_avgs': wpm_avg_of_session_avgs, 'total_items_sent': total_items_sent, 'total_items_correct': total_items_correct, 'total_chars_sent_overall': total_chars_sent_overall, 'aggregated_errors_detail': aggregated_errors_detail, 'total_errors_chars_overall': total_errors_chars_overall, 'aggregated_sent_chars_detail': aggregated_sent_chars_detail}
 
-def generate_historical_rx_report(sessions_for_current_report, category_key):
+def generate_historical_rx_report(sessions_for_current_report):
     """
 	Genera i report (HTML e grafico) per il blocco di sessioni fornito,
 	confrontandoli con l'ultimo report storico salvato.
@@ -1695,10 +1528,7 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
         return None
     current_aggregates = _calculate_aggregates(sessions_for_current_report)
     num_sessions_in_current_report = current_aggregates['num_sessions_in_block']
-    
-    historical_data = app_data.get(f'historical_rx_data_{category_key}', {})
-    historical_settings = app_data.get('historical_rx_settings', {})
-
+    historical_data = app_data.get('historical_rx_data', {})
     full_sessions_log = historical_data.get('sessions_log', [])
     num_sessions_in_current_block = len(sessions_for_current_report)
     previous_aggregates = None
@@ -1707,23 +1537,17 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
         previous_block_sessions = full_sessions_log[:num_previous_sessions]
         if previous_block_sessions:
             previous_aggregates = _calculate_aggregates(previous_block_sessions)
-    
-    g_value = historical_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
-    x_value = historical_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
-    
-    cat_name_file = category_key.capitalize()
-    report_filename_base = _('CWapu_Historical_Statistics_{cat}_G_{g_value}_X_{x_value}.html').format(cat=cat_name_file, g_value=g_value, x_value=x_value)
+    g_value = historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+    x_value = historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+    report_filename_base = _('CWapu_Historical_Statistics_G_{g_value}_X_{x_value}.html').format(g_value=g_value, x_value=x_value)
     report_filename_full_path = os.path.join(USER_DATA_PATH, report_filename_base)
-    
-    cat_display_name = _('parole') if category_key == 'words' else _('caratteri/misto') if category_key == 'chars' else 'QRZ'
-    
     try:
         with open(report_filename_full_path, 'w', encoding='utf-8') as f:
             f.write('<!DOCTYPE html>\n')
             f.write('<html lang="{html_lang}">\n'.format(html_lang=app_language[:2]))
             f.write('<head>\n')
             f.write('    <meta charset="UTF-8">\n')
-            f.write(_('    <title>Report Statistiche Storiche Esercizi Rx ({cat}) G{g_value} X{x_value}</title>\n').format(cat=cat_display_name, g_value=g_value, x_value=x_value))
+            f.write(_('    <title>Report Statistiche Storiche Esercizi Rx G{g_value} X{x_value}</title>\n').format(g_value=g_value, x_value=x_value))
             f.write('    <style>\n')
             f.write("        body { background-color: #282c34; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }\n")
             f.write('        .container { max-width: 1200px; margin: auto; background-color: #333740; padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.5); }\n')
@@ -1745,7 +1569,7 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
             f.write('</head>\n')
             f.write('<body>\n')
             f.write('    <div class="container">\n')
-            f.write(_('<h1>CWAPU - Report Statistiche Storiche Esercizi Rx ({cat})</h1>\n').format(cat=cat_display_name))
+            f.write(_('<h1>CWAPU - Report Statistiche Storiche Esercizi Rx</h1>\n'))
             f.write(_('<p class="report-subtitle">Statistiche basate su {count} esercizi (G={g_value}, X={x_value})</p>\n').format(count=num_sessions_in_current_report, g_value=g_value, x_value=x_value))
             timestamp_now = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             f.write(_('<p class="report-generation-time">Report generato il: {timestamp_now}</p>\n').format(timestamp_now=timestamp_now))
@@ -1955,51 +1779,31 @@ while True:
         CreateDictionary()
     elif k == 's':
         _clear_screen_ansi()
-        # Generazione dei report della timeline per ogni categoria
-        category_mapping = {
-            "words": _("parole"),
-            "chars": _("caratteri/misto"),
-            "qrz": "QRZ"
-        }
-
-        for category_key, category_name_translated in category_mapping.items():
-            log_sessioni = app_data[f'historical_rx_data_{category_key}']['sessions_log']
-            if log_sessioni: # Genera il report solo se ci sono sessioni
-                print(_('\nGenerazione report timeline per gli esercizi di {category_name}...').format(category_name=category_name_translated))
-                report_con_header = timeline.genera_report_temporale_completo(log_sessioni, _, app_language)
-                
-                timeline_filename = os.path.join(USER_DATA_PATH, f'CWapu_Historical_Statistics_Timeline_{category_key.capitalize()}.html')
-                try:
-                    with open(timeline_filename, 'w', encoding='utf-8') as f:
-                        f.write(report_con_header)
-                    print(_('Report timeline per {category_name} salvato su {filename}').format(category_name=category_name_translated, filename=timeline_filename))
-                except IOError as e:
-                    print(_('Errore durante il salvataggio del report timeline per {category_name}: {e}').format(category_name=category_name_translated, e=e))
-            else:
-                print(_('\nNessun dato di sessione per gli esercizi di {category_name}, salto la generazione del report timeline.').format(category_name=category_name_translated))
-                continue
-            riga_separatore = '-' * 75
-            stringa_traducibile = _('--- Fine Report - Bye da CWAPU {version} ---')
-            footer_formattato = stringa_traducibile.format(version=VERSION)
-            footer = f"\n{riga_separatore}\n"
-            footer += f"{footer_formattato.center(70)}\n"
-            footer += f"{riga_separatore}\n"
-            report_finale = report_con_header + footer
-            print(report_finale)
-            prompt_salvataggio = _('Vuoi salvare il report in un file di testo? (Invio per Sì / altro tasto per No): ')
-            scelta = key(prompt=prompt_salvataggio).strip()
-            if scelta == '':
-                nome_file_report = "Cwapu_Historical_Statistics_Advanced_Report.txt"
-                percorso_file_report = os.path.join(USER_DATA_PATH, nome_file_report)
-                try:
-                    with open(percorso_file_report, 'w', encoding='utf-8') as f:
-                        f.write(report_finale)
-                        print(_("\nReport salvato con successo in: {}").format(percorso_file_report))
-                except IOError as e:
-                    print(_("\nErrore durante il salvataggio del file: {}").format(e))
-            else:
-                print(_("\nSalvataggio annullato."))
-            key(prompt=_("\nPremi un tasto per tornare al menu principale..."))
+        import timeline
+        log_sessioni = app_data.get('historical_rx_data', {}).get('sessions_log', [])
+        report_con_header = timeline.genera_report_temporale_completo(log_sessioni, _, app_language)
+        riga_separatore = '-' * 75
+        stringa_traducibile = _('--- Fine Report - Bye da CWAPU {version} ---')
+        footer_formattato = stringa_traducibile.format(version=VERSION)
+        footer = f"\n{riga_separatore}\n"
+        footer += f"{footer_formattato.center(70)}\n"
+        footer += f"{riga_separatore}\n"
+        report_finale = report_con_header + footer
+        print(report_finale)
+        prompt_salvataggio = _('Vuoi salvare il report in un file di testo? (Invio per Sì / altro tasto per No): ')
+        scelta = key(prompt=prompt_salvataggio).strip()
+        if scelta == '':
+            nome_file_report = "Cwapu_Historical_Statistics_Advanced_Report.txt"
+            percorso_file_report = os.path.join(USER_DATA_PATH, nome_file_report)
+            try:
+                with open(percorso_file_report, 'w', encoding='utf-8') as f:
+                    f.write(report_finale)
+                    print(_("\nReport salvato con successo in: {}").format(percorso_file_report))
+            except IOError as e:
+                print(_("\nErrore durante il salvataggio del file: {}").format(e))
+        else:
+            print(_("\nSalvataggio annullato."))
+        key(prompt=_("\nPremi un tasto per tornare al menu principale..."))
     elif k == 'q':
         break
 app_data['overall_settings'].update({'speed': overall_speed, 'pitch': overall_pitch, 'dashes': overall_dashes, 'spaces': overall_spaces, 'dots': overall_dots, 'volume': overall_volume, 'ms': overall_ms, 'fs_index': overall_fs, 'wave_index': overall_wave})
