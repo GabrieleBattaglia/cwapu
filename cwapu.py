@@ -35,7 +35,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.5.4, 2025-11-23)'
+VERSION = '4.5.5, 2025-12-17)'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
@@ -1173,6 +1173,38 @@ def AlwaysRight(sent_items, error_counts_dict):
     letters_misspelled = set(error_counts_dict.keys())
     return letters_sent - letters_misspelled
 
+def format_duration(td):
+    """
+    Format a timedelta object into a localized string.
+    Example: 3 giorni, 15 ore, 26 minuti e 3 secondi
+    """
+    total_seconds = int(td.total_seconds())
+    days = total_seconds // 86400
+    remainder = total_seconds % 86400
+    hours = remainder // 3600
+    remainder %= 3600
+    minutes = remainder // 60
+    seconds = remainder % 60
+
+    parts = []
+    if days > 0:
+        part = _("{count} giorni") if days > 1 else _("{count} giorno")
+        parts.append(part.format(count=days))
+    if hours > 0:
+        part = _("{count} ore") if hours > 1 else _("{count} ora")
+        parts.append(part.format(count=hours))
+    if minutes > 0:
+        part = _("{count} minuti") if minutes > 1 else _("{count} minuto")
+        parts.append(part.format(count=minutes))
+    if seconds > 0 or not parts: # Show seconds if it's the only thing or > 0
+        part = _("{count} secondi") if seconds != 1 else _("{count} secondo")
+        parts.append(part.format(count=seconds))
+
+    if len(parts) == 1:
+        return parts[0]
+
+    return ", ".join(parts[:-1]) + " " + _("e") + " " + parts[-1]
+
 def Rxing():
     global app_data, overall_settings_changed, overall_speed, words, customized_set
     print(_("\nE' il momento giusto per un bell'esercizio di ricezione? Ottimo, allora sei nel posto giusto.\nIniziamo!\n\tCarico lo stato dei tuoi progressi e controllo il database del dizionario..."))
@@ -1187,7 +1219,8 @@ def Rxing():
     totalwrong = rx_stats.get('total_wrong_items', 0)
     totaltime_seconds = rx_stats.get('total_time_seconds', 0.0)
     totaltime = dt.timedelta(seconds=totaltime_seconds)
-    print(_('Ho recuperato i tuoi dati dal disco, quindi:\nLa tua attuale velocità WPM è {wpm} e hai svolto {sessions} sessioni.\nTi ho inviato {totalcalls} pseudo-call o gruppi e ne hai ricevuti correttamente {totalget}, mentre {totalwrong} li hai copiati male.\nIl tempo totale speso su questo esercizio è stato di {totaltime}.').format(wpm=overall_speed, sessions=sessions - 1, totalcalls=totalcalls, totalget=totalget, totalwrong=totalwrong, totaltime=str(totaltime).split('.')[0]))
+    formatted_time = format_duration(totaltime)
+    print(_('Ho recuperato i tuoi dati dal disco, quindi:\nLa tua attuale velocità WPM è {wpm} e hai svolto {sessions} sessioni.\nTi ho inviato {totalcalls} pseudo-call o gruppi e ne hai ricevuti correttamente {totalget}, mentre {totalwrong} li hai copiati male.\nIl tempo totale speso su questo esercizio è stato di {totaltime}.').format(wpm=overall_speed, sessions=sessions - 1, totalcalls=totalcalls, totalget=totalget, totalwrong=totalwrong, totaltime=formatted_time))
     callssend = []
     average_rwpm = 0.0
     dz_mistakes = {}
