@@ -1,28 +1,30 @@
 CWAPU WHATSNEW AND TODO
 Todo:
-8. Modifiche alla funzione che genera qrz casuali.
-	Voglio modificare la funzione come segue.
-	Quando l'app richiede l'intervento della funzione, viene estratto un numero casuale che determina una probabilità del 50%. Nel caso la moneta dia testa, si procede come sempre utilizzando l'algoritmo attuale di generazione casuale del qrz. In caso dia croce, peschiamo un qrz dal database che importiamo da un altro progetto.
-	Il progetto da cui estrarre il qrz (che questa volta sarà un call reale) si trova in \others\cwsim
-	Ti chiedo di studiare come funziona cwsim, individuare il file con la raccolta di calls reale e copiarlo all'interno del progetto cwapu, quindi importarlo ad inizio file o nel punto che ritieni più opportuno.
-	Completato questo passaggio, puoi procedere al punto 9 di questo elenco.
-9. Nuovo Esercizio "Contest" (Espansione menu QRZ)
-	- Obiettivo: Simulare lo scambio rapido tipico dei contest (Nominativo + Progressivo).
-	- l'esercizio apparterrà alla categoria qrz ed avrà il suo switcher assieme agli altri, nell'esercizio r. Questo esercizio sarà univoco, cioè non potrà essere mescolato ad altre tipologie di esercizi: quando questo swithcer viene attivato, gli altri si spegnono se attivi, come già avviene per altri switcher.
-	- Generazione Dati:
-		* QRZ: Casuale (utilizzando l'algoritmo Mkdqrz esistente).
-		* Progressivo: Numero generato secondo lo stesso algoritmo utilizzato in cwsim che si basa sul tempo trascorso dall'inizio dell'esercizio.
-		* la durata dell'esercizio, da chiedere all'utente all'inizio, sarà a scelta: numero di qrz da ricevere oppure minuti dell'esercizio, come in cwsim
-	- Dinamica (Variabilità):
-		* Velocità: Applicare un delta casuale alla velocità base WPM per ogni scambio, simulando operatori diversi, ad esempio +-10%
-		* estrarre a sorte una probabilità: 80% = manipolazione standard, 20% = calcolare delta da applicare ai parametri l, p ed s di cwzator per simulare manipolazioni con tasti telegrafici manuali
-	- Gestione Errori/Tentativi:
-		* Il sistema di conteggio errori (Levenshtein/Wilson) rimane invariato.
-		* Nuova meccanica: Il numero di tentativi consentiti per ogni scambio segue la stessa dinamica usata in cwsim. Studia e copia lo stesso algoritmo.
-	- sistema dei tasti rapidi. E' imperativo, per questioni di velocità, che si possano compiere operazioni con la pressione di tasti rapidi. Potremmo utilizzare pynput (già installata) e copiare la stessa mappatura di tasti rapidi utilizzata da cwsim.
-	Stabiliamo un piano, creiamo una todo e procediamo con l'implementazione.
+10.
 
 ChangeLog:
+	5.0.5 (2025-12-18)
+		+ Fix bug WPM float (ora castato a int).
+		+ Tasti velocità spostati su F9/F10 per evitare conflitti con NVDA.
+		+ Disabilitata soppressione tasti pynput (suppress=False) per permettere l'uso dello screen reader.
+		+ Semplificazione audio: rimosso threading e sync manuale (ora asincrono standard).
+		+ Migliorata UI: il cambio velocità non sporca più la riga di input.
+		+ Risolto crash premendo ESC nel menu durata.
+		+ Risolto bug mutua esclusione tra QRZ e Contest.
+	5.0.0 (2025-12-18)
+		+ Nuovo Esercizio "Contest" nella sezione R (switcher 8).
+		+ Simulazione scambio rapido (Call + 5NN + Serial) con gestione dinamica WPM e Pitch.
+		+ Sistema di input reattivo da tastiera con scorciatoie:
+			- PgUp/PgDn: Modifica velocità in tempo reale.
+			- F5: Ripeti Call.
+			- F6: Ripeti Seriale.
+			- F7: Ripeti Tutto.
+			- Alt+W: Pulisce la riga.
+		+ Gestione errori granulare: il sistema risponde con "CALL?", "NR?" o "?" in base all'errore commesso.
+		+ Statistiche integrate nella categoria QRZ con tracking dettagliato degli errori per carattere.
+		+ Riorganizzazione del menu R per gruppi logici (Parole, Misti, QRZ).
+	4.8.0 (2025-12-18)
+		+ Aggiornata la funzione Mkdqrz: ora utilizza un database reale (MASTER.SCP) per generare callsign con una probabilità del 50%.
 	4.7.0
 		+ VERSIONE STABILE (Sostituisce la v4.6.0 ritirata per bug critici).
 		+ Refactoring completo delle statistiche di ricezione (Rxing) in 3 categorie: Parole, Caratteri/Misto, QRZ.

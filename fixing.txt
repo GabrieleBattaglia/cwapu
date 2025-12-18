@@ -1,0 +1,16 @@
+# PIANO DI TEST - CWAPU v5.0.0
+# Compilare inserendo [OK] o [FAIL] e eventuali note.
+
+## FASE 4: Flusso QSO e Interazione (Contest)
+6. [ ] **Ricezione Standard**: Ascoltare il primo QSO.
+   - *Verifica*: Audio OK (asincrono standard). Nessun errore "float" su WPM.
+7. [ ] **Tasti Velocità (F9/F10)**: Premere F10 (+WPM) e F9 (-WPM).
+   - *Verifica*: Cambio velocità, stampa pulita su nuova riga, prompt ridisegnato.
+   - *Verifica*: Nessun conflitto con NVDA (tastierino numerico libero).
+8. [ ] **Wipe (Alt+W)**: Scrivere e cancellare.
+9. [ ] **Dinamica Audio**: Pitch variabile tra i QSO?
+
+## FASE 5-6: Errori e Report
+10. [ ] **Errori Granulari**: Testare Call errato (F5), Seriale errato (F6), tutto errato (F7).
+14. [ ] **Report Finale**: Controllare statistiche Call/Serial separate.
+16. [ ] **Persistenza**: Controllare salvataggio su QRZ stats.

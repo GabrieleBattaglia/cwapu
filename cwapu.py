@@ -4,9 +4,11 @@
 
 import sys, random, json, string, pyperclip, re, difflib, os, traceback
 import datetime as dt
+from pynput import keyboard
 from GBUtils import key, dgt, menu, CWzator, Donazione, polipo
 from time import localtime as lt
 from timeline import wilson_score_lower_bound, wilson_score_upper_bound
+import timeline
 # installazione percorsi relativi e i18n
 def resource_path(relative_path):
     """
@@ -35,7 +37,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.7.0, 2025-12-17)'
+VERSION = '5.0.5, 2025-12-18'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
@@ -48,11 +50,31 @@ RX_SWITCHER_ITEMS = [
     {'id': '3', 'key_state': _('numeri'), 'label_key': 'menu_rx_switcher_numeri', 'is_exclusive': False, 'category_group': 'CHARS'},
     {'id': '4', 'key_state': _('lettere e numeri'), 'label_key': 'menu_rx_switcher_lettere_numeri', 'is_exclusive': False, 'category_group': 'CHARS'},
     {'id': '5', 'key_state': _('simboli'), 'label_key': 'menu_rx_switcher_simboli', 'is_exclusive': False, 'category_group': 'CHARS'},
-    {'id': '6', 'key_state': 'qrz', 'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False, 'category_group': 'QRZ'},
-    {'id': '7', 'key_state': _('custom'), 'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True, 'category_group': 'CUSTOM'}
+    {'id': '6', 'key_state': _('custom'), 'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True, 'category_group': 'CUSTOM'},
+    {'id': '7', 'key_state': 'qrz', 'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': True, 'category_group': 'QRZ'},
+    {'id': '8', 'key_state': 'contest', 'label_key': 'menu_rx_switcher_contest', 'is_exclusive': True, 'category_group': 'QRZ'}
 ]
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 730
 HISTORICAL_RX_REPORT_INTERVAL = 3500
+
+# Caricamento database QRZ reali (MASTER.SCP)
+REAL_CALLS_POOL = []
+MASTER_SCP_PATH = resource_path('MASTER.SCP')
+
+def load_master_scp():
+    global REAL_CALLS_POOL
+    if not os.path.exists(MASTER_SCP_PATH):
+        return
+    try:
+        with open(MASTER_SCP_PATH, 'r') as f:
+            lines = f.readlines()
+        calls = [x.strip() for x in lines if not x.startswith('#')]
+        REAL_CALLS_POOL = sorted(list(set(calls)))
+    except Exception:
+        pass
+
+load_master_scp()
+
 VALID_MORSE_CHARS_FOR_CUSTOM_SET = {k for k in CWzator(msg=-1) if k != ' ' and k.isprintable()}
 LETTERE_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.ascii_lowercase)}
 NUMERI_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.digits)}
@@ -98,6 +120,7 @@ DEFAULT_DATA = {
                             'simboli': False,
                             'qrz': False,
                             'custom': False,
+                            'contest': False,
                             'parole_filter_min': 3,
                             'parole_filter_max': 7,
                             'custom_set_string': ''},
@@ -280,15 +303,24 @@ def seleziona_modalita_rx():
             current_switcher_states[item_key_toggle_loop] = not current_switcher_states[item_key_toggle_loop]
             is_now_active = current_switcher_states[item_key_toggle_loop]
 
-            # Logica di esclusione mutua basata su Category Group
+            # Logica di esclusione mutua
             if is_now_active:
                 my_group = item_config_toggled.get('category_group')
-                if my_group:
-                    for other_item in RX_SWITCHER_ITEMS:
-                        # Se l'altro item appartiene a un gruppo DIVERSO, spegnilo.
-                        # Gli item dello STESSO gruppo (es. lettere e numeri) possono coesistere.
-                        if other_item['key_state'] != item_key_toggle_loop and other_item.get('category_group') != my_group:
-                            current_switcher_states[other_item['key_state']] = False
+                is_exclusive = item_config_toggled.get('is_exclusive', False)
+                
+                for other_item in RX_SWITCHER_ITEMS:
+                    if other_item['key_state'] == item_key_toggle_loop:
+                        continue
+                    
+                    # Se io sono esclusivo, spengo TUTTI gli altri
+                    if is_exclusive:
+                        current_switcher_states[other_item['key_state']] = False
+                    # Se l'altro è esclusivo, e io vengo attivato, spengo lui
+                    elif other_item.get('is_exclusive'):
+                        current_switcher_states[other_item['key_state']] = False
+                    # Logica classica dei gruppi: spengo chi è in un gruppo diverso
+                    elif my_group and other_item.get('category_group') != my_group:
+                        current_switcher_states[other_item['key_state']] = False
 
             if is_now_active:
                 if item_key_toggle_loop == 'parole':
@@ -1151,6 +1183,10 @@ def GeneratingGroup(kind, length, wpm, customized_set_param=None):
     return 'ERR_KD'
 
 def Mkdqrz(c):
+    # Se abbiamo un pool di call reali, 75% di probabilità di usarne uno
+    if REAL_CALLS_POOL and random.random() < 0.75:
+        return random.choice(REAL_CALLS_POOL)
+
     q = ''
     c = c[0]
     for j in str(c):
@@ -1253,6 +1289,18 @@ def MistakesCollectorInStrings(right, received):
             differences.extend(received[j1:j2])
     return ''.join(differences)
 
+def collect_char_errors(target, user, error_dict):
+    """
+    Confronta target e user string, aggiorna il dizionario degli errori per carattere
+    e restituisce il numero totale di errori trovati.
+    """
+    mistakes = MistakesCollectorInStrings(target, user)
+    count = 0
+    for m in mistakes:
+        error_dict[m] = error_dict.get(m, 0) + 1
+        count += 1
+    return count
+
 def AlwaysRight(sent_items, error_counts_dict):
     letters_sent = set(''.join(sent_items))
     letters_misspelled = set(error_counts_dict.keys())
@@ -1290,6 +1338,354 @@ def format_duration(td):
 
     return ", ".join(parts[:-1]) + " " + _("e") + " " + parts[-1]
 
+def RxingContest(menu_config_scelta):
+    global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave, SAMPLE_RATES, MDL, app_data, overall_settings_changed
+
+    print(_("\n=== MODALITÀ CONTEST ==="))
+    print(_("Simulazione scambio rapido: Call + 5NN + Serial"))
+    
+    # Setup durata
+    scelta_durata = menu(d={'1': _("Numero di QRZ"), '2': _("Tempo (minuti)")}, p=_("Scegli la durata: "))
+    if not scelta_durata:
+        return
+    duration_type = int(scelta_durata)
+    limit = 0
+    if duration_type == 1:
+        limit = dgt(prompt=_("Quanti QRZ? "), kind='i', imin=5, imax=500, default=50)
+    else:
+        limit = dgt(prompt=_("Quanti minuti? "), kind='i', imin=1, imax=60, default=10)
+
+    print(_("Comandi rapidi: PgUp/PgDn (WPM), F5 (Call), F6 (Serial), F7 (Rpt), Alt+W (Wipe), ESC (Exit), Enter (Check)"))
+    key(_("Premi un tasto per iniziare..."))
+
+    start_time = dt.datetime.now()
+    session_calls = 0
+    correct_calls = 0
+    total_calls_correct = 0
+    total_serials_correct = 0
+    
+    # Stats trackers
+    item_details = []
+    sent_chars_detail_this_session = {}
+    char_error_counts = {}
+    total_mistakes_calculated = 0
+    minwpm = 100
+    maxwpm = 0
+    sum_wpm = 0
+    callssend = []
+    callsget = []
+    active_exerctime = dt.timedelta(0) # Approssimato
+    
+    import threading
+    import queue
+    
+    input_queue = queue.Queue()
+    stop_event = threading.Event()
+    current_modifiers = set()
+
+    def on_press(key):
+        if stop_event.is_set():
+            return False
+        try:
+            if key in {keyboard.Key.alt, keyboard.Key.alt_l, keyboard.Key.alt_r}:
+                current_modifiers.add('alt')
+            input_queue.put(('press', key))
+        except Exception:
+            pass
+
+    def on_release(key):
+        try:
+            if key in {keyboard.Key.alt, keyboard.Key.alt_l, keyboard.Key.alt_r}:
+                if 'alt' in current_modifiers:
+                    current_modifiers.remove('alt')
+        except Exception:
+            pass
+
+    listener = keyboard.Listener(on_press=on_press, on_release=on_release, suppress=False)
+    listener.start()
+
+    try:
+        while True:
+            # Check duration
+            elapsed = dt.datetime.now() - start_time
+            elapsed_minutes = elapsed.total_seconds() / 60.0
+            
+            if duration_type == 1 and session_calls >= limit:
+                break
+            if duration_type == 2 and elapsed_minutes >= limit:
+                break
+
+            # Generate Exchange
+            c = random.choices(list(MDL.keys()), weights=MDL.values(), k=1)
+            qrz = Mkdqrz(c)
+            
+            # Serial
+            skill = random.randint(1, 4)
+            serial = int(round(1 + random.random() * (elapsed_minutes if elapsed_minutes > 0.1 else 0.1) * skill))
+            
+            # Messages
+            msg_full = f"{qrz} 5NN {serial}"
+            msg_call = qrz
+            msg_serial = str(serial)
+            
+            callssend.append(msg_full)
+            
+            # Update sent chars stats
+            for ch in msg_full:
+                if ch.isalnum(): 
+                     sent_chars_detail_this_session[ch.lower()] = sent_chars_detail_this_session.get(ch.lower(), 0) + 1
+            
+            # Variations
+            this_speed = overall_speed * (1 + random.uniform(-0.1, 0.1))
+            this_pitch = random.randint(350, 950) # Random pitch per QSO
+
+            # Track WPM
+            if this_speed < minwpm: minwpm = this_speed
+            if this_speed > maxwpm: maxwpm = this_speed
+            sum_wpm += this_speed
+            
+            l, s, p = overall_dashes, overall_spaces, overall_dots
+            if random.random() < 0.2:
+                # Manual Keying Simulation
+                l = int(l * random.uniform(0.8, 1.2))
+                s = int(s * random.uniform(0.8, 1.2))
+                p = int(p * random.uniform(0.8, 1.2))
+            
+            # Play initial full message
+            CWzator(msg=msg_full, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+            
+            # Input Loop
+            item_done = False
+            attempts = 5
+            current_buffer = []
+            
+            def redraw_line():
+                print(f"\rRX #{session_calls+1}: {''.join(current_buffer)}", end='', flush=True)
+
+            redraw_line()
+            item_start_time = dt.datetime.now()
+
+            while not item_done and attempts > 0:
+                try:
+                    event_type, event_key = input_queue.get(timeout=0.1)
+                    
+                    if event_key == keyboard.Key.esc:
+                        stop_event.set()
+                        return
+
+                    elif event_key == keyboard.Key.enter:
+                        typed = "".join(current_buffer).upper().strip()
+                        print() 
+                        
+                        target_call = qrz.upper()
+                        target_serial = str(serial)
+                        
+                        # Parsing
+                        tokens = typed.split()
+                        user_call = ""
+                        user_serial = ""
+                        
+                        if len(tokens) >= 2:
+                            user_call = tokens[0] 
+                            user_serial = tokens[-1] 
+                        elif len(tokens) == 1:
+                            if tokens[0].isdigit():
+                                user_serial = tokens[0]
+                            else:
+                                user_call = tokens[0]
+                        
+                        # Check correctness
+                        call_ok = (user_call == target_call)
+                        serial_ok = (user_serial == target_serial)
+                        
+                        if call_ok and serial_ok:
+                            # Correct
+                            CWzator(msg="R", wpm=35, pitch=800, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                            correct_calls += 1
+                            final_call_ok = True
+                            final_serial_ok = True
+                            callsget.append(msg_full)
+                            item_details.append({'wpm': this_speed, 'correct': True})
+                            item_done = True
+                        else:
+                            # Wrong
+                            item_details.append({'wpm': this_speed, 'correct': False})
+                            
+                            if not call_ok:
+                                total_mistakes_calculated += collect_char_errors(target_call.lower(), user_call.lower(), char_error_counts)
+                            if not serial_ok:
+                                total_mistakes_calculated += collect_char_errors(target_serial.lower(), user_serial.lower(), char_error_counts)
+
+                            attempts -= 1
+                            if attempts == 0:
+                                final_call_ok = call_ok
+                                final_serial_ok = serial_ok
+                                print(f" {msg_full.upper()}")
+                                CWzator(msg=msg_full, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                item_done = True
+                            else:
+                                if not call_ok and not serial_ok:
+                                     CWzator(msg="?", wpm=35, pitch=400, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                     print(f"\rRX #{session_calls+1} (Rpt {attempts}): ", end='', flush=True)
+                                elif not call_ok:
+                                     CWzator(msg="CALL?", wpm=35, pitch=400, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                     print(f"\rRX #{session_calls+1} (Call? {attempts}): {user_call if user_call else '_'} {target_serial}", end='', flush=True)
+                                elif not serial_ok:
+                                     CWzator(msg="NR?", wpm=35, pitch=400, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                     print(f"\rRX #{session_calls+1} (Nr? {attempts}): {target_call} {user_serial if user_serial else '_'}", end='', flush=True)
+
+                        current_buffer = []
+
+                    elif event_key == keyboard.Key.backspace:
+                        if current_buffer:
+                            current_buffer.pop()
+                            print(f"\rRX #{session_calls+1}: {''.join(current_buffer)}  ", end='', flush=True)
+                            redraw_line()
+
+                    elif event_key == keyboard.Key.f10:
+                        overall_speed += 2
+                        print(f"\n[WPM: {overall_speed}]")
+                        redraw_line()
+
+                    elif event_key == keyboard.Key.f9:
+                        overall_speed = max(5, overall_speed - 2)
+                        print(f"\n[WPM: {overall_speed}]")
+                        redraw_line()
+                        
+                    elif event_key == keyboard.Key.f7:
+                         CWzator(msg=msg_full, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                    
+                    elif event_key == keyboard.Key.f5: # Repeat Call
+                         CWzator(msg=msg_call, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+
+                    elif event_key == keyboard.Key.f6: # Repeat Serial
+                         CWzator(msg=msg_serial, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                    
+                    # Alt+W check
+                    elif hasattr(event_key, 'char') and event_key.char == 'w' and 'alt' in current_modifiers:
+                        current_buffer = []
+                        print(f"\rRX #{session_calls+1}: {' '*40}", end='', flush=True)
+                        redraw_line()
+
+                    elif hasattr(event_key, 'char') and event_key.char:
+                        # Ignoriamo i tasti del tastierino numerico se non sono caratteri espliciti
+                        if event_key.char.isalnum() or event_key.char == ' ':
+                            current_buffer.append(event_key.char)
+                            print(event_key.char, end='', flush=True)
+
+                except queue.Empty:
+                    pass
+            
+            active_exerctime += (dt.datetime.now() - item_start_time)
+            session_calls += 1
+            pass 
+
+    finally:
+        stop_event.set()
+        listener.stop()
+        
+        # --- SALVATAGGIO STATISTICHE (Logica completa come in Rxing) ---
+        elapsed_total = (dt.datetime.now() - start_time).total_seconds()
+        wrong_calls = session_calls - correct_calls
+        
+        # 1. Update totali
+        stats = app_data['rxing_stats_qrz']
+        stats['sessions'] += 1
+        stats['total_calls'] += session_calls
+        stats['total_correct'] += correct_calls
+        stats['total_wrong_items'] += wrong_calls
+        stats['total_time_seconds'] += elapsed_total
+        
+        # 2. Dati storici dettagliati
+        avg_wpm_calc = sum_wpm / session_calls if session_calls > 0 else 0
+        send_char = sum(sent_chars_detail_this_session.values())
+        
+        session_data_for_history = {
+            'timestamp_iso': start_time.isoformat(),
+            'duration_seconds': active_exerctime.total_seconds(),
+            'rwpm_min': minwpm if session_calls > 0 else 0,
+            'rwpm_max': maxwpm,
+            'rwpm_avg': avg_wpm_calc,
+            'items_sent_session': session_calls,
+            'items_correct_session': correct_calls,
+            'item_details': item_details,
+            'chars_sent_session': send_char,
+            'errors_detail_session': char_error_counts,
+            'total_errors_chars_session': total_mistakes_calculated,
+            'sent_chars_detail_session': sent_chars_detail_this_session
+        }
+
+        # 3. Gestione log storico
+        historical_data = app_data['historical_rx_data_qrz']
+        historical_rx_log = historical_data.get('sessions_log', [])
+        historical_rx_log.append(session_data_for_history)
+        
+        # Rotazione
+        historical_settings = app_data['historical_rx_settings']
+        g = historical_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+        while len(historical_rx_log) > g:
+            historical_rx_log.pop(0)
+            
+        historical_data['sessions_log'] = historical_rx_log
+        
+        # Aggiornamento contatori report (semplificato)
+        overall_settings_changed = True
+
+        # --- REPORT A VIDEO (Uniformato a Rxing) ---
+        print(_('\nÈ finita! Ora vediamo cosa abbiamo ottenuto.'))
+        percentage_correct = correct_calls * 100 / session_calls if session_calls > 0 else 0
+        call_acc = total_calls_correct * 100 / session_calls if session_calls > 0 else 0
+        serial_acc = total_serials_correct * 100 / session_calls if session_calls > 0 else 0
+        
+        print(_('In questa sessione #{sessions}, ti ho inviato {calls} QRZ e ne hai ricevuti {callsget_len}: {percentage:.1f}%').format(sessions=stats['sessions'], calls=session_calls, callsget_len=correct_calls, percentage=percentage_correct))
+        print(_('\tCorrettezza Nominativi: {total_calls_correct}/{calls} ({call_acc:.1f}%)').format(total_calls_correct=total_calls_correct, calls=session_calls, call_acc=call_acc))
+        print(_('\tCorrettezza Progressivi: {total_serials_correct}/{calls} ({serial_acc:.1f}%)').format(total_serials_correct=total_serials_correct, calls=session_calls, serial_acc=serial_acc))
+        print(_('Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la massima di {maxwpm:.2f}: pari ad una variazione di {range_wpm:.2f} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM.').format(minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm - minwpm, average_wpm=avg_wpm_calc))
+        
+        if total_mistakes_calculated > 0:
+            print(_('Carattere: errori = Intervallo di Confidenza Errore (Wilson)'))
+            sorted_errors = sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0]))
+            for char, errori in sorted_errors:
+                inviati = sent_chars_detail_this_session.get(char, 0)
+                limite_inferiore = wilson_score_lower_bound(errori, inviati) * 100
+                limite_superiore = wilson_score_upper_bound(errori, inviati) * 100
+                print(_("    '{char_display}': {errori} errori su {inviati} invii. Tasso errore stimato: [{inf:.1f}% - {sup:.1f}%]").format(
+                    char_display=char.upper(), 
+                    errori=errori, 
+                    inviati=inviati, 
+                    inf=limite_inferiore, 
+                    sup=limite_superiore
+                ))
+            mistake_percentage = total_mistakes_calculated * 100 / send_char if send_char > 0 else 0
+            print(_('\nErrori totali: {global_mistakes} su {send_char} = {mistake_percentage:.2f}%').format(global_mistakes=total_mistakes_calculated, send_char=send_char, mistake_percentage=mistake_percentage))
+        
+        # --- SALVATAGGIO DIARIO ---
+        try:
+            f = open('CWapu_Diary.txt', 'a', encoding='utf-8')
+            date_str = _('{}/{}/{}').format(lt()[0], lt()[1], lt()[2])
+            time_str = _('{}, {}').format(lt()[3], lt()[4])
+            f.write(_('\nEsercizio di ricezione CONTEST #{sessions} eseguito il {date} alle {time} minuti:\n').format(sessions=stats['sessions'], date=date_str, time=time_str))
+            f.write(_('In questa sessione, ti ho inviato {calls} QRZ e ne hai ricevuti {callsget_len}: {percentage:.1f}%').format(calls=session_calls, callsget_len=correct_calls, percentage=percentage_correct) + '\n')
+            f.write(_('\tCorrettezza Nominativi: {total_calls_correct}/{calls} ({call_acc:.1f}%)').format(total_calls_correct=total_calls_correct, calls=session_calls, call_acc=call_acc) + '\n')
+            f.write(_('\tCorrettezza Progressivi: {total_serials_correct}/{calls} ({serial_acc:.1f}%)').format(total_serials_correct=total_serials_correct, calls=session_calls, serial_acc=serial_acc) + '\n')
+            f.write(_('Velocità: Min {minwpm:.2f}, Max {maxwpm:.2f}, Avg {average_wpm:.2f} WPM.').format(minwpm=minwpm, maxwpm=maxwpm, average_wpm=avg_wpm_calc) + '\n')
+            if total_mistakes_calculated > 0:
+                f.write(_('Carattere: errori = Wilson Interval') + '\n')
+                for char, errori in sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0])):
+                    inviati = sent_chars_detail_this_session.get(char, 0)
+                    inf = wilson_score_lower_bound(errori, inviati) * 100
+                    sup = wilson_score_upper_bound(errori, inviati) * 100
+                    f.write(f"    '{char.upper()}': {errori}/{inviati} [{inf:.1f}% - {sup:.1f}%]\n")
+            f.write('***\n')
+            f.close()
+            print(_('Rapporto salvato su CWapu_Diary.txt'))
+        except Exception:
+            pass
+
+        duration_str = str(active_exerctime).split('.')[0]
+        print(_('\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.').format(session_number=stats['sessions'], duration=duration_str))
+        key(_("Premi un tasto per tornare al menu..."))
+
 def Rxing():
     global app_data, overall_settings_changed, overall_speed, words, customized_set
     print(_("\nE' il momento giusto per un bell'esercizio di ricezione? Ottimo, allora sei nel posto giusto.\nIniziamo!\n\tCarico lo stato dei tuoi progressi e controllo il database del dizionario..."))
@@ -1305,6 +1701,11 @@ def Rxing():
 
     # Estrai i parametri della sessione dalla scelta dell'utente
     active_states = menu_config_scelta['active_switcher_states']
+
+    if active_states.get('contest'):
+        RxingContest(menu_config_scelta)
+        return
+
     parole_filtrate_per_sessione = menu_config_scelta['parole_filtrate_list']
     custom_set_attivo_per_sessione = menu_config_scelta['custom_set_string_active']
     lunghezza_gruppo_per_generati = menu_config_scelta['group_length_for_generated']
@@ -1383,7 +1784,7 @@ def Rxing():
         fix_speed = False
     print(_("Fai molta attenzione adesso.\n\tDigita il {kindstring} che ascolti.\nBattendo invio a vuoto (o aggiungendo un ?) avrai l'opportunità di un secondo tentativo\n\tPer terminare: digita semplicemente un '.' (punto) seguito da dal tasto invio.\n\t\tBUON DIVERTIMENTO!\n\tPremi un tasto quando sei pronto per iniziare.").format(kindstring=kindstring))
     attesa = key()
-    print(_('Iniziamo la sessione {sessions}!').format(sessions=sessions))
+    print(_('Iniziamo la sessione {sessions}!').format(sessions=sessions + 1))
     starttime = dt.datetime.now()
     active_exerctime = dt.timedelta(0)
     total_pause_time = dt.timedelta(0)
@@ -1397,7 +1798,7 @@ def Rxing():
             break
         pitch = random.randint(250, 1050)
         avg_wpm_display = average_rwpm / len(callsget) if len(callsget) else rwpm
-        prompt = _('S{sessions}-#{calls} - WPM{rwpm:.2f}/{avg_wpm_display:.2f} - +{correct_count}/-{wrong_count}> ').format(avg_wpm_display=avg_wpm_display, correct_count=len(callsget), wrong_count=len(callswrong), sessions=sessions, calls=calls, rwpm=rwpm)
+        prompt = _('S{sessions}-#{calls} - WPM{rwpm:.2f}/{avg_wpm_display:.2f} - +{correct_count}/-{wrong_count}> ').format(avg_wpm_display=avg_wpm_display, correct_count=len(callsget), wrong_count=len(callswrong), sessions=sessions + 1, calls=calls, rwpm=rwpm)
         plo, rwpm = CWzator(msg=qrz_to_send, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
         wait_start_1 = dt.datetime.now()
         guess = dgt(prompt=prompt, kind='s', smin=0, smax=64)
@@ -1413,7 +1814,7 @@ def Rxing():
             if guess.endswith('?'):
                 partial_input = guess[:-1]
                 prompt_indicator = _('% {partial_input}').format(partial_input=partial_input)
-            prompt = _('S{sessions}-#{calls} - WPM{rwpm:.2f}/{:.2f} - +{}/-{} - {prompt_indicator}').format(average_rwpm / len(callsget) if len(callsget) else rwpm, len(callsget), len(callswrong), sessions=sessions, calls=calls, rwpm=rwpm, prompt_indicator=prompt_indicator)
+            prompt = _('S{sessions}-#{calls} - WPM{rwpm:.2f}/{:.2f} - +{}/-{} - {prompt_indicator}').format(average_rwpm / len(callsget) if len(callsget) else rwpm, len(callsget), len(callswrong), sessions=sessions + 1, calls=calls, rwpm=rwpm, prompt_indicator=prompt_indicator)
             plo, rwpm = CWzator(msg=qrz_to_send, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
             wait_start_2 = dt.datetime.now()
             new_guess = dgt(prompt=prompt, kind='s', smin=0, smax=64)
@@ -1481,20 +1882,7 @@ def Rxing():
         char_error_counts = {}
         total_mistakes_calculated = 0
         for right_str, received_str in dz_mistakes.values():
-            s = difflib.SequenceMatcher(None, right_str, received_str)
-            for tag, i1, i2, j1, j2 in s.get_opcodes():
-                if tag == 'replace':
-                    for char in right_str[i1:i2]:
-                        char_error_counts[char] = char_error_counts.get(char, 0) + 1
-                        total_mistakes_calculated += 1
-                elif tag == 'delete':
-                    for char in right_str[i1:i2]:
-                        char_error_counts[char] = char_error_counts.get(char, 0) + 1
-                        total_mistakes_calculated += 1
-                elif tag == 'insert':
-                    for char in received_str[j1:j2]:
-                        char_error_counts[char] = char_error_counts.get(char, 0) + 1
-                        total_mistakes_calculated += 1
+            total_mistakes_calculated += collect_char_errors(right_str, received_str, char_error_counts)
         print(_('Carattere: errori = Intervallo di Confidenza Errore (Wilson)'))
         if total_mistakes_calculated > 0:
             sorted_errors = sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0]))
@@ -1551,7 +1939,7 @@ def Rxing():
             rslt = MistakesCollectorInStrings(v[0], v[1])
             f.write(_('\n\t({k}) TX: {tx}, RX: {rx}, DIF: {dif};').format(k=k, tx=v[0].upper(), rx=v[1].upper(), dif=rslt.upper()))
         if report_interval > 0:
-            chars_done = app_data[f'historical_rx_data_{category_key}'].get('chars_since_last_report', 0)
+            chars_done = app_data[f'historical_rx_data_{category_key}'].get('chars_since_last_report', 0) + send_char
             chars_target = report_interval
             percentage_done = chars_done / chars_target * 100 if chars_target > 0 else 0.0
             chars_missing = chars_target - chars_done

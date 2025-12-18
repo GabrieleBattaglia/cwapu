@@ -1,12 +1,14 @@
-# CWAPU - Utility per il CW, di Gabry, IZ4APU
+# CWAPUDEV - Utility per il CW, di Gabry, IZ4APU
 # Data concepimento 21/12/2022.
 # GitHub publishing on july 2nd, 2024.
 
 import sys, random, json, string, pyperclip, re, difflib, os, traceback
 import datetime as dt
+from pynput import keyboard
 from GBUtils import key, dgt, menu, CWzator, Donazione, polipo
 from time import localtime as lt
 from timeline import wilson_score_lower_bound, wilson_score_upper_bound
+import timeline
 # installazione percorsi relativi e i18n
 def resource_path(relative_path):
     """
@@ -35,20 +37,108 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '4.3.7, 2025-07-14)'
+VERSION = '4.7.4, 2025-12-17)'
+RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
 USER_DATA_PATH = get_user_data_path()
 SETTINGS_FILE = os.path.join(USER_DATA_PATH, 'cwapu_settings.json')
-RX_SWITCHER_ITEMS = [{'id': '1', 'key_state': _('parole'), 'label_key': 'menu_rx_switcher_parole', 'is_exclusive': False}, {'id': '2', 'key_state': _('lettere'), 'label_key': 'menu_rx_switcher_lettere', 'is_exclusive': False}, {'id': '3', 'key_state': _('numeri'), 'label_key': 'menu_rx_switcher_numeri', 'is_exclusive': False}, {'id': '4', 'key_state': _('simboli'), 'label_key': 'menu_rx_switcher_simboli', 'is_exclusive': False}, {'id': '5', 'key_state': 'qrz', 'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False}, {'id': '6', 'key_state': _('custom'), 'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True}]
+RX_SWITCHER_ITEMS = [
+    {'id': '1', 'key_state': _('parole'), 'label_key': 'menu_rx_switcher_parole', 'is_exclusive': False, 'category_group': 'WORDS'},
+    {'id': '2', 'key_state': _('lettere'), 'label_key': 'menu_rx_switcher_lettere', 'is_exclusive': False, 'category_group': 'CHARS'},
+    {'id': '3', 'key_state': _('numeri'), 'label_key': 'menu_rx_switcher_numeri', 'is_exclusive': False, 'category_group': 'CHARS'},
+    {'id': '4', 'key_state': _('lettere e numeri'), 'label_key': 'menu_rx_switcher_lettere_numeri', 'is_exclusive': False, 'category_group': 'CHARS'},
+    {'id': '5', 'key_state': _('simboli'), 'label_key': 'menu_rx_switcher_simboli', 'is_exclusive': False, 'category_group': 'CHARS'},
+    {'id': '6', 'key_state': _('custom'), 'label_key': 'menu_rx_switcher_custom', 'is_exclusive': True, 'category_group': 'CUSTOM'},
+    {'id': '7', 'key_state': 'qrz', 'label_key': 'menu_rx_switcher_qrz', 'is_exclusive': False, 'category_group': 'QRZ'},
+    {'id': '8', 'key_state': 'contest', 'label_key': 'menu_rx_switcher_contest', 'is_exclusive': True, 'category_group': 'QRZ'}
+]
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 730
 HISTORICAL_RX_REPORT_INTERVAL = 3500
+
+# Caricamento database QRZ reali (MASTER.SCP)
+REAL_CALLS_POOL = []
+MASTER_SCP_PATH = resource_path('MASTER.SCP')
+
+def load_master_scp():
+    global REAL_CALLS_POOL
+    if not os.path.exists(MASTER_SCP_PATH):
+        return
+    try:
+        with open(MASTER_SCP_PATH, 'r') as f:
+            lines = f.readlines()
+        calls = [x.strip() for x in lines if not x.startswith('#')]
+        REAL_CALLS_POOL = sorted(list(set(calls)))
+    except Exception:
+        pass
+
+load_master_scp()
+
 VALID_MORSE_CHARS_FOR_CUSTOM_SET = {k for k in CWzator(msg=-1) if k != ' ' and k.isprintable()}
 LETTERE_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.ascii_lowercase)}
 NUMERI_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(string.digits)}
 SIMBOLI_MORSE_POOL = VALID_MORSE_CHARS_FOR_CUSTOM_SET - LETTERE_MORSE_POOL - NUMERI_MORSE_POOL
-DEFAULT_DATA = {'app_info': {'launch_count': 0}, 'overall_settings': {'app_language': 'en', 'speed': 18, 'pitch': 550, 'dashes': 30, 'spaces': 50, 'dots': 50, 'volume': 0.5, 'ms': 1, 'fs_index': 5, 'wave_index': 1}, 'rxing_stats': {'total_calls': 0, 'sessions': 1, 'total_correct': 0, 'total_wrong_items': 0, 'total_time_seconds': 0.0}, 'counting_stats': {'exercise_number': 1}, 'rx_menu_switcher_states': {'parole': True, 'lettere': False, 'numeri': False, 'simboli': False, 'qrz': False, 'custom': False, 'parole_filter_min': 1, 'parole_filter_max': 6, 'custom_set_string': ''}, 'historical_rx_data': {'max_sessions_to_keep': HISTORICAL_RX_MAX_SESSIONS_DEFAULT, 'report_interval': HISTORICAL_RX_REPORT_INTERVAL, 'chars_since_last_report': 0, 'sessions_log': [], 'historical_reports': []}}
+DEFAULT_DATA = {
+    'app_info': {
+        'launch_count': 0},
+        'overall_settings': {'app_language': 'en',
+                            'speed': 18,
+                            'pitch': 550,
+                            'dashes': 30,
+                            'spaces': 50,
+                            'dots': 50,
+                            'volume': 0.5,
+                            'ms': 1,
+                            'fs_index': 5,
+                            'wave_index': 1},
+                        'rxing_stats_words': {
+                            'total_calls': 0,
+                            'sessions': 0,
+                            'total_correct': 0,
+                            'total_wrong_items': 0,
+                            'total_time_seconds': 0.0},
+                        'rxing_stats_chars': {
+                            'total_calls': 0,
+                            'sessions': 0,
+                            'total_correct': 0,
+                            'total_wrong_items': 0,
+                            'total_time_seconds': 0.0},
+                        'rxing_stats_qrz': {
+                            'total_calls': 0,
+                            'sessions': 0,
+                            'total_correct': 0,
+                            'total_wrong_items': 0,
+                            'total_time_seconds': 0.0},
+                        'counting_stats': {
+                            'exercise_number': 1},
+                        'rx_menu_switcher_states': {
+                            'parole': True,
+                            'lettere': False,
+                            'numeri': False,
+                            'lettere e numeri': False,
+                            'simboli': False,
+                            'qrz': False,
+                            'custom': False,
+                            'parole_filter_min': 3,
+                            'parole_filter_max': 7,
+                            'custom_set_string': ''},
+                        'historical_rx_settings': {
+                            'max_sessions_to_keep': HISTORICAL_RX_MAX_SESSIONS_DEFAULT,
+                            'report_interval': HISTORICAL_RX_REPORT_INTERVAL,
+                            },
+                        'historical_rx_data_words': {
+                            'chars_since_last_report': 0,
+                            'sessions_log': [],
+                            'historical_reports': []},
+                        'historical_rx_data_chars': {
+                            'chars_since_last_report': 0,
+                            'sessions_log': [],
+                            'historical_reports': []},
+                        'historical_rx_data_qrz': {
+                            'chars_since_last_report': 0,
+                            'sessions_log': [],
+                            'historical_reports': []}}
 MDL = {'a0a': 4, 'a0aa': 6, 'a0aaa': 15, 'aa0a': 6, 'aa0aa': 18, 'aa0aaa': 36, '0a0a': 2, '0a0aa': 2, '0a0aaa': 2, 'a00a': 3, 'a00aa': 3, 'a00aaa': 4}
 words = []
 app_data = {}
@@ -68,6 +158,8 @@ def genera_singolo_item_esercizio_misto(active_switcher_states, group_length_for
         active_and_usable_kinds.append('lettere')
     if active_switcher_states.get('numeri'):
         active_and_usable_kinds.append('numeri')
+    if active_switcher_states.get('lettere e numeri'):
+        active_and_usable_kinds.append('lettere e numeri')
     if active_switcher_states.get('simboli'):
         active_and_usable_kinds.append('simboli')
     if active_switcher_states.get('qrz'):
@@ -89,6 +181,8 @@ def genera_singolo_item_esercizio_misto(active_switcher_states, group_length_for
         item_generato = GeneratingGroup(kind='1', length=group_length_for_generated, wpm=overall_speed)
     elif chosen_kind == 'numeri':
         item_generato = GeneratingGroup(kind='2', length=group_length_for_generated, wpm=overall_speed)
+    elif chosen_kind == 'lettere e numeri':
+        item_generato = GeneratingGroup(kind='3', length=group_length_for_generated, wpm=overall_speed)
     elif chosen_kind == 'simboli':
         item_generato = GeneratingGroup(kind='S', length=group_length_for_generated, wpm=overall_speed)
     return item_generato.lower()
@@ -176,7 +270,7 @@ def seleziona_modalita_rx():
                 continue
             group_len_val_final = 0
             ask_for_length = False
-            if current_switcher_states.get('lettere') or current_switcher_states.get('numeri') or current_switcher_states.get('custom') or current_switcher_states.get('simboli'):
+            if current_switcher_states.get('lettere') or current_switcher_states.get('numeri') or current_switcher_states.get('custom') or current_switcher_states.get('lettere e numeri') or current_switcher_states.get('simboli'):
                 ask_for_length = True
             if ask_for_length:
                 _move_cursor(prompt_actual_line_row + 1, 1)
@@ -201,9 +295,24 @@ def seleziona_modalita_rx():
             return {'active_switcher_states': current_switcher_states, 'parole_filtrate_list': parole_filtrate_sessione if current_switcher_states.get('parole') else None, 'custom_set_string_active': custom_set_string_sessione if current_switcher_states.get('custom') else None, 'group_length_for_generated': group_len_val_final}
         elif scelta.isdigit() and '1' <= scelta <= str(len(RX_SWITCHER_ITEMS)):
             chosen_idx = int(scelta) - 1
-            item_key_toggle_loop = RX_SWITCHER_ITEMS[chosen_idx]['key_state']
+            item_config_toggled = RX_SWITCHER_ITEMS[chosen_idx]
+            item_key_toggle_loop = item_config_toggled['key_state']
+            
+            # Toggle dello stato
             current_switcher_states[item_key_toggle_loop] = not current_switcher_states[item_key_toggle_loop]
-            if current_switcher_states[item_key_toggle_loop]:
+            is_now_active = current_switcher_states[item_key_toggle_loop]
+
+            # Logica di esclusione mutua basata su Category Group
+            if is_now_active:
+                my_group = item_config_toggled.get('category_group')
+                if my_group:
+                    for other_item in RX_SWITCHER_ITEMS:
+                        # Se l'altro item appartiene a un gruppo DIVERSO, spegnilo.
+                        # Gli item dello STESSO gruppo (es. lettere e numeri) possono coesistere.
+                        if other_item['key_state'] != item_key_toggle_loop and other_item.get('category_group') != my_group:
+                            current_switcher_states[other_item['key_state']] = False
+
+            if is_now_active:
                 if item_key_toggle_loop == 'parole':
                     min_len_saved_loop = current_switcher_states.get('parole_filter_min', 0)
                     max_len_saved_loop = current_switcher_states.get('parole_filter_max', 0)
@@ -353,7 +462,7 @@ def crea_report_grafico(current_aggregates, previous_aggregates, g_val, x_val, n
     ax_wpm.spines['right'].set_visible(False)
     ax_wpm.spines['left'].set_visible(False)
     y_tick_positions = np.arange(num_wpm_metrics)
-    metric_labels = [m['label'] for m in wpm_metrics_data]
+    metric_labels = [m['label_key'] for m in wpm_metrics_data] # <-- CORRETTO
     ax_wpm.set_yticks(y_tick_positions)
     ax_wpm.set_yticklabels(metric_labels[::-1])
     ax_wpm.tick_params(axis='y', colors=text_color, labelsize=10, length=0)
@@ -581,28 +690,75 @@ def load_settings():
         try:
             with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
                 loaded_data = json.load(f)
+            
+            # --- Logica di Migrazione ---
+            overall_settings_changed = False # Reset per questa sezione
+
+            # Migrazione delle vecchie statistiche rxing
+            if 'rxing_stats' in loaded_data:
+                if 'rxing_stats_words' not in loaded_data:
+                    loaded_data['rxing_stats_words'] = loaded_data['rxing_stats']
+                del loaded_data['rxing_stats']
+                print(_("Migrated old 'rxing_stats' to 'rxing_stats_words'."))
+                overall_settings_changed = True
+
+            # Migrazione dei vecchi dati storici rxing
+            if 'historical_rx_data' in loaded_data:
+                old_historical_data = loaded_data['historical_rx_data']
+
+                # Migra le impostazioni condivise se non esistono ancora
+                if 'historical_rx_settings' not in loaded_data:
+                    loaded_data['historical_rx_settings'] = {
+                        'max_sessions_to_keep': old_historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT),
+                        'report_interval': old_historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL),
+                    }
+                
+                # Migra i dati effettivi (log delle sessioni) in _words
+                if 'historical_rx_data_words' not in loaded_data:
+                    loaded_data['historical_rx_data_words'] = {
+                        'chars_since_last_report': old_historical_data.get('chars_since_last_report', 0),
+                        'sessions_log': old_historical_data.get('sessions_log', []),
+                        'historical_reports': old_historical_data.get('historical_reports', [])
+                    }
+                del loaded_data['historical_rx_data']
+                print(_("Migrated old 'historical_rx_data' to 'historical_rx_data_words' and extracted settings."))
+                overall_settings_changed = True
+
+            # Fine Logica di Migrazione
+
             merged_data = {}
             for main_key, default_values in DEFAULT_DATA.items():
                 loaded_section = loaded_data.get(main_key, {})
+                # Gestione speciale per historical_rx_settings se c'è un'override nelle default_values
+                if main_key == 'historical_rx_settings' and 'max_sessions_to_keep' in loaded_section and 'report_interval' in loaded_section:
+                    merged_data[main_key] = loaded_section  # Usa i valori caricati, non i default
+                    continue
+                elif main_key == 'historical_rx_settings': # Se non ci sono override nei loaded_section per questi valori
+                    merged_data[main_key] = default_values.copy() # Usa i default
+                    if 'max_sessions_to_keep' in loaded_section:
+                        merged_data[main_key]['max_sessions_to_keep'] = loaded_section['max_sessions_to_keep']
+                    if 'report_interval' in loaded_section:
+                        merged_data[main_key]['report_interval'] = loaded_section['report_interval']
+                    continue
+                # Il resto della gestione è per le altre sezioni che non hanno logica di merge speciale
                 if isinstance(default_values, dict):
                     merged_section = default_values.copy()
-                else:
+                else: # Per valori non dizionari, come liste o semplici tipi
                     merged_section = default_values
-                if main_key == 'historical_rx_data':
-                    if isinstance(merged_section, dict):
-                        if 'max_sessions_to_keep' in loaded_section and isinstance(loaded_section['max_sessions_to_keep'], int):
-                            merged_section['max_sessions_to_keep'] = loaded_section['max_sessions_to_keep']
-                        if 'historical_reports' in loaded_section and isinstance(loaded_section['historical_reports'], list):
-                            merged_section['historical_reports'] = loaded_section['historical_reports']
-                        if 'report_interval' in loaded_section and isinstance(loaded_section['report_interval'], int):
-                            merged_section['report_interval'] = loaded_section['report_interval']
-                        if 'chars_since_last_report' in loaded_section and isinstance(loaded_section['chars_since_last_report'], int):
-                            merged_section['chars_since_last_report'] = loaded_section['chars_since_last_report']
-                        if 'sessions_log' in loaded_section and isinstance(loaded_section['sessions_log'], list):
-                            merged_section['sessions_log'] = loaded_section['sessions_log']
-                elif isinstance(merged_section, dict) and isinstance(loaded_section, dict):
-                    merged_section.update(loaded_section)
+
+                if isinstance(merged_section, dict) and isinstance(loaded_section, dict):
+                    merged_section.update(loaded_section) # Applica i valori caricati sui default
                 merged_data[main_key] = merged_section
+            
+            # Assicurati che le nuove chiavi siano inizializzate se non presenti dopo la migrazione
+            for key_suffix in ['words', 'chars', 'qrz']:
+                rx_stats_key = f'rxing_stats_{key_suffix}'
+                if rx_stats_key not in merged_data:
+                    merged_data[rx_stats_key] = DEFAULT_DATA[rx_stats_key].copy()
+                hist_data_key = f'historical_rx_data_{key_suffix}'
+                if hist_data_key not in merged_data:
+                    merged_data[hist_data_key] = DEFAULT_DATA[hist_data_key].copy()
+
             overall_settings_default = DEFAULT_DATA.get('overall_settings', {})
             app_language_default = overall_settings_default.get('app_language', 'en')
             loaded_overall_settings = merged_data.get('overall_settings', overall_settings_default)
@@ -844,7 +1000,7 @@ def KeyboardCW():
                     command_processed_internally = True
                 elif cmd_letter_parsed == 'h':
                     if overall_pitch != value_int_parsed:
-                        new_pitch = max(130, min(2700, value_int_parsed))
+                        new_pitch = max(200, min(2700, value_int_parsed))
                         if overall_pitch != new_pitch:
                             overall_pitch = new_pitch
                             overall_settings_changed = True
@@ -1000,6 +1156,11 @@ def GeneratingGroup(kind, length, wpm, customized_set_param=None):
             return 'ERR_NP'
         pool = list(NUMERI_MORSE_POOL)
         return ''.join(random.choices(pool, k=length))
+    elif kind == '3':
+        if not LETTERE_MORSE_POOL and not NUMERI_MORSE_POOL:
+            return 'ERR_LNP' # Errore: pool lettere e numeri vuoto
+        pool = list(LETTERE_MORSE_POOL | NUMERI_MORSE_POOL)
+        return ''.join(random.choices(pool, k=length))
     elif kind == '4':
         if not customized_set_param or len(customized_set_param) < 1:
             return 'ERR_CS'
@@ -1012,6 +1173,10 @@ def GeneratingGroup(kind, length, wpm, customized_set_param=None):
     return 'ERR_KD'
 
 def Mkdqrz(c):
+    # Se abbiamo un pool di call reali, 50% di probabilità di usarne uno
+    if REAL_CALLS_POOL and random.random() < 0.5:
+        return random.choice(REAL_CALLS_POOL)
+
     q = ''
     c = c[0]
     for j in str(c):
@@ -1119,6 +1284,351 @@ def AlwaysRight(sent_items, error_counts_dict):
     letters_misspelled = set(error_counts_dict.keys())
     return letters_sent - letters_misspelled
 
+def format_duration(td):
+    """
+    Format a timedelta object into a localized string.
+    Example: 3 giorni, 15 ore, 26 minuti e 3 secondi
+    """
+    total_seconds = int(td.total_seconds())
+    days = total_seconds // 86400
+    remainder = total_seconds % 86400
+    hours = remainder // 3600
+    remainder %= 3600
+    minutes = remainder // 60
+    seconds = remainder % 60
+
+    parts = []
+    if days > 0:
+        part = _("{count} giorni") if days > 1 else _("{count} giorno")
+        parts.append(part.format(count=days))
+    if hours > 0:
+        part = _("{count} ore") if hours > 1 else _("{count} ora")
+        parts.append(part.format(count=hours))
+    if minutes > 0:
+        part = _("{count} minuti") if minutes > 1 else _("{count} minuto")
+        parts.append(part.format(count=minutes))
+    if seconds > 0 or not parts: # Show seconds if it's the only thing or > 0
+        part = _("{count} secondi") if seconds != 1 else _("{count} secondo")
+        parts.append(part.format(count=seconds))
+
+    if len(parts) == 1:
+        return parts[0]
+
+    return ", ".join(parts[:-1]) + " " + _("e") + " " + parts[-1]
+
+def RxingContest(menu_config_scelta):
+    global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave, SAMPLE_RATES, MDL, app_data, overall_settings_changed
+
+    print(_("\n=== MODALITÀ CONTEST ==="))
+    print(_("Simulazione scambio rapido: Call + 5NN + Serial"))
+    
+    # Setup durata
+    duration_type = menu(prompt=_("Scegli la durata:"), options=[_("Numero di QRZ"), _("Tempo (minuti)")])
+    limit = 0
+    if duration_type == 1:
+        limit = dgt(prompt=_("Quanti QRZ? "), kind='i', imin=5, imax=500, default=50)
+    else:
+        limit = dgt(prompt=_("Quanti minuti? "), kind='i', imin=1, imax=60, default=10)
+
+def RxingContest(menu_config_scelta):
+    global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave, SAMPLE_RATES, MDL, app_data, overall_settings_changed
+
+    print(_("\n=== MODALITÀ CONTEST ==="))
+    print(_("Simulazione scambio rapido: Call + 5NN + Serial"))
+    
+    # Setup durata
+    duration_type = menu(prompt=_("Scegli la durata:"), options=[_("Numero di QRZ"), _("Tempo (minuti)")])
+    limit = 0
+    if duration_type == 1:
+        limit = dgt(prompt=_("Quanti QRZ? "), kind='i', imin=5, imax=500, default=50)
+    else:
+        limit = dgt(prompt=_("Quanti minuti? "), kind='i', imin=1, imax=60, default=10)
+
+    print(_("Comandi rapidi: PgUp/PgDn (WPM), F5 (Call), F6 (Serial), F7 (Rpt), Alt+W (Wipe), ESC (Exit), Enter (Check)"))
+    key(_("Premi un tasto per iniziare..."))
+
+    start_time = dt.datetime.now()
+    session_calls = 0
+    correct_calls = 0
+    
+    # Stats trackers
+    item_details = []
+    sent_chars_detail_this_session = {}
+    char_error_counts = {}
+    total_mistakes_calculated = 0
+    minwpm = 100
+    maxwpm = 0
+    sum_wpm = 0
+    callssend = []
+    callsget = []
+    active_exerctime = dt.timedelta(0) # Approssimato
+    
+    import threading
+    import queue
+    
+    input_queue = queue.Queue()
+    stop_event = threading.Event()
+    current_modifiers = set()
+
+    def on_press(key):
+        if stop_event.is_set():
+            return False
+        try:
+            if key in {keyboard.Key.alt, keyboard.Key.alt_l, keyboard.Key.alt_r}:
+                current_modifiers.add('alt')
+            input_queue.put(('press', key))
+        except Exception:
+            pass
+
+    def on_release(key):
+        try:
+            if key in {keyboard.Key.alt, keyboard.Key.alt_l, keyboard.Key.alt_r}:
+                if 'alt' in current_modifiers:
+                    current_modifiers.remove('alt')
+        except Exception:
+            pass
+
+    listener = keyboard.Listener(on_press=on_press, on_release=on_release, suppress=True)
+    listener.start()
+
+    try:
+        while True:
+            # Check duration
+            elapsed = dt.datetime.now() - start_time
+            elapsed_minutes = elapsed.total_seconds() / 60.0
+            
+            if duration_type == 1 and session_calls >= limit:
+                break
+            if duration_type == 2 and elapsed_minutes >= limit:
+                break
+
+            # Generate Exchange
+            c = random.choices(list(MDL.keys()), weights=MDL.values(), k=1)
+            qrz = Mkdqrz(c)
+            
+            # Serial
+            skill = random.randint(1, 4)
+            serial = int(round(1 + random.random() * (elapsed_minutes if elapsed_minutes > 0.1 else 0.1) * skill))
+            
+            # Messages
+            msg_full = f"{qrz} 5NN {serial}"
+            msg_call = qrz
+            msg_serial = str(serial)
+            
+            callssend.append(msg_full)
+            
+            # Update sent chars stats
+            for ch in msg_full:
+                if ch.isalnum(): # Count only alphanumerics usually
+                     sent_chars_detail_this_session[ch] = sent_chars_detail_this_session.get(ch, 0) + 1
+            
+            # Variations
+            this_speed = overall_speed * (1 + random.uniform(-0.1, 0.1))
+            this_pitch = random.randint(350, 950) # Random pitch per QSO
+
+            # Track WPM
+            if this_speed < minwpm: minwpm = this_speed
+            if this_speed > maxwpm: maxwpm = this_speed
+            sum_wpm += this_speed
+            
+            l, s, p = overall_dashes, overall_spaces, overall_dots
+            if random.random() < 0.2:
+                # Manual Keying Simulation
+                l = int(l * random.uniform(0.8, 1.2))
+                s = int(s * random.uniform(0.8, 1.2))
+                p = int(p * random.uniform(0.8, 1.2))
+            
+            # Helper for playing CW
+            def play_cw(msg_to_play):
+                 threading.Thread(target=CWzator, kwargs={
+                    'msg': msg_to_play, 'wpm': this_speed, 'l': l, 's': s, 'p': p, 
+                    'pitch': this_pitch, 'vol': overall_volume, 'ms': overall_ms, 
+                    'fs': SAMPLE_RATES[overall_fs], 'wv': overall_wave
+                }).start()
+
+            # Play initial full message
+            play_cw(msg_full)
+            
+            # Input Loop
+            item_done = False
+            attempts = 5
+            current_buffer = []
+            print(f"\rRX #{session_calls+1}: ", end='', flush=True)
+            
+            item_start_time = dt.datetime.now()
+
+            while not item_done and attempts > 0:
+                try:
+                    event_type, event_key = input_queue.get(timeout=0.1)
+                    
+                    if event_key == keyboard.Key.esc:
+                        stop_event.set()
+                        return
+
+                    elif event_key == keyboard.Key.enter:
+                        typed = "".join(current_buffer).upper().strip()
+                        print() 
+                        
+                        target_call = qrz
+                        target_serial = str(serial)
+                        
+                        # Parsing
+                        tokens = typed.split()
+                        user_call = ""
+                        user_serial = ""
+                        
+                        if len(tokens) >= 2:
+                            user_call = tokens[0] 
+                            user_serial = tokens[-1] 
+                        elif len(tokens) == 1:
+                            if tokens[0].isdigit():
+                                user_serial = tokens[0]
+                            else:
+                                user_call = tokens[0]
+                        
+                        # Check correctness
+                        call_ok = (user_call == target_call)
+                        serial_ok = (user_serial == target_serial)
+                        
+                        if call_ok and serial_ok:
+                            # Correct
+                            threading.Thread(target=CWzator, kwargs={'msg': "R", 'wpm': 35, 'pitch': 800, 'l':l, 's':s, 'p':p, 'vol':overall_volume, 'ms':overall_ms, 'fs':SAMPLE_RATES[overall_fs], 'wv':overall_wave}).start()
+                            correct_calls += 1
+                            callsget.append(msg_full)
+                            item_details.append({'wpm': this_speed, 'correct': True})
+                            item_done = True
+                        else:
+                            # Wrong
+                            item_details.append({'wpm': this_speed, 'correct': False})
+                            
+                            # Track specific errors (simplified: diff of whole strings if both wrong, or specific parts)
+                            # To be precise: accumulate mistakes chars
+                            # Error Call
+                            if not call_ok:
+                                mistakes = MistakesCollectorInStrings(target_call, user_call)
+                                for m in mistakes:
+                                    char_error_counts[m] = char_error_counts.get(m, 0) + 1
+                                    total_mistakes_calculated += 1
+                            if not serial_ok:
+                                mistakes = MistakesCollectorInStrings(target_serial, user_serial)
+                                for m in mistakes:
+                                    char_error_counts[m] = char_error_counts.get(m, 0) + 1
+                                    total_mistakes_calculated += 1
+
+                            attempts -= 1
+                            if attempts == 0:
+                                print(f" {msg_full}")
+                                play_cw(msg_full)
+                                item_done = True
+                            else:
+                                if not call_ok and not serial_ok:
+                                     threading.Thread(target=CWzator, kwargs={'msg': "?", 'wpm': 35, 'pitch': 400, 'l':l, 's':s, 'p':p, 'vol':overall_volume, 'ms':overall_ms, 'fs':SAMPLE_RATES[overall_fs], 'wv':overall_wave}).start()
+                                     print(f"\rRX #{session_calls+1} (Rpt {attempts}): ", end='', flush=True)
+                                elif not call_ok:
+                                     threading.Thread(target=CWzator, kwargs={'msg': "CALL?", 'wpm': 35, 'pitch': 400, 'l':l, 's':s, 'p':p, 'vol':overall_volume, 'ms':overall_ms, 'fs':SAMPLE_RATES[overall_fs], 'wv':overall_wave}).start()
+                                     print(f"\rRX #{session_calls+1} (Call? {attempts}): {user_call if user_call else '_'} {target_serial}", end='', flush=True)
+                                elif not serial_ok:
+                                     threading.Thread(target=CWzator, kwargs={'msg': "NR?", 'wpm': 35, 'pitch': 400, 'l':l, 's':s, 'p':p, 'vol':overall_volume, 'ms':overall_ms, 'fs':SAMPLE_RATES[overall_fs], 'wv':overall_wave}).start()
+                                     print(f"\rRX #{session_calls+1} (Nr? {attempts}): {target_call} {user_serial if user_serial else '_'}", end='', flush=True)
+
+                        current_buffer = []
+
+                    elif event_key == keyboard.Key.backspace:
+                        if current_buffer:
+                            current_buffer.pop()
+                            print(f"\rRX #{session_calls+1}: {''.join(current_buffer)}  ", end=f"\rRX #{session_calls+1}: {''.join(current_buffer)}", flush=True)
+
+                    elif event_key == keyboard.Key.page_up:
+                        overall_speed += 2
+                        print(f" [WPM: {overall_speed}] ", end='', flush=True)
+
+                    elif event_key == keyboard.Key.page_down:
+                        overall_speed = max(5, overall_speed - 2)
+                        print(f" [WPM: {overall_speed}] ", end='', flush=True)
+                        
+                    elif event_key == keyboard.Key.f7:
+                         play_cw(msg_full)
+                    
+                    elif event_key == keyboard.Key.f5: # Repeat Call
+                         play_cw(msg_call)
+
+                    elif event_key == keyboard.Key.f6: # Repeat Serial
+                         play_cw(msg_serial)
+                    
+                    # Alt+W check
+                    elif hasattr(event_key, 'char') and event_key.char == 'w' and 'alt' in current_modifiers:
+                        current_buffer = []
+                        print(f"\rRX #{session_calls+1}: {' '*20}", end=f"\rRX #{session_calls+1}: ", flush=True)
+
+                    elif hasattr(event_key, 'char') and event_key.char:
+                        if event_key.char.isalnum() or event_key.char == ' ':
+                            current_buffer.append(event_key.char)
+                            print(event_key.char, end='', flush=True)
+
+                except queue.Empty:
+                    pass
+            
+            active_exerctime += (dt.datetime.now() - item_start_time)
+            session_calls += 1
+            pass 
+
+    finally:
+        stop_event.set()
+        listener.stop()
+        
+        # --- SALVATAGGIO STATISTICHE (Logica completa come in Rxing) ---
+        elapsed_total = (dt.datetime.now() - start_time).total_seconds()
+        wrong_calls = session_calls - correct_calls
+        
+        # 1. Update totali
+        stats = app_data['rxing_stats_qrz']
+        stats['sessions'] += 1
+        stats['total_calls'] += session_calls
+        stats['total_correct'] += correct_calls
+        stats['total_wrong_items'] += wrong_calls
+        stats['total_time_seconds'] += elapsed_total
+        
+        # 2. Dati storici dettagliati
+        avg_wpm_calc = sum_wpm / session_calls if session_calls > 0 else 0
+        send_char = sum(sent_chars_detail_this_session.values())
+        
+        session_data_for_history = {
+            'timestamp_iso': start_time.isoformat(),
+            'duration_seconds': active_exerctime.total_seconds(),
+            'rwpm_min': minwpm if session_calls > 0 else 0,
+            'rwpm_max': maxwpm,
+            'rwpm_avg': avg_wpm_calc,
+            'items_sent_session': session_calls,
+            'items_correct_session': correct_calls,
+            'item_details': item_details,
+            'chars_sent_session': send_char,
+            'errors_detail_session': char_error_counts,
+            'total_errors_chars_session': total_mistakes_calculated,
+            'sent_chars_detail_session': sent_chars_detail_this_session
+        }
+
+        # 3. Gestione log storico
+        historical_data = app_data['historical_rx_data_qrz']
+        historical_rx_log = historical_data.get('sessions_log', [])
+        historical_rx_log.append(session_data_for_history)
+        
+        # Rotazione
+        historical_settings = app_data['historical_rx_settings']
+        g = historical_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+        while len(historical_rx_log) > g:
+            historical_rx_log.pop(0)
+            
+        historical_data['sessions_log'] = historical_rx_log
+        
+        # Aggiornamento contatori report (semplificato)
+        historical_data['chars_since_last_report'] = historical_data.get('chars_since_last_report', 0) + send_char
+        
+        overall_settings_changed = True
+
+        print(_("\nSessione terminata. Corretti: {} su {}").format(correct_calls, session_calls))
+        print(_("Dati salvati in statistiche QRZ (inclusi errori per carattere)."))
+        key(_("Premi un tasto per tornare al menu..."))
+
 def Rxing():
     global app_data, overall_settings_changed, overall_speed, words, customized_set
     print(_("\nE' il momento giusto per un bell'esercizio di ricezione? Ottimo, allora sei nel posto giusto.\nIniziamo!\n\tCarico lo stato dei tuoi progressi e controllo il database del dizionario..."))
@@ -1126,14 +1636,60 @@ def Rxing():
         words = file.readlines()
         words = [line.strip() for line in words]
         print(_('Dizionario delle parole caricato con {word_count} parole.').format(word_count=len(words)))
-    rx_stats = app_data['rxing_stats']
-    totalcalls = rx_stats.get('total_calls', 0)
-    sessions = rx_stats.get('sessions', 1)
-    totalget = rx_stats.get('total_correct', 0)
-    totalwrong = rx_stats.get('total_wrong_items', 0)
-    totaltime_seconds = rx_stats.get('total_time_seconds', 0.0)
+
+    # Sposta la selezione della modalità qui, prima della visualizzazione delle statistiche
+    menu_config_scelta = seleziona_modalita_rx()
+    if not menu_config_scelta:
+        return
+
+    # Estrai i parametri della sessione dalla scelta dell'utente
+    active_states = menu_config_scelta['active_switcher_states']
+
+    if active_states.get('contest'):
+        RxingContest(menu_config_scelta)
+        return
+
+    parole_filtrate_per_sessione = menu_config_scelta['parole_filtrate_list']
+    custom_set_attivo_per_sessione = menu_config_scelta['custom_set_string_active']
+    lunghezza_gruppo_per_generati = menu_config_scelta['group_length_for_generated']
+
+    # Determina la categoria (words, chars, qrz)
+    category_key = ""
+    # La logica è che se le "parole" sono attive, è un esercizio di parole.
+    # Altrimenti, se "qrz" è attivo, è un esercizio di qrz.
+    # Altrimenti, è un esercizio di caratteri/misto.
+    if active_states.get('parole'):
+        category_key = "words"
+    elif active_states.get('qrz'):
+        category_key = "qrz"
+    else: # Qualsiasi altra combinazione (lettere, numeri, simboli, custom, misto)
+        category_key = "chars"
+
+    # Seleziona i dizionari di statistiche e dati storici corretti per la sessione corrente
+    current_rx_stats = app_data[f'rxing_stats_{category_key}']
+    current_historical_data = app_data[f'historical_rx_data_{category_key}']
+    historical_settings = app_data['historical_rx_settings'] # Le impostazioni sono condivise per tutte le categorie
+
+    # Ora usa current_rx_stats e current_historical_data per il resto della funzione
+
+    totalcalls = current_rx_stats.get('total_calls', 0)
+    sessions = current_rx_stats.get('sessions', 0) # Inizializzato a 0 in DEFAULT_DATA
+    totalget = current_rx_stats.get('total_correct', 0)
+    totalwrong = current_rx_stats.get('total_wrong_items', 0)
+    totaltime_seconds = current_rx_stats.get('total_time_seconds', 0.0)
     totaltime = dt.timedelta(seconds=totaltime_seconds)
-    print(_('Ho recuperato i tuoi dati dal disco, quindi:\nLa tua attuale velocità WPM è {wpm} e hai svolto {sessions} sessioni.\nTi ho inviato {totalcalls} pseudo-call o gruppi e ne hai ricevuti correttamente {totalget}, mentre {totalwrong} li hai copiati male.\nIl tempo totale speso su questo esercizio è stato di {totaltime}.').format(wpm=overall_speed, sessions=sessions - 1, totalcalls=totalcalls, totalget=totalget, totalwrong=totalwrong, totaltime=str(totaltime).split('.')[0]))
+    formatted_time = format_duration(totaltime)
+    
+    # Messaggio di benvenuto aggiornato
+    print(_('Ho recuperato i tuoi dati dal disco per gli esercizi di {category_name}, quindi:\nLa tua attuale velocità WPM è {wpm} e hai svolto {sessions} sessioni.\nTi ho inviato {totalcalls} pseudo-call o gruppi e ne hai ricevuti correttamente {totalget}, mentre {totalwrong} li hai copiati male.\nIl tempo totale speso su questo esercizio è stato di {totaltime}.').format(
+        category_name=_('parole') if category_key == 'words' else _('caratteri/misto') if category_key == 'chars' else 'QRZ',
+        wpm=overall_speed, 
+        sessions=sessions, # Non più sessions - 1, perché sessions conterà le sessioni completate
+        totalcalls=totalcalls, 
+        totalget=totalget, 
+        totalwrong=totalwrong, 
+        totaltime=formatted_time))
+    
     callssend = []
     average_rwpm = 0.0
     dz_mistakes = {}
@@ -1145,18 +1701,13 @@ def Rxing():
     minwpm = 100
     maxwpm = 0
     repeatedflag = False
-    historical_rx_settings = app_data.get('historical_rx_data', {})
-    max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
-    report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+    
+    # Usa le impostazioni storiche condivise
+    max_sessions_to_keep = historical_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+    report_interval = historical_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+
     overall_speed = dgt(prompt=_('Vuoi cambiare la velocità in WPM? Invio per accettare {wpm}> ').format(wpm=overall_speed), kind='i', imin=10, imax=85, default=overall_speed)
     rwpm = overall_speed
-    menu_config_scelta = seleziona_modalita_rx()
-    if not menu_config_scelta:
-        return
-    active_states = menu_config_scelta['active_switcher_states']
-    parole_filtrate_per_sessione = menu_config_scelta['parole_filtrate_list']
-    custom_set_attivo_per_sessione = menu_config_scelta['custom_set_string_active']
-    lunghezza_gruppo_per_generati = menu_config_scelta['group_length_for_generated']
     _clear_screen_ansi()
     active_labels_for_display = []
     for item_cfg_ks in RX_SWITCHER_ITEMS:
@@ -1176,9 +1727,12 @@ def Rxing():
         fix_speed = False
     print(_("Fai molta attenzione adesso.\n\tDigita il {kindstring} che ascolti.\nBattendo invio a vuoto (o aggiungendo un ?) avrai l'opportunità di un secondo tentativo\n\tPer terminare: digita semplicemente un '.' (punto) seguito da dal tasto invio.\n\t\tBUON DIVERTIMENTO!\n\tPremi un tasto quando sei pronto per iniziare.").format(kindstring=kindstring))
     attesa = key()
-    print(_('Iniziamo la sessione {sessions}!').format(sessions=sessions))
+    print(_('Iniziamo la sessione {sessions}!').format(sessions=sessions + 1))
     starttime = dt.datetime.now()
+    active_exerctime = dt.timedelta(0)
+    total_pause_time = dt.timedelta(0)
     while True:
+        total_wait_duration_for_item = dt.timedelta(0)
         if how_many_calls > 0 and len(callssend) >= how_many_calls:
             break
         qrz_to_send = genera_singolo_item_esercizio_misto(active_states, lunghezza_gruppo_per_generati, custom_set_attivo_per_sessione, parole_filtrate_per_sessione)
@@ -1187,9 +1741,12 @@ def Rxing():
             break
         pitch = random.randint(250, 1050)
         avg_wpm_display = average_rwpm / len(callsget) if len(callsget) else rwpm
-        prompt = _('S{sessions}-#{calls} - WPM{rwpm:.2f}/{avg_wpm_display:.2f} - +{correct_count}/-{wrong_count}> ').format(avg_wpm_display=avg_wpm_display, correct_count=len(callsget), wrong_count=len(callswrong), sessions=sessions, calls=calls, rwpm=rwpm)
+        prompt = _('S{sessions}-#{calls} - WPM{rwpm:.2f}/{avg_wpm_display:.2f} - +{correct_count}/-{wrong_count}> ').format(avg_wpm_display=avg_wpm_display, correct_count=len(callsget), wrong_count=len(callswrong), sessions=sessions + 1, calls=calls, rwpm=rwpm)
         plo, rwpm = CWzator(msg=qrz_to_send, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+        wait_start_1 = dt.datetime.now()
         guess = dgt(prompt=prompt, kind='s', smin=0, smax=64)
+        wait_end_1 = dt.datetime.now()
+        total_wait_duration_for_item += wait_end_1 - wait_start_1 
         if guess == '.':
             break
         needs_processing = True
@@ -1200,14 +1757,25 @@ def Rxing():
             if guess.endswith('?'):
                 partial_input = guess[:-1]
                 prompt_indicator = _('% {partial_input}').format(partial_input=partial_input)
-            prompt = _('S{sessions}-#{calls} - WPM{rwpm:.2f}/{:.2f} - +{}/-{} - {prompt_indicator}').format(average_rwpm / len(callsget) if len(callsget) else rwpm, len(callsget), len(callswrong), sessions=sessions, calls=calls, rwpm=rwpm, prompt_indicator=prompt_indicator)
+            prompt = _('S{sessions}-#{calls} - WPM{rwpm:.2f}/{:.2f} - +{}/-{} - {prompt_indicator}').format(average_rwpm / len(callsget) if len(callsget) else rwpm, len(callsget), len(callswrong), sessions=sessions + 1, calls=calls, rwpm=rwpm, prompt_indicator=prompt_indicator)
             plo, rwpm = CWzator(msg=qrz_to_send, wpm=overall_speed, pitch=pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+            wait_start_2 = dt.datetime.now()
             new_guess = dgt(prompt=prompt, kind='s', smin=0, smax=64)
+            wait_end_2 = dt.datetime.now()
+            total_wait_duration_for_item += wait_end_2 - wait_start_2
             if new_guess == '.':
                 needs_processing = False
                 break
             else:
                 guess = partial_input + new_guess
+        timeout_delta = dt.timedelta(seconds=RX_ITEM_TIMEOUT_SECONDS)
+        if total_wait_duration_for_item > timeout_delta:
+            active_time_for_item = timeout_delta
+            pause_for_item = total_wait_duration_for_item - timeout_delta
+            total_pause_time += pause_for_item
+        else:
+            active_time_for_item = total_wait_duration_for_item
+        active_exerctime += active_time_for_item
         if needs_processing:
             original_qrz = qrz_to_send
             callssend.append(original_qrz)
@@ -1237,7 +1805,6 @@ def Rxing():
             if rwpm < minwpm:
                 minwpm = rwpm
             repeatedflag = False
-    exerctime = dt.datetime.now() - starttime
     print(_('È finita! Ora vediamo cosa abbiamo ottenuto.'))
     if len(callssend) >= 10:
         send_char = sum((len(j) for j in callssend))
@@ -1292,50 +1859,9 @@ def Rxing():
             print(_('\nCaratteri mai sbagliati: {good_letters}').format(good_letters=' '.join(sorted(good_letters)).upper()))
         else:
             print(_('Nessun errore sui caratteri registrato in questa sessione.'))
-        historical_rx_settings = app_data.get('historical_rx_data', {})
+        historical_rx_settings = app_data.get('historical_rx_settings', {})
         max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
         report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
-        session_data_for_history = {'timestamp_iso': starttime.isoformat(), 'duration_seconds': exerctime.total_seconds(), 'wpm_min': minwpm, 'wpm_max': maxwpm, 'wpm_avg': avg_wpm_calc, 'items_sent_session': len(callssend), 'items_correct_session': len(callsget), 'item_details': item_details, 'chars_sent_session': send_char, 'errors_detail_session': char_error_counts, 'total_errors_chars_session': total_mistakes_calculated, 'sent_chars_detail_session': sent_chars_detail_this_session}
-        historical_rx_log = app_data.get('historical_rx_data', {}).get('sessions_log', [])
-        historical_rx_log.append(session_data_for_history)
-        x = len(historical_rx_log)
-        g = max_sessions_to_keep
-        print(_("L'archivio ora contiene {x} sessioni salvate, ancora {g_minus_x} al raggiungimento del limite stabilito.").format(x=x, g_minus_x=g - x))
-        while len(historical_rx_log) > max_sessions_to_keep:
-            sessione_eliminata = historical_rx_log.pop(0)
-            data_sessione_str = sessione_eliminata.get('timestamp_iso', 'N/D')
-            data_sessione_dt = dt.datetime.fromisoformat(data_sessione_str).strftime('%Y-%m-%d %H:%M')
-            durata_sessione = int(sessione_eliminata.get('duration_seconds', 0))
-            contenuto_sessione = sessione_eliminata.get('chars_sent_session', 0)
-            print(_("Sessione del {data}, durata {durata}s, contenuto {contenuto} caratteri, eliminata dalla coda.").format(
-                data=data_sessione_dt, 
-                durata=durata_sessione, 
-                contenuto=contenuto_sessione
-            ))
-        if 'historical_rx_data' not in app_data:
-            app_data['historical_rx_data'] = DEFAULT_DATA['historical_rx_data'].copy()
-        app_data['historical_rx_data']['chars_since_last_report'] = app_data['historical_rx_data'].get('chars_since_last_report', 0) + send_char
-        app_data['historical_rx_data']['sessions_log'] = historical_rx_log
-        overall_settings_changed = True
-        if report_interval > 0 and app_data['historical_rx_data']['chars_since_last_report'] >= report_interval:
-            print(_('Generazione report storico in corso...'))
-            sessions_log = app_data.get('historical_rx_data', {}).get('sessions_log', [])
-            chars_to_account_for = app_data['historical_rx_data']['chars_since_last_report']
-            sessions_for_this_report = []
-            accumulated_chars = 0
-            for session in reversed(sessions_log):
-                sessions_for_this_report.insert(0, session)
-                accumulated_chars += session.get('chars_sent_session', 0)
-                if accumulated_chars >= chars_to_account_for:
-                    break
-            new_report_aggregates = generate_historical_rx_report(sessions_for_this_report)
-            if new_report_aggregates:
-                historical_reports = app_data.get('historical_rx_data', {}).get('historical_reports', [])
-                historical_reports.append(new_report_aggregates)
-                app_data['historical_rx_data']['historical_reports'] = historical_reports
-            chars_in_this_report = accumulated_chars
-            overshoot = chars_in_this_report - report_interval
-            app_data['historical_rx_data']['chars_since_last_report'] = max(0, overshoot)
         f = open('CWapu_Diary.txt', 'a', encoding='utf-8')
         print(_('Rapporto salvato su CW_Diary.txt'))
         date = _('{}/{}/{}').format(lt()[0], lt()[1], lt()[2])
@@ -1369,7 +1895,7 @@ def Rxing():
             rslt = MistakesCollectorInStrings(v[0], v[1])
             f.write(_('\n\t({k}) TX: {tx}, RX: {rx}, DIF: {dif};').format(k=k, tx=v[0].upper(), rx=v[1].upper(), dif=rslt.upper()))
         if report_interval > 0:
-            chars_done = app_data['historical_rx_data'].get('chars_since_last_report', 0)
+            chars_done = app_data[f'historical_rx_data_{category_key}'].get('chars_since_last_report', 0) + send_char
             chars_target = report_interval
             percentage_done = chars_done / chars_target * 100 if chars_target > 0 else 0.0
             chars_missing = chars_target - chars_done
@@ -1387,13 +1913,86 @@ def Rxing():
     current_session_items = len(callssend)
     current_session_correct = len(callsget)
     current_session_wrong = len(dz_mistakes)
-    new_totalcalls = totalcalls + current_session_items
-    new_totalget = totalget + current_session_correct
-    new_totalwrong = totalwrong + current_session_wrong
-    new_totaltime = totaltime + exerctime
-    app_data['rxing_stats'].update({'total_calls': new_totalcalls, 'sessions': sessions + 1, 'total_correct': new_totalget, 'total_wrong_items': new_totalwrong, 'total_time_seconds': new_totaltime.total_seconds()})
+
+    new_totalcalls = current_rx_stats['total_calls'] + current_session_items
+    new_totalget = current_rx_stats['total_correct'] + current_session_correct
+    new_totalwrong = current_rx_stats['total_wrong_items'] + current_session_wrong
+    new_totaltime = dt.timedelta(seconds=current_rx_stats['total_time_seconds']) + active_exerctime
+    
+    current_rx_stats.update({
+        'total_calls': new_totalcalls,
+        'sessions': current_rx_stats['sessions'] + 1,
+        'total_correct': new_totalget,
+        'total_wrong_items': new_totalwrong,
+        'total_time_seconds': new_totaltime.total_seconds()
+    })
+    
+    corrected_item_details = [{'rwpm': item['wpm'], 'correct': item['correct']} for item in item_details]
+    session_data_for_history = {
+        'timestamp_iso': starttime.isoformat(),
+        'duration_seconds': active_exerctime.total_seconds(),
+        'rwpm_min': minwpm,
+        'rwpm_max': maxwpm,
+        'rwpm_avg': avg_wpm_calc,
+        'items_sent_session': len(callssend),
+        'items_correct_session': len(callsget),
+        'item_details': corrected_item_details,
+        'chars_sent_session': send_char,
+        'errors_detail_session': char_error_counts,
+        'total_errors_chars_session': total_mistakes_calculated,
+        'sent_chars_detail_session': sent_chars_detail_this_session
+    }
+
+    historical_rx_log = current_historical_data.get('sessions_log', [])
+    historical_rx_log.append(session_data_for_history)
+
+    x = len(historical_rx_log)
+    g = historical_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+    
+    while len(historical_rx_log) > g:
+        sessione_eliminata = historical_rx_log.pop(0)
+        data_sessione_str = sessione_eliminata.get('timestamp_iso', 'N/D')
+        data_sessione_dt = dt.datetime.fromisoformat(data_sessione_str).strftime('%Y-%m-%d %H:%M')
+        durata_sessione = int(sessione_eliminata.get('duration_seconds', 0))
+        contenuto_sessione = sessione_eliminata.get('chars_sent_session', 0)
+        print(_("Sessione del {data}, durata {durata}s, contenuto {contenuto} caratteri, eliminata dalla coda degli esercizi di {category_name}.").format(
+            data=data_sessione_dt, 
+            durata=durata_sessione, 
+            contenuto=contenuto_sessione,
+            category_name=_('parole') if category_key == 'words' else _('caratteri/misto') if category_key == 'chars' else 'QRZ'))
+
+    current_historical_data['chars_since_last_report'] = current_historical_data.get('chars_since_last_report', 0) + send_char
+    current_historical_data['sessions_log'] = historical_rx_log
+
+    if report_interval > 0 and current_historical_data['chars_since_last_report'] >= report_interval:
+        print(_('Generazione report storico in corso...'))
+        sessions_log = current_historical_data.get('sessions_log', [])
+        chars_to_account_for = current_historical_data['chars_since_last_report']
+        sessions_for_this_report = []
+        accumulated_chars = 0
+        for session in reversed(sessions_log):
+            sessions_for_this_report.insert(0, session)
+            accumulated_chars += session.get('chars_sent_session', 0)
+            if accumulated_chars >= chars_to_account_for:
+                break
+        new_report_aggregates = generate_historical_rx_report(sessions_for_this_report, category_key)
+        if new_report_aggregates:
+            historical_reports = current_historical_data.get('historical_reports', [])
+            historical_reports.append(new_report_aggregates)
+            current_historical_data['historical_reports'] = historical_reports
+        chars_in_this_report = accumulated_chars
+        overshoot = chars_in_this_report - report_interval
+        current_historical_data['chars_since_last_report'] = max(0, overshoot)
+    
     overall_settings_changed = True
-    print(_('Sessione {session_number}, durata: {duration} è stata salvata su disco.').format(session_number=sessions, duration=str(exerctime).split('.')[0]))
+    
+    duration_str = str(active_exerctime).split('.')[0]
+    print(_('\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.').format(session_number=current_rx_stats['sessions'], duration=duration_str))
+    if total_pause_time.total_seconds() > 0:
+        pause_str = str(total_pause_time).split('.')[0]
+        print(_('\t(Tempo totale in pausa rilevato: {pause_time})').format(pause_time=pause_str))
+    print(_("L'archivio ora contiene {x} sessioni salvate per gli esercizi di {category_name}, ancora {g_minus_x} al raggiungimento del limite stabilito.").format(
+        x=x, g_minus_x=g - x, category_name=_('parole') if category_key == 'words' else _('caratteri/misto') if category_key == 'chars' else 'QRZ'))
     return
 
 def _calculate_aggregates(session_list):
@@ -1409,12 +2008,12 @@ def _calculate_aggregates(session_list):
     for s in session_list:
         for char, count in s.get('sent_chars_detail_session', {}).items():
             aggregated_sent_chars_detail[char] = aggregated_sent_chars_detail.get(char, 0) + count
-    valid_min_wpms = [s.get('wpm_min', 0) for s in session_list if s.get('wpm_min', 0) > 0 and s.get('wpm_min', 0) != 100]
-    valid_max_wpms = [s.get('wpm_max', 0) for s in session_list if s.get('wpm_max', 0) > 0]
+    valid_min_wpms = [s.get('rwpm_min', 0) for s in session_list if s.get('rwpm_min', 0) > 0 and s.get('rwpm_min', 0) != 100]
+    valid_max_wpms = [s.get('rwpm_max', 0) for s in session_list if s.get('rwpm_max', 0) > 0]
     wpm_min_overall = min(valid_min_wpms) if valid_min_wpms else 0
     wpm_max_overall = max(valid_max_wpms) if valid_max_wpms else 0
     if session_list:
-        sum_of_session_avg_wpms = sum((s.get('wpm_avg', 0.0) for s in session_list))
+        sum_of_session_avg_wpms = sum((s.get('rwpm_avg', 0.0) for s in session_list))
         wpm_avg_of_session_avgs = sum_of_session_avg_wpms / len(session_list)
     else:
         wpm_avg_of_session_avgs = 0.0
@@ -1428,7 +2027,7 @@ def _calculate_aggregates(session_list):
             aggregated_errors_detail[char] = aggregated_errors_detail.get(char, 0) + count
     return {'num_sessions_in_block': len(session_list), 'total_duration_seconds': total_duration_seconds, 'wpm_min_overall': wpm_min_overall, 'wpm_max_overall': wpm_max_overall, 'wpm_avg_of_session_avgs': wpm_avg_of_session_avgs, 'total_items_sent': total_items_sent, 'total_items_correct': total_items_correct, 'total_chars_sent_overall': total_chars_sent_overall, 'aggregated_errors_detail': aggregated_errors_detail, 'total_errors_chars_overall': total_errors_chars_overall, 'aggregated_sent_chars_detail': aggregated_sent_chars_detail}
 
-def generate_historical_rx_report(sessions_for_current_report):
+def generate_historical_rx_report(sessions_for_current_report, category_key):
     """
 	Genera i report (HTML e grafico) per il blocco di sessioni fornito,
 	confrontandoli con l'ultimo report storico salvato.
@@ -1440,7 +2039,10 @@ def generate_historical_rx_report(sessions_for_current_report):
         return None
     current_aggregates = _calculate_aggregates(sessions_for_current_report)
     num_sessions_in_current_report = current_aggregates['num_sessions_in_block']
-    historical_data = app_data.get('historical_rx_data', {})
+    
+    historical_data = app_data.get(f'historical_rx_data_{category_key}', {})
+    historical_settings = app_data.get('historical_rx_settings', {})
+
     full_sessions_log = historical_data.get('sessions_log', [])
     num_sessions_in_current_block = len(sessions_for_current_report)
     previous_aggregates = None
@@ -1449,17 +2051,23 @@ def generate_historical_rx_report(sessions_for_current_report):
         previous_block_sessions = full_sessions_log[:num_previous_sessions]
         if previous_block_sessions:
             previous_aggregates = _calculate_aggregates(previous_block_sessions)
-    g_value = historical_data.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
-    x_value = historical_data.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
-    report_filename_base = _('CWapu_Historical_Statistics_G_{g_value}_X_{x_value}.html').format(g_value=g_value, x_value=x_value)
+    
+    g_value = historical_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+    x_value = historical_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
+    
+    cat_name_file = category_key.capitalize()
+    report_filename_base = _('CWapu_Historical_Statistics_{cat}_G_{g_value}_X_{x_value}.html').format(cat=cat_name_file, g_value=g_value, x_value=x_value)
     report_filename_full_path = os.path.join(USER_DATA_PATH, report_filename_base)
+    
+    cat_display_name = _('parole') if category_key == 'words' else _('caratteri/misto') if category_key == 'chars' else 'QRZ'
+    
     try:
         with open(report_filename_full_path, 'w', encoding='utf-8') as f:
             f.write('<!DOCTYPE html>\n')
             f.write('<html lang="{html_lang}">\n'.format(html_lang=app_language[:2]))
             f.write('<head>\n')
             f.write('    <meta charset="UTF-8">\n')
-            f.write(_('    <title>Report Statistiche Storiche Esercizi Rx G{g_value} X{x_value}</title>\n').format(g_value=g_value, x_value=x_value))
+            f.write(_('    <title>Report Statistiche Storiche Esercizi Rx ({cat}) G{g_value} X{x_value}</title>\n').format(cat=cat_display_name, g_value=g_value, x_value=x_value))
             f.write('    <style>\n')
             f.write("        body { background-color: #282c34; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }\n")
             f.write('        .container { max-width: 1200px; margin: auto; background-color: #333740; padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.5); }\n')
@@ -1481,7 +2089,7 @@ def generate_historical_rx_report(sessions_for_current_report):
             f.write('</head>\n')
             f.write('<body>\n')
             f.write('    <div class="container">\n')
-            f.write(_('<h1>CWAPU - Report Statistiche Storiche Esercizi Rx</h1>\n'))
+            f.write(_('<h1>CWAPU - Report Statistiche Storiche Esercizi Rx ({cat})</h1>\n').format(cat=cat_display_name))
             f.write(_('<p class="report-subtitle">Statistiche basate su {count} esercizi (G={g_value}, X={x_value})</p>\n').format(count=num_sessions_in_current_report, g_value=g_value, x_value=x_value))
             timestamp_now = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             f.write(_('<p class="report-generation-time">Report generato il: {timestamp_now}</p>\n').format(timestamp_now=timestamp_now))
@@ -1577,7 +2185,7 @@ def generate_historical_rx_report(sessions_for_current_report):
                 f.write('  </tbody>\n</table>\n')
             if previous_aggregates and previous_aggregates.get('num_sessions_in_block', 0) > 0:
                 f.write(_('<h2>Variazioni Dettaglio Errori per Carattere</h2>\n'))
-                f.write(_('<p class="report-subtitle">Variazioni rispetto al blocco di {count} esercizi precedente</p>\n'))
+                f.write(_('<p class="report-subtitle">Variazioni rispetto al blocco di {count} esercizi precedente</p>\n').format(count=previous_aggregates['num_sessions_in_block']))
                 f.write('<table>\n')
                 f.write(_('  <thead><tr><th>Carattere</th><th>Err. Att.</th><th>%Tot Att.</th><th>%Spec Att.</th><th>Err. Prec.</th><th>%Tot Prec.</th><th>%Spec Prec.</th><th>Δ% Tot. Caratt.</th><th>Δ% Caratt. Spec.</th></tr></thead>\n'))
                 f.write('  <tbody>\n')
@@ -1601,8 +2209,22 @@ def generate_historical_rx_report(sessions_for_current_report):
                         delta_rate_vs_specific_char = curr_rate_vs_specific_char - prev_rate_vs_specific_char
                         delta_total_class = get_delta_class(delta_rate_vs_total_chars, higher_is_better=False)
                         delta_specific_class = get_delta_class(delta_rate_vs_specific_char, higher_is_better=False)
-                        f.write(_('    <tr><td class="char-emphasis">\'{}\'</td><td>{curr_count}</td><td>{curr_rate_vs_total_chars}%</td><td>{curr_rate_vs_specific_char}% <span class="details-label">(su {count} inv.)</span></td><td>{prev_count}</td><td>{prev_rate_vs_total_chars}%</td><td>{prev_rate_vs_specific_char}% <span class="details-label">(su {count} inv.)</span></td><td class="{delta_total_class}">{delta_rate_vs_total_chars} %</td><td class="{delta_specific_class}">{delta_rate_vs_specific_char} %</td></tr>\n').format(char_err.upper(), curr_count=curr_count, curr_rate_vs_total_chars=curr_rate_vs_total_chars, curr_rate_vs_specific_char=curr_rate_vs_specific_char, prev_count=prev_count, prev_rate_vs_total_chars=prev_rate_vs_total_chars, prev_rate_vs_specific_char=prev_rate_vs_specific_char, delta_total_class=delta_total_class, delta_rate_vs_total_chars=delta_rate_vs_total_chars, delta_specific_class=delta_specific_class, delta_rate_vs_specific_char=delta_rate_vs_specific_char))
-                f.write('  </tbody>\n</table>\n')
+                        f.write(_('     <tr><td class="char-emphasis">\'{}\'</td><td>{curr_count}</td><td>{curr_rate_vs_total_chars:.2f}%</td><td>{curr_rate_vs_specific_char:.2f}% <span class="details-label">(su {curr_sent_count} inv.)</span></td><td>{prev_count}</td><td>{prev_rate_vs_total_chars:.2f}%</td><td>{prev_rate_vs_specific_char:.2f}% <span class="details-label">(su {prev_sent_count} inv.)</span></td><td class="{delta_total_class}">{delta_rate_vs_total_chars:+.2f} %</td><td class="{delta_specific_class}">{delta_rate_vs_specific_char:+.2f} %</td></tr>\n').format(
+                                    char_err.upper(),
+                                    curr_count=curr_count,
+                                    curr_rate_vs_total_chars=curr_rate_vs_total_chars,
+                                    curr_rate_vs_specific_char=curr_rate_vs_specific_char,
+                                    curr_sent_count=curr_total_sent_of_this_char,
+                                    prev_count=prev_count,  # <-- PARAMETRO AGGIUNTO
+                                    prev_rate_vs_total_chars=prev_rate_vs_total_chars,
+                                    prev_rate_vs_specific_char=prev_rate_vs_specific_char,
+                                    prev_sent_count=prev_total_sent_of_this_char,
+                                    delta_total_class=delta_total_class,
+                                    delta_rate_vs_total_chars=delta_rate_vs_total_chars,
+                                    delta_specific_class=delta_specific_class,
+                                    delta_rate_vs_specific_char=delta_rate_vs_specific_char
+                                ))
+                        f.write('  </tbody>\n</table>\n')
             f.write('    </div>\n')
             f.write('</body>\n')
             f.write('</html>\n')
@@ -1633,6 +2255,7 @@ def generate_historical_rx_report(sessions_for_current_report):
     except Exception as e_graph:
         print(_('Errore durante la generazione del report grafico'))
     return current_aggregates
+
 global MNMAIN, MNRX, MNRXKIND
 app_data = load_settings()
 app_data['app_info']['launch_count'] = app_data.get('app_info', {}).get('launch_count', 0) + 1
@@ -1653,7 +2276,7 @@ _clear_screen_ansi()
 print(_("\nCWAPU - VERSIONE: {version} DI GABRY - IZ4APU.\n\t----UTILITÀ PER IL TUO CW----\n\t\tLancio app: {count}. Scrivi 'm' per il menu.").format(version=VERSION, count=launch_count))
 print(_('\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {}, MS:\t{overall_ms}, FS: {}.').format(int(overall_volume * 100), WAVE_TYPES[overall_wave - 1], SAMPLE_RATES[overall_fs], overall_speed=overall_speed, overall_pitch=overall_pitch, overall_dashes=overall_dashes, overall_spaces=overall_spaces, overall_dots=overall_dots, overall_ms=overall_ms))
 while True:
-    k = menu(d=MNMAIN, show=False, keyslist=True, full_keyslist=False, ntf=_('Non è un comando!'))
+    k = menu(d=MNMAIN, show=False, keyslist=True, ntf=_('Non è un comando!'))
     _clear_screen_ansi()
     if k == 'c':
         Count()
@@ -1676,24 +2299,51 @@ while True:
         CreateDictionary()
     elif k == 's':
         _clear_screen_ansi()
-        import timeline
-        log_sessioni = app_data.get('historical_rx_data', {}).get('sessions_log', [])
-        report = timeline.genera_report_temporale_completo(log_sessioni, _, app_language)
-        print(report)
-        prompt_salvataggio = _('Vuoi salvare il report in un file di testo? (Invio per Sì / altro tasto per No): ')
-        scelta = key(prompt=prompt_salvataggio).strip()
-        if scelta == '':
-            nome_file_report = "Cwapu_Historical_Statistics_Advanced_Report.txt"
-            percorso_file_report = os.path.join(USER_DATA_PATH, nome_file_report)
-            try:
-                with open(percorso_file_report, 'w', encoding='utf-8') as f:
-                    f.write(report)
-                    print(_("\nReport salvato con successo in: {}").format(percorso_file_report))
-            except IOError as e:
-                print(_("\nErrore durante il salvataggio del file: {}").format(e))
-        else:
-            print(_("\nSalvataggio annullato."))
-        key(prompt=_("\nPremi un tasto per tornare al menu principale..."))
+        # Generazione dei report della timeline per ogni categoria
+        category_mapping = {
+            "words": _("parole"),
+            "chars": _("caratteri/misto"),
+            "qrz": "QRZ"
+        }
+
+        for category_key, category_name_translated in category_mapping.items():
+            log_sessioni = app_data[f'historical_rx_data_{category_key}']['sessions_log']
+            if log_sessioni: # Genera il report solo se ci sono sessioni
+                print(_('\nGenerazione report timeline per gli esercizi di {category_name}...').format(category_name=category_name_translated))
+                report_con_header = timeline.genera_report_temporale_completo(log_sessioni, _, app_language)
+                
+                timeline_filename = os.path.join(USER_DATA_PATH, f'CWapu_Historical_Statistics_Timeline_{category_key.capitalize()}.html')
+                try:
+                    with open(timeline_filename, 'w', encoding='utf-8') as f:
+                        f.write(report_con_header)
+                    print(_('Report timeline per {category_name} salvato su {filename}').format(category_name=category_name_translated, filename=timeline_filename))
+                except IOError as e:
+                    print(_('Errore durante il salvataggio del report timeline per {category_name}: {e}').format(category_name=category_name_translated, e=e))
+            else:
+                print(_('\nNessun dato di sessione per gli esercizi di {category_name}, salto la generazione del report timeline.').format(category_name=category_name_translated))
+                continue
+            riga_separatore = '-' * 75
+            stringa_traducibile = _('--- Fine Report - Bye da CWAPU {version} ---')
+            footer_formattato = stringa_traducibile.format(version=VERSION)
+            footer = f"\n{riga_separatore}\n"
+            footer += f"{footer_formattato.center(70)}\n"
+            footer += f"{riga_separatore}\n"
+            report_finale = report_con_header + footer
+            print(report_finale)
+            prompt_salvataggio = _('Vuoi salvare il report in un file di testo? (Invio per Sì / altro tasto per No): ')
+            scelta = key(prompt=prompt_salvataggio).strip()
+            if scelta == '':
+                nome_file_report = "Cwapu_Historical_Statistics_Advanced_Report.txt"
+                percorso_file_report = os.path.join(USER_DATA_PATH, nome_file_report)
+                try:
+                    with open(percorso_file_report, 'w', encoding='utf-8') as f:
+                        f.write(report_finale)
+                        print(_("\nReport salvato con successo in: {}").format(percorso_file_report))
+                except IOError as e:
+                    print(_("\nErrore durante il salvataggio del file: {}").format(e))
+            else:
+                print(_("\nSalvataggio annullato."))
+            key(prompt=_("\nPremi un tasto per tornare al menu principale..."))
     elif k == 'q':
         break
 app_data['overall_settings'].update({'speed': overall_speed, 'pitch': overall_pitch, 'dashes': overall_dashes, 'spaces': overall_spaces, 'dots': overall_dots, 'volume': overall_volume, 'ms': overall_ms, 'fs_index': overall_fs, 'wave_index': overall_wave})
