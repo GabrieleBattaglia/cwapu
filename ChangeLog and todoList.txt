@@ -3,6 +3,11 @@ Todo:
 10.
 
 ChangeLog:
+	5.0.6 (2025-12-18)
+		+ Esercizio Contest: implementato il flusso a due stadi (Call -> Conferma -> Serial) come in cwsim.
+		+ Corretto bug audio: ora premendo invio a vuoto non si sovrappongono più i call.
+		+ Corretto errore WPM float: forzato cast a intero per CWzator.
+		+ Aggiornate istruzioni a video con i tasti F9/F10 per la velocità.
 	5.0.5 (2025-12-18)
 		+ Fix bug WPM float (ora castato a int).
 		+ Tasti velocità spostati su F9/F10 per evitare conflitti con NVDA.

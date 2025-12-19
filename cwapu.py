@@ -37,7 +37,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '5.0.5, 2025-12-18'
+VERSION = '5.0.6, 2025-12-18'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
@@ -1355,7 +1355,7 @@ def RxingContest(menu_config_scelta):
     else:
         limit = dgt(prompt=_("Quanti minuti? "), kind='i', imin=1, imax=60, default=10)
 
-    print(_("Comandi rapidi: PgUp/PgDn (WPM), F5 (Call), F6 (Serial), F7 (Rpt), Alt+W (Wipe), ESC (Exit), Enter (Check)"))
+    print(_("Comandi rapidi: F9/F10 (WPM), F5 (Call), F6 (Serial), F7 (Rpt), Alt+W (Wipe), ESC (Exit), Enter (Check)"))
     key(_("Premi un tasto per iniziare..."))
 
     start_time = dt.datetime.now()
@@ -1423,15 +1423,16 @@ def RxingContest(menu_config_scelta):
             skill = random.randint(1, 4)
             serial = int(round(1 + random.random() * (elapsed_minutes if elapsed_minutes > 0.1 else 0.1) * skill))
             
-            # Messages
-            msg_full = f"{qrz} 5NN {serial}"
+            # Message parts
             msg_call = qrz
-            msg_serial = str(serial)
+            msg_exchange = f"R 5NN {serial}"
+            msg_serial_only = str(serial)
+            msg_full_for_stats = f"{qrz} 5NN {serial}"
             
-            callssend.append(msg_full)
+            callssend.append(msg_full_for_stats)
             
             # Update sent chars stats
-            for ch in msg_full:
+            for ch in msg_full_for_stats:
                 if ch.isalnum(): 
                      sent_chars_detail_this_session[ch.lower()] = sent_chars_detail_this_session.get(ch.lower(), 0) + 1
             
@@ -1451,21 +1452,26 @@ def RxingContest(menu_config_scelta):
                 s = int(s * random.uniform(0.8, 1.2))
                 p = int(p * random.uniform(0.8, 1.2))
             
-            # Play initial full message
-            CWzator(msg=msg_full, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-            
-            # Input Loop
-            item_done = False
+            # --- START QSO ---
+            # Stage 1: Call
+            current_stage = "CALL"
             attempts = 5
+            qso_done = False
+            final_call_ok = False
+            final_serial_ok = False
             current_buffer = []
             
             def redraw_line():
-                print(f"\rRX #{session_calls+1}: {''.join(current_buffer)}", end='', flush=True)
+                stage_label = "CALL" if current_stage == "CALL" else "NR"
+                print(f"\rRX #{session_calls+1} [{stage_label}]: {''.join(current_buffer)}", end='', flush=True)
 
+            # Play initial call
+            CWzator(msg=msg_call, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+            
             redraw_line()
             item_start_time = dt.datetime.now()
 
-            while not item_done and attempts > 0:
+            while not qso_done and attempts > 0:
                 try:
                     event_type, event_key = input_queue.get(timeout=0.1)
                     
@@ -1475,71 +1481,70 @@ def RxingContest(menu_config_scelta):
 
                     elif event_key == keyboard.Key.enter:
                         typed = "".join(current_buffer).upper().strip()
-                        print() 
+                        print() # Go to next line
                         
-                        target_call = qrz.upper()
-                        target_serial = str(serial)
-                        
-                        # Parsing
-                        tokens = typed.split()
-                        user_call = ""
-                        user_serial = ""
-                        
-                        if len(tokens) >= 2:
-                            user_call = tokens[0] 
-                            user_serial = tokens[-1] 
-                        elif len(tokens) == 1:
-                            if tokens[0].isdigit():
-                                user_serial = tokens[0]
+                        if current_stage == "CALL":
+                            target = msg_call.upper()
+                            if typed == target:
+                                # Call OK -> Move to Serial
+                                final_call_ok = True
+                                current_stage = "SERIAL"
+                                current_buffer = []
+                                # Confirm call and send Serial
+                                CWzator(msg=msg_exchange, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                redraw_line()
+                            elif typed == "":
+                                # Empty Enter -> Repeat Call
+                                CWzator(msg=msg_call, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                redraw_line()
                             else:
-                                user_call = tokens[0]
+                                # Wrong Call
+                                attempts -= 1
+                                total_mistakes_calculated += collect_char_errors(target.lower(), typed.lower(), char_error_counts)
+                                if attempts > 0:
+                                    CWzator(msg="CALL?", wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                    print(f"\rRX #{session_calls+1} [CALL? {attempts}]: ", end='', flush=True)
+                                    current_buffer = []
+                                else:
+                                    # Failed QSO
+                                    print(f" {msg_full_for_stats.upper()}")
+                                    CWzator(msg=msg_full_for_stats, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                    qso_done = True
                         
-                        # Check correctness
-                        call_ok = (user_call == target_call)
-                        serial_ok = (user_serial == target_serial)
-                        
-                        if call_ok and serial_ok:
-                            # Correct
-                            CWzator(msg="R", wpm=35, pitch=800, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-                            correct_calls += 1
-                            final_call_ok = True
-                            final_serial_ok = True
-                            callsget.append(msg_full)
-                            item_details.append({'wpm': this_speed, 'correct': True})
-                            item_done = True
-                        else:
-                            # Wrong
-                            item_details.append({'wpm': this_speed, 'correct': False})
-                            
-                            if not call_ok:
-                                total_mistakes_calculated += collect_char_errors(target_call.lower(), user_call.lower(), char_error_counts)
-                            if not serial_ok:
-                                total_mistakes_calculated += collect_char_errors(target_serial.lower(), user_serial.lower(), char_error_counts)
-
-                            attempts -= 1
-                            if attempts == 0:
-                                final_call_ok = call_ok
-                                final_serial_ok = serial_ok
-                                print(f" {msg_full.upper()}")
-                                CWzator(msg=msg_full, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-                                item_done = True
+                        else: # current_stage == "SERIAL"
+                            target = msg_serial_only.upper()
+                            if typed == target:
+                                # Serial OK -> End QSO
+                                final_serial_ok = True
+                                qso_done = True
+                                correct_calls += 1
+                                callsget.append(msg_full_for_stats)
+                                item_details.append({'wpm': this_speed, 'correct': True})
+                                # Final confirmation
+                                CWzator(msg="R TU", wpm=35, pitch=800, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                            elif typed == "":
+                                # Empty Enter -> Repeat Serial
+                                CWzator(msg=msg_serial_only, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                redraw_line()
                             else:
-                                if not call_ok and not serial_ok:
-                                     CWzator(msg="?", wpm=35, pitch=400, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-                                     print(f"\rRX #{session_calls+1} (Rpt {attempts}): ", end='', flush=True)
-                                elif not call_ok:
-                                     CWzator(msg="CALL?", wpm=35, pitch=400, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-                                     print(f"\rRX #{session_calls+1} (Call? {attempts}): {user_call if user_call else '_'} {target_serial}", end='', flush=True)
-                                elif not serial_ok:
-                                     CWzator(msg="NR?", wpm=35, pitch=400, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
-                                     print(f"\rRX #{session_calls+1} (Nr? {attempts}): {target_call} {user_serial if user_serial else '_'}", end='', flush=True)
+                                # Wrong Serial
+                                attempts -= 1
+                                total_mistakes_calculated += collect_char_errors(target.lower(), typed.lower(), char_error_counts)
+                                if attempts > 0:
+                                    CWzator(msg="NR?", wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                    print(f"\rRX #{session_calls+1} [NR? {attempts}]: ", end='', flush=True)
+                                    current_buffer = []
+                                else:
+                                    # Failed QSO
+                                    print(f" {msg_full_for_stats.upper()}")
+                                    CWzator(msg=msg_full_for_stats, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                                    qso_done = True
 
                         current_buffer = []
 
                     elif event_key == keyboard.Key.backspace:
                         if current_buffer:
                             current_buffer.pop()
-                            print(f"\rRX #{session_calls+1}: {''.join(current_buffer)}  ", end='', flush=True)
                             redraw_line()
 
                     elif event_key == keyboard.Key.f10:
@@ -1553,28 +1558,34 @@ def RxingContest(menu_config_scelta):
                         redraw_line()
                         
                     elif event_key == keyboard.Key.f7:
-                         CWzator(msg=msg_full, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                         # Repeat current stage info
+                         msg_to_rpt = msg_call if current_stage == "CALL" else msg_serial_only
+                         CWzator(msg=msg_to_rpt, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
                     
                     elif event_key == keyboard.Key.f5: # Repeat Call
                          CWzator(msg=msg_call, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
 
                     elif event_key == keyboard.Key.f6: # Repeat Serial
-                         CWzator(msg=msg_serial, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
+                         CWzator(msg=msg_serial_only, wpm=int(this_speed), pitch=this_pitch, l=l, s=s, p=p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave)
                     
                     # Alt+W check
                     elif hasattr(event_key, 'char') and event_key.char == 'w' and 'alt' in current_modifiers:
                         current_buffer = []
-                        print(f"\rRX #{session_calls+1}: {' '*40}", end='', flush=True)
                         redraw_line()
 
                     elif hasattr(event_key, 'char') and event_key.char:
-                        # Ignoriamo i tasti del tastierino numerico se non sono caratteri espliciti
                         if event_key.char.isalnum() or event_key.char == ' ':
                             current_buffer.append(event_key.char)
                             print(event_key.char, end='', flush=True)
 
                 except queue.Empty:
                     pass
+            
+            if not final_call_ok or not final_serial_ok:
+                item_details.append({'wpm': this_speed, 'correct': False})
+
+            if final_call_ok: total_calls_correct += 1
+            if final_serial_ok: total_serials_correct += 1
             
             active_exerctime += (dt.datetime.now() - item_start_time)
             session_calls += 1
