@@ -2,10 +2,10 @@
 # Data concepimento 21/12/2022.
 # GitHub publishing on july 2nd, 2024.
 
-import sys, random, json, string, pyperclip, re, difflib, os, traceback, time
+import sys, random, json, string, pyperclip, re, difflib, os, traceback
 import datetime as dt
 from pynput import keyboard
-from GBUtils import key, dgt, menu, CWzator, Donazione, polipo, enter_escape
+from GBUtils import key, dgt, menu, CWzator, Donazione, polipo
 from time import localtime as lt
 from timeline import wilson_score_lower_bound, wilson_score_upper_bound
 import timeline
@@ -37,12 +37,8 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '5.0.31, 2025-12-23'
+VERSION = '5.0.14, 2025-12-21'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
-RX_LSP_VARIATION_PROBABILITY = 0.3
-RX_LSP_RANGE_L = (30, 60)
-RX_LSP_RANGE_S = (25, 75)
-RX_LSP_RANGE_P = (15, 50)
 overall_settings_changed = False
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ['sine', 'square', 'triangle', 'sawtooth']
@@ -1361,12 +1357,9 @@ def RxingContest(menu_config_scelta):
 
     print(_("Comandi rapidi: F9/F10 (WPM), F5 (Call), F6 (Serial), F7 (Rpt), Alt+W (Wipe), ESC (Exit), Enter (Check)"))
     key(_("Premi un tasto per iniziare..."))
-    print(f"\r{' '*79}\r", end='', flush=True) # Clean initial line
-    CWzator(msg="CQ CQ TEST K", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, sync=True)
 
     start_time = dt.datetime.now()
     session_calls = 0
-    my_progressive = 0 # Counter for my sent serials (only increases on success)
     correct_calls = 0
     total_calls_correct = 0
     total_serials_correct = 0
@@ -1406,7 +1399,6 @@ def RxingContest(menu_config_scelta):
             if key in {keyboard.Key.alt, keyboard.Key.alt_l, keyboard.Key.alt_r}:
                 if 'alt' in current_modifiers:
                     current_modifiers.remove('alt')
-            input_queue.put(('release', key))
         except Exception:
             pass
 
@@ -1414,8 +1406,6 @@ def RxingContest(menu_config_scelta):
     listener.start()
 
     current_audio = None
-    last_enter_time = 0
-    last_backspace_time = 0
 
     try:
         while True:
@@ -1439,19 +1429,13 @@ def RxingContest(menu_config_scelta):
             # DX Params
             dx_patience = random.randint(0, 5) 
             dx_speed = int(overall_speed * (1 + random.uniform(-0.1, 0.1)))
+            dx_pitch = max(300, min(1200, overall_pitch + random.randint(-200, 200)))
             
-            # Pitch logic with avoidance (+/- 5Hz) - UPDATED RANGE to +/- 300 with manual clamp 200-2000
-            while True:
-                dx_pitch = max(200, min(2000, overall_pitch + random.randint(-300, 300)))
-                if abs(dx_pitch - overall_pitch) > 5:
-                    break
-            
-            # LSP Logic (New v5.0.15)
-            dx_l, dx_s, dx_p = 30, 50, 50
-            if random.random() < RX_LSP_VARIATION_PROBABILITY:
-                dx_l = random.randint(*RX_LSP_RANGE_L)
-                dx_s = random.randint(*RX_LSP_RANGE_S)
-                dx_p = random.randint(*RX_LSP_RANGE_P)
+            dx_l, dx_s, dx_p = overall_dashes, overall_spaces, overall_dots
+            if random.random() < 0.3:
+                dx_l = int(dx_l * random.uniform(0.6, 1.4))
+                dx_s = int(dx_s * random.uniform(0.6, 1.4))
+                dx_p = int(dx_p * random.uniform(0.6, 1.4))
 
             # Messages
             msg_call = qrz
@@ -1495,15 +1479,8 @@ def RxingContest(menu_config_scelta):
             current_buffer = []
             
             def redraw_line():
-                # NEW PROMPT FORMAT with Cleanup
-                if current_stage == "CALL":
-                    prompt_label = "CALL:"
-                else:
-                    prompt_label = f"{msg_call.upper()} 5NN NR:"
-                
-                # Clear line and reprint
-                line_content = f"RX #{session_calls+1} {prompt_label} {''.join(current_buffer)}"
-                print(f"\r{' '*79}\r{line_content}", end='', flush=True)
+                stage_label = "CALL" if current_stage == "CALL" else "NR"
+                print(f"\rRX #{session_calls+1} [{stage_label}]: {''.join(current_buffer)}", end='', flush=True)
 
             # 1. DX Calls (Async)
             play_async(msg_call)
@@ -1515,27 +1492,18 @@ def RxingContest(menu_config_scelta):
                 try:
                     event_type, event_key = input_queue.get(timeout=0.1)
                     
-                    if event_type != 'press':
-                        continue # Skip release or other events
-
                     if event_key == keyboard.Key.esc:
                         if current_audio: current_audio.stop()
                         stop_event.set()
                         return
 
                     elif event_key == keyboard.Key.enter:
-                        # DEBOUNCE
-                        now = time.time()
-                        if now - last_enter_time < 0.5:
-                            continue
-                        last_enter_time = now
-
                         if current_audio: current_audio.stop()
                         
                         typed = "".join(current_buffer).upper().strip()
                         print() 
                         
-                        my_serial_to_send = my_progressive + 1
+                        my_serial_to_send = session_calls + 1
                         
                         if current_stage == "CALL":
                             target = msg_call.upper()
@@ -1558,7 +1526,7 @@ def RxingContest(menu_config_scelta):
                                     remaining_patience -= 1
                                     time.sleep(0.2)
                                     play_async(msg_call)
-                                    redraw_line()
+                                    print(f"\rRX #{session_calls+1} [CALL RPT {remaining_patience}]: ", end='', flush=True)
                                 else:
                                     print(f" {msg_full_for_stats.upper()} (NIL)")
                                     qso_done = True
@@ -1572,8 +1540,8 @@ def RxingContest(menu_config_scelta):
                                     remaining_patience -= 1
                                     time.sleep(0.2)
                                     play_async(msg_call) 
+                                    print(f"\rRX #{session_calls+1} [CALL RPT {remaining_patience}]: ", end='', flush=True)
                                     current_buffer = []
-                                    redraw_line()
                                 else:
                                     print(f" {msg_full_for_stats.upper()} (NIL)")
                                     qso_done = True
@@ -1581,46 +1549,42 @@ def RxingContest(menu_config_scelta):
                         else: # current_stage == "SERIAL"
                             target = msg_serial_only.upper()
                             if typed == target:
-                                # SERIAL OK (Operator is Silent)
+                                # SERIAL OK
                                 final_serial_ok = True
                                 qso_done = True
                                 correct_calls += 1
-                                my_progressive += 1 # Increment my serial ONLY on success
                                 callsget.append(msg_full_for_stats)
-                                item_details.append({'rwpm': dx_speed, 'correct': True}) # Changed key to 'rwpm' for timeline compatibility
+                                item_details.append({'wpm': dx_speed, 'correct': True}) 
                                 
-                                # DX: Formula chiusura (Async)
                                 final_msg = random.choice(["TU", "73", "GL", "R", ""])
                                 if final_msg:
                                     time.sleep(0.2)
                                     play_async(final_msg)
                             elif typed == "":
-                                # Empty -> Me: TEST (Sync)
+                                # Empty -> Me: TEST
                                 play_sync_me("TEST")
                                 if remaining_patience > 0:
                                     remaining_patience -= 1
                                     time.sleep(0.2)
                                     play_async(msg_serial_only)
-                                    # No patience number displayed
-                                    redraw_line()
+                                    print(f"\rRX #{session_calls+1} [NR RPT {remaining_patience}]: ", end='', flush=True)
                                 else:
                                     print(f" {msg_full_for_stats.upper()} (NIL)")
                                     qso_done = True
                             else:
-                                # Wrong (Operator is Silent)
+                                # Wrong
                                 total_mistakes_calculated += collect_char_errors(target.lower(), typed.lower(), char_error_counts)
                                 if remaining_patience > 0:
                                     remaining_patience -= 1
                                     time.sleep(0.2)
-                                    play_async(msg_serial_only) # DX repeats only serial
-                                    # No patience number displayed
+                                    play_async(msg_serial_only) 
+                                    print(f"\rRX #{session_calls+1} [NR RPT {remaining_patience}]: ", end='', flush=True)
                                     current_buffer = []
-                                    redraw_line()
                                 else:
                                     print(f" {msg_full_for_stats.upper()} (NIL)")
                                     qso_done = True
                         
-                        # FLUSH QUEUE
+                        # FLUSH QUEUE to discard inputs buffered during processing
                         while not input_queue.empty():
                             try:
                                 input_queue.get_nowait()
@@ -1628,12 +1592,6 @@ def RxingContest(menu_config_scelta):
                                 break
 
                     elif event_key == keyboard.Key.backspace:
-                        # DEBOUNCE BACKSPACE (Fix v5.0.23)
-                        now = time.time()
-                        if now - last_backspace_time < 0.15:
-                            continue
-                        last_backspace_time = now
-
                         if current_buffer:
                             current_buffer.pop()
                             redraw_line()
@@ -1668,12 +1626,11 @@ def RxingContest(menu_config_scelta):
                     elif hasattr(event_key, 'char') and event_key.char == 'w' and 'alt' in current_modifiers:
                         if current_audio: current_audio.stop()
                         current_buffer = []
-                        # Clean line on wipe too
-                        print(f"\r{' '*79}", end='\r', flush=True)
+                        print(f"\rRX #{session_calls+1} [{'CALL' if current_stage == 'CALL' else 'NR'}]: {' '*40}", end='', flush=True)
                         redraw_line()
 
                     elif hasattr(event_key, 'char') and event_key.char:
-                        if event_key.char.isalnum() or event_key.char in [' ', '/']:
+                        if event_key.char.isalnum() or event_key.char == ' ':
                             current_buffer.append(event_key.char)
                             print(event_key.char, end='', flush=True)
 
@@ -1681,7 +1638,7 @@ def RxingContest(menu_config_scelta):
                     pass
             
             if not final_call_ok or not final_serial_ok:
-                item_details.append({'rwpm': dx_speed, 'correct': False}) # Changed key to 'rwpm'
+                item_details.append({'wpm': dx_speed, 'correct': False})
 
             if final_call_ok: total_calls_correct += 1
             if final_serial_ok: total_serials_correct += 1
@@ -1695,8 +1652,6 @@ def RxingContest(menu_config_scelta):
             pass 
 
     finally:
-        if current_audio: current_audio.stop()
-        play_sync_me("_ + QRT TU E E")
         stop_event.set()
         listener.stop()
         # Flush input buffer
@@ -1792,12 +1747,6 @@ def RxingContest(menu_config_scelta):
             date_str = _('{}/{}/{}').format(lt()[0], lt()[1], lt()[2])
             time_str = _('{}, {}').format(lt()[3], lt()[4])
             f.write(_('\nEsercizio di ricezione CONTEST #{sessions} eseguito il {date} alle {time} minuti:\n').format(sessions=stats['sessions'], date=date_str, time=time_str))
-            
-            # --- NEW: Added duration line ---
-            duration_str = str(active_exerctime).split('.')[0]
-            f.write(_('Durata: {duration}\n').format(duration=duration_str))
-            # --------------------------------
-            
             f.write(_('In questa sessione, ti ho inviato {calls} QRZ e ne hai ricevuti {callsget_len}: {percentage:.1f}%').format(calls=session_calls, callsget_len=correct_calls, percentage=percentage_correct) + '\n')
             f.write(_('\tCorrettezza Nominativi: {total_calls_correct}/{calls} ({call_acc:.1f}%)').format(total_calls_correct=total_calls_correct, calls=session_calls, call_acc=call_acc) + '\n')
             f.write(_('\tCorrettezza Progressivi: {total_serials_correct}/{calls} ({serial_acc:.1f}%)').format(total_serials_correct=total_serials_correct, calls=session_calls, serial_acc=serial_acc) + '\n')
@@ -1911,9 +1860,11 @@ def Rxing():
     else:
         kindstring = _('Misto ({types})').format(types=', '.join(active_labels_for_display))
     how_many_calls = dgt(prompt=_('\nQuanti ne vuoi ricevere? (INVIO per infinito)> '), kind='i', imin=10, imax=1000, default=0)
-    prompt_vel = _("Invio per velocità variabile, Esc per velocità fissa: ")
-    vel_variabile = enter_escape(prompt=prompt_vel)
-    fix_speed = not vel_variabile
+    tmp_fix_speed = key(_('Vuoi che il cw rimanga alla stessa velocità?\t(y|n)> ')).lower()
+    if tmp_fix_speed == 'y':
+        fix_speed = True
+    else:
+        fix_speed = False
     print(_("Fai molta attenzione adesso.\n\tDigita il {kindstring} che ascolti.\nBattendo invio a vuoto (o aggiungendo un ?) avrai l'opportunità di un secondo tentativo\n\tPer terminare: digita semplicemente un '.' (punto) seguito da dal tasto invio.\n\t\tBUON DIVERTIMENTO!\n\tPremi un tasto quando sei pronto per iniziare.").format(kindstring=kindstring))
     attesa = key()
     print(_('Iniziamo la sessione {sessions}!').format(sessions=sessions + 1))
@@ -2485,37 +2436,41 @@ while True:
         for category_key, category_name_translated in category_mapping.items():
             log_sessioni = app_data[f'historical_rx_data_{category_key}']['sessions_log']
             if log_sessioni: # Genera il report solo se ci sono sessioni
-                _clear_screen_ansi()
-                print(_('\n--- Report Timeline per {category_name} ---').format(category_name=category_name_translated))
+                print(_('\nGenerazione report timeline per gli esercizi di {category_name}...').format(category_name=category_name_translated))
                 report_con_header = timeline.genera_report_temporale_completo(log_sessioni, _, app_language)
                 
-                # Footer
-                riga_separatore = '-' * 75
-                stringa_traducibile = _('--- Fine Report - Bye da CWAPU {version} ---')
-                footer_formattato = stringa_traducibile.format(version=VERSION)
-                footer = f"\n{riga_separatore}\n"
-                footer += f"{footer_formattato.center(70)}\n"
-                footer += f"{riga_separatore}\n"
-                report_finale = report_con_header + footer
-                print(report_finale)
-
-                prompt_nav = _("Invio per salvare, Esc per proseguire...")
-                salva = enter_escape(prompt=prompt_nav)
-                
-                if salva:
-                    nome_file_report = f"CWapu_Timeline_Report_{category_key.capitalize()}.txt"
-                    percorso_file_report = os.path.join(USER_DATA_PATH, nome_file_report)
-                    try:
-                        with open(percorso_file_report, 'w', encoding='utf-8') as f:
-                            f.write(report_finale)
-                            print(_("\nReport salvato con successo in: {}").format(percorso_file_report))
-                            time.sleep(1.5)
-                    except IOError as e:
-                        print(_("\nErrore durante il salvataggio del file: {}").format(e))
-                        time.sleep(2.0)
+                timeline_filename = os.path.join(USER_DATA_PATH, f'CWapu_Historical_Statistics_Timeline_{category_key.capitalize()}.html')
+                try:
+                    with open(timeline_filename, 'w', encoding='utf-8') as f:
+                        f.write(report_con_header)
+                    print(_('Report timeline per {category_name} salvato su {filename}').format(category_name=category_name_translated, filename=timeline_filename))
+                except IOError as e:
+                    print(_('Errore durante il salvataggio del report timeline per {category_name}: {e}').format(category_name=category_name_translated, e=e))
             else:
+                print(_('\nNessun dato di sessione per gli esercizi di {category_name}, salto la generazione del report timeline.').format(category_name=category_name_translated))
                 continue
-    
+            riga_separatore = '-' * 75
+            stringa_traducibile = _('--- Fine Report - Bye da CWAPU {version} ---')
+            footer_formattato = stringa_traducibile.format(version=VERSION)
+            footer = f"\n{riga_separatore}\n"
+            footer += f"{footer_formattato.center(70)}\n"
+            footer += f"{riga_separatore}\n"
+            report_finale = report_con_header + footer
+            print(report_finale)
+            prompt_salvataggio = _('Vuoi salvare il report in un file di testo? (Invio per Sì / altro tasto per No): ')
+            scelta = key(prompt=prompt_salvataggio).strip()
+            if scelta == '':
+                nome_file_report = "Cwapu_Historical_Statistics_Advanced_Report.txt"
+                percorso_file_report = os.path.join(USER_DATA_PATH, nome_file_report)
+                try:
+                    with open(percorso_file_report, 'w', encoding='utf-8') as f:
+                        f.write(report_finale)
+                        print(_("\nReport salvato con successo in: {}").format(percorso_file_report))
+                except IOError as e:
+                    print(_("\nErrore durante il salvataggio del file: {}").format(e))
+            else:
+                print(_("\nSalvataggio annullato."))
+            key(prompt=_("\nPremi un tasto per tornare al menu principale..."))
     elif k == 'q':
         break
 app_data['overall_settings'].update({'speed': overall_speed, 'pitch': overall_pitch, 'dashes': overall_dashes, 'spaces': overall_spaces, 'dots': overall_dots, 'volume': overall_volume, 'ms': overall_ms, 'fs_index': overall_fs, 'wave_index': overall_wave})

@@ -2,10 +2,10 @@
 # Data concepimento 21/12/2022.
 # GitHub publishing on july 2nd, 2024.
 
-import sys, random, json, string, pyperclip, re, difflib, os, traceback, time
+import sys, random, json, string, pyperclip, re, difflib, os, traceback
 import datetime as dt
 from pynput import keyboard
-from GBUtils import key, dgt, menu, CWzator, Donazione, polipo, enter_escape
+from GBUtils import key, dgt, menu, CWzator, Donazione, polipo
 from time import localtime as lt
 from timeline import wilson_score_lower_bound, wilson_score_upper_bound
 import timeline
@@ -37,7 +37,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '5.0.31, 2025-12-23'
+VERSION = '5.0.23, 2025-12-21'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 RX_LSP_VARIATION_PROBABILITY = 0.3
 RX_LSP_RANGE_L = (30, 60)
@@ -1361,8 +1361,7 @@ def RxingContest(menu_config_scelta):
 
     print(_("Comandi rapidi: F9/F10 (WPM), F5 (Call), F6 (Serial), F7 (Rpt), Alt+W (Wipe), ESC (Exit), Enter (Check)"))
     key(_("Premi un tasto per iniziare..."))
-    print(f"\r{' '*79}\r", end='', flush=True) # Clean initial line
-    CWzator(msg="CQ CQ TEST K", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, sync=True)
+    print(f"\r{' '*79}\r", end='', flush=True) # Clean line explicitly
 
     start_time = dt.datetime.now()
     session_calls = 0
@@ -1558,6 +1557,7 @@ def RxingContest(menu_config_scelta):
                                     remaining_patience -= 1
                                     time.sleep(0.2)
                                     play_async(msg_call)
+                                    # No patience number displayed
                                     redraw_line()
                                 else:
                                     print(f" {msg_full_for_stats.upper()} (NIL)")
@@ -1587,7 +1587,7 @@ def RxingContest(menu_config_scelta):
                                 correct_calls += 1
                                 my_progressive += 1 # Increment my serial ONLY on success
                                 callsget.append(msg_full_for_stats)
-                                item_details.append({'rwpm': dx_speed, 'correct': True}) # Changed key to 'rwpm' for timeline compatibility
+                                item_details.append({'wpm': dx_speed, 'correct': True}) 
                                 
                                 # DX: Formula chiusura (Async)
                                 final_msg = random.choice(["TU", "73", "GL", "R", ""])
@@ -1681,22 +1681,20 @@ def RxingContest(menu_config_scelta):
                     pass
             
             if not final_call_ok or not final_serial_ok:
-                item_details.append({'rwpm': dx_speed, 'correct': False}) # Changed key to 'rwpm'
+                item_details.append({'wpm': dx_speed, 'correct': False})
 
             if final_call_ok: total_calls_correct += 1
             if final_serial_ok: total_serials_correct += 1
             
             # Wait for final DX message to end before pause
             if current_audio: current_audio.wait_done()
-            time.sleep(1.0)
+            time.sleep(1.0) 
             
             active_exerctime += (dt.datetime.now() - item_start_time)
             session_calls += 1
             pass 
 
     finally:
-        if current_audio: current_audio.stop()
-        play_sync_me("_ + QRT TU E E")
         stop_event.set()
         listener.stop()
         # Flush input buffer
@@ -1792,12 +1790,6 @@ def RxingContest(menu_config_scelta):
             date_str = _('{}/{}/{}').format(lt()[0], lt()[1], lt()[2])
             time_str = _('{}, {}').format(lt()[3], lt()[4])
             f.write(_('\nEsercizio di ricezione CONTEST #{sessions} eseguito il {date} alle {time} minuti:\n').format(sessions=stats['sessions'], date=date_str, time=time_str))
-            
-            # --- NEW: Added duration line ---
-            duration_str = str(active_exerctime).split('.')[0]
-            f.write(_('Durata: {duration}\n').format(duration=duration_str))
-            # --------------------------------
-            
             f.write(_('In questa sessione, ti ho inviato {calls} QRZ e ne hai ricevuti {callsget_len}: {percentage:.1f}%').format(calls=session_calls, callsget_len=correct_calls, percentage=percentage_correct) + '\n')
             f.write(_('\tCorrettezza Nominativi: {total_calls_correct}/{calls} ({call_acc:.1f}%)').format(total_calls_correct=total_calls_correct, calls=session_calls, call_acc=call_acc) + '\n')
             f.write(_('\tCorrettezza Progressivi: {total_serials_correct}/{calls} ({serial_acc:.1f}%)').format(total_serials_correct=total_serials_correct, calls=session_calls, serial_acc=serial_acc) + '\n')
@@ -1911,9 +1903,11 @@ def Rxing():
     else:
         kindstring = _('Misto ({types})').format(types=', '.join(active_labels_for_display))
     how_many_calls = dgt(prompt=_('\nQuanti ne vuoi ricevere? (INVIO per infinito)> '), kind='i', imin=10, imax=1000, default=0)
-    prompt_vel = _("Invio per velocità variabile, Esc per velocità fissa: ")
-    vel_variabile = enter_escape(prompt=prompt_vel)
-    fix_speed = not vel_variabile
+    tmp_fix_speed = key(_('Vuoi che il cw rimanga alla stessa velocità?\t(y|n)> ')).lower()
+    if tmp_fix_speed == 'y':
+        fix_speed = True
+    else:
+        fix_speed = False
     print(_("Fai molta attenzione adesso.\n\tDigita il {kindstring} che ascolti.\nBattendo invio a vuoto (o aggiungendo un ?) avrai l'opportunità di un secondo tentativo\n\tPer terminare: digita semplicemente un '.' (punto) seguito da dal tasto invio.\n\t\tBUON DIVERTIMENTO!\n\tPremi un tasto quando sei pronto per iniziare.").format(kindstring=kindstring))
     attesa = key()
     print(_('Iniziamo la sessione {sessions}!').format(sessions=sessions + 1))
@@ -2485,37 +2479,41 @@ while True:
         for category_key, category_name_translated in category_mapping.items():
             log_sessioni = app_data[f'historical_rx_data_{category_key}']['sessions_log']
             if log_sessioni: # Genera il report solo se ci sono sessioni
-                _clear_screen_ansi()
-                print(_('\n--- Report Timeline per {category_name} ---').format(category_name=category_name_translated))
+                print(_('\nGenerazione report timeline per gli esercizi di {category_name}...').format(category_name=category_name_translated))
                 report_con_header = timeline.genera_report_temporale_completo(log_sessioni, _, app_language)
                 
-                # Footer
-                riga_separatore = '-' * 75
-                stringa_traducibile = _('--- Fine Report - Bye da CWAPU {version} ---')
-                footer_formattato = stringa_traducibile.format(version=VERSION)
-                footer = f"\n{riga_separatore}\n"
-                footer += f"{footer_formattato.center(70)}\n"
-                footer += f"{riga_separatore}\n"
-                report_finale = report_con_header + footer
-                print(report_finale)
-
-                prompt_nav = _("Invio per salvare, Esc per proseguire...")
-                salva = enter_escape(prompt=prompt_nav)
-                
-                if salva:
-                    nome_file_report = f"CWapu_Timeline_Report_{category_key.capitalize()}.txt"
-                    percorso_file_report = os.path.join(USER_DATA_PATH, nome_file_report)
-                    try:
-                        with open(percorso_file_report, 'w', encoding='utf-8') as f:
-                            f.write(report_finale)
-                            print(_("\nReport salvato con successo in: {}").format(percorso_file_report))
-                            time.sleep(1.5)
-                    except IOError as e:
-                        print(_("\nErrore durante il salvataggio del file: {}").format(e))
-                        time.sleep(2.0)
+                timeline_filename = os.path.join(USER_DATA_PATH, f'CWapu_Historical_Statistics_Timeline_{category_key.capitalize()}.html')
+                try:
+                    with open(timeline_filename, 'w', encoding='utf-8') as f:
+                        f.write(report_con_header)
+                    print(_('Report timeline per {category_name} salvato su {filename}').format(category_name=category_name_translated, filename=timeline_filename))
+                except IOError as e:
+                    print(_('Errore durante il salvataggio del report timeline per {category_name}: {e}').format(category_name=category_name_translated, e=e))
             else:
+                print(_('\nNessun dato di sessione per gli esercizi di {category_name}, salto la generazione del report timeline.').format(category_name=category_name_translated))
                 continue
-    
+            riga_separatore = '-' * 75
+            stringa_traducibile = _('--- Fine Report - Bye da CWAPU {version} ---')
+            footer_formattato = stringa_traducibile.format(version=VERSION)
+            footer = f"\n{riga_separatore}\n"
+            footer += f"{footer_formattato.center(70)}\n"
+            footer += f"{riga_separatore}\n"
+            report_finale = report_con_header + footer
+            print(report_finale)
+            prompt_salvataggio = _('Vuoi salvare il report in un file di testo? (Invio per Sì / altro tasto per No): ')
+            scelta = key(prompt=prompt_salvataggio).strip()
+            if scelta == '':
+                nome_file_report = "Cwapu_Historical_Statistics_Advanced_Report.txt"
+                percorso_file_report = os.path.join(USER_DATA_PATH, nome_file_report)
+                try:
+                    with open(percorso_file_report, 'w', encoding='utf-8') as f:
+                        f.write(report_finale)
+                        print(_("\nReport salvato con successo in: {}").format(percorso_file_report))
+                except IOError as e:
+                    print(_("\nErrore durante il salvataggio del file: {}").format(e))
+            else:
+                print(_("\nSalvataggio annullato."))
+            key(prompt=_("\nPremi un tasto per tornare al menu principale..."))
     elif k == 'q':
         break
 app_data['overall_settings'].update({'speed': overall_speed, 'pitch': overall_pitch, 'dashes': overall_dashes, 'spaces': overall_spaces, 'dots': overall_dots, 'volume': overall_volume, 'ms': overall_ms, 'fs_index': overall_fs, 'wave_index': overall_wave})

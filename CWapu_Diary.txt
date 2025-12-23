@@ -209,3 +209,542 @@ Carattere: errori = Wilson Interval
     'W': 1/1 [20.7% - 100.0%]
     'Y': 1/2 [9.5% - 90.5%]
 ***
+
+Esercizio di ricezione CONTEST #7 eseguito il 2025/12/21 alle 22, 21 minuti:
+In questa sessione, ti ho inviato 1 QRZ e ne hai ricevuti 1: 100.0%
+	Correttezza Nominativi: 1/1 (100.0%)
+	Correttezza Progressivi: 1/1 (100.0%)
+Velocità: Min 29.01, Max 29.48, Avg 58.49 WPM.
+***
+
+Esercizio di ricezione CONTEST #8 eseguito il 2025/12/21 alle 22, 28 minuti:
+In questa sessione, ti ho inviato 1 QRZ e ne hai ricevuti 1: 100.0%
+	Correttezza Nominativi: 1/1 (100.0%)
+	Correttezza Progressivi: 1/1 (100.0%)
+Velocità: Min 25.30, Max 28.58, Avg 53.89 WPM.
+Carattere: errori = Wilson Interval
+    'V': 1/3 [6.1% - 79.2%]
+    'Z': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #7 eseguito il 2025/12/21 alle 22, 50 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 0: 0.0%
+	Correttezza Nominativi: 0/5 (0.0%)
+	Correttezza Progressivi: 0/5 (0.0%)
+Velocità: Min 100.00, Max 0.00, Avg 0.00 WPM.
+Carattere: errori = Wilson Interval
+    'F': 8/2 [34.2% - 100.0%]
+    'K': 8/4 [51.0% - 100.0%]
+    'J': 7/2 [34.2% - 100.0%]
+    '7': 6/1 [20.7% - 100.0%]
+    'S': 6/1 [20.7% - 100.0%]
+    'W': 6/1 [20.7% - 100.0%]
+    'U': 5/2 [34.2% - 100.0%]
+    '6': 4/1 [20.7% - 100.0%]
+    'D': 3/2 [34.2% - 100.0%]
+    'R': 3/2 [34.2% - 100.0%]
+    '5': 2/6 [9.7% - 70.0%]
+    '9': 2/2 [34.2% - 100.0%]
+    'I': 2/1 [20.7% - 100.0%]
+    'Z': 2/1 [20.7% - 100.0%]
+    'M': 1/1 [20.7% - 100.0%]
+    'O': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #8 eseguito il 2025/12/21 alle 23, 18 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 0: 0.0%
+	Correttezza Nominativi: 1/5 (20.0%)
+	Correttezza Progressivi: 0/5 (0.0%)
+Velocità: Min 100.00, Max 0.00, Avg 0.00 WPM.
+Carattere: errori = Wilson Interval
+    'U': 9/2 [34.2% - 100.0%]
+    '1': 8/4 [51.0% - 100.0%]
+    'P': 8/2 [34.2% - 100.0%]
+    'G': 5/1 [20.7% - 100.0%]
+    'O': 5/1 [20.7% - 100.0%]
+    '7': 3/1 [20.7% - 100.0%]
+    'E': 3/1 [20.7% - 100.0%]
+    'N': 3/11 [9.7% - 56.6%]
+    'W': 3/1 [20.7% - 100.0%]
+    'Z': 3/1 [20.7% - 100.0%]
+    '2': 2/1 [20.7% - 100.0%]
+    'C': 2/1 [20.7% - 100.0%]
+    'F': 2/2 [34.2% - 100.0%]
+    'J': 2/2 [34.2% - 100.0%]
+    'L': 2/1 [20.7% - 100.0%]
+    'R': 2/1 [20.7% - 100.0%]
+    '3': 1/2 [9.5% - 90.5%]
+    'B': 1/1 [20.7% - 100.0%]
+    'D': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #9 eseguito il 2025/12/21 alle 23, 28 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 3: 60.0%
+	Correttezza Nominativi: 3/5 (60.0%)
+	Correttezza Progressivi: 3/5 (60.0%)
+Velocità: Min 24.00, Max 29.00, Avg 26.20 WPM.
+Carattere: errori = Wilson Interval
+    'B': 3/2 [34.2% - 100.0%]
+    '4': 2/3 [20.8% - 93.9%]
+    'O': 2/1 [20.7% - 100.0%]
+    'C': 1/1 [20.7% - 100.0%]
+    'F': 1/2 [9.5% - 90.5%]
+    'I': 1/1 [20.7% - 100.0%]
+    'K': 1/1 [20.7% - 100.0%]
+    'R': 1/3 [6.1% - 79.2%]
+    'T': 1/2 [9.5% - 90.5%]
+    'Z': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #10 eseguito il 2025/12/21 alle 23, 32 minuti:
+In questa sessione, ti ho inviato 2 QRZ e ne hai ricevuti 2: 100.0%
+	Correttezza Nominativi: 2/2 (100.0%)
+	Correttezza Progressivi: 2/2 (100.0%)
+Velocità: Min 25.00, Max 27.00, Avg 39.50 WPM.
+Carattere: errori = Wilson Interval
+    '8': 1/1 [20.7% - 100.0%]
+    'T': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #10 eseguito il 2025/12/21 alle 23, 41 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 1: 20.0%
+	Correttezza Nominativi: 3/5 (60.0%)
+	Correttezza Progressivi: 1/5 (20.0%)
+Velocità: Min 24.00, Max 28.00, Avg 25.60 WPM.
+Carattere: errori = Wilson Interval
+    'B': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #11 eseguito il 2025/12/22 alle 11, 7 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 0: 0.0%
+	Correttezza Nominativi: 0/5 (0.0%)
+	Correttezza Progressivi: 0/5 (0.0%)
+Velocità: Min 24.00, Max 29.00, Avg 26.40 WPM.
+Carattere: errori = Wilson Interval
+    'K': 1/4 [4.6% - 69.9%]
+***
+
+Esercizio di ricezione CONTEST #12 eseguito il 2025/12/22 alle 11, 10 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 2: 40.0%
+	Correttezza Nominativi: 2/5 (40.0%)
+	Correttezza Progressivi: 2/5 (40.0%)
+Velocità: Min 25.00, Max 29.00, Avg 27.00 WPM.
+Carattere: errori = Wilson Interval
+    '3': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #13 eseguito il 2025/12/22 alle 11, 33 minuti:
+In questa sessione, ti ho inviato 3 QRZ e ne hai ricevuti 0: 0.0%
+	Correttezza Nominativi: 0/3 (0.0%)
+	Correttezza Progressivi: 0/3 (0.0%)
+Velocità: Min 24.00, Max 28.00, Avg 34.33 WPM.
+Carattere: errori = Wilson Interval
+    'I': 1/2 [9.5% - 90.5%]
+***
+
+Esercizio di ricezione CONTEST #14 eseguito il 2025/12/22 alle 11, 37 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 3: 60.0%
+	Correttezza Nominativi: 3/5 (60.0%)
+	Correttezza Progressivi: 3/5 (60.0%)
+Velocità: Min 25.00, Max 27.00, Avg 26.00 WPM.
+Carattere: errori = Wilson Interval
+    'N': 3/11 [9.7% - 56.6%]
+    'E': 2/1 [20.7% - 100.0%]
+    '/': 1/0 [0.0% - 100.0%]
+    '3': 1/2 [9.5% - 90.5%]
+    '5': 1/6 [3.0% - 56.4%]
+    'A': 1/1 [20.7% - 100.0%]
+    'B': 1/1 [20.7% - 100.0%]
+    'F': 1/4 [4.6% - 69.9%]
+    'H': 1/1 [20.7% - 100.0%]
+    'I': 1/2 [9.5% - 90.5%]
+    'O': 1/2 [9.5% - 90.5%]
+    'P': 1/2 [9.5% - 90.5%]
+    'R': 1/0 [0.0% - 100.0%]
+    'T': 1/0 [0.0% - 100.0%]
+    'V': 1/2 [9.5% - 90.5%]
+***
+
+Esercizio di ricezione CONTEST #15 eseguito il 2025/12/22 alle 11, 39 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 3: 60.0%
+	Correttezza Nominativi: 3/5 (60.0%)
+	Correttezza Progressivi: 3/5 (60.0%)
+Velocità: Min 26.00, Max 28.00, Avg 26.80 WPM.
+Carattere: errori = Wilson Interval
+    'I': 1/1 [20.7% - 100.0%]
+    'M': 1/1 [20.7% - 100.0%]
+    'X': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #16 eseguito il 2025/12/22 alle 11, 54 minuti:
+In questa sessione, ti ho inviato 3 QRZ e ne hai ricevuti 0: 0.0%
+	Correttezza Nominativi: 0/3 (0.0%)
+	Correttezza Progressivi: 0/3 (0.0%)
+Velocità: Min 27.00, Max 28.00, Avg 37.00 WPM.
+***
+
+Esercizio di ricezione CONTEST #16 eseguito il 2025/12/22 alle 12, 0 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 1: 20.0%
+	Correttezza Nominativi: 1/5 (20.0%)
+	Correttezza Progressivi: 1/5 (20.0%)
+Velocità: Min 24.00, Max 28.00, Avg 26.40 WPM.
+Carattere: errori = Wilson Interval
+    'I': 3/2 [34.2% - 100.0%]
+    'K': 3/1 [20.7% - 100.0%]
+    'M': 3/3 [43.8% - 100.0%]
+    'C': 2/1 [20.7% - 100.0%]
+    '3': 1/1 [20.7% - 100.0%]
+    '5': 1/6 [3.0% - 56.4%]
+    'D': 1/2 [9.5% - 90.5%]
+***
+
+Esercizio di ricezione CONTEST #17 eseguito il 2025/12/22 alle 12, 3 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 4: 80.0%
+	Correttezza Nominativi: 4/5 (80.0%)
+	Correttezza Progressivi: 4/5 (80.0%)
+Velocità: Min 25.00, Max 29.00, Avg 26.60 WPM.
+Carattere: errori = Wilson Interval
+    '1': 1/4 [4.6% - 69.9%]
+    '5': 1/7 [2.6% - 51.3%]
+    'C': 1/1 [20.7% - 100.0%]
+    'Y': 1/2 [9.5% - 90.5%]
+***
+
+Esercizio di ricezione CONTEST #18 eseguito il 2025/12/22 alle 12, 5 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 5: 100.0%
+	Correttezza Nominativi: 5/5 (100.0%)
+	Correttezza Progressivi: 5/5 (100.0%)
+Velocità: Min 25.00, Max 27.00, Avg 26.00 WPM.
+Carattere: errori = Wilson Interval
+    'R': 3/2 [34.2% - 100.0%]
+    'B': 2/1 [20.7% - 100.0%]
+    'U': 2/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #19 eseguito il 2025/12/22 alle 12, 7 minuti:
+In questa sessione, ti ho inviato 1 QRZ e ne hai ricevuti 0: 0.0%
+	Correttezza Nominativi: 1/1 (100.0%)
+	Correttezza Progressivi: 0/1 (0.0%)
+Velocità: Min 25.00, Max 28.00, Avg 53.00 WPM.
+Carattere: errori = Wilson Interval
+    '1': 5/3 [43.8% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #19 eseguito il 2025/12/22 alle 12, 50 minuti:
+In questa sessione, ti ho inviato 15 QRZ e ne hai ricevuti 12: 80.0%
+	Correttezza Nominativi: 12/15 (80.0%)
+	Correttezza Progressivi: 12/15 (80.0%)
+Velocità: Min 20.00, Max 31.00, Avg 24.20 WPM.
+Carattere: errori = Wilson Interval
+    'H': 5/2 [34.2% - 100.0%]
+    'R': 5/3 [43.8% - 100.0%]
+    '7': 3/4 [30.1% - 95.4%]
+    '2': 1/6 [3.0% - 56.4%]
+    '3': 1/6 [3.0% - 56.4%]
+    'I': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #20 eseguito il 2025/12/22 alle 13, 1 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 4: 80.0%
+	Correttezza Nominativi: 4/5 (80.0%)
+	Correttezza Progressivi: 4/5 (80.0%)
+Velocità: Min 22.00, Max 27.00, Avg 24.80 WPM.
+Carattere: errori = Wilson Interval
+    'D': 1/2 [9.5% - 90.5%]
+    'W': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #21 eseguito il 2025/12/22 alle 14, 57 minuti:
+In questa sessione, ti ho inviato 15 QRZ e ne hai ricevuti 12: 80.0%
+	Correttezza Nominativi: 12/15 (80.0%)
+	Correttezza Progressivi: 12/15 (80.0%)
+Velocità: Min 23.00, Max 28.00, Avg 24.87 WPM.
+Carattere: errori = Wilson Interval
+    'D': 6/3 [43.8% - 100.0%]
+    'H': 5/3 [43.8% - 100.0%]
+    'G': 4/2 [34.2% - 100.0%]
+    'Z': 4/2 [34.2% - 100.0%]
+    '2': 3/9 [12.1% - 64.6%]
+    'M': 3/1 [20.7% - 100.0%]
+    'O': 3/4 [30.1% - 95.4%]
+    '4': 2/6 [9.7% - 70.0%]
+    'J': 2/4 [15.0% - 85.0%]
+    'P': 2/4 [15.0% - 85.0%]
+    'V': 2/2 [34.2% - 100.0%]
+    'X': 2/2 [34.2% - 100.0%]
+    '1': 1/7 [2.6% - 51.3%]
+    '5': 1/19 [0.9% - 24.6%]
+    'A': 1/3 [6.1% - 79.2%]
+    'T': 1/3 [6.1% - 79.2%]
+***
+
+Esercizio di ricezione CONTEST #22 eseguito il 2025/12/22 alle 15, 0 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 3: 60.0%
+	Correttezza Nominativi: 3/5 (60.0%)
+	Correttezza Progressivi: 3/5 (60.0%)
+Velocità: Min 33.00, Max 37.00, Avg 34.60 WPM.
+Carattere: errori = Wilson Interval
+    'K': 2/2 [34.2% - 100.0%]
+    '1': 1/5 [3.6% - 62.4%]
+    'J': 1/2 [9.5% - 90.5%]
+    'N': 1/12 [1.5% - 35.4%]
+    'S': 1/1 [20.7% - 100.0%]
+    'V': 1/2 [9.5% - 90.5%]
+    'W': 1/1 [20.7% - 100.0%]
+    'X': 1/2 [9.5% - 90.5%]
+***
+
+Esercizio di ricezione CONTEST #23 eseguito il 2025/12/22 alle 15, 6 minuti:
+In questa sessione, ti ho inviato 20 QRZ e ne hai ricevuti 10: 50.0%
+	Correttezza Nominativi: 10/20 (50.0%)
+	Correttezza Progressivi: 10/20 (50.0%)
+Velocità: Min 31.00, Max 37.00, Avg 34.30 WPM.
+Carattere: errori = Wilson Interval
+    'U': 4/2 [34.2% - 100.0%]
+    'B': 3/4 [30.1% - 95.4%]
+    'O': 3/3 [43.8% - 100.0%]
+    'X': 3/4 [30.1% - 95.4%]
+    'Z': 3/1 [20.7% - 100.0%]
+    '5': 2/25 [2.2% - 25.0%]
+    'H': 2/1 [20.7% - 100.0%]
+    '/': 1/0 [0.0% - 100.0%]
+    '3': 1/5 [3.6% - 62.4%]
+    '7': 1/4 [4.6% - 69.9%]
+    '8': 1/1 [20.7% - 100.0%]
+    'D': 1/5 [3.6% - 62.4%]
+    'F': 1/3 [6.1% - 79.2%]
+    'L': 1/3 [6.1% - 79.2%]
+    'N': 1/45 [0.4% - 11.6%]
+    'Q': 1/2 [9.5% - 90.5%]
+    'R': 1/4 [4.6% - 69.9%]
+    'S': 1/5 [3.6% - 62.4%]
+***
+
+Esercizio di ricezione CONTEST #24 eseguito il 2025/12/22 alle 15, 22 minuti:
+In questa sessione, ti ho inviato 9 QRZ e ne hai ricevuti 3: 33.3%
+	Correttezza Nominativi: 3/9 (33.3%)
+	Correttezza Progressivi: 3/9 (33.3%)
+Velocità: Min 33.00, Max 38.00, Avg 38.11 WPM.
+Carattere: errori = Wilson Interval
+    '6': 4/2 [34.2% - 100.0%]
+    'B': 4/2 [34.2% - 100.0%]
+    'Q': 4/3 [43.8% - 100.0%]
+    'Z': 4/1 [20.7% - 100.0%]
+    'T': 3/2 [34.2% - 100.0%]
+    'Y': 3/6 [18.8% - 81.2%]
+    '/': 2/0 [0.0% - 100.0%]
+    'F': 2/1 [20.7% - 100.0%]
+    'N': 2/22 [2.5% - 27.8%]
+    '3': 1/6 [3.0% - 56.4%]
+    'C': 1/4 [4.6% - 69.9%]
+    'G': 1/3 [6.1% - 79.2%]
+***
+
+Esercizio di ricezione CONTEST #24 eseguito il 2025/12/22 alle 16, 49 minuti:
+In questa sessione, ti ho inviato 15 QRZ e ne hai ricevuti 8: 53.3%
+	Correttezza Nominativi: 9/15 (60.0%)
+	Correttezza Progressivi: 8/15 (53.3%)
+Velocità: Min 31.00, Max 38.00, Avg 33.87 WPM.
+Carattere: errori = Wilson Interval
+    'A': 15/8 [67.6% - 100.0%]
+    'L': 13/3 [43.8% - 100.0%]
+    'E': 10/2 [34.2% - 100.0%]
+    'D': 8/2 [34.2% - 100.0%]
+    'P': 8/4 [51.0% - 100.0%]
+    'M': 7/3 [43.8% - 100.0%]
+    'R': 7/3 [43.8% - 100.0%]
+    'O': 6/1 [20.7% - 100.0%]
+    '/': 5/0 [0.0% - 100.0%]
+    'H': 5/3 [43.8% - 100.0%]
+    'W': 5/6 [43.6% - 97.0%]
+    'I': 4/0 [0.0% - 100.0%]
+    '8': 3/1 [20.7% - 100.0%]
+    'B': 3/3 [43.8% - 100.0%]
+    'C': 3/0 [0.0% - 100.0%]
+    'K': 3/4 [30.1% - 95.4%]
+    'Q': 3/2 [34.2% - 100.0%]
+    'T': 3/1 [20.7% - 100.0%]
+    'U': 3/2 [34.2% - 100.0%]
+    '0': 2/5 [11.8% - 76.9%]
+    'N': 2/30 [1.8% - 21.3%]
+    '1': 1/8 [2.2% - 47.1%]
+    '9': 1/5 [3.6% - 62.4%]
+    'J': 1/2 [9.5% - 90.5%]
+    'S': 1/2 [9.5% - 90.5%]
+    'V': 1/1 [20.7% - 100.0%]
+    'Y': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #25 eseguito il 2025/12/22 alle 17, 14 minuti:
+In questa sessione, ti ho inviato 20 QRZ e ne hai ricevuti 12: 60.0%
+	Correttezza Nominativi: 12/20 (60.0%)
+	Correttezza Progressivi: 12/20 (60.0%)
+Velocità: Min 32.00, Max 38.00, Avg 34.60 WPM.
+Carattere: errori = Wilson Interval
+    'G': 4/5 [37.6% - 96.4%]
+    '3': 3/4 [30.1% - 95.4%]
+    '8': 3/5 [23.1% - 88.2%]
+    'K': 3/6 [18.8% - 81.2%]
+    'Q': 3/3 [43.8% - 100.0%]
+    'S': 3/6 [18.8% - 81.2%]
+    'W': 3/7 [15.8% - 75.0%]
+    'A': 2/7 [8.2% - 64.1%]
+    'H': 2/4 [15.0% - 85.0%]
+    'L': 2/3 [20.8% - 93.9%]
+    'M': 2/3 [20.8% - 93.9%]
+    'O': 2/4 [15.0% - 85.0%]
+    'P': 2/5 [11.8% - 76.9%]
+    'Y': 2/3 [20.8% - 93.9%]
+    '/': 1/0 [0.0% - 100.0%]
+    '1': 1/11 [1.6% - 37.7%]
+    '2': 1/10 [1.8% - 40.4%]
+    'C': 1/2 [9.5% - 90.5%]
+    'I': 1/6 [3.0% - 56.4%]
+    'J': 1/3 [6.1% - 79.2%]
+    'R': 1/4 [4.6% - 69.9%]
+    'U': 1/4 [4.6% - 69.9%]
+    'V': 1/1 [20.7% - 100.0%]
+    'X': 1/2 [9.5% - 90.5%]
+    'Z': 1/3 [6.1% - 79.2%]
+***
+
+Esercizio di ricezione CONTEST #26 eseguito il 2025/12/22 alle 19, 1 minuti:
+In questa sessione, ti ho inviato 0 QRZ e ne hai ricevuti 0: 0.0%
+	Correttezza Nominativi: 0/0 (0.0%)
+	Correttezza Progressivi: 0/0 (0.0%)
+Velocità: Min 34.00, Max 34.00, Avg 0.00 WPM.
+Carattere: errori = Wilson Interval
+    '8': 1/1 [20.7% - 100.0%]
+    'K': 1/1 [20.7% - 100.0%]
+    'V': 1/1 [20.7% - 100.0%]
+    'W': 1/1 [20.7% - 100.0%]
+    'X': 1/1 [20.7% - 100.0%]
+    'Z': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #27 eseguito il 2025/12/22 alle 19, 5 minuti:
+In questa sessione, ti ho inviato 10 QRZ e ne hai ricevuti 6: 60.0%
+	Correttezza Nominativi: 6/10 (60.0%)
+	Correttezza Progressivi: 6/10 (60.0%)
+Velocità: Min 31.00, Max 37.00, Avg 34.20 WPM.
+Carattere: errori = Wilson Interval
+    'S': 4/3 [43.8% - 100.0%]
+    '0': 3/2 [34.2% - 100.0%]
+    '4': 3/4 [30.1% - 95.4%]
+    '5': 3/15 [7.0% - 45.2%]
+    'K': 3/3 [43.8% - 100.0%]
+    'D': 2/3 [20.8% - 93.9%]
+    'O': 2/3 [20.8% - 93.9%]
+    '1': 1/5 [3.6% - 62.4%]
+    '3': 1/3 [6.1% - 79.2%]
+    '9': 1/2 [9.5% - 90.5%]
+    'J': 1/4 [4.6% - 69.9%]
+    'L': 1/2 [9.5% - 90.5%]
+    'Y': 1/2 [9.5% - 90.5%]
+***
+
+Esercizio di ricezione CONTEST #28 eseguito il 2025/12/22 alle 22, 13 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 2: 40.0%
+	Correttezza Nominativi: 2/5 (40.0%)
+	Correttezza Progressivi: 2/5 (40.0%)
+Velocità: Min 33.00, Max 37.00, Avg 34.20 WPM.
+Carattere: errori = Wilson Interval
+    '4': 3/2 [34.2% - 100.0%]
+    'L': 3/3 [43.8% - 100.0%]
+    'N': 3/11 [9.7% - 56.6%]
+    'S': 3/4 [30.1% - 95.4%]
+    'W': 3/3 [43.8% - 100.0%]
+    'X': 3/1 [20.7% - 100.0%]
+    'C': 2/1 [20.7% - 100.0%]
+    'M': 1/3 [6.1% - 79.2%]
+***
+
+Esercizio di ricezione CONTEST #29 eseguito il 2025/12/22 alle 22, 25 minuti:
+In questa sessione, ti ho inviato 5 QRZ e ne hai ricevuti 3: 60.0%
+	Correttezza Nominativi: 3/5 (60.0%)
+	Correttezza Progressivi: 3/5 (60.0%)
+Velocità: Min 31.00, Max 36.00, Avg 34.20 WPM.
+Carattere: errori = Wilson Interval
+    '3': 2/4 [15.0% - 85.0%]
+    'I': 2/3 [20.8% - 93.9%]
+    'L': 2/2 [34.2% - 100.0%]
+    '2': 1/0 [0.0% - 100.0%]
+    '5': 1/6 [3.0% - 56.4%]
+    'C': 1/1 [20.7% - 100.0%]
+    'H': 1/2 [9.5% - 90.5%]
+    'R': 1/1 [20.7% - 100.0%]
+***
+
+Esercizio di ricezione CONTEST #30 eseguito il 2025/12/23 alle 14, 5 minuti:
+Durata: 0:07:19
+In questa sessione, ti ho inviato 20 QRZ e ne hai ricevuti 14: 70.0%
+	Correttezza Nominativi: 14/20 (70.0%)
+	Correttezza Progressivi: 14/20 (70.0%)
+Velocità: Min 31.00, Max 38.00, Avg 34.15 WPM.
+Carattere: errori = Wilson Interval
+    'N': 4/45 [3.5% - 20.7%]
+    'R': 4/6 [30.0% - 90.3%]
+    'W': 4/8 [21.5% - 78.5%]
+    '3': 3/6 [18.8% - 81.2%]
+    '4': 3/6 [18.8% - 81.2%]
+    'A': 3/12 [8.9% - 53.2%]
+    'B': 3/3 [43.8% - 100.0%]
+    '5': 2/25 [2.2% - 25.0%]
+    'G': 2/5 [11.8% - 76.9%]
+    'J': 2/3 [20.8% - 93.9%]
+    'P': 2/3 [20.8% - 93.9%]
+    'S': 2/4 [15.0% - 85.0%]
+    '2': 1/8 [2.2% - 47.1%]
+    '8': 1/2 [9.5% - 90.5%]
+    'H': 1/1 [20.7% - 100.0%]
+    'O': 1/4 [4.6% - 69.9%]
+    'V': 1/3 [6.1% - 79.2%]
+    'X': 1/2 [9.5% - 90.5%]
+***
+
+Esercizio di ricezione #3 eseguito il 2025/12/23 alle 16, 11 minuti:
+In questa sessione #3, ti ho inviato 35 Misto (Lettere, Numeri) e ne hai ricevuti 27: 77.1%
+	15 di questi sono stati ricevuti al primo ascolto: 55.6%
+	mentre 12 Misto (Lettere, Numeri) al secondo tentativo: 44.4%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 55.00: pari ad una variazione di 20.00 WPM.
+	La velocità media di ricezione è di: 44.85 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '8': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'H': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    '7': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'B': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'F': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'G': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'I': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'P': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'Q': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'S': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'Z': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]
+
+Errori totali: 13 su 105 = 12.38%
+Caratteri mai sbagliati: 0 1 2 3 4 5 6 9 A C E J K M N O R T V W X Y
+Elenco delle parole copiate male:
+	(5) TX: 670, RX: 660, DIF: 7;
+	(9) TX: VEH, RX: VES, DIF: H;
+	(11) TX: WIH, RX: WIS, DIF: H;
+	(24) TX: MGS, RX: MMI, DIF: GS;
+	(25) TX: 883, RX: 773, DIF: 88;
+	(27) TX: PFI, RX: PRS, DIF: FI;
+	(31) TX: KPR, RX: KWR, DIF: P;
+	(35) TX: QBZ, RX: , DIF: QBZ;
+Nota: nessuna
+***
+
+Esercizio di ricezione #3 eseguito il 2025/12/23 alle 16, 17 minuti:
+In questa sessione #3, ti ho inviato 36 Misto (Lettere, Numeri) e ne hai ricevuti 25: 69.4%
+	15 di questi sono stati ricevuti al primo ascolto: 60.0%
+	mentre 10 Misto (Lettere, Numeri) al secondo tentativo: 40.0%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 52.00: pari ad una variazione di 17.00 WPM.
+	La velocità media di ricezione è di: 44.64 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '8': 5 errori su 6 invii. Tasso errore stimato: [43.6% - 97.0%]    '3': 3 errori su 4 invii. Tasso errore stimato: [30.1% - 95.4%]    'H': 3 errori su 3 invii. Tasso errore stimato: [43.8% - 100.0%]    'V': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    '0': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    '1': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    '6': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    '9': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'B': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'G': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'O': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'U': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'Z': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 22 su 108 = 20.37%
+Caratteri mai sbagliati: 2 4 5 7 A C D E F I L M Q S W Y
+Elenco delle parole copiate male:
+	(9) TX: VZI, RX: VGI, DIF: Z;
+	(15) TX: 876, RX: 766, DIF: 86;
+	(19) TX: 838, RX: 7, DIF: 838;
+	(23) TX: DHV, RX: DSV, DIF: H;
+	(26) TX: 878, RX: 777, DIF: 88;
+	(28) TX: BVU, RX: DUU, DIF: BVU;
+	(30) TX: 239, RX: 132, DIF: 1339;
+	(31) TX: HHO, RX: 550, DIF: HHO;
+	(32) TX: EFG, RX: EFP, DIF: G;
+	(33) TX: 046, RX: 946, DIF: 0;
+	(36) TX: VLM, RX: ULM, DIF: V;
+Nota: nessuna
+***

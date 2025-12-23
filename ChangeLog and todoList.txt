@@ -3,86 +3,23 @@ Todo:
 10.
 
 ChangeLog:
-	5.0.6 (2025-12-18)
-		+ Esercizio Contest: implementato il flusso a due stadi (Call -> Conferma -> Serial) come in cwsim.
-		+ Corretto bug audio: ora premendo invio a vuoto non si sovrappongono più i call.
-		+ Corretto errore WPM float: forzato cast a intero per CWzator.
-		+ Aggiornate istruzioni a video con i tasti F9/F10 per la velocità.
-	5.0.5 (2025-12-18)
-		+ Fix bug WPM float (ora castato a int).
-		+ Tasti velocità spostati su F9/F10 per evitare conflitti con NVDA.
-		+ Disabilitata soppressione tasti pynput (suppress=False) per permettere l'uso dello screen reader.
-		+ Semplificazione audio: rimosso threading e sync manuale (ora asincrono standard).
-		+ Migliorata UI: il cambio velocità non sporca più la riga di input.
-		+ Risolto crash premendo ESC nel menu durata.
-		+ Risolto bug mutua esclusione tra QRZ e Contest.
-	5.0.0 (2025-12-18)
-		+ Nuovo Esercizio "Contest" nella sezione R (switcher 8).
-		+ Simulazione scambio rapido (Call + 5NN + Serial) con gestione dinamica WPM e Pitch.
-		+ Sistema di input reattivo da tastiera con scorciatoie:
-			- PgUp/PgDn: Modifica velocità in tempo reale.
-			- F5: Ripeti Call.
-			- F6: Ripeti Seriale.
-			- F7: Ripeti Tutto.
-			- Alt+W: Pulisce la riga.
-		+ Gestione errori granulare: il sistema risponde con "CALL?", "NR?" o "?" in base all'errore commesso.
-		+ Statistiche integrate nella categoria QRZ con tracking dettagliato degli errori per carattere.
-		+ Riorganizzazione del menu R per gruppi logici (Parole, Misti, QRZ).
+	5.0.31 (2025-12-23)
+		+ Rifinitura Interfaccia Utente (UI/UX):
+			- Menu Statistiche (S): Navigazione rapida tra i report con tasti diretti (INVIO per salvare TXT, ESC per saltare).
+			- Esercizio Ricezione (R): Selezione modalità velocità semplificata (INVIO = Variabile, ESC = Fissa).
+		+ Bugfix e Stabilità:
+			- Risolti crash nel salvataggio report e chiamate audio non inizializzate.
+			- Aggiunte procedure operative standard per l'esercizio Contest ("CQ CQ TEST K" e "_ + QRT TU E E").
+	5.0.25 (2025-12-21)
+		+ Nuova Modalità Esercizio "Contest" (Menu R, opzione 8):
+			- Simulazione realistica di uno scambio contest (QSO) in due fasi: Ricezione Call e Ricezione Seriale.
+			- Intelligenza DX: Ogni stazione chiamante ha parametri unici: pazienza variabile (0-5 tentativi prima del NIL), velocità variabile (+/- 10%), pitch dinamico (evitando la frequenza dell'operatore +/- 5Hz) e simulazione tasto manuale (LSP "sporchi" con probabilità 30%).
+			- Flusso Interattivo: Gestione rigorosa dei turni di trasmissione (Audio Asincrono per DX, Sincrono per Operatore). Risposte dinamiche ("TEST", "R 5NN...", "NR?", "TU/73").
+			- Database Reale: Integrazione con MASTER.SCP per generare nominativi realistici.
+			- Prompt Migliorato: Visualizzazione chiara dello stato (#N CALL: / #N [CALL] 5NN NR:) con occultamento del contatore pazienza per realismo.
+		+ Migliorie Core e Bugfix:
+			- Input System: Riscrittura completa della gestione tastiera con anti-bounce su Invio e Backspace per prevenire doppi inserimenti e cancellazioni fantasma. Supporto per caratteri speciali (es. barrati '/').
+			- Timeline & Report: Risolto crash critico su dati storici legacy (migrazione automatica 'wpm' -> 'rwpm'). Aggiunta durata sessione nel Diario. I report statistici (Menu S) ora richiedono conferma esplicita per il salvataggio e usano nomi file specifici per categoria.
+			- Logica Progressivo: Il numero seriale inviato dall'utente incrementa solo dopo un QSO completato con successo.
+			- Audio: Risolti problemi di sovrapposizione audio tra DX e Operatore.
 	4.8.0 (2025-12-18)
-		+ Aggiornata la funzione Mkdqrz: ora utilizza un database reale (MASTER.SCP) per generare callsign con una probabilità del 50%.
-	4.7.0
-		+ VERSIONE STABILE (Sostituisce la v4.6.0 ritirata per bug critici).
-		+ Refactoring completo delle statistiche di ricezione (Rxing) in 3 categorie: Parole, Caratteri/Misto, QRZ.
-		+ I dati storici (grafici, timeline e log) sono ora salvati separatamente per ogni categoria.
-		+ Corretti crash critici durante la migrazione e il salvataggio dei report storici.
-		+ Migliorata la logica di esclusione nel menu Rx: ora selezionare una categoria (es. Parole) disattiva le altre (es. QRZ).
-		+ Ripristinato il report finale dettagliato con numero sessione, durata attiva e tempo di pausa.
-		+ Risolti problemi di generazione report HTML/SVG che sovrascrivevano file di categorie diverse.
-	4.6.0 (RITIRATA - DO NOT USE)
-		+ Tentativo iniziale di refactoring statistiche (buggato).
-	4.5.5
-		+ Migliorata la visualizzazione del tempo trascorso nel messaggio di benvenuto dell'esercizio R: ora mostra giorni, ore, minuti e secondi in formato localizzato invece di una stringa tecnica.
-	4.5.4
-		Aggiunte parole al dizionario incluse parecchie accentate e buona parte del codice Q
-		Rimosse le parole che necessitavano un accento e non lo avevano, dal dizionario
-		Inserito un sistema per limitare le pause di inattività durante l'esercizio di ricezione
-		Ridotto da 45 a 30 secondi, il tempo da considerare come utente attivo, durante l'esercizio R
-	4.4.4
-		+ Aggiornato e rinforzato il sistema interno dei menu.
-		+ Aggiunta riga di sicurezza alle funzioni che calcolano il Wilson per prevenire radici quadrate negative sul tasso d'errore
-		+ corretti 2 problemi nella generazione dei report htlm e svg
-	4.3.17
-		+ Ripristinato esercizio R4, lettere e numeri
-		+ Aggiunta quantità esercizi per giorno al totale e ai quartili, nella sezione statistiche (S dal menù princpale
-		+ Migliorato layout del report statisco sezione S.
-		+ molte altre migliorie al layout della sezione S del menù principale.
-		+ Nuova funzione statistica che legge lo storico esercizi e crea una timeline con il tempo trascorso e i cambiamenti di lettere errate e velocità.
-		+ Ora viene salvato il dettaglio sulla velocità di ogni gruppo inviato.
-		+ stampa informativa sulla gestione delle sessioni salvate nello storico. Ora è trasparente il comportamento dell'app quando salva o elimina blocchi dal diario di bordo.
-		+ CORREZIONE CRITICA: implementato novo algoritmo per rilevare gli errori, ora usiamo il metodo di wilson che pondera l'errore basato sul tasso di invio di quel singolo carattere. Tutte le sezioni di cwapu che rilevano errori utilizzano ora questa formula
-		+ Pulizia interna al codice e refactoring delle variabili che gestiscono la velocità wpm nell'esercizio sezione r. Ora maggior pulizia e robustezza.
-	4.1.6
-		+ Fixed an important error occurred in RX exercise when the comparison between the current block and the stored blocks didn't happen
-		+ Totally redrawn R section now with 6 switchers to turn on and off as you prefer. This is a new challenge for your exercises.
-		+ Fixed an issue with the custom group, e.g. R.6		
-		+ upwarded the graphical bar's order in wpm graphical report. Now the current block is first, as in graphic number 3
-		+ Now new commands .t and .y are shown in the K-section
-		+ Implementing a screen cleaner to get rid of messy text in console
-	3.7.1
-		+Improved the custom map for exercise, section R.4, now with autofill of the most problematic character, from your historical report
-		=For graphical historical has been choosen the svg format that you can open up with almost every browser
-		+Added new words.txt (Italian only)
-		+Inserted new statistics for errors on a specific caracter based on how many of that character has been sent
-		+Changin report from txt to html for a better readability
-	3.1.8
-		Small fix to the prompt
-		+SUPER global stats, or historical statistics. Controlled by g and x parameters it saves your result across a long period of time. See K ssection to customize
-	Important before switching from 2.x to 3.x version:
-		run migrate within the same folder as cwapu.exe. If you got a good response, you may delete it and all 	the .pkl file as cwapu will use cwapu_settings.json as its default saved settings file.
-	3.0.1
-	= Fixed a non-global variable in R.5 section
-	3.0.0
-		+ Added migrate.py to switch from 2 to 3 version of cwapu, please run migrate.py (or .exe) then delete it.
-		+ switched from pickle to json and unified all settings for better and more easy implementations
-		+ Improved calculation for mistake in r exercise
-		+ New cw engine by GBUtile/CWzator

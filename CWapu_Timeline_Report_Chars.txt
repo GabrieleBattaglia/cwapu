@@ -1,0 +1,77 @@
+--- Report Statistico CWAPU generato il: Martedì 23 Dicembre 2025, 16:17 ---
+--- Riepilogo Attività ---
+   Numero totale di sessioni: 4 (per un totale di 6 minuti)
+  Prima sessione: Mercoledì 17 Dicembre 2025, 22:43
+  Ultima sessione: Martedì 23 Dicembre 2025, 16:14
+  Periodo coperto: 5 giorni, 17 ore, 30 minuti
+  Frequenza media: 0.80 esercizi/giorno
+--- Distribuzione Oraria delle Sessioni ---
+   - Fascia 22-23: 3 sessioni (62.81%), durata 3 minuti, 56 secondi
+   - Fascia 16-17: 1 sessioni (37.19%), durata 2 minuti, 19 secondi
+  Picco di attività orario: 22:00.
+  --- Suddivisione Giornaliera per Fasce di 6 Ore ---
+   - Fascia 19-24: 3 sessioni (62.81%), durata 3 minuti, 56 secondi
+   - Fascia 13-18: 1 sessioni (37.19%), durata 2 minuti, 19 secondi
+-------------------------
+  -- Distribuzione Settimanale ---
+   - Mercoledì: 3 sessioni (62.81%), durata 3 minuti, 56 secondi
+   - Martedì: 1 sessioni (37.19%), durata 2 minuti, 19 secondi
+   Picco di attività settimanale: Mercoledì.
+-------------------------
+--- Distribuzione Mensile ---
+   - Dicembre: 4 sessioni (100.00%), durata 6 minuti, 15 secondi
+   Picco di attività mensile: Dicembre.
+-------------------------
+--- Distribuzione Stagionale ---
+   - Inverno: 4 sessioni (100.00%), durata 6 minuti, 15 secondi
+--- Analisi della Performance: Velocità (WPM) ---
+  Velocità media reale: 44.56 WPM.
+  Consistenza WPM reale (dev. std): 6.54.
+-------------------------
+--- Analisi degli Errori sui Caratteri ---
+  Nessun carattere ha dati sufficienti per un'analisi dettagliata.
+--- Analisi Avanzata della Velocità (WPM) ---
+  Prospettive sulla Velocità Media:
+  - Media Aritmetica: 42.13 WPM (il valore 'classico')
+  - Media Ponderata (per durata): 44.02 WPM (dà più peso alle sessioni lunghe)
+  - Media Quadratica (RMS): 42.48 WPM (dà più peso alle velocità più alte)
+  Frequenza e Consistenza:
+  - Moda (velocità più frequente): 36 WPM
+  - Dispersione (Range Interquartile): 8.25 WPM (un valore basso indica grande consistenza)
+  - (Il 50% delle tue sessioni ha una velocità media tra 37.67 e 45.91 WPM)
+  Trend Recente:
+  - Velocità media nelle ultime 12 settimane: 42.13 WPM
+--- Analisi Avanzata ---
+  Accuratezza media complessiva: 69.03%.
+  Andamento accuratezza: da 68.33% (prima metà) a 69.72% (seconda metà). Tendenza: miglioramento.
+  --- Correlazione Velocità-Accuratezza ---
+  Coefficiente di correlazione: -0.31.
+  Interpretazione: Correlazione negativa debole: la velocità tende a diminuire quando l_accuratezza aumenta.
+-------------------------
+--- Analisi Durata Sessioni ---
+  Durata media di una sessione: 1 minuti, 33 secondi
+  Sessione più corta: 33 secondi (Mercoledì 17 Dicembre 2025).
+  Sessione più lunga: 2 minuti, 19 secondi (Martedì 23 Dicembre 2025).
+--- Analisi Granulare Velocità/Accuratezza ---
+  Media WPM su item corretti: 43.21
+  Media WPM su item errati: 47.55
+  Conclusione: al diminuire della velocità di ricezione, aumenta l'accuratezza.
+--- Confronto Feriali vs. Weekend ---
+  Giorni Feriali (Lun-Ven):
+  - Sessioni totali: 4
+  - WPM medio: 42.13
+  - Accuratezza media: 69.03%
+  - Tempo totale di pratica: 6 minuti
+  Nessuna sessione registrata nel weekend.
+--- Performance di Picco per Stagione ---
+  - Primavera: Nessun dato disponibile.
+  - Estate: Nessun dato disponibile.
+  - Autunno: Nessun dato disponibile.
+  - Inverno: Picco WPM 55, Picco Accuratezza 73.33%
+  Conclusione:
+  Hai raggiunto i tuoi picchi sia di velocità (55 WPM) che di accuratezza (73.33%) durante la stagione: Inverno.
+--- Analisi Evolutiva Dettagliata per Quartili ---
+Dati insufficienti per un'analisi dettagliata a quartili (meno di 8 sessioni).
+---------------------------------------------------------------------------
+        --- Fine Report - Bye da CWAPU 5.0.31, 2025-12-23 ---         
+---------------------------------------------------------------------------
