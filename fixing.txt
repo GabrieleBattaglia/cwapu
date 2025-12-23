@@ -1,4 +1,4 @@
-# PIANO DI TEST - CWAPU v5.0.25
+# PIANO DI TEST - CWAPU v5.0.31
 # Compilare inserendo [OK] o [FAIL] e eventuali note.
 
 ## VERIFICHE FINALI
@@ -7,7 +7,8 @@
     - *Verifica*: Statistiche accurate.
     ok cancellare.
 
-16. [ ] **Menu S (Statistiche)**:
+16. [OK]**Menu S (Statistiche)**:
    - *Verifica*: Non salva file HTML/TXT automaticamente all'inizio.
    - *Verifica*: Mostra report a video per ogni categoria (Words, Chars, QRZ).
    - *Verifica*: Chiede se salvare. Se sì, salva con nome specifico (es. `CWapu_Timeline_Report_Qrz.txt`).
+   Ok, cancellare.
