@@ -37,7 +37,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '5.0.31, 2025-12-23'
+VERSION = '5.1.0, 2025-12-23'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 RX_LSP_VARIATION_PROBABILITY = 0.3
 RX_LSP_RANGE_L = (30, 60)
@@ -1417,6 +1417,26 @@ def RxingContest(menu_config_scelta):
     last_enter_time = 0
     last_backspace_time = 0
 
+    # Audio Helpers
+    def play_async(msg, speed=None, pitch=None, l=None, s=None, p=None):
+        nonlocal current_audio
+        if current_audio:
+            current_audio.stop()
+        if msg:
+            s_val = speed if speed is not None else overall_speed
+            pi_val = pitch if pitch is not None else overall_pitch
+            l_val = l if l is not None else overall_dashes
+            sp_val = s if s is not None else overall_spaces
+            d_val = p if p is not None else overall_dots
+            current_audio, _ = CWzator(msg=msg, wpm=s_val, pitch=pi_val, l=l_val, s=sp_val, p=d_val, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, sync=False)
+
+    def play_sync_me(msg):
+        nonlocal current_audio
+        if current_audio:
+            current_audio.stop()
+        if msg:
+            CWzator(msg=msg, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, sync=True)
+
     try:
         while True:
             # Check duration
@@ -1446,7 +1466,7 @@ def RxingContest(menu_config_scelta):
                 if abs(dx_pitch - overall_pitch) > 5:
                     break
             
-            # LSP Logic (New v5.0.15)
+            # LSP Logic
             dx_l, dx_s, dx_p = 30, 50, 50
             if random.random() < RX_LSP_VARIATION_PROBABILITY:
                 dx_l = random.randint(*RX_LSP_RANGE_L)
@@ -1471,21 +1491,6 @@ def RxingContest(menu_config_scelta):
             if dx_speed > maxwpm: maxwpm = dx_speed
             sum_wpm += dx_speed
             
-            # Audio Helpers
-            def play_async(msg):
-                nonlocal current_audio
-                if current_audio:
-                    current_audio.stop()
-                if msg: 
-                    current_audio, _ = CWzator(msg=msg, wpm=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, sync=False)
-
-            def play_sync_me(msg):
-                nonlocal current_audio
-                if current_audio:
-                    current_audio.stop()
-                if msg:
-                    CWzator(msg=msg, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, sync=True)
-
             # --- STARTQSO ---
             current_stage = "CALL"
             remaining_patience = dx_patience 
@@ -1495,18 +1500,15 @@ def RxingContest(menu_config_scelta):
             current_buffer = []
             
             def redraw_line():
-                # NEW PROMPT FORMAT with Cleanup
                 if current_stage == "CALL":
                     prompt_label = "CALL:"
                 else:
                     prompt_label = f"{msg_call.upper()} 5NN NR:"
-                
-                # Clear line and reprint
                 line_content = f"RX #{session_calls+1} {prompt_label} {''.join(current_buffer)}"
                 print(f"\r{' '*79}\r{line_content}", end='', flush=True)
 
             # 1. DX Calls (Async)
-            play_async(msg_call)
+            play_async(msg_call, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
             
             redraw_line()
             item_start_time = dt.datetime.now()
@@ -1514,9 +1516,7 @@ def RxingContest(menu_config_scelta):
             while not qso_done:
                 try:
                     event_type, event_key = input_queue.get(timeout=0.1)
-                    
-                    if event_type != 'press':
-                        continue # Skip release or other events
+                    if event_type != 'press': continue 
 
                     if event_key == keyboard.Key.esc:
                         if current_audio: current_audio.stop()
@@ -1524,17 +1524,13 @@ def RxingContest(menu_config_scelta):
                         return
 
                     elif event_key == keyboard.Key.enter:
-                        # DEBOUNCE
                         now = time.time()
-                        if now - last_enter_time < 0.5:
-                            continue
+                        if now - last_enter_time < 0.5: continue
                         last_enter_time = now
 
                         if current_audio: current_audio.stop()
-                        
                         typed = "".join(current_buffer).upper().strip()
-                        print() 
-                        
+                        print()
                         my_serial_to_send = my_progressive + 1
                         
                         if current_stage == "CALL":
@@ -1543,13 +1539,11 @@ def RxingContest(menu_config_scelta):
                                 # CALL OK
                                 my_msg = f"{typed} 5NN {my_serial_to_send}"
                                 play_sync_me(my_msg)
-                                
                                 final_call_ok = True
                                 current_stage = "SERIAL"
                                 current_buffer = []
-                                
                                 time.sleep(0.2)
-                                play_async(msg_exchange)
+                                play_async(msg_exchange, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
                                 redraw_line()
                             elif typed == "":
                                 # Empty -> Me: TEST
@@ -1557,83 +1551,105 @@ def RxingContest(menu_config_scelta):
                                 if remaining_patience > 0:
                                     remaining_patience -= 1
                                     time.sleep(0.2)
-                                    play_async(msg_call)
+                                    play_async(msg_call, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
                                     redraw_line()
                                 else:
                                     print(f" {msg_full_for_stats.upper()} (NIL)")
                                     qso_done = True
+                            elif typed == "NIL":
+                                # Abort QSO (New v5.1.0)
+                                print(f" {msg_full_for_stats.upper()} (NIL)")
+                                qso_done = True
                             else:
-                                # Wrong
+                                # Wrong or Partial
                                 my_msg = f"{typed} 5NN {my_serial_to_send}"
                                 play_sync_me(my_msg)
-                                
                                 total_mistakes_calculated += collect_char_errors(target.lower(), typed.lower(), char_error_counts)
-                                if remaining_patience > 0:
-                                    remaining_patience -= 1
-                                    time.sleep(0.2)
-                                    play_async(msg_call) 
-                                    current_buffer = []
-                                    redraw_line()
+                                
+                                # Partial Match Logic (New v5.1.0)
+                                # Requires >= 2 chars AND being a valid substring of target
+                                if len(typed) >= 2 and typed in target:
+                                    if remaining_patience > 0:
+                                        remaining_patience -= 1
+                                        reaction = random.randint(1, 3)
+                                        time.sleep(0.2)
+                                        
+                                        if reaction == 1:
+                                            # Mode A: "R {call}" (Standard retry)
+                                            play_async(f"R {msg_call}", speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
+                                        elif reaction == 2:
+                                            # Mode B: "R {call} {call}" (Double repeat)
+                                            play_async(f"R {msg_call} {msg_call}", speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
+                                        else:
+                                            # Mode C: "R {call}" (Slow retry)
+                                            dx_speed = int(dx_speed * 0.9)
+                                            play_async(f"R {msg_call}", speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
+                                        
+                                        current_buffer = []
+                                        redraw_line()
+                                    else:
+                                        print(f" {msg_full_for_stats.upper()} (NIL)")
+                                        qso_done = True
                                 else:
-                                    print(f" {msg_full_for_stats.upper()} (NIL)")
-                                    qso_done = True
+                                    # Totally Wrong
+                                    if remaining_patience > 0:
+                                        remaining_patience -= 1
+                                        time.sleep(0.2)
+                                        play_async(msg_call, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p) 
+                                        current_buffer = []
+                                        redraw_line()
+                                    else:
+                                        print(f" {msg_full_for_stats.upper()} (NIL)")
+                                        qso_done = True
                         
                         else: # current_stage == "SERIAL"
                             target = msg_serial_only.upper()
                             if typed == target:
-                                # SERIAL OK (Operator is Silent)
+                                # SERIAL OK
                                 final_serial_ok = True
                                 qso_done = True
                                 correct_calls += 1
-                                my_progressive += 1 # Increment my serial ONLY on success
+                                my_progressive += 1
                                 callsget.append(msg_full_for_stats)
-                                item_details.append({'rwpm': dx_speed, 'correct': True}) # Changed key to 'rwpm' for timeline compatibility
-                                
-                                # DX: Formula chiusura (Async)
+                                item_details.append({'rwpm': dx_speed, 'correct': True}) 
                                 final_msg = random.choice(["TU", "73", "GL", "R", ""])
                                 if final_msg:
                                     time.sleep(0.2)
-                                    play_async(final_msg)
+                                    play_async(final_msg, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
                             elif typed == "":
-                                # Empty -> Me: TEST (Sync)
                                 play_sync_me("TEST")
                                 if remaining_patience > 0:
                                     remaining_patience -= 1
                                     time.sleep(0.2)
-                                    play_async(msg_serial_only)
-                                    # No patience number displayed
+                                    play_async(msg_serial_only, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
                                     redraw_line()
                                 else:
                                     print(f" {msg_full_for_stats.upper()} (NIL)")
                                     qso_done = True
+                            elif typed == "NIL":
+                                print(f" {msg_full_for_stats.upper()} (NIL)")
+                                qso_done = True
                             else:
-                                # Wrong (Operator is Silent)
+                                # Wrong
                                 total_mistakes_calculated += collect_char_errors(target.lower(), typed.lower(), char_error_counts)
                                 if remaining_patience > 0:
                                     remaining_patience -= 1
                                     time.sleep(0.2)
-                                    play_async(msg_serial_only) # DX repeats only serial
-                                    # No patience number displayed
+                                    play_async(msg_serial_only, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p) 
                                     current_buffer = []
                                     redraw_line()
                                 else:
                                     print(f" {msg_full_for_stats.upper()} (NIL)")
                                     qso_done = True
                         
-                        # FLUSH QUEUE
                         while not input_queue.empty():
-                            try:
-                                input_queue.get_nowait()
-                            except queue.Empty:
-                                break
+                            try: input_queue.get_nowait()
+                            except queue.Empty: break
 
                     elif event_key == keyboard.Key.backspace:
-                        # DEBOUNCE BACKSPACE (Fix v5.0.23)
                         now = time.time()
-                        if now - last_backspace_time < 0.15:
-                            continue
+                        if now - last_backspace_time < 0.15: continue
                         last_backspace_time = now
-
                         if current_buffer:
                             current_buffer.pop()
                             redraw_line()
@@ -1652,23 +1668,21 @@ def RxingContest(menu_config_scelta):
                          if current_audio: current_audio.stop()
                          play_sync_me("?")
                          msg_to_rpt = msg_call if current_stage == "CALL" else msg_serial_only
-                         play_async(msg_to_rpt)
+                         play_async(msg_to_rpt, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
                     
                     elif event_key == keyboard.Key.f5: 
                          if current_audio: current_audio.stop()
                          play_sync_me("?")
-                         play_async(msg_call)
+                         play_async(msg_call, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
 
                     elif event_key == keyboard.Key.f6: 
                          if current_audio: current_audio.stop()
                          play_sync_me("?")
-                         play_async(msg_serial_only)
+                         play_async(msg_serial_only, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
                     
-                    # Alt+W check
                     elif hasattr(event_key, 'char') and event_key.char == 'w' and 'alt' in current_modifiers:
                         if current_audio: current_audio.stop()
                         current_buffer = []
-                        # Clean line on wipe too
                         print(f"\r{' '*79}", end='\r', flush=True)
                         redraw_line()
 
@@ -1677,56 +1691,44 @@ def RxingContest(menu_config_scelta):
                             current_buffer.append(event_key.char)
                             print(event_key.char, end='', flush=True)
 
-                except queue.Empty:
-                    pass
+                except queue.Empty: pass
             
             if not final_call_ok or not final_serial_ok:
-                item_details.append({'rwpm': dx_speed, 'correct': False}) # Changed key to 'rwpm'
+                item_details.append({'rwpm': dx_speed, 'correct': False})
 
             if final_call_ok: total_calls_correct += 1
             if final_serial_ok: total_serials_correct += 1
             
-            # Wait for final DX message to end before pause
             if current_audio: current_audio.wait_done()
             time.sleep(1.0)
             
             active_exerctime += (dt.datetime.now() - item_start_time)
             session_calls += 1
-            pass 
 
     finally:
         if current_audio: current_audio.stop()
         play_sync_me("_ + QRT TU E E")
         stop_event.set()
         listener.stop()
-        # Flush input buffer
         if os.name == 'nt':
             import msvcrt
-            while msvcrt.kbhit():
-                msvcrt.getch()
+            while msvcrt.kbhit(): msvcrt.getch()
         else:
             import termios, sys
-            try:
-                termios.tcflush(sys.stdin, termios.TCIOFLUSH)
-            except:
-                pass
+            try: termios.tcflush(sys.stdin, termios.TCIOFLUSH)
+            except: pass
         
-        # --- SALVATAGGIO STATISTICHE (Logica completa come in Rxing) ---
+        # --- STATS SAVING ---
         elapsed_total = (dt.datetime.now() - start_time).total_seconds()
         wrong_calls = session_calls - correct_calls
-        
-        # 1. Update totali
         stats = app_data['rxing_stats_qrz']
         stats['sessions'] += 1
         stats['total_calls'] += session_calls
         stats['total_correct'] += correct_calls
         stats['total_wrong_items'] += wrong_calls
         stats['total_time_seconds'] += elapsed_total
-        
-        # 2. Dati storici dettagliati
         avg_wpm_calc = sum_wpm / session_calls if session_calls > 0 else 0
         send_char = sum(sent_chars_detail_this_session.values())
-        
         session_data_for_history = {
             'timestamp_iso': start_time.isoformat(),
             'duration_seconds': active_exerctime.total_seconds(),
@@ -1741,63 +1743,43 @@ def RxingContest(menu_config_scelta):
             'total_errors_chars_session': total_mistakes_calculated,
             'sent_chars_detail_session': sent_chars_detail_this_session
         }
-
-        # 3. Gestione log storico
         historical_data = app_data['historical_rx_data_qrz']
         historical_rx_log = historical_data.get('sessions_log', [])
         historical_rx_log.append(session_data_for_history)
-        
-        # Rotazione
         historical_settings = app_data['historical_rx_settings']
         g = historical_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
-        while len(historical_rx_log) > g:
-            historical_rx_log.pop(0)
-            
+        while len(historical_rx_log) > g: historical_rx_log.pop(0)
         historical_data['sessions_log'] = historical_rx_log
-        
-        # Aggiornamento contatori report (semplificato)
         overall_settings_changed = True
 
-        # --- REPORT A VIDEO (Uniformato a Rxing) ---
-        print(_("\nÈ finita! Ora vediamo cosa abbiamo ottenuto."))
+        # --- REPORT A VIDEO ---
+        print(_('\nÈ finita! Ora vediamo cosa abbiamo ottenuto.'))
         percentage_correct = correct_calls * 100 / session_calls if session_calls > 0 else 0
         call_acc = total_calls_correct * 100 / session_calls if session_calls > 0 else 0
         serial_acc = total_serials_correct * 100 / session_calls if session_calls > 0 else 0
-        
         print(_('In questa sessione #{sessions}, ti ho inviato {calls} QRZ e ne hai ricevuti {callsget_len}: {percentage:.1f}%').format(sessions=stats['sessions'], calls=session_calls, callsget_len=correct_calls, percentage=percentage_correct))
         print(_('\tCorrettezza Nominativi: {total_calls_correct}/{calls} ({call_acc:.1f}%)').format(total_calls_correct=total_calls_correct, calls=session_calls, call_acc=call_acc))
         print(_('\tCorrettezza Progressivi: {total_serials_correct}/{calls} ({serial_acc:.1f}%)').format(total_serials_correct=total_serials_correct, calls=session_calls, serial_acc=serial_acc))
         print(_('Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la massima di {maxwpm:.2f}: pari ad una variazione di {range_wpm:.2f} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM.').format(minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm - minwpm, average_wpm=avg_wpm_calc))
-        
         if total_mistakes_calculated > 0:
             print(_('Carattere: errori = Intervallo di Confidenza Errore (Wilson)'))
             sorted_errors = sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0]))
             for char, errori in sorted_errors:
                 inviati = sent_chars_detail_this_session.get(char, 0)
-                limite_inferiore = wilson_score_lower_bound(errori, inviati) * 100
-                limite_superiore = wilson_score_upper_bound(errori, inviati) * 100
-                print(_("    '{char_display}': {errori} errori su {inviati} invii. Tasso errore stimato: [{inf:.1f}% - {sup:.1f}%]").format(
-                    char_display=char.upper(), 
-                    errori=errori, 
-                    inviati=inviati, 
-                    inf=limite_inferiore, 
-                    sup=limite_superiore
-                ))
+                inf = wilson_score_lower_bound(errori, inviati) * 100
+                sup = wilson_score_upper_bound(errori, inviati) * 100
+                print(_("    '{char_display}': {errori} errori su {inviati} invii. Tasso errore stimato: [{inf:.1f}% - {sup:.1f}%]").format(char_display=char.upper(), errori=errori, inviati=inviati, inf=inf, sup=sup))
             mistake_percentage = total_mistakes_calculated * 100 / send_char if send_char > 0 else 0
             print(_('\nErrori totali: {global_mistakes} su {send_char} = {mistake_percentage:.2f}%').format(global_mistakes=total_mistakes_calculated, send_char=send_char, mistake_percentage=mistake_percentage))
         
-        # --- SALVATAGGIO DIARIO ---
+        # --- DIARY SAVING ---
         try:
             f = open('CWapu_Diary.txt', 'a', encoding='utf-8')
             date_str = _('{}/{}/{}').format(lt()[0], lt()[1], lt()[2])
             time_str = _('{}, {}').format(lt()[3], lt()[4])
             f.write(_('\nEsercizio di ricezione CONTEST #{sessions} eseguito il {date} alle {time} minuti:\n').format(sessions=stats['sessions'], date=date_str, time=time_str))
-            
-            # --- NEW: Added duration line ---
             duration_str = str(active_exerctime).split('.')[0]
             f.write(_('Durata: {duration}\n').format(duration=duration_str))
-            # --------------------------------
-            
             f.write(_('In questa sessione, ti ho inviato {calls} QRZ e ne hai ricevuti {callsget_len}: {percentage:.1f}%').format(calls=session_calls, callsget_len=correct_calls, percentage=percentage_correct) + '\n')
             f.write(_('\tCorrettezza Nominativi: {total_calls_correct}/{calls} ({call_acc:.1f}%)').format(total_calls_correct=total_calls_correct, calls=session_calls, call_acc=call_acc) + '\n')
             f.write(_('\tCorrettezza Progressivi: {total_serials_correct}/{calls} ({serial_acc:.1f}%)').format(total_serials_correct=total_serials_correct, calls=session_calls, serial_acc=serial_acc) + '\n')
@@ -1812,13 +1794,9 @@ def RxingContest(menu_config_scelta):
             f.write('***\n')
             f.close()
             print(_('Rapporto salvato su CWapu_Diary.txt'))
-        except Exception:
-            pass
-
-        duration_str = str(active_exerctime).split('.')[0]
+        except Exception: pass
         print(_('\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.').format(session_number=stats['sessions'], duration=duration_str))
         key(_("Premi un tasto per tornare al menu..."))
-
 
 def Rxing():
     global app_data, overall_settings_changed, overall_speed, words, customized_set
