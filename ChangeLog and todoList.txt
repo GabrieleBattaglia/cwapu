@@ -3,6 +3,17 @@ Todo:
 11.
 
 ChangeLog:
+	5.1.3 (2025-12-24)
+		+ Miglioramento Workflow Contest (R8):
+			- Introdotto tasto rapido F8 per inviare "NIL" e abortire immediatamente il QSO corrente, passando al successivo.
+			- Rimosso il vecchio comando testuale "NIL" (digitare N-I-L + Invio) per snellire l'operatività.
+	5.1.2 (2025-12-24)
+		+ Bugfix Contest Mode:
+			- Le richieste di ripetizione manuale (F5 Call, F6 Serial, F7 Repeat) ora consumano correttamente la "pazienza" del DX. Se la pazienza si esaurisce, il DX chiude il QSO con NIL.
+			- Corretto il tasto F7 (Rpt) che ora ripete l'intero scambio (R 5NN #) invece del solo seriale quando si è nella fase 2.
+	5.1.1 (2025-12-24)
+		+ Intelligenza DX:
+			- Nell'esercizio Contest (R8), la riduzione della velocità in caso di ripetizione rallentata è ora casuale (10-30%) invece che fissa al 10%.
 	5.1.0 (2025-12-23)
 		+ Intelligenza DX Potenziata (Contest):
 			- Reazione al "Match Parziale" (>= 2 chars corretti): Il DX aiuta l'operatore ripetendo il call (singolo, doppio o rallentato) invece di dare errore secco.

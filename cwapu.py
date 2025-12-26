@@ -37,7 +37,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '5.1.0, 2025-12-23'
+VERSION = '5.1.3, 2025-12-24'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 RX_LSP_VARIATION_PROBABILITY = 0.3
 RX_LSP_RANGE_L = (30, 60)
@@ -1359,7 +1359,7 @@ def RxingContest(menu_config_scelta):
     else:
         limit = dgt(prompt=_("Quanti minuti? "), kind='i', imin=1, imax=60, default=10)
 
-    print(_("Comandi rapidi: F9/F10 (WPM), F5 (Call), F6 (Serial), F7 (Rpt), Alt+W (Wipe), ESC (Exit), Enter (Check)"))
+    print(_("Comandi rapidi: F9/F10 (WPM), F5 (Call), F6 (Serial), F7 (Rpt), F8 (NIL), Alt+W (Wipe), ESC (Exit), Enter (Check)"))
     key(_("Premi un tasto per iniziare..."))
     print(f"\r{' '*79}\r", end='', flush=True) # Clean initial line
     CWzator(msg="CQ CQ TEST K", wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, sync=True)
@@ -1556,10 +1556,6 @@ def RxingContest(menu_config_scelta):
                                 else:
                                     print(f" {msg_full_for_stats.upper()} (NIL)")
                                     qso_done = True
-                            elif typed == "NIL":
-                                # Abort QSO (New v5.1.0)
-                                print(f" {msg_full_for_stats.upper()} (NIL)")
-                                qso_done = True
                             else:
                                 # Wrong or Partial
                                 my_msg = f"{typed} 5NN {my_serial_to_send}"
@@ -1582,7 +1578,7 @@ def RxingContest(menu_config_scelta):
                                             play_async(f"R {msg_call} {msg_call}", speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
                                         else:
                                             # Mode C: "R {call}" (Slow retry)
-                                            dx_speed = int(dx_speed * 0.9)
+                                            dx_speed = int(dx_speed * random.uniform(0.7, 0.9))
                                             play_async(f"R {msg_call}", speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
                                         
                                         current_buffer = []
@@ -1626,9 +1622,6 @@ def RxingContest(menu_config_scelta):
                                 else:
                                     print(f" {msg_full_for_stats.upper()} (NIL)")
                                     qso_done = True
-                            elif typed == "NIL":
-                                print(f" {msg_full_for_stats.upper()} (NIL)")
-                                qso_done = True
                             else:
                                 # Wrong
                                 total_mistakes_calculated += collect_char_errors(target.lower(), typed.lower(), char_error_counts)
@@ -1667,18 +1660,39 @@ def RxingContest(menu_config_scelta):
                     elif event_key == keyboard.Key.f7:
                          if current_audio: current_audio.stop()
                          play_sync_me("?")
-                         msg_to_rpt = msg_call if current_stage == "CALL" else msg_serial_only
-                         play_async(msg_to_rpt, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
+                         if remaining_patience > 0:
+                             remaining_patience -= 1
+                             msg_to_rpt = msg_call if current_stage == "CALL" else msg_exchange
+                             play_async(msg_to_rpt, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
+                         else:
+                             print(f" {msg_full_for_stats.upper()} (NIL)")
+                             qso_done = True
+                    
+                    elif event_key == keyboard.Key.f8:
+                         if current_audio: current_audio.stop()
+                         play_sync_me("NIL")
+                         print(f" {msg_full_for_stats.upper()} (NIL)")
+                         qso_done = True
                     
                     elif event_key == keyboard.Key.f5: 
                          if current_audio: current_audio.stop()
                          play_sync_me("?")
-                         play_async(msg_call, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
+                         if remaining_patience > 0:
+                             remaining_patience -= 1
+                             play_async(msg_call, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
+                         else:
+                             print(f" {msg_full_for_stats.upper()} (NIL)")
+                             qso_done = True
 
                     elif event_key == keyboard.Key.f6: 
                          if current_audio: current_audio.stop()
                          play_sync_me("?")
-                         play_async(msg_serial_only, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
+                         if remaining_patience > 0:
+                             remaining_patience -= 1
+                             play_async(msg_serial_only, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
+                         else:
+                             print(f" {msg_full_for_stats.upper()} (NIL)")
+                             qso_done = True
                     
                     elif hasattr(event_key, 'char') and event_key.char == 'w' and 'alt' in current_modifiers:
                         if current_audio: current_audio.stop()
