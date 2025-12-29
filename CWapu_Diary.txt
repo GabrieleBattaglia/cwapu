@@ -971,3 +971,91 @@ Elenco delle parole copiate male:
 	(21) TX: AGRESTO, RX: AGRESO, DIF: T;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #509 eseguito il 2025/12/29 alle 19, 58 minuti:
+In questa sessione #509, ti ho inviato 79 Parole e ne hai ricevuti 42: 53.2%
+	25 di questi sono stati ricevuti al primo ascolto: 59.5%
+	mentre 17 Parole al secondo tentativo: 40.5%.
+Durante la sessione, la tua velocità minima è stata 36.00, la massima di 48.00: pari ad una variazione di 12.00 WPM.
+	La velocità media di ricezione è di: 42.36 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 18 errori su 65 invii. Tasso errore stimato: [18.3% - 39.6%]    'E': 9 errori su 61 invii. Tasso errore stimato: [8.0% - 25.7%]    'T': 8 errori su 29 invii. Tasso errore stimato: [14.7% - 45.7%]    'A': 7 errori su 70 invii. Tasso errore stimato: [4.9% - 19.2%]    'M': 6 errori su 18 invii. Tasso errore stimato: [16.3% - 56.3%]    'R': 5 errori su 42 invii. Tasso errore stimato: [5.2% - 25.0%]    'N': 4 errori su 31 invii. Tasso errore stimato: [5.1% - 28.9%]    'D': 3 errori su 14 invii. Tasso errore stimato: [7.6% - 47.6%]    'G': 3 errori su 7 invii. Tasso errore stimato: [15.8% - 75.0%]    'L': 3 errori su 31 invii. Tasso errore stimato: [3.3% - 24.9%]    'C': 2 errori su 33 invii. Tasso errore stimato: [1.7% - 19.6%]    'S': 2 errori su 32 invii. Tasso errore stimato: [1.7% - 20.1%]    'U': 2 errori su 14 invii. Tasso errore stimato: [4.0% - 39.9%]    'V': 2 errori su 15 invii. Tasso errore stimato: [3.7% - 37.9%]    'O': 1 errori su 48 invii. Tasso errore stimato: [0.4% - 10.9%]    'P': 1 errori su 17 invii. Tasso errore stimato: [1.0% - 27.0%]    'Y': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'Z': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 78 su 558 = 13.98%
+Caratteri mai sbagliati: B F H J K À Ì Ò
+Elenco delle parole copiate male:
+	(6) TX: MOLALE, RX: MOLARE, DIF: L;
+	(9) TX: PIEGAR, RX: PIEDARE, DIF: GE;
+	(11) TX: STEAMERS, RX: STERZARE, DIF: RZMRS;
+	(12) TX: BASCULLE, RX: BASCULLA, DIF: E;
+	(13) TX: IMPICCIO, RX: IMICCE, DIF: PIO;
+	(16) TX: REDITURI, RX: RIDETIVA, DIF: REDITUDETIVA;
+	(17) TX: CUCITORI, RX: CUCITOI, DIF: R;
+	(21) TX: STORY, RX: STORC, DIF: Y;
+	(22) TX: LETAMAI, RX: LIETAN, DIF: IMAI;
+	(25) TX: FARADICO, RX: FARACINO, DIF: DC;
+	(28) TX: MUSAICI, RX: MUSICI, DIF: A;
+	(30) TX: TOLLETTI, RX: TOLLETTE, DIF: I;
+	(37) TX: NUOCENTE, RX: NUOCERE, DIF: NT;
+	(38) TX: BORSAIE, RX: BORSATE, DIF: I;
+	(39) TX: ALLEANO, RX: ALLENO, DIF: A;
+	(40) TX: CEDETTE, RX: CEDETE, DIF: T;
+	(42) TX: DELIBERA, RX: DELIBERE, DIF: A;
+	(46) TX: PORTIATE, RX: PORTATE, DIF: I;
+	(48) TX: DOMINAVI, RX: DOMINVAVI, DIF: V;
+	(49) TX: RECIDERE, RX: RECEDERE, DIF: I;
+	(51) TX: PREMIUM, RX: PREMEVA, DIF: IUM;
+	(52) TX: ESENTATI, RX: ESTERE, DIF: TNTATI;
+	(54) TX: PACIALE, RX: PACIANI, DIF: LE;
+	(57) TX: ANTIROCK, RX: ANIROCK, DIF: T;
+	(58) TX: LEGGEVO, RX: LAMBIVO, DIF: EGGE;
+	(61) TX: COLONIE, RX: COLONI, DIF: E;
+	(62) TX: SPREMANO, RX: SPREMATO, DIF: N;
+	(64) TX: MIMAVO, RX: MINAVO, DIF: M;
+	(66) TX: LANERIA, RX: LAMINA, DIF: MIERI;
+	(67) TX: PREDONI, RX: PREDONE, DIF: I;
+	(70) TX: LILIALI, RX: LILIANE, DIF: LI;
+	(72) TX: BACCANTE, RX: BACANTE, DIF: C;
+	(73) TX: MORFISMI, RX: MORFINE, DIF: SMI;
+	(74) TX: SPERANZA, RX: SPERANZE, DIF: A;
+	(76) TX: BIANCATE, RX: BIACATE, DIF: N;
+	(78) TX: NIELLANO, RX: NELLANO, DIF: I;
+	(79) TX: AVARIE, RX: AVARSE, DIF: I;
+Nota: nessuna
+***
+
+Esercizio di ricezione #4 eseguito il 2025/12/29 alle 20, 4 minuti:
+In questa sessione #4, ti ho inviato 69 Lettere e numeri e ne hai ricevuti 46: 66.7%
+	39 di questi sono stati ricevuti al primo ascolto: 84.8%
+	mentre 7 Lettere e numeri al secondo tentativo: 15.2%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 61.00: pari ad una variazione di 26.00 WPM.
+	La velocità media di ricezione è di: 50.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '0': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    '1': 2 errori su 8 invii. Tasso errore stimato: [7.1% - 59.1%]    '8': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    'G': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'H': 2 errori su 2 invii. Tasso errore stimato: [34.2% - 100.0%]    'S': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'U': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.9%]    'V': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'Y': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    '2': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    '4': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    '6': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'B': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'C': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'F': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'J': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'K': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'L': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'M': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'O': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'P': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]
+
+Errori totali: 30 su 138 = 21.74%
+Caratteri mai sbagliati: 3 5 7 9 A D E I N Q R T W X Z
+Elenco delle parole copiate male:
+	(6) TX: VS, RX: 4S, DIF: V;
+	(11) TX: IC, RX: IK, DIF: C;
+	(20) TX: L0, RX: L1, DIF: 0;
+	(22) TX: K8, RX: K7, DIF: 8;
+	(23) TX: HB, RX: 56, DIF: HB;
+	(33) TX: M6, RX: NB, DIF: M6;
+	(37) TX: PQ, RX: RQ, DIF: P;
+	(41) TX: S1, RX: S2, DIF: 1;
+	(43) TX: G2, RX: NO, DIF: G2;
+	(45) TX: Y2, RX: C2, DIF: Y;
+	(46) TX: UN, RX: VN, DIF: U;
+	(48) TX: Q1, RX: QJ, DIF: 1;
+	(49) TX: CS, RX: CI, DIF: S;
+	(50) TX: TL, RX: TP, DIF: L;
+	(51) TX: HO, RX: 5Q, DIF: HO;
+	(53) TX: 5S, RX: 5H, DIF: S;
+	(54) TX: 1F, RX: 1L, DIF: F;
+	(55) TX: UV, RX: VV, DIF: UV;
+	(56) TX: LK, RX: LX, DIF: K;
+	(57) TX: T4, RX: TV, DIF: 4;
+	(59) TX: 0Y, RX: 9O, DIF: 0Y;
+	(61) TX: J8, RX: W7, DIF: J8;
+	(69) TX: GJ, RX: MJ, DIF: G;
+Nota: nessuna
+***
