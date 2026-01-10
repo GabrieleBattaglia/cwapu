@@ -1092,3 +1092,44 @@ Elenco delle parole copiate male:
 	(34) TX: REZZO, RX: RIZZO, DIF: E;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #511 eseguito il 2026/1/10 alle 12, 11 minuti:
+In questa sessione #511, ti ho inviato 63 Parole e ne hai ricevuti 36: 57.1%
+	20 di questi sono stati ricevuti al primo ascolto: 55.6%
+	mentre 16 Parole al secondo tentativo: 44.4%.
+Durante la sessione, la tua velocità minima è stata 25.00, la massima di 42.00: pari ad una variazione di 17.00 WPM.
+	La velocità media di ricezione è di: 33.86 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 16 errori su 58 invii. Tasso errore stimato: [17.8% - 40.2%]    'I': 13 errori su 55 invii. Tasso errore stimato: [14.4% - 36.3%]    'R': 4 errori su 41 invii. Tasso errore stimato: [3.9% - 22.5%]    'S': 3 errori su 30 invii. Tasso errore stimato: [3.5% - 25.6%]    'T': 3 errori su 34 invii. Tasso errore stimato: [3.0% - 23.0%]    'O': 2 errori su 33 invii. Tasso errore stimato: [1.7% - 19.6%]    'A': 1 errori su 38 invii. Tasso errore stimato: [0.5% - 13.5%]    'B': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'C': 1 errori su 24 invii. Tasso errore stimato: [0.7% - 20.2%]    'D': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'G': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'H': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'N': 1 errori su 13 invii. Tasso errore stimato: [1.4% - 33.3%]    'À': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]
+
+Errori totali: 49 su 442 = 11.09%
+Caratteri mai sbagliati: F L M P U V X Z Ò
+Elenco delle parole copiate male:
+	(1) TX: ACCOCCO, RX: ACCOCCIO, DIF: I;
+	(3) TX: MONOASSE, RX: MONOARSI, DIF: RSE;
+	(4) TX: SACCENSI, RX: SUCCENSI, DIF: A;
+	(5) TX: TECTITE, RX: TECTITI, DIF: E;
+	(6) TX: ARREDERÀ, RX: ARRIDRÌ, DIF: EEÀ;
+	(7) TX: LECCHE, RX: LECCHI, DIF: E;
+	(13) TX: DISVII, RX: DISVESI, DIF: ESI;
+	(16) TX: LIETEZZA, RX: LITEZZA, DIF: E;
+	(18) TX: BOLLISTE, RX: BOLLISE, DIF: T;
+	(21) TX: MOSAISMO, RX: MOSAIMO, DIF: S;
+	(25) TX: TALLITI, RX: TALLITE, DIF: I;
+	(26) TX: SGHERRI, RX: SMURRAGE, DIF: GHEI;
+	(32) TX: TETTI, RX: TETTA, DIF: I;
+	(34) TX: ARILLI, RX: ARILLE, DIF: I;
+	(37) TX: RIBADIRE, RX: RIBARI, DIF: DRE;
+	(38) TX: SGOMBERE, RX: SGOMBRARE, DIF: E;
+	(43) TX: TRAMEZZI, RX: TRAMIZZA, DIF: EI;
+	(44) TX: ETRUSCHE, RX: BRUSCHI, DIF: ETE;
+	(45) TX: SERVETTE, RX: SERVITE, DIF: ET;
+	(46) TX: DONEREI, RX: DONERE, DIF: I;
+	(48) TX: POPLITEI, RX: OPPLITI, DIF: OOE;
+	(51) TX: TINCONI, RX: TECNOLO, DIF: ICNI;
+	(54) TX: ERICHE, RX: ELICHE, DIF: R;
+	(56) TX: SIEPE, RX: SEPE, DIF: I;
+	(61) TX: XEROBIE, RX: XENOSI, DIF: RBE;
+	(62) TX: DENIGRAI, RX: DENIGRARE, DIF: I;
+	(63) TX: PENDEI, RX: PENDE, DIF: I;
+Nota: nessuna
+***
