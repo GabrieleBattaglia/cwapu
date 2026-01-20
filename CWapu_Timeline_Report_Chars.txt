@@ -1,79 +1,106 @@
---- Report Statistico CWAPU generato il: Sabato 10 Gennaio 2026, 12:12 ---
+--- Report Statistico CWAPU generato il: Martedì 20 Gennaio 2026, 18:07 ---
 --- Riepilogo Attività ---
-   Numero totale di sessioni: 5 (per un totale di 9 minuti)
+   Numero totale di sessioni: 7 (per un totale di 18 minuti)
   Prima sessione: Mercoledì 17 Dicembre 2025, 22:43
-  Ultima sessione: Lunedì 29 Dicembre 2025, 20:00
-  Periodo coperto: 11 giorni, 21 ore, 16 minuti
-  Frequenza media: 0.45 esercizi/giorno
+  Ultima sessione: Martedì 20 Gennaio 2026, 18:02
+  Periodo coperto: 1 mesi, 3 giorni, 19 ore, 18 minuti
+  Frequenza media: 0.21 esercizi/giorno
 --- Distribuzione Oraria delle Sessioni ---
-   - Fascia 22-23: 3 sessioni (43.03%), durata 3 minuti, 56 secondi
-   - Fascia 20-21: 1 sessioni (31.49%), durata 2 minuti, 52 secondi
-   - Fascia 16-17: 1 sessioni (25.48%), durata 2 minuti, 19 secondi
-  Picco di attività orario: 22:00.
+   - Fascia 09-10: 1 sessioni (29.85%), durata 5 minuti, 30 secondi
+   - Fascia 22-23: 3 sessioni (21.34%), durata 3 minuti, 56 secondi
+   - Fascia 18-19: 1 sessioni (20.56%), durata 3 minuti, 47 secondi
+   - Fascia 20-21: 1 sessioni (15.61%), durata 2 minuti, 52 secondi
+   - Fascia 16-17: 1 sessioni (12.63%), durata 2 minuti, 19 secondi
+  Picco di attività orario: 09:00.
   --- Suddivisione Giornaliera per Fasce di 6 Ore ---
-   - Fascia 19-24: 4 sessioni (74.52%), durata 6 minuti, 48 secondi
-   - Fascia 13-18: 1 sessioni (25.48%), durata 2 minuti, 19 secondi
+   - Fascia 19-24: 4 sessioni (36.95%), durata 6 minuti, 48 secondi
+   - Fascia 13-18: 2 sessioni (33.20%), durata 6 minuti, 7 secondi
+   - Fascia 07-12: 1 sessioni (29.85%), durata 5 minuti, 30 secondi
 -------------------------
   -- Distribuzione Settimanale ---
-   - Mercoledì: 3 sessioni (43.03%), durata 3 minuti, 56 secondi
-   - Lunedì: 1 sessioni (31.49%), durata 2 minuti, 52 secondi
-   - Martedì: 1 sessioni (25.48%), durata 2 minuti, 19 secondi
-   Picco di attività settimanale: Mercoledì.
+   - Martedì: 2 sessioni (33.20%), durata 6 minuti, 7 secondi
+   - Domenica: 1 sessioni (29.85%), durata 5 minuti, 30 secondi
+   - Mercoledì: 3 sessioni (21.34%), durata 3 minuti, 56 secondi
+   - Lunedì: 1 sessioni (15.61%), durata 2 minuti, 52 secondi
+   Picco di attività settimanale: Martedì.
 -------------------------
 --- Distribuzione Mensile ---
-   - Dicembre: 5 sessioni (100.00%), durata 9 minuti, 8 secondi
-   Picco di attività mensile: Dicembre.
+   - Gennaio: 2 sessioni (50.42%), durata 9 minuti, 17 secondi
+   - Dicembre: 5 sessioni (49.58%), durata 9 minuti, 8 secondi
+   Picco di attività mensile: Gennaio.
 -------------------------
 --- Distribuzione Stagionale ---
-   - Inverno: 5 sessioni (100.00%), durata 9 minuti, 8 secondi
+   - Inverno: 7 sessioni (100.00%), durata 18 minuti, 26 secondi
 --- Analisi della Performance: Velocità (WPM) ---
-  Velocità media reale: 47.36 WPM.
-  Consistenza WPM reale (dev. std): 7.62.
+  Velocità media reale: 46.47 WPM.
+  Consistenza WPM reale (dev. std): 6.38.
 -------------------------
 --- Analisi degli Errori sui Caratteri ---
   Top 10 Caratteri Peggiori (ordinati per criticità statistica):
-  - Carattere 's': Errore stimato 26.54% ±15.51% (6 errori su 26 invii)
-  - Carattere 'l': Errore stimato 15.17% ±12.64% (2 errori su 22 invii)
-  Approfondimento sull'evoluzione del carattere 's':
-  Tasso errore prima metà: 23.08%.
-  Tasso errore seconda metà: 23.08%.
-  Tendenza per 's': peggioramento o stabile.
+  - Carattere 'h': Errore stimato 54.57% ±17.02% (16 errori su 29 invii)
+  - Carattere 'b': Errore stimato 48.56% ±16.59% (15 errori su 31 invii)
+  - Carattere 'g': Errore stimato 35.07% ±15.32% (11 errori su 33 invii)
+  - Carattere 'v': Errore stimato 32.49% ±13.93% (12 errori su 39 invii)
+  - Carattere 'i': Errore stimato 33.26% ±15.31% (10 errori su 32 invii)
+  - Carattere 'u': Errore stimato 32.17% ±16.31% (8 errori su 27 invii)
+  - Carattere 'p': Errore stimato 32.04% ±17.13% (7 errori su 24 invii)
+  - Carattere 's': Errore stimato 25.92% ±12.01% (11 errori su 46 invii)
+  - Carattere 'z': Errore stimato 25.60% ±14.21% (7 errori su 31 invii)
+  - Carattere 'r': Errore stimato 23.71% ±12.64% (8 errori su 38 invii)
+  Approfondimento sull'evoluzione del carattere 'h':
+  Tasso errore prima metà: 12.50%.
+  Tasso errore seconda metà: 71.43%.
+  Tendenza per 'h': peggioramento o stabile.
 ---Top 10 Caratteri Migliori (ordinati per affidabilità statistica):
-  - Carattere 'l': Errore stimato 15.17% ±12.64% (2 errori su 22 invii)
-  - Carattere 's': Errore stimato 26.54% ±15.51% (6 errori su 26 invii)
+  - Carattere 'a': Errore stimato 9.84% ±8.30% (2 errori su 36 invii)
+  - Carattere 'o': Errore stimato 9.84% ±8.30% (2 errori su 36 invii)
+  - Carattere 'm': Errore stimato 10.36% ±8.73% (2 errori su 34 invii)
+  - Carattere 'q': Errore stimato 11.22% ±8.64% (3 errori su 40 invii)
+  - Carattere 'l': Errore stimato 12.62% ±8.36% (5 errori su 51 invii)
+  - Carattere 'c': Errore stimato 12.05% ±9.25% (3 errori su 37 invii)
+  - Carattere 'y': Errore stimato 12.35% ±9.48% (3 errori su 36 invii)
+  - Carattere 'k': Errore stimato 13.50% ±9.55% (4 errori su 40 invii)
+  - Carattere 'd': Errore stimato 13.50% ±9.55% (4 errori su 40 invii)
+  - Carattere 't': Errore stimato 14.50% ±10.21% (4 errori su 37 invii)
 --- Analisi Avanzata della Velocità (WPM) ---
   Prospettive sulla Velocità Media:
-  - Media Aritmetica: 43.70 WPM (il valore 'classico')
-  - Media Ponderata (per durata): 45.91 WPM (dà più peso alle sessioni lunghe)
-  - Media Quadratica (RMS): 44.08 WPM (dà più peso alle velocità più alte)
+  - Media Aritmetica: 44.00 WPM (il valore 'classico')
+  - Media Ponderata (per durata): 45.26 WPM (dà più peso alle sessioni lunghe)
+  - Media Quadratica (RMS): 44.27 WPM (dà più peso alle velocità più alte)
   Frequenza e Consistenza:
-  - Moda (velocità più frequente): 50 WPM
-  - Dispersione (Range Interquartile): 11.46 WPM (un valore basso indica grande consistenza)
-  - (Il 50% delle tue sessioni ha una velocità media tra 38.27 e 49.74 WPM)
+  - Moda (velocità più frequente): 45 WPM
+  - Dispersione (Range Interquartile): 6.32 WPM (un valore basso indica grande consistenza)
+  - (Il 50% delle tue sessioni ha una velocità media tra 41.21 e 47.54 WPM)
   Trend Recente:
-  - Velocità media nelle ultime 12 settimane: 43.70 WPM
+  - Velocità media nelle ultime 12 settimane: 44.00 WPM
 --- Analisi Avanzata ---
-  Accuratezza media complessiva: 68.56%.
-  Andamento accuratezza: da 68.33% (prima metà) a 68.70% (seconda metà). Tendenza: miglioramento.
+  Accuratezza media complessiva: 65.89%.
+  Andamento accuratezza: da 68.89% (prima metà) a 63.64% (seconda metà). Tendenza: peggioramento.
   --- Correlazione Velocità-Accuratezza ---
-  Coefficiente di correlazione: -0.29.
+  Coefficiente di correlazione: -0.25.
   Interpretazione: Correlazione negativa debole: la velocità tende a diminuire quando l_accuratezza aumenta.
 -------------------------
 --- Analisi Durata Sessioni ---
-  Durata media di una sessione: 1 minuti, 49 secondi
+  Durata media di una sessione: 2 minuti, 38 secondi
   Sessione più corta: 33 secondi (Mercoledì 17 Dicembre 2025).
-  Sessione più lunga: 2 minuti, 52 secondi (Lunedì 29 Dicembre 2025).
+  Sessione più lunga: 5 minuti, 30 secondi (Domenica 11 Gennaio 2026).
 --- Analisi Granulare Velocità/Accuratezza ---
-  Media WPM su item corretti: 45.83
-  Media WPM su item errati: 50.61
+  Media WPM su item corretti: 45.26
+  Media WPM su item errati: 48.52
   Conclusione: al diminuire della velocità di ricezione, aumenta l'accuratezza.
 --- Confronto Feriali vs. Weekend ---
   Giorni Feriali (Lun-Ven):
-  - Sessioni totali: 5
-  - WPM medio: 43.70
-  - Accuratezza media: 68.56%
-  - Tempo totale di pratica: 9 minuti
-  Nessuna sessione registrata nel weekend.
+  - Sessioni totali: 6
+  - WPM medio: 43.97
+  - Accuratezza media: 67.84%
+  - Tempo totale di pratica: 12 minuti
+  Weekend (Sab-Dom):
+  - Sessioni totali: 1
+  - WPM medio: 44.15
+  - Accuratezza media: 54.17%
+  - Tempo totale di pratica: 5 minuti
+  Conclusione:
+  In media, tendi a dedicare più tempo alla pratica nei singoli giorni del weekend che in quelli feriali. Nel weekend la tua velocità media è maggiore. La tua accuratezza è più alta nei giorni feriali.
 --- Performance di Picco per Stagione ---
   - Primavera: Nessun dato disponibile.
   - Estate: Nessun dato disponibile.
