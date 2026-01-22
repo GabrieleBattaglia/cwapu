@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 421
+        "launch_count": 422
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 50,
+        "speed": 36,
         "pitch": 666,
         "dashes": 30,
         "spaces": 50,
@@ -29,24 +29,24 @@
         "total_time_seconds": 1106.6992
     },
     "rxing_stats_qrz": {
-        "total_calls": 331,
-        "sessions": 34,
-        "total_correct": 183,
-        "total_wrong_items": 148,
-        "total_time_seconds": 7500.650988999999
+        "total_calls": 356,
+        "sessions": 35,
+        "total_correct": 201,
+        "total_wrong_items": 155,
+        "total_time_seconds": 8045.523988999999
     },
     "counting_stats": {
         "exercise_number": 100
     },
     "rx_menu_switcher_states": {
         "parole": false,
-        "lettere": true,
+        "lettere": false,
         "numeri": false,
         "lettere e numeri": false,
         "simboli": false,
         "qrz": false,
         "custom": false,
-        "contest": false,
+        "contest": true,
         "parole_filter_min": 1,
         "parole_filter_max": 8,
         "custom_set_string": "abc"
@@ -65736,6 +65736,179 @@
                     "k": 5,
                     "9": 1,
                     "s": 1
+                }
+            },
+            {
+                "timestamp_iso": "2026-01-22T16:37:03.549954",
+                "duration_seconds": 541.523169,
+                "rwpm_min": 32,
+                "rwpm_max": 45,
+                "rwpm_avg": 36.28,
+                "items_sent_session": 25,
+                "items_correct_session": 18,
+                "item_details": [
+                    {
+                        "rwpm": 45,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 33,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 34,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 234,
+                "errors_detail_session": {
+                    "2": 2,
+                    "o": 2,
+                    "i": 5,
+                    "s": 3,
+                    "v": 1,
+                    "1": 1,
+                    "h": 5,
+                    "0": 2,
+                    "r": 1,
+                    "n": 1,
+                    "4": 1,
+                    "k": 2,
+                    "m": 2,
+                    "b": 5,
+                    "p": 2,
+                    "g": 2,
+                    "z": 1,
+                    "f": 3,
+                    "a": 2,
+                    "9": 1,
+                    "q": 1,
+                    "j": 1
+                },
+                "total_errors_chars_session": 46,
+                "sent_chars_detail_session": {
+                    "a": 8,
+                    "c": 4,
+                    "9": 4,
+                    "u": 5,
+                    "5": 31,
+                    "n": 52,
+                    "1": 7,
+                    "2": 13,
+                    "o": 4,
+                    "v": 7,
+                    "w": 4,
+                    "s": 5,
+                    "d": 3,
+                    "p": 6,
+                    "i": 3,
+                    "h": 7,
+                    "k": 5,
+                    "3": 7,
+                    "z": 4,
+                    "r": 8,
+                    "0": 5,
+                    "y": 2,
+                    "f": 7,
+                    "8": 2,
+                    "x": 2,
+                    "4": 7,
+                    "m": 2,
+                    "b": 5,
+                    "6": 4,
+                    "e": 3,
+                    "g": 3,
+                    "j": 2,
+                    "q": 2,
+                    "7": 1
                 }
             }
         ],
