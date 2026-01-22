@@ -1303,3 +1303,34 @@ Elenco delle parole copiate male:
 	(70) TX: ZFD, RX: ZRD, DIF: F;
 Nota: nessuna
 ***
+
+Esercizio di ricezione CONTEST #35 eseguito il 2026/1/22 alle 16, 46 minuti:
+Durata: 0:09:01
+In questa sessione, ti ho inviato 25 QRZ e ne hai ricevuti 18: 72.0%
+	Correttezza Nominativi: 18/25 (72.0%)
+	Correttezza Progressivi: 18/25 (72.0%)
+Velocità: Min 32.00, Max 45.00, Avg 36.28 WPM.
+Carattere: errori = Wilson Interval
+    'B': 5/5 [56.6% - 100.0%]
+    'H': 5/7 [35.9% - 91.8%]
+    'I': 5/3 [43.8% - 100.0%]
+    'F': 3/7 [15.8% - 75.0%]
+    'S': 3/5 [23.1% - 88.2%]
+    '0': 2/5 [11.8% - 76.9%]
+    '2': 2/13 [4.3% - 42.2%]
+    'A': 2/8 [7.1% - 59.1%]
+    'G': 2/3 [20.8% - 93.9%]
+    'K': 2/5 [11.8% - 76.9%]
+    'M': 2/2 [34.2% - 100.0%]
+    'O': 2/4 [15.0% - 85.0%]
+    'P': 2/6 [9.7% - 70.0%]
+    '1': 1/7 [2.6% - 51.3%]
+    '4': 1/7 [2.6% - 51.3%]
+    '9': 1/4 [4.6% - 69.9%]
+    'J': 1/2 [9.5% - 90.5%]
+    'N': 1/52 [0.3% - 10.1%]
+    'Q': 1/2 [9.5% - 90.5%]
+    'R': 1/8 [2.2% - 47.1%]
+    'V': 1/7 [2.6% - 51.3%]
+    'Z': 1/4 [4.6% - 69.9%]
+***
