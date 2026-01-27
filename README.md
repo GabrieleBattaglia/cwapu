@@ -60,6 +60,7 @@ CWapu offers several modes to practice and utilize CW:
 
 *   **Mr. Kevin Schmidt, W9CF** for the foundational CW audio module and inspiration from `cwsim`.
 *   **Mario, IZ4EKG** for testing and feedback.
+*   **Stefano, IK4UXA** for extensive testing and valuable feedback on compiled versions.
 *   **Piero Tofy** for the Italian dictionary.
 
 73 de Gabe, IZ4APU

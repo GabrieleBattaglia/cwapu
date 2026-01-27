@@ -37,7 +37,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '5.1.3, 2025-12-24'
+VERSION = '5.1.7, 2026-01-27'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 RX_LSP_VARIATION_PROBABILITY = 0.3
 RX_LSP_RANGE_L = (30, 60)
@@ -1815,7 +1815,13 @@ def RxingContest(menu_config_scelta):
 def Rxing():
     global app_data, overall_settings_changed, overall_speed, words, customized_set
     print(_("\nE' il momento giusto per un bell'esercizio di ricezione? Ottimo, allora sei nel posto giusto.\nIniziamo!\n\tCarico lo stato dei tuoi progressi e controllo il database del dizionario..."))
-    with open(resource_path('words.txt'), 'r', encoding='utf-8') as file:
+    
+    # Try to load words.txt from current directory first (user custom file), then fallback to internal resource
+    words_file_path = 'words.txt'
+    if not os.path.exists(words_file_path):
+        words_file_path = resource_path('words.txt')
+        
+    with open(words_file_path, 'r', encoding='utf-8') as file:
         words = file.readlines()
         words = [line.strip() for line in words]
         print(_('Dizionario delle parole caricato con {word_count} parole.').format(word_count=len(words)))

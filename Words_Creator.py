@@ -1,7 +1,8 @@
 # Creato assieme a ChatGPT4o il 4 agosto 2024
 import os
 import string
-import wx
+import tkinter as tk
+from tkinter import filedialog
 from GBUtils import key
 
 def LoadInitialDictionary(file_path):
@@ -10,14 +11,12 @@ def LoadInitialDictionary(file_path):
 	return dictionary
 
 def ChooseFolder():
-	app = wx.App(False)
-	dialog = wx.DirDialog(None, "Choose a directory:", style=wx.DD_DEFAULT_STYLE)
-	if dialog.ShowModal() == wx.ID_OK:
-		folder_path = dialog.GetPath()
-	else:
-		folder_path = None
-	dialog.Destroy()
-	return folder_path
+	root = tk.Tk()
+	root.withdraw()
+	root.attributes("-topmost", True)
+	folder_path = filedialog.askdirectory(title="Choose a directory:")
+	root.destroy()
+	return folder_path if folder_path else None
 
 def clean_line(line):
 	# Replace apostrophes with spaces
@@ -98,11 +97,32 @@ def SaveDictionary(dictionary, output_file):
 		for word in sorted(dictionary):
 			if isinstance(word, str) and word.isprintable():
 				file.write(word + '\n')
+import sys
+
+def resource_path(relative_path):
+	""" Get absolute path to resource, works for dev and for PyInstaller """
+	try:
+		# PyInstaller creates a temp folder and stores path in _MEIPASS
+		base_path = sys._MEIPASS
+	except Exception:
+		base_path = os.path.abspath(".")
+	return os.path.join(base_path, relative_path)
+
 def Start():
 	print("Now, let's begin: this script will ask you to select a folder from the filesystem.\nAll .txt files within the folder and its subfolders will be opened and processed.")
 	discard=key(prompt="Press any key to continue...")
 	print("Thank you")
-	initial_dictionary = LoadInitialDictionary('words.txt')
+	
+	# Try to load words.txt from current directory first, then fallback to internal resource
+	words_path = 'words.txt'
+	if not os.path.exists(words_path):
+		words_path = resource_path('words.txt')
+		if not os.path.exists(words_path):
+			# Fallback if somehow neither exists (shouldn't happen with correct build)
+			print("Error: words.txt not found in current directory or internal resources.")
+			return
+
+	initial_dictionary = LoadInitialDictionary(words_path)
 	initial_word_count = len(initial_dictionary)
 	folder_path = ChooseFolder()
 	if not folder_path:
