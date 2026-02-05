@@ -1359,3 +1359,23 @@ Elenco delle parole copiate male:
 	(26) TX: PAESANA, RX: PASSATA, DIF: EN;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #7 eseguito il 2026/2/5 alle 15, 44 minuti:
+In questa sessione #7, ti ho inviato 23 Lettere e ne hai ricevuti 17: 73.9%
+	12 di questi sono stati ricevuti al primo ascolto: 70.6%
+	mentre 5 Lettere al secondo tentativo: 29.4%.
+Durante la sessione, la tua velocità minima è stata 34.00, la massima di 47.00: pari ad una variazione di 13.00 WPM.
+	La velocità media di ricezione è di: 39.35 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'H': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'U': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'P': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'Q': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'S': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'Z': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 8 su 69 = 11.59%
+Caratteri mai sbagliati: B C D E F G J K L M N O R T V W X Y
+Elenco delle parole copiate male:
+	(2) TX: NQH, RX: NQV, DIF: H;
+	(7) TX: QHU, RX: GOV, DIF: QHU;
+	(8) TX: LUZ, RX: LUG, DIF: Z;
+	(16) TX: QPW, RX: QJW, DIF: P;
+	(22) TX: TSN, RX: TIN, DIF: S;
+	(23) TX: TOU, RX: TOV, DIF: U;
+Nota: nessuna
+***
