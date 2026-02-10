@@ -1379,3 +1379,22 @@ Elenco delle parole copiate male:
 	(23) TX: TOU, RX: TOV, DIF: U;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #514 eseguito il 2026/2/10 alle 23, 0 minuti:
+In questa sessione #514, ti ho inviato 20 Parole e ne hai ricevuti 15: 75.0%
+	11 di questi sono stati ricevuti al primo ascolto: 73.3%
+	mentre 4 Parole al secondo tentativo: 26.7%.
+Durante la sessione, la tua velocità minima è stata 30.00, la massima di 30.00: pari ad una variazione di 0.00 WPM.
+	La velocità media di ricezione è di: 30.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'T': 4 errori su 15 invii. Tasso errore stimato: [10.9% - 52.0%]    'E': 2 errori su 12 invii. Tasso errore stimato: [4.7% - 44.8%]    'A': 1 errori su 21 invii. Tasso errore stimato: [0.8% - 22.7%]
+
+Errori totali: 7 su 146 = 4.79%
+Caratteri mai sbagliati: B C F G I L M N O P R S U V Z Ò
+Elenco delle parole copiate male:
+	(6) TX: SVITAVA, RX: SVITAVI, DIF: A;
+	(11) TX: RATTIZZI, RX: RATIZZI, DIF: T;
+	(12) TX: COMPUNTE, RX: COMPUTENTE, DIF: TE;
+	(13) TX: LESSANO, RX: LISSANO, DIF: E;
+	(16) TX: MANET, RX: MANTE, DIF: TT;
+Nota: nessuna
+***

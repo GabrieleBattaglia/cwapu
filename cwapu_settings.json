@@ -1,25 +1,25 @@
 {
     "app_info": {
-        "launch_count": 424
+        "launch_count": 425
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 45,
+        "speed": 35,
         "pitch": 666,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
-        "volume": 0.13,
+        "volume": 0.2,
         "ms": 4,
         "fs_index": 2,
         "wave_index": 1
     },
     "rxing_stats_words": {
-        "total_calls": 24611,
-        "sessions": 514,
-        "total_correct": 15092,
-        "total_wrong_items": 9517,
-        "total_time_seconds": 141152.864414
+        "total_calls": 24631,
+        "sessions": 515,
+        "total_correct": 15107,
+        "total_wrong_items": 9522,
+        "total_time_seconds": 141298.027507
     },
     "rxing_stats_chars": {
         "total_calls": 388,
@@ -39,8 +39,8 @@
         "exercise_number": 100
     },
     "rx_menu_switcher_states": {
-        "parole": false,
-        "lettere": true,
+        "parole": true,
+        "lettere": false,
         "numeri": false,
         "lettere e numeri": false,
         "simboli": false,
@@ -56,7 +56,7 @@
         "report_interval": 3500
     },
     "historical_rx_data_words": {
-        "chars_since_last_report": 2542,
+        "chars_since_last_report": 2688,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-07-07T13:49:06.014261",
@@ -58393,6 +58393,125 @@
                     "v": 3,
                     "ò": 1,
                     "u": 2
+                }
+            },
+            {
+                "timestamp_iso": "2026-02-10T22:57:32.596735",
+                "duration_seconds": 145.163093,
+                "rwpm_min": 30,
+                "rwpm_max": 30,
+                "rwpm_avg": 30.0,
+                "items_sent_session": 20,
+                "items_correct_session": 15,
+                "item_details": [
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 146,
+                "errors_detail_session": {
+                    "a": 1,
+                    "t": 4,
+                    "e": 2
+                },
+                "total_errors_chars_session": 7,
+                "sent_chars_detail_session": {
+                    "p": 6,
+                    "o": 8,
+                    "r": 10,
+                    "t": 15,
+                    "a": 21,
+                    "n": 10,
+                    "e": 12,
+                    "u": 6,
+                    "l": 5,
+                    "i": 18,
+                    "b": 4,
+                    "s": 10,
+                    "c": 4,
+                    "m": 4,
+                    "v": 5,
+                    "f": 1,
+                    "z": 4,
+                    "ò": 1,
+                    "g": 2
                 }
             }
         ],
