@@ -1398,3 +1398,26 @@ Elenco delle parole copiate male:
 	(16) TX: MANET, RX: MANTE, DIF: TT;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #8 eseguito il 2026/2/12 alle 7, 48 minuti:
+In questa sessione #8, ti ho inviato 36 Misto (Lettere, Numeri) e ne hai ricevuti 27: 75.0%
+	13 di questi sono stati ricevuti al primo ascolto: 48.1%
+	mentre 14 Misto (Lettere, Numeri) al secondo tentativo: 51.9%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 52.00: pari ad una variazione di 17.00 WPM.
+	La velocità media di ricezione è di: 44.63 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '8': 4 errori su 6 invii. Tasso errore stimato: [30.0% - 90.3%]    '1': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    '6': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    '7': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    '9': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'B': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'D': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'R': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'Y': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]
+
+Errori totali: 12 su 108 = 11.11%
+Caratteri mai sbagliati: 0 2 3 4 5 A E F G H I J M N O Q S T U V W X Z
+Elenco delle parole copiate male:
+	(8) TX: YHR, RX: QHR, DIF: Y;
+	(12) TX: 178, RX: 188, DIF: 78;
+	(16) TX: 068, RX: 067, DIF: 8;
+	(19) TX: 993, RX: 983, DIF: 9;
+	(22) TX: RUM, RX: WUM, DIF: R;
+	(26) TX: ABD, RX: ADD, DIF: BD;
+	(28) TX: 718, RX: 719, DIF: 8;
+	(32) TX: 481, RX: 472, DIF: 81;
+	(34) TX: 086, RX: 087, DIF: 6;
+Nota: nessuna
+***
