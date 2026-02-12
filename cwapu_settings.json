@@ -1,25 +1,25 @@
 {
     "app_info": {
-        "launch_count": 426
+        "launch_count": 427
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 53,
+        "speed": 36,
         "pitch": 666,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
-        "volume": 0.2,
+        "volume": 0.4,
         "ms": 4,
         "fs_index": 2,
         "wave_index": 1
     },
     "rxing_stats_words": {
-        "total_calls": 24631,
-        "sessions": 515,
-        "total_correct": 15107,
-        "total_wrong_items": 9522,
-        "total_time_seconds": 141298.027507
+        "total_calls": 24649,
+        "sessions": 516,
+        "total_correct": 15116,
+        "total_wrong_items": 9531,
+        "total_time_seconds": 141455.986227
     },
     "rxing_stats_chars": {
         "total_calls": 424,
@@ -39,9 +39,9 @@
         "exercise_number": 100
     },
     "rx_menu_switcher_states": {
-        "parole": false,
-        "lettere": true,
-        "numeri": true,
+        "parole": true,
+        "lettere": false,
+        "numeri": false,
         "lettere e numeri": false,
         "simboli": false,
         "qrz": false,
@@ -56,7 +56,7 @@
         "report_interval": 3500
     },
     "historical_rx_data_words": {
-        "chars_since_last_report": 2688,
+        "chars_since_last_report": 2807,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-07-07T13:49:06.014261",
@@ -58512,6 +58512,129 @@
                     "z": 4,
                     "ò": 1,
                     "g": 2
+                }
+            },
+            {
+                "timestamp_iso": "2026-02-12T15:45:10.520809",
+                "duration_seconds": 157.95872,
+                "rwpm_min": 34,
+                "rwpm_max": 38,
+                "rwpm_avg": 35.333333333333336,
+                "items_sent_session": 18,
+                "items_correct_session": 9,
+                "item_details": [
+                    {
+                        "rwpm": 36,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 36,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 36,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 34,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 34,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 119,
+                "errors_detail_session": {
+                    "t": 2,
+                    "p": 1,
+                    "i": 2,
+                    "g": 2,
+                    "l": 1,
+                    "o": 1,
+                    "h": 1,
+                    "e": 3,
+                    "d": 1,
+                    "n": 1,
+                    "z": 1,
+                    "r": 1,
+                    "m": 1,
+                    "a": 1
+                },
+                "total_errors_chars_session": 19,
+                "sent_chars_detail_session": {
+                    "n": 6,
+                    "o": 15,
+                    "v": 2,
+                    "i": 14,
+                    "z": 2,
+                    "t": 7,
+                    "p": 2,
+                    "s": 7,
+                    "a": 11,
+                    "b": 2,
+                    "e": 15,
+                    "m": 5,
+                    "d": 4,
+                    "r": 9,
+                    "g": 5,
+                    "l": 3,
+                    "h": 1,
+                    "u": 2,
+                    "f": 1,
+                    "c": 6
                 }
             }
         ],

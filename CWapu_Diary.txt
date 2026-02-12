@@ -1421,3 +1421,26 @@ Elenco delle parole copiate male:
 	(34) TX: 086, RX: 087, DIF: 6;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #515 eseguito il 2026/2/12 alle 15, 48 minuti:
+In questa sessione #515, ti ho inviato 18 Parole e ne hai ricevuti 9: 50.0%
+	4 di questi sono stati ricevuti al primo ascolto: 44.4%
+	mentre 5 Parole al secondo tentativo: 55.6%.
+Durante la sessione, la tua velocità minima è stata 34.00, la massima di 38.00: pari ad una variazione di 4.00 WPM.
+	La velocità media di ricezione è di: 35.33 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 3 errori su 15 invii. Tasso errore stimato: [7.0% - 45.2%]    'G': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'I': 2 errori su 14 invii. Tasso errore stimato: [4.0% - 39.9%]    'T': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'A': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'D': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'H': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'L': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'M': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'N': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'O': 1 errori su 15 invii. Tasso errore stimato: [1.2% - 29.8%]    'P': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'R': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'Z': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 19 su 119 = 15.97%
+Caratteri mai sbagliati: B C F S U V
+Elenco delle parole copiate male:
+	(2) TX: OTTOTIPI, RX: OTTOQI, DIF: TPI;
+	(5) TX: DROGA, RX: DROZA, DIF: G;
+	(6) TX: BIOLOGHE, RX: BIOZZA, DIF: LOGHE;
+	(7) TX: GUSTANTE, RX: GUSTANE, DIF: T;
+	(8) TX: TUDENSI, RX: TUBERSI, DIF: DN;
+	(10) TX: DECENZE, RX: DECENGE, DIF: Z;
+	(13) TX: IRICA, RX: ERICA, DIF: I;
+	(15) TX: PREDICEA, RX: PREDICIA, DIF: E;
+	(18) TX: VERMEER, RX: VENERA, DIF: RMEA;
+Nota: nessuna
+***
