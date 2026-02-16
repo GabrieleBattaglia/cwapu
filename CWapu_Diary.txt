@@ -1444,3 +1444,21 @@ Elenco delle parole copiate male:
 	(18) TX: VERMEER, RX: VENERA, DIF: RMEA;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #516 eseguito il 2026/2/16 alle 8, 29 minuti:
+In questa sessione #516, ti ho inviato 25 Parole e ne hai ricevuti 21: 84.0%
+	16 di questi sono stati ricevuti al primo ascolto: 76.2%
+	mentre 5 Parole al secondo tentativo: 23.8%.
+Durante la sessione, la tua velocità minima è stata 25.00, la massima di 25.00: pari ad una variazione di 0.00 WPM.
+	La velocità media di ricezione è di: 25.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 3 errori su 19 invii. Tasso errore stimato: [5.5% - 37.6%]    'I': 2 errori su 20 invii. Tasso errore stimato: [2.8% - 30.1%]    'U': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 6 su 175 = 3.43%
+Caratteri mai sbagliati: A B C D F G H L M N O P R S T V Z Ò
+Elenco delle parole copiate male:
+	(13) TX: GENIETTI, RX: GENITTE, DIF: EI;
+	(16) TX: ENFANT, RX: INFANT, DIF: E;
+	(18) TX: SANCTUS, RX: SANCTIS, DIF: U;
+	(20) TX: NEVICAI, RX: INVICAI, DIF: IE;
+Nota: nessuna
+***
