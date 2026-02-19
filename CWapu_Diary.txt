@@ -1462,3 +1462,31 @@ Elenco delle parole copiate male:
 	(20) TX: NEVICAI, RX: INVICAI, DIF: IE;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #9 eseguito il 2026/2/18 alle 19, 28 minuti:
+In questa sessione #9, ti ho inviato 50 Lettere e ne hai ricevuti 36: 72.0%
+	28 di questi sono stati ricevuti al primo ascolto: 77.8%
+	mentre 8 Lettere al secondo tentativo: 22.2%.
+Durante la sessione, la tua velocità minima è stata 25.00, la massima di 51.00: pari ad una variazione di 26.00 WPM.
+	La velocità media di ricezione è di: 39.19 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'H': 6 errori su 12 invii. Tasso errore stimato: [25.4% - 74.6%]    'B': 5 errori su 9 invii. Tasso errore stimato: [26.7% - 81.1%]    'S': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'D': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'N': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'P': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'V': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]
+
+Errori totali: 17 su 150 = 11.33%
+Caratteri mai sbagliati: A C E F G I J K L M O Q R T U W X Y Z
+Elenco delle parole copiate male:
+	(10) TX: NHA, RX: NSA, DIF: H;
+	(11) TX: AVH, RX: AVS, DIF: H;
+	(25) TX: OHM, RX: OSM, DIF: H;
+	(26) TX: LHE, RX: LSE, DIF: H;
+	(34) TX: CKH, RX: CKS, DIF: H;
+	(37) TX: SMD, RX: HMD, DIF: S;
+	(39) TX: BKW, RX: DKW, DIF: B;
+	(40) TX: BXR, RX: DXR, DIF: B;
+	(41) TX: BKD, RX: DKR, DIF: BD;
+	(42) TX: JPM, RX: JWM, DIF: P;
+	(43) TX: BTC, RX: DTC, DIF: B;
+	(44) TX: XHS, RX: XSS, DIF: HS;
+	(48) TX: NVY, RX: DUY, DIF: NV;
+	(50) TX: ZBM, RX: ZDM, DIF: B;
+Nota: nessuna
+***
