@@ -1514,3 +1514,29 @@ Elenco delle parole copiate male:
 	(32) TX: AORISTI, RX: ROSEE, DIF: ARITI;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #518 eseguito il 2026/2/27 alle 7, 10 minuti:
+In questa sessione #518, ti ho inviato 40 Parole e ne hai ricevuti 28: 70.0%
+	21 di questi sono stati ricevuti al primo ascolto: 75.0%
+	mentre 7 Parole al secondo tentativo: 25.0%.
+Durante la sessione, la tua velocità minima è stata 25.00, la massima di 42.00: pari ad una variazione di 17.00 WPM.
+	La velocità media di ricezione è di: 35.21 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 7 errori su 38 invii. Tasso errore stimato: [9.2% - 33.4%]    'R': 4 errori su 23 invii. Tasso errore stimato: [7.0% - 37.1%]    'T': 4 errori su 19 invii. Tasso errore stimato: [8.5% - 43.3%]    'E': 3 errori su 21 invii. Tasso errore stimato: [5.0% - 34.6%]    'N': 3 errori su 12 invii. Tasso errore stimato: [8.9% - 53.2%]    'S': 3 errori su 16 invii. Tasso errore stimato: [6.6% - 43.0%]    'P': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    'L': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'U': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'À': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 29 su 275 = 10.55%
+Caratteri mai sbagliati: A B C D F G M O Q V X Z Ò
+Elenco delle parole copiate male:
+	(9) TX: DEITÀ, RX: DIETY, DIF: IIÀ;
+	(17) TX: PATETICA, RX: PATERICA, DIF: T;
+	(19) TX: UXORIE, RX: UXOLITE, DIF: RT;
+	(22) TX: ANNOVALI, RX: ANNOVERA, DIF: ERLI;
+	(26) TX: FONESI, RX: FONISE, DIF: ISSI;
+	(27) TX: SUPERNA, RX: SVERGA, DIF: UPN;
+	(29) TX: SPAZII, RX: SPAZIE, DIF: I;
+	(30) TX: FANS, RX: FANI, DIF: S;
+	(31) TX: QUERCINO, RX: QUERCIO, DIF: N;
+	(35) TX: TRITASTE, RX: TARESI, DIF: TRIRETE;
+	(37) TX: LAPIDOSO, RX: LARIDOSO, DIF: P;
+	(40) TX: QUINTI, RX: QUIETI, DIF: N;
+Nota: nessuna
+***
