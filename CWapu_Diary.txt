@@ -1540,3 +1540,42 @@ Elenco delle parole copiate male:
 	(40) TX: QUINTI, RX: QUIETI, DIF: N;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #10 eseguito il 2026/2/28 alle 7, 27 minuti:
+In questa sessione #10, ti ho inviato 60 Lettere e numeri e ne hai ricevuti 35: 58.3%
+	18 di questi sono stati ricevuti al primo ascolto: 51.4%
+	mentre 17 Lettere e numeri al secondo tentativo: 48.6%.
+Durante la sessione, la tua velocità minima è stata 34.00, la massima di 48.00: pari ad una variazione di 14.00 WPM.
+	La velocità media di ricezione è di: 41.46 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '7': 6 errori su 7 invii. Tasso errore stimato: [48.7% - 97.4%]    'H': 4 errori su 8 invii. Tasso errore stimato: [21.5% - 78.5%]    '2': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    '4': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    '5': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'B': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    '1': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    '3': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    '8': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    '9': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'A': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'I': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'J': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'K': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'L': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'P': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'Q': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'S': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'U': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'V': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'W': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'Y': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'Z': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 35 su 180 = 19.44%
+Caratteri mai sbagliati: 0 6 C D E F G M N O R T X
+Elenco delle parole copiate male:
+	(6) TX: AG9, RX: RG9, DIF: A;
+	(9) TX: 8KB, RX: 8KD, DIF: B;
+	(10) TX: J8U, RX: JTU, DIF: 8;
+	(15) TX: 44O, RX: VVO, DIF: 44;
+	(17) TX: 423, RX: 4J3, DIF: 2;
+	(21) TX: GGL, RX: GGR, DIF: L;
+	(22) TX: 0X3, RX: 0XW, DIF: 3;
+	(23) TX: 3S4, RX: 3I4, DIF: S;
+	(30) TX: 759, RX: ZG0, DIF: 759;
+	(31) TX: WK0, RX: VK0, DIF: W;
+	(32) TX: 3N2, RX: 3NJ, DIF: 2;
+	(34) TX: LJY, RX: LKJ, DIF: KY;
+	(35) TX: CJ5, RX: CJ2, DIF: 5;
+	(36) TX: 4HN, RX: 4SN, DIF: H;
+	(39) TX: PPU, RX: PWV, DIF: PU;
+	(41) TX: X2H, RX: X2S, DIF: H;
+	(42) TX: P7I, RX: PGD, DIF: 7I;
+	(43) TX: 7QJ, RX: ZX2, DIF: 7QJ;
+	(45) TX: YB9, RX: YL9, DIF: B;
+	(50) TX: 1AH, RX: 1AS, DIF: H;
+	(51) TX: YZH, RX: YGH, DIF: Z;
+	(57) TX: 7A3, RX: ZA3, DIF: 7;
+	(58) TX: M74, RX: MZ4, DIF: 7;
+	(59) TX: N71, RX: NZ2, DIF: 71;
+	(60) TX: HVE, RX: 54E, DIF: HV;
+Nota: nessuna
+***
