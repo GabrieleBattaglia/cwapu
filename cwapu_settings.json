@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 433
+        "launch_count": 435
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 44,
+        "speed": 46,
         "pitch": 666,
         "dashes": 30,
         "spaces": 50,
@@ -22,18 +22,18 @@
         "total_time_seconds": 142164.335513
     },
     "rxing_stats_chars": {
-        "total_calls": 534,
-        "sessions": 11,
-        "total_correct": 344,
-        "total_wrong_items": 190,
-        "total_time_seconds": 1728.97431
+        "total_calls": 584,
+        "sessions": 12,
+        "total_correct": 377,
+        "total_wrong_items": 207,
+        "total_time_seconds": 1910.173751
     },
     "rxing_stats_qrz": {
-        "total_calls": 356,
-        "sessions": 35,
-        "total_correct": 201,
-        "total_wrong_items": 155,
-        "total_time_seconds": 8045.523988999999
+        "total_calls": 384,
+        "sessions": 36,
+        "total_correct": 218,
+        "total_wrong_items": 166,
+        "total_time_seconds": 8663.432449
     },
     "counting_stats": {
         "exercise_number": 100
@@ -61254,7 +61254,7 @@
         ]
     },
     "historical_rx_data_chars": {
-        "chars_since_last_report": 1533,
+        "chars_since_last_report": 1683,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-12-17T22:43:47.853616",
@@ -64023,6 +64023,272 @@
                     "7": 7,
                     "w": 4,
                     "i": 2
+                }
+            },
+            {
+                "timestamp_iso": "2026-03-05T07:30:50.291255",
+                "duration_seconds": 181.199441,
+                "rwpm_min": 30,
+                "rwpm_max": 47,
+                "rwpm_avg": 40.06060606060606,
+                "items_sent_session": 50,
+                "items_correct_session": 33,
+                "item_details": [
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 46,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 47,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 46,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 47,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 46,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 46,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 46,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 46,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 45,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 150,
+                "errors_detail_session": {
+                    "6": 2,
+                    "l": 1,
+                    "5": 1,
+                    "s": 4,
+                    "1": 2,
+                    "8": 1,
+                    "h": 1,
+                    "7": 1,
+                    "p": 1,
+                    "u": 2,
+                    "a": 1,
+                    "d": 1,
+                    "j": 1,
+                    "4": 1
+                },
+                "total_errors_chars_session": 20,
+                "sent_chars_detail_session": {
+                    "p": 4,
+                    "j": 5,
+                    "o": 7,
+                    "t": 2,
+                    "n": 8,
+                    "f": 5,
+                    "k": 5,
+                    "4": 2,
+                    "6": 5,
+                    "0": 3,
+                    "r": 6,
+                    "h": 4,
+                    "u": 9,
+                    "i": 3,
+                    "w": 2,
+                    "d": 5,
+                    "9": 2,
+                    "1": 4,
+                    "y": 4,
+                    "5": 4,
+                    "3": 6,
+                    "s": 8,
+                    "l": 2,
+                    "e": 10,
+                    "x": 5,
+                    "a": 4,
+                    "2": 1,
+                    "c": 3,
+                    "8": 3,
+                    "m": 3,
+                    "v": 2,
+                    "b": 6,
+                    "q": 5,
+                    "7": 1,
+                    "z": 2
                 }
             }
         ],
@@ -67740,6 +68006,196 @@
                     "j": 2,
                     "q": 2,
                     "7": 1
+                }
+            },
+            {
+                "timestamp_iso": "2026-03-02T21:14:11.470892",
+                "duration_seconds": 613.935771,
+                "rwpm_min": 27,
+                "rwpm_max": 45,
+                "rwpm_avg": 29.642857142857142,
+                "items_sent_session": 28,
+                "items_correct_session": 17,
+                "item_details": [
+                    {
+                        "rwpm": 38,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 31,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 31,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 29,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 29,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 269,
+                "errors_detail_session": {
+                    "c": 2,
+                    "3": 3,
+                    "p": 3,
+                    "j": 4,
+                    "q": 3,
+                    "t": 1,
+                    "b": 3,
+                    "a": 1,
+                    "u": 1,
+                    "s": 5,
+                    "0": 1,
+                    "h": 6,
+                    "w": 1,
+                    "e": 4,
+                    "m": 5,
+                    "7": 3,
+                    "v": 2,
+                    "d": 4,
+                    "l": 1,
+                    "o": 2,
+                    "z": 2,
+                    "6": 1,
+                    "4": 3,
+                    "x": 1,
+                    "y": 1,
+                    "g": 3
+                },
+                "total_errors_chars_session": 66,
+                "sent_chars_detail_session": {
+                    "k": 7,
+                    "c": 8,
+                    "3": 12,
+                    "p": 5,
+                    "j": 7,
+                    "q": 2,
+                    "5": 36,
+                    "n": 57,
+                    "1": 12,
+                    "i": 3,
+                    "t": 2,
+                    "a": 5,
+                    "2": 8,
+                    "w": 8,
+                    "d": 8,
+                    "x": 2,
+                    "b": 9,
+                    "7": 6,
+                    "m": 8,
+                    "h": 3,
+                    "9": 3,
+                    "e": 6,
+                    "0": 5,
+                    "y": 7,
+                    "6": 6,
+                    "u": 3,
+                    "s": 7,
+                    "g": 5,
+                    "4": 5,
+                    "f": 1,
+                    "o": 5,
+                    "8": 1,
+                    "z": 4,
+                    "v": 1,
+                    "l": 2
                 }
             }
         ],

@@ -1579,3 +1579,69 @@ Elenco delle parole copiate male:
 	(60) TX: HVE, RX: 54E, DIF: HV;
 Nota: nessuna
 ***
+
+Esercizio di ricezione CONTEST #36 eseguito il 2026/3/2 alle 21, 24 minuti:
+Durata: 0:10:13
+In questa sessione, ti ho inviato 28 QRZ e ne hai ricevuti 17: 60.7%
+	Correttezza Nominativi: 17/28 (60.7%)
+	Correttezza Progressivi: 17/28 (60.7%)
+Velocità: Min 27.00, Max 45.00, Avg 29.64 WPM.
+Carattere: errori = Wilson Interval
+    'H': 6/3 [43.8% - 100.0%]
+    'M': 5/8 [30.6% - 86.3%]
+    'S': 5/7 [35.9% - 91.8%]
+    'D': 4/8 [21.5% - 78.5%]
+    'E': 4/6 [30.0% - 90.3%]
+    'J': 4/7 [25.0% - 84.2%]
+    '3': 3/12 [8.9% - 53.2%]
+    '4': 3/5 [23.1% - 88.2%]
+    '7': 3/6 [18.8% - 81.2%]
+    'B': 3/9 [12.1% - 64.6%]
+    'G': 3/5 [23.1% - 88.2%]
+    'P': 3/5 [23.1% - 88.2%]
+    'Q': 3/2 [34.2% - 100.0%]
+    'C': 2/8 [7.1% - 59.1%]
+    'O': 2/5 [11.8% - 76.9%]
+    'V': 2/1 [20.7% - 100.0%]
+    'Z': 2/4 [15.0% - 85.0%]
+    '0': 1/5 [3.6% - 62.4%]
+    '6': 1/6 [3.0% - 56.4%]
+    'A': 1/5 [3.6% - 62.4%]
+    'L': 1/2 [9.5% - 90.5%]
+    'T': 1/2 [9.5% - 90.5%]
+    'U': 1/3 [6.1% - 79.2%]
+    'W': 1/8 [2.2% - 47.1%]
+    'X': 1/2 [9.5% - 90.5%]
+    'Y': 1/7 [2.6% - 51.3%]
+***
+
+Esercizio di ricezione #11 eseguito il 2026/3/5 alle 7, 34 minuti:
+In questa sessione #11, ti ho inviato 50 Lettere e numeri e ne hai ricevuti 33: 66.0%
+	13 di questi sono stati ricevuti al primo ascolto: 39.4%
+	mentre 20 Lettere e numeri al secondo tentativo: 60.6%.
+Durante la sessione, la tua velocità minima è stata 30.00, la massima di 47.00: pari ad una variazione di 17.00 WPM.
+	La velocità media di ricezione è di: 40.06 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'S': 4 errori su 8 invii. Tasso errore stimato: [21.5% - 78.5%]    '1': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    '6': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'U': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    '4': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    '5': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    '7': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    '8': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'A': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'D': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'H': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'J': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'L': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'P': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 20 su 150 = 13.33%
+Caratteri mai sbagliati: 0 2 3 9 B C E F I K M N O Q R T V W X Y Z
+Elenco delle parole copiate male:
+	(4) TX: 460, RX: 4B0, DIF: 6;
+	(13) TX: SL5, RX: SRH, DIF: L5;
+	(17) TX: 6OS, RX: 6OH, DIF: S;
+	(19) TX: SF1, RX: SF2, DIF: 1;
+	(20) TX: EE8, RX: EE7, DIF: 8;
+	(21) TX: S3M, RX: H3M, DIF: S;
+	(26) TX: 3H1, RX: 3S2, DIF: H1;
+	(30) TX: YQ7, RX: YQD, DIF: 7;
+	(32) TX: OR6, RX: ORB, DIF: 6;
+	(36) TX: BSU, RX: BHU, DIF: S;
+	(38) TX: 3PU, RX: 3WU, DIF: P;
+	(39) TX: UVX, RX: VVX, DIF: U;
+	(40) TX: BBA, RX: BBU, DIF: A;
+	(43) TX: NZD, RX: NZZ, DIF: D;
+	(45) TX: QUJ, RX: QA2, DIF: UJ;
+	(46) TX: SAK, RX: HAK, DIF: S;
+	(49) TX: CU4, RX: CUV, DIF: 4;
+Nota: nessuna
+***
