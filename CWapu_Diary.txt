@@ -1645,3 +1645,41 @@ Elenco delle parole copiate male:
 	(49) TX: CU4, RX: CUV, DIF: 4;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #12 eseguito il 2026/3/5 alle 14, 23 minuti:
+In questa sessione #12, ti ho inviato 51 Misto (Numeri, Lettere e numeri) e ne hai ricevuti 27: 52.9%
+	14 di questi sono stati ricevuti al primo ascolto: 51.9%
+	mentre 13 Misto (Numeri, Lettere e numeri) al secondo tentativo: 48.1%.
+Durante la sessione, la tua velocità minima è stata 44.00, la massima di 54.00: pari ad una variazione di 10.00 WPM.
+	La velocità media di ricezione è di: 49.37 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '8': 5 errori su 13 invii. Tasso errore stimato: [17.7% - 64.5%]    'S': 3 errori su 3 invii. Tasso errore stimato: [43.8% - 100.0%]    '0': 2 errori su 8 invii. Tasso errore stimato: [7.1% - 59.1%]    '1': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    '2': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    '7': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'B': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.9%]    'F': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'G': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.9%]    '3': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    '4': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    '5': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'A': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'C': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'D': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'J': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'M': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'V': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'X': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'Z': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 33 su 153 = 21.57%
+Caratteri mai sbagliati: 6 9 E H I K L N O P Q R T U W Y
+Elenco delle parole copiate male:
+	(1) TX: AF9, RX: UR9, DIF: AF;
+	(2) TX: TKZ, RX: TK7, DIF: Z;
+	(5) TX: M2E, RX: O2E, DIF: M;
+	(11) TX: 1VT, RX: 1UT, DIF: V;
+	(16) TX: 270, RX: 379, DIF: 20;
+	(17) TX: 838, RX: 839, DIF: 8;
+	(18) TX: 618, RX: 628, DIF: 1;
+	(19) TX: 1Z3, RX: 1ZP, DIF: 3;
+	(20) TX: YLB, RX: YLD, DIF: B;
+	(23) TX: 427, RX: 43Z, DIF: 27;
+	(24) TX: 757, RX: 756, DIF: 7;
+	(26) TX: PGO, RX: PDO, DIF: G;
+	(29) TX: 810, RX: 710, DIF: 8;
+	(35) TX: GSF, RX: GIR, DIF: SF;
+	(37) TX: 1JD, RX: 11G, DIF: JD;
+	(38) TX: 331, RX: 332, DIF: 1;
+	(39) TX: 6CX, RX: 6DX, DIF: C;
+	(43) TX: 8LS, RX: 7LH, DIF: 8S;
+	(44) TX: S7R, RX: H7R, DIF: S;
+	(45) TX: 980, RX: 911, DIF: 80;
+	(46) TX: 5X9, RX: 5K9, DIF: X;
+	(49) TX: M50, RX: MH0, DIF: 5;
+	(50) TX: 8G4, RX: 7NO, DIF: 8G4;
+	(51) TX: BE1, RX: DE1, DIF: B;
+Nota: nessuna
+***
