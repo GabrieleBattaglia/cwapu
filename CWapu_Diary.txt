@@ -1683,3 +1683,244 @@ Elenco delle parole copiate male:
 	(51) TX: BE1, RX: DE1, DIF: B;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #13 eseguito il 2026/3/6 alle 14, 37 minuti:
+In questa sessione #13, ti ho inviato 50 Numeri e ne hai ricevuti 30: 60.0%
+	14 di questi sono stati ricevuti al primo ascolto: 46.7%
+	mentre 16 Numeri al secondo tentativo: 53.3%.
+Durante la sessione, la tua velocità minima è stata 49.00, la massima di 60.00: pari ad una variazione di 11.00 WPM.
+	La velocità media di ricezione è di: 55.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '7': 5 errori su 12 invii. Tasso errore stimato: [19.3% - 68.0%]    '0': 4 errori su 20 invii. Tasso errore stimato: [8.1% - 41.6%]    '8': 4 errori su 11 invii. Tasso errore stimato: [15.2% - 64.6%]    '1': 3 errori su 21 invii. Tasso errore stimato: [5.0% - 34.6%]    '3': 3 errori su 17 invii. Tasso errore stimato: [6.2% - 41.0%]    '6': 3 errori su 18 invii. Tasso errore stimato: [5.8% - 39.2%]    '2': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    '9': 2 errori su 14 invii. Tasso errore stimato: [4.0% - 39.9%]
+
+Errori totali: 26 su 150 = 17.33%
+Caratteri mai sbagliati: 4 5
+Elenco delle parole copiate male:
+	(4) TX: 143, RX: 134, DIF: 33;
+	(13) TX: 915, RX: 815, DIF: 9;
+	(14) TX: 416, RX: 475, DIF: 16;
+	(16) TX: 948, RX: 947, DIF: 8;
+	(17) TX: 286, RX: 186, DIF: 2;
+	(19) TX: 097, RX: 098, DIF: 7;
+	(20) TX: 287, RX: 288, DIF: 7;
+	(21) TX: 576, RX: 566, DIF: 76;
+	(22) TX: 015, RX: 915, DIF: 0;
+	(24) TX: 347, RX: 346, DIF: 7;
+	(25) TX: 019, RX: 919, DIF: 0;
+	(32) TX: 204, RX: 294, DIF: 0;
+	(35) TX: 338, RX: 337, DIF: 8;
+	(36) TX: 623, RX: 633, DIF: 23;
+	(38) TX: 141, RX: 142, DIF: 1;
+	(39) TX: 161, RX: 162, DIF: 1;
+	(41) TX: 015, RX: 915, DIF: 0;
+	(42) TX: 579, RX: 567, DIF: 69;
+	(47) TX: 078, RX: 088, DIF: 78;
+	(50) TX: 815, RX: 715, DIF: 8;
+Nota: nessuna
+***
+
+Esercizio di ricezione #519 eseguito il 2026/3/6 alle 14, 42 minuti:
+In questa sessione #519, ti ho inviato 30 Parole e ne hai ricevuti 16: 53.3%
+	13 di questi sono stati ricevuti al primo ascolto: 81.2%
+	mentre 3 Parole al secondo tentativo: 18.8%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 42.00: pari ad una variazione di 7.00 WPM.
+	La velocità media di ricezione è di: 38.06 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 6 errori su 21 invii. Tasso errore stimato: [13.8% - 50.0%]    'A': 3 errori su 26 invii. Tasso errore stimato: [4.0% - 29.0%]    'E': 3 errori su 25 invii. Tasso errore stimato: [4.2% - 30.0%]    'C': 2 errori su 14 invii. Tasso errore stimato: [4.0% - 39.9%]    'N': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'R': 2 errori su 19 invii. Tasso errore stimato: [2.9% - 31.4%]    'T': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    'D': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'L': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]    'P': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'S': 1 errori su 16 invii. Tasso errore stimato: [1.1% - 28.3%]
+
+Errori totali: 24 su 217 = 11.06%
+Caratteri mai sbagliati: B F G H M O Q U V À Ò
+Elenco delle parole copiate male:
+	(3) TX: SPAESATO, RX: SPASSATO, DIF: E;
+	(7) TX: ONDULÒ, RX: ONDURÒ, DIF: L;
+	(12) TX: RISECANO, RX: RISICANO, DIF: E;
+	(14) TX: TIPICHE, RX: TICHE, DIF: IP;
+	(16) TX: MOVERCI, RX: MOVICE, DIF: ICRCI;
+	(18) TX: PREVEDRA, RX: PREVENIRE, DIF: DA;
+	(19) TX: CAVEREI, RX: CAVIRE, DIF: EI;
+	(20) TX: CARACUL, RX: CARCUAL, DIF: AA;
+	(22) TX: RENOIR, RX: RENOIN, DIF: R;
+	(23) TX: SALPINO, RX: SALPITO, DIF: N;
+	(24) TX: VOLSCO, RX: VOLICO, DIF: S;
+	(25) TX: METRITE, RX: METIRE, DIF: IIT;
+	(26) TX: BIDONANO, RX: BIDONATO, DIF: N;
+	(29) TX: IRRETITA, RX: IRRETIA, DIF: T;
+Nota: nessuna
+***
+
+Esercizio di ricezione #14 eseguito il 2026/3/7 alle 13, 29 minuti:
+In questa sessione #14, ti ho inviato 60 Lettere e ne hai ricevuti 39: 65.0%
+	15 di questi sono stati ricevuti al primo ascolto: 38.5%
+	mentre 24 Lettere al secondo tentativo: 61.5%.
+Durante la sessione, la tua velocità minima è stata 37.00, la massima di 55.00: pari ad una variazione di 18.00 WPM.
+	La velocità media di ricezione è di: 46.33 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'B': 5 errori su 10 invii. Tasso errore stimato: [23.7% - 76.3%]    'D': 3 errori su 6 invii. Tasso errore stimato: [18.8% - 81.2%]    'S': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    'C': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'G': 2 errori su 8 invii. Tasso errore stimato: [7.1% - 59.1%]    'Y': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'Z': 2 errori su 12 invii. Tasso errore stimato: [4.7% - 44.8%]    'K': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'Q': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'R': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'W': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]
+
+Errori totali: 23 su 180 = 12.78%
+Caratteri mai sbagliati: A E F H I J L M N O P T U V X
+Elenco delle parole copiate male:
+	(3) TX: HQY, RX: HYQ, DIF: YY;
+	(9) TX: RWE, RX: RPE, DIF: W;
+	(10) TX: GZV, RX: GGV, DIF: Z;
+	(13) TX: JHB, RX: JHV, DIF: B;
+	(15) TX: SJX, RX: HJX, DIF: S;
+	(19) TX: CSL, RX: CIL, DIF: S;
+	(23) TX: CXR, RX: KXR, DIF: C;
+	(26) TX: JYB, RX: JYD, DIF: B;
+	(28) TX: FBD, RX: FBB, DIF: D;
+	(30) TX: NUB, RX: NUD, DIF: B;
+	(32) TX: ZKB, RX: ZKD, DIF: B;
+	(35) TX: FGU, RX: FNU, DIF: G;
+	(36) TX: FGZ, RX: FNZ, DIF: G;
+	(37) TX: UKI, RX: UXI, DIF: K;
+	(42) TX: XSQ, RX: XSY, DIF: Q;
+	(44) TX: FDU, RX: FNU, DIF: D;
+	(49) TX: TDH, RX: TNH, DIF: D;
+	(53) TX: YCS, RX: YYS, DIF: C;
+	(55) TX: RYB, RX: WYD, DIF: RB;
+	(56) TX: MZV, RX: MMV, DIF: Z;
+	(58) TX: SBV, RX: IBV, DIF: S;
+Nota: nessuna
+***
+
+Esercizio di ricezione #15 eseguito il 2026/3/7 alle 13, 31 minuti:
+In questa sessione #15, ti ho inviato 30 Misto (Lettere, Numeri) e ne hai ricevuti 25: 83.3%
+	18 di questi sono stati ricevuti al primo ascolto: 72.0%
+	mentre 7 Misto (Lettere, Numeri) al secondo tentativo: 28.0%.
+Durante la sessione, la tua velocità minima è stata 29.00, la massima di 49.00: pari ad una variazione di 20.00 WPM.
+	La velocità media di ricezione è di: 39.32 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '2': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    '9': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'H': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'Q': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'S': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'U': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 6 su 90 = 6.67%
+Caratteri mai sbagliati: 0 1 3 4 5 6 7 8 A B C D E F G I J K L M N P R V W X Y Z
+Elenco delle parole copiate male:
+	(1) TX: SLG, RX: HLG, DIF: S;
+	(12) TX: KQU, RX: KYS, DIF: QU;
+	(13) TX: JHI, RX: JSI, DIF: H;
+	(19) TX: 946, RX: 846, DIF: 9;
+	(28) TX: 724, RX: 734, DIF: 2;
+Nota: nessuna
+***
+
+Esercizio di ricezione #16 eseguito il 2026/3/7 alle 23, 25 minuti:
+In questa sessione #16, ti ho inviato 91 Misto (Lettere, Numeri, Lettere e numeri) e ne hai ricevuti 57: 62.6%
+	40 di questi sono stati ricevuti al primo ascolto: 70.2%
+	mentre 17 Misto (Lettere, Numeri, Lettere e numeri) al secondo tentativo: 29.8%.
+Durante la sessione, la tua velocità minima è stata 39.00, la massima di 64.00: pari ad una variazione di 25.00 WPM.
+	La velocità media di ricezione è di: 53.63 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '7': 4 errori su 9 invii. Tasso errore stimato: [18.9% - 73.3%]    '8': 4 errori su 6 invii. Tasso errore stimato: [30.0% - 90.3%]    'Z': 4 errori su 5 invii. Tasso errore stimato: [37.6% - 96.4%]    'B': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    '4': 2 errori su 16 invii. Tasso errore stimato: [3.5% - 36.0%]    '6': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    '9': 2 errori su 8 invii. Tasso errore stimato: [7.1% - 59.1%]    'I': 2 errori su 2 invii. Tasso errore stimato: [34.2% - 100.0%]    'Q': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'T': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'V': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'X': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    '1': 1 errori su 15 invii. Tasso errore stimato: [1.2% - 29.8%]    '3': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'F': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'H': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'L': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'M': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'N': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'P': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'Y': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 40 su 182 = 21.98%
+Caratteri mai sbagliati: 0 2 5 A C D E G J K O R S U W
+Elenco delle parole copiate male:
+	(1) TX: VB, RX: 46, DIF: VB;
+	(5) TX: 97, RX: 9Z, DIF: 7;
+	(14) TX: 46, RX: 57, DIF: 46;
+	(19) TX: TA, RX: MA, DIF: T;
+	(24) TX: 41, RX: 42, DIF: 1;
+	(26) TX: ZA, RX: GA, DIF: Z;
+	(28) TX: XO, RX: KO, DIF: X;
+	(32) TX: EM, RX: EMM, DIF: M;
+	(35) TX: HE, RX: SE, DIF: H;
+	(36) TX: VQ, RX: VX, DIF: Q;
+	(37) TX: LA, RX: RA, DIF: L;
+	(42) TX: YK, RX: CK, DIF: Y;
+	(43) TX: 69, RX: 79, DIF: 6;
+	(45) TX: 88, RX: ZZ, DIF: 88;
+	(46) TX: 58, RX: 57, DIF: 8;
+	(47) TX: TC, RX: MC, DIF: T;
+	(48) TX: Z6, RX: 86, DIF: Z;
+	(51) TX: 7L, RX: ZL, DIF: 7;
+	(52) TX: 07, RX: 08, DIF: 7;
+	(55) TX: Z4, RX: 74, DIF: Z;
+	(57) TX: NG, RX: MG, DIF: N;
+	(63) TX: 78, RX: 77, DIF: 8;
+	(64) TX: QO, RX: GO, DIF: Q;
+	(65) TX: VB, RX: 46, DIF: VB;
+	(66) TX: 74, RX: ZV, DIF: 74;
+	(68) TX: 31, RX: 21, DIF: 3;
+	(70) TX: II, RX: SS, DIF: II;
+	(72) TX: PB, RX: WB, DIF: P;
+	(73) TX: 96, RX: 06, DIF: 9;
+	(82) TX: B1, RX: N1, DIF: B;
+	(83) TX: ZP, RX: GP, DIF: Z;
+	(86) TX: 91, RX: 01, DIF: 9;
+	(88) TX: FB, RX: LB, DIF: F;
+	(91) TX: XS, RX: KS, DIF: X;
+Nota: nessuna
+***
+
+Esercizio di ricezione CONTEST #37 eseguito il 2026/3/8 alle 20, 31 minuti:
+Durata: 0:06:21
+In questa sessione, ti ho inviato 19 QRZ e ne hai ricevuti 17: 89.5%
+	Correttezza Nominativi: 17/19 (89.5%)
+	Correttezza Progressivi: 17/19 (89.5%)
+Velocità: Min 23.00, Max 62.00, Avg 30.37 WPM.
+Carattere: errori = Wilson Interval
+    'B': 3/8 [13.7% - 69.4%]
+    'H': 2/5 [11.8% - 76.9%]
+    'O': 2/3 [20.8% - 93.9%]
+    'X': 2/2 [34.2% - 100.0%]
+    '1': 1/10 [1.8% - 40.4%]
+    '2': 1/5 [3.6% - 62.4%]
+    '3': 1/6 [3.0% - 56.4%]
+    '4': 1/4 [4.6% - 69.9%]
+    'F': 1/3 [6.1% - 79.2%]
+    'J': 1/3 [6.1% - 79.2%]
+    'K': 1/7 [2.6% - 51.3%]
+    'Q': 1/2 [9.5% - 90.5%]
+    'R': 1/4 [4.6% - 69.9%]
+***
+
+Esercizio di ricezione #520 eseguito il 2026/3/8 alle 22, 20 minuti:
+In questa sessione #520, ti ho inviato 30 Parole e ne hai ricevuti 18: 60.0%
+	12 di questi sono stati ricevuti al primo ascolto: 66.7%
+	mentre 6 Parole al secondo tentativo: 33.3%.
+Durante la sessione, la tua velocità minima è stata 34.00, la massima di 43.00: pari ad una variazione di 9.00 WPM.
+	La velocità media di ricezione è di: 37.39 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 6 errori su 21 invii. Tasso errore stimato: [13.8% - 50.0%]    'E': 4 errori su 17 invii. Tasso errore stimato: [9.6% - 47.3%]    'S': 3 errori su 19 invii. Tasso errore stimato: [5.5% - 37.6%]    'N': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    'R': 2 errori su 15 invii. Tasso errore stimato: [3.7% - 37.9%]    'U': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'A': 1 errori su 30 invii. Tasso errore stimato: [0.6% - 16.7%]    'M': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'T': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]
+
+Errori totali: 22 su 206 = 10.68%
+Caratteri mai sbagliati: B C D F G K L O P V Z Ò
+Elenco delle parole copiate male:
+	(1) TX: VELINA, RX: VELITA, DIF: N;
+	(3) TX: BAGLIVI, RX: BAGLIVA, DIF: I;
+	(8) TX: SVESTA, RX: SVISTA, DIF: E;
+	(9) TX: GRIPPIE, RX: GIAPPIE, DIF: RA;
+	(11) TX: ACCORANO, RX: ACCORATO, DIF: N;
+	(12) TX: MARKS, RX: MARKI, DIF: S;
+	(17) TX: FLOSSCIA, RX: FLOSSICA, DIF: II;
+	(19) TX: SUINO, RX: SVINO, DIF: U;
+	(20) TX: CREEREMO, RX: CREETIO, DIF: REM;
+	(25) TX: IPERUSO, RX: SPERAVO, DIF: IUS;
+	(29) TX: VELIVOLE, RX: VALVOLE, DIF: EI;
+	(30) TX: MUTATIS, RX: MUTASSE, DIF: TISE;
+Nota: nessuna
+***
+
+Esercizio di ricezione #521 eseguito il 2026/3/9 alle 23, 9 minuti:
+In questa sessione #521, ti ho inviato 35 Parole e ne hai ricevuti 20: 57.1%
+	15 di questi sono stati ricevuti al primo ascolto: 75.0%
+	mentre 5 Parole al secondo tentativo: 25.0%.
+Durante la sessione, la tua velocità minima è stata 33.00, la massima di 41.00: pari ad una variazione di 8.00 WPM.
+	La velocità media di ricezione è di: 37.10 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 6 errori su 26 invii. Tasso errore stimato: [11.0% - 42.1%]    'N': 5 errori su 15 invii. Tasso errore stimato: [15.2% - 58.3%]    'E': 4 errori su 24 invii. Tasso errore stimato: [6.7% - 35.9%]    'T': 4 errori su 10 invii. Tasso errore stimato: [16.8% - 68.7%]    'G': 3 errori su 9 invii. Tasso errore stimato: [12.1% - 64.6%]    'S': 2 errori su 13 invii. Tasso errore stimato: [4.3% - 42.2%]    'A': 1 errori su 27 invii. Tasso errore stimato: [0.7% - 18.3%]    'B': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'K': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'M': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'O': 1 errori su 19 invii. Tasso errore stimato: [0.9% - 24.6%]    'U': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]
+
+Errori totali: 30 su 235 = 12.77%
+Caratteri mai sbagliati: C D F L P R V Z Ò
+Elenco delle parole copiate male:
+	(6) TX: CONVENGA, RX: CONVINTA, DIF: EG;
+	(7) TX: SPECK, RX: SPECA, DIF: K;
+	(11) TX: MARNIERE, RX: MARDIRIRE, DIF: NE;
+	(13) TX: LANUGINE, RX: LANUGGINE, DIF: G;
+	(16) TX: FORCUTI, RX: FORCUTE, DIF: I;
+	(17) TX: BISTORTI, RX: DISORDE, DIF: BTTI;
+	(21) TX: BORICA, RX: BORCA, DIF: I;
+	(22) TX: ASETTICO, RX: ASTICO, DIF: ET;
+	(23) TX: GIARRA, RX: GERRA, DIF: IA;
+	(24) TX: PULLMANS, RX: PULLMINA, DIF: INNS;
+	(25) TX: BRONCO, RX: BROCO, DIF: N;
+	(29) TX: AGRIGNE, RX: AGRIGE, DIF: N;
+	(30) TX: VUDUISMO, RX: VUDISVU, DIF: UMO;
+	(33) TX: GLEBOSO, RX: MALBORO, DIF: GES;
+	(35) TX: IMITI, RX: AMINI, DIF: IT;
+Nota: nessuna
+***
