@@ -1,10 +1,9 @@
 # TIMELINE Calcola statistiche basate su cwapu_settings.json creato da cwapu.
 # V7. Creato in data giovedì 10 luglio 2025 da Gabriele Battaglia e Gemini 2.5 Pro
-import json, math
+import math
 import numpy as np
 import pandas as pd
 import datetime as dt
-from collections import Counter
 
 def wilson_score_upper_bound(errori, invii, confidenza=0.95):
     """

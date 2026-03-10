@@ -2,7 +2,15 @@
 # Data concepimento 21/12/2022.
 # GitHub publishing on july 2nd, 2024.
 
-import sys, random, json, string, pyperclip, re, difflib, os, traceback
+import sys
+import random
+import json
+import string
+import pyperclip
+import re
+import difflib
+import os
+import traceback
 import datetime as dt
 from pynput import keyboard
 from GBUtils import key, dgt, menu, CWzator, Donazione, polipo
@@ -692,7 +700,7 @@ def crea_report_grafico(current_aggregates, previous_aggregates, g_val, x_val, n
     try:
         plt.savefig(output_filename, format='svg', bbox_inches='tight', pad_inches=0.3, facecolor=fig.get_facecolor())
         plt.close(fig)
-    except Exception as e_save:
+    except Exception:
         if 'fig' in locals() and fig:
             plt.close(fig)
         print(_('Errore nel salvataggio del file grafico'))
@@ -778,7 +786,7 @@ def load_settings():
             loaded_overall_settings = merged_data.get('overall_settings', overall_settings_default)
             print(_('Impostazioni generali caricate'))
             return merged_data
-        except (json.JSONDecodeError, IOError, TypeError) as e:
+        except (json.JSONDecodeError, IOError, TypeError):
             print(_('Errore durante il caricamento del file di impostazioni.'))
             overall_settings_changed = True
             return {k: v.copy() if isinstance(v, dict) else v for k, v in DEFAULT_DATA.items()}
@@ -1703,7 +1711,8 @@ def RxingContest(menu_config_scelta):
             while msvcrt.kbhit():
                 msvcrt.getch()
         else:
-            import termios, sys
+            import termios
+            import sys
             try:
                 termios.tcflush(sys.stdin, termios.TCIOFLUSH)
             except:
@@ -2402,7 +2411,7 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
     except IOError as e:
         print(_('Errore durante il salvataggio del report storico {filename}: {e}').format(filename=report_filename_full_path, e=str(e)))
         return None
-    except Exception as e:
+    except Exception:
         print(_("\n--- ERRORE DURANTE LA GENERAZIONE DEL REPORT ---"))
         print(_("Si è verificato un errore imprevisto. Dettagli:"))
         traceback.print_exc()
@@ -2422,7 +2431,7 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
             app_language
         )
         print(_('Report grafico salvato in: {filename}').format(filename=graphic_report_filename_full_path ))
-    except Exception as e_graph:
+    except Exception:
         print(_('Errore durante la generazione del report grafico'))
     return current_aggregates
 
