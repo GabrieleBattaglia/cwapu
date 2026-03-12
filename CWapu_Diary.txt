@@ -1967,3 +1967,19 @@ Elenco delle parole copiate male:
 	(80) TX: HZZ, RX: HZB, DIF: Z;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #37 eseguito il 2026/3/12 alle 12, 31 minuti:
+In questa sessione #37, ti ho inviato 15 Qrz e ne hai ricevuti 13: 86.7%
+	6 di questi sono stati ricevuti al primo ascolto: 46.2%
+	mentre 7 Qrz al secondo tentativo: 53.8%.
+Durante la sessione, la tua velocità minima è stata 30.00, la massima di 40.00: pari ad una variazione di 10.00 WPM.
+	La velocità media di ricezione è di: 35.08 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '8': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'S': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'Z': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 3 su 78 = 3.85%
+Caratteri mai sbagliati: 1 2 4 5 6 9 A B C D E F G H I J K L M N O P Q R T U V W X Y
+Elenco delle parole copiate male:
+	(5) TX: YG9BSZ, RX: YG9BIB, DIF: SZ;
+	(12) TX: DL8MV, RX: DL7MV, DIF: 8;
+Nota: nessuna
+***

@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 444
+        "launch_count": 445
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 54,
+        "speed": 41,
         "pitch": 666,
         "dashes": 30,
         "spaces": 50,
@@ -29,22 +29,22 @@
         "total_time_seconds": 3186.111467
     },
     "rxing_stats_qrz": {
-        "total_calls": 403,
-        "sessions": 37,
-        "total_correct": 235,
-        "total_wrong_items": 168,
-        "total_time_seconds": 9048.771422
+        "total_calls": 418,
+        "sessions": 38,
+        "total_correct": 248,
+        "total_wrong_items": 170,
+        "total_time_seconds": 9141.355082
     },
     "counting_stats": {
         "exercise_number": 100
     },
     "rx_menu_switcher_states": {
         "parole": false,
-        "lettere": true,
-        "numeri": true,
-        "lettere e numeri": true,
+        "lettere": false,
+        "numeri": false,
+        "lettere e numeri": false,
         "simboli": false,
-        "qrz": false,
+        "qrz": true,
         "custom": false,
         "contest": false,
         "parole_filter_min": 1,
@@ -66707,7 +66707,7 @@
         "historical_reports": []
     },
     "historical_rx_data_qrz": {
-        "chars_since_last_report": 75,
+        "chars_since_last_report": 153,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-12-17T23:04:48.130816",
@@ -70748,6 +70748,119 @@
                     "x": 2,
                     "z": 2,
                     "7": 1
+                }
+            },
+            {
+                "timestamp_iso": "2026-03-12T12:30:01.946372",
+                "duration_seconds": 92.58366,
+                "rwpm_min": 30,
+                "rwpm_max": 40,
+                "rwpm_avg": 35.07692307692308,
+                "items_sent_session": 15,
+                "items_correct_session": 13,
+                "item_details": [
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 33,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 38,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 38,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 78,
+                "errors_detail_session": {
+                    "s": 1,
+                    "z": 1,
+                    "8": 1
+                },
+                "total_errors_chars_session": 3,
+                "sent_chars_detail_session": {
+                    "c": 4,
+                    "r": 1,
+                    "6": 2,
+                    "x": 3,
+                    "w": 3,
+                    "f": 3,
+                    "8": 3,
+                    "s": 3,
+                    "u": 1,
+                    "k": 2,
+                    "z": 2,
+                    "1": 2,
+                    "i": 1,
+                    "l": 4,
+                    "h": 3,
+                    "a": 4,
+                    "5": 2,
+                    "y": 2,
+                    "d": 4,
+                    "g": 3,
+                    "9": 3,
+                    "b": 1,
+                    "o": 1,
+                    "m": 3,
+                    "j": 5,
+                    "e": 2,
+                    "4": 2,
+                    "p": 3,
+                    "t": 1,
+                    "v": 1,
+                    "n": 2,
+                    "2": 1,
+                    "q": 1
                 }
             }
         ],
