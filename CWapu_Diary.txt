@@ -1983,3 +1983,121 @@ Elenco delle parole copiate male:
 	(12) TX: DL8MV, RX: DL7MV, DIF: 8;
 Nota: nessuna
 ***
+
+Esercizio di ricezione CONTEST #39 eseguito il 2026/3/15 alle 11, 51 minuti:
+Durata: 0:10:00
+In questa sessione, ti ho inviato 32 QRZ e ne hai ricevuti 25: 78.1%
+	Correttezza Nominativi: 25/32 (78.1%)
+	Correttezza Progressivi: 25/32 (78.1%)
+Velocità: Min 28.00, Max 45.00, Avg 31.31 WPM.
+Carattere: errori = Wilson Interval
+    'F': 6/7 [48.7% - 97.4%]
+    'I': 5/5 [56.6% - 100.0%]
+    'J': 4/7 [25.0% - 84.2%]
+    'P': 3/7 [15.8% - 75.0%]
+    'T': 3/7 [15.8% - 75.0%]
+    '1': 2/13 [4.3% - 42.2%]
+    '7': 2/5 [11.8% - 76.9%]
+    '8': 2/8 [7.1% - 59.1%]
+    '9': 2/8 [7.1% - 59.1%]
+    'A': 2/10 [5.7% - 51.0%]
+    'C': 2/9 [6.3% - 54.7%]
+    'G': 2/5 [11.8% - 76.9%]
+    '5': 1/37 [0.5% - 13.8%]
+    '6': 1/5 [3.6% - 62.4%]
+    'E': 1/6 [3.0% - 56.4%]
+    'L': 1/4 [4.6% - 69.9%]
+    'N': 1/69 [0.3% - 7.8%]
+    'S': 1/2 [9.5% - 90.5%]
+    'X': 1/5 [3.6% - 62.4%]
+    'Z': 1/3 [6.1% - 79.2%]
+***
+
+Esercizio di ricezione #522 eseguito il 2026/3/15 alle 13, 30 minuti:
+In questa sessione #522, ti ho inviato 80 Parole e ne hai ricevuti 45: 56.2%
+	24 di questi sono stati ricevuti al primo ascolto: 53.3%
+	mentre 21 Parole al secondo tentativo: 46.7%.
+Durante la sessione, la tua velocità minima è stata 30.00, la massima di 44.00: pari ad una variazione di 14.00 WPM.
+	La velocità media di ricezione è di: 38.64 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 25 errori su 82 invii. Tasso errore stimato: [21.6% - 41.1%]    'A': 9 errori su 75 invii. Tasso errore stimato: [6.4% - 21.3%]    'E': 8 errori su 45 invii. Tasso errore stimato: [9.3% - 31.3%]    'T': 8 errori su 53 invii. Tasso errore stimato: [7.9% - 27.1%]    'N': 7 errori su 33 invii. Tasso errore stimato: [10.7% - 37.8%]    'R': 6 errori su 33 invii. Tasso errore stimato: [8.6% - 34.4%]    'B': 3 errori su 13 invii. Tasso errore stimato: [8.2% - 50.3%]    'G': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    'L': 3 errori su 17 invii. Tasso errore stimato: [6.2% - 41.0%]    'M': 3 errori su 12 invii. Tasso errore stimato: [8.9% - 53.2%]    'O': 3 errori su 51 invii. Tasso errore stimato: [2.0% - 15.9%]    'C': 2 errori su 27 invii. Tasso errore stimato: [2.1% - 23.4%]    'D': 2 errori su 14 invii. Tasso errore stimato: [4.0% - 39.9%]    'S': 2 errori su 34 invii. Tasso errore stimato: [1.6% - 19.1%]    'H': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'U': 1 errori su 18 invii. Tasso errore stimato: [1.0% - 25.8%]
+
+Errori totali: 86 su 566 = 15.19%
+Caratteri mai sbagliati: F J K P Q V X Y Z À
+Elenco delle parole copiate male:
+	(2) TX: SBRAMATI, RX: SBRANATI, DIF: M;
+	(3) TX: INTINTE, RX: INTINE, DIF: T;
+	(7) TX: BUTTAR, RX: BUTTARE, DIF: E;
+	(12) TX: SUBUMANI, RX: SUBUTEA, DIF: MNI;
+	(18) TX: INERTI, RX: INERETA, DIF: EI;
+	(19) TX: BLASONA, RX: BRASORA, DIF: LN;
+	(21) TX: GUARDACI, RX: GIUDICI, DIF: IARA;
+	(27) TX: OSTINATA, RX: OSTIATE, DIF: NA;
+	(28) TX: IRRELATO, RX: IRRITATO, DIF: EL;
+	(30) TX: INEBRI, RX: INIBIRE, DIF: IBIRBRI;
+	(31) TX: ANFIOSSI, RX: ANFIOSI, DIF: S;
+	(32) TX: OPLA, RX: OPRA, DIF: L;
+	(34) TX: DANZASTE, RX: DANZASTI, DIF: E;
+	(37) TX: CAVAVATE, RX: CAVAVAE, DIF: T;
+	(39) TX: GIUGGIA, RX: GIUNNEA, DIF: GGI;
+	(41) TX: SALINITA, RX: SALUTATA, DIF: INITA;
+	(43) TX: BARISTE, RX: BARISTA, DIF: E;
+	(44) TX: RUTTIATE, RX: RUTTATE, DIF: I;
+	(48) TX: AQUARIO, RX: ACQUISTO, DIF: CARST;
+	(50) TX: OSTICHE, RX: OSTRICHE, DIF: R;
+	(51) TX: VIOLACEI, RX: VALVOLE, DIF: IACI;
+	(53) TX: VARIADO, RX: VARIANO, DIF: D;
+	(55) TX: COVONI, RX: COVONE, DIF: I;
+	(58) TX: FIDIATE, RX: FIDATE, DIF: I;
+	(59) TX: BARENAVA, RX: BARNAVA, DIF: E;
+	(62) TX: SOSTIENI, RX: SOSTENTI, DIF: IT;
+	(63) TX: BILIOSO, RX: DELIOSO, DIF: BI;
+	(68) TX: ORTOEPIE, RX: ORTOTIPI, DIF: EE;
+	(70) TX: RADIASSE, RX: RIDESSE, DIF: AIA;
+	(71) TX: CISTI, RX: CESSE, DIF: ITI;
+	(73) TX: EXCENTRI, RX: EXCELSE, DIF: NTRI;
+	(75) TX: NIDICOLI, RX: NICOLE, DIF: IDI;
+	(77) TX: ANTIMONI, RX: ANIOME, DIF: TOONI;
+	(78) TX: GHIAIANO, RX: GIACOMO, DIF: HIANMO;
+	(80) TX: SUBBUGLI, RX: SUBBILE, DIF: UGI;
+Nota: nessuna
+***
+
+Esercizio di ricezione CONTEST #40 eseguito il 2026/3/17 alle 9, 38 minuti:
+Durata: 0:10:17
+In questa sessione, ti ho inviato 28 QRZ e ne hai ricevuti 16: 57.1%
+	Correttezza Nominativi: 16/28 (57.1%)
+	Correttezza Progressivi: 16/28 (57.1%)
+Velocità: Min 36.00, Max 44.00, Avg 39.11 WPM.
+Carattere: errori = Wilson Interval
+    '8': 7/4 [51.0% - 100.0%]
+    'I': 7/6 [61.0% - 100.0%]
+    'S': 7/3 [43.8% - 100.0%]
+    'A': 6/11 [28.0% - 78.7%]
+    'T': 6/4 [51.0% - 100.0%]
+    '7': 5/8 [30.6% - 86.3%]
+    'V': 5/4 [51.0% - 100.0%]
+    'Y': 5/6 [43.6% - 97.0%]
+    '9': 4/2 [34.2% - 100.0%]
+    'Q': 4/5 [37.6% - 96.4%]
+    'B': 3/2 [34.2% - 100.0%]
+    'C': 3/7 [15.8% - 75.0%]
+    'G': 3/4 [30.1% - 95.4%]
+    'H': 3/2 [34.2% - 100.0%]
+    'M': 3/7 [15.8% - 75.0%]
+    'P': 3/8 [13.7% - 69.4%]
+    '3': 2/8 [7.1% - 59.1%]
+    '4': 2/4 [15.0% - 85.0%]
+    '6': 2/4 [15.0% - 85.0%]
+    'E': 2/7 [8.2% - 64.1%]
+    'K': 2/5 [11.8% - 76.9%]
+    'L': 2/4 [15.0% - 85.0%]
+    'X': 2/2 [34.2% - 100.0%]
+    '/': 1/0 [0.0% - 100.0%]
+    '2': 1/8 [2.2% - 47.1%]
+    '5': 1/33 [0.5% - 15.3%]
+    'D': 1/7 [2.6% - 51.3%]
+    'J': 1/3 [6.1% - 79.2%]
+    'R': 1/3 [6.1% - 79.2%]
+    'U': 1/3 [6.1% - 79.2%]
+    'W': 1/4 [4.6% - 69.9%]
+***
