@@ -2101,3 +2101,142 @@ Carattere: errori = Wilson Interval
     'U': 1/3 [6.1% - 79.2%]
     'W': 1/4 [4.6% - 69.9%]
 ***
+
+Esercizio di ricezione #523 eseguito il 2026/3/22 alle 17, 18 minuti:
+In questa sessione #523, ti ho inviato 30 Parole e ne hai ricevuti 22: 73.3%
+	12 di questi sono stati ricevuti al primo ascolto: 54.5%
+	mentre 10 Parole al secondo tentativo: 45.5%.
+Durante la sessione, la tua velocità minima è stata 32.00, la massima di 32.00: pari ad una variazione di 0.00 WPM.
+	La velocità media di ricezione è di: 32.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 3 errori su 21 invii. Tasso errore stimato: [5.0% - 34.6%]    'N': 2 errori su 13 invii. Tasso errore stimato: [4.3% - 42.2%]    'A': 1 errori su 29 invii. Tasso errore stimato: [0.6% - 17.2%]    'I': 1 errori su 30 invii. Tasso errore stimato: [0.6% - 16.7%]    'L': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'R': 1 errori su 13 invii. Tasso errore stimato: [1.4% - 33.3%]    'S': 1 errori su 18 invii. Tasso errore stimato: [1.0% - 25.8%]
+
+Errori totali: 10 su 210 = 4.76%
+Caratteri mai sbagliati: B C D F G M O P T U V Z À
+Elenco delle parole copiate male:
+	(1) TX: UGNETTO, RX: UGETTO, DIF: N;
+	(2) TX: SAGRI, RX: SAGIE, DIF: RE;
+	(9) TX: FILABILI, RX: FILABIRI, DIF: L;
+	(10) TX: RENELLA, RX: RINALLA, DIF: EE;
+	(11) TX: MASTABA, RX: MASTUBA, DIF: A;
+	(16) TX: ISSERO, RX: ISERO, DIF: S;
+	(17) TX: IONONE, RX: IONORE, DIF: N;
+	(26) TX: RIABBIA, RX: RABBIA, DIF: I;
+Nota: nessuna
+***
+
+Esercizio di ricezione #18 eseguito il 2026/3/23 alle 7, 5 minuti:
+In questa sessione #18, ti ho inviato 45 Lettere e ne hai ricevuti 31: 68.9%
+	16 di questi sono stati ricevuti al primo ascolto: 51.6%
+	mentre 15 Lettere al secondo tentativo: 48.4%.
+Durante la sessione, la tua velocità minima è stata 32.00, la massima di 52.00: pari ad una variazione di 20.00 WPM.
+	La velocità media di ricezione è di: 42.58 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'C': 3 errori su 4 invii. Tasso errore stimato: [30.1% - 95.4%]    'G': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'H': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'R': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'A': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'B': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'D': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'E': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'I': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'K': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'L': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'P': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'U': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'Y': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'Z': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 20 su 135 = 14.81%
+Caratteri mai sbagliati: F J M N O Q S T V W X
+Elenco delle parole copiate male:
+	(8) TX: JHY, RX: JSQ, DIF: HY;
+	(16) TX: DHW, RX: DSW, DIF: H;
+	(17) TX: DPA, RX: DPU, DIF: A;
+	(18) TX: XIV, RX: XSV, DIF: I;
+	(19) TX: YGB, RX: CYD, DIF: CGB;
+	(21) TX: EEG, RX: ETG, DIF: E;
+	(29) TX: HRK, RX: HRX, DIF: K;
+	(31) TX: GCC, RX: DBK, DIF: GCC;
+	(34) TX: CUP, RX: CUW, DIF: P;
+	(39) TX: RMU, RX: WMV, DIF: RU;
+	(40) TX: ZZS, RX: ZBS, DIF: Z;
+	(41) TX: MLF, RX: MRF, DIF: L;
+	(44) TX: IFD, RX: IFB, DIF: D;
+	(45) TX: KXR, RX: KXF, DIF: R;
+Nota: nessuna
+***
+
+Esercizio di ricezione #19 eseguito il 2026/3/23 alle 14, 36 minuti:
+In questa sessione #19, ti ho inviato 38 Misto (Lettere, Numeri) e ne hai ricevuti 28: 73.7%
+	5 di questi sono stati ricevuti al primo ascolto: 17.9%
+	mentre 23 Misto (Lettere, Numeri) al secondo tentativo: 82.1%.
+Durante la sessione, la tua velocità minima è stata 40.00, la massima di 58.00: pari ad una variazione di 18.00 WPM.
+	La velocità media di ricezione è di: 48.50 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '7': 3 errori su 7 invii. Tasso errore stimato: [15.8% - 75.0%]    'H': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'I': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'P': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    '1': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    '3': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'A': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'S': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'U': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'V': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'Z': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]
+
+Errori totali: 16 su 114 = 14.04%
+Caratteri mai sbagliati: 0 2 4 5 6 8 9 B C D E F J M N O Q R T W X Y
+Elenco delle parole copiate male:
+	(4) TX: WDH, RX: WDS, DIF: H;
+	(5) TX: 879, RX: 889, DIF: 7;
+	(11) TX: XHN, RX: XSN, DIF: H;
+	(17) TX: XZY, RX: XGY, DIF: Z;
+	(18) TX: 621, RX: 632, DIF: 31;
+	(21) TX: 177, RX: 188, DIF: 77;
+	(22) TX: UIV, RX: VSV, DIF: UISV;
+	(26) TX: PPX, RX: PWX, DIF: P;
+	(34) TX: VAW, RX: VUW, DIF: A;
+	(37) TX: PEI, RX: WEE, DIF: PI;
+Nota: nessuna
+***
+
+Esercizio di ricezione #20 eseguito il 2026/3/24 alle 15, 41 minuti:
+In questa sessione #20, ti ho inviato 56 Misto (Lettere, Numeri, Lettere e numeri) e ne hai ricevuti 41: 73.2%
+	26 di questi sono stati ricevuti al primo ascolto: 63.4%
+	mentre 15 Misto (Lettere, Numeri, Lettere e numeri) al secondo tentativo: 36.6%.
+Durante la sessione, la tua velocità minima è stata 25.00, la massima di 52.00: pari ad una variazione di 27.00 WPM.
+	La velocità media di ricezione è di: 39.85 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '8': 5 errori su 12 invii. Tasso errore stimato: [19.3% - 68.0%]    '5': 3 errori su 14 invii. Tasso errore stimato: [7.6% - 47.6%]    '7': 3 errori su 10 invii. Tasso errore stimato: [10.8% - 60.3%]    '6': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    'B': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.9%]    '1': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    '4': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'C': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'D': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'F': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'G': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'M': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'Z': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 23 su 168 = 13.69%
+Caratteri mai sbagliati: 0 2 3 9 A E H I J K L N O P Q R S T W X Y
+Elenco delle parole copiate male:
+	(8) TX: 183, RX: 1Z3, DIF: 8;
+	(18) TX: SG3, RX: SD3, DIF: G;
+	(22) TX: 577, RX: 567, DIF: 67;
+	(23) TX: 378, RX: 379, DIF: 8;
+	(24) TX: 578, RX: 567, DIF: 68;
+	(27) TX: DMN, RX: DZN, DIF: M;
+	(32) TX: WG4, RX: WGV, DIF: 4;
+	(37) TX: B8C, RX: 6GY, DIF: B8C;
+	(38) TX: LZ5, RX: LGH, DIF: Z5;
+	(43) TX: 856, RX: 7H6, DIF: 85;
+	(46) TX: MDF, RX: MNR, DIF: DF;
+	(47) TX: 878, RX: 8Z8, DIF: 7;
+	(52) TX: KM7, RX: KMZ, DIF: 7;
+	(53) TX: WB1, RX: WD2, DIF: B1;
+	(54) TX: LF5, RX: LFM, DIF: 5;
+Nota: nessuna
+***
+
+Esercizio di ricezione CONTEST #41 eseguito il 2026/3/25 alle 10, 30 minuti:
+Durata: 0:10:21
+In questa sessione, ti ho inviato 30 QRZ e ne hai ricevuti 21: 70.0%
+	Correttezza Nominativi: 21/30 (70.0%)
+	Correttezza Progressivi: 21/30 (70.0%)
+Velocità: Min 26.00, Max 49.00, Avg 29.07 WPM.
+Carattere: errori = Wilson Interval
+    'B': 5/4 [51.0% - 100.0%]
+    'K': 5/9 [26.7% - 81.1%]
+    'I': 4/8 [21.5% - 78.5%]
+    'P': 4/7 [25.0% - 84.2%]
+    '7': 3/8 [13.7% - 69.4%]
+    '8': 3/4 [30.1% - 95.4%]
+    'H': 3/3 [43.8% - 100.0%]
+    'R': 3/6 [18.8% - 81.2%]
+    '6': 2/7 [8.2% - 64.1%]
+    'D': 2/11 [5.1% - 47.7%]
+    'F': 2/8 [7.1% - 59.1%]
+    'J': 2/2 [34.2% - 100.0%]
+    'L': 2/5 [11.8% - 76.9%]
+    'Q': 2/3 [20.8% - 93.9%]
+    'S': 2/8 [7.1% - 59.1%]
+    'Z': 2/4 [15.0% - 85.0%]
+    '/': 1/0 [0.0% - 100.0%]
+    '2': 1/5 [3.6% - 62.4%]
+    'A': 1/6 [3.0% - 56.4%]
+    'G': 1/6 [3.0% - 56.4%]
+    'M': 1/4 [4.6% - 69.9%]
+    'N': 1/67 [0.3% - 8.0%]
+    'O': 1/3 [6.1% - 79.2%]
+    'T': 1/6 [3.0% - 56.4%]
+    'U': 1/2 [9.5% - 90.5%]
+    'W': 1/3 [6.1% - 79.2%]
+    'X': 1/2 [9.5% - 90.5%]
+***
