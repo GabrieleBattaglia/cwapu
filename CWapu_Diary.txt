@@ -2267,3 +2267,39 @@ Elenco delle parole copiate male:
 	(40) TX: ETOLOGHE, RX: OMOLOGHI, DIF: ETE;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #21 eseguito il 2026/3/27 alle 10, 4 minuti:
+In questa sessione #21, ti ho inviato 60 Lettere e ne hai ricevuti 38: 63.3%
+	12 di questi sono stati ricevuti al primo ascolto: 31.6%
+	mentre 26 Lettere al secondo tentativo: 68.4%.
+Durante la sessione, la tua velocità minima è stata 39.00, la massima di 54.00: pari ad una variazione di 15.00 WPM.
+	La velocità media di ricezione è di: 46.03 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'B': 4 errori su 5 invii. Tasso errore stimato: [37.6% - 96.4%]    'S': 4 errori su 5 invii. Tasso errore stimato: [37.6% - 96.4%]    'V': 4 errori su 5 invii. Tasso errore stimato: [37.6% - 96.4%]    'H': 3 errori su 9 invii. Tasso errore stimato: [12.1% - 64.6%]    'E': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'G': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'J': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'F': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'I': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]    'L': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'P': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'R': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'U': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'W': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'X': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'Y': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'Z': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 31 su 180 = 17.22%
+Caratteri mai sbagliati: A C D K M N O Q T
+Elenco delle parole copiate male:
+	(2) TX: OSZ, RX: OHZ, DIF: S;
+	(7) TX: HPY, RX: HWY, DIF: P;
+	(11) TX: BPE, RX: DPI, DIF: BE;
+	(12) TX: IJB, RX: IWD, DIF: JB;
+	(14) TX: HUH, RX: HVS, DIF: UH;
+	(16) TX: QVF, RX: QUF, DIF: V;
+	(17) TX: BVW, RX: BUW, DIF: V;
+	(21) TX: TJG, RX: TWP, DIF: JG;
+	(26) TX: XHX, RX: XSX, DIF: H;
+	(27) TX: ZAO, RX: GAO, DIF: Z;
+	(28) TX: SVO, RX: HUO, DIF: SV;
+	(31) TX: UIG, RX: USG, DIF: I;
+	(33) TX: TEH, RX: TTS, DIF: EH;
+	(36) TX: WQW, RX: WQR, DIF: W;
+	(38) TX: BPZ, RX: DPZ, DIF: B;
+	(40) TX: BJF, RX: DJR, DIF: BF;
+	(41) TX: QGU, RX: QNU, DIF: G;
+	(46) TX: LKV, RX: LKU, DIF: V;
+	(48) TX: TSR, RX: TIR, DIF: S;
+	(51) TX: JTS, RX: JTI, DIF: S;
+	(52) TX: GFX, RX: GRF, DIF: RX;
+	(56) TX: LHY, RX: RHQ, DIF: LY;
+Nota: nessuna
+***
