@@ -2303,3 +2303,28 @@ Elenco delle parole copiate male:
 	(56) TX: LHY, RX: RHQ, DIF: LY;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #525 eseguito il 2026/4/1 alle 22, 5 minuti:
+In questa sessione #525, ti ho inviato 31 Parole e ne hai ricevuti 20: 64.5%
+	12 di questi sono stati ricevuti al primo ascolto: 60.0%
+	mentre 8 Parole al secondo tentativo: 40.0%.
+Durante la sessione, la tua velocità minima è stata 34.00, la massima di 44.00: pari ad una variazione di 10.00 WPM.
+	La velocità media di ricezione è di: 39.60 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 6 errori su 27 invii. Tasso errore stimato: [10.6% - 40.8%]    'A': 4 errori su 27 invii. Tasso errore stimato: [5.9% - 32.5%]    'T': 3 errori su 22 invii. Tasso errore stimato: [4.7% - 33.3%]    'E': 2 errori su 17 invii. Tasso errore stimato: [3.3% - 34.3%]    'D': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'L': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]    'M': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'N': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'O': 1 errori su 14 invii. Tasso errore stimato: [1.3% - 31.5%]    'P': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'R': 1 errori su 14 invii. Tasso errore stimato: [1.3% - 31.5%]    'S': 1 errori su 23 invii. Tasso errore stimato: [0.8% - 21.0%]
+
+Errori totali: 23 su 209 = 11.00%
+Caratteri mai sbagliati: B C F G U V Z À Ò
+Elenco delle parole copiate male:
+	(5) TX: SBASSA, RX: SBUSSA, DIF: A;
+	(6) TX: BUTTAMI, RX: BUTTATI, DIF: M;
+	(10) TX: SCISSILI, RX: SCISSALI, DIF: I;
+	(16) TX: DOSSALI, RX: DOSSALE, DIF: I;
+	(18) TX: METONIMI, RX: AMONIME, DIF: AETI;
+	(21) TX: URETRALE, RX: URETALI, DIF: RE;
+	(23) TX: GUASTA, RX: GUSTATA, DIF: ATA;
+	(24) TX: LAGNI, RX: LAGNE, DIF: I;
+	(26) TX: AMBLIOPI, RX: AMBIGUA, DIF: LOPI;
+	(28) TX: TINTA, RX: TIMEA, DIF: NT;
+	(31) TX: CANADESI, RX: CANASTE, DIF: DSI;
+Nota: nessuna
+***
