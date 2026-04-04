@@ -2328,3 +2328,30 @@ Elenco delle parole copiate male:
 	(31) TX: CANADESI, RX: CANASTE, DIF: DSI;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #526 eseguito il 2026/4/4 alle 16, 39 minuti:
+In questa sessione #526, ti ho inviato 34 Parole e ne hai ricevuti 21: 61.8%
+	15 di questi sono stati ricevuti al primo ascolto: 71.4%
+	mentre 6 Parole al secondo tentativo: 28.6%.
+Durante la sessione, la tua velocità minima è stata 33.00, la massima di 46.00: pari ad una variazione di 13.00 WPM.
+	La velocità media di ricezione è di: 40.10 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 6 errori su 28 invii. Tasso errore stimato: [10.2% - 39.5%]    'I': 6 errori su 26 invii. Tasso errore stimato: [11.0% - 42.1%]    'T': 4 errori su 13 invii. Tasso errore stimato: [12.7% - 57.6%]    'R': 3 errori su 17 invii. Tasso errore stimato: [6.2% - 41.0%]    'D': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'O': 2 errori su 23 invii. Tasso errore stimato: [2.4% - 26.8%]    'S': 2 errori su 16 invii. Tasso errore stimato: [3.5% - 36.0%]    'U': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.9%]    'A': 1 errori su 21 invii. Tasso errore stimato: [0.8% - 22.7%]    'B': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'F': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'G': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'N': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'P': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'V': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]
+
+Errori totali: 34 su 229 = 14.85%
+Caratteri mai sbagliati: C H K L M Y À
+Elenco delle parole copiate male:
+	(6) TX: METILARE, RX: MILITARE, DIF: ETIT;
+	(10) TX: HICKORY, RX: HICKURY, DIF: O;
+	(16) TX: IMPOSE, RX: IMPOSI, DIF: E;
+	(18) TX: PRECEPTI, RX: PRECIPITI, DIF: EI;
+	(19) TX: GRANFIA, RX: GRANCHIO, DIF: FA;
+	(22) TX: SCARICHE, RX: SCARICHI, DIF: E;
+	(25) TX: LETARGO, RX: LEGANO, DIF: TRG;
+	(28) TX: PERTUSO, RX: PERIODO, DIF: TUSDO;
+	(29) TX: RIVARRO, RX: ADURRO, DIF: RIVDU;
+	(31) TX: COUPON, RX: COURON, DIF: P;
+	(32) TX: SOIREES, RX: SOEMON, DIF: IRES;
+	(33) TX: BISSASSE, RX: DESSASSI, DIF: BIE;
+	(34) TX: MITTENTE, RX: METTETE, DIF: IN;
+Nota: nessuna
+***
