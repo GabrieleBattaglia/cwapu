@@ -2355,3 +2355,38 @@ Elenco delle parole copiate male:
 	(34) TX: MITTENTE, RX: METTETE, DIF: IN;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #527 eseguito il 2026/4/5 alle 10, 43 minuti:
+In questa sessione #527, ti ho inviato 52 Parole e ne hai ricevuti 31: 59.6%
+	21 di questi sono stati ricevuti al primo ascolto: 67.7%
+	mentre 10 Parole al secondo tentativo: 32.3%.
+Durante la sessione, la tua velocità minima è stata 32.00, la massima di 46.00: pari ad una variazione di 14.00 WPM.
+	La velocità media di ricezione è di: 38.52 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 11 errori su 42 invii. Tasso errore stimato: [15.3% - 41.1%]    'E': 5 errori su 41 invii. Tasso errore stimato: [5.3% - 25.5%]    'N': 5 errori su 27 invii. Tasso errore stimato: [8.2% - 36.7%]    'R': 4 errori su 29 invii. Tasso errore stimato: [5.5% - 30.6%]    'T': 4 errori su 14 invii. Tasso errore stimato: [11.7% - 54.6%]    'A': 3 errori su 39 invii. Tasso errore stimato: [2.7% - 20.3%]    'M': 3 errori su 15 invii. Tasso errore stimato: [7.0% - 45.2%]    'S': 3 errori su 18 invii. Tasso errore stimato: [5.8% - 39.2%]    'D': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    'H': 2 errori su 2 invii. Tasso errore stimato: [34.2% - 100.0%]    'O': 2 errori su 31 invii. Tasso errore stimato: [1.8% - 20.7%]    'B': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'C': 1 errori su 18 invii. Tasso errore stimato: [1.0% - 25.8%]    'G': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'U': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'Z': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 49 su 356 = 13.76%
+Caratteri mai sbagliati: F L P V Ò
+Elenco delle parole copiate male:
+	(10) TX: ANNUISSE, RX: ANISSEI, DIF: NUI;
+	(12) TX: ALLIGANO, RX: ALLEGATO, DIF: IN;
+	(13) TX: CONSUNSI, RX: CONSUTEE, DIF: NSI;
+	(14) TX: AGGRAPPA, RX: AGGAPPA, DIF: R;
+	(15) TX: RIABITUI, RX: RADIUSE, DIF: ADABITI;
+	(19) TX: COHERERS, RX: COSERIRE, DIF: HIRRS;
+	(20) TX: RISCONTI, RX: RISCONTRI, DIF: R;
+	(21) TX: MANTENNI, RX: MANENNI, DIF: T;
+	(22) TX: BENEDICO, RX: BENDICO, DIF: E;
+	(24) TX: MERCEDI, RX: MERCIDI, DIF: E;
+	(26) TX: ARENIATE, RX: ARNIATE, DIF: E;
+	(27) TX: LITIGHII, RX: LITIGESI, DIF: HI;
+	(34) TX: TINOZZE, RX: TIZZZIE, DIF: NOZI;
+	(37) TX: MELODE, RX: MELONE, DIF: D;
+	(39) TX: REPRIMO, RX: REPRIMEO, DIF: E;
+	(40) TX: PREDISCA, RX: PREDICA, DIF: S;
+	(44) TX: SPALASTI, RX: SPALASSI, DIF: T;
+	(49) TX: CAOTICO, RX: CAMMINO, DIF: MMINTICO;
+	(50) TX: EGRE, RX: EMERE, DIF: G;
+	(51) TX: MONOGAMI, RX: MONOGAIA, DIF: MA;
+	(52) TX: BASITE, RX: BASTA, DIF: IE;
+Nota: nessuna
+***
