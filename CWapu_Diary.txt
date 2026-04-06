@@ -2390,3 +2390,20 @@ Elenco delle parole copiate male:
 	(52) TX: BASITE, RX: BASTA, DIF: IE;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #22 eseguito il 2026/4/6 alle 14, 41 minuti:
+In questa sessione #22, ti ho inviato 31 Lettere e ne hai ricevuti 28: 90.3%
+	17 di questi sono stati ricevuti al primo ascolto: 60.7%
+	mentre 11 Lettere al secondo tentativo: 39.3%.
+Durante la sessione, la tua velocità minima è stata 25.00, la massima di 50.00: pari ad una variazione di 25.00 WPM.
+	La velocità media di ricezione è di: 37.57 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'K': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'M': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'Q': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]
+
+Errori totali: 3 su 93 = 3.23%
+Caratteri mai sbagliati: A B C D E F G H I J L N O P R S T U V W X Y Z
+Elenco delle parole copiate male:
+	(7) TX: XJM, RX: XJW, DIF: M;
+	(28) TX: YQE, RX: YCE, DIF: Q;
+	(29) TX: YKQ, RX: YDQ, DIF: K;
+Nota: nessuna
+***
