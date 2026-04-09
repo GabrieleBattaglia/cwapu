@@ -2407,3 +2407,50 @@ Elenco delle parole copiate male:
 	(29) TX: YKQ, RX: YDQ, DIF: K;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #23 eseguito il 2026/4/8 alle 12, 39 minuti:
+In questa sessione #23, ti ho inviato 70 Misto (Lettere, Numeri) e ne hai ricevuti 37: 52.9%
+	9 di questi sono stati ricevuti al primo ascolto: 24.3%
+	mentre 28 Misto (Lettere, Numeri) al secondo tentativo: 75.7%.
+Durante la sessione, la tua velocità minima è stata 46.00, la massima di 57.00: pari ad una variazione di 11.00 WPM.
+	La velocità media di ricezione è di: 51.54 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '8': 6 errori su 13 invii. Tasso errore stimato: [23.2% - 70.9%]    '7': 4 errori su 12 invii. Tasso errore stimato: [13.8% - 60.9%]    '9': 4 errori su 9 invii. Tasso errore stimato: [18.9% - 73.3%]    'I': 4 errori su 7 invii. Tasso errore stimato: [25.0% - 84.2%]    '4': 3 errori su 13 invii. Tasso errore stimato: [8.2% - 50.3%]    'B': 3 errori su 5 invii. Tasso errore stimato: [23.1% - 88.2%]    'H': 3 errori su 6 invii. Tasso errore stimato: [18.8% - 81.2%]    'P': 3 errori su 4 invii. Tasso errore stimato: [30.1% - 95.4%]    'U': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    '0': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    '6': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'L': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'Z': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    '1': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    '2': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    '3': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'F': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'O': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'R': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'S': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'V': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]
+
+Errori totali: 49 su 210 = 23.33%
+Caratteri mai sbagliati: 5 A C D E G J K M N Q T W X Y
+Elenco delle parole copiate male:
+	(1) TX: XUC, RX: XRC, DIF: U;
+	(3) TX: MBM, RX: MDM, DIF: B;
+	(4) TX: 942, RX: 9V2, DIF: 4;
+	(7) TX: PFP, RX: PFU, DIF: P;
+	(9) TX: 214, RX: 329, DIF: 314;
+	(11) TX: ZHB, RX: ZSB, DIF: H;
+	(12) TX: HUK, RX: SUK, DIF: H;
+	(15) TX: KZI, RX: KGS, DIF: ZI;
+	(16) TX: 027, RX: 927, DIF: 0;
+	(21) TX: 069, RX: 970, DIF: 9769;
+	(22) TX: 438, RX: 437, DIF: 8;
+	(25) TX: 795, RX: 785, DIF: 9;
+	(26) TX: HDI, RX: HDS, DIF: I;
+	(27) TX: 184, RX: 174, DIF: 8;
+	(28) TX: UNO, RX: VNO, DIF: U;
+	(29) TX: 186, RX: 196, DIF: 8;
+	(31) TX: BAB, RX: DAB, DIF: B;
+	(32) TX: ULI, RX: URS, DIF: LI;
+	(42) TX: MVI, RX: MUS, DIF: VI;
+	(44) TX: LWZ, RX: LWD, DIF: Z;
+	(46) TX: 060, RX: 970, DIF: 9760;
+	(47) TX: ZPS, RX: ZWS, DIF: P;
+	(52) TX: SPS, RX: SWH, DIF: PS;
+	(54) TX: EFF, RX: ERF, DIF: RF;
+	(56) TX: LXE, RX: RXE, DIF: L;
+	(58) TX: BUN, RX: DVN, DIF: BU;
+	(59) TX: 486, RX: 476, DIF: 8;
+	(60) TX: THQ, RX: TSQ, DIF: H;
+	(64) TX: 427, RX: VWZ, DIF: 427;
+	(66) TX: 170, RX: 180, DIF: 7;
+	(67) TX: 845, RX: 745, DIF: 8;
+	(69) TX: 181, RX: 191, DIF: 8;
+	(70) TX: SZO, RX: SZJ, DIF: O;
+Nota: nessuna
+***

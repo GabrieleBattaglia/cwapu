@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Statistiche Storiche Esercizi Rx (caratteri/misto) G400 X3500</title>
+    <style>
+        body { background-color: #282c34; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: auto; background-color: #333740; padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
+        h1, h2, h3 { color: #61afef; border-bottom: 2px solid #61afef; padding-bottom: 5px; margin-top: 30px; }
+        h1 { text-align: center; font-size: 2em; margin-bottom: 10px; }
+        .report-subtitle { text-align: center; font-size: 0.9em; color: #abb2bf; margin-bottom: 5px; }
+        .report-generation-time { text-align: center; font-size: 0.8em; color: #888; margin-bottom: 30px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; margin-bottom: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+        th, td { border: 1px solid #4b5260; padding: 10px; text-align: left; font-size: 0.9em; }
+        th { background-color: #3a3f4b; color: #98c379; font-weight: bold; }
+        tr:nth-child(even) { background-color: #383c44; }
+        tr:hover { background-color: #484e59; }
+        .good { color: #98c379; font-weight: bold; } /* Verde per miglioramenti */
+        .bad { color: #e06c75; font-weight: bold; } /* Rosso per peggioramenti */
+        .neutral { color: #e5c07b; } /* Giallo/Arancio per neutrali o minimi */
+        .char-emphasis { font-weight: bold; color: #c678dd; } /* Viola per il carattere in analisi */
+        .details-label { font-style: italic; color: #abb2bf; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+<h1>CWAPU - Report Statistiche Storiche Esercizi Rx (caratteri/misto)</h1>
+<p class="report-subtitle">Statistiche basate su 24 esercizi (G=400, X=3500)</p>
+<p class="report-generation-time">Report generato il: 2026-04-08 12:40:33</p>
+<h2>Statistiche Velocità Complessive</h2>
+<table>
+  <thead><tr><th>Metrica</th><th>Valore Attuale</th></tr></thead>
+  <tbody>
+    <tr><td>WPM Min</td><td>25 WPM</td></tr>
+    <tr><td>WPM Max</td><td>64 WPM</td></tr>
+    <tr><td>WPM Medio (media delle sessioni)</td><td>44.52389124525396 WPM</td></tr>
+  </tbody>
+</table>
+<h2>Statistiche Errori Complessive</h2>
+<table>
+  <thead><tr><th>Metrica</th><th>Valore Attuale</th></tr></thead>
+  <tbody>
+    <tr><td>Caratteri totali inviati (nel blocco)</td><td>3578</td></tr>
+    <tr><td>Tasso errore generale</td><td>593 / 3578 (16.573504751257687%)</td></tr>
+  </tbody>
+</table>
+<h2>Dettaglio errori per carattere</h2>
+<table>
+  <thead><tr><th>Carattere</th><th>Errori / Inviati</th><th style="text-align: center;">Intervallo Confidenza Errore (Wilson)</th></tr></thead>
+  <tbody>
+     <tr><td class="char-emphasis">'B'</td><td>46 su 102 inv.</td><td colspan="2" style="text-align:center;">[35.8% - 54.8%]</td></tr>
+     <tr><td class="char-emphasis">'H'</td><td>42 su 113 inv.</td><td colspan="2" style="text-align:center;">[28.8% - 46.4%]</td></tr>
+     <tr><td class="char-emphasis">'8'</td><td>39 su 101 inv.</td><td colspan="2" style="text-align:center;">[29.7% - 48.4%]</td></tr>
+     <tr><td class="char-emphasis">'S'</td><td>35 su 111 inv.</td><td colspan="2" style="text-align:center;">[23.6% - 40.7%]</td></tr>
+     <tr><td class="char-emphasis">'7'</td><td>32 su 96 inv.</td><td colspan="2" style="text-align:center;">[24.7% - 43.2%]</td></tr>
+     <tr><td class="char-emphasis">'Z'</td><td>26 su 97 inv.</td><td colspan="2" style="text-align:center;">[19.0% - 36.4%]</td></tr>
+     <tr><td class="char-emphasis">'I'</td><td>24 su 86 inv.</td><td colspan="2" style="text-align:center;">[19.5% - 38.2%]</td></tr>
+     <tr><td class="char-emphasis">'V'</td><td>24 su 95 inv.</td><td colspan="2" style="text-align:center;">[17.6% - 34.8%]</td></tr>
+     <tr><td class="char-emphasis">'G'</td><td>20 su 93 inv.</td><td colspan="2" style="text-align:center;">[14.4% - 30.9%]</td></tr>
+     <tr><td class="char-emphasis">'U'</td><td>20 su 94 inv.</td><td colspan="2" style="text-align:center;">[14.2% - 30.6%]</td></tr>
+     <tr><td class="char-emphasis">'P'</td><td>19 su 79 inv.</td><td colspan="2" style="text-align:center;">[16.0% - 34.5%]</td></tr>
+     <tr><td class="char-emphasis">'1'</td><td>17 su 105 inv.</td><td colspan="2" style="text-align:center;">[10.4% - 24.4%]</td></tr>
+     <tr><td class="char-emphasis">'6'</td><td>15 su 96 inv.</td><td colspan="2" style="text-align:center;">[9.7% - 24.2%]</td></tr>
+     <tr><td class="char-emphasis">'9'</td><td>15 su 92 inv.</td><td colspan="2" style="text-align:center;">[10.1% - 25.2%]</td></tr>
+     <tr><td class="char-emphasis">'R'</td><td>15 su 95 inv.</td><td colspan="2" style="text-align:center;">[9.8% - 24.4%]</td></tr>
+     <tr><td class="char-emphasis">'F'</td><td>14 su 115 inv.</td><td colspan="2" style="text-align:center;">[7.4% - 19.4%]</td></tr>
+     <tr><td class="char-emphasis">'0'</td><td>13 su 89 inv.</td><td colspan="2" style="text-align:center;">[8.7% - 23.4%]</td></tr>
+     <tr><td class="char-emphasis">'D'</td><td>13 su 101 inv.</td><td colspan="2" style="text-align:center;">[7.7% - 20.8%]</td></tr>
+     <tr><td class="char-emphasis">'L'</td><td>13 su 112 inv.</td><td colspan="2" style="text-align:center;">[6.9% - 18.9%]</td></tr>
+     <tr><td class="char-emphasis">'3'</td><td>12 su 89 inv.</td><td colspan="2" style="text-align:center;">[7.9% - 22.1%]</td></tr>
+     <tr><td class="char-emphasis">'4'</td><td>11 su 113 inv.</td><td colspan="2" style="text-align:center;">[5.5% - 16.6%]</td></tr>
+     <tr><td class="char-emphasis">'C'</td><td>11 su 87 inv.</td><td colspan="2" style="text-align:center;">[7.2% - 21.2%]</td></tr>
+     <tr><td class="char-emphasis">'J'</td><td>11 su 100 inv.</td><td colspan="2" style="text-align:center;">[6.3% - 18.6%]</td></tr>
+     <tr><td class="char-emphasis">'2'</td><td>10 su 79 inv.</td><td colspan="2" style="text-align:center;">[7.0% - 21.8%]</td></tr>
+     <tr><td class="char-emphasis">'5'</td><td>10 su 78 inv.</td><td colspan="2" style="text-align:center;">[7.1% - 22.0%]</td></tr>
+     <tr><td class="char-emphasis">'K'</td><td>10 su 123 inv.</td><td colspan="2" style="text-align:center;">[4.5% - 14.3%]</td></tr>
+     <tr><td class="char-emphasis">'Q'</td><td>10 su 113 inv.</td><td colspan="2" style="text-align:center;">[4.9% - 15.5%]</td></tr>
+     <tr><td class="char-emphasis">'Y'</td><td>10 su 104 inv.</td><td colspan="2" style="text-align:center;">[5.3% - 16.8%]</td></tr>
+     <tr><td class="char-emphasis">'N'</td><td>9 su 95 inv.</td><td colspan="2" style="text-align:center;">[5.1% - 17.0%]</td></tr>
+     <tr><td class="char-emphasis">'A'</td><td>8 su 99 inv.</td><td colspan="2" style="text-align:center;">[4.2% - 15.1%]</td></tr>
+     <tr><td class="char-emphasis">'W'</td><td>8 su 91 inv.</td><td colspan="2" style="text-align:center;">[4.5% - 16.4%]</td></tr>
+     <tr><td class="char-emphasis">'X'</td><td>8 su 122 inv.</td><td colspan="2" style="text-align:center;">[3.4% - 12.4%]</td></tr>
+     <tr><td class="char-emphasis">'T'</td><td>7 su 104 inv.</td><td colspan="2" style="text-align:center;">[3.3% - 13.2%]</td></tr>
+     <tr><td class="char-emphasis">'E'</td><td>6 su 100 inv.</td><td colspan="2" style="text-align:center;">[2.8% - 12.5%]</td></tr>
+     <tr><td class="char-emphasis">'M'</td><td>6 su 109 inv.</td><td colspan="2" style="text-align:center;">[2.5% - 11.5%]</td></tr>
+     <tr><td class="char-emphasis">'O'</td><td>4 su 100 inv.</td><td colspan="2" style="text-align:center;">[1.6% - 9.8%]</td></tr>
+  </tbody>
+</table>
+    </div>
+</body>
+</html>
