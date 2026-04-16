@@ -1,111 +1,114 @@
---- Report Statistico CWAPU generato il: Martedì 17 Marzo 2026, 09:43 ---
+--- Report Statistico CWAPU generato il: Giovedì 16 Aprile 2026, 07:36 ---
 --- Riepilogo Attività ---
-   Numero totale di sessioni: 18 (per un totale di 53 minuti)
+   Numero totale di sessioni: 25 (per un totale di 1 ore, 15 minuti)
   Prima sessione: Mercoledì 17 Dicembre 2025, 22:43
-  Ultima sessione: Martedì 10 Marzo 2026, 23:04
-  Periodo coperto: 2 mesi, 23 giorni, 20 minuti
+  Ultima sessione: Venerdì 10 Aprile 2026, 10:46
+  Periodo coperto: 3 mesi, 23 giorni, 12 ore, 2 minuti
   Frequenza media: 0.22 esercizi/giorno
 --- Distribuzione Oraria delle Sessioni ---
-   - Fascia 23-24: 2 sessioni (18.40%), durata 9 minuti, 46 secondi
-   - Fascia 07-08: 3 sessioni (18.24%), durata 9 minuti, 41 secondi
-   - Fascia 14-15: 2 sessioni (12.28%), durata 6 minuti, 31 secondi
-   - Fascia 09-10: 1 sessioni (10.37%), durata 5 minuti, 30 secondi
-   - Fascia 13-14: 2 sessioni (9.36%), durata 4 minuti, 58 secondi
-   - Fascia 22-23: 3 sessioni (7.41%), durata 3 minuti, 56 secondi
-   - Fascia 18-19: 1 sessioni (7.14%), durata 3 minuti, 47 secondi
-   - Fascia 20-21: 1 sessioni (5.42%), durata 2 minuti, 52 secondi
-   - Fascia 19-20: 1 sessioni (4.62%), durata 2 minuti, 27 secondi
-   - Fascia 16-17: 1 sessioni (4.39%), durata 2 minuti, 19 secondi
-   - Fascia 15-16: 1 sessioni (2.37%), durata 1 minuti, 15 secondi
-  Picco di attività orario: 23:00.
+   - Fascia 07-08: 4 sessioni (16.39%), durata 12 minuti, 20 secondi
+   - Fascia 14-15: 4 sessioni (14.19%), durata 10 minuti, 40 secondi
+   - Fascia 23-24: 2 sessioni (12.98%), durata 9 minuti, 46 secondi
+   - Fascia 10-11: 2 sessioni (8.17%), durata 6 minuti, 8 secondi
+   - Fascia 12-13: 1 sessioni (7.39%), durata 5 minuti, 33 secondi
+   - Fascia 09-10: 1 sessioni (7.32%), durata 5 minuti, 30 secondi
+   - Fascia 13-14: 2 sessioni (6.61%), durata 4 minuti, 58 secondi
+   - Fascia 15-16: 2 sessioni (6.50%), durata 4 minuti, 53 secondi
+   - Fascia 22-23: 3 sessioni (5.23%), durata 3 minuti, 56 secondi
+   - Fascia 18-19: 1 sessioni (5.04%), durata 3 minuti, 47 secondi
+   - Fascia 20-21: 1 sessioni (3.83%), durata 2 minuti, 52 secondi
+   - Fascia 19-20: 1 sessioni (3.26%), durata 2 minuti, 27 secondi
+   - Fascia 16-17: 1 sessioni (3.10%), durata 2 minuti, 19 secondi
+  Picco di attività orario: 07:00.
   --- Suddivisione Giornaliera per Fasce di 6 Ore ---
-   - Fascia 19-24: 7 sessioni (35.85%), durata 19 minuti, 2 secondi
-   - Fascia 13-18: 7 sessioni (35.54%), durata 18 minuti, 52 secondi
-   - Fascia 07-12: 4 sessioni (28.61%), durata 15 minuti, 11 secondi
+   - Fascia 07-12: 8 sessioni (39.26%), durata 29 minuti, 32 secondi
+   - Fascia 13-18: 10 sessioni (35.44%), durata 26 minuti, 40 secondi
+   - Fascia 19-24: 7 sessioni (25.30%), durata 19 minuti, 2 secondi
 -------------------------
   -- Distribuzione Settimanale ---
-   - Sabato: 4 sessioni (25.66%), durata 13 minuti, 37 secondi
-   - Martedì: 3 sessioni (21.78%), durata 11 minuti, 34 secondi
-   - Giovedì: 4 sessioni (18.80%), durata 9 minuti, 58 secondi
-   - Mercoledì: 4 sessioni (12.03%), durata 6 minuti, 23 secondi
-   - Domenica: 1 sessioni (10.37%), durata 5 minuti, 30 secondi
-   - Venerdì: 1 sessioni (5.93%), durata 3 minuti, 9 secondi
-   - Lunedì: 1 sessioni (5.42%), durata 2 minuti, 52 secondi
-   Picco di attività settimanale: Sabato.
+   - Martedì: 4 sessioni (20.20%), durata 15 minuti, 12 secondi
+   - Sabato: 4 sessioni (18.11%), durata 13 minuti, 37 secondi
+   - Mercoledì: 5 sessioni (15.87%), durata 11 minuti, 56 secondi
+   - Giovedì: 4 sessioni (13.26%), durata 9 minuti, 58 secondi
+   - Lunedì: 4 sessioni (12.88%), durata 9 minuti, 41 secondi
+   - Venerdì: 3 sessioni (12.35%), durata 9 minuti, 17 secondi
+   - Domenica: 1 sessioni (7.32%), durata 5 minuti, 30 secondi
+   Picco di attività settimanale: Martedì.
 -------------------------
 --- Distribuzione Mensile ---
-   - Marzo: 7 sessioni (45.73%), durata 24 minuti, 17 secondi
-   - Febbraio: 4 sessioni (19.53%), durata 10 minuti, 22 secondi
-   - Gennaio: 2 sessioni (17.51%), durata 9 minuti, 17 secondi
-   - Dicembre: 5 sessioni (17.22%), durata 9 minuti, 8 secondi
+   - Marzo: 11 sessioni (48.62%), durata 36 minuti, 35 secondi
+   - Febbraio: 4 sessioni (13.78%), durata 10 minuti, 22 secondi
+   - Aprile: 3 sessioni (13.09%), durata 9 minuti, 51 secondi
+   - Gennaio: 2 sessioni (12.36%), durata 9 minuti, 17 secondi
+   - Dicembre: 5 sessioni (12.15%), durata 9 minuti, 8 secondi
    Picco di attività mensile: Marzo.
 -------------------------
 --- Distribuzione Stagionale ---
-   - Inverno: 11 sessioni (54.27%), durata 28 minuti, 48 secondi
-   - Primavera: 7 sessioni (45.73%), durata 24 minuti, 17 secondi
+   - Primavera: 14 sessioni (61.71%), durata 46 minuti, 26 secondi
+   - Inverno: 11 sessioni (38.29%), durata 28 minuti, 48 secondi
 --- Analisi della Performance: Velocità (WPM) ---
-  Velocità media reale: 46.81 WPM.
-  Consistenza WPM reale (dev. std): 7.12.
+  Velocità media reale: 46.70 WPM.
+  Consistenza WPM reale (dev. std): 7.08.
 -------------------------
 --- Analisi degli Errori sui Caratteri ---
   Top 10 Caratteri Peggiori (ordinati per criticità statistica):
-  - Carattere 'b': Errore stimato 42.68% ±10.28% (36 errori su 85 invii)
-  - Carattere 'h': Errore stimato 40.95% ±10.58% (32 errori su 79 invii)
-  - Carattere '8': Errore stimato 38.44% ±10.79% (28 errori su 74 invii)
-  - Carattere 's': Errore stimato 35.61% ±10.05% (29 errori su 83 invii)
-  - Carattere '7': Errore stimato 33.77% ±10.98% (22 errori su 67 invii)
-  - Carattere 'i': Errore stimato 30.98% ±11.85% (16 errori su 54 invii)
-  - Carattere 'z': Errore stimato 27.12% ±9.63% (20 errori su 77 invii)
-  - Carattere 'v': Errore stimato 25.59% ±9.62% (18 errori su 74 invii)
-  - Carattere 'g': Errore stimato 23.23% ±9.59% (15 errori su 69 invii)
-  - Carattere 'p': Errore stimato 23.66% ±10.71% (12 errori su 55 invii)
+  - Carattere 'b': Errore stimato 45.79% ±9.45% (47 errori su 103 invii)
+  - Carattere '8': Errore stimato 39.08% ±9.12% (41 errori su 106 invii)
+  - Carattere 'h': Errore stimato 36.96% ±8.67% (42 errori su 115 invii)
+  - Carattere '7': Errore stimato 34.29% ±9.20% (33 errori su 98 invii)
+  - Carattere 's': Errore stimato 31.87% ±8.46% (35 errori su 112 invii)
+  - Carattere 'z': Errore stimato 29.09% ±8.74% (28 errori su 99 invii)
+  - Carattere 'i': Errore stimato 28.85% ±9.32% (24 errori su 86 invii)
+  - Carattere 'p': Errore stimato 27.23% ±9.25% (22 errori su 84 invii)
+  - Carattere 'v': Errore stimato 26.18% ±8.45% (25 errori su 99 invii)
+  - Carattere 'g': Errore stimato 21.74% ±7.98% (20 errori su 97 invii)
   Approfondimento sull'evoluzione del carattere 'b':
-  Tasso errore prima metà: 48.48%.
-  Tasso errore seconda metà: 38.46%.
-  Tendenza per 'b': miglioramento.
+  Tasso errore prima metà: 42.59%.
+  Tasso errore seconda metà: 48.98%.
+  Tendenza per 'b': peggioramento o stabile.
 ---Top 10 Caratteri Migliori (ordinati per affidabilità statistica):
-  - Carattere 'e': Errore stimato 6.09% ±4.75% (3 errori su 77 invii)
-  - Carattere 'o': Errore stimato 6.24% ±4.87% (3 errori su 75 invii)
-  - Carattere 'm': Errore stimato 7.81% ±5.63% (4 errori su 72 invii)
-  - Carattere 'x': Errore stimato 9.82% ±5.87% (7 errori su 87 invii)
-  - Carattere '4': Errore stimato 9.93% ±5.93% (7 errori su 86 invii)
-  - Carattere 'k': Errore stimato 10.80% ±6.12% (8 errori su 88 invii)
-  - Carattere 'a': Errore stimato 10.44% ±6.57% (6 errori su 72 invii)
-  - Carattere 't': Errore stimato 10.77% ±6.41% (7 errori su 79 invii)
-  - Carattere 'l': Errore stimato 12.16% ±6.55% (9 errori su 86 invii)
-  - Carattere 'y': Errore stimato 12.12% ±6.83% (8 errori su 78 invii)
+  - Carattere 'o': Errore stimato 5.65% ±4.10% (4 errori su 101 invii)
+  - Carattere 'e': Errore stimato 7.28% ±4.63% (6 errori su 105 invii)
+  - Carattere 'm': Errore stimato 7.70% ±4.64% (7 errori su 112 invii)
+  - Carattere 'x': Errore stimato 7.88% ±4.52% (8 errori su 122 invii)
+  - Carattere 'k': Errore stimato 9.18% ±4.81% (10 errori su 126 invii)
+  - Carattere 't': Errore stimato 8.95% ±5.11% (8 errori su 107 invii)
+  - Carattere 'a': Errore stimato 9.37% ±5.35% (8 errori su 102 invii)
+  - Carattere 'q': Errore stimato 10.03% ±5.24% (10 errori su 115 invii)
+  - Carattere '4': Errore stimato 10.78% ±5.40% (11 errori su 116 invii)
+  - Carattere 'n': Errore stimato 10.94% ±5.93% (9 errori su 96 invii)
 --- Analisi Avanzata della Velocità (WPM) ---
   Prospettive sulla Velocità Media:
-  - Media Aritmetica: 44.58 WPM (il valore 'classico')
-  - Media Ponderata (per durata): 45.71 WPM (dà più peso alle sessioni lunghe)
-  - Media Quadratica (RMS): 44.90 WPM (dà più peso alle velocità più alte)
+  - Media Aritmetica: 44.80 WPM (il valore 'classico')
+  - Media Ponderata (per durata): 45.86 WPM (dà più peso alle sessioni lunghe)
+  - Media Quadratica (RMS): 45.11 WPM (dà più peso alle velocità più alte)
   Frequenza e Consistenza:
   - Moda (velocità più frequente): 39 WPM
-  - Dispersione (Range Interquartile): 9.08 WPM (un valore basso indica grande consistenza)
-  - (Il 50% delle tue sessioni ha una velocità media tra 39.53 e 48.61 WPM)
+  - Dispersione (Range Interquartile): 9.52 WPM (un valore basso indica grande consistenza)
+  - (Il 50% delle tue sessioni ha una velocità media tra 39.85 e 49.37 WPM)
   Trend Recente:
-  - Velocità media nelle ultime 12 settimane: 45.24 WPM
+  - Velocità media nelle ultime 12 settimane: 45.12 WPM
 --- Analisi Avanzata ---
-  Accuratezza media complessiva: 66.34%.
-  Andamento accuratezza: da 67.79% (prima metà) a 64.89% (seconda metà). Tendenza: peggioramento.
+  Accuratezza media complessiva: 66.23%.
+  Andamento accuratezza: da 67.21% (prima metà) a 65.34% (seconda metà). Tendenza: peggioramento.
   --- Correlazione Velocità-Accuratezza ---
-  Coefficiente di correlazione: -0.24.
+  Coefficiente di correlazione: -0.25.
   Interpretazione: Correlazione negativa debole: la velocità tende a diminuire quando l_accuratezza aumenta.
 -------------------------
 --- Analisi Durata Sessioni ---
-  Durata media di una sessione: 2 minuti, 57 secondi
+  Durata media di una sessione: 3 minuti
   Sessione più corta: 33 secondi (Mercoledì 17 Dicembre 2025).
-  Sessione più lunga: 5 minuti, 30 secondi (Domenica 11 Gennaio 2026).
+  Sessione più lunga: 5 minuti, 33 secondi (Mercoledì 8 Aprile 2026).
 --- Analisi Granulare Velocità/Accuratezza ---
-  Media WPM su item corretti: 45.55
-  Media WPM su item errati: 49.04
+  Media WPM su item corretti: 45.37
+  Media WPM su item errati: 49.08
   Conclusione: al diminuire della velocità di ricezione, aumenta l'accuratezza.
 --- Confronto Feriali vs. Weekend ---
   Giorni Feriali (Lun-Ven):
-  - Sessioni totali: 13
-  - WPM medio: 44.43
-  - Accuratezza media: 66.97%
-  - Tempo totale di pratica: 33 minuti
+  - Sessioni totali: 20
+  - WPM medio: 44.76
+  - Accuratezza media: 66.62%
+  - Tempo totale di pratica: 56 minuti
   Weekend (Sab-Dom):
   - Sessioni totali: 5
   - WPM medio: 44.98
@@ -114,37 +117,37 @@
   Conclusione:
   In media, tendi a dedicare più tempo alla pratica nei singoli giorni del weekend che in quelli feriali. Nel weekend la tua velocità media è maggiore. La tua accuratezza è più alta nei giorni feriali.
 --- Performance di Picco per Stagione ---
-  - Primavera: Picco WPM 64, Picco Accuratezza 83.33%
+  - Primavera: Picco WPM 64, Picco Accuratezza 90.32%
   - Estate: Nessun dato disponibile.
   - Autunno: Nessun dato disponibile.
   - Inverno: Picco WPM 61, Picco Accuratezza 75.00%
   Conclusione:
-  Hai raggiunto i tuoi picchi sia di velocità (64 WPM) che di accuratezza (83.33%) durante la stagione: Primavera.
+  Hai raggiunto i tuoi picchi sia di velocità (64 WPM) che di accuratezza (90.32%) durante la stagione: Primavera.
 --- Analisi Evolutiva Dettagliata per Quartili ---
   Periodi di riferimento dei quartili:
   NOME--SEZIONI--INIZIO--DURATA---
-  Q1: S4 - Mercoledì 17 Dicembre 2025, 22:43 (5 giorni, 17 ore, 30 minuti)
-  Q2: S4 - Lunedì 29 Dicembre 2025, 20:00 (1 mesi, 7 giorni, 19 ore, 42 minuti)
-  Q3: S4 - Giovedì 12 Febbraio 2026, 07:45 (20 giorni, 23 ore, 45 minuti)
-  Q4: S6 - Giovedì 5 Marzo 2026, 14:19 (5 giorni, 8 ore, 44 minuti)
+  Q1: S6 - Mercoledì 17 Dicembre 2025, 22:43 (24 giorni, 10 ore, 29 minuti)
+  Q2: S6 - Martedì 20 Gennaio 2026, 18:02 (1 mesi, 13 giorni, 13 ore, 28 minuti)
+  Q3: S6 - Giovedì 5 Marzo 2026, 14:19 (5 giorni, 8 ore, 44 minuti)
+  Q4: S7 - Lunedì 23 Marzo 2026, 07:02 (18 giorni, 3 ore, 43 minuti)
   --- Velocità (WPM) ---
-  WPM Min: Q1=30.00 WPM  = (+0.00) -> Q2=30.00 WPM  - (-5.00) -> Q3=[25.00] WPM  + (+4.00) -> Q4=29.00 WPM
-  WPM Medio: Q1=42.13 WPM  + (+2.58) -> Q2=[44.71] WPM  - (-3.37) -> Q3=41.34 WPM  + (+6.97) -> Q4=48.30 WPM
-  WPM Max: Q1=55.00 WPM  + (+6.00) -> Q2=61.00 WPM  - (-9.00) -> Q3=52.00 WPM  + (+12.00) -> Q4=[64.00] WPM
+  WPM Min: Q1=30.00 WPM  - (-5.00) -> Q2=[25.00] WPM  + (+4.00) -> Q3=29.00 WPM  - (-4.00) -> Q4=[25.00] WPM
+  WPM Medio: Q1=43.78 WPM  - (-2.11) -> Q2=41.67 WPM  + (+6.63) -> Q3=48.30 WPM  - (-2.93) -> Q4=[45.37] WPM
+  WPM Max: Q1=61.00 WPM  - (-6.00) -> Q2=55.00 WPM  + (+9.00) -> Q3=[64.00] WPM  - (-6.00) -> Q4=58.00 WPM
   --- Accuratezza (%) ---
-  Acc. Minima: Q1=63.33%  - (-9.17) -> Q2=54.17%  + (+4.17) -> Q3=58.33%  - (-5.39) -> Q4=[52.94]%
-  Acc. Media: Q1=69.03%  - (-4.27) -> Q2=64.76%  + (+3.08) -> Q3=[67.83]%  - (-3.22) -> Q4=64.61%
-  Acc. Massima: Q1=73.33%  + (+0.58) -> Q2=73.91%  + (+1.09) -> Q3=75.00%  + (+8.33) -> Q4=[83.33]%
+  Acc. Minima: Q1=54.17%  + (+4.17) -> Q2=58.33%  - (-5.39) -> Q3=52.94%  - (-13.55) -> Q4=[39.39]%
+  Acc. Media: Q1=[66.16]%  + (+2.10) -> Q2=68.26%  - (-3.65) -> Q3=64.61%  + (+1.35) -> Q4=65.96%
+  Acc. Massima: Q1=73.33%  + (+1.67) -> Q2=75.00%  + (+8.33) -> Q3=83.33%  + (+6.99) -> Q4=[90.32]%
   --- Durata Esercizi ---
-  Durata Minima: Q1=33 secondi  su (42 secondi) -> Q2=1 minuti, 15 secondi  su (1 minuti, 4 secondi) -> Q3=2 minuti, 20 secondi  giù (43 secondi) -> Q4=1 minuti, 36 secondi
-  Durata Media: Q1=1 minuti, 33 secondi  su (1 minuti, 47 secondi) -> Q2=3 minuti, 21 secondi  giù (19 secondi) -> Q3=3 minuti, 2 secondi  su (30 secondi) -> Q4=3 minuti, 32 secondi
-  Durata Massima: Q1=2 minuti, 19 secondi  su (3 minuti, 10 secondi) -> Q2=5 minuti, 30 secondi  giù (1 minuti, 10 secondi) -> Q3=4 minuti, 19 secondi  su (1 minuti, 6 secondi) -> Q4=5 minuti, 26 secondi
+  Durata Minima: Q1=33 secondi  su (42 secondi) -> Q2=1 minuti, 15 secondi  su (21 secondi) -> Q3=1 minuti, 36 secondi  su (8 secondi) -> Q4=1 minuti, 45 secondi
+  Durata Media: Q1=2 minuti, 26 secondi  su (25 secondi) -> Q2=2 minuti, 51 secondi  su (40 secondi) -> Q3=3 minuti, 32 secondi  giù (22 secondi) -> Q4=3 minuti, 9 secondi
+  Durata Massima: Q1=5 minuti, 30 secondi  giù (1 minuti, 10 secondi) -> Q2=4 minuti, 19 secondi  su (1 minuti, 6 secondi) -> Q3=5 minuti, 26 secondi  su (6 secondi) -> Q4=5 minuti, 33 secondi
   --- Frequenza Esercizi per Giorno ---
-  Q1: 0.80 es./giorno, Q2: 0.11 es./giorno, Q3: 0.20 es./giorno, Q4: 1.20 es./giorno
+  Q1: 0.25 es./giorno, Q2: 0.14 es./giorno, Q3: 1.20 es./giorno, Q4: 0.39 es./giorno
   --- Evoluzione dei 3 Caratteri Più Critici (Stima Errore ± Incertezza) ---
-  B: Q1=38.32%±26.26%, Q2=51.86%±18.90%, Q3=38.39%±18.66%, Q4=42.82%±16.41%
-  H: Q1=39.89%±24.73%, Q2=59.31%±18.53%, Q3=43.30%±17.75%, Q4=21.54%±16.02%
-  8: Q1=70.32%±26.67%, Q2=28.33%±22.66%, Q3=44.40%±23.01%, Q4=35.37%±13.49%
+  B: Q1=59.31%±18.53%, Q2=31.34%±15.25%, Q3=42.82%±16.41%, Q4=59.16%±20.54%
+  8: Q1=44.96%±21.86%, Q2=44.40%±23.01%, Q3=35.37%±13.49%, Q4=41.63%±16.11%
+  H: Q1=55.59%±18.78%, Q2=43.88%±15.21%, Q3=21.54%±16.02%, Q4=29.92%±14.07%
 ---------------------------------------------------------------------------
          --- Fine Report - Bye da CWAPU 5.1.7, 2026-01-27 ---         
 ---------------------------------------------------------------------------

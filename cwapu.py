@@ -2461,7 +2461,6 @@ print(_("\nCWAPU - VERSIONE: {version} DI GABRY - IZ4APU.\n\t----UTILITÀ PER IL
 print(_('\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {}, MS:\t{overall_ms}, FS: {}.').format(int(overall_volume * 100), WAVE_TYPES[overall_wave - 1], SAMPLE_RATES[overall_fs], overall_speed=overall_speed, overall_pitch=overall_pitch, overall_dashes=overall_dashes, overall_spaces=overall_spaces, overall_dots=overall_dots, overall_ms=overall_ms))
 
 # --- CONTROLLO AGGIORNAMENTI AUTOMATICI ---
-import sys
 if getattr(sys, 'frozen', False):
     from GBUtils import update_checker, perform_update, enter_escape
     api_url = "https://api.github.com/repos/GabrieleBattaglia/cwapu/releases/latest"
