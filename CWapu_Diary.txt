@@ -2707,3 +2707,25 @@ Elenco delle parole copiate male:
 	(59) TX: ABDUANE, RX: ABBUATE, DIF: DN;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #533 eseguito il 2026/4/25 alle 23, 50 minuti:
+In questa sessione #533, ti ho inviato 16 Parole e ne hai ricevuti 8: 50.0%
+	4 di questi sono stati ricevuti al primo ascolto: 50.0%
+	mentre 4 Parole al secondo tentativo: 50.0%.
+Durante la sessione, la tua velocità minima è stata 34.00, la massima di 38.00: pari ad una variazione di 4.00 WPM.
+	La velocità media di ricezione è di: 35.50 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'N': 5 errori su 9 invii. Tasso errore stimato: [26.7% - 81.1%]    'S': 4 errori su 10 invii. Tasso errore stimato: [16.8% - 68.7%]    'A': 3 errori su 11 invii. Tasso errore stimato: [9.7% - 56.6%]    'E': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    'T': 3 errori su 12 invii. Tasso errore stimato: [8.9% - 53.2%]    'U': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'C': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'G': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'K': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'L': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'O': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'R': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]
+
+Errori totali: 26 su 111 = 23.42%
+Caratteri mai sbagliati: B D H I J M P V Ò
+Elenco delle parole copiate male:
+	(1) TX: JULIENNE, RX: JINGER, DIF: ULNGNNE;
+	(3) TX: BATTESTI, RX: BATTERIE, DIF: STE;
+	(5) TX: SHUNTANO, RX: SHUNKERO, DIF: TAN;
+	(6) TX: BUROTICA, RX: BIFOLCHI, DIF: URTCA;
+	(9) TX: NUBIANA, RX: NUBIANI, DIF: A;
+	(13) TX: INCESSI, RX: INCISI, DIF: ES;
+	(15) TX: CONSOCIO, RX: CONCIO, DIF: SO;
+	(16) TX: STOCKS, RX: STONCI, DIF: NKS;
+Nota: nessuna
+***
