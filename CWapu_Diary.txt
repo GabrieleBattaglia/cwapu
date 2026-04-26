@@ -2729,3 +2729,33 @@ Elenco delle parole copiate male:
 	(16) TX: STOCKS, RX: STONCI, DIF: NKS;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #533 eseguito il 2026/4/26 alle 11, 42 minuti:
+In questa sessione #533, ti ho inviato 32 Parole e ne hai ricevuti 16: 50.0%
+	8 di questi sono stati ricevuti al primo ascolto: 50.0%
+	mentre 8 Parole al secondo tentativo: 50.0%.
+Durante la sessione, la tua velocità minima è stata 32.54, la massima di 39.47: pari ad una variazione di 6.93 WPM.
+	La velocità media di ricezione è di: 35.63 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 7 errori su 22 invii. Tasso errore stimato: [16.4% - 52.7%]    'A': 5 errori su 32 invii. Tasso errore stimato: [6.9% - 31.8%]    'I': 4 errori su 25 invii. Tasso errore stimato: [6.4% - 34.7%]    'T': 4 errori su 16 invii. Tasso errore stimato: [10.2% - 49.5%]    'N': 3 errori su 15 invii. Tasso errore stimato: [7.0% - 45.2%]    'L': 2 errori su 12 invii. Tasso errore stimato: [4.7% - 44.8%]    'M': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'S': 2 errori su 17 invii. Tasso errore stimato: [3.3% - 34.3%]    'D': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'R': 1 errori su 15 invii. Tasso errore stimato: [1.2% - 29.8%]    'U': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]
+
+Errori totali: 32 su 231 = 13.85%
+Caratteri mai sbagliati: B C F G K O P V Z Ò
+Elenco delle parole copiate male:
+	(1) TX: DECENTRÒ, RX: DECIDERÒ, DIF: IDNT;
+	(5) TX: BARERETE, RX: BARERTI, DIF: EE;
+	(8) TX: CULTUALI, RX: CULTURALI, DIF: R;
+	(9) TX: SANCIRAI, RX: SINCERAI, DIF: AI;
+	(10) TX: LEZZO, RX: LIZZO, DIF: E;
+	(11) TX: GRADUANO, RX: GRADUATO, DIF: N;
+	(12) TX: NOTERIA, RX: NOTORIA, DIF: E;
+	(14) TX: TAKEOUT, RX: TAKIOSO, DIF: EUT;
+	(15) TX: POTAVANO, RX: POTEVANO, DIF: A;
+	(20) TX: STAMPATA, RX: STAMPATE, DIF: A;
+	(23) TX: MARASCA, RX: MARESCA, DIF: A;
+	(25) TX: ARRISEMI, RX: ARRESTI, DIF: ESTSEMI;
+	(26) TX: LIGULA, RX: LIGURIA, DIF: L;
+	(27) TX: SEMINAI, RX: SEMULAI, DIF: IN;
+	(28) TX: INSANO, RX: INSTINTO, DIF: AT;
+	(29) TX: CICLISMO, RX: CICISTICO, DIF: LM;
+Nota: nessuna
+***
