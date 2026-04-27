@@ -2759,3 +2759,75 @@ Elenco delle parole copiate male:
 	(29) TX: CICLISMO, RX: CICISTICO, DIF: LM;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #534 eseguito il 2026/4/27 alle 11, 51 minuti:
+In questa sessione #534, ti ho inviato 121 Parole e ne hai ricevuti 63: 52.1%
+	43 di questi sono stati ricevuti al primo ascolto: 68.3%
+	mentre 20 Parole al secondo tentativo: 31.7%.
+Durante la sessione, la tua velocità minima è stata 29.58, la massima di 43.89: pari ad una variazione di 14.31 WPM.
+	La velocità media di ricezione è di: 36.48 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 26 errori su 101 invii. Tasso errore stimato: [18.2% - 35.0%]    'T': 17 errori su 77 invii. Tasso errore stimato: [14.3% - 32.5%]    'E': 15 errori su 76 invii. Tasso errore stimato: [12.3% - 30.0%]    'A': 12 errori su 112 invii. Tasso errore stimato: [6.2% - 17.8%]    'R': 12 errori su 63 invii. Tasso errore stimato: [11.2% - 30.4%]    'N': 9 errori su 50 invii. Tasso errore stimato: [9.8% - 30.8%]    'G': 6 errori su 17 invii. Tasso errore stimato: [17.3% - 58.7%]    'O': 6 errori su 79 invii. Tasso errore stimato: [3.5% - 15.6%]    'M': 5 errori su 16 invii. Tasso errore stimato: [14.2% - 55.6%]    'S': 5 errori su 53 invii. Tasso errore stimato: [4.1% - 20.3%]    'D': 4 errori su 21 invii. Tasso errore stimato: [7.7% - 40.0%]    'U': 3 errori su 30 invii. Tasso errore stimato: [3.5% - 25.6%]    'F': 2 errori su 14 invii. Tasso errore stimato: [4.0% - 39.9%]    'H': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'L': 2 errori su 36 invii. Tasso errore stimato: [1.5% - 18.1%]    'V': 2 errori su 19 invii. Tasso errore stimato: [2.9% - 31.4%]    'B': 1 errori su 19 invii. Tasso errore stimato: [0.9% - 24.6%]    'C': 1 errori su 35 invii. Tasso errore stimato: [0.5% - 14.5%]    'K': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'Z': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]
+
+Errori totali: 132 su 869 = 15.19%
+Caratteri mai sbagliati: P Q Y À Ò
+Elenco delle parole copiate male:
+	(1) TX: BUVETTES, RX: , DIF: BUVETTES;
+	(2) TX: VIENE, RX: VINTE, DIF: NTNE;
+	(3) TX: DEGRADÒ, RX: DEGANÒ, DIF: RD;
+	(4) TX: GRUME, RX: GRUNE, DIF: M;
+	(6) TX: ABBAIAMO, RX: ABBIAMO, DIF: A;
+	(7) TX: VOCATIVE, RX: VOCATIVI, DIF: E;
+	(9) TX: POPPUTI, RX: POPPUTE, DIF: I;
+	(12) TX: SFINIATE, RX: SFINITAE, DIF: TT;
+	(14) TX: AFFICHES, RX: FICHES, DIF: AF;
+	(16) TX: MORFEMA, RX: MORFINA, DIF: EM;
+	(22) TX: ACRITICI, RX: ACRITICA, DIF: I;
+	(23) TX: OLIERETE, RX: OLENTE, DIF: IRE;
+	(26) TX: TITUBAVA, RX: TURBAVA, DIF: TIR;
+	(29) TX: PALETOTS, RX: PALETTONS, DIF: TT;
+	(31) TX: ACCUMULI, RX: ACCUMULATI, DIF: AT;
+	(34) TX: SPINTI, RX: SPINATE, DIF: AI;
+	(35) TX: SPIRIAMO, RX: SPIRITO, DIF: AM;
+	(36) TX: ADUSANDO, RX: ADUITO, DIF: SAND;
+	(37) TX: TORPIDA, RX: TORPEDA, DIF: I;
+	(38) TX: CONVERTE, RX: CONVENTE, DIF: R;
+	(41) TX: FIGURALE, RX: FIGURATELE, DIF: TE;
+	(42) TX: RETTRICE, RX: RETTORCE, DIF: OI;
+	(43) TX: SBAFANDO, RX: SBUFFANDO, DIF: A;
+	(44) TX: TANREC, RX: TANKEY, DIF: RC;
+	(46) TX: SCOSCESA, RX: SCOSCIEA, DIF: IS;
+	(47) TX: ISTITUTI, RX: ISTITUITI, DIF: I;
+	(48) TX: VARIARE, RX: VARIANE, DIF: R;
+	(56) TX: SOLINGHI, RX: SOLINOSI, DIF: GH;
+	(57) TX: FUMIGATI, RX: FUMIGATE, DIF: I;
+	(60) TX: BASOFOBO, RX: BAISOFOBO, DIF: I;
+	(61) TX: SINFISI, RX: SITUSSE, DIF: NFII;
+	(63) TX: CATANIA, RX: CANTIRA, DIF: NIRNIA;
+	(66) TX: SMOVERO, RX: SMOVERETE, DIF: O;
+	(70) TX: OVRARE, RX: OVERATE, DIF: ER;
+	(72) TX: ADONTATI, RX: ABBONATI, DIF: DT;
+	(73) TX: ORDIRE, RX: ORDINARE, DIF: NA;
+	(76) TX: LIANOSA, RX: LIANOSI, DIF: A;
+	(77) TX: PALESA, RX: PALESSA, DIF: S;
+	(79) TX: AUDACIE, RX: AUDACE, DIF: I;
+	(83) TX: STRINATI, RX: SINATE, DIF: TRI;
+	(84) TX: MANINA, RX: MANITA, DIF: N;
+	(85) TX: TEDIAVO, RX: TIDAVO, DIF: EI;
+	(87) TX: SALPINGE, RX: SAPINOE, DIF: LG;
+	(91) TX: SPANATI, RX: SPANATE, DIF: I;
+	(92) TX: EDITTO, RX: EDITO, DIF: T;
+	(93) TX: ESTETICI, RX: ISTERICA, DIF: ETI;
+	(96) TX: AMBIANDO, RX: AMBIGUA, DIF: GUNDO;
+	(101) TX: ACCHETA, RX: ACCHITA, DIF: E;
+	(104) TX: DOVESSI, RX: DOVESSE, DIF: I;
+	(106) TX: RIPIANTO, RX: RIPARANO, DIF: IT;
+	(107) TX: CALAVA, RX: CALMAVA, DIF: M;
+	(108) TX: CRESTINA, RX: CRISTINA, DIF: E;
+	(111) TX: VENERERÀ, RX: VENIRÀ, DIF: ERE;
+	(112) TX: RISERIA, RX: RESISTERÀ, DIF: ESTIA;
+	(115) TX: RIVOGLIO, RX: , DIF: RIVOGLIO;
+	(116) TX: ZIGGURAT, RX: GIOVET, DIF: ZGGURA;
+	(119) TX: PHOTOKIT, RX: PISSIKOT, DIF: HOKIT;
+	(120) TX: CICLISMO, RX: CICLISTICO, DIF: M;
+Nota: nessuna
+***
