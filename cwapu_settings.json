@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 472
+        "launch_count": 473
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 39,
+        "speed": 35,
         "pitch": 600,
         "dashes": 30,
         "spaces": 55,
@@ -15,11 +15,11 @@
         "wave_index": 1
     },
     "rxing_stats_words": {
-        "total_calls": 25558,
-        "sessions": 536,
-        "total_correct": 15655,
-        "total_wrong_items": 9901,
-        "total_time_seconds": 147937.689631
+        "total_calls": 25584,
+        "sessions": 537,
+        "total_correct": 15673,
+        "total_wrong_items": 9909,
+        "total_time_seconds": 148119.939558
     },
     "rxing_stats_chars": {
         "total_calls": 1279,
@@ -56,7 +56,7 @@
         "report_interval": 3500
     },
     "historical_rx_data_words": {
-        "chars_since_last_report": 2472,
+        "chars_since_last_report": 2660,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-07-07T13:49:06.014261",
@@ -63294,6 +63294,151 @@
                     "f": 1,
                     "h": 1,
                     "c": 3
+                }
+            },
+            {
+                "timestamp_iso": "2026-05-07T11:10:13.564183",
+                "duration_seconds": 182.249927,
+                "rwpm_min": 25.0,
+                "rwpm_max": 35.42024013722127,
+                "rwpm_avg": 29.399568747187768,
+                "items_sent_session": 26,
+                "items_correct_session": 18,
+                "item_details": [
+                    {
+                        "rwpm": 25.0,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 25.86846543001686,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27.159763313609467,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.320610687022896,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27.303370786516854,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.630849220103986,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27.229647630619677,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.5,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.723150357995223,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27.575757575757578,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29.26204819277108,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27.804195804195803,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 26.95581014729951,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.624535315985128,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.822085889570552,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27.754077791718952,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29.43427620632279,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29.953917050691246,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30.641848523748394,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32.55583126550868,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33.283261802575105,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33.76223776223776,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35.42024013722127,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 34.33497536945813,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 33.090659340659336,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 34.49877750611247,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 188,
+                "errors_detail_session": {
+                    "a": 5,
+                    "i": 3,
+                    "n": 1,
+                    "d": 1,
+                    "e": 2
+                },
+                "total_errors_chars_session": 12,
+                "sent_chars_detail_session": {
+                    "b": 5,
+                    "o": 19,
+                    "r": 19,
+                    "g": 7,
+                    "i": 25,
+                    "a": 22,
+                    "n": 6,
+                    "e": 22,
+                    "m": 8,
+                    "l": 10,
+                    "p": 3,
+                    "c": 9,
+                    "t": 10,
+                    "v": 4,
+                    "h": 2,
+                    "f": 5,
+                    "u": 4,
+                    "s": 5,
+                    "d": 3
                 }
             }
         ],
