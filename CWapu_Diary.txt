@@ -2874,3 +2874,25 @@ Elenco delle parole copiate male:
 	(24) TX: RITIENE, RX: RATINE, DIF: IE;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #537 eseguito il 2026/5/8 alle 10, 47 minuti:
+In questa sessione #537, ti ho inviato 25 Parole e ne hai ricevuti 17: 68.0%
+	10 di questi sono stati ricevuti al primo ascolto: 58.8%
+	mentre 7 Parole al secondo tentativo: 41.2%.
+Durante la sessione, la tua velocità minima è stata 29.48, la massima di 30.50: pari ad una variazione di 1.02 WPM.
+	La velocità media di ricezione è di: 30.05 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 4 errori su 20 invii. Tasso errore stimato: [8.1% - 41.6%]    'A': 3 errori su 30 invii. Tasso errore stimato: [3.5% - 25.6%]    'E': 2 errori su 19 invii. Tasso errore stimato: [2.9% - 31.4%]    'N': 2 errori su 16 invii. Tasso errore stimato: [3.5% - 36.0%]    'T': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]
+
+Errori totali: 12 su 183 = 6.56%
+Caratteri mai sbagliati: B C D F G L M O P R S U V Z Ò
+Elenco delle parole copiate male:
+	(4) TX: GIURAVA, RX: GIURAVI, DIF: A;
+	(5) TX: SVENTANO, RX: SVENTARO, DIF: N;
+	(14) TX: MIALGICI, RX: MIALGICA, DIF: I;
+	(15) TX: INTENDE, RX: STENDETE, DIF: INTE;
+	(18) TX: PARAMECI, RX: PARAMECIA, DIF: A;
+	(22) TX: UGANDESI, RX: UGANDESE, DIF: I;
+	(23) TX: PAMPINEO, RX: POMPINO, DIF: AE;
+	(24) TX: NIDIATE, RX: NIDATE, DIF: I;
+Nota: nessuna
+***
