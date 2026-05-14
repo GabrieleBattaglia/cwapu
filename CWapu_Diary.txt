@@ -2896,3 +2896,25 @@ Elenco delle parole copiate male:
 	(24) TX: NIDIATE, RX: NIDATE, DIF: I;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #538 eseguito il 2026/5/11 alle 15, 24 minuti:
+In questa sessione #538, ti ho inviato 30 Parole e ne hai ricevuti 22: 73.3%
+	11 di questi sono stati ricevuti al primo ascolto: 50.0%
+	mentre 11 Parole al secondo tentativo: 50.0%.
+Durante la sessione, la tua velocità minima è stata 29.03, la massima di 45.28: pari ad una variazione di 16.24 WPM.
+	La velocità media di ricezione è di: 36.79 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 4 errori su 21 invii. Tasso errore stimato: [7.7% - 40.0%]    'R': 3 errori su 15 invii. Tasso errore stimato: [7.0% - 45.2%]    'D': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'A': 1 errori su 26 invii. Tasso errore stimato: [0.7% - 18.9%]    'E': 1 errori su 18 invii. Tasso errore stimato: [1.0% - 25.8%]    'G': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'L': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'N': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'O': 1 errori su 22 invii. Tasso errore stimato: [0.8% - 21.8%]    'S': 1 errori su 13 invii. Tasso errore stimato: [1.4% - 33.3%]    'U': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]
+
+Errori totali: 17 su 212 = 8.02%
+Caratteri mai sbagliati: B C F H M P T V
+Elenco delle parole copiate male:
+	(2) TX: MOLANDO, RX: MOLLANDO, DIF: L;
+	(3) TX: VIRINO, RX: VERTO, DIF: IIN;
+	(11) TX: PASCIS, RX: PASCEI, DIF: ES;
+	(14) TX: AUGURATI, RX: AUGURARTI, DIF: R;
+	(20) TX: MOSCHERE, RX: MOSCHIERE, DIF: I;
+	(24) TX: SBUCATO, RX: SBARCATO, DIF: U;
+	(25) TX: UMORESCA, RX: UMESCA, DIF: OR;
+	(30) TX: DEGRADAI, RX: BECCATO, DIF: DGRDAI;
+Nota: nessuna
+***
