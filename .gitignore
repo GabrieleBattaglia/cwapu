@@ -1,6 +1,6 @@
 __pycache__/
 build/
 dist/
-*.spec
 *.zip
 *.exe
+*.wav

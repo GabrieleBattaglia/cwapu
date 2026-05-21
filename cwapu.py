@@ -782,9 +782,6 @@ def load_settings():
                 if hist_data_key not in merged_data:
                     merged_data[hist_data_key] = DEFAULT_DATA[hist_data_key].copy()
 
-            overall_settings_default = DEFAULT_DATA.get('overall_settings', {})
-            app_language_default = overall_settings_default.get('app_language', 'en')
-            loaded_overall_settings = merged_data.get('overall_settings', overall_settings_default)
             print(_('Impostazioni generali caricate'))
             return merged_data
         except (json.JSONDecodeError, IOError, TypeError):
@@ -792,8 +789,6 @@ def load_settings():
             overall_settings_changed = True
             return {k: v.copy() if isinstance(v, dict) else v for k, v in DEFAULT_DATA.items()}
     else:
-        overall_settings_default = DEFAULT_DATA.get('overall_settings', {})
-        app_language_default = overall_settings_default.get('app_language', 'en')
         print(_('Impostazioni generali di default'))
         overall_settings_changed = True
         return {k: v.copy() if isinstance(v, dict) else v for k, v in DEFAULT_DATA.items()}
@@ -1252,7 +1247,7 @@ def Count():
         if scelta == ' ':
             corr += 1
             Ac([1380, 0.015, 0, 0.5], sync=True)
-        elif ord(scelta) == 27:
+        elif scelta in ('\x1b', 'esc'):
             break
         else:
             Ac([310, 0.025, 0, 0.5], sync=True)
@@ -1740,7 +1735,7 @@ def RxingContest(menu_config_scelta):
             import termios
             import sys
             try: termios.tcflush(sys.stdin, termios.TCIOFLUSH)
-            except: pass
+            except Exception: pass
         
         # --- STATS SAVING ---
         elapsed_total = (dt.datetime.now() - start_time).total_seconds()
@@ -1902,7 +1897,6 @@ def Rxing():
     repeatedflag = False
     
     # Usa le impostazioni storiche condivise
-    max_sessions_to_keep = historical_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
     report_interval = historical_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
 
     overall_speed = dgt(prompt=_('Vuoi cambiare la velocità in WPM? Invio per accettare {wpm}> ').format(wpm=overall_speed), kind='i', imin=10, imax=85, default=overall_speed)
@@ -1923,7 +1917,7 @@ def Rxing():
     vel_variabile = enter_escape(prompt=prompt_vel)
     fix_speed = not vel_variabile
     print(_("Fai molta attenzione adesso.\n\tDigita il {kindstring} che ascolti.\nBattendo invio a vuoto (o aggiungendo un ?) avrai l'opportunità di un secondo tentativo\n\tPer terminare: digita semplicemente un '.' (punto) seguito da dal tasto invio.\n\t\tBUON DIVERTIMENTO!\n\tPremi un tasto quando sei pronto per iniziare.").format(kindstring=kindstring))
-    attesa = key()
+    key()
     print(_('Iniziamo la sessione {sessions}!').format(sessions=sessions + 1))
     starttime = dt.datetime.now()
     active_exerctime = dt.timedelta(0)
@@ -2044,7 +2038,6 @@ def Rxing():
         else:
             print(_('Nessun errore sui caratteri registrato in questa sessione.'))
         historical_rx_settings = app_data.get('historical_rx_settings', {})
-        max_sessions_to_keep = historical_rx_settings.get('max_sessions_to_keep', HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
         report_interval = historical_rx_settings.get('report_interval', HISTORICAL_RX_REPORT_INTERVAL)
         f = open('CWapu_Diary.txt', 'a', encoding='utf-8')
         print(_('Rapporto salvato su CW_Diary.txt'))

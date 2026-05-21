@@ -2918,3 +2918,42 @@ Elenco delle parole copiate male:
 	(30) TX: DEGRADAI, RX: BECCATO, DIF: DGRDAI;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #25 eseguito il 2026/5/14 alle 18, 16 minuti:
+In questa sessione #25, ti ho inviato 32 Misto (Lettere, Numeri) e ne hai ricevuti 22: 68.8%
+	17 di questi sono stati ricevuti al primo ascolto: 77.3%
+	mentre 5 Misto (Lettere, Numeri) al secondo tentativo: 22.7%.
+Durante la sessione, la tua velocità minima è stata 43.41, la massima di 59.55: pari ad una variazione di 16.14 WPM.
+	La velocità media di ricezione è di: 50.79 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '1': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    '9': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'S': 2 errori su 2 invii. Tasso errore stimato: [34.2% - 100.0%]    'U': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    '7': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    '8': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'B': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'C': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'V': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]
+
+Errori totali: 13 su 64 = 20.31%
+Caratteri mai sbagliati: 0 2 3 4 6 A D G J L N P Q R W X Y
+Elenco delle parole copiate male:
+	(1) TX: 91, RX: 82, DIF: 91;
+	(4) TX: SC, RX: HV, DIF: SC;
+	(6) TX: UP, RX: VP, DIF: U;
+	(18) TX: 17, RX: 18, DIF: 7;
+	(22) TX: 17, RX: 27, DIF: 1;
+	(24) TX: 94, RX: 84, DIF: 9;
+	(25) TX: SW, RX: HW, DIF: S;
+	(26) TX: UG, RX: VG, DIF: U;
+	(30) TX: 83, RX: 73, DIF: 8;
+	(32) TX: BV, RX: 64, DIF: BV;
+Nota: nessuna
+***
+
+Esercizio di ricezione #43 eseguito il 2026/5/19 alle 9, 50 minuti:
+In questa sessione #43, ti ho inviato 40 Qrz e ne hai ricevuti 39: 97.5%
+	29 di questi sono stati ricevuti al primo ascolto: 74.4%
+	mentre 10 Qrz al secondo tentativo: 25.6%.
+Durante la sessione, la tua velocità minima è stata 25.00, la massima di 25.00: pari ad una variazione di 0.00 WPM.
+	La velocità media di ricezione è di: 25.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'H': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'J': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'T': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]
+
+Errori totali: 3 su 215 = 1.40%
+Caratteri mai sbagliati: 0 1 2 3 4 5 6 7 8 9 A B C D E F G I K L M N O P Q R S U V W X Y Z
+Elenco delle parole copiate male:
+	(16) TX: JE7LHT, RX: 1E7LGV, DIF: JHT;
+Nota: nessuna
+***
