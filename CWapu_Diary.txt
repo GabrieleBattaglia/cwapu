@@ -2957,3 +2957,18 @@ Elenco delle parole copiate male:
 	(16) TX: JE7LHT, RX: 1E7LGV, DIF: JHT;
 Nota: nessuna
 ***
+
+Esercizio di ricezione CONTEST #45 eseguito il 2026/5/24 alle 8, 44 minuti:
+Durata: 0:06:04
+In questa sessione, ti ho inviato 20 QRZ e ne hai ricevuti 18: 90.0%
+	Correttezza Nominativi: 18/20 (90.0%)
+	Correttezza Progressivi: 18/20 (90.0%)
+Velocità: Min 22.00, Max 27.00, Avg 24.50 WPM.
+Carattere: errori = Wilson Interval
+    '9': 2/4 [15.0% - 85.0%]
+    'D': 2/3 [20.8% - 93.9%]
+    'H': 2/3 [20.8% - 93.9%]
+    '3': 1/7 [2.6% - 51.3%]
+    'G': 1/6 [3.0% - 56.4%]
+    'W': 1/5 [3.6% - 62.4%]
+***
