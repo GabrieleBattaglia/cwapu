@@ -1062,7 +1062,7 @@ def KeyboardCW():
                         rwpm = rwpm_temp
                 msg_for_cw = ''
         if msg_for_cw.strip():
-            plo, rwpm_temp = CWzator(msg=msg_for_cw, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, file=tosave)
+            plo, rwpm_temp = CWzator(msg=msg_for_cw, wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], wv=overall_wave, to_file=tosave)
             if rwpm_temp is not None:
                 rwpm = rwpm_temp
             elif msg_for_cw.strip():
@@ -2547,7 +2547,7 @@ while True:
 app_data['overall_settings'].update({'speed': overall_speed, 'pitch': overall_pitch, 'dashes': overall_dashes, 'spaces': overall_spaces, 'dots': overall_dots, 'volume': overall_volume, 'ms': overall_ms, 'fs_index': overall_fs, 'wave_index': overall_wave})
 save_settings(app_data)
 print('hpe cuagn - 73 de I4APU - Gabe in Bologna, JN54pl.')
-CWzator(msg='bk hpe cuagn - 73 de iz4apu tu e e', wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], sync=False, wv=overall_wave)
+CWzator(msg='bk hpe cuagn - 73 de iz4apu tu e e', wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], sync=True, wv=overall_wave)
 _clear_screen_ansi()
 Donazione()
 sys.exit()
