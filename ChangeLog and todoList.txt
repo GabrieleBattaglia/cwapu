@@ -3,6 +3,9 @@ Todo:
 11.
 
 ChangeLog:
+	5.18
+		+ Ottimizzazioni del motore CW. Ora è più veloce di 4 volte su frasi lunghe e di circa 3 su stringhe più corte. Inoltre consuma meno memoria ed è più leggero nella sua fase di computazione.
+
 	5.1.7 (2026-01-27)
 		+ Refactor & Accessibilità:
 			- Sostituito wxPython con tkinter nel modulo Words_Creator. Questa modifica risolve definitivamente il crash "ModuleNotFoundError: No module named 'wx'" segnalato dagli utenti nelle versioni compilate.
