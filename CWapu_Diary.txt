@@ -3238,3 +3238,49 @@ Elenco delle parole copiate male:
 	(21) TX: SCIRPETI, RX: , DIF: SCIRPETI;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #544 eseguito il 2026/6/18 alle 15, 54 minuti:
+In questa sessione #544, ti ho inviato 82 Parole e ne hai ricevuti 50: 61.0%
+	31 di questi sono stati ricevuti al primo ascolto: 62.0%
+	mentre 19 Parole al secondo tentativo: 38.0%.
+Durante la sessione, la tua velocità minima è stata 20.00, la massima di 42.00: pari ad una variazione di 22.00 WPM.
+	La velocità media di ricezione è di: 34.26 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 14 errori su 58 invii. Tasso errore stimato: [15.0% - 36.5%]    'M': 9 errori su 20 invii. Tasso errore stimato: [25.8% - 65.8%]    'I': 8 errori su 65 invii. Tasso errore stimato: [6.4% - 22.5%]    'A': 7 errori su 70 invii. Tasso errore stimato: [4.9% - 19.2%]    'N': 7 errori su 34 invii. Tasso errore stimato: [10.3% - 36.8%]    'R': 6 errori su 51 invii. Tasso errore stimato: [5.5% - 23.4%]    'T': 5 errori su 28 invii. Tasso errore stimato: [7.9% - 35.6%]    'G': 4 errori su 21 invii. Tasso errore stimato: [7.7% - 40.0%]    'S': 4 errori su 39 invii. Tasso errore stimato: [4.1% - 23.6%]    'O': 3 errori su 59 invii. Tasso errore stimato: [1.7% - 13.9%]    'V': 3 errori su 15 invii. Tasso errore stimato: [7.0% - 45.2%]    'B': 2 errori su 8 invii. Tasso errore stimato: [7.1% - 59.1%]    'U': 2 errori su 16 invii. Tasso errore stimato: [3.5% - 36.0%]    'C': 1 errori su 17 invii. Tasso errore stimato: [1.0% - 27.0%]    'F': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'H': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'L': 1 errori su 26 invii. Tasso errore stimato: [0.7% - 18.9%]    'À': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 79 su 577 = 13.69%
+Caratteri mai sbagliati: D P Q Y Z Ò
+Elenco delle parole copiate male:
+	(8) TX: MUNISTE, RX: MUNISTI, DIF: E;
+	(18) TX: AMMACCHI, RX: ANOCCHI, DIF: MMA;
+	(23) TX: RAGLIARE, RX: RAGLIAVI, DIF: RE;
+	(25) TX: FERISSE, RX: FERISE, DIF: S;
+	(26) TX: BORLARE, RX: BORORARE, DIF: L;
+	(28) TX: FREMIATE, RX: FRIGITE, DIF: EMA;
+	(31) TX: RUBEREI, RX: RUBERIE, DIF: II;
+	(32) TX: DETTAVI, RX: DATTAVI, DIF: E;
+	(35) TX: ORMEA, RX: ORMAI, DIF: EI;
+	(36) TX: USURPERÀ, RX: USURPAI, DIF: ERÀ;
+	(39) TX: ANDATA, RX: ANDRA, DIF: RTA;
+	(42) TX: PRECINTI, RX: PRECISE, DIF: NTI;
+	(44) TX: RIBECHE, RX: REBICHI, DIF: EBBEE;
+	(48) TX: RISUONA, RX: RESUMEVO, DIF: IMEVNA;
+	(49) TX: ASSONEMI, RX: ASSONETE, DIF: MI;
+	(51) TX: FURENTI, RX: FURUNETI, DIF: UNN;
+	(54) TX: REMEGGI, RX: RIMETTEVI, DIF: EGG;
+	(56) TX: AIRONE, RX: AIRNAI, DIF: OE;
+	(59) TX: EVITASTI, RX: EVITAVI, DIF: ST;
+	(61) TX: SFONDANO, RX: SONDATO, DIF: FN;
+	(62) TX: IODATI, RX: SODATI, DIF: I;
+	(64) TX: NOTTURNA, RX: NOTAVAMO, DIF: TURNVAMO;
+	(65) TX: SEGOSE, RX: SEMOE, DIF: GS;
+	(66) TX: SMOSSERO, RX: SOSSERO, DIF: M;
+	(67) TX: INGOIANO, RX: INGOIATO, DIF: N;
+	(69) TX: LAPIDATA, RX: LAPIDATE, DIF: A;
+	(72) TX: PIRICO, RX: PIRCO, DIF: I;
+	(73) TX: SOMMAMMO, RX: SOMMATO, DIF: MM;
+	(75) TX: SGURAVA, RX: SUARAVVA, DIF: GAV;
+	(78) TX: MORRESTE, RX: MORALE, DIF: RSTE;
+	(79) TX: POLIPORO, RX: POLIPONE, DIF: RO;
+	(81) TX: MIOPICHE, RX: MIOPISTA, DIF: CHE;
+Nota: nessuna
+***
