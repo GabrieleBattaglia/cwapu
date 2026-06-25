@@ -3308,3 +3308,51 @@ Elenco delle parole copiate male:
 	(62) TX: EI9HX, RX: EI9SX, DIF: H;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #26 eseguito il 2026/6/25 alle 15, 1 minuti:
+In questa sessione #26, ti ho inviato 40 Lettere e ne hai ricevuti 27: 67.5%
+	19 di questi sono stati ricevuti al primo ascolto: 70.4%
+	mentre 8 Lettere al secondo tentativo: 29.6%.
+Durante la sessione, la tua velocità minima è stata 27.00, la massima di 41.00: pari ad una variazione di 14.00 WPM.
+	La velocità media di ricezione è di: 34.44 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'U': 4 errori su 10 invii. Tasso errore stimato: [16.8% - 68.7%]    'W': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    'Z': 3 errori su 12 invii. Tasso errore stimato: [8.9% - 53.2%]    'G': 2 errori su 8 invii. Tasso errore stimato: [7.1% - 59.1%]    'O': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'F': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'M': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'R': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'S': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'X': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]
+
+Errori totali: 19 su 160 = 11.88%
+Caratteri mai sbagliati: A B C D E H I J K L N P Q T V Y
+Elenco delle parole copiate male:
+	(1) TX: YXUI, RX: YUXI, DIF: UU;
+	(4) TX: CZWP, RX: CWZP, DIF: WW;
+	(9) TX: GPWK, RX: PWGK, DIF: GG;
+	(10) TX: XARU, RX: XARV, DIF: U;
+	(11) TX: DFJF, RX: DFJW, DIF: F;
+	(13) TX: JAOC, RX: JOAC, DIF: OO;
+	(25) TX: ANZP, RX: ANQP, DIF: Z;
+	(28) TX: FZYR, RX: FZYG, DIF: R;
+	(30) TX: WJZI, RX: WJGI, DIF: Z;
+	(31) TX: UXXZ, RX: UXDF, DIF: XZ;
+	(33) TX: KSZG, RX: KXZG, DIF: S;
+	(34) TX: VHBW, RX: VHUB, DIF: UW;
+	(36) TX: BMTW, RX: BOTW, DIF: M;
+Nota: nessuna
+***
+
+Esercizio di ricezione #27 eseguito il 2026/6/25 alle 15, 3 minuti:
+In questa sessione #27, ti ho inviato 24 Misto (Lettere, Numeri) e ne hai ricevuti 17: 70.8%
+	5 di questi sono stati ricevuti al primo ascolto: 29.4%
+	mentre 12 Misto (Lettere, Numeri) al secondo tentativo: 70.6%.
+Durante la sessione, la tua velocità minima è stata 42.00, la massima di 51.00: pari ad una variazione di 9.00 WPM.
+	La velocità media di ricezione è di: 47.29 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '7': 3 errori su 5 invii. Tasso errore stimato: [23.1% - 88.2%]    '9': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'N': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.9%]    '8': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'B': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 9 su 72 = 12.50%
+Caratteri mai sbagliati: 0 1 2 3 4 5 6 A C D E F I K L M P S T U W X
+Elenco delle parole copiate male:
+	(7) TX: 937, RX: 938, DIF: 7;
+	(10) TX: FNW, RX: FMW, DIF: N;
+	(14) TX: 482, RX: 472, DIF: 8;
+	(15) TX: 539, RX: 530, DIF: 9;
+	(16) TX: 937, RX: 837, DIF: 9;
+	(18) TX: UND, RX: UDB, DIF: NB;
+	(21) TX: 877, RX: 888, DIF: 77;
+Nota: nessuna
+***
