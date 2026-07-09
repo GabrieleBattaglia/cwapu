@@ -3392,3 +3392,76 @@ Elenco delle parole copiate male:
 	(61) TX: 836, RX: 736, DIF: 8;
 Nota: nessuna
 ***
+
+Esercizio di ricezione CONTEST #47 eseguito il 2026/7/5 alle 15, 41 minuti:
+Durata: 0:12:12
+In questa sessione, ti ho inviato 33 QRZ e ne hai ricevuti 18: 54.5%
+	Correttezza Nominativi: 18/33 (54.5%)
+	Correttezza Progressivi: 18/33 (54.5%)
+Velocità: Min 29.00, Max 51.00, Avg 32.70 WPM.
+Carattere: errori = Wilson Interval
+    'H': 10/10 [72.2% - 100.0%]
+    'K': 6/9 [35.4% - 87.9%]
+    '7': 5/6 [43.6% - 97.0%]
+    'J': 5/4 [51.0% - 100.0%]
+    'M': 5/8 [30.6% - 86.3%]
+    'Q': 5/3 [43.8% - 100.0%]
+    '4': 4/13 [12.7% - 57.6%]
+    '8': 4/5 [37.6% - 96.4%]
+    'C': 4/2 [34.2% - 100.0%]
+    'P': 4/5 [37.6% - 96.4%]
+    'S': 4/8 [21.5% - 78.5%]
+    'Z': 4/3 [43.8% - 100.0%]
+    'E': 3/9 [12.1% - 64.6%]
+    'F': 3/6 [18.8% - 81.2%]
+    'N': 3/72 [1.4% - 11.5%]
+    'T': 3/4 [30.1% - 95.4%]
+    '/': 2/0 [0.0% - 100.0%]
+    '2': 2/9 [6.3% - 54.7%]
+    '3': 2/9 [6.3% - 54.7%]
+    '6': 2/11 [5.1% - 47.7%]
+    'A': 2/8 [7.1% - 59.1%]
+    'D': 2/6 [9.7% - 70.0%]
+    'G': 2/5 [11.8% - 76.9%]
+    '1': 1/19 [0.9% - 24.6%]
+    'B': 1/3 [6.1% - 79.2%]
+    'I': 1/5 [3.6% - 62.4%]
+    'O': 1/4 [4.6% - 69.9%]
+    'R': 1/5 [3.6% - 62.4%]
+    'U': 1/4 [4.6% - 69.9%]
+    'W': 1/14 [1.3% - 31.5%]
+    'X': 1/2 [9.5% - 90.5%]
+    'Y': 1/2 [9.5% - 90.5%]
+***
+
+Esercizio di ricezione #545 eseguito il 2026/7/8 alle 16, 6 minuti:
+In questa sessione #545, ti ho inviato 40 Parole e ne hai ricevuti 22: 55.0%
+	10 di questi sono stati ricevuti al primo ascolto: 45.5%
+	mentre 12 Parole al secondo tentativo: 54.5%.
+Durante la sessione, la tua velocità minima è stata 30.00, la massima di 38.00: pari ad una variazione di 8.00 WPM.
+	La velocità media di ricezione è di: 33.68 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 7 errori su 37 invii. Tasso errore stimato: [9.5% - 34.2%]    'E': 5 errori su 32 invii. Tasso errore stimato: [6.9% - 31.8%]    'N': 4 errori su 11 invii. Tasso errore stimato: [15.2% - 64.6%]    'A': 2 errori su 25 invii. Tasso errore stimato: [2.2% - 25.0%]    'L': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'G': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'R': 1 errori su 26 invii. Tasso errore stimato: [0.7% - 18.9%]    'S': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]    'T': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'U': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'Z': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]
+
+Errori totali: 26 su 265 = 9.81%
+Caratteri mai sbagliati: B C D F H M O P Q V W Y À Ò
+Elenco delle parole copiate male:
+	(2) TX: CEDESTI, RX: CEDESTE, DIF: I;
+	(4) TX: PASCEVA, RX: PASCEVI, DIF: A;
+	(5) TX: OCCLUDI, RX: OCCLUDE, DIF: I;
+	(6) TX: VIDEATA, RX: VIDERTA, DIF: A;
+	(9) TX: REPRINTS, RX: REPERTS, DIF: EIN;
+	(12) TX: ORCIUOLI, RX: ORCIUOCI, DIF: L;
+	(16) TX: SLACCIAI, RX: SLACCIATI, DIF: T;
+	(19) TX: MEDICHI, RX: MEDICHE, DIF: I;
+	(20) TX: PROZII, RX: PROGII, DIF: Z;
+	(21) TX: VERSTA, RX: VERITA, DIF: S;
+	(25) TX: QUINTE, RX: QUITI, DIF: NE;
+	(29) TX: VUOTERAI, RX: VUOTEERAI, DIF: E;
+	(30) TX: RAMIE, RX: RAMEE, DIF: IE;
+	(31) TX: YAWLS, RX: YAWSI, DIF: LI;
+	(33) TX: DECIDUO, RX: DECIDEVO, DIF: U;
+	(35) TX: EQUINO, RX: EQUITO, DIF: N;
+	(37) TX: GUIDERÒ, RX: QUINDÒ, DIF: GNER;
+	(39) TX: ANDRONI, RX: ANDRONE, DIF: I;
+Nota: nessuna
+***
