@@ -3465,3 +3465,40 @@ Elenco delle parole copiate male:
 	(39) TX: ANDRONI, RX: ANDRONE, DIF: I;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #546 eseguito il 2026/7/9 alle 16, 10 minuti:
+In questa sessione #546, ti ho inviato 45 Parole e ne hai ricevuti 22: 48.9%
+	14 di questi sono stati ricevuti al primo ascolto: 63.6%
+	mentre 8 Parole al secondo tentativo: 36.4%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 40.00: pari ad una variazione di 5.00 WPM.
+	La velocità media di ricezione è di: 37.36 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 13 errori su 36 invii. Tasso errore stimato: [22.5% - 52.4%]    'E': 9 errori su 33 invii. Tasso errore stimato: [15.1% - 44.2%]    'R': 7 errori su 19 invii. Tasso errore stimato: [19.1% - 59.0%]    'A': 6 errori su 44 invii. Tasso errore stimato: [6.4% - 26.7%]    'N': 6 errori su 20 invii. Tasso errore stimato: [14.5% - 51.9%]    'T': 6 errori su 22 invii. Tasso errore stimato: [13.2% - 48.2%]    'D': 3 errori su 7 invii. Tasso errore stimato: [15.8% - 75.0%]    'M': 3 errori su 10 invii. Tasso errore stimato: [10.8% - 60.3%]    'S': 3 errori su 24 invii. Tasso errore stimato: [4.3% - 31.0%]    'U': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    'G': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'O': 2 errori su 25 invii. Tasso errore stimato: [2.2% - 25.0%]    'F': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'H': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'V': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]
+
+Errori totali: 66 su 308 = 21.43%
+Caratteri mai sbagliati: B C L P Z È Ì Ò
+Elenco delle parole copiate male:
+	(5) TX: GENIALI, RX: GENIALE, DIF: I;
+	(6) TX: CEREI, RX: CERTI, DIF: E;
+	(7) TX: BUTTERI, RX: BUTTESI, DIF: R;
+	(8) TX: BASTAGIO, RX: BASTAGNO, DIF: I;
+	(10) TX: VETUSTA, RX: VETUSTO, DIF: A;
+	(12) TX: VALIDERA, RX: VALERIA, DIF: IDI;
+	(14) TX: TESSERÒ, RX: TESSEERÒ, DIF: E;
+	(18) TX: INSEGUÌ, RX: INTESÌ, DIF: TEEGU;
+	(19) TX: ANGIOLO, RX: ANGOLO, DIF: I;
+	(20) TX: COMPRIME, RX: COMPRINE, DIF: M;
+	(21) TX: ENTRIAMO, RX: EMIRATO, DIF: NRIAM;
+	(26) TX: DEDITE, RX: DENDE, DIF: NIT;
+	(29) TX: PIRANHAS, RX: PRIMADAVA, DIF: RRNHS;
+	(31) TX: AIERINO, RX: AIRINO, DIF: E;
+	(32) TX: MIETANO, RX: METANO, DIF: I;
+	(35) TX: TAVERNE, RX: , DIF: TAVERNE;
+	(36) TX: AERODINA, RX: IDOTATA, DIF: IDOTERODIN;
+	(39) TX: ANAFASE, RX: ANIMALE, DIF: IMFAS;
+	(40) TX: PROUST, RX: PROVITE, DIF: USE;
+	(41) TX: MITIGANO, RX: MAESTRO, DIF: IIGAN;
+	(43) TX: PINCEAU, RX: PINCETI, DIF: AU;
+	(44) TX: DONAI, RX: DONATI, DIF: T;
+	(45) TX: FALERNI, RX: FALENTI, DIF: RT;
+Nota: nessuna
+***
