@@ -46,7 +46,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '5.1.8, 2026-05-30'
+VERSION = '5.1.9, 2026-07-12'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 RX_LSP_VARIATION_PROBABILITY = 0.3
 RX_LSP_RANGE_L = (30, 60)
@@ -2549,5 +2549,5 @@ save_settings(app_data)
 print('hpe cuagn - 73 de I4APU - Gabe in Bologna, JN54pl.')
 CWzator(msg='bk hpe cuagn - 73 de iz4apu tu e e', wpm=overall_speed, pitch=overall_pitch, l=overall_dashes, s=overall_spaces, p=overall_dots, vol=overall_volume, ms=overall_ms, fs=SAMPLE_RATES[overall_fs], sync=True, wv=overall_wave)
 _clear_screen_ansi()
-Donazione()
+Donazione(lang=app_language)
 sys.exit()
