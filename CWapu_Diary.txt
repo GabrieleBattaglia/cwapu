@@ -3717,3 +3717,68 @@ Elenco delle parole copiate male:
 	(73) TX: MIOTICO, RX: MAIOCO, DIF: ATI;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #548 eseguito il 2026/7/20 alle 13, 56 minuti:
+In questa sessione #548, ti ho inviato 114 Parole e ne hai ricevuti 63: 55.3%
+	39 di questi sono stati ricevuti al primo ascolto: 61.9%
+	mentre 24 Parole al secondo tentativo: 38.1%.
+Durante la sessione, la tua velocità minima è stata 25.00, la massima di 43.00: pari ad una variazione di 18.00 WPM.
+	La velocità media di ricezione è di: 35.89 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 27 errori su 109 invii. Tasso errore stimato: [17.6% - 33.6%]    'A': 13 errori su 99 invii. Tasso errore stimato: [7.8% - 21.2%]    'E': 12 errori su 78 invii. Tasso errore stimato: [9.0% - 25.0%]    'N': 9 errori su 45 invii. Tasso errore stimato: [10.9% - 33.8%]    'R': 8 errori su 59 invii. Tasso errore stimato: [7.0% - 24.5%]    'S': 7 errori su 55 invii. Tasso errore stimato: [6.3% - 24.0%]    'T': 5 errori su 53 invii. Tasso errore stimato: [4.1% - 20.3%]    'G': 3 errori su 19 invii. Tasso errore stimato: [5.5% - 37.6%]    'M': 3 errori su 21 invii. Tasso errore stimato: [5.0% - 34.6%]    'D': 2 errori su 21 invii. Tasso errore stimato: [2.7% - 28.9%]    'H': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.9%]    'L': 2 errori su 46 invii. Tasso errore stimato: [1.2% - 14.5%]    'O': 2 errori su 65 invii. Tasso errore stimato: [0.8% - 10.5%]    'V': 2 errori su 21 invii. Tasso errore stimato: [2.7% - 28.9%]    'C': 1 errori su 20 invii. Tasso errore stimato: [0.9% - 23.6%]    'P': 1 errori su 29 invii. Tasso errore stimato: [0.6% - 17.2%]    'U': 1 errori su 23 invii. Tasso errore stimato: [0.8% - 21.0%]    'Z': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]
+
+Errori totali: 101 su 809 = 12.48%
+Caratteri mai sbagliati: B F X À Ò
+Elenco delle parole copiate male:
+	(8) TX: VIVAGNO, RX: VIVAGIO, DIF: N;
+	(10) TX: MOTIGLIO, RX: MITOGLIO, DIF: ITTI;
+	(11) TX: TEURGHI, RX: TEURGIS, DIF: HS;
+	(17) TX: EMBARGHI, RX: IMBARAZZI, DIF: EGH;
+	(24) TX: EPIPLOON, RX: EPIRECON, DIF: PLO;
+	(26) TX: ATASSIE, RX: ATTESI, DIF: ASE;
+	(27) TX: LINAIO, RX: LINEASO, DIF: EI;
+	(28) TX: PENSINO, RX: PENISO, DIF: IIN;
+	(35) TX: SDAZIATO, RX: SNAZATO, DIF: DI;
+	(36) TX: INTUGLIO, RX: INTULLO, DIF: GI;
+	(37) TX: PAESISTE, RX: PASSERE, DIF: SSSIST;
+	(38) TX: LITIGATO, RX: LITURGO, DIF: IAT;
+	(39) TX: MAGANO, RX: MAGATO, DIF: N;
+	(40) TX: NEGATIVE, RX: NEGATIVO, DIF: E;
+	(41) TX: MALVISTI, RX: MALVISTO, DIF: I;
+	(42) TX: BULANDO, RX: BULGAO, DIF: GND;
+	(45) TX: PLEURE, RX: PLEURA, DIF: E;
+	(46) TX: NISSENA, RX: MESSINA, DIF: NIE;
+	(47) TX: LIRICI, RX: LERICI, DIF: I;
+	(48) TX: RIFULSO, RX: REFUSO, DIF: IL;
+	(49) TX: POLITENI, RX: POLITICI, DIF: ENCI;
+	(50) TX: NIDIACEA, RX: NEDIBICEA, DIF: IA;
+	(52) TX: ASIALIA, RX: SIALIA, DIF: A;
+	(59) TX: VESSAVA, RX: VISSAVA, DIF: E;
+	(63) TX: PELTRI, RX: PELTIA, DIF: RA;
+	(64) TX: ORDITA, RX: ORDINA, DIF: T;
+	(65) TX: FAUVISME, RX: FAUVISTA, DIF: ME;
+	(67) TX: RIENTRI, RX: RENATAI, DIF: IAR;
+	(71) TX: ALBERGA, RX: ALBERGO, DIF: A;
+	(72) TX: VOLIAMO, RX: VOLATO, DIF: IM;
+	(77) TX: AVALLINO, RX: AVALLORA, DIF: INRA;
+	(80) TX: GRIPOSI, RX: GREPOSA, DIF: II;
+	(81) TX: ESTRUDE, RX: ESTAUDE, DIF: R;
+	(82) TX: BUFALAI, RX: BUFALARE, DIF: I;
+	(84) TX: SPULARDA, RX: ASPULADA, DIF: AR;
+	(85) TX: EPISISMO, RX: EPISIMO, DIF: S;
+	(88) TX: SVELTA, RX: SVELATA, DIF: A;
+	(92) TX: AVOCHI, RX: AVOCHE, DIF: I;
+	(93) TX: LINGULE, RX: LINGUALE, DIF: A;
+	(95) TX: ZIRLARE, RX: GALLATE, DIF: ZIRR;
+	(96) TX: SCIALBI, RX: SCELBI, DIF: IA;
+	(99) TX: NIGERINA, RX: NIGERIA, DIF: N;
+	(100) TX: EROTIZZO, RX: EROTIZZA, DIF: O;
+	(101) TX: SCELSERO, RX: SCELSICO, DIF: ER;
+	(103) TX: ERUTTIVE, RX: ERUTTINO, DIF: VE;
+	(104) TX: RIUNGERE, RX: RUGGERI, DIF: INE;
+	(105) TX: ANFIPODI, RX: ANFIPODE, DIF: I;
+	(111) TX: MALRAUX, RX: MALRVAX, DIF: VU;
+	(112) TX: PIGLINO, RX: PIGLIANO, DIF: A;
+	(113) TX: ISPIRAMI, RX: ISPIRANTI, DIF: M;
+	(114) TX: FATI, RX: FATE, DIF: I;
+Nota: nessuna
+***
