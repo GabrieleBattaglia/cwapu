@@ -46,7 +46,7 @@ def get_user_data_path():
 app_language, _ = polipo(source_language="it")
 
 #QC Costanti
-VERSION = '5.1.9, 2026-07-12'
+VERSION = '5.1.11, 2026-07-23'
 RX_ITEM_TIMEOUT_SECONDS = 30 # Tempo massimo per item prima di considerarlo una pausa
 RX_LSP_VARIATION_PROBABILITY = 0.3
 RX_LSP_RANGE_L = (30, 60)
@@ -916,9 +916,10 @@ def KeyboardCW():
             command_candidate_str = msg[1:].strip()
             cmd_letter_parsed = ''
             value_int_parsed = None
-            value_str_parsed = ''
             is_value_numeric_type = False
             is_value_special_format = False
+            command_processed_internally = False
+            feedback_cw = ''
             match_val_num = re.match('([a-zA-Z])(\\d+)', command_candidate_str)
             if match_val_num and command_candidate_str == match_val_num.group(0):
                 cmd_letter_parsed = match_val_num.group(1).lower()
@@ -926,12 +927,14 @@ def KeyboardCW():
                 is_value_numeric_type = True
             else:
                 parts = command_candidate_str.split(maxsplit=1)
-                cmd_letter_parsed = parts[0].lower()
-                if len(parts) > 1:
-                    value_str_parsed = parts[1]
-                    is_value_special_format = True
-            command_processed_internally = False
-            feedback_cw = ''
+                if parts:
+                    cmd_letter_parsed = parts[0].lower()
+                    if len(parts) > 1:
+                        value_str_parsed = parts[1]
+                        is_value_special_format = True
+                else:
+                    feedback_cw = '?'
+                    command_processed_internally = True
             if cmd_letter_parsed == 'y':
                 if command_candidate_str == 'y':
                     print(_('Avvio editor gruppo Custom...'))
@@ -1997,26 +2000,30 @@ def Rxing():
                 minwpm = rwpm
             repeatedflag = False
     print(_('È finita! Ora vediamo cosa abbiamo ottenuto.'))
+    send_char = sum((len(j) for j in callssend))
+    sent_chars_detail_this_session = {}
+    for item_str in callssend:
+        for char_sent in item_str:
+            sent_chars_detail_this_session[char_sent] = sent_chars_detail_this_session.get(char_sent, 0) + 1
+    char_error_counts = {}
+    total_mistakes_calculated = 0
+    for right_str, received_str in dz_mistakes.values():
+        total_mistakes_calculated += collect_char_errors(right_str, received_str, char_error_counts)
+    avg_wpm_calc = average_rwpm / len(callsget) if len(callsget) > 0 else float(overall_speed)
+    if minwpm > maxwpm:
+        minwpm = float(overall_speed)
+        maxwpm = float(overall_speed)
+
     if len(callssend) >= 10:
-        send_char = sum((len(j) for j in callssend))
-        sent_chars_detail_this_session = {}
-        for item_str in callssend:
-            for char_sent in item_str:
-                sent_chars_detail_this_session[char_sent] = sent_chars_detail_this_session.get(char_sent, 0) + 1
         total_sent_processed = len(callssend)
         percentage_correct = len(callsget) * 100 / total_sent_processed if total_sent_processed > 0 else 0
         print(_('In questa sessione #{sessions}, ti ho inviato {calls} {kindstring} e ne hai ricevuti {callsget_len}: {percentage:.1f}%').format(sessions=sessions, calls=total_sent_processed, kindstring=kindstring, callsget_len=len(callsget), percentage=percentage_correct))
         first_shot_correct = len(callsget) - callsrepeated
         first_shot_percentage = first_shot_correct * 100 / len(callsget) if len(callsget) > 0 else 0
         repetitions_percentage = callsrepeated * 100 / len(callsget) if len(callsget) > 0 else 0
-        print(_('\t{first_shot} di questi sono stati ricevuti al primo ascolto: {first_shot_percentage:.1f}%').format(first_shot=len(callsget) - callsrepeated, first_shot_percentage=(len(callsget) - callsrepeated) * 100 / len(callsget)))
-        print(_('\tmentre {repetitions} {kindstring} al secondo tentativo: {repetitions_percentage:.1f}%.').format(repetitions=callsrepeated, kindstring=kindstring, repetitions_percentage=callsrepeated * 100 / len(callsget)))
-        print(_('Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la massima di {maxwpm:.2f}: pari ad una variazione di {range_wpm:.2f} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM.').format(minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm - minwpm, average_wpm=average_rwpm / len(callsget)))
-        avg_wpm_calc = average_rwpm / len(callsget) if len(callsget) > 0 else overall_speed
-        char_error_counts = {}
-        total_mistakes_calculated = 0
-        for right_str, received_str in dz_mistakes.values():
-            total_mistakes_calculated += collect_char_errors(right_str, received_str, char_error_counts)
+        print(_('\t{first_shot} di questi sono stati ricevuti al primo ascolto: {first_shot_percentage:.1f}%').format(first_shot=first_shot_correct, first_shot_percentage=first_shot_percentage))
+        print(_('\tmentre {repetitions} {kindstring} al secondo tentativo: {repetitions_percentage:.1f}%.').format(repetitions=callsrepeated, kindstring=kindstring, repetitions_percentage=repetitions_percentage))
+        print(_('Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la massima di {maxwpm:.2f}: pari ad una variazione di {range_wpm:.2f} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM.').format(minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm - minwpm, average_wpm=avg_wpm_calc))
         print(_('Carattere: errori = Intervallo di Confidenza Errore (Wilson)'))
         if total_mistakes_calculated > 0:
             sorted_errors = sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0]))

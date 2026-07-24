@@ -3847,3 +3847,75 @@ Elenco delle parole copiate male:
 	(100) TX: MACINAVA, RX: MACINAVI, DIF: A;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #550 eseguito il 2026/7/23 alle 17, 21 minuti:
+In questa sessione #550, ti ho inviato 118 Parole e ne hai ricevuti 60: 50.8%
+	24 di questi sono stati ricevuti al primo ascolto: 40.0%
+	mentre 36 Parole al secondo tentativo: 60.0%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 47.00: pari ad una variazione di 12.00 WPM.
+	La velocità media di ricezione è di: 40.37 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 27 errori su 98 invii. Tasso errore stimato: [19.7% - 37.1%]    'E': 24 errori su 81 invii. Tasso errore stimato: [20.8% - 40.3%]    'N': 13 errori su 45 invii. Tasso errore stimato: [17.7% - 43.4%]    'A': 10 errori su 107 invii. Tasso errore stimato: [5.2% - 16.4%]    'T': 10 errori su 55 invii. Tasso errore stimato: [10.2% - 30.3%]    'R': 9 errori su 73 invii. Tasso errore stimato: [6.6% - 21.8%]    'S': 7 errori su 53 invii. Tasso errore stimato: [6.5% - 24.8%]    'U': 6 errori su 25 invii. Tasso errore stimato: [11.5% - 43.4%]    'B': 5 errori su 18 invii. Tasso errore stimato: [12.5% - 50.9%]    'L': 5 errori su 30 invii. Tasso errore stimato: [7.3% - 33.6%]    'M': 3 errori su 22 invii. Tasso errore stimato: [4.7% - 33.3%]    'O': 3 errori su 59 invii. Tasso errore stimato: [1.7% - 13.9%]    'C': 2 errori su 42 invii. Tasso errore stimato: [1.3% - 15.8%]    'G': 2 errori su 17 invii. Tasso errore stimato: [3.3% - 34.3%]    'H': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'P': 1 errori su 24 invii. Tasso errore stimato: [0.7% - 20.2%]    'V': 1 errori su 18 invii. Tasso errore stimato: [1.0% - 25.8%]    'W': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]
+
+Errori totali: 131 su 815 = 16.07%
+Caratteri mai sbagliati: D F Q X Z À Ì Ò
+Elenco delle parole copiate male:
+	(5) TX: LANTANE, RX: LANTATE, DIF: N;
+	(9) TX: BRACCHI, RX: BRACCIE, DIF: HE;
+	(11) TX: ARROSTI, RX: ARROSTE, DIF: I;
+	(14) TX: FRONZUTA, RX: FRONZITA, DIF: U;
+	(18) TX: TRACHEE, RX: TRACHIE, DIF: IE;
+	(21) TX: EMBRICE, RX: EM, DIF: BRICE;
+	(22) TX: PINENE, RX: , DIF: PINENE;
+	(23) TX: GUADA, RX: GARDA, DIF: UR;
+	(24) TX: DIPANATI, RX: DIPARTICE, DIF: NACE;
+	(25) TX: TREMOTII, RX: TREMORI, DIF: TI;
+	(26) TX: ATTINGA, RX: ATTENGA, DIF: I;
+	(27) TX: INNACQUO, RX: ANNACQUA, DIF: IO;
+	(28) TX: DOTASSE, RX: DOTARSI, DIF: RSE;
+	(29) TX: FENICATI, RX: FENCATI, DIF: I;
+	(30) TX: RUBASCA, RX: RUDISCA, DIF: BA;
+	(36) TX: SANDWICH, RX: SANDICI, DIF: WH;
+	(42) TX: SVELLEVA, RX: SVELAVA, DIF: LE;
+	(44) TX: VIBRASTE, RX: VIBRATI, DIF: SE;
+	(46) TX: AVULSA, RX: AVULIA, DIF: S;
+	(47) TX: BRAMATO, RX: BRAMANO, DIF: T;
+	(49) TX: PAUSARE, RX: PAUSINA, DIF: INRE;
+	(53) TX: TATUAI, RX: TATUA, DIF: I;
+	(56) TX: RAGNATI, RX: RAGARI, DIF: NT;
+	(59) TX: TERMICO, RX: TERICO, DIF: M;
+	(60) TX: INCORRI, RX: INCORRE, DIF: I;
+	(61) TX: ARENACEE, RX: ARANCEE, DIF: EA;
+	(62) TX: GILBERT, RX: GILBET, DIF: R;
+	(64) TX: PICRICI, RX: PICRECI, DIF: I;
+	(65) TX: ORTICOLE, RX: ORICOLO, DIF: TE;
+	(69) TX: SOMASCHE, RX: SOMASCHI, DIF: E;
+	(70) TX: BIRBI, RX: BIRBE, DIF: I;
+	(71) TX: BOVARINA, RX: BOVARDA, DIF: IN;
+	(73) TX: POLVERII, RX: POLVERSI, DIF: SI;
+	(74) TX: EGRE, RX: EMERE, DIF: G;
+	(75) TX: CELASTE, RX: CELARSI, DIF: RTE;
+	(76) TX: MOTONAVE, RX: MOTONAVI, DIF: E;
+	(77) TX: RIFILAVA, RX: RAFILAVI, DIF: IA;
+	(78) TX: EFFUSIVE, RX: EFFUSION, DIF: VE;
+	(80) TX: SALUTALA, RX: SALVATORA, DIF: UORLA;
+	(82) TX: BELANTE, RX: ADELANTE, DIF: B;
+	(84) TX: MARITA, RX: MARIA, DIF: T;
+	(90) TX: SIRIO, RX: SAURO, DIF: II;
+	(91) TX: ASPIRINA, RX: ASPIRANTI, DIF: ANTNA;
+	(93) TX: STRIDEI, RX: STRIDI, DIF: E;
+	(95) TX: IRRETIRE, RX: ERRINERI, DIF: IINTRE;
+	(96) TX: TEANESE, RX: TEATRI, DIF: NESE;
+	(98) TX: VETERANI, RX: VETRANO, DIF: EI;
+	(103) TX: VAIOLOSE, RX: VAIOLIN, DIF: OSE;
+	(104) TX: CIONCA, RX: CIOCA, DIF: N;
+	(107) TX: SBOSCATI, RX: SBLOCCATI, DIF: LS;
+	(108) TX: TRITURE, RX: TREBUTI, DIF: EBUTTURE;
+	(109) TX: GIAMBI, RX: GIAMBE, DIF: I;
+	(110) TX: QUESTUA, RX: QUESTAIA, DIF: UIA;
+	(112) TX: CORIAMBI, RX: CORIANDI, DIF: MB;
+	(114) TX: AVVOLGI, RX: AVVOLGE, DIF: I;
+	(115) TX: BRUSONI, RX: BRUSOTA, DIF: NI;
+	(116) TX: IMMEGLIA, RX: EMETTERÒ, DIF: IMGLIA;
+	(117) TX: RADIALE, RX: RADIRE, DIF: AL;
+Nota: nessuna
+***

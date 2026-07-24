@@ -3,6 +3,10 @@ Todo:
 11.
 
 ChangeLog:
+	5.1.11 (2026-07-23)
+		+ Bugfix:
+			- Risolto UnboundLocalError su 'avg_wpm_calc' in Rxing() (menu 'r') quando si inserisce il punto '.' per uscire prima del limite di 10 item. Pre-inizializzate in sicurezza tutte le variabili statistiche per prevenire anche potenziali divisioni per zero.
+			- Risolto IndexError su 'parts[0]' in KeyboardCW() (menu 'k') quando l'utente digita soltanto il punto '.' seguito da Invio.
 	5.1.9 (2026-07-12)
 		+ Bugfix: Allineata la lingua del messaggio di Donazione() all'uscita passando app_language.
 
