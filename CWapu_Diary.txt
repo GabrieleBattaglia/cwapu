@@ -3919,3 +3919,49 @@ Elenco delle parole copiate male:
 	(117) TX: RADIALE, RX: RADIRE, DIF: AL;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #32 eseguito il 2026/7/26 alle 15, 37 minuti:
+In questa sessione #32, ti ho inviato 83 Lettere e ne hai ricevuti 51: 61.4%
+	16 di questi sono stati ricevuti al primo ascolto: 31.4%
+	mentre 35 Lettere al secondo tentativo: 68.6%.
+Durante la sessione, la tua velocità minima è stata 35.00, la massima di 59.00: pari ad una variazione di 24.00 WPM.
+	La velocità media di ricezione è di: 49.63 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'R': 5 errori su 17 invii. Tasso errore stimato: [13.3% - 53.1%]    'B': 4 errori su 7 invii. Tasso errore stimato: [25.0% - 84.2%]    'F': 4 errori su 8 invii. Tasso errore stimato: [21.5% - 78.5%]    'K': 4 errori su 11 invii. Tasso errore stimato: [15.2% - 64.6%]    'P': 4 errori su 5 invii. Tasso errore stimato: [37.6% - 96.4%]    'S': 4 errori su 12 invii. Tasso errore stimato: [13.8% - 60.9%]    'L': 3 errori su 12 invii. Tasso errore stimato: [8.9% - 53.2%]    'H': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'J': 2 errori su 13 invii. Tasso errore stimato: [4.3% - 42.2%]    'Z': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'E': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]    'I': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'M': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]    'O': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'U': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'W': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'Y': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]
+
+Errori totali: 41 su 249 = 16.47%
+Caratteri mai sbagliati: A C D G N Q T V X
+Elenco delle parole copiate male:
+	(10) TX: SSR, RX: HSR, DIF: S;
+	(21) TX: BOJ, RX: DOJ, DIF: B;
+	(25) TX: BIQ, RX: DIQ, DIF: B;
+	(28) TX: NLJ, RX: NLO, DIF: J;
+	(29) TX: ZPR, RX: ZWR, DIF: P;
+	(31) TX: KAY, RX: KAO, DIF: Y;
+	(32) TX: FZK, RX: FGQ, DIF: ZK;
+	(33) TX: BLC, RX: DRC, DIF: BL;
+	(34) TX: KFX, RX: KAX, DIF: F;
+	(35) TX: JRL, RX: WJL, DIF: WR;
+	(36) TX: YLO, RX: YRQ, DIF: LO;
+	(39) TX: XZX, RX: XWX, DIF: Z;
+	(48) TX: TPS, RX: TWS, DIF: P;
+	(49) TX: QIF, RX: QIR, DIF: F;
+	(53) TX: AEK, RX: AEX, DIF: K;
+	(54) TX: TWM, RX: TWD, DIF: M;
+	(56) TX: TCF, RX: TCV, DIF: F;
+	(57) TX: SRK, RX: HRX, DIF: SK;
+	(58) TX: SQE, RX: HQE, DIF: S;
+	(59) TX: VHR, RX: VHF, DIF: R;
+	(60) TX: RHD, RX: RDB, DIF: HB;
+	(61) TX: PIE, RX: PEE, DIF: IE;
+	(62) TX: ARM, RX: AWM, DIF: R;
+	(63) TX: GSB, RX: GIB, DIF: S;
+	(67) TX: CCH, RX: CCS, DIF: H;
+	(71) TX: PUZ, RX: WUZ, DIF: P;
+	(72) TX: LKU, RX: PLX, DIF: PKU;
+	(74) TX: RXK, RX: WXK, DIF: R;
+	(76) TX: SYR, RX: SYL, DIF: R;
+	(77) TX: UJE, RX: UWE, DIF: J;
+	(78) TX: XLA, RX: XRA, DIF: L;
+	(83) TX: JXF, RX: JXR, DIF: F;
+Nota: nessuna
+***
