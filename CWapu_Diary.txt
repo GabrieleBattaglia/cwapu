@@ -3965,3 +3965,97 @@ Elenco delle parole copiate male:
 	(83) TX: JXF, RX: JXR, DIF: F;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #33 eseguito il 2026/7/28 alle 8, 31 minuti:
+In questa sessione #33, ti ho inviato 60 Numeri e ne hai ricevuti 30: 50.0%
+	16 di questi sono stati ricevuti al primo ascolto: 53.3%
+	mentre 14 Numeri al secondo tentativo: 46.7%.
+Durante la sessione, la tua velocità minima è stata 54.00, la massima di 63.00: pari ad una variazione di 9.00 WPM.
+	La velocità media di ricezione è di: 57.63 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    '7': 9 errori su 21 invii. Tasso errore stimato: [24.5% - 63.5%]    '1': 8 errori su 26 invii. Tasso errore stimato: [16.5% - 50.0%]    '2': 7 errori su 17 invii. Tasso errore stimato: [21.6% - 64.0%]    '9': 5 errori su 19 invii. Tasso errore stimato: [11.8% - 48.8%]    '8': 4 errori su 14 invii. Tasso errore stimato: [11.7% - 54.6%]    '5': 3 errori su 23 invii. Tasso errore stimato: [4.5% - 32.1%]    '6': 3 errori su 22 invii. Tasso errore stimato: [4.7% - 33.3%]
+
+Errori totali: 39 su 180 = 21.67%
+Caratteri mai sbagliati: 0 3 4
+Elenco delle parole copiate male:
+	(2) TX: 633, RX: 733, DIF: 6;
+	(4) TX: 615, RX: 625, DIF: 1;
+	(11) TX: 595, RX: 505, DIF: 9;
+	(12) TX: 712, RX: 822, DIF: 712;
+	(15) TX: 238, RX: 239, DIF: 8;
+	(16) TX: 726, RX: 826, DIF: 7;
+	(17) TX: 871, RX: 861, DIF: 7;
+	(20) TX: 923, RX: 823, DIF: 9;
+	(23) TX: 321, RX: 328, DIF: 1;
+	(27) TX: 651, RX: 567, DIF: 551;
+	(28) TX: 325, RX: 315, DIF: 2;
+	(32) TX: 904, RX: 804, DIF: 9;
+	(34) TX: 265, RX: 365, DIF: 2;
+	(35) TX: 995, RX: 987, DIF: 95;
+	(36) TX: 621, RX: 622, DIF: 1;
+	(37) TX: 331, RX: 337, DIF: 1;
+	(39) TX: 188, RX: 288, DIF: 1;
+	(40) TX: 759, RX: 752, DIF: 9;
+	(41) TX: 279, RX: 289, DIF: 7;
+	(43) TX: 579, RX: 569, DIF: 7;
+	(44) TX: 712, RX: 721, DIF: 22;
+	(45) TX: 786, RX: 898, DIF: 76;
+	(46) TX: 558, RX: 557, DIF: 8;
+	(52) TX: 176, RX: 186, DIF: 7;
+	(54) TX: 371, RX: 312, DIF: 72;
+	(55) TX: 221, RX: 231, DIF: 2;
+	(56) TX: 098, RX: 099, DIF: 8;
+	(57) TX: 711, RX: 811, DIF: 7;
+	(58) TX: 296, RX: 289, DIF: 86;
+	(60) TX: 519, RX: 529, DIF: 1;
+Nota: nessuna
+***
+
+Esercizio di ricezione #34 eseguito il 2026/7/29 alle 17, 40 minuti:
+In questa sessione #34, ti ho inviato 87 Lettere e numeri e ne hai ricevuti 51: 58.6%
+	20 di questi sono stati ricevuti al primo ascolto: 39.2%
+	mentre 31 Lettere e numeri al secondo tentativo: 60.8%.
+Durante la sessione, la tua velocità minima è stata 32.00, la massima di 49.00: pari ad una variazione di 17.00 WPM.
+	La velocità media di ricezione è di: 42.49 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'B': 5 errori su 9 invii. Tasso errore stimato: [26.7% - 81.1%]    'J': 5 errori su 9 invii. Tasso errore stimato: [26.7% - 81.1%]    '7': 4 errori su 12 invii. Tasso errore stimato: [13.8% - 60.9%]    'S': 4 errori su 7 invii. Tasso errore stimato: [25.0% - 84.2%]    '1': 3 errori su 9 invii. Tasso errore stimato: [12.1% - 64.6%]    'V': 3 errori su 5 invii. Tasso errore stimato: [23.1% - 88.2%]    '4': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    '5': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    '8': 2 errori su 8 invii. Tasso errore stimato: [7.1% - 59.1%]    'D': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    'H': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    '2': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    '3': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'G': 1 errori su 13 invii. Tasso errore stimato: [1.4% - 33.3%]    'K': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'Q': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'Z': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]
+
+Errori totali: 40 su 261 = 15.33%
+Caratteri mai sbagliati: 0 6 9 A C E F I L M N O P R T U W X Y
+Elenco delle parole copiate male:
+	(3) TX: 81N, RX: 8JN, DIF: 1;
+	(10) TX: 341, RX: 3V1, DIF: 4;
+	(11) TX: EL5, RX: ELH, DIF: 5;
+	(14) TX: GVJ, RX: GV1, DIF: J;
+	(18) TX: W94, RX: W9V, DIF: 4;
+	(20) TX: GUB, RX: GUD, DIF: B;
+	(22) TX: N80, RX: NZ0, DIF: 8;
+	(24) TX: X2Z, RX: XJZ, DIF: 2;
+	(28) TX: FR1, RX: FRJ, DIF: 1;
+	(31) TX: HB3, RX: 5B3, DIF: H;
+	(32) TX: FQZ, RX: FYZ, DIF: Q;
+	(33) TX: SGG, RX: HGG, DIF: S;
+	(34) TX: JVR, RX: JUR, DIF: V;
+	(43) TX: S0B, RX: H0B, DIF: S;
+	(44) TX: N2J, RX: N22, DIF: J;
+	(45) TX: E7S, RX: E8D, DIF: 7S;
+	(47) TX: OB4, RX: OD4, DIF: B;
+	(48) TX: LCD, RX: LCB, DIF: D;
+	(54) TX: EJ8, RX: E1D, DIF: J8;
+	(56) TX: 377, RX: 37Z, DIF: 7;
+	(57) TX: LNB, RX: LND, DIF: B;
+	(58) TX: 641, RX: 642, DIF: 1;
+	(61) TX: Y78, RX: YZ8, DIF: 7;
+	(63) TX: WDZ, RX: WGZ, DIF: D;
+	(64) TX: IBE, RX: IDE, DIF: B;
+	(66) TX: BJ9, RX: DJ9, DIF: B;
+	(68) TX: F5V, RX: F54, DIF: V;
+	(70) TX: L7A, RX: LZA, DIF: 7;
+	(73) TX: M4J, RX: M42, DIF: J;
+	(75) TX: 7GR, RX: 7MR, DIF: G;
+	(77) TX: LZU, RX: LGU, DIF: Z;
+	(79) TX: X3K, RX: X3A, DIF: K;
+	(80) TX: HS3, RX: 5HW, DIF: 5S3;
+	(83) TX: S5J, RX: S52, DIF: J;
+	(84) TX: 2HF, RX: 25F, DIF: H;
+	(87) TX: VRX, RX: 4RX, DIF: V;
+Nota: nessuna
+***
