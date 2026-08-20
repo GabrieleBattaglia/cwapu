@@ -4206,3 +4206,35 @@ Carattere: errori = Wilson Interval
     'O': 1/7 [2.6% - 51.3%]
     'T': 1/2 [9.5% - 90.5%]
 ***
+
+Esercizio di ricezione #551 eseguito il 2026/8/20 alle 13, 10 minuti:
+In questa sessione #551, ti ho inviato 46 Parole e ne hai ricevuti 28: 60.9%
+	14 di questi sono stati ricevuti al primo ascolto: 50.0%
+	mentre 14 Parole al secondo tentativo: 50.0%.
+Durante la sessione, la tua velocità minima è stata 32.32, la massima di 44.21: pari ad una variazione di 11.88 WPM.
+	La velocità media di ricezione è di: 37.85 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 8 errori su 34 invii. Tasso errore stimato: [12.4% - 40.0%]    'T': 5 errori su 25 invii. Tasso errore stimato: [8.9% - 39.1%]    'E': 4 errori su 28 invii. Tasso errore stimato: [5.7% - 31.5%]    'O': 4 errori su 34 invii. Tasso errore stimato: [4.7% - 26.6%]    'R': 4 errori su 27 invii. Tasso errore stimato: [5.9% - 32.5%]    'L': 3 errori su 15 invii. Tasso errore stimato: [7.0% - 45.2%]    'N': 3 errori su 14 invii. Tasso errore stimato: [7.6% - 47.6%]    'A': 2 errori su 35 invii. Tasso errore stimato: [1.6% - 18.6%]    'M': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    'B': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'G': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'P': 1 errori su 13 invii. Tasso errore stimato: [1.4% - 33.3%]    'S': 1 errori su 16 invii. Tasso errore stimato: [1.1% - 28.3%]    'U': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]    'Z': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'É': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]
+
+Errori totali: 42 su 318 = 13.21%
+Caratteri mai sbagliati: C D F H V
+Elenco delle parole copiate male:
+	(1) TX: NEARTICI, RX: MEARACO, DIF: NTII;
+	(6) TX: BIPARE, RX: BIPPARE, DIF: P;
+	(7) TX: ROMPESTE, RX: ROMPERSI, DIF: RTE;
+	(8) TX: CUBISTE, RX: CUBISTI, DIF: E;
+	(13) TX: DOMASSI, RX: DOTASSI, DIF: M;
+	(19) TX: REGALI, RX: , DIF: REGALI;
+	(20) TX: LEVEREI, RX: LEVASTE, DIF: ASTREI;
+	(21) TX: TAZZETTE, RX: TAZZETE, DIF: T;
+	(22) TX: RIMIRAVI, RX: RIMPARAVI, DIF: I;
+	(23) TX: ACRI, RX: ACRE, DIF: I;
+	(26) TX: ZOOLITO, RX: , DIF: ZOOLITO;
+	(27) TX: COLMATE, RX: COLONATE, DIF: M;
+	(29) TX: CAPRETTI, RX: CAPRETTO, DIF: I;
+	(31) TX: GLOBOSA, RX: GRAZOSA, DIF: LOB;
+	(32) TX: NOTE, RX: DOTE, DIF: N;
+	(34) TX: AFFINCHÉ, RX: AFFINCHÈ, DIF: É;
+	(39) TX: PANTURCA, RX: PANTICA, DIF: UR;
+	(46) TX: FUMANO, RX: FUMATO, DIF: N;
+Nota: nessuna
+***
