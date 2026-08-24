@@ -4238,3 +4238,31 @@ Elenco delle parole copiate male:
 	(46) TX: FUMANO, RX: FUMATO, DIF: N;
 Nota: nessuna
 ***
+
+Esercizio di ricezione #38 eseguito il 2026/8/24 alle 13, 59 minuti:
+In questa sessione #38, ti ho inviato 63 Lettere e ne hai ricevuti 49: 77.8%
+	33 di questi sono stati ricevuti al primo ascolto: 67.3%
+	mentre 16 Lettere al secondo tentativo: 32.7%.
+Durante la sessione, la tua velocità minima è stata 14.00, la massima di 50.00: pari ad una variazione di 36.00 WPM.
+	La velocità media di ricezione è di: 33.78 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'H': 3 errori su 13 invii. Tasso errore stimato: [8.2% - 50.3%]    'Q': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    'G': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'L': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'P': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    'B': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'D': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'I': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'K': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'S': 1 errori su 4 invii. Tasso errore stimato: [4.6% - 69.9%]    'T': 1 errori su 8 invii. Tasso errore stimato: [2.2% - 47.1%]    'W': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'X': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]
+
+Errori totali: 20 su 189 = 10.58%
+Caratteri mai sbagliati: A C E F J M N O R U V Y Z
+Elenco delle parole copiate male:
+	(3) TX: HMB, RX: HMD, DIF: B;
+	(10) TX: ZHA, RX: ZSA, DIF: H;
+	(31) TX: SZG, RX: SZZ, DIF: G;
+	(32) TX: XZX, RX: XZU, DIF: X;
+	(40) TX: LBG, RX: LBZ, DIF: G;
+	(41) TX: PBH, RX: PLB, DIF: LH;
+	(43) TX: UTY, RX: UMY, DIF: T;
+	(44) TX: NDV, RX: NBV, DIF: D;
+	(48) TX: NQH, RX: NGV, DIF: QH;
+	(53) TX: CHI, RX: CHS, DIF: I;
+	(57) TX: PQL, RX: WQP, DIF: WQQL;
+	(58) TX: KYP, RX: CYG, DIF: KP;
+	(61) TX: JPY, RX: JWY, DIF: P;
+	(63) TX: SCU, RX: HCU, DIF: S;
+Nota: nessuna
+***
