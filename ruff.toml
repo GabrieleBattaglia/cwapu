@@ -1,0 +1,38 @@
+# Configurazione ruff di CWapu.
+# Autori: Gabriele Battaglia (IZ4APU) & ClaudIA (Claude Opus 5, modalita' UltraCode).
+line-length = 200
+
+[lint]
+select = ["E", "F", "W", "B", "SIM", "UP", "I", "C4", "RET", "BLE", "S", "RUF", "DTZ"]
+ignore = [
+    # Righe lunghe: quasi tutti i messaggi all'utente stanno su una riga sola,
+    # con la chiamata alla funzione di traduzione e la format di seguito.
+    # Spezzarli renderebbe piu' difficile leggerli e ritrovarli nel catalogo.
+    "E501",
+    # Lo stile di Gabriele ammette l'istruzione breve sulla stessa riga.
+    "E701",
+    "E702",
+    "E741",
+    # Date e orari sono di proposito ora locale, senza fuso. CWapu scrive il
+    # diario e i rapporti di chi si allena davanti alla propria macchina: la
+    # sessione delle undici di sera e' quella che segna il suo orologio, non
+    # quella di Greenwich, e passare a UTC sposterebbe di un giorno tutti gli
+    # esercizi serali, che sono la maggioranza.
+    "DTZ005",
+    # random senza garanzie crittografiche e' esattamente cio' che serve: qui
+    # si estraggono nominativi, toni, pesi del manipolatore e progressivi di
+    # contest, cioe' un esercizio, non un segreto.
+    "S311",
+    # L'operatore ternario al posto di un if else: qui le due alternative sono
+    # quasi sempre messaggi lunghi, e comprimerle produce righe da duecento
+    # caratteri. Un if esplicito si legge in modo lineare, che e' proprio cio'
+    # che serve a chi ascolta il codice invece di guardarlo.
+    "SIM108",
+]
+
+[lint.per-file-ignores]
+# Words_Creator.py e' scritto con le tabulazioni. Riconvertirlo sarebbe un
+# cambiamento di sole apparenze su un file che funziona, quindi resta com'e'.
+"Words_Creator.py" = ["W191"]
+# Nei test l'asserzione e' il punto: sono loro a dire cosa deve essere vero.
+"tests/*.py" = ["S101"]

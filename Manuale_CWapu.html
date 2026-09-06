@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manuale di CWapu</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --sfondo: #fdfdfc;
+  --testo: #1c1c1a;
+  --tenue: #55554f;
+  --bordo: #d5d5cd;
+  --evidenza: #f2f1ea;
+  --accento: #7a4b1e;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sfondo: #17171a;
+    --testo: #e9e9e4;
+    --tenue: #a9a9a1;
+    --bordo: #3a3a40;
+    --evidenza: #212127;
+    --accento: #e0a86a;
+  }
+}
+body {
+  background: var(--sfondo);
+  color: var(--testo);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 46rem;
+  padding: 2rem 1.2rem 5rem;
+}
+h1, h2, h3 { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.25; }
+h1 { font-size: 2rem; margin-bottom: 0.2rem; }
+h2 { font-size: 1.45rem; margin-top: 2.6rem; padding-top: 0.6rem; border-top: 1px solid var(--bordo); }
+h3 { font-size: 1.15rem; margin-top: 1.8rem; color: var(--accento); }
+p, li { max-width: 42rem; }
+code, kbd, samp {
+  font-family: Consolas, "DejaVu Sans Mono", monospace;
+  font-size: 0.92em;
+  background: var(--evidenza);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+pre {
+  background: var(--evidenza);
+  border: 1px solid var(--bordo);
+  border-radius: 5px;
+  padding: 0.8rem 1rem;
+  overflow-x: auto;
+}
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+caption { text-align: left; font-style: italic; color: var(--tenue); padding-bottom: 0.4rem; }
+th, td { border: 1px solid var(--bordo); padding: 0.45rem 0.6rem; text-align: left; vertical-align: top; }
+th { background: var(--evidenza); }
+.nota {
+  background: var(--evidenza);
+  border-left: 4px solid var(--accento);
+  padding: 0.8rem 1rem;
+  margin: 1.2rem 0;
+  border-radius: 0 5px 5px 0;
+}
+.esempio { border-left: 4px solid var(--bordo); padding-left: 1rem; margin: 1.2rem 0; }
+nav ol { padding-left: 1.4rem; }
+a { color: var(--accento); }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo); color: var(--tenue); font-size: 0.95em; }
+</style>
+</head>
+<body>
+
+<h1>Manuale di CWapu</h1>
+<p><strong>Versione 6.0.0 del 7 settembre 2026.</strong></p>
+<p>CWapu è scritto da Gabriele Battaglia, IZ4APU, e da ClaudIA, Claude Opus 5 in modalità UltraCode.</p>
+
+<div class="nota">
+<h2 id="lingua" style="margin-top:0; border-top:none; font-size:1.15rem;">Una nota sulla lingua</h2>
+<p>Questo manuale esiste soltanto in italiano, e resterà così: mantenere una guida lunga in due lingue significa, prima o poi, avere due guide che dicono cose diverse.</p>
+<p>Chi non legge l'italiano non è però tagliato fuori. I browser di oggi traducono una pagina intera con un comando solo, e questa pagina è scritta in HTML semplice, proprio perché la traduzione automatica ci lavori bene. In Google Chrome e in Microsoft Edge basta il tasto destro sulla pagina e poi la voce di traduzione; in Firefox e in Safari la funzione sta nella barra degli indirizzi. Il risultato non sarà elegante, ma sarà comprensibile.</p>
+<p>Il programma, invece, è tradotto per davvero: CWapu parla italiano e inglese, e la lingua si sceglie al primo avvio. Vedi <a href="#lingua-programma">la scelta della lingua</a>.</p>
+</div>
+
+<nav aria-label="Indice del manuale">
+<h2 id="indice">Indice</h2>
+<ol>
+<li><a href="#cosa">Che cos'è CWapu</a></li>
+<li><a href="#avvio">Installazione e primo avvio</a></li>
+<li><a href="#menu">Il menu principale</a></li>
+<li><a href="#tastiera">La tastiera CW e le impostazioni del suono</a></li>
+<li><a href="#ricezione">L'esercizio di ricezione</a></li>
+<li><a href="#contest">Il contest</a></li>
+<li><a href="#conteggio">L'esercizio di conteggio</a></li>
+<li><a href="#trasmissione">L'esercizio di trasmissione</a></li>
+<li><a href="#appunti">Ascoltare gli appunti</a></li>
+<li><a href="#dizionario">Il dizionario personale</a></li>
+<li><a href="#statistiche">Le statistiche</a></li>
+<li><a href="#diario">Il diario</a></li>
+<li><a href="#file">I file di CWapu</a></li>
+<li><a href="#aggiornamenti">Gli aggiornamenti</a></li>
+<li><a href="#problemi">Problemi e domande frequenti</a></li>
+<li><a href="#glossario">Piccolo glossario del CW</a></li>
+</ol>
+</nav>
+
+<h2 id="cosa">1. Che cos'è CWapu</h2>
+
+<p>CWapu è una palestra per il codice Morse. Non è un decodificatore e non è un programma per andare in aria: serve ad allenare l'orecchio e la mano, da soli, quando si vuole, senza disturbare nessuno.</p>
+
+<p>Fa quattro cose, e le fa dalla riga di comando, senza finestre e senza grafica, perché così è leggibile da un lettore di schermo e non ruba attenzione a chi deve concentrarsi sull'ascolto.</p>
+
+<ul>
+<li><strong>Trasmette in CW quello che gli si dà</strong>: una frase battuta sulla tastiera, il contenuto degli appunti, un messaggio da salvare come file audio.</li>
+<li><strong>Fa esercitare in ricezione</strong>: parole, gruppi di lettere, di numeri, di simboli, nominativi radioamatoriali veri e inventati, e una simulazione completa di contest.</li>
+<li><strong>Tiene il conto dei progressi</strong>: ogni sessione finisce in un diario leggibile e in un archivio storico, da cui nascono rapporti statistici che dicono su quali caratteri si sbaglia di più e se si sta migliorando.</li>
+<li><strong>Aiuta a esercitarsi in trasmissione</strong>, proponendo sequenze da battere con il proprio tasto.</li>
+</ul>
+
+<p>Il motore che genera il suono si chiama CWzator, e fa parte della libreria GBUtils condivisa da tutti i programmi di IZ4APU. Arriva fino a 120 parole al minuto, perché c'è chi si allena a novanta e oltre, e a quelle velocità la precisione dei tempi conta più di ogni altra cosa.</p>
+
+<h2 id="avvio">2. Installazione e primo avvio</h2>
+
+<h3 id="avvio-sorgente">2.1 Partire dal codice sorgente</h3>
+
+<p>Serve Python 3, servono alcune librerie esterne e serve GBUtils, la libreria condivisa dal parco software di IZ4APU, che va raggiungibile dal percorso di Python.</p>
+
+<pre><code>pip install pynput pyperclip sounddevice numpy scipy</code></pre>
+
+<p>Per le statistiche servono anche <code>pandas</code> e <code>matplotlib</code>, ma solo quando si aprono: CWapu li carica soltanto in quel momento, così l'avvio resta rapido per tutti gli altri.</p>
+
+<p>Poi basta lanciare il programma.</p>
+
+<pre><code>python cwapu.py</code></pre>
+
+<h3 id="avvio-eseguibile">2.2 Partire dall'eseguibile</h3>
+
+<p>La versione compilata è un file solo, <code>cwapu.exe</code>. Dentro ci sono già il dizionario delle parole, il database dei nominativi, i cataloghi delle lingue e questo manuale. Si copia dove si vuole e si lancia con un doppio clic o dal prompt dei comandi.</p>
+
+<div class="nota">
+<p><strong>Dove si mette.</strong> CWapu scrive i propri file nella cartella dove sta il programma, non nella cartella da cui lo si è lanciato. Conviene quindi dargli una cartella sua, dove possa tenere impostazioni, diario e rapporti senza mescolarli ad altro. Se la cartella è protetta in scrittura, per esempio dentro <code>Programmi</code>, CWapu non riuscirà a salvare niente: meglio una cartella nei propri documenti.</p>
+</div>
+
+<h3 id="lingua-programma">2.3 La scelta della lingua</h3>
+
+<p>Al primo avvio CWapu chiede in che lingua vuole essere usato, e propone le lingue per cui esiste davvero una traduzione: oggi italiano e inglese. La scelta viene salvata nel file <code>selected_language.json</code>, accanto al programma, e non viene più richiesta.</p>
+
+<p><strong>Per cambiare lingua</strong> si cancella quel file: al lancio successivo la domanda ricompare.</p>
+
+<h3 id="dati">2.4 Dove CWapu tiene i suoi file</h3>
+
+<p>Tutto sta nella cartella del programma. Da eseguibile è la cartella di <code>cwapu.exe</code>, da sorgente è quella di <code>cwapu.py</code>. Questo vale anche se si lancia CWapu da un'altra parte, per esempio da un collegamento sul desktop: i dati restano dove sta il programma e non si sdoppiano.</p>
+
+<h2 id="menu">3. Il menu principale</h2>
+
+<p>Appena avviato, CWapu mostra la versione, il numero di lanci e le impostazioni correnti del CW, poi resta in attesa di un comando. Si preme una lettera sola, senza Invio.</p>
+
+<table>
+<caption>I comandi del menu principale</caption>
+<thead>
+<tr><th>Tasto</th><th>Che cosa fa</th></tr>
+</thead>
+<tbody>
+<tr><td><kbd>m</kbd></td><td>Mostra l'elenco dei comandi. Utile quando non si ricorda una lettera.</td></tr>
+<tr><td><kbd>g</kbd></td><td>Apre questa guida nel browser predefinito.</td></tr>
+<tr><td><kbd>k</kbd></td><td>Tastiera CW e impostazioni del suono. È il posto dove si regola tutto.</td></tr>
+<tr><td><kbd>r</kbd></td><td>Esercizio di ricezione, contest compreso.</td></tr>
+<tr><td><kbd>t</kbd></td><td>Esercizio di trasmissione con il proprio tasto.</td></tr>
+<tr><td><kbd>c</kbd></td><td>Esercizio di conteggio.</td></tr>
+<tr><td><kbd>l</kbd></td><td>Ascolta in CW il testo che si trova negli appunti.</td></tr>
+<tr><td><kbd>w</kbd></td><td>Crea o aggiorna il dizionario personale delle parole.</td></tr>
+<tr><td><kbd>s</kbd></td><td>Statistiche sull'archivio storico.</td></tr>
+<tr><td><kbd>q</kbd></td><td>Esce, salvando le impostazioni.</td></tr>
+</tbody>
+</table>
+
+<p>Uscendo, CWapu saluta in CW con <code>bk hpe cuagn - 73 de iz4apu tu e e</code>, cioè "spero di risentirci presto". È l'unico momento in cui trasmette senza che glielo si sia chiesto.</p>
+
+<h2 id="tastiera">4. La tastiera CW e le impostazioni del suono</h2>
+
+<p>Si entra con <kbd>k</kbd>. È la sezione più importante del programma, perché qui si decide come suona il CW in tutto il resto dell'applicazione, e le impostazioni restano salvate da una sessione all'altra.</p>
+
+<p>Il funzionamento è semplice: <strong>tutto quello che si scrive viene trasmesso in CW</strong>, a meno che non cominci con un punto, nel qual caso è un comando. Si esce battendo Invio a vuoto.</p>
+
+<h3 id="teoria-cw">4.1 Un po' di teoria, per chi comincia</h3>
+
+<p>Il Morse è fatto di due suoni, il punto e la linea, separati da silenzi. Nel Morse standard tutto discende dalla durata del punto: la linea dura tre punti, lo spazio fra due simboli della stessa lettera dura un punto, quello fra due lettere tre punti, quello fra due parole sette.</p>
+
+<p>La <strong>velocità</strong> si misura in WPM, parole al minuto. La parola di riferimento è <code>PARIS</code>, che nel Morse standard vale esattamente cinquanta unità di punto: a 20 WPM si trasmette venti volte <code>PARIS</code> in un minuto, cioè mille unità, cioè un punto ogni sessanta millesimi di secondo.</p>
+
+<p>CWapu permette però di allontanarsi da quelle proporzioni, ed è qui che entrano i tre parametri chiamati <strong>L, S e P</strong>, cioè linea, spazio e punto. Sono pesi, non durate: il valore standard è 30 per la linea, 50 per lo spazio e 50 per il punto, e in quella combinazione il rapporto fra linea e punto è esattamente tre, come vuole la regola.</p>
+
+<ul>
+<li><strong>Alzare S</strong> allunga i silenzi lasciando i simboli come sono. È il cosiddetto metodo Farnsworth: i caratteri arrivano veloci, ma c'è più tempo per riconoscerli. È il modo migliore per imparare, perché abitua fin da subito al suono che avranno alla velocità finale.</li>
+<li><strong>Alzare L</strong> allunga le linee rispetto ai punti. È il "peso" che si sente nei manipolatori regolati male, o in chi trasmette a mano con la sua personalissima cadenza.</li>
+<li><strong>Alzare P</strong> allunga i punti. Serve soprattutto a simulare operatori dal manipolo pesante.</li>
+</ul>
+
+<p>Il comando <code>.rs</code> riporta i tre pesi ai valori standard, quando si è sperimentato troppo e non si sa più dove si era partiti.</p>
+
+<h3 id="comandi-k">4.2 I comandi</h3>
+
+<p>Ogni comando comincia con un punto. Quelli numerici vogliono il numero attaccato alla lettera, senza spazio: <code>.w25</code> e non <code>.w 25</code>.</p>
+
+<table>
+<caption>I comandi della sezione tastiera</caption>
+<thead>
+<tr><th>Comando</th><th>Che cosa fa</th><th>Valori</th></tr>
+</thead>
+<tbody>
+<tr><td><code>.w</code></td><td>Velocità in parole al minuto.</td><td>da 5 a 120</td></tr>
+<tr><td><code>.h</code></td><td>Altezza del tono, in hertz.</td><td>da 200 a 2700</td></tr>
+<tr><td><code>.l</code></td><td>Peso della linea.</td><td>da 1 a 99, standard 30</td></tr>
+<tr><td><code>.s</code></td><td>Peso degli spazi.</td><td>da 3 a 99, standard 50</td></tr>
+<tr><td><code>.p</code></td><td>Peso del punto.</td><td>da 1 a 99, standard 50</td></tr>
+<tr><td><code>.rs</code></td><td>Riporta L, S e P ai valori standard.</td><td>nessun valore</td></tr>
+<tr><td><code>.v</code></td><td>Volume, in percentuale.</td><td>da 0 a 100</td></tr>
+<tr><td><code>.m</code></td><td>Dissolvenza in apertura e chiusura di ogni suono, in millesimi di secondo.</td><td>da 1 a 30</td></tr>
+<tr><td><code>.f1</code> … <code>.f4</code></td><td>Forma d'onda: 1 sinusoide, 2 quadra, 3 triangolare, 4 dente di sega.</td><td>da 1 a 4</td></tr>
+<tr><td><code>.sr</code></td><td>Frequenza di campionamento da mandare alla scheda audio. Apre un elenco numerato.</td><td>dodici valori, da 8000 a 384000</td></tr>
+<tr><td><code>.t</code></td><td>Filtro delle parole per l'esercizio di ricezione: lunghezza minima e massima.</td><td>minimo da 1 a 10, massimo da 3 a 35</td></tr>
+<tr><td><code>.y</code></td><td>Apre l'editor del gruppo personalizzato di caratteri.</td><td>nessun valore</td></tr>
+<tr><td><code>.g</code></td><td>Quante sessioni conservare nell'archivio storico.</td><td>da 20 a 5000, di serie 730</td></tr>
+<tr><td><code>.x</code></td><td>Ogni quanti caratteri generare un rapporto storico.</td><td>da 500 a 15000, di serie 3500</td></tr>
+<tr><td><code>.sv</code></td><td>Trasmette il testo che segue e ne salva l'audio in un file WAV.</td><td>seguito da uno spazio e dal testo</td></tr>
+<tr><td><code>?</code></td><td>Rimostra l'elenco dei comandi.</td><td>nessun valore</td></tr>
+<tr><td><code>??</code></td><td>Mostra tutti i parametri come sono adesso.</td><td>nessun valore</td></tr>
+</tbody>
+</table>
+
+<div class="nota">
+<p><strong>La dissolvenza.</strong> Il parametro <code>.m</code> serve a togliere lo schiocco che si sente quando un tono comincia o finisce di colpo. Un millesimo basta quasi sempre. Attenzione però alle alte velocità: a 100 WPM un punto dura meno di dodici millesimi, e una dissolvenza da dieci se lo mangerebbe quasi tutto. Il motore in quel caso accorcia la rampa a metà elemento invece di scartarla, così il suono resta pulito, ma il valore chiesto non viene rispettato alla lettera.</p>
+</div>
+
+<h3 id="esempi-k">4.3 Esempi pratici</h3>
+
+<div class="esempio">
+<p><strong>Voglio sentire come suona il mio nominativo a venticinque parole al minuto.</strong></p>
+<pre><code>k
+.w25
+iz4apu
+</code></pre>
+<p>Il primo comando entra nella sezione, il secondo imposta la velocità e CWapu conferma in CW con <code>bk r w is 25 bk</code>, il terzo trasmette il nominativo. Poi si batte Invio a vuoto per tornare al menu.</p>
+</div>
+
+<div class="esempio">
+<p><strong>Voglio imparare con il metodo Farnsworth: caratteri a venti, ma con più respiro fra l'uno e l'altro.</strong></p>
+<pre><code>.w20
+.s90
+cq cq de iz4apu k
+</code></pre>
+<p>I caratteri suoneranno alla cadenza di venti parole al minuto, ma i silenzi saranno quasi doppi rispetto allo standard: la velocità percepita scende, quella dei singoli caratteri no. Quando si è pronti, si scende con <code>.s70</code>, poi <code>.s60</code>, fino a tornare a <code>.s50</code>. Oppure si usa <code>.rs</code> per tornare di colpo allo standard.</p>
+</div>
+
+<div class="esempio">
+<p><strong>Voglio un tono più grave, un volume più basso e sapere come sono messo.</strong></p>
+<pre><code>.h480
+.v35
+??
+</code></pre>
+<p>L'ultimo comando risponde con quattro righe che riportano velocità, tono, volume, i tre pesi, la forma d'onda, la dissolvenza, la frequenza di campionamento, i due parametri dell'archivio storico, il filtro delle parole e il gruppo personalizzato.</p>
+</div>
+
+<h3 id="salvare-wav">4.4 Salvare il CW in un file audio</h3>
+
+<p>Il comando <code>.sv</code> trasmette e insieme registra. Serve, per esempio, a prepararsi un file da riascoltare sul telefono, o a mandare a qualcuno un esempio di come suona una certa regolazione.</p>
+
+<div class="esempio">
+<pre><code>.sv cq cq test de iz4apu k</code></pre>
+<p>CWapu suona il messaggio e poi dice dove ha scritto il file, con il percorso completo. Il file usa le impostazioni del momento, quindi cambiando <code>.w</code> o <code>.s</code> prima di salvare si ottengono registrazioni diverse dello stesso testo.</p>
+</div>
+
+<h2 id="ricezione">5. L'esercizio di ricezione</h2>
+
+<p>Si entra con <kbd>r</kbd> dal menu principale. È il cuore di CWapu: il programma trasmette qualcosa, l'utente scrive quello che ha capito, e il programma dice se è giusto e tiene il conto.</p>
+
+<h3 id="switcher">5.1 Scegliere che cosa ascoltare</h3>
+
+<p>La prima schermata è un pannello di otto interruttori. Si accende e si spegne ciascuno premendo il numero corrispondente, e si comincia battendo Invio.</p>
+
+<table>
+<caption>I tipi di esercizio</caption>
+<thead>
+<tr><th>Numero</th><th>Tipo</th><th>Che cosa manda</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Parole</td><td>Parole vere pescate dal dizionario, filtrate per lunghezza.</td></tr>
+<tr><td>2</td><td>Lettere</td><td>Gruppi di lettere a caso.</td></tr>
+<tr><td>3</td><td>Numeri</td><td>Gruppi di cifre a caso.</td></tr>
+<tr><td>4</td><td>Lettere e numeri</td><td>Gruppi misti di lettere e cifre.</td></tr>
+<tr><td>5</td><td>Simboli</td><td>Gruppi di segni di punteggiatura e simboli previsti dal Morse.</td></tr>
+<tr><td>6</td><td>Custom</td><td>Gruppi costruiti con i soli caratteri scelti dall'utente, tipicamente quelli su cui sbaglia di più.</td></tr>
+<tr><td>7</td><td>QRZ</td><td>Nominativi radioamatoriali, veri e inventati.</td></tr>
+<tr><td>8</td><td>Contest</td><td>Simulazione completa di uno scambio di contest. Vedi <a href="#contest">il capitolo dedicato</a>.</td></tr>
+</tbody>
+</table>
+
+<p>Ogni riga dice il numero, il nome, un indicatore fra parentesi angolari e la parola acceso o spento, così la si legge tutta ad alta voce senza doversi ricordare la posizione. La riga in fondo riassume lo stato di tutti e otto: le parentesi quadre indicano un interruttore acceso, quelle angolari uno spento.</p>
+
+<h3 id="convivenza">5.2 Che cosa può stare insieme e che cosa no</h3>
+
+<p>Gli interruttori non sono tutti compatibili fra loro, e la ragione è statistica. Mettere nella stessa sessione una parola di sette lettere e un nominativo con la barra significa mescolare due mestieri diversi: la percentuale che ne esce non dice niente né dell'uno né dell'altro.</p>
+
+<p>La regola è quindi questa.</p>
+
+<ul>
+<li><strong>Lettere, numeri, lettere e numeri, simboli e il gruppo personalizzato si accendono insieme quanto si vuole.</strong> Sono tutti gruppi di caratteri, si ricevono allo stesso modo e finiscono nella stessa statistica, quella dei caratteri.</li>
+<li><strong>Parole sta da sola.</strong> Accendendola si spegne tutto il resto, e accendendo qualcos'altro si spegne lei. Ha una statistica sua.</li>
+<li><strong>QRZ sta da solo</strong>, e ha anch'esso una statistica sua.</li>
+<li><strong>Contest sta da solo</strong> ed esclude anche QRZ, perché è un esercizio di natura diversa.</li>
+</ul>
+
+<p>Le tre statistiche, parole, caratteri e QRZ, sono separate per tutto: totali, medie, archivio storico e rapporti.</p>
+
+<h3 id="filtro-parole">5.3 Il filtro delle parole</h3>
+
+<p>Il dizionario contiene centinaia di migliaia di parole, di ogni lunghezza. Riceverle tutte mescolate non ha senso: si comincia dalle corte e si allunga man mano. Il filtro si imposta dalla sezione tastiera con <code>.t</code>.</p>
+
+<div class="esempio">
+<pre><code>k
+.t3-5
+</code></pre>
+<p>Da questo momento l'esercizio sulle parole userà soltanto parole da tre a cinque lettere. Il comando <code>??</code> lo conferma alla voce Word Filter.</p>
+<p>Se si accende l'interruttore delle parole senza aver mai impostato il filtro, CWapu lo spegne da solo e lo dice: senza filtro non saprebbe da dove pescare.</p>
+</div>
+
+<h3 id="gruppo-custom">5.4 Il gruppo personalizzato</h3>
+
+<p>È la funzione più utile per chi ha già una certa pratica. Serve a martellare i caratteri che non entrano in testa, invece di continuare a ricevere quelli che si sanno già.</p>
+
+<p>Si apre con <code>.y</code> dalla sezione tastiera. CWapu chiede se si vuole partire da un gruppo precompilato: rispondendo di sì, propone <strong>i dieci caratteri su cui si sbaglia di più</strong>, calcolati su tutto l'archivio storico, parole, caratteri e QRZ insieme.</p>
+
+<div class="nota">
+<p><strong>Perché non i dieci più sbagliati in assoluto.</strong> Se una lettera è stata inviata tre volte e sbagliata due, il tasso di errore grezzo è del sessantasei per cento, e sembrerebbe la peggiore di tutte. Ma tre prove non dicono granché. CWapu usa allora l'intervallo di Wilson, che tiene conto anche di quante volte una lettera è stata provata: una lettera sbagliata dodici volte su quaranta è un problema più solido di una sbagliata due volte su tre, e viene messa prima. Vedi <a href="#wilson">la spiegazione più estesa</a>.</p>
+</div>
+
+<p>Dopo la proposta si entra nell'editor: si preme un carattere per aggiungerlo, lo si ripreme per toglierlo, e la riga mostra sempre il gruppo com'è adesso. Servono almeno due caratteri. Si conferma con Invio.</p>
+
+<div class="esempio">
+<p><strong>Non riesco a distinguere B, V, e 6.</strong></p>
+<pre><code>k
+.y
+</code></pre>
+<p>Alla domanda sul precompilato si risponde con la seconda voce, quella che parte da un gruppo vuoto, poi si battono <code>b</code>, <code>v</code> e <code>6</code>, e si conferma con Invio. Poi si esce dalla sezione tastiera con Invio a vuoto, si entra in <kbd>r</kbd>, si accende il solo interruttore 6 e si comincia. Ci si troverà a ricevere soltanto gruppi fatti di B, V e 6, che è esattamente il modo per smettere di confonderli.</p>
+</div>
+
+<h3 id="domande-rx">5.5 Le domande prima di cominciare</h3>
+
+<p>Confermati gli interruttori, CWapu chiede tre o quattro cose, tutte con un valore predefinito che si accetta con Invio.</p>
+
+<ol>
+<li><strong>La lunghezza dei gruppi</strong>, da 1 a 7. Viene chiesta soltanto se è acceso almeno un tipo che genera gruppi, cioè lettere, numeri, misto, simboli o custom. Per le parole e per i nominativi non ha senso e non viene chiesta.</li>
+<li><strong>La velocità</strong>, da 5 a 120 parole al minuto. Invio accetta quella corrente.</li>
+<li><strong>Quanti item ricevere</strong>, da 10 a 1000. Invio significa senza limite: si andrà avanti finché non si decide di smettere.</li>
+<li><strong>Velocità fissa o variabile</strong>: Invio per variabile, Esc per fissa.</li>
+</ol>
+
+<div class="nota">
+<p><strong>La velocità variabile</strong> è un allenatore automatico: ogni item copiato bene alza la velocità di un WPM, ogni errore la abbassa di uno. Si assesta da sola sul limite delle proprie possibilità, che è il punto in cui si impara di più. La velocità raggiunta resta impostata anche dopo la fine dell'esercizio.</p>
+</div>
+
+<h3 id="rispondere">5.6 Come si risponde</h3>
+
+<p>CWapu trasmette un item e aspetta. Si scrive quello che si è capito e si batte Invio. Non conta il maiuscolo, non contano gli spazi in eccesso ai lati.</p>
+
+<p>Ci sono tre risposte speciali.</p>
+
+<ul>
+<li><strong>Invio a vuoto</strong>: non ho capito niente, ripeti. L'item viene ritrasmesso e si ha un secondo tentativo.</li>
+<li><strong>Un testo che finisce con un punto interrogativo</strong>, per esempio <code>iz4?</code>: ho capito solo l'inizio, ripeti. L'item viene ritrasmesso, e la parte già scritta viene conservata: si continua a scrivere da dove si era rimasti.</li>
+<li><strong>Un punto solo</strong>, cioè <code>.</code> seguito da Invio: basta così, chiudiamo la sessione e vediamo i risultati.</li>
+</ul>
+
+<p>Ogni item ricevuto al secondo tentativo viene contato a parte, così nel rapporto finale si vede quanti se ne sono presi al primo ascolto e quanti no.</p>
+
+<h3 id="prompt-rx">5.7 Il prompt, riga per riga</h3>
+
+<p>Prima di ogni item CWapu scrive una riga corta che riassume la situazione. Ha questa forma.</p>
+
+<pre><code>S12-#7 - WPM24.00/23.15 - +5/-1&gt;</code></pre>
+
+<ul>
+<li><code>S12</code>: siamo nella sessione numero dodici di questa categoria.</li>
+<li><code>#7</code>: questo è il settimo item.</li>
+<li><code>WPM24.00/23.15</code>: l'ultimo item è stato trasmesso a ventiquattro parole al minuto, e la media di quelli copiati bene finora è 23,15.</li>
+<li><code>+5/-1</code>: cinque copiati bene, uno sbagliato.</li>
+</ul>
+
+<p>La riga è tenuta corta apposta, perché è quella che si rilegge di continuo durante l'esercizio e deve stare comoda su una barra braille.</p>
+
+<p>Quando si chiede la ripetizione, il prompt cambia e finisce con un segno di percentuale, seguito dalla parte già scritta se c'era.</p>
+
+<h3 id="fine-rx">5.8 La fine della sessione</h3>
+
+<p>Chiudendo con il punto, o esaurito il numero di item richiesti, CWapu mostra un rapporto che dice:</p>
+
+<ul>
+<li>quanti item sono stati inviati e quanti copiati bene, in numero e in percentuale;</li>
+<li>quanti al primo ascolto e quanti al secondo tentativo;</li>
+<li>velocità minima, massima e media della sessione;</li>
+<li>per ogni carattere sbagliato, quante volte è stato sbagliato su quante è stato inviato, con l'intervallo di errore stimato;</li>
+<li>l'elenco dei caratteri mai sbagliati;</li>
+<li>l'elenco delle parole copiate male, con il confronto fra quello che è stato trasmesso e quello che è stato scritto;</li>
+<li>quanto manca alla prossima generazione automatica del rapporto storico.</li>
+</ul>
+
+<p>Poi chiede una nota, facoltativa, e scrive tutto nel <a href="#diario">diario</a>.</p>
+
+<div class="nota">
+<p><strong>Il tempo in pausa.</strong> Se ci si allontana dal computer nel mezzo di un esercizio, CWapu se ne accorge: quando fra un item e la risposta passano più di trenta secondi, il tempo in eccesso viene contato come pausa e non come tempo di esercizio. Così la velocità media e il tempo totale non vengono falsati da una telefonata.</p>
+</div>
+
+<h3 id="esempio-rx">5.9 Un esercizio completo, dall'inizio alla fine</h3>
+
+<div class="esempio">
+<p><strong>Venti gruppi di cinque lettere a diciotto parole al minuto, a velocità fissa.</strong></p>
+<pre><code>r</code></pre>
+<p>Si apre il pannello degli interruttori. Si preme <kbd>2</kbd> per accendere Lettere, si controlla che gli altri siano spenti, e si batte Invio.</p>
+<pre><code>Lunghezza gruppi (1-7 per Lettere/Numeri/Simboli/Custom): 5
+Vuoi cambiare la velocità in WPM, da 5 a 120? Invio per accettare 18&gt; [Invio]
+Quanti ne vuoi ricevere? (INVIO per infinito)&gt; 20
+Invio per velocità variabile, Esc per velocità fissa: [Esc]
+</code></pre>
+<p>CWapu ricorda le regole, aspetta un tasto e comincia. Da qui in poi si ascolta e si scrive:</p>
+<pre><code>S3-#1 - WPM18.00/18.00 - +0/-0&gt; kmrqs
+S3-#2 - WPM18.00/18.00 - +1/-0&gt; [Invio a vuoto, ripete]
+S3-#2 - WPM18.00/18.00 - +1/-0 - % azpel
+S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
+</code></pre>
+<p>Dopo il ventesimo gruppo l'esercizio si chiude da solo e compare il rapporto. Volendo smettere prima, basta scrivere un punto e battere Invio.</p>
+</div>
+
+<h2 id="contest">6. Il contest</h2>
+
+<p>Si arriva dall'esercizio di ricezione accendendo l'interruttore numero 8. È l'esercizio più realistico e anche il più impegnativo: simula uno scambio di contest completo, con una stazione che chiama, un nominativo da copiare e un numero progressivo da prendere al volo.</p>
+
+<h3 id="qso">6.1 Come funziona un QSO</h3>
+
+<p>Un contest, nella realtà, funziona così: si lancia una chiamata, qualcuno risponde, ci si scambiano rapporto e numero progressivo, si saluta e si passa al successivo. CWapu riproduce esattamente questo giro, in due fasi.</p>
+
+<ol>
+<li><strong>Fase nominativo.</strong> CWapu manda <code>CQ CQ TEST K</code> per aprire, poi una stazione chiama con il suo nominativo. Si scrive il nominativo e si batte Invio. Se è giusto, si trasmette in automatico <code>NOMINATIVO 5NN numero</code>, cioè la conferma con il proprio progressivo.</li>
+<li><strong>Fase progressivo.</strong> La stazione risponde con <code>R 5NN</code> seguito dal suo numero. Si scrive il solo numero e si batte Invio. Se è giusto, il QSO è chiuso: la stazione saluta, il proprio progressivo avanza di uno, e comincia il QSO successivo.</li>
+</ol>
+
+<p>Prima di cominciare CWapu chiede se si vuole finire dopo un certo numero di QSO, da 5 a 500, oppure dopo un certo tempo, da 1 a 60 minuti.</p>
+
+<div class="nota">
+<p><strong>Perché 5NN e non 599.</strong> Nei contest il rapporto è sempre lo stesso e si abbrevia scrivendo i numeri tondi con le lettere che ne condividono il suono: 5NN si legge cinque nove nove, ma N è più corto di 9 e si trasmette prima. È una convenzione universale, e conviene abituarcisi subito.</p>
+</div>
+
+<h3 id="tasti-contest">6.2 I tasti</h3>
+
+<p>Durante il contest la tastiera risponde in tempo reale, senza bisogno di Invio per i tasti funzione.</p>
+
+<table>
+<caption>I comandi rapidi del contest</caption>
+<thead>
+<tr><th>Tasto</th><th>Che cosa fa</th></tr>
+</thead>
+<tbody>
+<tr><td><kbd>Invio</kbd></td><td>Conferma quello che si è scritto. A vuoto significa "non ho capito", e si trasmette <code>TEST</code> per invitare a ripetere.</td></tr>
+<tr><td><kbd>F5</kbd></td><td>Chiede di ripetere il nominativo.</td></tr>
+<tr><td><kbd>F6</kbd></td><td>Chiede di ripetere il progressivo.</td></tr>
+<tr><td><kbd>F7</kbd></td><td>Chiede di ripetere tutto lo scambio.</td></tr>
+<tr><td><kbd>F8</kbd></td><td>Abbandona il QSO in corso dichiarando <code>NIL</code>, cioè non ho copiato niente, e passa al successivo.</td></tr>
+<tr><td><kbd>F9</kbd></td><td>Abbassa la velocità di due parole al minuto.</td></tr>
+<tr><td><kbd>F10</kbd></td><td>Alza la velocità di due parole al minuto, fino al massimo di 120.</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>W</kbd></td><td>Cancella tutto quello che si è scritto finora, per ricominciare da capo.</td></tr>
+<tr><td><kbd>Backspace</kbd></td><td>Cancella l'ultimo carattere.</td></tr>
+<tr><td><kbd>Esc</kbd></td><td>Esce dal contest.</td></tr>
+</tbody>
+</table>
+
+<h3 id="pazienza">6.3 La pazienza della stazione</h3>
+
+<p>Le stazioni non sono tutte uguali, e questa è la parte più curata della simulazione. Ogni stazione che chiama ha le sue caratteristiche, estratte a caso all'inizio del QSO.</p>
+
+<ul>
+<li><strong>Una velocità</strong> che si discosta fino al dieci per cento in più o in meno dalla propria.</li>
+<li><strong>Un tono</strong> diverso dal proprio, per rendere il riconoscimento più realistico.</li>
+<li><strong>Un manipolo</strong> che in un caso su tre è "sporco", cioè con pesi lontani dallo standard: la stessa lettera suona diversa da com'è abituati a sentirla. È il caso più difficile e anche il più utile.</li>
+<li><strong>Una pazienza</strong>, da zero a cinque tentativi. Esaurita quella, la stazione chiude il collegamento con un <code>NIL</code> e se ne va, esattamente come farebbe in un contest vero chi ha una coda di gente che chiama.</li>
+</ul>
+
+<p>C'è anche un comportamento che aiuta: se si scrive una parte corretta del nominativo, almeno due caratteri contenuti in quello vero, la stazione capisce che ci si sta avvicinando e ripete, a volte due volte di fila, a volte più lentamente. Non è generosità: è quello che fa un buon operatore quando sente che dall'altra parte manca poco.</p>
+
+<h3 id="esempio-contest">6.4 Un QSO, battuta per battuta</h3>
+
+<div class="esempio">
+<p>CWapu manda <code>CQ CQ TEST K</code>, poi si sente una stazione chiamare.</p>
+<pre><code>RX #1 CALL: dl3xy</code></pre>
+<p>Si è capito il nominativo e si batte Invio. CWapu risponde in automatico trasmettendo <code>DL3XY 5NN 1</code>, e la stazione ribatte con il suo numero.</p>
+<pre><code>RX #1 DL3XY 5NN NR: 27</code></pre>
+<p>Si batte Invio. Il QSO è chiuso, la stazione saluta con un <code>TU</code> e comincia il numero due.</p>
+<p>Se invece del nominativo si fosse capito soltanto <code>dl3</code>, si sarebbe potuto scrivere proprio <code>dl3</code> e battere Invio: essendo una parte corretta, la stazione avrebbe ripetuto invece di dare errore. Oppure si sarebbe potuto premere <kbd>F5</kbd> per chiedere direttamente la ripetizione, al costo di un punto di pazienza.</p>
+</div>
+
+<h3 id="futuro-contest">6.5 Che cosa diventerà</h3>
+
+<p>Il contest è la parte di CWapu destinata a cambiare di più. È già in programma una riscrittura completa, che arriverà quando il lavoro di revisione in corso sarà concluso e la versione stabile pubblicata. Ecco che cosa porterà.</p>
+
+<ul>
+<li><strong>Un vero pile-up.</strong> Oggi chiama una stazione alla volta. Con la riscrittura chiameranno insieme, distribuite fra i due altoparlanti e su toni diversi, come succede davvero quando si lancia una chiamata e in dieci rispondono.</li>
+<li><strong>I disturbi della radio vera</strong>: QRM, cioè interferenza di altre stazioni; QRN, cioè disturbo atmosferico; QSB, cioè l'evanescenza che fa andare e venire il segnale; il flutter delle propagazioni polari; e l'operatore che trasmette male. Si potranno accendere e spegnere uno per uno, con lo stesso pannello di interruttori che oggi sceglie i tipi di esercizio.</li>
+<li><strong>Un punteggio</strong> in stile contest reale.</li>
+<li><strong>Tasti rapidi</strong> ripresi da cwsim, il simulatore Morse Runner dello stesso autore.</li>
+</ul>
+
+<p>Resterà invece com'è la scelta dei nominativi, cioè la stessa proporzione fra nominativi veri presi dal database e nominativi inventati, e le stesse probabilità di trovare una stazione dal manipolo sporco: sono equilibri che funzionano.</p>
+
+<h2 id="conteggio">7. L'esercizio di conteggio</h2>
+
+<p>Si entra con <kbd>c</kbd>. È l'esercizio più semplice da spiegare e il più duro da superare.</p>
+
+<p>Serve ad allenarsi con una sorgente esterna: una registrazione, una trasmissione in aria, un altro programma. CWapu non manda niente: si limita a contare. Per ogni gruppo che si sente da quella sorgente, si preme la <strong>barra spaziatrice</strong> se lo si è copiato, <strong>qualunque altro tasto</strong> se lo si è perso. Si esce con <kbd>Esc</kbd>.</p>
+
+<p>Il prompt tiene il conto e si legge così.</p>
+
+<pre><code>T25, 95.8%, C23/N1&gt;</code></pre>
+
+<ul>
+<li><code>T25</code>: si sta per rispondere al venticinquesimo gruppo.</li>
+<li><code>95.8%</code>: la percentuale di quelli presi fra i ventiquattro già risposti.</li>
+<li><code>C23/N1</code>: ventitré presi, uno perso.</li>
+</ul>
+
+<p>Un suono diverso segna ogni dieci, venticinque, cinquanta e cento gruppi, così si sa a che punto si è senza dover leggere.</p>
+
+<p>Alla fine CWapu dice il totale, quanti sono stati presi e la percentuale di errore. <strong>La soglia è il sei per cento</strong>: fino a lì l'esercizio è superato, oltre è fallito, e viene detto di quanto si è sopra la soglia. La soglia non è arbitraria: è quella storicamente usata negli esami di patente per la prova di ricezione.</p>
+
+<p>Da cento gruppi in su l'esercizio viene salvato nel diario, con la possibilità di aggiungere una nota. Sotto i cento no, perché su un campione più piccolo la percentuale non sarebbe attendibile.</p>
+
+<div class="esempio">
+<p><strong>Uso una registrazione di gruppi a venti parole al minuto.</strong> Si avvia la registrazione, si preme <kbd>c</kbd> e si comincia. Ogni volta che finisce un gruppo si decide: copiato o perso. Dopo cento gruppi si preme <kbd>Esc</kbd> e si legge il verdetto. Se gli errori sono cinque su cento, l'esercizio è superato per un pelo; se sono sette, CWapu dirà che si è di un punto percentuale oltre la soglia.</p>
+</div>
+
+<h2 id="trasmissione">8. L'esercizio di trasmissione</h2>
+
+<p>Si entra con <kbd>t</kbd>. Qui CWapu non ascolta: non ha modo di sapere come si sta manipolando. Fa una cosa sola, ma la fa comoda: propone che cosa trasmettere.</p>
+
+<p>Mostra una riga alla volta, fatta di un numero progressivo, un nominativo plausibile e un numero da quattro cifre, cioè esattamente la struttura di uno scambio di contest.</p>
+
+<pre><code>- 1 IK2ABC 5nn 3471</code></pre>
+
+<p>Si trasmette con il proprio tasto o manipolatore, poi si preme un tasto qualsiasi per avere la riga successiva. Si esce con <kbd>Esc</kbd>.</p>
+
+<div class="esempio">
+<p><strong>Come usarlo bene.</strong> Conviene registrarsi mentre si trasmette, con il telefono o con qualunque registratore, e poi riascoltarsi. La differenza fra come si crede di manipolare e come si manipola davvero è la cosa più istruttiva che un principiante possa scoprire. In alternativa, si può collegare il proprio manipolatore a un secondo computer che decodifica, e vedere se capisce quello che si voleva dire.</p>
+</div>
+
+<h2 id="appunti">9. Ascoltare gli appunti</h2>
+
+<p>Il comando <kbd>l</kbd> del menu principale prende quello che c'è negli appunti di Windows e lo trasmette in CW, con le impostazioni del momento.</p>
+
+<p>Prima di trasmettere, CWapu ripulisce il testo: mette tutto in minuscolo, riduce gli spazi multipli a uno solo e toglie i caratteri che il Morse non prevede. Restano lettere, cifre, spazi, le vocali accentate italiane, e i segni <code>@ . , ; : ! ? ' " ( ) = -</code>.</p>
+
+<div class="esempio">
+<p><strong>Voglio ascoltare in CW un messaggio ricevuto per posta.</strong> Si seleziona il testo nel programma di posta, si copia con <kbd>Ctrl</kbd>+<kbd>C</kbd>, si passa a CWapu e si preme <kbd>l</kbd>. Se gli appunti sono vuoti, CWapu lo dice trasmettendo la parola "vuoti".</p>
+<p>È anche il modo più rapido per ascoltare un testo lungo alla velocità che si sta cercando di raggiungere: si copia un paragrafo, si imposta <code>.w</code> due parole al minuto sopra il proprio limite e si ascolta.</p>
+</div>
+
+<h2 id="dizionario">10. Il dizionario personale</h2>
+
+<p>L'esercizio sulle parole pesca da un file chiamato <code>words.txt</code>, una parola per riga. Ne arriva uno insieme al programma, con quasi trecentomila parole italiane. Chi vuole allenarsi su un vocabolario diverso, per esempio inglese, o tecnico, o fatto dei nomi delle proprie città, può costruirsene uno.</p>
+
+<p>Il comando <kbd>w</kbd> apre lo strumento che lo fa. Chiede di scegliere una cartella, e da lì in giù legge tutti i file di testo che trova, ne estrae le parole, le mette in minuscolo, toglie la punteggiatura e scarta quelle che contengono caratteri non ammessi. Il risultato si somma alle parole già presenti in <code>words.txt</code>, senza ripetizioni.</p>
+
+<p>Il file che ne esce si chiama <strong><code>words_updated.txt</code></strong> e viene scritto accanto al programma. CWapu non lo usa: va controllato e, se convince, rinominato in <code>words.txt</code> al posto del precedente.</p>
+
+<div class="nota">
+<p><strong>Perché non lo sostituisce da solo.</strong> Perché una scansione mal riuscita, per esempio su una cartella piena di documenti tecnici, può riempire il dizionario di sigle illeggibili. Meglio guardarlo prima. E conviene tenere da parte una copia del <code>words.txt</code> vecchio, finché non si è sicuri.</p>
+</div>
+
+<div class="esempio">
+<p><strong>Voglio allenarmi sull'inglese.</strong> Si raccolgono in una cartella un po' di testi inglesi, anche solo qualche libro in formato txt. Si preme <kbd>w</kbd>, si sceglie quella cartella e si aspetta. Alla fine CWapu dice quante parole ha aggiunto e quante ne ha scartate. Si apre <code>words_updated.txt</code> con un editor, si dà un'occhiata, e se va bene lo si rinomina.</p>
+</div>
+
+<h2 id="statistiche">11. Le statistiche</h2>
+
+<p>CWapu registra ogni sessione e non se ne dimentica. Da quei dati nascono tre cose diverse, che vale la pena non confondere.</p>
+
+<h3 id="timeline">11.1 I rapporti nel tempo</h3>
+
+<p>Si aprono con <kbd>s</kbd> dal menu principale. CWapu prepara un rapporto per ciascuna delle tre categorie che ha dati, parole, caratteri e QRZ, e li mostra uno dopo l'altro. Per ognuno si può battere <kbd>Invio</kbd> per salvarlo in un file di testo, oppure <kbd>Esc</kbd> per passare al successivo.</p>
+
+<p>Ogni rapporto contiene, fra le altre cose:</p>
+
+<ul>
+<li>un riepilogo dell'attività, con numero di sessioni, periodo coperto e frequenza media;</li>
+<li>a che ora del giorno e in che giorni della settimana ci si allena;</li>
+<li>la distribuzione mensile e stagionale;</li>
+<li>l'analisi della velocità, con media, mediana, moda e deviazione standard;</li>
+<li>l'analisi degli errori sui caratteri, con i dieci peggiori e i dieci migliori;</li>
+<li>la correlazione fra velocità e accuratezza, cioè se andare più veloci fa sbagliare di più;</li>
+<li>il confronto fra giorni feriali e fine settimana;</li>
+<li>un'analisi per quartili, che divide tutta la storia in quattro periodi e li confronta, per vedere se si sta migliorando.</li>
+</ul>
+
+<div class="nota">
+<p>La prima volta che si apre questa sezione si nota una piccola attesa: è il caricamento delle librerie di calcolo, che CWapu evita di fare all'avvio proprio per non far aspettare chi vuole solo esercitarsi.</p>
+</div>
+
+<h3 id="archivio">11.2 L'archivio storico, G e X</h3>
+
+<p>Ogni sessione finisce in un registro, uno per categoria. Due parametri decidono come si comporta, e si impostano dalla sezione tastiera.</p>
+
+<ul>
+<li><strong><code>.g</code>, quante sessioni conservare.</strong> Da venti a cinquemila, di serie 730. Raggiunto il tetto, ogni nuova sessione fa uscire la più vecchia, e CWapu dice quale ha eliminato. Settecentotrenta sessioni sono circa due anni al ritmo di una al giorno.</li>
+<li><strong><code>.x</code>, ogni quanti caratteri generare un rapporto storico.</strong> Da cinquecento a quindicimila, di serie 3500. Non si contano le sessioni ma i caratteri davvero ricevuti, che è una misura molto più onesta di quanto si è lavorato.</li>
+</ul>
+
+<p>Al termine di ogni esercizio CWapu dice quanti caratteri mancano alla prossima generazione, così non arriva mai a sorpresa.</p>
+
+<h3 id="rapporti-storici">11.3 I rapporti storici, in pagina e in grafica</h3>
+
+<p>Quando il contatore dei caratteri supera la soglia, CWapu genera due file accanto al programma.</p>
+
+<ul>
+<li><strong>Una pagina HTML</strong> con intestazioni e tabelle vere, quindi navigabile per intestazioni e per celle con il lettore di schermo. Contiene i totali del blocco appena chiuso e il confronto con il blocco precedente, voce per voce, con la variazione in più o in meno.</li>
+<li><strong>Un'immagine SVG</strong> con gli stessi dati in forma di grafico. Serve a chi legge con gli occhi e trova più immediato un istogramma di una colonna di numeri. Non contiene nulla che non ci sia già nella pagina HTML.</li>
+</ul>
+
+<p>I nomi dei file contengono la categoria e i valori di G e X, per esempio <code>CWapu_Historical_Statistics_Chars_G_400_X_3500.html</code>.</p>
+
+<h3 id="wilson">11.4 Perché un intervallo e non una percentuale</h3>
+
+<p>È la parte che confonde di più, e vale la pena capirla perché cambia il modo di leggere i propri risultati.</p>
+
+<p>Immaginiamo che la lettera Q sia stata inviata tre volte e sbagliata due. La percentuale grezza dice sessantasei per cento. Ma con tre sole prove quel numero non significa quasi niente: bastava indovinarne una in più e sarebbe sceso a trentatré.</p>
+
+<p>CWapu allora, invece di un numero solo, ne dà due: il minimo e il massimo entro cui sta ragionevolmente il tasso di errore vero, con una confidenza del novantacinque per cento. È l'intervallo di Wilson. Nel rapporto compare così:</p>
+
+<pre><code>'Q': 2 errori su 3 invii. Tasso errore stimato: [20.8% - 93.3%]</code></pre>
+
+<p>Un intervallo larghissimo, che dice la verità: su tre prove non si sa niente. Con quaranta invii e dodici errori l'intervallo si stringe intorno al trenta per cento, e a quel punto è un'informazione su cui vale la pena lavorare.</p>
+
+<p>È anche il criterio con cui viene costruito il gruppo personalizzato precompilato: non i caratteri con la percentuale grezza peggiore, ma quelli il cui limite inferiore è più alto, cioè quelli su cui si è ragionevolmente sicuri che ci sia un problema vero.</p>
+
+<h2 id="diario">12. Il diario</h2>
+
+<p>Il file <code>CWapu_Diary.txt</code>, accanto al programma, raccoglie il rapporto di ogni esercizio degno di nota: tutte le sessioni di ricezione, tutti i contest, e gli esercizi di conteggio da cento gruppi in su.</p>
+
+<p>È un file di testo semplice, che si apre con qualunque editor. Ogni record comincia con il tipo di esercizio, il numero di sessione, la data e l'ora, e finisce con la riga "Fine del rapporto". In mezzo ci sono i numeri della sessione e la nota che si è scritta.</p>
+
+<p>Il diario non viene mai riletto dal programma: è per chi lo scrive. La nota è il posto giusto per annotare le condizioni, per esempio "provato con le cuffie nuove" oppure "stanco, dopo cena": rileggendolo a distanza di mesi, quelle righe spiegano gli alti e i bassi meglio di qualunque statistica.</p>
+
+<h2 id="file">13. I file di CWapu</h2>
+
+<table>
+<caption>Che cosa trovate nella cartella del programma</caption>
+<thead>
+<tr><th>File</th><th>Che cos'è</th><th>Si può cancellare?</th></tr>
+</thead>
+<tbody>
+<tr><td><code>cwapu_settings.json</code></td><td>Impostazioni, statistiche e archivio storico completo.</td><td>No. Cancellandolo si perde tutto lo storico.</td></tr>
+<tr><td><code>CWapu_Diary.txt</code></td><td>Il diario degli esercizi.</td><td>Sì, ma è un peccato.</td></tr>
+<tr><td><code>words.txt</code></td><td>Il dizionario delle parole.</td><td>Da eseguibile sì, se ne usa una copia interna.</td></tr>
+<tr><td><code>words_updated.txt</code></td><td>Il dizionario appena costruito, da controllare.</td><td>Sì.</td></tr>
+<tr><td><code>MASTER.SCP</code></td><td>Il database dei nominativi veri per gli esercizi QRZ.</td><td>Sì, ma gli esercizi QRZ useranno solo nominativi inventati.</td></tr>
+<tr><td><code>selected_language.json</code></td><td>La lingua scelta.</td><td>Sì: cancellandolo, la domanda ricompare.</td></tr>
+<tr><td><code>Manuale_CWapu.html</code></td><td>Questo manuale.</td><td>Sì.</td></tr>
+<tr><td><code>CWapu_Historical_Statistics_*.html</code> e <code>.svg</code></td><td>I rapporti storici generati automaticamente.</td><td>Sì.</td></tr>
+<tr><td><code>CWapu_Timeline_Report_*.txt</code></td><td>I rapporti nel tempo salvati a mano.</td><td>Sì.</td></tr>
+</tbody>
+</table>
+
+<div class="nota">
+<p><strong>Una copia ogni tanto.</strong> Il file <code>cwapu_settings.json</code> contiene anni di lavoro e cresce fino a diversi megabyte. Vale la pena copiarlo altrove ogni tanto, insieme al diario. CWapu lo riscrive per intero a ogni uscita, quindi un'interruzione di corrente proprio in quel momento potrebbe rovinarlo.</p>
+</div>
+
+<h2 id="aggiornamenti">14. Gli aggiornamenti</h2>
+
+<p>La versione compilata controlla da sola, a ogni avvio, se ne esiste una più recente. Se la trova, mostra <strong>le novità di quella versione</strong> e poi chiede se si vuole scaricarla e installarla: Invio per sì, Esc per rimandare. Rispondendo di sì, CWapu prepara l'aggiornamento e si chiude per lasciarlo installare.</p>
+
+<p>La versione lanciata dal sorgente non controlla niente, perché si aggiorna con git.</p>
+
+<h2 id="problemi">15. Problemi e domande frequenti</h2>
+
+<h3 id="p-muto">Non sento niente</h3>
+<p>Le cose da controllare, nell'ordine: il volume di CWapu, con <code>.v</code> nella sezione tastiera, che potrebbe essere a zero; il volume di Windows; e il dispositivo audio predefinito del sistema, perché CWapu suona lì. Se il messaggio non viene proprio trasmesso, CWapu adesso lo dice invece di tacere.</p>
+
+<h3 id="p-lento">L'avvio è lento</h3>
+<p>Non dovrebbe più esserlo: dalla versione 6.0.0 le librerie di calcolo si caricano soltanto entrando nelle statistiche. Se l'attesa è al primo avvio dopo un aggiornamento, è normale: Windows sta controllando il file nuovo.</p>
+
+<h3 id="p-dati">Ho lanciato CWapu e mi dice che le impostazioni sono quelle di serie</h3>
+<p>Vuol dire che non ha trovato il suo file di impostazioni. Nelle versioni fino alla 5.1.12 succedeva lanciando CWapu da una cartella diversa dalla sua, e in quel caso ne creava uno nuovo dove ci si trovava. Dalla 6.0.0 non succede più: i dati stanno sempre accanto al programma. Se il problema si ripresenta, si controlli che <code>cwapu_settings.json</code> sia davvero nella stessa cartella dell'eseguibile.</p>
+
+<h3 id="p-velocita">Non riesco a impostare la velocità che voglio</h3>
+<p>Il limite è 120 parole al minuto, ovunque nel programma: nella domanda che apre l'esercizio, nel comando <code>.w</code> e nel tasto <kbd>F10</kbd> del contest. Non è un limite arbitrario: oltre, a un tono di 550 hertz, un punto conterrebbe meno di quattro cicli d'onda, e un suono così corto smette di essere un tono riconoscibile.</p>
+
+<h3 id="p-parole">L'interruttore delle parole si spegne da solo</h3>
+<p>Manca il filtro. Si imposta con <code>.t</code> nella sezione tastiera, per esempio <code>.t3-7</code>. Può anche succedere che il filtro sia impostato ma non produca risultati, per esempio chiedendo parole da trenta a trentacinque lettere in un dizionario che non ne ha.</p>
+
+<h3 id="p-contest-tasti">Nel contest finiscono caratteri che ho scritto altrove</h3>
+<p>È un limite noto del modo in cui il contest legge la tastiera: ascolta tutto il sistema e non solo la propria finestra. Durante un contest conviene restare su CWapu. La riscrittura del contest, già in programma, affronterà anche questo.</p>
+
+<h3 id="p-lingua">Come cambio lingua</h3>
+<p>Si cancella il file <code>selected_language.json</code> e si rilancia CWapu.</p>
+
+<h2 id="glossario">16. Piccolo glossario del CW</h2>
+
+<dl>
+<dt><strong>WPM</strong></dt>
+<dd>Words Per Minute, parole al minuto. La misura della velocità, calcolata sulla parola campione <code>PARIS</code>.</dd>
+
+<dt><strong>PARIS</strong></dt>
+<dd>La parola usata come metro. Vale esattamente cinquanta unità di punto, spazio finale compreso, e per questo serve a definire la velocità in modo univoco.</dd>
+
+<dt><strong>Farnsworth</strong></dt>
+<dd>Metodo di insegnamento che trasmette i caratteri alla velocità finale ma allunga i silenzi fra l'uno e l'altro. Evita di dover reimparare il suono dei caratteri quando si accelera. In CWapu si ottiene alzando <code>.s</code>.</dd>
+
+<dt><strong>QRZ</strong></dt>
+<dd>Nel codice Q significa "chi mi chiama?". Per estensione, nel gergo, indica il nominativo di una stazione.</dd>
+
+<dt><strong>QRM, QRN, QSB</strong></dt>
+<dd>Rispettivamente: interferenza causata da altre stazioni, disturbo di origine atmosferica, evanescenza del segnale che va e viene.</dd>
+
+<dt><strong>5NN</strong></dt>
+<dd>Il rapporto 599 scritto con le abbreviazioni usate nei contest, dove N sta per 9 ed è più rapido da trasmettere.</dd>
+
+<dt><strong>NIL</strong></dt>
+<dd>Not In Log, cioè non a registro. Si dice quando un collegamento non si è concluso e non viene conteggiato.</dd>
+
+<dt><strong>BK</strong></dt>
+<dd>Break, cioè interruzione. CWapu lo usa per aprire e chiudere i propri messaggi di servizio, così si distinguono dagli esercizi.</dd>
+
+<dt><strong>TU, 73, GL</strong></dt>
+<dd>Thank you, i migliori saluti, good luck. I saluti di rito con cui si chiude un collegamento.</dd>
+
+<dt><strong>Progressivo o seriale</strong></dt>
+<dd>Il numero d'ordine del collegamento all'interno di un contest. Il primo QSO è l'uno, e così via.</dd>
+
+<dt><strong>Pile-up</strong></dt>
+<dd>La situazione in cui molte stazioni rispondono insieme alla stessa chiamata. È l'esercizio più difficile che esista, e arriverà in CWapu con la riscrittura del contest.</dd>
+</dl>
+
+<footer>
+<p>CWapu, versione 6.0.0 del 7 settembre 2026.</p>
+<p>Software e manuale di Gabriele Battaglia, IZ4APU, e di ClaudIA, Claude Opus 5 in modalità UltraCode.</p>
+<p>Il motore CW è CWzator, dalla libreria GBUtils, su un'idea originale di Kevin Schmidt, W9CF.</p>
+<p>Le segnalazioni e le proposte si aprono come issue sul repository del progetto.</p>
+</footer>
+
+</body>
+</html>

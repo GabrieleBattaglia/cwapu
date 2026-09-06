@@ -1,10 +1,17 @@
 # -*- mode: python ; coding: utf-8 -*-
+# CWapu, ricetta di compilazione.
+# Autori: Gabriele Battaglia (IZ4APU) & ClaudIA (Claude Opus 5, modalita' UltraCode).
+# Il percorso di GBUtils si ricava dalla posizione di questo file, cosi' la
+# compilazione riesce anche su una macchina dove i repository stanno altrove.
+import os
+
+GBUTILS_DIR = os.path.abspath(os.path.join(SPECPATH, '..', 'GBUtils'))
 
 a = Analysis(
     ['cwapu.py'],
-    pathex=['E:\\git\\Mine\\GBUtils'],
+    pathex=[GBUTILS_DIR],
     binaries=[],
-    datas=[('words.txt', '.'), ('MASTER.SCP', '.'), ('locales', 'locales')],
+    datas=[('words.txt', '.'), ('MASTER.SCP', '.'), ('Manuale_CWapu.html', '.'), ('locales', 'locales')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

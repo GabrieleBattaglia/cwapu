@@ -1,8 +1,76 @@
 CWAPU WHATSNEW AND TODO
-Todo:
-11.
+Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	6.0.0 (2026-09-07)
+		+ Refactoring profondo, fase 1. Autori: Gabriele Battaglia (IZ4APU) & ClaudIA (Claude Opus 5, modalita' UltraCode).
+		+ Dati dell'utente:
+			- Impostazioni, archivio storico, diario, MASTER.SCP e words.txt si cercano accanto al programma e non piu' nella cartella da cui lo si e' lanciato. Lanciando cwapu da un'altra cartella si ripartiva da zero, con velocita', filtri e archivio apparentemente spariti, e all'uscita ne nasceva una copia finta li' dove ci si trovava.
+			- Il diario e' uno solo: prima il conteggio scriveva in un file e gli esercizi di ricezione in un altro, e nessuno dei due era completo.
+			- Quando MASTER.SCP non si trova, cwapu lo dice: prima taceva e gli esercizi QRZ proseguivano con soli nominativi inventati.
+		+ Comandi della sezione tastiera:
+			- I comandi .g e .x leggono e scrivono le impostazioni vere. Prima cercavano una chiave sparita con la migrazione: .g400 faceva morire l'applicazione con un KeyError e ?? mostrava sempre 730 e 3500 qualunque cosa fosse impostata. La potatura dell'archivio si applica a tutte e tre le categorie.
+			- La precompilazione del gruppo personalizzato con i dieci caratteri piu' sbagliati legge finalmente il registro delle sessioni: leggeva la stessa chiave inesistente, trovava sempre una lista vuota e ripiegava sui caratteri casuali. Non aveva mai funzionato.
+		+ Alte velocita':
+			- Un solo tetto per tutta l'applicazione, 120 wpm, uguale a quello che CWzator V10 accetta. Prima ce n'erano quattro diversi e il piu' basso, 85, era quello che chi riceve veloce incontrava per primo, nella domanda che apre l'esercizio di ricezione. Anche F10 nel contest ha ora un tetto: senza, si superava il massimo della libreria e da li' in poi non si sentiva piu' niente, nemmeno i propri messaggi.
+			- Ogni messaggio passa da una funzione sola, suona, che raccoglie i dieci parametri che le ventiquattro chiamate ripetevano identici e che controlla la risposta del motore: se il messaggio non viene trasmesso adesso lo dice, invece di proseguire in silenzio.
+		+ Numeri detti all'utente:
+			- L'esercizio di conteggio non toglie piu' uno al totale. Prima dieci gruppi tutti giusti davano totale 9 ed errori meno 11,11 per cento, e un errore su dieci veniva dichiarato Superato invece che Fallito. La percentuale nel prompt e' arrotondata a un decimale, non piu' a quindici.
+			- Il contest registra la velocita' davvero prodotta dal motore invece di quella nominale. Con i pesi sporchi della stazione DX, che nel trenta per cento dei casi sono casuali, le due cose si discostano parecchio, e l'archivio conteneva due grandezze diverse chiamate con lo stesso nome.
+			- La velocita' della stazione DX si arrotonda invece di troncare: il troncamento e' asimmetrico e regalava mezzo wpm di sconto sistematico su tutto il contest.
+			- Uscendo dal contest prima del primo QSO non si registra piu' niente. Prima nasceva una sessione vuota con velocita' minima 100 e massima 0, che sporcava le medie; all'avvio quelle gia' salvate vengono tolte dall'archivio.
+			- Il numero della sessione annunciato all'inizio, quello del rapporto finale e quello scritto nel diario sono lo stesso numero.
+			- A limite raggiunto l'archivio non annuncia piu' una sessione di troppo e uno spazio negativo.
+		+ Solidita':
+			- Il diario si scrive con with e, se non si riesce, l'applicazione lo dice invece di dichiarare comunque che la sessione e' stata salvata. Nel contest un fallimento nella scrittura faceva morire il programma con un NameError proprio mentre salvava i risultati.
+			- La nota sull'esercizio si chiede prima di aprire il file, che non resta piu' aperto per tutto il tempo che si impiega a scriverla.
+			- Date e orari si leggono una volta sola e si formattano con strftime, e non oscurano piu' il modulo time.
+			- L'avvio sta in una funzione main protetta da if __name__: cwapu.py e' finalmente importabile, quindi collaudabile.
+		+ Avvio piu' rapido:
+			- pandas e numpy si caricavano a ogni avvio anche per chi non apre mai le statistiche: 811 millesimi di attesa. Ora timeline si carica solo entrando in s, e le due funzioni di Wilson, che servono durante gli esercizi e non hanno bisogno di nessuna delle due, stanno nel nuovo modulo wilson.py. L'avvio e' passato da 1,2 secondi a 0,33.
+		+ Le traduzioni:
+			- CWapu parla davvero inglese. Il catalogo esisteva dal 2025 ma era completamente vuoto: tutte e trecentoquarantadue le voci erano senza traduzione, quindi chi sceglieva l'inglese vedeva ogni singola stringa in italiano, dal menu principale ai nomi dei mesi. Adesso le voci sono trecentonovantotto e sono tradotte tutte.
+			- Le sei etichette degli switcher erano insieme il testo mostrato a schermo e la chiave con cui lo stato viene salvato su disco. Finche' il catalogo e' rimasto vuoto la cosa non si e' vista; alla prima traduzione vera, parole sarebbe diventato words e la lettura delle impostazioni sarebbe finita in KeyError. Adesso la chiave e l'etichetta sono due campi distinti, e una prova automatica verifica che restino allineate.
+			- Due stringhe contenevano un segno di percentuale che Babel leggeva come segnaposto printf, e la compilazione del catalogo falliva. Sono state riscritte all'origine invece di aggirare il problema nella traduzione.
+			- Il testo di aiuto della sezione tastiera non ha piu' ventotto spazi in fondo a ogni riga, che arrivavano dalle continuazioni con la barra rovesciata. Elenca anche i limiti di .w e .h e dice che tutto il resto viene trasmesso in CW.
+			- Nove prove automatiche sul catalogo: che ogni voce sia tradotta, che nessuna sia marcata incerta, che i segnaposti e gli a capo coincidano fra originale e traduzione, che il file compilato non sia piu' vecchio del sorgente, che nessuna stringa nuova del codice sia rimasta fuori, e che gettext restituisca davvero l'inglese. Il catalogo non puo' piu' invecchiare in silenzio.
+			- babel.cfg elenca anche grafico.py e dichiara la codifica di ogni file.
+		+ Struttura:
+			- Il report grafico, 322 righe e la dipendenza da matplotlib, sta ora nel modulo grafico.py. Era un ottavo dell'applicazione dentro un file che ne aveva gia' troppe: adesso si tocca senza rischiare il resto, e la funzione di traduzione le arriva da chi chiama, come gia' fa timeline.
+			- Tolta dal repository la cartella backup, che conservava due versioni vecchie dell'applicazione e uno script di migrazione di tre versioni maggiori fa. Il loro testo compariva nelle ricerche e confondeva; la storia di git li conserva comunque.
+			- cwapu.py e' passato da 2559 righe a 2364, pur avendo guadagnato la guida, il controllo degli errori del motore CW e la ripulitura dell'archivio.
+		+ Il manuale:
+			- Nasce Manuale_CWapu.html, la guida completa in italiano, scritta da zero: non ne esisteva nessuna. Copre tutti i casi d'uso con la spiegazione e l'esempio pratico, dai pesi del manipolatore all'intervallo di Wilson, e si chiude con un glossario del CW per chi comincia.
+			- Si apre con g dal menu principale, nel browser predefinito. E' una pagina HTML con intestazioni vere, quindi si naviga per intestazioni con NVDA, e i browser la traducono da soli per chi non legge l'italiano: la nota che lo spiega e' la prima cosa che si incontra.
+			- Da eseguibile la guida viene copiata accanto al programma la prima volta che si apre, altrimenti sparirebbe con la cartella temporanea di PyInstaller alla chiusura di cwapu.
+			- Tredici prove automatiche verificano che la guida ci sia, che sia dichiarata nella ricetta di compilazione, che i tag si chiudano, che nessun rimando dell'indice porti nel vuoto, che la versione dichiarata sia quella vera e che ogni tasto del menu principale sia documentato.
+			- Aggiornato il README, che era fermo alla V5.0.0 e citava tasti che non esistono piu' e un comando di lingua rimosso da tempo.
+		+ Esercizi e menu:
+			- Il gruppo personalizzato dei caratteri problematici si puo' finalmente accendere insieme a lettere, numeri, misto e simboli: era marcato esclusivo e restava da solo. Parole, qrz e contest restano invece esclusivi, perche' ricevere una parola, un nominativo o uno scambio di contest sono mestieri diversi e metterli nella stessa media la svuota di senso.
+			- La domanda sul gruppo precompilato passa da menu() di GBUtils: le due alternative sono dette per esteso invece di essere due iniziali fra parentesi quadre, e si puo' annullare con ESC.
+			- L'esercizio di trasmissione esce con ESC confrontando il carattere e non il suo codice: con un ritorno vuoto sollevava TypeError invece di uscire.
+		+ Accessibilita':
+			- Tolti tutti i separatori grafici dalle stringhe mostrate a schermo: le ventisette righe di trattini che incorniciavano le intestazioni dei report della timeline, le cinque righe di venticinque trattini fra una sezione e l'altra, l'intestazione della modalita' contest e l'intestazione a trattini della tabella dei quartili. Le intestazioni restano, i trattini no.
+			- Tolta la funzione di traduzione da ventidue stringhe che non sono testo. Le due pericolose erano la sequenza di controllo che muove il cursore, che tradotta avrebbe rotto il disegno di tutti i menu, e il nome del file HTML dei report, estensione compresa. Le altre erano formati puri senza nemmeno una parola dentro, cioe' voci di catalogo che il traduttore non poteva capire.
+		+ Collaudo:
+			- Nasce la cartella tests, con quarantasette prove automatiche su aggregati dell'archivio, migrazioni delle impostazioni, ripulitura delle sessioni vuote, confronto fra trasmesso e copiato, durate, tetto della velocita', mutua esclusione degli switcher, generazione dei gruppi, ripulitura degli appunti e intervallo di Wilson. Le prove sulle impostazioni lavorano su file temporanei e non toccano mai i dati veri.
+			- Le prove hanno subito trovato un difetto: con tutti gli invii sbagliati il limite superiore di Wilson usciva 1.0000000000000002 invece di 1.0. Non si vedeva, ma avrebbe rotto il primo confronto con uno che qualcuno ci avesse scritto sopra.
+		+ Pulizia:
+			- Il testo di aiuto della sezione tastiera esisteva due volte, e le due copie erano gia' divergenti. Ora e' uno solo, e la riga sull'Invio a vuoto non comincia piu' con una t solitaria.
+			- La classe di caratteri che ripulisce gli appunti prima di trasmetterli conteneva un intervallo scritto per sbaglio, e lasciava passare simboli che nessuno aveva elencato.
+			- Il comando .sv dice dove ha scritto il file WAV. L'indicazione SV nel prompt, che avrebbe dovuto segnalarlo, si accendeva e si spegneva nello stesso giro di ciclo e non e' mai comparsa.
+			- ItemChooser propone un predefinito coerente con la lunghezza dell'elenco e spiega perche' una scelta non va bene, invece di riproporre la lista in silenzio.
+			- Il sorteggio del tono della stazione DX ha un numero massimo di tentativi: era un ciclo senza uscita in mezzo a un esercizio a tempo.
+			- Tolta la variabile overall_settings_changed, trenta righe di contabilita' che non decidevano niente, e le quaranta dichiarazioni global di nomi che le funzioni si limitavano a leggere.
+			- Words_Creator riceve da cwapu il percorso di words.txt e la cartella dove scrivere, invece di ricavarli dalla directory di lavoro, e non si porta piu' dietro una copia propria di resource_path.
+			- Il file .spec ricava il percorso di GBUtils dalla propria posizione: la compilazione non e' piu' legata a una sola macchina.
+			- Aggiunto ruff.toml con le regole scelte e il motivo di ogni eccezione. Il progetto passa ruff senza rilievi: erano 393.
+		+ Varie:
+			- Le note della nuova versione si leggono prima di decidere se aggiornare.
+			- Il saluto finale dice IZ4APU e non piu' I4APU, ed e' tradotto come tutto il resto.
+			- La versione e la data di rilascio stanno in due costanti distinte.
+			- Tolti i separatori grafici dal piede dei report della timeline e dai messaggi di errore.
+			- Sistemata la numerazione del changelog: la voce 5.18 era la 5.1.8 e non aveva data.
 	5.1.12 (2026-09-06)
 		+ Refactor:
 			- La mappa Morse si chiede a CWzator con get_map invece che con il vecchio msg=-1, deprecato da tempo. Era l'ultimo uso rimasto in tutto il parco software, e la sua rimozione ha permesso di chiudere la fase 1 del refactoring di CWzator.
@@ -14,7 +82,7 @@ ChangeLog:
 	5.1.9 (2026-07-12)
 		+ Bugfix: Allineata la lingua del messaggio di Donazione() all'uscita passando app_language.
 
-	5.18
+	5.1.8 (2026-06-06)
 		+ Ottimizzazioni del motore CW. Ora è più veloce di 4 volte su frasi lunghe e di circa 3 su stringhe più corte. Inoltre consuma meno memoria ed è più leggero nella sua fase di computazione.
 
 	5.1.7 (2026-01-27)

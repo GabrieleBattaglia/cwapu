@@ -13,7 +13,7 @@ dentro di lui e li trova resource_path passando da _MEIPASS.
 
 Proprio per questo un words.txt accanto all'eseguibile e' il dizionario
 personale di chi ha compilato, non quello di serie: CWapu prova prima
-quello nella cartella corrente e solo dopo ripiega sulla copia interna.
+quello che sta accanto al programma e solo dopo ripiega sulla copia interna.
 Va lasciato fuori, insieme al words_updated.txt che produce WordsCreator,
 alle impostazioni e a tutti i rapporti che CWapu scrive.
 """
