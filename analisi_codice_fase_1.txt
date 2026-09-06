@@ -1,0 +1,391 @@
+Analisi del codice, fase 1
+Progetto: cwapu, utilita' per il CW
+Versione analizzata: 5.1.11 del 2026-07-23
+Fase: 1
+Data: 2026-09-06
+Analisi eseguita da: ClaudIA, Claude Opus 5 in modalita' auto
+Autori del progetto: Gabriele Battaglia (IZ4APU) & ClaudIA
+Nota di metodo: nessun file di codice e' stato modificato. Le correzioni approvate si applicano in un secondo momento, un blocco alla volta. Un rilievo risolto si cancella da questo file, secondo il punto 4.1.1 del documento di refactoring.
+Criterio di priorita' dichiarato da Gabriele il 2026-09-06: ci sono utenti che si allenano a 80, 90 wpm e oltre. Tutto cio' che riguarda le alte velocita' e la precisione del CW viene prima. Questo criterio ha spostato in alto due rilievi che altrimenti sarebbero stati medi.
+Analisi gemella: la funzione CWzator, che e' il motore CW di questa applicazione, e' stata analizzata lo stesso giorno e il suo rapporto sta in E:\git\mine\GBUtils\analisi_codice_CWzator_fase_1.txt. I rimandi qui sotto a rilievi CWzator si riferiscono a quel file. La sezione 5 raccoglie i punti in cui i due lavori si toccano.
+Aggiornamento del 2026-09-06: il blocco 1 di CWzator e' stato applicato, versione V9.2, e ha cambiato due cose che riguardano anche questo rapporto. Il tetto della velocita' della libreria e' salito da 100 a 200 wpm, e questo toglie da solo il sintomo principale del rilievo 4 qui sotto. La dissolvenza, quando e' piu' lunga di meta' elemento, viene accorciata invece che scartata, e questo toglie l'aggravante descritta nella sezione 5 a proposito del comando punto m. I due rilievi sono stati riscritti di conseguenza e non cancellati, perche' la parte di lavoro che spetta a cwapu resta.
+Aggiornamento del 2026-09-06, secondo: applicati anche i blocchi 2 e 3 di CWzator, fino alla V9.3.1. Il blocco 3 ha rifatto il calcolo della velocita' effettiva, che e' il numero che cwapu registra nelle statistiche di ogni esercizio, e ha portato alla luce un difetto che in fase di analisi non avevo elevato a rilievo: sotto i quattro caratteri il calcolo veniva saltato e si otteneva la velocita' nominale. Con i pesi impostati oggi in cwapu_settings.json, cioe' l 32, s 53 e p 34 a 37 wpm, un item di un carattere veniva registrato a 37 wpm mentre viaggiava a 54,4, con un errore del 32 per cento; a due caratteri l'errore era del 2,7 per cento, a tre dell'1,1, da quattro in su nullo. Sull'archivio esistente ho misurato l'effetto: nelle sessioni che risultano fatte con pesi non standard, 65 item su 3247, cioe' il due per cento, portano una velocita' saltata. Riguarda le parole di tre lettere e i gruppi corti, non c'e' niente da ricostruire, ma le medie storiche di quelle sessioni sono lievemente ottimistiche. Da questo lavoro nasce il rilievo 43.
+1. File esaminati
+cwapu.py, 2559 righe, applicazione intera: impostazioni, menu, esercizi di ricezione, contest, conteggio, trasmissione, report HTML e report grafico.
+timeline.py, 729 righe, generatore del report statistico testuale e funzioni di Wilson.
+Words_Creator.py, 148 righe, costruttore del dizionario personale, con selettore di cartella tkinter.
+zip_maker.py, 43 righe, pacchettizzatore della release.
+Totale codice Python: 3479 righe.
+File di contorno esaminati: cwapu.spec, .gitignore, babel.cfg, messages.pot, locales/en/LC_MESSAGES/messages.po, selected_language.json, ChangeLog and todoList.txt, README.md.
+Funzioni piu' grandi, per il rilievo sulla struttura: RxingContest dalla riga 1352 alla 1822, 470 righe; Rxing dalla 1823 alla 2181, 358 righe; crea_report_grafico dalla 386 alla 707, 322 righe; KeyboardCW dalla 825 alla 1077, 252 righe; generate_historical_rx_report dalla 2214 alla 2441, 227 righe; seleziona_modalita_rx dalla 204 alla 377, 173 righe.
+2. Issue aperte del repository cwapu
+Issue 2, le release non hanno allegati quindi l'auto updater non ha niente da scaricare. L'analisi la conferma e aggiunge un dettaglio: alla riga 2470 la variabile dl_url viene gia' controllata e il ramo senza allegato dice all'utente che i file non sono ancora pronti, quindi il programma non si rompe, ma resta vero che chi ha una versione vecchia non si aggiorna. Resta aperta e va chiusa alla prossima release, come dice la issue stessa.
+Issue 3, portare il manuale da md a HTM e scriverlo in italiano. L'analisi non ha trovato nessun manuale nel repository: non c'e' un file di guida, non c'e' una voce di menu che lo apra, e la funzione manuale di GBUtils non viene mai importata. La issue quindi non descrive una conversione ma una scrittura da zero. Resta aperta.
+Issue 4, mostrare le note della release prima di chiedere se aggiornare. Confermata alla lettera: alla riga 2468 il quarto valore di update_checker viene assegnato alla variabile changelog e non viene piu' usato, tanto che ruff lo segnala come variabile inutilizzata. Resta aperta.
+Nessuna issue aperta copre i rilievi qui sotto, che sono quindi tutti nuovi.
+3. Misure eseguite
+Costo dell'import di numpy: 80 ms. Di pandas: 731 ms. Di matplotlib: 171 ms. numpy e pandas si pagano a ogni avvio di cwapu, matplotlib solo alla generazione del report grafico.
+Tasso di chiamate mute nel contest per velocita' impostata, su diecimila estrazioni, misurato quando il tetto di CWzator era 100 wpm: fino a 91 wpm nessuna, a 93 wpm il 7,5 per cento, a 95 wpm il 19,1 per cento, a 99 wpm il 40,2 per cento. Dal 2026-09-06, con il tetto della libreria a 200, il fenomeno non si presenta piu': vedi il rilievo 4.
+Scarto sistematico introdotto da int invece di round sulla velocita' della stazione DX, su duecentomila estrazioni: meno 0,50 wpm con velocita' impostata a 20, meno 0,49 a 35, meno 0,53 a 90.
+Errore percentuale riportato dall'esercizio di conteggio contro quello vero: i numeri stanno nel rilievo 3.
+Stringhe letterali distinte passate alla funzione di traduzione in cwapu.py e timeline.py: 395. Di queste, circa 101 non compaiono nel catalogo. Il confronto e' approssimato, perche' fatto sui primi quaranta caratteri, ma i campioni verificati a mano lo confermano.
+Separatori grafici nelle stringhe mostrate a schermo: in cwapu.py nove sequenze di tre asterischi, diciotto di tre trattini, due di quattro, una riga di quarantanove trattini alla riga 2423 e due sequenze di tre uguali; in timeline.py cinquantuno sequenze di tre trattini e quattro di due, piu' due righe di settantacinque trattini costruite a runtime dalla riga 2526 di cwapu.py.
+4. Rilievi in ordine di gravita' decrescente
+4.1 Rilievi critici
+Rilievo 1
+Gravita': critico
+Categoria: fragilita'
+File e riga: cwapu.py 34 e 44, con effetto sulle righe 59, 75, 1828 e 1832
+Problema: tutti i percorsi dell'applicazione partono dalla directory di lavoro invece che dalla cartella del programma. get_user_data_path, alla riga 44, restituisce os.getcwd quando non si e' compilati, e resource_path, alla riga 34, usa os.path.abspath del punto. Da queste due discendono SETTINGS_FILE alla riga 59, MASTER_SCP_PATH alla riga 75 e la ricerca di words.txt alla riga 1828.
+Impatto per l'utente: lanciando python E:\git\mine\cwapu\cwapu.py da una cartella qualsiasi, per esempio dal desktop, succedono tre cose insieme. Primo, cwapu non trova cwapu_settings.json, annuncia impostazioni generali di default e riparte da zero: velocita', filtri, contatore dei lanci e tutto l'archivio storico, che oggi pesa 2,8 MB, sembrano spariti. Uscendo, ne scrive uno nuovo sul desktop. Secondo, load_master_scp non trova MASTER.SCP, esce dalla funzione senza dire niente e il pool dei nominativi reali resta vuoto: gli esercizi QRZ continuano ma con soli nominativi inventati, e nessuno avverte. Terzo, alla riga 1832 Rxing apre words.txt senza nessun controllo di esistenza, quindi l'esercizio di ricezione muore con un FileNotFoundError e un traceback.
+Nota: e' lo stesso difetto che la prova 9 del collaudo di GBUtils sta cercando per la lingua, ma qui riguarda i dati dell'utente ed e' molto piu' grave.
+Correzione proposta: ricavare la cartella dei dati dalla posizione del file, cioe' os.path.dirname di os.path.abspath di __file__ quando non si e' compilati, e sys.executable quando lo si e'. Stessa cosa per resource_path, che quando non c'e' _MEIPASS deve usare la cartella dello script. Mantenere la precedenza a un words.txt accanto all'eseguibile, che e' voluta e documentata in zip_maker.py, ma cercarlo li' e non nella directory corrente. E far parlare load_master_scp quando il file manca.
+Rilievo 2
+Gravita': critico
+Categoria: logica
+File e riga: cwapu.py 983, 984, 986 e 995, con le letture sbagliate alle righe 878, 879, 980, 992 e 1100
+Problema: nove punti del codice leggono o scrivono la chiave app_data['historical_rx_data'], che dopo la migrazione non esiste piu'. load_settings la cancella alla riga 746 e costruisce merged_data soltanto dalle chiavi di DEFAULT_DATA, dove quella chiave non compare. Verificato anche sul file vero: cwapu_settings.json contiene historical_rx_data_words, _chars, _qrz e historical_rx_settings, e nessun historical_rx_data.
+Impatto per l'utente: tre conseguenze distinte.
+Primo, i comandi .g e .x della sezione tastiera vanno in KeyError e fanno morire il programma con un traceback. Non sempre: solo quando il valore chiesto e' diverso da quello letto, che siccome la lettura fallisce e' sempre il predefinito. Quindi .g730 non fa niente e .g400 fa cadere l'applicazione. Lo stesso vale per .x.
+Secondo, il comando ?? mostra sempre 730 e 3500 anche quando le impostazioni vere sono altre: nel file di Gabriele max_sessions_to_keep vale 400, e ?? continua a dire 730.
+Terzo, e questo e' il piu' sgradevole, alla riga 1100 la precompilazione del gruppo personalizzato legge il registro delle sessioni da quella chiave inesistente, trova sempre una lista vuota e ripiega sui caratteri casuali. La funzione che dovrebbe proporre i dieci caratteri su cui si sbaglia di piu', calcolati con il punteggio di Wilson, non ha quindi mai funzionato: il codice dalla riga 1101 alla 1132 non e' mai stato eseguito con dati veri.
+Correzione proposta: le impostazioni g e x stanno in app_data['historical_rx_settings'] e vanno lette e scritte li'. Il registro delle sessioni sta nelle tre chiavi historical_rx_data_words, _chars e _qrz, e per la precompilazione vanno unite le tre categorie oppure va scelta quella pertinente. La potatura del registro fatta dal comando .g va ripetuta sulle tre liste.
+Rilievo 3
+Gravita': critico
+Categoria: logica
+File e riga: cwapu.py 1258, con effetto sulle righe da 1259 a 1266 e sul prompt della riga 1246
+Problema: l'esercizio di conteggio, dopo il ciclo, esegue cont meno uno. Il decremento non ha ragione d'essere, perche' l'uscita con ESC avviene prima dell'incremento della riga 1257: il totale riportato e' quindi sempre inferiore di uno al numero di gruppi realmente risposti, mentre corr e' giusto.
+Verifica: riprodotta in laboratorio la logica del ciclo. Con due gruppi giusti e poi ESC il programma dichiara totale 1, corrette 2, errori meno 100 per cento. Con dieci gruppi di cui uno sbagliato dichiara totale 9, corrette 9, errori 0 per cento. Con cento gruppi di cui sei sbagliati dichiara totale 99, corrette 94, errori 5,05 per cento invece di 6.
+Impatto per l'utente: tre danni in uno.
+Primo, con zero errori la percentuale mostrata e' negativa: meno 11,11 per cento su dieci gruppi, meno 1,01 su cento. E' un numero senza senso che NVDA legge per intero.
+Secondo, il verdetto cambia. La soglia e' il sei per cento. Su dieci gruppi con un errore, l'errore vero e' il dieci per cento e l'esercizio andrebbe dichiarato fallito, ma il programma dice zero per cento e Superato. Su venti gruppi con due errori, dieci per cento vero contro 5,26 riportato, e di nuovo Superato al posto di Fallito. Su venticinque gruppi con due errori, otto per cento vero contro 4,17, ancora Superato al posto di Fallito. Da cinquanta gruppi in su il verdetto torna a coincidere, ma il numero resta sbagliato.
+Terzo, quando i gruppi sono almeno cento il rapporto sbagliato finisce scritto nel diario, dove resta.
+Nota accessoria: anche il prompt e' sfasato. Alla riga 1246 mostra la lettera T seguita da cont, che e' il numero dei gruppi gia' risposti, mentre l'utente sta rispondendo al successivo. La prima e la seconda prova mostrano entrambe T1.
+Correzione proposta: togliere il decremento della riga 1258, che e' un residuo, e nel prompt mostrare cont piu' uno. Da decidere con Gabriele se la percentuale di errore vada calcolata sui gruppi effettivamente risposti, che e' quello che il codice intende fare, oppure su un blocco fisso di cento.
+4.2 Rilievi alti
+Rilievo 4
+Gravita': alto
+Categoria: logica
+File e riga: cwapu.py 1438, con la causa alle righe 1468 e 1658
+Problema: nella modalita' contest la velocita' della stazione DX si ricava alla riga 1468 da overall_speed con una variazione casuale del dieci per cento in piu' o in meno. Quando il risultato supera i cento wpm, CWzator rifiuta il messaggio, restituisce None e non emette alcun suono. La riga 1438 assegna quel None a current_audio e prosegue: nessun errore, nessun avviso, semplicemente il nominativo non viene trasmesso.
+Verifica: misurato su diecimila estrazioni con il tetto della libreria a 100. Fino a 91 wpm non succedeva mai. A 93 wpm succedeva al 7,5 per cento delle chiamate, a 95 wpm al 19,1 per cento, a 99 wpm al 40,2 per cento.
+Stato al 2026-09-06: il blocco 1 di CWzator ha alzato il tetto della libreria a 200 wpm, e questo toglie il sintomo. Il comando punto w di cwapu si ferma a 99, quindi la velocita' del DX non supera i 108 e la libreria la accetta senza fiatare: le chiamate mute non ci sono piu'. Il rilievo pero' resta aperto, perche' il difetto vero e' un altro, cioe' che cwapu non guarda mai cosa gli ha risposto la libreria.
+Impatto per l'utente, oggi: il tasto F10 della riga 1658 alza la velocita' di due wpm alla volta senza nessun tetto. Ci vogliono una cinquantina di pressioni invece delle cinque di prima, ma il muro c'e' ancora, e superandolo sparisce ogni suono, compreso quello dei propri messaggi, perche' anche play_sync_me usa overall_speed. Nessun messaggio avverte.
+Correzione proposta: mettere un tetto a F10, coerente con il massimo che CWzator accetta, e soprattutto accorgersi del None. Ogni chiamata a CWzator che riceve None deve dirlo all'utente, anche solo con una riga, invece di proseguire in silenzio. Vedi anche il rilievo 6 di CWzator, che chiede alla libreria di riferire gli errori a chi la chiama: la correzione buona sta li', ma qui va comunque messo il controllo.
+Rilievo 5
+Gravita': alto
+Categoria: logica
+File e riga: cwapu.py 1905, 1001, 1984 e 1658, e GBUtils.py 817
+Problema: la velocita' massima ha cinque tetti diversi, e i due che l'utente incontra per primi sono i piu' bassi.
+La domanda di inizio esercizio di ricezione, riga 1905, accetta da 10 a 85 wpm.
+Il comando .w della sezione tastiera, riga 1001, accetta da 5 a 99.
+La velocita' variabile durante l'esercizio sale fino a 99, riga 1984, e scende fino a 15.
+CWzator si fermava a 100 e dal 2026-09-06 si ferma a 200, GBUtils.py riga 838.
+Il tasto F10 del contest, riga 1658, non ha tetto.
+Impatto per l'utente: chi riceve a 90 wpm, e Gabriele dice che c'e' chi va oltre, dall'esercizio di ricezione non ci arriva. Il prompt gli tronca la richiesta a 85, perche' dgt corregge in silenzio i valori fuori intervallo e stampa Corretto con, accettato 85. Deve passare dalla sezione tastiera con .w, che pero' e' un'altra schermata e non e' quello che il programma suggerisce. Sopra i 91 entra nel rilievo 4.
+Correzione proposta: decidere un tetto solo, valido per tutta l'applicazione, e portarlo dove serve davvero. Meta' del lavoro e' gia' fatta: il tetto della libreria e' salito a 200 il 2026-09-06, e va verificato a orecchio con la prova 15 del collaudo di GBUtils. Resta tutta la meta' applicativa, e la piu' urgente e' la riga 1905, cioe' i famosi 85 wpm della domanda di inizio esercizio, che oggi e' il vero muro contro cui va chi riceve veloce.
+Rilievo 6
+Gravita': alto
+Categoria: fragilita'
+File e riga: cwapu.py 1799, 1803, 1819 e 1820
+Problema: dentro il blocco finally di RxingContest, la variabile duration_str viene assegnata alla riga 1803, cioe' dentro il try che scrive il diario e che comincia con l'apertura del file alla riga 1799. Viene poi usata alla riga 1820, fuori da quel try. Se l'apertura del file fallisce, per esempio perche' la cartella e' di sola lettura, il ramo except della riga 1819 la ingoia e l'esecuzione arriva alla riga 1820 con duration_str mai definita: NameError non gestito, dentro un finally, quindi con la sessione a meta' del salvataggio.
+Impatto per l'utente: il contest si chiude con un traceback proprio nel momento in cui sta salvando i risultati.
+Aggravante: il ramo della riga 1819 e' un except Exception seguito da pass. Quando il diario non si scrive, l'utente non lo sa, e la riga 1820 gli dice comunque che la sessione e' stata salvata su disco.
+Correzione proposta: calcolare duration_str prima del try, usare with invece di open e close espliciti, e sostituire il pass con un messaggio che dica cosa non e' riuscito. La frase finale va detta solo se il salvataggio e' andato davvero a buon fine.
+Rilievo 7
+Gravita': alto
+Categoria: fragilita'
+File e riga: cwapu.py 1799 e 2049, confrontate con la 1269
+Problema: il diario si scrive in due posti diversi a seconda di chi lo scrive. La funzione Count, riga 1269, lo apre con os.path.join di USER_DATA_PATH e del nome. RxingContest alla riga 1799 e Rxing alla riga 2049 lo aprono con il nome nudo, cioe' relativo alla directory di lavoro.
+Impatto per l'utente: con l'eseguibile lanciato da un collegamento che imposta una cartella di lavoro diversa, oppure lanciando il sorgente da un'altra cartella, il diario si sdoppia: gli esercizi di conteggio finiscono in un file, quelli di ricezione e di contest in un altro, e nessuno dei due e' completo. Sommato al rilievo 1, i pezzi possono diventare parecchi.
+Correzione proposta: un solo percorso, costruito una volta sola in una costante accanto a SETTINGS_FILE alla riga 59, e usato dai tre punti.
+Rilievo 8
+Gravita': alto
+Categoria: regole generali
+File e riga: cwapu.py 1246, 1355, 2423, 2526 e 2530, e timeline.py in tutto il file
+Problema: violazioni delle regole di accessibilita' di CLAUDE.md, e sono tre cose diverse.
+Prima, i separatori grafici. In cwapu.py ci sono nove sequenze di tre asterischi, diciotto di tre trattini, due di quattro, una riga di quarantanove trattini alla riga 2423 e due sequenze di tre uguali, fra cui l'intestazione della modalita' contest alla riga 1355. In timeline.py ce ne sono cinquantuno di tre trattini e quattro di due. Alle righe 2526 e 2530 il piede del report costruisce a runtime due righe di settantacinque trattini e ci centra dentro una frase con center di settanta, cioe' un allineamento grafico dentro un testo destinato a essere letto, e per giunta con due larghezze diverse.
+Seconda, la precisione dei numeri. Il prompt dell'esercizio di conteggio, riga 1246, formatta la percentuale senza nessun controllo dei decimali: dopo tre gruppi con un errore NVDA legge 66.66666666666667 per cento. E' una stringa che si aggiorna in tempo reale, cioe' proprio il caso che le regole chiedono di tenere corto e leggibile su display braille.
+Terza, il confronto. Quella stessa riga, scritta in forma discorsiva, sarebbe il modello di cio' che le regole chiedono. Le altre stringhe di stato dell'applicazione, per esempio il prompt dell'esercizio di ricezione alla riga 1952, sono gia' fatte bene e stanno intorno ai trentacinque caratteri.
+Correzione proposta: togliere tutti i separatori, sostituire il piede del report con una frase, e arrotondare a una cifra decimale la percentuale del conteggio. E' un lavoro meccanico ma tocca due file e va fatto in un colpo solo, per non lasciarne in giro.
+Rilievo 9
+Gravita': alto
+Categoria: regole generali
+File e riga: messages.pot, locales/en/LC_MESSAGES/messages.po
+Problema: il catalogo delle traduzioni e' fermo al 2025-07-15, mentre il codice e' del 2026-07-23. Delle 395 stringhe letterali distinte che il codice passa alla funzione di traduzione, circa 101 non compaiono nel catalogo. Verificate a mano come mancanti, fra le altre: l'intera modalita' contest, cioe' l'intestazione, Simulazione scambio rapido, Correttezza Nominativi, Comandi rapidi e Quanti QRZ; tutte le forme singolare e plurale di format_duration, cioe' giorno, giorni, ora, ore, minuto, minuti, secondo, secondi; l'etichetta lettere e numeri del menu degli switcher; il totale finale dell'esercizio di conteggio.
+Impatto per l'utente: chi usa cwapu in inglese vede tutta la modalita' contest, tutte le durate e parte dei menu in italiano. E' l'incompiuto che si nota di piu' per un utente non italiano, e non e' un difetto di codice ma di procedura: manca il passaggio di rigenerazione del catalogo.
+Correzione proposta: rigenerare messages.pot con pybabel usando babel.cfg che c'e' gia', fondere con il po inglese, tradurre le voci nuove e ricompilare il mo. Da mettere fra i passi fissi della release, perche' altrimenti si riaccumula. Vedi il memorandum tradurre.txt nella cartella docs.
+Rilievo 10
+Gravita': alto
+Categoria: logica
+File e riga: cwapu.py 1386, con effetto sulle righe 1785 e 2195
+Problema: uscendo dal contest con ESC prima di aver completato anche un solo QSO, il blocco finally registra comunque la sessione. La variabile minwpm e' rimasta al valore iniziale 100 assegnato alla riga 1386, e maxwpm a 0.
+Impatto per l'utente: il contatore delle sessioni QRZ si incrementa per una sessione vuota, e il rapporto a video dichiara che la velocita' minima e' stata 100,00, la massima 0,00 e la variazione meno 100,00 wpm. La sessione vuota finisce anche nell'archivio storico, dove sporca le medie: alla riga 2195 il calcolo degli aggregati esclude esplicitamente i minimi uguali a 100, che e' la prova che il problema era gia' noto e che e' stato aggirato invece che risolto.
+Correzione proposta: non registrare nulla se session_calls e' zero, e sostituire il valore sentinella 100 con None, cosi' che nessuno debba piu' indovinare che 100 vuol dire nessun dato. Fatto questo, la riga 2195 puo' tornare a essere un filtro normale. Lo stesso valore sentinella compare anche alla riga 1898, dentro Rxing, dove pero' e' gestito correttamente dalla riga 2003.
+4.3 Rilievi medi
+Rilievo 11
+Gravita': medio
+Categoria: ottimizzazione
+File e riga: cwapu.py 19 e 20, timeline.py 4 e 5
+Problema: cwapu importa timeline all'avvio, e timeline importa pandas e numpy in cima al file. Il costo si paga sempre, anche da chi non aprira' mai le statistiche.
+Verifica: misurato su questa macchina, numpy 80 ms e pandas 731 ms, in totale 811 ms di attesa a ogni singolo avvio.
+Impatto per l'utente: quasi un secondo di ritardo prima che compaia la prima riga. Conta anche per la dimensione dell'eseguibile, perche' PyInstaller si porta dietro pandas per intero.
+Correzione proposta: spostare l'import di pandas e numpy dentro le funzioni di timeline che li usano davvero, e importare timeline solo nel ramo s del menu. Le due funzioni di Wilson, che sono le uniche di timeline usate durante gli esercizi, non hanno bisogno ne' di pandas ne' di numpy: usano soltanto math. Conviene quindi separarle. Da valutare anche se il punteggio di Wilson non meriti di diventare una utilita' di GBUtils, visto che e' calcolo generico e non ha niente di specifico del CW.
+Rilievo 12
+Gravita': medio
+Categoria: DRY
+File e riga: cwapu.py 829 e 951
+Problema: il testo di aiuto della sezione tastiera esiste due volte. La prima alla riga 829, come variabile MNKeyboard_settings, scritta su piu' righe con le barre di continuazione. La seconda alla riga 951, ricopiata dentro una singola chiamata alla funzione di traduzione, tutta su una riga sola lunga circa duemila caratteri.
+Le due copie sono gia' divergenti: la seconda dice alla tua scheda audio dove la prima dice alla scheda audio, e nella voce .rs le manca il punto e virgola finale.
+Impatto per l'utente: sono due voci distinte nel catalogo, quindi vanno tradotte due volte, e prima o poi una delle due diventera' obsoleta senza che nessuno se ne accorga. Per il traduttore, poi, la seconda e' una stringa di duemila caratteri su una riga sola, praticamente impossibile da rivedere.
+Correzione proposta: alla riga 951 stampare MNKeyboard_settings, che e' li' a centoventi righe di distanza.
+Nota di merito: nel testo, in entrambe le copie, c'e' un refuso. La riga che dice Premi Invio senza digitare nulla comincia con barra rovesciata n seguita da t minuscola invece che da barra rovesciata t, quindi a schermo compare una t solitaria a inizio riga.
+Rilievo 13
+Gravita': medio
+Categoria: logica
+File e riga: cwapu.py 2188 confrontata con la 2212
+Problema: la funzione _calculate_aggregates restituisce due nomi diversi per la stessa metrica. Nel ramo della lista vuota, riga 2188, la chiave si chiama wpm_avg_overall_cpm_based; in quello normale, riga 2212, si chiama wpm_avg_of_session_avgs. I tre punti che la leggono, righe 458, 2315 e 2318, usano il secondo nome, e due dei tre con la parentesi quadra e non con get.
+Impatto per l'utente: oggi nessuno, perche' entrambe le chiamate alla funzione sono protette da un controllo che esclude la lista vuota. E' un difetto latente che aspetta il primo che la chiami senza quel controllo, e a quel punto sara' un KeyError dentro la generazione del report.
+Correzione proposta: un nome solo nei due rami. Coglierne l'occasione per uniformare anche l'accesso, che alla riga 2317 usa get con predefinito e alla 2318 la parentesi quadra sulla stessa identica chiave.
+Rilievo 14
+Gravita': medio
+Categoria: logica
+File e riga: cwapu.py 2133, usata alle righe 2178 e 2179
+Problema: la lunghezza dell'archivio viene letta nella variabile x alla riga 2133, cioe' prima della potatura, e usata dopo. Dopo la potatura la lista e' lunga al massimo g, ma x puo' valere g piu' uno.
+Impatto per l'utente: raggiunto il limite, il messaggio finale dice che l'archivio contiene 401 sessioni e che ne mancano meno 1 al raggiungimento del limite stabilito. Un numero negativo detto a voce.
+Correzione proposta: leggere la lunghezza dopo la potatura.
+Rilievo 15
+Gravita': medio
+Categoria: logica
+File e riga: cwapu.py 1924 confrontata con 2020 e 2053
+Problema: il numero della sessione mostrato all'inizio e quello mostrato alla fine non sono lo stesso. Alla riga 1924 il programma annuncia la sessione con sessions piu' uno, mentre il rapporto finale, riga 2020, e il diario, riga 2053, scrivono sessions, cioe' il conteggio di prima di questa sessione.
+Impatto per l'utente: il diario numera le sessioni con uno di meno rispetto a quello che il programma ha annunciato all'inizio, e questo per ogni esercizio dal primo in poi.
+Correzione proposta: usare lo stesso valore nei tre punti, calcolandolo una volta sola in una variabile all'inizio della funzione.
+Rilievo 16
+Gravita': medio
+Categoria: ottimizzazione
+File e riga: cwapu.py, trenta occorrenze di overall_settings_changed
+Problema: la variabile overall_settings_changed viene dichiarata globale in nove funzioni e assegnata in venti punti, ma non viene mai letta per decidere qualcosa. Il salvataggio, riga 2555, avviene comunque a ogni uscita. Ruff se ne accorge e segnala centoventi volte una globale dichiarata e non assegnata.
+Impatto per l'utente: nessuno diretto, ma sono trenta righe di contabilita' che non fa niente e che a chi legge il codice fanno credere che esista un salvataggio condizionale che non c'e'.
+Correzione proposta: o si toglie del tutto, o le si da' il senso che promette, cioe' saltare la scrittura dei 2,8 MB quando davvero non e' cambiato niente. La seconda strada e' anche un piccolo guadagno all'uscita.
+Rilievo 17
+Gravita': medio
+Categoria: regole generali
+File e riga: cwapu.py 380 e 2243, e altre quindici circa
+Problema: la funzione di traduzione viene applicata a stringhe che non sono testo. I casi peggiori sono due. Alla riga 380 e' avvolta una sequenza di controllo ANSI per il posizionamento del cursore: un traduttore che la tocchi rompe tutto il disegno dei menu. Alla riga 2243 e' avvolto il nome di un file HTML, estensione compresa: un traduttore che lo tocchi cambia il nome dei report.
+Gli altri sono formati puri senza nessuna parola, per esempio graffe barra graffe barra graffe per le date alle righe 1272, 1800 e 2051, graffe punto graffe per gli elenchi alla riga 815, quadre attorno a una graffa nel menu degli switcher. Sono almeno diciassette voci di catalogo che il traduttore non sa cosa siano.
+Impatto per l'utente: il catalogo si gonfia di voci incomprensibili, e due di esse possono rompere il programma se toccate.
+Correzione proposta: togliere la funzione di traduzione da tutto cio' che non e' una frase. Le date vanno formattate con strftime, che della localizzazione si occupa gia' da solo.
+Rilievo 18
+Gravita': medio
+Categoria: fragilita'
+File e riga: cwapu.py 1799, 2049 e 1269
+Problema: due file vengono aperti senza il costrutto with, alle righe 1799 e 2049, e si chiudono con una close esplicita che non viene raggiunta se qualcosa fallisce prima. Nel caso dell'esercizio di ricezione, riga 2049, fra l'apertura e la chiusura c'e' anche una domanda all'utente, la nota sull'esercizio: il file resta aperto per tutto il tempo che l'utente impiega a scriverla. Nella funzione Count, riga 1269, il with c'e' ma la domanda all'utente sta dentro, con lo stesso effetto.
+Impatto per l'utente: file che restano aperti, e in caso di errore un diario troncato a meta' riga. Ruff lo segnala sei volte.
+Correzione proposta: chiedere la nota prima di aprire il file, e usare with dappertutto.
+Rilievo 19
+Gravita': medio
+Categoria: fragilita'
+File e riga: cwapu.py 1420
+Problema: la modalita' contest installa alla riga 1420 un listener di pynput con suppress a falso. Un listener di pynput non ascolta la finestra della console: ascolta tutta la tastiera del sistema.
+Impatto per l'utente: mentre il contest e' in corso, i tasti battuti in qualunque altra finestra finiscono nella coda del contest, e viceversa il contest non impedisce che quei tasti raggiungano l'altra applicazione. Se l'utente passa a un'altra finestra, il buffer del contest si riempie di quello che ha scritto altrove. Il codice se ne rende conto in parte, perche' alle righe da 1734 a 1741 svuota il buffer della console all'uscita.
+Nota: la scelta e' probabilmente voluta, perche' serve a leggere i tasti funzione senza bloccare l'esecuzione. Va comunque detta, e va deciso se convenga fermare il listener quando la finestra perde il fuoco.
+Correzione proposta: da discutere. La strada minima e' scartare gli eventi quando la console non ha il fuoco.
+Rilievo 20
+Gravita': medio
+Categoria: regole generali
+File e riga: cwapu.py 160, da 378 a 384, 1509, e le chiamate a _clear_screen_ansi
+Problema: questo e' l'unico rilievo su cui il codice e' in disaccordo con le regole ma l'uso quotidiano potrebbe smentirmi, quindi e' una domanda e non un difetto. L'applicazione ridisegna lo schermo in tre modi. Il menu degli switcher, funzione seleziona_modalita_rx, muove il cursore con sequenze ANSI e riscrive le otto righe a ogni tasto premuto. La funzione redraw_line del contest, riga 1509, riscrive la riga corrente con un ritorno carrello seguito da settantanove spazi e poi dal contenuto nuovo, a ogni carattere battuto. E _clear_screen_ansi cancella lo schermo a ogni scelta del menu principale.
+Le regole di CLAUDE.md chiedono output leggibile in modo lineare e vietano il ridisegno continuo che generi verbosita' inutile. D'altra parte tu usi cwapu tutti i giorni e non te ne sei mai lamentato, quindi puo' darsi che con NVDA funzioni bene proprio cosi'.
+Impatto da verificare: dimmi tu se il menu degli switcher e la riga del contest si leggono bene, e se la cancellazione dello schermo a ogni comando ti toglie qualcosa che vorresti poter rileggere.
+Correzione proposta: nessuna finche' non lo dici tu. La domanda e' nel collaudo.txt.
+Rilievo 21
+Gravita': medio
+Categoria: ottimizzazione
+File e riga: cwapu.py, dalla riga 2443 alla fine
+Problema: il file non ha nessuna protezione if __name__ uguale a __main__. Dalla riga 2443 in poi il codice gira al momento dell'import: carica le impostazioni, incrementa il contatore dei lanci, pulisce lo schermo e apre il menu principale.
+Impatto: cwapu.py non e' importabile, quindi non e' collaudabile. Non esiste nessun test, in un programma che contiene calcoli statistici, migrazione di dati, aritmetica su date e tre percorsi diversi di salvataggio. Il punto 3.5 del documento di refactoring chiede di segnalare l'assenza di test dove il rischio di regressione e' alto, e qui lo e': i rilievi 3, 13 e 14 sono esattamente il genere di errore che un test avrebbe preso.
+Correzione proposta: racchiudere l'avvio in una funzione main protetta dal controllo, e poi cominciare con una manciata di test su cio' che non chiede interazione, cioe' _calculate_aggregates, format_duration, MistakesCollectorInStrings, collect_char_errors, la migrazione dentro load_settings e le due funzioni di Wilson.
+Rilievo 22
+Gravita': medio
+Categoria: logica
+File e riga: cwapu.py 1081
+Problema: la classe di caratteri della funzione StringCleaning contiene, in fondo, la sequenza parentesi tonda chiusa, trattino, uguale. Dentro una classe di caratteri il trattino fra due caratteri e' un intervallo, quindi quella non e' una lista di tre simboli ma l'intervallo che va dalla parentesi chiusa all'uguale, cioe' asterisco, piu', virgola, trattino, punto, barra, tutte le cifre, due punti, punto e virgola e minore.
+Impatto per l'utente: la funzione serve a ripulire il testo copiato dagli appunti prima di trasmetterlo. Oggi lascia passare caratteri che l'autore non aveva elencato. Non fa danno, perche' CWzator scarta comunque cio' che non conosce, ma la classe non fa quello che sembra e alla prima modifica sorprendera' qualcuno.
+Correzione proposta: mettere il trattino per ultimo, oppure proteggerlo con una barra rovesciata.
+Rilievo 23
+Gravita': medio
+Categoria: logica
+File e riga: cwapu.py da 329 a 335
+Problema: anche questo e' una domanda, perche' dipende da cosa vuoi che faccia. La logica di mutua esclusione degli switcher, riga 335, spegne tutti quelli che appartengono a un gruppo diverso da quello appena acceso. Siccome parole sta nel gruppo WORDS e lettere, numeri, lettere e numeri e simboli stanno in CHARS, accendere lettere spegne parole e viceversa.
+La funzione genera_singolo_item_esercizio_misto, riga 166, e' pero' scritta per pescare a caso fra tutti i tipi attivi, parole comprese, e il menu si chiama Esercizi Rx, Seleziona Tipi, al plurale.
+Impatto: se mescolare parole e gruppi di caratteri era voluto, oggi non si puo' piu' fare. Se non lo era, allora la funzione mista contiene un ramo che non verra' mai percorso e va semplificata.
+Correzione proposta: dimmi quale delle due, e si sistema di conseguenza.
+Rilievo 24
+Gravita': medio
+Categoria: logica
+File e riga: cwapu.py 1468 e 1588
+Problema: la velocita' della stazione DX nel contest si calcola con int, che tronca verso lo zero invece di arrotondare. Poiche' la variazione casuale e' simmetrica, il troncamento e' invece asimmetrico e sposta la media verso il basso.
+Verifica: su duecentomila estrazioni, con la velocita' impostata a 20 la media effettiva e' 19,498 invece di 20; a 35 e' 34,506; a 90 e' 89,470. Con round la media torna esatta.
+Impatto per l'utente: mezzo wpm di sconto sistematico su tutto il contest, e la stessa cifra di errore nelle statistiche di velocita' che il contest salva nell'archivio storico.
+Correzione proposta: usare round. Vale anche per la riga 1588, dove la ripetizione lenta moltiplica dx_speed per un fattore fra 0,7 e 0,9 con lo stesso int.
+Rilievo 25
+Gravita': medio
+Categoria: ottimizzazione
+File e riga: cartella backup del repository
+Problema: la cartella backup contiene tre file tracciati in git, cwapu5023.py, cwapu5025.py e migrateTo3.py, cioe' due versioni vecchie dell'applicazione e uno script di migrazione di tre versioni maggiori fa. Il punto 3.5 del documento chiede di segnalare i file di backup e le versioni vecchie rimaste nel repository.
+Nota: non segnalo invece cwapu_settings.json, CWapu_Diary.txt e i report gia' generati, che pure stanno nel repository, perche' la tua regola e' che salvataggi, log e backup vanno committati visto che sviluppi su piu' macchine.
+Impatto: il testo di quelle vecchie versioni compare nelle ricerche e confonde. Durante questa analisi, per esempio, la ricerca delle chiamate a CWzator ha restituito prima le copie di backup che gli originali.
+Correzione proposta: la storia di git le conserva gia'. Togliere la cartella dal repository, oppure metterla in .gitignore se ti serve solo in locale. Da fare solo se sei d'accordo.
+4.4 Rilievi bassi
+Rilievo 26
+Gravita': basso
+Categoria: regole generali
+File e riga: cwapu.py 2556
+Problema: il saluto finale dice de I4APU invece di IZ4APU, e a differenza di ogni altra riga dell'applicazione non passa dalla funzione di traduzione.
+Correzione proposta: correggere il nominativo e avvolgere la frase come tutte le altre.
+Rilievo 27
+Gravita': basso
+Categoria: regole generali
+File e riga: cwapu.py 1271 e 2050
+Problema: due messaggi dicono all'utente che il rapporto e' stato salvato su CW_Diary.txt, mentre il file si chiama CWapu_Diary.txt. Un terzo messaggio, riga 1818, lo dice giusto.
+Nota accessoria: alla riga 2050 il messaggio viene stampato prima ancora che si scriva qualcosa.
+Correzione proposta: un nome solo, preso dalla costante che il rilievo 7 propone di creare, e messaggio dopo la scrittura.
+Rilievo 28
+Gravita': basso
+Categoria: fragilita'
+File e riga: cwapu.py 1272 e 1273, 2051 e 2052
+Problema: dentro Count e dentro Rxing la variabile locale time riceve una stringa, oscurando per tutta la funzione il modulo time importato alla riga 14. Oggi nessuna delle due funzioni usa il modulo dopo quel punto, quindi non succede niente, ma il primo che ci aggiunga una chiamata a time si trovera' un errore incomprensibile.
+Nota accessoria: nelle stesse righe la data si costruisce con tre chiamate separate a localtime e l'ora con altre due. Fra la prima e l'ultima puo' cambiare il secondo, e a mezzanotte il giorno.
+Correzione proposta: rinominare le variabili, e leggere l'orario una volta sola formattandolo con strftime.
+Rilievo 29
+Gravita': basso
+Categoria: logica
+File e riga: cwapu.py 867
+Problema: il messaggio letto da stdin viene tagliato con msg_input fino a meno uno, dando per scontato che l'ultimo carattere sia il ritorno a capo. Quando non c'e', per esempio con l'input rediretto da un file che non termina con una riga vuota, l'ultimo carattere vero viene mangiato.
+Correzione proposta: usare rstrip del solo ritorno a capo.
+Rilievo 30
+Gravita': basso
+Categoria: ottimizzazione
+File e riga: cwapu.py da 859 a 862
+Problema: il prompt con il suffisso SV non compare mai. La variabile tosave viene alzata alla riga 914, dentro il ramo .sv, e riabbassata alla riga 1074, cioe' nello stesso giro di ciclo, quindi al giro successivo il controllo della riga 859 la trova sempre falsa.
+Correzione proposta: decidere se l'indicazione serve. Se serve, alzare la bandiera prima e abbassarla dopo aver ridisegnato il prompt; altrimenti togliere il ramo.
+Rilievo 31
+Gravita': basso
+Categoria: ottimizzazione
+File e riga: cwapu.py 2465
+Problema: enter_escape viene importato una seconda volta dentro il ramo dell'aggiornamento, quando e' gia' fra gli import in cima al file, riga 17.
+Correzione proposta: togliere la ripetizione.
+Rilievo 32
+Gravita': basso
+Categoria: regole generali
+File e riga: cwapu.py 49
+Problema: la costante VERSION contiene versione e data in una sola stringa, cioe' 5.1.11 virgola 2026-07-23. La convenzione del parco software vuole la data in una costante propria, RELEASE_DATE, aggiornata insieme al numero.
+Nota: il controllo aggiornamenti non ne soffre. L'ho verificato leggendo _parse_version di GBUtils, riga 28: estrae il primo gruppo di numeri separati da punti e si ferma alla virgola, quindi da questa stringa ricava correttamente 5, 1, 11.
+Correzione proposta: separare le due cose alla prima occasione in cui si tocca la versione.
+Rilievo 33
+Gravita': basso
+Categoria: regole generali
+File e riga: ChangeLog and todoList.txt
+Problema: tre cose. La voce 5.18 e' scritta senza il secondo punto, quindi si legge come cinque punto diciotto invece che 5.1.8, ed e' l'unica senza data. Fra la 5.1.9 e la 5.1.11 manca la 5.1.10. La sezione Todo in cima contiene soltanto la riga 11. senza nulla dopo.
+Nota: proprio la voce 5.18 e' quella che parla delle ottimizzazioni del motore CW, quattro volte piu' veloce sulle frasi lunghe. E' il precedente diretto del lavoro sullo stream descritto nel rilievo 4 di CWzator, quindi vale la pena che sia leggibile e datata.
+Correzione proposta: sistemare la numerazione, aggiungere le date mancanti e svuotare la sezione Todo, che secondo il punto 2.7 del documento oggi e' territorio delle issue.
+Rilievo 34
+Gravita': basso
+Categoria: fragilita'
+File e riga: cwapu.py 819
+Problema: ItemChooser chiama dgt con predefinito fisso a 6, indipendente da quanti elementi ha ricevuto. Se un giorno venisse chiamata con meno di sei voci, premere Invio restituirebbe 6, il controllo successivo lo scarterebbe e l'elenco ricomparirebbe senza nessuna spiegazione, in un ciclo che all'utente sembra bloccato.
+Nota: l'ho verificato leggendo dgt, che restituisce il predefinito senza controllarlo contro imin e imax. Oggi l'unica chiamata passa le dodici frequenze di campionamento, quindi il difetto e' latente.
+Correzione proposta: legare il predefinito alla lunghezza della lista, e dire qualcosa quando la scelta non e' valida.
+Rilievo 35
+Gravita': basso
+Categoria: fragilita'
+File e riga: cwapu.py da 1471 a 1473
+Problema: la scelta del tono della stazione DX gira in un ciclo senza uscita finche' non trova un valore distante piu' di cinque hertz dal proprio. Ho verificato tutti i casi limite consentiti dall'applicazione, cioe' toni da 200 a 2700 hertz, e il ciclo termina sempre, perche' l'intervallo casuale e' largo seicento hertz contro una finestra di esclusione di dieci. E' quindi un rilievo di forma e non di sostanza: resta che un ciclo senza tetto, in mezzo a un esercizio a tempo, e' un rischio gratuito.
+Correzione proposta: un contatore di tentativi con una via d'uscita.
+Rilievo 36
+Gravita': basso
+Categoria: regole generali
+File e riga: tutti i file Python
+Problema: ruff riporta 393 rilievi. I piu' numerosi: 120 PLW0602, globali dichiarate e mai assegnate, che sono in gran parte il rilievo 16; 37 DTZ005, datetime.now senza fuso; 30 UP034, parentesi superflue; 29 BLE001, except Exception nudo; 24 B023, funzione che usa una variabile del ciclo, tutte dentro il contest; 17 UP024, alias obsoleti di OSError; 16 RUF059, variabili scompattate e mai usate; 15 S110, try except pass; 15 PLR1730, confronti sostituibili con min o max; 14 I001, import non ordinati; 12 PLR1711, return inutili; 9 F841, variabili assegnate e mai usate, fra cui changelog della riga 2468 che e' la issue 4, session_speed della riga 2458 e last_backspace_time della riga 1425; 6 SIM115, file aperti senza with, che sono il rilievo 18; 2 E722, except nudo.
+Nota: 108 si correggono da soli con l'opzione fix, altri 46 con unsafe-fixes. I 24 B023 e i 29 BLE001 vanno guardati a mano, perche' in parte sono voluti.
+Correzione proposta: passare prima le correzioni automatiche, poi i rilievi a mano insieme al blocco di pulizia.
+Rilievo 37
+Gravita': basso
+Categoria: ottimizzazione
+File e riga: cwapu.py dalla 386 alla 707
+Problema: anche questo e' una domanda. La funzione crea_report_grafico occupa 322 righe, cioe' il tredici per cento dell'applicazione, e produce un file SVG, cioe' un'immagine. Porta con se' la dipendenza da matplotlib, che costa 171 ms di import e una fetta consistente dell'eseguibile compilato. Le stesse informazioni ci sono gia' nel report HTML e nel report testuale della timeline, che sono leggibili.
+Impatto: un utente cieco non ricava nulla da un SVG.
+Correzione proposta: dimmi se qualcuno lo guarda. Se serve a chi ti legge le statistiche, resta e va bene cosi'; se non lo apre nessuno, togliendolo l'applicazione perde un ottavo del suo codice, una dipendenza pesante e un pezzo che nessuno collaudera' mai.
+Rilievo 38
+Gravita': basso
+Categoria: fragilita'
+File e riga: cwapu.py 399
+Problema: il messaggio d'errore che segnala il fallimento dell'import di matplotlib chiama format con un parametro error su una stringa che non contiene nessun segnaposto. Il testo dell'eccezione viene quindi calcolato e buttato via, e l'utente vede una frase generica.
+Correzione proposta: aggiungere il segnaposto, oppure togliere la format.
+Rilievo 39
+Gravita': basso
+Categoria: fragilita'
+File e riga: cwapu.py 2085
+Problema: il messaggio sul completamento della sezione corrente mostra i caratteri mancanti come differenza fra obiettivo e caratteri fatti, senza limite inferiore. Superato l'obiettivo il numero diventa negativo, e la frase, che gia' contiene un trattino davanti, si legge meno meno cinque.
+Correzione proposta: azzerare a zero, come si fa gia' poche righe dopo per lo scarto del report.
+Rilievo 40
+Gravita': basso
+Categoria: regole generali
+File e riga: cwapu.spec 5, e stato del repository
+Problema: due cose minori sul contorno. Il file spec contiene alla riga 5 un percorso assoluto legato a questa macchina, E:\git\Mine\GBUtils, quindi la compilazione non e' riproducibile altrove. E git riporta tre file cancellati e non ancora committati, due statistiche storiche della timeline e un rapporto avanzato.
+Correzione proposta: ricavare pathex in modo relativo, e committare le cancellazioni alla prossima occasione.
+Rilievo 41
+Gravita': basso
+Categoria: DRY
+File e riga: cwapu.py, ventiquattro chiamate a CWzator
+Problema: le ventiquattro chiamate a CWzator ripetono ogni volta la stessa fila di dieci parametri, presi ogni volta dalle stesse dieci variabili globali. La riga e' lunga in media trecento caratteri e in nove casi e' identica carattere per carattere.
+Impatto: aggiungere un parametro a CWzator, cosa che i rilievi di quel rapporto propongono di fare, vuol dire toccare ventiquattro righe. Ed e' anche il motivo per cui il rilievo 4 e' passato inosservato: il valore restituito viene ignorato in tredici delle ventiquattro chiamate.
+Correzione proposta: una funzione sola dentro cwapu, per esempio suona, che raccolga i parametri comuni e lasci al chiamante soltanto il messaggio e cio' che cambia davvero, cioe' tono, velocita', sincronia e salvataggio. E' anche il posto giusto dove mettere il controllo del None chiesto dal rilievo 4.
+Rilievo 43
+Gravita': alto
+Categoria: logica
+File e riga: cwapu.py 1438, 1617 e 1718, con effetto sulle righe 1497, 1498 e 1499
+Problema: la modalita' contest registra nelle statistiche la velocita' nominale della stazione DX invece di quella effettiva. Alla riga 1438 la funzione play_async chiama CWzator e ne butta via il secondo valore restituito, che e' proprio la velocita' effettiva; alle righe 1617 e 1718, dove si alimenta item_details, viene salvato dx_speed, cioe' il numero nominale calcolato alla riga 1468, e lo stesso vale per il minimo, il massimo e la somma delle velocita' alle righe da 1497 a 1499.
+Perche' conta adesso: fino alla V9.1 di CWzator la cosa era meno visibile, perche' anche la velocita' effettiva era calcolata male sui messaggi corti, e un nominativo e' corto. Dalla V9.3.1 la libreria restituisce il numero giusto e cwapu continua a non guardarlo.
+Impatto per l'utente: alla riga 1479 il contest assegna alla stazione DX dei pesi casuali nel trenta per cento dei casi, con la linea fra 30 e 60, lo spazio fra 25 e 75 e il punto fra 15 e 50. In quei casi la velocita' vera si discosta parecchio da quella nominale, e l'archivio registra la nominale. Le statistiche di velocita' degli esercizi QRZ non sono quindi confrontabili con quelle degli esercizi di parole e di caratteri, che invece la velocita' effettiva la registrano: sono due grandezze diverse chiamate con lo stesso nome dentro lo stesso archivio.
+Correzione proposta: conservare il valore restituito da CWzator dentro play_async e usarlo al posto di dx_speed in item_details, in minwpm, in maxwpm e in sum_wpm. E' anche l'occasione per il rilievo 24, perche' con la velocita' effettiva letta dalla libreria il troncamento con int diventa irrilevante ai fini statistici.
+Rilievo 42
+Gravita': basso
+Categoria: DRY
+File e riga: cwapu.py 91
+Problema: la mappa Morse viene chiesta a CWzator passando msg uguale a meno uno, che e' il modo dichiarato deprecato nella documentazione della funzione. Il modo corrente e' get_map a vero. E' il rilievo 16 del rapporto di CWzator, visto da questa parte.
+Correzione proposta: cambiare la chiamata. E' una riga sola, e va coordinata con il lavoro su GBUtils.
+5. Rapporti con l'analisi di CWzator
+Tre rilievi di questo rapporto e tre di quello sono la stessa cosa vista dai due lati, e vanno lavorati insieme.
+Il tetto della velocita': il rilievo 5 di questo rapporto e il rilievo 5 di CWzator, che il 2026-09-06 e' stato chiuso portando il limite della libreria a 200 wpm. Resta il lato di cwapu, dove i tetti sono ancora quattro e il piu' basso, 85 wpm, e' quello che l'utente incontra per primo. Alzare il soffitto della libreria e lasciare basso quello dell'applicazione non serve a niente: e' il lavoro che manca.
+La dissolvenza alle alte velocita': i rilievi 2 e 3 di CWzator, chiusi il 2026-09-06. Il comando punto m della riga 1009 permette di impostare ms fino a 30, e a 90 wpm una dissolvenza da 30 millesimi e' piu' lunga dell'elemento intero: la libreria la scartava del tutto e restava lo schiocco, mentre adesso la accorcia a meta' elemento. Il comando quindi non disattiva piu' in silenzio la cosa che dovrebbe regolare, ma resta che oltre una certa soglia il valore chiesto non viene rispettato e nessuno lo dice. Da valutare, quando si tocchera' la sezione tastiera, se il tetto di 30 abbia ancora senso, e se convenga esporre all'utente i due modi nuovi della dissolvenza, cioe' fade_mode e fade_shape, che oggi cwapu non usa e lascia sui predefiniti.
+Il salvataggio del CW in un file WAV: il comando .sv della riga 912 chiede a CWzator di salvare, e la libreria scrive nella directory di lavoro con un nome che comincia per cwapu, senza dire dove. E' il rilievo 8 di CWzator, e finche' non e' sistemato li' cwapu non ha modo di dire all'utente dove sia finito il suo file.
+Una cosa che invece va bene: la velocita' effettiva restituita da CWzator viene registrata nell'archivio storico soltanto per gli elementi dell'esercizio, che non contengono mai trattini bassi. Le due imprecisioni del calcolo di rwpm, rilievi 9 e 10 di CWzator, riguardano i messaggi di servizio come la ricevuta del contest, il cui valore di ritorno cwapu butta via. L'archivio storico non ne e' contaminato.
+Sul segmentation fault descritto nel rilievo 1 di CWzator devo correggere un sospetto che avevo scritto li'. Ho letto l'ordine delle operazioni di uscita, righe da 2554 a 2559: le impostazioni si salvano alla riga 2555, cioe' prima del messaggio di commiato della riga 2556, e quel messaggio e' sincrono. L'uscita normale di cwapu non e' quindi a rischio, e la correzione va scritta anche nel rapporto di CWzator quando ci si mettera' mano. Il rischio resta per le uscite anomale: non c'e' nessuna gestione di KeyboardInterrupt, quindi un CTRL piu' C battuto mentre un item sta suonando trova un thread di riproduzione vivo, e li' il segmentation fault e' possibile.
+6. Cosa e' risultato solido
+zip_maker.py e' esemplare: quarantatre righe, il mestiere delegato a crea_archivio_release di GBUtils, e un commento che spiega perche' words.txt e le impostazioni restano fuori dall'archivio. E' il modello da replicare altrove.
+Le due funzioni di Wilson in timeline.py sono corrette. Ho verificato le formule dei due limiti contro la definizione dell'intervallo di Wilson, compresa la protezione per il caso di zero invii e il taglio degli errori al numero degli invii.
+La migrazione dei dati vecchi in load_settings, righe da 720 a 748, e' fatta bene: riconosce i due formati precedenti, ne travasa il contenuto, estrae le impostazioni condivise e cancella la chiave vecchia. Il rilievo 2 non e' un difetto della migrazione ma dei nove punti che non sono stati aggiornati insieme a lei.
+format_duration, righe da 1320 a 1350, gestisce correttamente singolare e plurale per tutte e quattro le unita', e mostra i secondi anche quando sono l'unica cosa da dire.
+La gestione delle pause negli esercizi di ricezione, righe da 1970 a 1978, e' pensata bene: separa il tempo attivo da quello in cui l'utente si e' allontanato usando una soglia di trenta secondi per item, e riporta il totale in pausa a fine sessione.
+MistakesCollectorInStrings e collect_char_errors sono corrette e ben separate: la prima confronta, la seconda conta, e la seconda usa la prima invece di rifarne il lavoro.
+La struttura dell'archivio storico a tre categorie, parole, caratteri e QRZ, con impostazioni condivise e registri separati, e' una buona idea ed e' realizzata in modo coerente sia in Rxing sia in RxingContest.
+La costruzione del report HTML produce un documento con intestazioni e tabelle vere, quindi navigabile con NVDA per intestazioni e per celle. E' la forma giusta per un report lungo, e va conservata.
+La logica di pazienza della stazione DX nel contest, con i tre modi diversi di ripetere il nominativo e il riconoscimento della copia parziale, e' scritta bene ed e' la parte piu' curata dell'applicazione.
+7. Riepilogo
+Rilievi critici: 3.
+Rilievi alti: 8.
+Rilievi medi: 15.
+Rilievi bassi: 17.
+Totale: 43. Il rilievo 43 e' nato il 2026-09-06 lavorando al blocco 3 di CWzator, non dall'analisi iniziale.
+Di questi, tre sono domande e non difetti, e aspettano una risposta prima di diventare lavoro: il rilievo 20 sul ridisegno dello schermo, il 23 sul mescolare parole e caratteri, il 37 sul report grafico. Stanno nel collaudo.txt.
+Ordine di lavorazione proposto
+Blocco 1, i dati dell'utente. Rilievo 1, i percorsi, e rilievo 7, il diario in due posti. Prima di ogni altra cosa, perche' finche' restano cosi' ogni prova fatta da una cartella diversa mente.
+Blocco 2, le alte velocita' e le misure. Rilievi 4 e 5, cioe' il controllo che manca sulla risposta della libreria e i tetti diversi, piu' il rilievo 43, che e' la velocita' registrata dal contest. Il 43 e' quello che conta di piu' per chi guarda le proprie statistiche, ed e' anche il piu' semplice dei tre. Da coordinare con il blocco 1 dell'analisi di CWzator, che e' quello della dissolvenza: ha senso alzare il tetto solo dopo che il suono a quelle velocita' e' pulito.
+Blocco 3, i numeri sbagliati detti all'utente. Rilievi 3, 10, 14 e 15, cioe' il conteggio, la sessione vuota del contest, l'archivio che va a meno uno e il numero di sessione incoerente.
+Blocco 4, i comandi rotti. Rilievo 2, che sono i comandi .g e .x e la precompilazione del gruppo personalizzato, e rilievo 6, il NameError nel finally del contest.
+Blocco 5, accessibilita' e lingua. Rilievi 8 e 9, cioe' i separatori grafici, la percentuale a quindici decimali e il catalogo delle traduzioni. Il rilievo 9 va fatto per ultimo dentro questo blocco, perche' ogni correzione precedente cambia le stringhe.
+Blocco 6, pulizia e struttura. Tutto il resto, con il rilievo 21, cioe' la protezione del main e i primi test, come prima cosa del blocco, cosi' che le correzioni successive nascano collaudabili.
+8. Prove che richiedono la presenza di Gabriele
+Il file collaudo.txt in questa cartella contiene le prove che io non posso eseguire e le tre domande dei rilievi 20, 23 e 37.
