@@ -2,7 +2,7 @@ CWAPU WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
-	6.0.0 (2026-09-07)
+	6.0.0 (2026-09-07), pubblicata su GitHub il 2026-09-07 con l'archivio allegato per l'auto updater.
 		+ Refactoring profondo, fase 1. Autori: Gabriele Battaglia (IZ4APU) & ClaudIA (Claude Opus 5, modalita' UltraCode).
 		+ Dati dell'utente:
 			- Impostazioni, archivio storico, diario, MASTER.SCP e words.txt si cercano accanto al programma e non piu' nella cartella da cui lo si e' lanciato. Lanciando cwapu da un'altra cartella si ripartiva da zero, con velocita', filtri e archivio apparentemente spariti, e all'uscita ne nasceva una copia finta li' dove ci si trovava.
