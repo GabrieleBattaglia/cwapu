@@ -1,6 +1,7 @@
 Analisi del codice, fase 1
 Progetto: cwapu, utilita' per il CW
 Versione analizzata: 5.1.11 del 2026-07-23
+Versione corrente: 5.1.12 del 2026-09-06
 Fase: 1
 Data: 2026-09-06
 Analisi eseguita da: ClaudIA, Claude Opus 5 in modalita' auto
@@ -350,12 +351,6 @@ Problema: la modalita' contest registra nelle statistiche la velocita' nominale 
 Perche' conta adesso: fino alla V9.1 di CWzator la cosa era meno visibile, perche' anche la velocita' effettiva era calcolata male sui messaggi corti, e un nominativo e' corto. Dalla V9.3.1 la libreria restituisce il numero giusto e cwapu continua a non guardarlo.
 Impatto per l'utente: alla riga 1479 il contest assegna alla stazione DX dei pesi casuali nel trenta per cento dei casi, con la linea fra 30 e 60, lo spazio fra 25 e 75 e il punto fra 15 e 50. In quei casi la velocita' vera si discosta parecchio da quella nominale, e l'archivio registra la nominale. Le statistiche di velocita' degli esercizi QRZ non sono quindi confrontabili con quelle degli esercizi di parole e di caratteri, che invece la velocita' effettiva la registrano: sono due grandezze diverse chiamate con lo stesso nome dentro lo stesso archivio.
 Correzione proposta: conservare il valore restituito da CWzator dentro play_async e usarlo al posto di dx_speed in item_details, in minwpm, in maxwpm e in sum_wpm. E' anche l'occasione per il rilievo 24, perche' con la velocita' effettiva letta dalla libreria il troncamento con int diventa irrilevante ai fini statistici.
-Rilievo 42
-Gravita': basso
-Categoria: DRY
-File e riga: cwapu.py 91
-Problema: la mappa Morse viene chiesta a CWzator passando msg uguale a meno uno, che e' il modo dichiarato deprecato nella documentazione della funzione. Il modo corrente e' get_map a vero. E' il rilievo 16 del rapporto di CWzator, visto da questa parte.
-Correzione proposta: cambiare la chiamata. E' una riga sola, e va coordinata con il lavoro su GBUtils.
 5. Rapporti con l'analisi di CWzator
 Tre rilievi di questo rapporto e tre di quello sono la stessa cosa vista dai due lati, e vanno lavorati insieme.
 Il tetto della velocita': il rilievo 5 di questo rapporto e il rilievo 5 di CWzator, che il 2026-09-06 e' stato chiuso portando il limite della libreria a 200 wpm. Resta il lato di cwapu, dove i tetti sono ancora quattro e il piu' basso, 85 wpm, e' quello che l'utente incontra per primo. Alzare il soffitto della libreria e lasciare basso quello dell'applicazione non serve a niente: e' il lavoro che manca.
@@ -377,8 +372,8 @@ La logica di pazienza della stazione DX nel contest, con i tre modi diversi di r
 Rilievi critici: 3.
 Rilievi alti: 8.
 Rilievi medi: 15.
-Rilievi bassi: 17.
-Totale: 43. Il rilievo 43 e' nato il 2026-09-06 lavorando al blocco 3 di CWzator, non dall'analisi iniziale.
+Rilievi bassi: 16.
+Totale: 42. Il rilievo 42, che chiedeva di chiedere la mappa Morse con get_map invece del vecchio msg uguale a meno uno, e' stato applicato il 2026-09-06 nella versione 5.1.12: era l'ultimo uso di quel modo in tutto il parco software, e toglierlo ha permesso di chiudere la fase 1 di CWzator. Il rilievo 43 e' nato il 2026-09-06 lavorando al blocco 3 di CWzator, non dall'analisi iniziale.
 Di questi, tre sono domande e non difetti, e aspettano una risposta prima di diventare lavoro: il rilievo 20 sul ridisegno dello schermo, il 23 sul mescolare parole e caratteri, il 37 sul report grafico. Stanno nel collaudo.txt.
 Ordine di lavorazione proposto
 Blocco 1, i dati dell'utente. Rilievo 1, i percorsi, e rilievo 7, il diario in due posti. Prima di ogni altra cosa, perche' finche' restano cosi' ogni prova fatta da una cartella diversa mente.

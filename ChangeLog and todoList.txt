@@ -3,6 +3,10 @@ Todo:
 11.
 
 ChangeLog:
+	5.1.12 (2026-09-06)
+		+ Refactor:
+			- La mappa Morse si chiede a CWzator con get_map invece che con il vecchio msg=-1, deprecato da tempo. Era l'ultimo uso rimasto in tutto il parco software, e la sua rimozione ha permesso di chiudere la fase 1 del refactoring di CWzator.
+			- CWzator, che e' il motore CW di cwapu, e' passata dalla V9.1 alla V10.0: dissolvenza corretta sugli elementi corti, velocita' effettiva misurata sulla durata davvero prodotta invece che ricalcolata, mixer stereo a trentadue voci, scelta automatica dell'interfaccia audio piu' pronta. Per cwapu questo significa messaggi che finiscono da 108 a 124 millesimi prima, nessuno schiocco in chiusura, e una trasmissione interrotta che tace subito invece che dopo 118 millesimi.
 	5.1.11 (2026-07-23)
 		+ Bugfix:
 			- Risolto UnboundLocalError su 'avg_wpm_calc' in Rxing() (menu 'r') quando si inserisce il punto '.' per uscire prima del limite di 10 item. Pre-inizializzate in sicurezza tutte le variabili statistiche per prevenire anche potenziali divisioni per zero.
