@@ -15,7 +15,6 @@ import traceback
 
 import pyperclip
 from GBUtils import CWzator, Donazione, dgt, enter_escape, key, menu, polipo
-from pynput import keyboard
 
 from grafico import crea_report_grafico
 from wilson import wilson_score_lower_bound, wilson_score_upper_bound
@@ -67,7 +66,7 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "6.0.0"
+VERSION = "6.0.1"
 RELEASE_DATE = "2026-09-07"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -1145,6 +1144,17 @@ def format_duration(td):
 
 def RxingContest(menu_config_scelta):
     global overall_speed
+
+    # pynput si carica qui e non in cima al file: e' l'unica parte di CWapu
+    # che lo usa, e su macOS vuole anche il permesso di accessibilita'. Chi
+    # non ce l'ha perde il contest, non tutta l'applicazione.
+    try:
+        from pynput import keyboard
+    except Exception as e:  # noqa: BLE001 -- pynput fallisce in modi diversi su ogni sistema
+        print(_("Il contest ha bisogno della libreria pynput, che qui non funziona: {errore}").format(errore=e))
+        print(_("Gli altri esercizi restano disponibili."))
+        key(_("Premi un tasto per tornare al menu..."))
+        return
 
     print(_("\nModalità contest."))
     print(_("Simulazione scambio rapido: Call + 5NN + Serial"))
@@ -2472,12 +2482,16 @@ def apri_manuale():
             percorso = copia
         except OSError as e:
             print(_("Copia della guida non riuscita: {errore}").format(errore=e))
+    import pathlib
     import webbrowser
 
     print(_("Apro la guida nel browser: {percorso}").format(percorso=percorso))
     try:
-        aperta = webbrowser.open(f"file:///{percorso.replace(os.sep, '/')}")
-    except OSError as e:
+        # as_uri costruisce l'indirizzo giusto su ogni sistema: componendolo a
+        # mano, su Mac e Linux un percorso che comincia con la barra produceva
+        # quattro barre di fila e il browser non trovava niente.
+        aperta = webbrowser.open(pathlib.Path(percorso).as_uri())
+    except (OSError, ValueError) as e:
         aperta = False
         print(_("Errore aprendo il browser: {errore}").format(errore=e))
     if not aperta:

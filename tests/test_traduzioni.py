@@ -87,19 +87,53 @@ class TestCoerenza:
         assert os.path.getmtime(MO) >= os.path.getmtime(PO), "serve pybabel compile -d locales"
 
 
+def estrai_dal_codice():
+    """Rilegge le stringhe direttamente dai sorgenti, non dal .pot.
+
+    Confrontare il catalogo con messages.pot non serviva a niente: sono due
+    file generati, e se non si rigenerano invecchiano insieme, lasciando
+    passare le stringhe nuove senza che nessuna prova se ne accorga.
+    """
+    from babel.messages.extract import extract_from_dir
+    from babel.messages.frontend import parse_mapping_cfg
+
+    with open(os.path.join(RADICE, "babel.cfg"), encoding="utf-8") as f:
+        metodo, opzioni = parse_mapping_cfg(f)
+    trovate = set()
+    for _percorso, _riga, messaggio, _commenti, _contesto in extract_from_dir(RADICE, metodo, opzioni):
+        if isinstance(messaggio, str):
+            trovate.add(messaggio)
+        elif messaggio and isinstance(messaggio[0], str):
+            trovate.add(messaggio[0])
+    return trovate
+
+
 class TestAllineamentoAlCodice:
     def test_ogni_stringa_del_codice_sta_nel_catalogo(self):
         """Se il codice guadagna una stringa e il catalogo no, quella frase
         resta in italiano anche per chi usa cwapu in inglese."""
+        nel_codice = estrai_dal_codice()
+        nel_catalogo = {come_stringa(m.id) for m in voci()}
+        mancanti = sorted(nel_codice - nel_catalogo)
+        assert mancanti == [], f"{len(mancanti)} stringhe nuove da tradurre, la prima e' {mancanti[:1]}"
+
+    def test_il_catalogo_non_porta_stringhe_che_il_codice_non_ha_piu(self):
+        """Voci rimaste indietro fanno credere che ci sia da tradurre
+        qualcosa che nessuno vedra' mai."""
+        nel_codice = estrai_dal_codice()
+        nel_catalogo = {come_stringa(m.id) for m in voci()}
+        avanzate = sorted(nel_catalogo - nel_codice)
+        assert avanzate == [], f"{len(avanzate)} voci non piu' nel codice, la prima e' {avanzate[:1]}"
+
+    def test_il_modello_pot_e_aggiornato(self):
+        """Il .pot e' il punto di partenza per ogni lingua futura."""
         pot = os.path.join(RADICE, "messages.pot")
         if not os.path.exists(pot):
             pytest.skip("messages.pot non presente")
         with open(pot, encoding="utf-8") as f:
             modello = read_po(f)
         nel_modello = {come_stringa(m.id) for m in modello if m.id}
-        nel_catalogo = {come_stringa(m.id) for m in voci()}
-        mancanti = sorted(nel_modello - nel_catalogo)
-        assert mancanti == [], f"{len(mancanti)} stringhe nuove da tradurre, la prima e' {mancanti[:1]}"
+        assert estrai_dal_codice() - nel_modello == set(), "serve pybabel extract"
 
 
 class TestTraduzioneViva:

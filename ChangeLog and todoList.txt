@@ -2,6 +2,11 @@ CWAPU WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	6.0.1 (2026-09-07)
+		+ Due correzioni che riguardano solo chi usa CWapu fuori da Windows, trovate rispondendo alla domanda se un utente macOS possa provarlo.
+			- L'indirizzo con cui si apre il manuale nel browser si costruisce con as_uri invece che a mano. Componendolo a mano, su Mac e Linux un percorso che comincia con la barra produceva quattro barre di fila e il browser non trovava niente. Su Windows non si vedeva.
+			- pynput si carica soltanto entrando nel contest, non piu' in cima al file. Serve al solo contest, ma essendo importato all'avvio bastava che non si installasse, o che su macOS mancasse il permesso di accessibilita', perche' CWapu non partisse affatto. Adesso chi non ce l'ha perde il contest e tiene tutto il resto.
+		+ Le prove sul catalogo delle traduzioni rileggono le stringhe direttamente dai sorgenti invece di confrontare due file generati: messages.pot e il catalogo invecchiavano insieme, e una stringa nuova passava senza che nessuno se ne accorgesse. Le due nuove voci di questa versione le ha trovate subito.
 	6.0.0 (2026-09-07), pubblicata su GitHub il 2026-09-07 con l'archivio allegato per l'auto updater.
 		+ Refactoring profondo, fase 1. Autori: Gabriele Battaglia (IZ4APU) & ClaudIA (Claude Opus 5, modalita' UltraCode).
 		+ Dati dell'utente:
