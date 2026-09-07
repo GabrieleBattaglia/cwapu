@@ -1,0 +1,11 @@
+PROVE A MANO PER CWAPU, QUELLE CHE L'AI NON PUO' FARE
+Aggiornato il 2026-09-06 da ClaudIA, Claude Opus 5 modalita' UltraCode.
+Come si usa: se una prova va male, scrivi cosa hai visto o sentito nella riga Esito. Se va bene, cancella la prova. Quando il file resta vuoto si cancella anche lui, e vuol dire che la fase e' finita.
+Stato: le undici prove precedenti sono superate e le tre domande hanno avuto risposta, quindi sono state cancellate. Resta soltanto la lettura del manuale, che e' l'ultima cosa in mano tua.
+
+PROVA 12: IL MANUALE
+Verifica della issue 3.
+Cosa fare: dal menu principale premi g.
+Cosa osservare: cinque cose. Che il browser si apra sulla guida. Che NVDA riesca a navigarla per intestazioni, saltando da un capitolo all'altro con il tasto h e con i numeri da 1 a 3. Che la nota sulla lingua, quella che invita a usare la traduzione automatica, sia la prima cosa che si incontra dopo il titolo. Che l'indice funzioni, cioe' che cliccando una voce si arrivi davvero alla sezione giusta. E soprattutto che quello che c'e' scritto corrisponda a come cwapu si comporta davvero: e' il punto su cui mi serve di piu' il tuo occhio, perche' ho scritto la guida leggendo il codice e potrei aver dato per scontato qualcosa che all'uso non torna.
+Dimmi anche se manca qualcosa che secondo te un utente cercherebbe, e se il glossario in fondo copre i termini giusti.
+Esito: ok

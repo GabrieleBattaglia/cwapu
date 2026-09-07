@@ -45,7 +45,8 @@ CWapu offers several modes to practice and utilize CW:
 **Running from Source Code (`cwapu.py`):**
 
 *   Python 3.x.
-*   Required libraries: `pynput`, `pyperclip`, plus the audio stack used by GBUtils (`sounddevice`, `numpy`, `scipy`). Statistics also need `pandas` and `matplotlib`, loaded only when you open them.
+*   Required libraries: `pip install -r requirements.txt`. The file lists every package and says what each one is for. `pandas` and `matplotlib` are needed only by the statistics, and are loaded only when you open them. Contributors will also want `requirements-dev.txt`.
+*   `GBUtils` is not on PyPI: clone https://github.com/GabrieleBattaglia/GBUtils and make it reachable from Python.
 *   **Essential Files:**
     *   `cwapu.py`: The main application.
     *   `GBUtils.py`: Helper module.

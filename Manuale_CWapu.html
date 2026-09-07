@@ -127,9 +127,9 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 
 <p>Serve Python 3, servono alcune librerie esterne e serve GBUtils, la libreria condivisa dal parco software di IZ4APU, che va raggiungibile dal percorso di Python.</p>
 
-<pre><code>pip install pynput pyperclip sounddevice numpy scipy</code></pre>
+<pre><code>pip install -r requirements.txt</code></pre>
 
-<p>Per le statistiche servono anche <code>pandas</code> e <code>matplotlib</code>, ma solo quando si aprono: CWapu li carica soltanto in quel momento, così l'avvio resta rapido per tutti gli altri.</p>
+<p>Il file <code>requirements.txt</code> sta nella cartella del progetto ed elenca tutto, con un commento che dice a cosa serve ciascun pacchetto. Fra questi ci sono <code>pandas</code> e <code>matplotlib</code>, che servono alle sole statistiche: CWapu li carica soltanto quando le si apre, così l'avvio resta rapido per tutti gli altri. Chi mette mano al codice trova in <code>requirements-dev.txt</code> anche il validatore, le prove e gli strumenti di traduzione.</p>
 
 <p>Poi basta lanciare il programma.</p>
 

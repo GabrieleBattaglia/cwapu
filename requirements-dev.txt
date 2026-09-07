@@ -1,0 +1,25 @@
+# CWapu, pacchetti per lavorare al codice, non per usarlo.
+# Autori: Gabriele Battaglia (IZ4APU) & ClaudIA (Claude Opus 5, modalita' UltraCode).
+#
+# Chi vuole soltanto esercitarsi in CW non ha bisogno di niente di tutto questo:
+# gli basta requirements.txt. Questo file serve a chi mette mano al progetto.
+#
+#     pip install -r requirements-dev.txt
+
+-r requirements.txt
+
+# Il validatore e il formattatore. Le regole scelte, e il motivo di ogni
+# eccezione, stanno in ruff.toml. (sviluppo: 0.16.6)
+ruff>=0.9
+
+# Le prove automatiche della cartella tests. (sviluppo: 9.1.1)
+pytest>=8.0
+
+# Estrazione, aggiornamento e compilazione del catalogo delle traduzioni.
+# I comandi stanno nella fase 4 del prontuario di rilascio, e in testa a
+# tests/test_traduzioni.py. (sviluppo: 2.18.0)
+Babel>=2.14
+
+# La compilazione dell'eseguibile, guidata da cwapu.spec. Serve solo su
+# Windows: PyInstaller non compila per altri sistemi. (sviluppo: 6.22.2)
+pyinstaller>=6.0

@@ -1,0 +1,53 @@
+# CWapu, pacchetti necessari per eseguirlo dal codice sorgente.
+# Autori: Gabriele Battaglia (IZ4APU) & ClaudIA (Claude Opus 5, modalita' UltraCode).
+#
+# Si installa tutto con:
+#     pip install -r requirements.txt
+#
+# ATTENZIONE: manca una dipendenza che pip non puo' scaricare, perche' non sta
+# su PyPI. E' GBUtils, la libreria condivisa dal parco software di IZ4APU, che
+# va clonata a parte e resa raggiungibile da Python:
+#     git clone https://github.com/GabrieleBattaglia/GBUtils.git
+# poi si mette la sua cartella in PYTHONPATH, oppure si copia GBUtils.py
+# accanto a cwapu.py.
+#
+# I limiti minimi qui sotto sono prudenti. Lo sviluppo avviene su Windows con
+# Python 3.14.5 e con le versioni indicate fra parentesi nei commenti.
+
+# --- Sempre necessari ---
+
+# Il motore audio: CWzator di GBUtils sintetizza e riproduce il CW passando da
+# qui. Senza, CWapu non emette un suono. (sviluppo: 0.5.6)
+sounddevice>=0.5
+
+# Calcolo dei campioni audio, e statistiche. (sviluppo: 2.5.2)
+numpy>=1.26
+
+# Le forme d'onda diverse dalla sinusoide, cioe' i comandi .f2 .f3 e .f4.
+# (sviluppo: 1.18.1)
+scipy>=1.11
+
+# Il comando l del menu principale, che suona il contenuto degli appunti.
+# Su macOS si appoggia a pbcopy e pbpaste, che ci sono di serie. (sviluppo: 1.11.0)
+pyperclip>=1.9
+
+# Il controllo degli aggiornamenti, usato da GBUtils. (sviluppo: 2.34.2)
+requests>=2.31
+
+# --- Solo per l'esercizio contest ---
+
+# Legge i tasti funzione senza fermare il gioco. Su macOS vuole anche il
+# permesso in Impostazioni di Sistema, Privacy e Sicurezza, Accessibilita',
+# concesso all'applicazione da cui si lancia CWapu, di solito il Terminale.
+# Dalla versione 6.0.1 si carica soltanto entrando nel contest: se manca o non
+# ha i permessi, si perde quell'esercizio e non tutta l'applicazione.
+# (sviluppo: 1.8.2)
+pynput>=1.8
+
+# --- Solo per le statistiche, cioe' il comando s del menu principale ---
+
+# Aggregazioni e serie temporali dei rapporti. (sviluppo: 3.0.5)
+pandas>=2.0
+
+# Il rapporto storico in forma di grafico SVG. (sviluppo: 3.11.1)
+matplotlib>=3.8
