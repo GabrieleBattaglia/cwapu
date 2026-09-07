@@ -74,7 +74,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 <body>
 
 <h1>Manuale di CWapu</h1>
-<p><strong>Versione 6.0.2 del 7 settembre 2026.</strong></p>
+<p><strong>Versione 6.0.3 del 7 settembre 2026.</strong></p>
 <p>CWapu è scritto da Gabriele Battaglia, IZ4APU, e da ClaudIA, Claude Opus 5 in modalità UltraCode.</p>
 
 <div class="nota">
@@ -193,7 +193,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 <p>CWapu permette però di allontanarsi da quelle proporzioni, ed è qui che entrano i tre parametri chiamati <strong>L, S e P</strong>, cioè linea, spazio e punto. Sono pesi, non durate: il valore standard è 30 per la linea, 50 per lo spazio e 50 per il punto, e in quella combinazione il rapporto fra linea e punto è esattamente tre, come vuole la regola.</p>
 
 <ul>
-<li><strong>Alzare S</strong> allunga i silenzi lasciando i simboli come sono. È il cosiddetto metodo Farnsworth: i caratteri arrivano veloci, ma c'è più tempo per riconoscerli. È il modo migliore per imparare, perché abitua fin da subito al suono che avranno alla velocità finale.</li>
+<li><strong>Alzare S</strong> allunga tutti i silenzi: quelli fra una lettera e l'altra, quelli fra una parola e l'altra, e anche quelli fra un punto e una linea dentro la stessa lettera. La durata dei toni non cambia, ma il ritmo interno della lettera sì: misurato, una C a venticinque parole al minuto passa da 0,533 a 0,648 secondi alzando S da 50 a 90, cioè il ventidue per cento in più. Serve a dare aria a un messaggio, o a simulare chi trasmette con calma.</li>
 <li><strong>Alzare L</strong> allunga le linee rispetto ai punti. È il "peso" che si sente nei manipolatori regolati male, o in chi trasmette a mano con la sua personalissima cadenza.</li>
 <li><strong>Alzare P</strong> allunga i punti. Serve soprattutto a simulare operatori dal manipolo pesante.</li>
 </ul>
@@ -246,12 +246,13 @@ iz4apu
 </div>
 
 <div class="esempio">
-<p><strong>Voglio imparare con il metodo Farnsworth: caratteri a venti, ma con più respiro fra l'uno e l'altro.</strong></p>
+<p><strong>Voglio dare più respiro a un messaggio, per cominciare a copiarlo.</strong></p>
 <pre><code>.w20
 .s90
 cq cq de iz4apu k
 </code></pre>
-<p>I caratteri suoneranno alla cadenza di venti parole al minuto, ma i silenzi saranno quasi doppi rispetto allo standard: la velocità percepita scende, quella dei singoli caratteri no. Quando si è pronti, si scende con <code>.s70</code>, poi <code>.s60</code>, fino a tornare a <code>.s50</code>. Oppure si usa <code>.rs</code> per tornare di colpo allo standard.</p>
+<p>I toni restano quelli di venti parole al minuto, ma tutti i silenzi si allungano quasi del doppio, e la velocità percepita scende parecchio. Quando si è pronti si scende con <code>.s70</code>, poi <code>.s60</code>, fino a tornare a <code>.s50</code>. Oppure si usa <code>.rs</code> per tornare di colpo allo standard.</p>
+<p><strong>Attenzione però</strong>: questo non è il metodo Farnsworth, anche se gli somiglia. Il Farnsworth vero allunga soltanto i silenzi <em>fra</em> una lettera e l'altra, e lascia il suono della singola lettera identico a quello che avrà alla velocità finale, che è tutto il punto del metodo. Il comando <code>.s</code> allunga anche il silenzio <em>dentro</em> la lettera, quindi la lettera suona diversa da come suonerà quando andrete veloci. Per imparare i caratteri conviene quindi lasciare <code>.s</code> allo standard e abbassare la velocità con <code>.w</code>, oppure usare la velocità variabile dell'esercizio di ricezione, che si assesta da sola sul limite delle vostre possibilità. Il Farnsworth vero è fra le cose in programma: chi vuole seguirne la storia trova la richiesta fra le issue del progetto GBUtils.</p>
 </div>
 
 <div class="esempio">
@@ -710,7 +711,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <dd>La parola usata come metro. Vale esattamente cinquanta unità di punto, spazio finale compreso, e per questo serve a definire la velocità in modo univoco.</dd>
 
 <dt><strong>Farnsworth</strong></dt>
-<dd>Metodo di insegnamento che trasmette i caratteri alla velocità finale ma allunga i silenzi fra l'uno e l'altro. Evita di dover reimparare il suono dei caratteri quando si accelera. In CWapu si ottiene alzando <code>.s</code>.</dd>
+<dd>Metodo di insegnamento che trasmette i caratteri alla velocità finale, senza toccarne il suono, e allunga soltanto i silenzi fra una lettera e l'altra. Evita di dover reimparare il suono dei caratteri quando si accelera. <strong>CWapu non ce l'ha ancora</strong>: il comando <code>.s</code> gli somiglia, ma allunga anche i silenzi dentro la lettera, e quindi la lettera cambia suono.</dd>
 
 <dt><strong>QRZ</strong></dt>
 <dd>Nel codice Q significa "chi mi chiama?". Per estensione, nel gergo, indica il nominativo di una stazione.</dd>
@@ -738,7 +739,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 </dl>
 
 <footer>
-<p>CWapu, versione 6.0.2 del 7 settembre 2026.</p>
+<p>CWapu, versione 6.0.3 del 7 settembre 2026.</p>
 <p>Software e manuale di Gabriele Battaglia, IZ4APU, e di ClaudIA, Claude Opus 5 in modalità UltraCode.</p>
 <p>Il motore CW è CWzator, dalla libreria GBUtils, su un'idea originale di Kevin Schmidt, W9CF.</p>
 <p>Le segnalazioni e le proposte si aprono come issue sul repository del progetto.</p>

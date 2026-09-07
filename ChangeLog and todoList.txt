@@ -2,6 +2,10 @@ CWAPU WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	6.0.3 (2026-09-07)
+		+ Corretto il manuale, che diceva una cosa sbagliata sul metodo Farnsworth. Sosteneva che si ottiene alzando .s, e che cosi' i caratteri arrivano veloci mentre cresce solo il tempo per riconoscerli. Misurato, non e' vero: .s allunga anche il silenzio dentro la lettera, quindi la lettera cambia suono. A venticinque parole al minuto una C passa da 0,533 a 0,648 secondi alzando .s da 50 a 90, cioe' il ventidue per cento in piu'. Il Farnsworth vero lascia la lettera identica a come suonera' alla velocita' finale, ed e' tutto il punto del metodo: chi avesse seguito il manuale avrebbe imparato caratteri che poi avrebbe dovuto reimparare.
+		+ Il manuale dice ora che cosa .s fa davvero, che il Farnsworth in CWapu non c'e' ancora, e come conviene fare nel frattempo. Anche la voce del glossario e' stata rifatta.
+		+ Aperte due issue su GBUtils, che sono il posto dove queste due cose si risolvono: la 15 per una pausa dentro il messaggio che non falsi la velocita' effettiva, cioe' il respiro che manca fra un item e il successivo negli esercizi di ricezione; la 16 per il Farnsworth vero.
 	6.0.2 (2026-09-07)
 		+ Negli esercizi QRZ, alla domanda su quanti nominativi ricevere, lo zero e' diventato un valore che si puo' digitare e significa infinito, come l'invio a vuoto. Prima il minimo era dieci e lo zero stava fuori: funzionava solo per un difetto della libreria, che restituiva il predefinito senza confrontarlo con i limiti. Correggendo quel difetto, l'invio a vuoto avrebbe smesso di dire infinito e avrebbe chiesto dieci nominativi, senza avvisare. Ora si puo' anche chiedere meno di dieci nominativi, che prima venivano silenziosamente portati a dieci.
 	6.0.1 (2026-09-07)
