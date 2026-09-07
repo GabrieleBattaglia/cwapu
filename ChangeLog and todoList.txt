@@ -2,6 +2,8 @@ CWAPU WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	6.0.2 (2026-09-07)
+		+ Negli esercizi QRZ, alla domanda su quanti nominativi ricevere, lo zero e' diventato un valore che si puo' digitare e significa infinito, come l'invio a vuoto. Prima il minimo era dieci e lo zero stava fuori: funzionava solo per un difetto della libreria, che restituiva il predefinito senza confrontarlo con i limiti. Correggendo quel difetto, l'invio a vuoto avrebbe smesso di dire infinito e avrebbe chiesto dieci nominativi, senza avvisare. Ora si puo' anche chiedere meno di dieci nominativi, che prima venivano silenziosamente portati a dieci.
 	6.0.1 (2026-09-07)
 		+ Due correzioni che riguardano solo chi usa CWapu fuori da Windows, trovate rispondendo alla domanda se un utente macOS possa provarlo.
 			- L'indirizzo con cui si apre il manuale nel browser si costruisce con as_uri invece che a mano. Componendolo a mano, su Mac e Linux un percorso che comincia con la barra produceva quattro barre di fila e il browser non trovava niente. Su Windows non si vedeva.

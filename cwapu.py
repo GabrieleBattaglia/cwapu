@@ -66,7 +66,7 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "6.0.1"
+VERSION = "6.0.2"
 RELEASE_DATE = "2026-09-07"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -1805,7 +1805,10 @@ def Rxing():
         kindstring = active_labels_for_display[0]
     else:
         kindstring = _("Misto ({types})").format(types=", ".join(active_labels_for_display))
-    how_many_calls = dgt(prompt=_("\nQuanti ne vuoi ricevere? (INVIO per infinito)> "), kind="i", imin=10, imax=1000, default=0)
+    # Lo zero vuol dire infinito e deve stare dentro i limiti dichiarati: prima
+    # era un predefinito fuori dal minimo, cioe' una sentinella che dgt lasciava
+    # passare per un suo difetto. Vedi la issue 12 di GBUtils.
+    how_many_calls = dgt(prompt=_("\nQuanti ne vuoi ricevere? (INVIO per infinito)> "), kind="i", imin=0, imax=1000, default=0)
     prompt_vel = _("Invio per velocità variabile, Esc per velocità fissa: ")
     vel_variabile = enter_escape(prompt=prompt_vel)
     fix_speed = not vel_variabile
