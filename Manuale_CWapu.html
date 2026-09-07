@@ -74,7 +74,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 <body>
 
 <h1>Manuale di CWapu</h1>
-<p><strong>Versione 6.0.3 del 7 settembre 2026.</strong></p>
+<p><strong>Versione 6.0.4 del 7 settembre 2026.</strong></p>
 <p>CWapu è scritto da Gabriele Battaglia, IZ4APU, e da ClaudIA, Claude Opus 5 in modalità UltraCode.</p>
 
 <div class="nota">
@@ -192,13 +192,28 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 
 <p>CWapu permette però di allontanarsi da quelle proporzioni, ed è qui che entrano i tre parametri chiamati <strong>L, S e P</strong>, cioè linea, spazio e punto. Sono pesi, non durate: il valore standard è 30 per la linea, 50 per lo spazio e 50 per il punto, e in quella combinazione il rapporto fra linea e punto è esattamente tre, come vuole la regola.</p>
 
+<p>Una precisazione che conviene fare subito, perché evita un malinteso. <strong>Questi tre parametri non servono a imparare</strong>: sono la musicalità del CW, la rifinitura con cui un operatore esperto dà al proprio Morse il carattere che preferisce, o con cui si imita il suono di qualcun altro. Chi comincia li lasci dove sono e giochi con la velocità.</p>
+
 <ul>
-<li><strong>Alzare S</strong> allunga tutti i silenzi: quelli fra una lettera e l'altra, quelli fra una parola e l'altra, e anche quelli fra un punto e una linea dentro la stessa lettera. La durata dei toni non cambia, ma il ritmo interno della lettera sì: misurato, una C a venticinque parole al minuto passa da 0,533 a 0,648 secondi alzando S da 50 a 90, cioè il ventidue per cento in più. Serve a dare aria a un messaggio, o a simulare chi trasmette con calma.</li>
+<li><strong>Alzare S</strong> allunga tutti i silenzi: quelli fra una lettera e l'altra, quelli fra una parola e l'altra, e anche quelli fra un punto e una linea dentro la stessa lettera. La durata dei toni non cambia, ma il ritmo interno della lettera sì: misurato, una C a venticinque parole al minuto passa da 0,533 a 0,648 secondi alzando S da 50 a 90, cioè il ventidue per cento in più. È il parametro che dà al Morse un andamento più disteso, o più serrato abbassandolo.</li>
 <li><strong>Alzare L</strong> allunga le linee rispetto ai punti. È il "peso" che si sente nei manipolatori regolati male, o in chi trasmette a mano con la sua personalissima cadenza.</li>
 <li><strong>Alzare P</strong> allunga i punti. Serve soprattutto a simulare operatori dal manipolo pesante.</li>
 </ul>
 
 <p>Il comando <code>.rs</code> riporta i tre pesi ai valori standard, quando si è sperimentato troppo e non si sa più dove si era partiti.</p>
+
+<div class="nota">
+<p><strong>Toccando L, S o P la velocità non è più quella che avete chiesto.</strong> È la conseguenza che sfugge più facilmente, e vale la pena averla chiara.</p>
+<p>Le parole al minuto sono definite sulla parola <code>PARIS</code> nel Morse standard, quello a peso tre a uno. Appena i pesi cambiano, il messaggio dura di più o di meno, e quindi la velocità vera diventa un'altra. Misurato sulla frase <code>paris cq de iz4apu</code> chiesta a 25 parole al minuto:</p>
+<ul>
+<li>pesi standard, 30/50/50: 25,00 wpm, cioè quello che avete chiesto;</li>
+<li>linee doppie, 60/50/50: <strong>19,10</strong> wpm;</li>
+<li>spazi larghi, 30/90/50: <strong>17,70</strong> wpm;</li>
+<li>spazi stretti, 30/25/50: <strong>33,68</strong> wpm;</li>
+<li>punti pesanti, 30/50/90: <strong>21,92</strong> wpm.</li>
+</ul>
+<p>Non è un difetto: è la definizione stessa di velocità che presuppone i pesi standard. CWapu però ve la dice. Nella sezione tastiera, quando la velocità vera è diversa da quella impostata, il prompt smette di scrivere <code>WPM</code> e scrive <code>RWPM</code>, seguito dalla velocità che state davvero trasmettendo. È quel numero che va guardato per sapere a che velocità state ascoltando, ed è quello che finisce nelle statistiche.</p>
+</div>
 
 <h3 id="comandi-k">4.2 I comandi</h3>
 
@@ -739,7 +754,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 </dl>
 
 <footer>
-<p>CWapu, versione 6.0.3 del 7 settembre 2026.</p>
+<p>CWapu, versione 6.0.4 del 7 settembre 2026.</p>
 <p>Software e manuale di Gabriele Battaglia, IZ4APU, e di ClaudIA, Claude Opus 5 in modalità UltraCode.</p>
 <p>Il motore CW è CWzator, dalla libreria GBUtils, su un'idea originale di Kevin Schmidt, W9CF.</p>
 <p>Le segnalazioni e le proposte si aprono come issue sul repository del progetto.</p>
