@@ -4310,3 +4310,28 @@ Carattere: errori = Wilson Interval
     'W': 1/6 [3.0% - 56.4%]
     'X': 1/2 [9.5% - 90.5%]
 Fine del rapporto.
+
+Esercizio di ricezione #555 eseguito il 2026/09/08 alle 01:09 minuti:
+In questa sessione #555, ti ho inviato 25 Parole e ne hai ricevuti 14: 56.0%
+	9 di questi sono stati ricevuti al primo ascolto: 64.3%
+	mentre 5 Parole al secondo tentativo: 35.7%.
+Durante la sessione, la tua velocità minima è stata 31.43, la massima di 38.54: pari ad una variazione di 7.10 WPM.
+	La velocità media di ricezione è di: 34.33 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 4 errori su 14 invii. Tasso errore stimato: [11.7% - 54.6%]    'I': 4 errori su 23 invii. Tasso errore stimato: [7.0% - 37.1%]    'O': 4 errori su 16 invii. Tasso errore stimato: [10.2% - 49.5%]    'T': 4 errori su 12 invii. Tasso errore stimato: [13.8% - 60.9%]    'A': 3 errori su 28 invii. Tasso errore stimato: [3.7% - 27.2%]    'M': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'N': 2 errori su 6 invii. Tasso errore stimato: [9.7% - 70.0%]    'P': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'R': 1 errori su 18 invii. Tasso errore stimato: [1.0% - 25.8%]
+
+Errori totali: 25 su 185 = 13.51%
+Caratteri mai sbagliati: B C D F G H L S U V X Z À
+Elenco delle parole copiate male:
+	(2) TX: VIDIMI, RX: VIDIAMI, DIF: A;
+	(4) TX: COTANTE, RX: CONTANTI, DIF: NE;
+	(6) TX: GESUMMIO, RX: GESUITO, DIF: MMT;
+	(14) TX: OPTAVATE, RX: OPERAVATE, DIF: T;
+	(15) TX: RIMORCHI, RX: RIMORCHIE, DIF: E;
+	(17) TX: ANADROMA, RX: ANDORME, DIF: AOOA;
+	(20) TX: PRISTINE, RX: PRESTITI, DIF: INE;
+	(21) TX: IMPARATO, RX: SMARRITA, DIF: IPRITTO;
+	(22) TX: SFERRERA, RX: SFERRARA, DIF: E;
+	(23) TX: BUBOLAVA, RX: BUBILAVA, DIF: O;
+	(24) TX: AVVISATI, RX: AVVISATE, DIF: I;
+Nota: nessuna
+Fine del rapporto.
