@@ -4335,3 +4335,31 @@ Elenco delle parole copiate male:
 	(24) TX: AVVISATI, RX: AVVISATE, DIF: I;
 Nota: nessuna
 Fine del rapporto.
+
+Esercizio di ricezione #556 eseguito il 2026/09/10 alle 11:52 minuti:
+In questa sessione #556, ti ho inviato 31 Parole e ne hai ricevuti 17: 54.8%
+	8 di questi sono stati ricevuti al primo ascolto: 47.1%
+	mentre 9 Parole al secondo tentativo: 52.9%.
+Durante la sessione, la tua velocità minima è stata 32.92, la massima di 38.65: pari ad una variazione di 5.73 WPM.
+	La velocità media di ricezione è di: 35.04 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 8 errori su 23 invii. Tasso errore stimato: [18.8% - 55.1%]    'I': 6 errori su 27 invii. Tasso errore stimato: [10.6% - 40.8%]    'A': 3 errori su 35 invii. Tasso errore stimato: [3.0% - 22.4%]    'R': 3 errori su 30 invii. Tasso errore stimato: [3.5% - 25.6%]    'D': 2 errori su 5 invii. Tasso errore stimato: [11.8% - 76.9%]    'N': 2 errori su 11 invii. Tasso errore stimato: [5.1% - 47.7%]    'S': 2 errori su 10 invii. Tasso errore stimato: [5.7% - 51.0%]    'T': 2 errori su 16 invii. Tasso errore stimato: [3.5% - 36.0%]    'L': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'O': 1 errori su 13 invii. Tasso errore stimato: [1.4% - 33.3%]
+
+Errori totali: 30 su 221 = 13.57%
+Caratteri mai sbagliati: B C F G M P U V À Ò
+Elenco delle parole copiate male:
+	(1) TX: DERAGLIÒ, RX: DERIGÒ, DIF: ALI;
+	(2) TX: PRATENSE, RX: PRANTESI, DIF: NNE;
+	(5) TX: AUGURE, RX: AUGURI, DIF: E;
+	(6) TX: NICTURIE, RX: NECTURI, DIF: IE;
+	(12) TX: RIMOTI, RX: REMOTI, DIF: I;
+	(15) TX: RODIOTTA, RX: REDOTTI, DIF: OIA;
+	(17) TX: RIDDARE, RX: RIZZATI, DIF: DDRE;
+	(18) TX: PARERTI, RX: PARETI, DIF: R;
+	(19) TX: SECENTO, RX: SECONDO, DIF: ET;
+	(20) TX: CONVERSE, RX: CONVESSI, DIF: RE;
+	(22) TX: MIIASI, RX: MISASI, DIF: I;
+	(24) TX: AVVALSA, RX: AVVALSI, DIF: A;
+	(28) TX: AFFARII, RX: AFFARSI, DIF: SI;
+	(29) TX: TEMPERIE, RX: TTEMPARSI, DIF: TESE;
+Nota: nessuna
+Fine del rapporto.
