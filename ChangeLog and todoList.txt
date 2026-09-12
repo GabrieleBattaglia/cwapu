@@ -2,6 +2,8 @@ CWAPU WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	6.0.5 (2026-09-12)
+		+ I percorsi dei file passano da GBUtils, che dalla V138 li offre a tutti con cartella_applicazione e percorso_risorsa: la logica che dice dove stanno i dati e le risorse era riscritta in dieci progetti, e adesso e' scritta in un posto solo. Il comportamento non cambia, tranne che una risorsa che nel pacchetto non c'e' viene ora cercata anche accanto all'eseguibile.
 	6.0.4 (2026-09-07)
 		+ Il manuale spiega finalmente cosa sono davvero L, S e P: non strumenti didattici, ma la musicalita' del CW, la rifinitura con cui un operatore da' al proprio Morse il carattere che preferisce. Chi comincia li lascia dove sono.
 		+ Detta anche la conseguenza che sfuggiva del tutto: toccando i pesi, la velocita' non e' piu' quella chiesta, perche' le parole al minuto sono definite sulla parola PARIS nel Morse standard a peso tre a uno. Misurato sulla frase paris cq de iz4apu chiesta a 25 wpm: con le linee doppie sono 19,10, con gli spazi larghi 17,70, con gli spazi stretti 33,68, con i punti pesanti 21,92.

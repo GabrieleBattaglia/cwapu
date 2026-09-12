@@ -4363,3 +4363,29 @@ Elenco delle parole copiate male:
 	(29) TX: TEMPERIE, RX: TTEMPARSI, DIF: TESE;
 Nota: nessuna
 Fine del rapporto.
+
+Esercizio di ricezione #557 eseguito il 2026/09/12 alle 07:42 minuti:
+In questa sessione #557, ti ho inviato 19 Parole e ne hai ricevuti 7: 36.8%
+	6 di questi sono stati ricevuti al primo ascolto: 85.7%
+	mentre 1 Parole al secondo tentativo: 14.3%.
+Durante la sessione, la tua velocità minima è stata 23.00, la massima di 30.00: pari ad una variazione di 7.00 WPM.
+	La velocità media di ricezione è di: 27.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 5 errori su 21 invii. Tasso errore stimato: [10.6% - 45.1%]    'L': 4 errori su 12 invii. Tasso errore stimato: [13.8% - 60.9%]    'E': 3 errori su 15 invii. Tasso errore stimato: [7.0% - 45.2%]    'A': 2 errori su 22 invii. Tasso errore stimato: [2.5% - 27.8%]    'B': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'H': 1 errori su 0 invii. Tasso errore stimato: [0.0% - 100.0%]    'M': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'R': 1 errori su 9 invii. Tasso errore stimato: [2.0% - 43.5%]    'S': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'Z': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 21 su 144 = 14.58%
+Caratteri mai sbagliati: C D G K N O P T U V
+Elenco delle parole copiate male:
+	(1) TX: LANCIONI, RX: LANCIONE, DIF: I;
+	(3) TX: SMORZATO, RX: SFORZATO, DIF: M;
+	(4) TX: DISABILE, RX: DISSASILE, DIF: SB;
+	(5) TX: ISCRITTE, RX: ISCRITTI, DIF: E;
+	(9) TX: PALLEALE, RX: PALERARE, DIF: LRL;
+	(11) TX: RUNGE, RX: RUNGHE, DIF: H;
+	(12) TX: BIBLISTA, RX: BINASTE, DIF: BLIA;
+	(13) TX: ZAMPETTA, RX: GAMPETTA, DIF: Z;
+	(14) TX: AGLIAI, RX: AGRARIE, DIF: LAI;
+	(15) TX: MANTIENI, RX: MANTIENE, DIF: I;
+	(16) TX: BARELLE, RX: BARILLE, DIF: E;
+	(17) TX: ALLEIATE, RX: ALLEATI, DIF: IE;
+Nota: nessuna
+Fine del rapporto.

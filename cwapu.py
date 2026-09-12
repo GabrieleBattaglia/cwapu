@@ -14,7 +14,17 @@ import time
 import traceback
 
 import pyperclip
-from GBUtils import CWzator, Donazione, dgt, enter_escape, key, menu, polipo
+from GBUtils import (
+    CWzator,
+    Donazione,
+    cartella_applicazione,
+    dgt,
+    enter_escape,
+    key,
+    menu,
+    percorso_risorsa,
+    polipo,
+)
 
 from grafico import crea_report_grafico
 from wilson import wilson_score_lower_bound, wilson_score_upper_bound
@@ -29,10 +39,9 @@ def get_user_data_path():
     Da eseguibile PyInstaller e' la cartella dell'eseguibile, da sorgente e'
     la cartella dello script. Mai la directory di lavoro: lanciando cwapu da
     un'altra cartella si perderebbero impostazioni, archivio storico e diario.
+    La logica sta in GBUtils, come tutte le utilita' condivise.
     """
-    if getattr(sys, "frozen", False):
-        return os.path.dirname(os.path.abspath(sys.executable))
-    return APP_DIR
+    return cartella_applicazione()
 
 
 USER_DATA_PATH = get_user_data_path()
@@ -42,13 +51,10 @@ def resource_path(relative_path):
     """
     Restituisce il percorso assoluto a una risorsa, funzionante sia in sviluppo
     che per un eseguibile compilato con PyInstaller (anche con la cartella _internal).
+    La ricerca sta in GBUtils: prima dentro il pacchetto, poi accanto al
+    programma, mai nella directory di lavoro del momento.
     """
-    base_path = getattr(sys, "_MEIPASS", None)
-    if base_path is None:
-        # Fuori da PyInstaller, o in una build onedir, la risorsa sta accanto
-        # al programma: mai nella directory di lavoro del momento.
-        base_path = USER_DATA_PATH
-    return os.path.join(base_path, relative_path)
+    return percorso_risorsa(relative_path)
 
 
 def user_file_path(nome_file):
@@ -66,8 +72,8 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "6.0.4"
-RELEASE_DATE = "2026-09-07"
+VERSION = "6.0.5"
+RELEASE_DATE = "2026-09-12"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
 # era quello che chi riceve veloce incontrava per primo.
