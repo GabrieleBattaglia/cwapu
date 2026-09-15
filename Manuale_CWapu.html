@@ -74,7 +74,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 <body>
 
 <h1>Manuale di CWapu</h1>
-<p><strong>Versione 6.0.4 del 7 settembre 2026.</strong></p>
+<p><strong>Versione 6.1.0 del 15 settembre 2026.</strong></p>
 <p>CWapu è scritto da Gabriele Battaglia, IZ4APU, e da ClaudIA, Claude Opus 5 in modalità UltraCode.</p>
 
 <div class="nota">
@@ -217,7 +217,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 
 <h3 id="comandi-k">4.2 I comandi</h3>
 
-<p>Ogni comando comincia con un punto. Quelli numerici vogliono il numero attaccato alla lettera, senza spazio: <code>.w25</code> e non <code>.w 25</code>.</p>
+<p>Ogni comando comincia con un punto. Nei comandi numerici il numero può stare attaccato alla lettera oppure dopo uno spazio: <code>.w25</code> e <code>.w 25</code> valgono lo stesso.</p>
 
 <table>
 <caption>I comandi della sezione tastiera</caption>
@@ -246,7 +246,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 </table>
 
 <div class="nota">
-<p><strong>La dissolvenza.</strong> Il parametro <code>.m</code> serve a togliere lo schiocco che si sente quando un tono comincia o finisce di colpo. Un millesimo basta quasi sempre. Attenzione però alle alte velocità: a 100 WPM un punto dura meno di dodici millesimi, e una dissolvenza da dieci se lo mangerebbe quasi tutto. Il motore in quel caso accorcia la rampa a metà elemento invece di scartarla, così il suono resta pulito, ma il valore chiesto non viene rispettato alla lettera.</p>
+<p><strong>La dissolvenza.</strong> Il parametro <code>.m</code> serve a togliere lo schiocco che si sente quando un tono comincia o finisce di colpo. Un millesimo basta quasi sempre. Attenzione però alle alte velocità: a 100 WPM un punto dura meno di dodici millesimi, e una dissolvenza da dieci se lo mangerebbe quasi tutto. Il motore in quel caso accorcia la rampa a metà elemento invece di scartarla, così il suono resta pulito, ma il valore chiesto non viene rispettato alla lettera. In quel caso il comando <code>.m</code> lo dice subito: dopo il valore accettato scrive il limite che la velocità di quel momento impone al punto, per esempio MS 30, a 47 wpm il punto la limita a 12.</p>
 </div>
 
 <h3 id="esempi-k">4.3 Esempi pratici</h3>
@@ -754,7 +754,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 </dl>
 
 <footer>
-<p>CWapu, versione 6.0.4 del 7 settembre 2026.</p>
+<p>CWapu, versione 6.1.0 del 15 settembre 2026.</p>
 <p>Software e manuale di Gabriele Battaglia, IZ4APU, e di ClaudIA, Claude Opus 5 in modalità UltraCode.</p>
 <p>Il motore CW è CWzator, dalla libreria GBUtils, su un'idea originale di Kevin Schmidt, W9CF.</p>
 <p>Le segnalazioni e le proposte si aprono come issue sul repository del progetto.</p>

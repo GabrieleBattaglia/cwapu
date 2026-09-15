@@ -1,7 +1,12 @@
-CWAPU WHATSNEW AND TODO
+CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	6.1.0 (2026-09-15)
+		+ I comandi numerici della sezione k accettano il numero anche dopo uno spazio: .m 50 vale quanto .m50. Prima la forma con lo spazio non era un comando e veniva trasmessa in CW come testo, cosi' si sentiva m 50 e sembrava la conferma del valore, mentre non era cambiato niente. Il manuale lo avvertiva, ma un comando che si scrive in due modi naturali deve accettarli entrambi. Chiude la issue 13.
+		+ Il comando .m dice quando la velocita' limita la dissolvenza. CWzator accorcia ogni rampa a meta' dell'elemento, e il punto e' il piu' corto: misurato a 47 wpm, i valori 15, 30, 50 e 200 producono tutti una rampa di 11,7 millesimi sul punto, e 10 ne produce 9,3. Per questo oltre un certo valore non si sente piu' differenza. Ora, quando il valore accettato supera meta' del punto, il comando lo scrive: MS 30, a 47 wpm il punto la limita a 12. Il tetto di 30 e il valore salvato non cambiano.
+		+ Il nome dell'applicazione e' scritto CWapu dovunque lo si legga: era CWAPU nel riepilogo d'avvio, nella guida della sezione k, nell'avviso del dizionario, nei rapporti storici e nel saluto di fine report, Cwapu nell'aggiornamento e cwapu nella finestra dell'aggiornatore. I nomi dei file restano minuscoli, perche' sono identificatori e non il nome.
+		+ Il manuale dichiara la versione che apre: era rimasto alla 6.0.4 e la prova automatica lo segnalava.
 	6.0.5 (2026-09-12)
 		+ I percorsi dei file passano da GBUtils, che dalla V138 li offre a tutti con cartella_applicazione e percorso_risorsa: la logica che dice dove stanno i dati e le risorse era riscritta in dieci progetti, e adesso e' scritta in un posto solo. Il comportamento non cambia, tranne che una risorsa che nel pacchetto non c'e' viene ora cercata anche accanto all'eseguibile.
 	6.0.4 (2026-09-07)
@@ -24,9 +29,9 @@ ChangeLog:
 	6.0.0 (2026-09-07), pubblicata su GitHub il 2026-09-07 con l'archivio allegato per l'auto updater.
 		+ Refactoring profondo, fase 1. Autori: Gabriele Battaglia (IZ4APU) & ClaudIA (Claude Opus 5, modalita' UltraCode).
 		+ Dati dell'utente:
-			- Impostazioni, archivio storico, diario, MASTER.SCP e words.txt si cercano accanto al programma e non piu' nella cartella da cui lo si e' lanciato. Lanciando cwapu da un'altra cartella si ripartiva da zero, con velocita', filtri e archivio apparentemente spariti, e all'uscita ne nasceva una copia finta li' dove ci si trovava.
+			- Impostazioni, archivio storico, diario, MASTER.SCP e words.txt si cercano accanto al programma e non piu' nella cartella da cui lo si e' lanciato. Lanciando CWapu da un'altra cartella si ripartiva da zero, con velocita', filtri e archivio apparentemente spariti, e all'uscita ne nasceva una copia finta li' dove ci si trovava.
 			- Il diario e' uno solo: prima il conteggio scriveva in un file e gli esercizi di ricezione in un altro, e nessuno dei due era completo.
-			- Quando MASTER.SCP non si trova, cwapu lo dice: prima taceva e gli esercizi QRZ proseguivano con soli nominativi inventati.
+			- Quando MASTER.SCP non si trova, CWapu lo dice: prima taceva e gli esercizi QRZ proseguivano con soli nominativi inventati.
 		+ Comandi della sezione tastiera:
 			- I comandi .g e .x leggono e scrivono le impostazioni vere. Prima cercavano una chiave sparita con la migrazione: .g400 faceva morire l'applicazione con un KeyError e ?? mostrava sempre 730 e 3500 qualunque cosa fosse impostata. La potatura dell'archivio si applica a tutte e tre le categorie.
 			- La precompilazione del gruppo personalizzato con i dieci caratteri piu' sbagliati legge finalmente il registro delle sessioni: leggeva la stessa chiave inesistente, trovava sempre una lista vuota e ripiegava sui caratteri casuali. Non aveva mai funzionato.
@@ -61,7 +66,7 @@ ChangeLog:
 		+ Il manuale:
 			- Nasce Manuale_CWapu.html, la guida completa in italiano, scritta da zero: non ne esisteva nessuna. Copre tutti i casi d'uso con la spiegazione e l'esempio pratico, dai pesi del manipolatore all'intervallo di Wilson, e si chiude con un glossario del CW per chi comincia.
 			- Si apre con g dal menu principale, nel browser predefinito. E' una pagina HTML con intestazioni vere, quindi si naviga per intestazioni con NVDA, e i browser la traducono da soli per chi non legge l'italiano: la nota che lo spiega e' la prima cosa che si incontra.
-			- Da eseguibile la guida viene copiata accanto al programma la prima volta che si apre, altrimenti sparirebbe con la cartella temporanea di PyInstaller alla chiusura di cwapu.
+			- Da eseguibile la guida viene copiata accanto al programma la prima volta che si apre, altrimenti sparirebbe con la cartella temporanea di PyInstaller alla chiusura di CWapu.
 			- Tredici prove automatiche verificano che la guida ci sia, che sia dichiarata nella ricetta di compilazione, che i tag si chiudano, che nessun rimando dell'indice porti nel vuoto, che la versione dichiarata sia quella vera e che ogni tasto del menu principale sia documentato.
 			- Aggiornato il README, che era fermo alla V5.0.0 e citava tasti che non esistono piu' e un comando di lingua rimosso da tempo.
 		+ Esercizi e menu:
@@ -81,7 +86,7 @@ ChangeLog:
 			- ItemChooser propone un predefinito coerente con la lunghezza dell'elenco e spiega perche' una scelta non va bene, invece di riproporre la lista in silenzio.
 			- Il sorteggio del tono della stazione DX ha un numero massimo di tentativi: era un ciclo senza uscita in mezzo a un esercizio a tempo.
 			- Tolta la variabile overall_settings_changed, trenta righe di contabilita' che non decidevano niente, e le quaranta dichiarazioni global di nomi che le funzioni si limitavano a leggere.
-			- Words_Creator riceve da cwapu il percorso di words.txt e la cartella dove scrivere, invece di ricavarli dalla directory di lavoro, e non si porta piu' dietro una copia propria di resource_path.
+			- Words_Creator riceve da CWapu il percorso di words.txt e la cartella dove scrivere, invece di ricavarli dalla directory di lavoro, e non si porta piu' dietro una copia propria di resource_path.
 			- Il file .spec ricava il percorso di GBUtils dalla propria posizione: la compilazione non e' piu' legata a una sola macchina.
 			- Aggiunto ruff.toml con le regole scelte e il motivo di ogni eccezione. Il progetto passa ruff senza rilievi: erano 393.
 		+ Varie:
@@ -93,7 +98,7 @@ ChangeLog:
 	5.1.12 (2026-09-06)
 		+ Refactor:
 			- La mappa Morse si chiede a CWzator con get_map invece che con il vecchio msg=-1, deprecato da tempo. Era l'ultimo uso rimasto in tutto il parco software, e la sua rimozione ha permesso di chiudere la fase 1 del refactoring di CWzator.
-			- CWzator, che e' il motore CW di cwapu, e' passata dalla V9.1 alla V10.0: dissolvenza corretta sugli elementi corti, velocita' effettiva misurata sulla durata davvero prodotta invece che ricalcolata, mixer stereo a trentadue voci, scelta automatica dell'interfaccia audio piu' pronta. Per cwapu questo significa messaggi che finiscono da 108 a 124 millesimi prima, nessuno schiocco in chiusura, e una trasmissione interrotta che tace subito invece che dopo 118 millesimi.
+			- CWzator, che e' il motore CW di CWapu, e' passata dalla V9.1 alla V10.0: dissolvenza corretta sugli elementi corti, velocita' effettiva misurata sulla durata davvero prodotta invece che ricalcolata, mixer stereo a trentadue voci, scelta automatica dell'interfaccia audio piu' pronta. Per CWapu questo significa messaggi che finiscono da 108 a 124 millesimi prima, nessuno schiocco in chiusura, e una trasmissione interrotta che tace subito invece che dopo 118 millesimi.
 	5.1.11 (2026-07-23)
 		+ Bugfix:
 			- Risolto UnboundLocalError su 'avg_wpm_calc' in Rxing() (menu 'r') quando si inserisce il punto '.' per uscire prima del limite di 10 item. Pre-inizializzate in sicurezza tutte le variabili statistiche per prevenire anche potenziali divisioni per zero.
@@ -181,7 +186,7 @@ ChangeLog:
 		+ Nuova funzione statistica che legge lo storico esercizi e crea una timeline con il tempo trascorso e i cambiamenti di lettere errate e velocità.
 		+ Ora viene salvato il dettaglio sulla velocità di ogni gruppo inviato.
 		+ stampa informativa sulla gestione delle sessioni salvate nello storico. Ora è trasparente il comportamento dell'app quando salva o elimina blocchi dal diario di bordo.
-		+ CORREZIONE CRITICA: implementato novo algoritmo per rilevare gli errori, ora usiamo il metodo di wilson che pondera l'errore basato sul tasso di invio di quel singolo carattere. Tutte le sezioni di cwapu che rilevano errori utilizzano ora questa formula
+		+ CORREZIONE CRITICA: implementato novo algoritmo per rilevare gli errori, ora usiamo il metodo di wilson che pondera l'errore basato sul tasso di invio di quel singolo carattere. Tutte le sezioni di CWapu che rilevano errori utilizzano ora questa formula
 		+ Pulizia interna al codice e refactoring delle variabili che gestiscono la velocità wpm nell'esercizio sezione r. Ora maggior pulizia e robustezza.
 	4.1.6
 		+ Fixed an important error occurred in RX exercise when the comparison between the current block and the stored blocks didn't happen
@@ -200,11 +205,11 @@ ChangeLog:
 		Small fix to the prompt
 		+SUPER global stats, or historical statistics. Controlled by g and x parameters it saves your result across a long period of time. See K ssection to customize
 	Important before switching from 2.x to 3.x version:
-		run migrate within the same folder as cwapu.exe. If you got a good response, you may delete it and all 	the .pkl file as cwapu will use cwapu_settings.json as its default saved settings file.
+		run migrate within the same folder as cwapu.exe. If you got a good response, you may delete it and all 	the .pkl file as CWapu will use cwapu_settings.json as its default saved settings file.
 	3.0.1
 	= Fixed a non-global variable in R.5 section
 	3.0.0
-		+ Added migrate.py to switch from 2 to 3 version of cwapu, please run migrate.py (or .exe) then delete it.
+		+ Added migrate.py to switch from 2 to 3 version of CWapu, please run migrate.py (or .exe) then delete it.
 		+ switched from pickle to json and unified all settings for better and more easy implementations
 		+ Improved calculation for mistake in r exercise
 		+ New cw engine by GBUtile/CWzator

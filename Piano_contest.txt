@@ -1,8 +1,8 @@
 Piano di intervento per il nuovo contest di CWapu, issue 7
-Scritto il 2026-09-15 da ClaudIA (Claude Fable 5.1, modalita' auto) su richiesta di Gabriele, e aggiornato lo stesso giorno con le sue risposte alle quattordici domande, con la nota sul manipolo sporco e con quella sul nome dell'applicazione.
+Scritto il 2026-09-15 da ClaudIA (Claude Fable 5.1, modalita' auto) su richiesta di Gabriele, e aggiornato lo stesso giorno con le sue risposte alle quattordici domande, con la nota sul manipolo sporco, con quella sul nome dell'applicazione, con l'ordine fra il contest e le altre issue aperte e con il chiarimento sul Farnsworth.
 Copia in testo semplice di cio' che sta sulla issue 7 del repository cwapu, in eccezione alla regola che vuole i piani nelle sole issue.
 Quando il lavoro comincia, questo file si svuota e si cancella; il piano resta nella issue.
-Il piano aggiorna quello del 2026-09-07 nei punti in cui il parco software e' cambiato nel frattempo, e ne completa il passo 1, il censimento di cwsim, che era la prima cosa da fare e non era stata fatta. Le decisioni sono tutte prese e stanno in fondo: la sessione successiva comincia dalla tappa 0 e tocca il codice.
+Il piano aggiorna quello del 2026-09-07 nei punti in cui il parco software e' cambiato nel frattempo, e ne completa il passo 1, il censimento di cwsim, che era la prima cosa da fare e non era stata fatta. Le decisioni sono tutte prese e stanno in fondo. Il contest non e' il primo lavoro: prima viene una release della sezione k con quattro delle sei issue aperte, descritta piu' sotto, e la sessione successiva comincia da quella.
 Cosa e' cambiato dal 7 settembre
 Il piano precedente ragionava su CWzator V10 e su due mixer da unificare. Oggi GBUtils e' alla V163 e quattro delle sue premesse non valgono piu', tutte in meglio.
 - Il mixer e' uno solo, a scrittura bloccante con blocco di 1024 campioni, trentadue voci, panoramica per voce a potenza costante, arresto per singola voce e avviso di fine voce. La issue 8 di GBUtils e' chiusa dal 12 settembre. Il fondo radio non ha piu' bisogno di un terzo mixer: e' una voce del mixer come le altre, e il problema si riduce a come consegnargliela.
@@ -36,7 +36,7 @@ Un modulo nuovo, contest.py, accanto a grafico.py, timeline.py e wilson.py, con 
 Il ciclo, in cwapu.py, al posto di RxingContest: un solo filo, niente listener.
 - Ogni giro legge un tasto con key(attesa=0.05, alla_scadenza=None) e, se c'e', lo passa al motore o lo mette nella riga.
 - Poi chiama l'avanzamento del motore con l'ora corrente, che fa scattare i timeout, chiude i messaggi finiti, fa nascere le stazioni, fa decidere gli operatori, e restituisce le richieste di suono.
-- Ogni richiesta passa da suona(), che riceve i parametri nuovi pan e vol con predefiniti che ripetono il comportamento di oggi, e il PlaybackHandle si tiene accanto alla stazione: is_playing dice quando ha finito, e quello e' l'evento MsgSent.
+- Ogni richiesta passa da suona(), che riceve i parametri nuovi pan e vol con predefiniti che ripetono il comportamento di oggi, e il PlaybackHandle si tiene accanto alla stazione: is_playing dice quando ha finito, e quello e' l'evento MsgSent. Il contest passa sempre farnsworth None, per decisione presa: e' l'unico esercizio della sezione r in cui il Farnsworth non esiste, qualunque cosa sia impostato, e per questo salva sempre le sue statistiche.
 - La mia trasmissione e' una voce come le altre, al centro: mentre mando si continua a scrivere e a leggere i tasti, e Esc la interrompe, come in cwsim, dove le stazioni ricevono allora un messaggio spazzatura.
 I fili restano solo dentro il mixer, che e' roba di GBUtils.
 Il pile-up sul fronte stereo. Ogni stazione nasce con una posizione fra meno ampiezza e piu' ampiezza, dove l'ampiezza e' un valore del pannello da 0 a 100, e con il proprio tono a piu' o meno 300 Hz dal mio come oggi. Io sto al centro. Il fondo di rumore sta al centro.
@@ -47,7 +47,7 @@ Gli effetti e cio' che chiedono a GBUtils
 - Filtro di banda: volume per stazione, da subito.
 - QRN: il fondo continuo e' rumore rosa o bianco di Acusticator limitato alla banda del filtro; le raffiche sono brevi rumori bianchi a volume casuale, sempre di Acusticator, a intervalli casuali. Manca una cosa sola: un modo pubblico di tenere il fondo acceso per tutto il contest e di spegnerlo alla fine, cioe' un buffer lungo suonato in ciclo, con la sua panoramica e una maniglia di arresto. Il mixer lo sa gia' fare, perche' ha a_fine per riaccodare e ferma(voce) per fermare una voce sola, ma Acusticator.riproduci non espone ne' pan ne' maniglia, e Acusticator.stop zittisce tutto il mixer, CW compreso. Si chiede con una issue su GBUtils: deciso.
 - QSB e flutter: sono una modulazione d'ampiezza del CW della singola stazione. Farla in CWapu vorrebbe dire chiedere a CWzator l'audio con play=False, moltiplicarlo e rimandarlo al mixer per un'altra via: e' l'aggiramento che il punto 3.8 del documento di refactoring vieta, e perderebbe pan e maniglia. La strada e' un parametro di CWzator, per esempio qsb con profondita' e velocita' di evanescenza, che porta dentro la Qsb di cwsim: tre medie mobili a cascata su rumore complesso, banda da 0,1 a 0,6 Hz per il QSB e da 3 a 33 per il flutter. Il calcolo della velocita' effettiva non lo tocca. Si chiede con una issue su GBUtils: deciso.
-Le due issue si aprono all'inizio della prossima sessione, e il lavoro in CWapu non le aspetta: il contest nuovo nasce con pile-up, QRM, sbadati e filtro, e QRN, QSB e flutter si accendono quando GBUtils li offre. Nel frattempo i loro interruttori esistono ma dicono che non sono ancora disponibili.
+Le due issue si aprono all'inizio della prima sessione dedicata al contest, dopo la release della sezione k, e il lavoro in CWapu non le aspetta: il contest nuovo nasce con pile-up, QRM, sbadati e filtro, e QRN, QSB e flutter si accendono quando GBUtils li offre. Nel frattempo i loro interruttori esistono ma dicono che non sono ancora disponibili.
 Il pannello degli interruttori
 E' il pannello di seleziona_modalita_rx, che va tenuto perche' funziona, con due estensioni: righe con un valore e un modello riusabile. Oggi quelle 160 righe conoscono solo RX_SWITCHER_ITEMS; si estraggono in una funzione che riceve l'elenco delle voci, gli stati e il titolo, usata sia dagli esercizi Rx sia dal contest, cosi' la tecnica sta in un posto solo. Le prove che oggi verificano l'esclusione fra le voci Rx restano, e se ne aggiungono per il contest.
 Come si usa, per decisione presa: il numero accende la voce e, accendendola, chiede subito il valore con dgt proponendo quello salvato, cosi' Invio lo conferma; il numero su una voce accesa la spegne; per le voci che sono solo valore, come stereo e banda, il numero chiede il valore e basta. Ogni riga resta una frase: numero, nome, indicatore e stato per esteso, e il valore dove c'e', per esempio "2. QRM <X> ATTIVATO, 2 stazioni".
@@ -90,10 +90,11 @@ Cio' che non deve regredire
 - I campi della sessione nell'archivio storico restano gli stessi, con lo stesso significato: rwpm_min, rwpm_max, rwpm_avg, items_sent_session, items_correct_session, item_details, chars_sent_session, errors_detail_session, total_errors_chars_session, sent_chars_detail_session. Il punteggio e i valori del pannello si aggiungono come campi nuovi, che i rapporti vecchi ignorano.
 - Ogni messaggio passa da suona(), che guadagna pan e vol con predefiniti che non cambiano niente per chi la chiama oggi.
 - Le velocita' si arrotondano; nessuna sessione senza QSO finisce nell'archivio; il tetto WPM_MAX vale per tutto; il diario si scrive con with.
+- Il rapporto nel diario passa dalla funzione unica che scrive il diario e lo tiene sotto il tetto, nata con la issue 14 nella release della sezione k; e le statistiche del contest si salvano sempre, perche' nel contest il Farnsworth non c'e'.
 - La scelta dei nominativi, 75 per cento veri da MASTER.SCP e 25 inventati dalla tabella MDL, resta tale e quale; il manipolo sporco resta al 30 per cento con gli intervalli di oggi come predefiniti, e cambia solo se l'utente lo regola. Il motore riceve una funzione che genera nominativi, la probabilita' e i tre intervalli: non li conosce.
 - La pazienza con i tre modi di ripetere: i primi due sono DE call e DE call call di cwsim, il terzo, la ripetizione piu' lenta, si tiene come variante nostra.
 Come si consegna
-- Versione 6.1.0: funzionalita' nuova, sale la y, come gia' deciso il 7 settembre.
+- Il numero di versione: il 6.1.0 deciso il 7 settembre non vale piu', perche' prima del contest esce la release della sezione k e il numero lo prende lei. Il contest esce con il numero successivo; se sia una y o una x, dato il peso dell'intervento, lo decide Gabriele al rilascio.
 - Prove: la suite e' a 73, e ne nasce una nuova, tests/test_contest.py, che collauda il motore con orologio finto e seme fisso: transizioni dell'operatore, ismycall con e senza jolly e con gli sbadati, nascita delle stazioni nei due modi, pazienza e rinuncia, timeout, prefissi WPX su nominativi presi da MASTER.SCP, verifica NIL NR RST, punteggio, lettura dello scambio con e senza rapporto, larghezza della riga entro i quaranta caratteri, predefiniti, limiti e salvataggio del pannello e dei pesi.
 - Validatore: ruff check e ruff format, come oggi.
 - Traduzioni: le stringhe nuove si traducono prima del rilascio; la prova che rilegge i sorgenti le trova da sola.
@@ -101,15 +102,23 @@ Come si consegna
 - requirements.txt: via pynput e il suo commento; README e manuale di conseguenza.
 - Changelog scritto insieme a ogni modifica.
 - Un rilascio solo, alla fine, con i file di lavoro committati insieme al codice.
+Prima del contest, la release della sezione k
+Deciso il 2026-09-15, su proposta di ClaudIA accettata da Gabriele: le sei issue aperte oltre alla 7 non si fondono nel contest. Quattro si fanno prima, in una release propria, perche' sono piccole e indipendenti, e perche' due di loro portano in suona() e nel salvataggio pezzi sui quali il contest nuovo deve nascere sopra, invece di innestarli dopo in due posti. Due non hanno codice da scrivere. L'ordine dentro la release:
+- la 13, il comando .m: chiusa il 2026-09-15. Erano due cose: la forma con lo spazio, .m 50, non era un comando e finiva trasmessa in CW come testo, e ora tutti i comandi numerici la accettano; e CWzator accorcia ogni rampa a meta' del punto, quindi a 47 wpm ogni valore da 13 in su suona uguale, misurato, e ora il comando lo dice. Con lei la versione e' passata a 6.1.0, la voce del changelog e' aperta, il manuale e' allineato e il nome e' CWapu dovunque si legga: nel manuale e nel README il minuscolo stava solo nei nomi dei file, che restano.
+- la 11, il Farnsworth: comando .fw, salvataggio, riepilogo, .rs che lo spegne, gli errori di CWzator letti e detti, e la condizione unica che con il Farnsworth attivo spegne ogni scrittura su disco degli esercizi della sezione r. Quando suona() riceve il parametro farnsworth, il contest di oggi deve gia' passargli None, cosi' non cambia comportamento.
+- la 5, l'uscita audio: comando .o con CWzator.elenco_dispositivi con prova tutti, salvataggio, parametro api in suona(), riepilogo.
+- la 14, il diario: una funzione unica che scrive il diario e lo tiene sotto il tetto, tagliando le voci piu' vecchie e dicendolo in una riga; le alternative si propongono quando la si affronta. Il contest nuovo scrivera' da li'.
+Le altre due restano fuori: la 9, macOS, aspetta il ritorno di Luca e il contest la tocca solo come testo, alla tappa 7; la 8, il grafico SVG, aspetta gli utenti.
+Stima: circa quattrocento righe con manuale, traduzioni e prove, una o due sessioni. Il numero di versione e' almeno una y.
 Le tappe
-0. Prima di tutto, due cose piccole e indipendenti dal contest. Allineare il manuale alla 6.0.5, cosi' la suite torna a 73 su 73. E, per nota di Gabriele, fare in modo che il nome dell'applicazione appaia sempre come CWapu, con C e W maiuscole e apu minuscole, dovunque l'utente lo legga: nelle stringhe di cwapu.py, dove oggi il nome passato all'aggiornatore e' minuscolo, nel README, nel manuale, che lo scrive minuscolo sette volte, e nel changelog. Restano minuscoli i nomi dei file, cwapu.py e cwapu_settings.json, il nome del repository nell'indirizzo delle release e le chiavi delle impostazioni, perche' quelli non sono il nome ma identificatori.
+0. La release della sezione k, descritta sopra, cominciata il 2026-09-15 con la issue 13: restano la 11, la 5, la 14 e la pubblicazione.
 1. Aprire le due issue su GBUtils, QSB in CWzator e il buffer in ciclo con maniglia.
 2. contest.py, il motore: porting di station, dxoper e dxstation con il tempo in secondi, la nascita delle stazioni nei due modi, il punteggio e il prefisso, con le sue prove. Niente interfaccia ancora.
 3. Il ciclo nuovo in cwapu.py con key, in modo singolo e senza effetti: e' la parita' con il contest di oggi piu' i tasti di cwsim, Esc e Alt+X, e pynput esce. Il nominativo proprio si chiede e si salva qui. Prima prova d'ascolto di Gabriele.
 4. Il pile-up: l'interruttore 6 acceso con la sua attivita', panoramica, ampiezza stereo, log per QSO, riga di stato con Alt+S. Seconda prova d'ascolto.
 5. Il pannello con i valori, estratto da seleziona_modalita_rx, il salvataggio degli stati e i pesi del manipolo sporco regolabili.
 6. QRM, sbadati e filtro di banda; poi QRN, QSB e flutter man mano che GBUtils li offre, ciascuno con il suo ascolto.
-7. Rapporto, diario, archivio, manuale, traduzioni, requirements, changelog; rilascio 6.1.0.
+7. Rapporto, diario, archivio, manuale, traduzioni, requirements, changelog; aggiornamento del testo della issue 9, perche' senza pynput il punto 1 e la sezione 7 delle istruzioni per macOS non valgono piu'; rilascio.
 Stima: motore da 600 a 700 righe, ciclo 250, pannello 150 condivise con gli esercizi Rx, pesi del manipolo 60, rapporto 150, prove da 400 a 500.
 Decisioni prese, risposte di Gabriele del 2026-09-15
 - D1, dove vive il motore: a, modulo nuovo contest.py.
@@ -126,9 +135,9 @@ Decisioni prese, risposte di Gabriele del 2026-09-15
 - D12, il fondo di QRN: a, issue su GBUtils per il buffer in ciclo con panoramica e maniglia di arresto.
 - D13, le probabilita' del manipolo sporco: a, una sola come oggi, sette valori in tutto.
 - D14, come si chiedono i sette valori: a, una domanda per valore con dgt.
+- D15, il Farnsworth nel contest, chiarito da Gabriele: e' sempre assente, cioe' il contest passa farnsworth None qualunque cosa sia impostato, e salva sempre le sue statistiche. Negli altri esercizi della sezione r, con un Farnsworth impostato si lavora normalmente ma non si salva niente, come sta scritto nella issue 11.
+- D16, le sei issue aperte oltre alla 7: non si fondono nel contest; quattro prima in una release propria, due fuori, vedi la sezione sulla release della sezione k.
 Note di servizio
-- La suite passa 72 prove su 73: test_la_versione_coincide_con_quella_del_programma fallisce perche' cwapu.py e' alla 6.0.5 e il manuale dichiara ancora 6.0.4. Confermato da Gabriele: e' la tappa 0.
 - collaudo.txt: la prova 12, la lettura del manuale, e' superata il 2026-09-15 e Gabriele ha dato il via; il file, rimasto senza prove, e' stato cancellato nel commit di questo piano. La issue 3 a cui si riferiva era gia' chiusa dal 6 settembre. Il collaudo della fase 1 e' cosi' finito del tutto.
 - CWapu_Diary.txt e cwapu_settings.json, modificati dall'uso, sono committati insieme a questo piano.
 - Il passo 4 del piano precedente, la issue su GBUtils per la voce continua, e' assorbito da D11 e D12.
-- La nota di Gabriele sul nome CWapu e' diventata parte della tappa 0.

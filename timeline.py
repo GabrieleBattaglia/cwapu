@@ -697,7 +697,7 @@ def genera_report_temporale_completo(dati_sessioni, _, lang) -> str:
     # --- Creazione Header e dipendenze ---
     now = dt.datetime.now()
     data_formattata = f"{giorni[now.weekday()]} {now.day} {mesi[now.month]} {now.year}, {now.strftime('%H:%M')}"
-    header = _("Report Statistico CWAPU generato il: {}\n").format(data_formattata)
+    header = _("Report Statistico CWapu generato il: {}\n").format(data_formattata)
     if not dati_sessioni:
         return header + _("Attenzione: nessun dato di log disponibile da analizzare.")
     df = pd.DataFrame(dati_sessioni)

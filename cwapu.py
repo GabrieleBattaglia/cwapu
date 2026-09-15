@@ -72,8 +72,8 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "6.0.5"
-RELEASE_DATE = "2026-09-12"
+VERSION = "6.1.0"
+RELEASE_DATE = "2026-09-15"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
 # era quello che chi riceve veloce incontrava per primo.
@@ -195,6 +195,35 @@ def _clear_screen_ansi():
 def limita_wpm(velocita):
     """Riporta una velocita' dentro i limiti che il motore CW accetta."""
     return max(WPM_MIN, min(WPM_MAX, int(velocita)))
+
+
+COMANDO_NUMERICO = re.compile(r"([a-zA-Z])\s*(\d+)")
+
+
+def comando_numerico(testo):
+    """Legge un comando della sezione tastiera fatto di lettera e numero.
+
+    Accetta il numero attaccato alla lettera e anche dopo uno spazio: w25 e
+    w 25 sono lo stesso comando. Fino alla 6.0.5 la seconda forma non era
+    riconosciuta e il testo finiva trasmesso in CW, cosi' ".m 50" si sentiva
+    come "m 50" e sembrava un feedback, mentre non era cambiato niente.
+    Restituisce la coppia (lettera minuscola, valore), oppure None quando il
+    testo non ha quella forma, per esempio "t 3-7" oppure "sv ciao".
+    """
+    letto = COMANDO_NUMERICO.fullmatch(testo.strip())
+    if letto is None:
+        return None
+    return letto.group(1).lower(), int(letto.group(2))
+
+
+def rampa_massima_ms(wpm, peso_punto=50):
+    """Quanto puo' durare davvero la dissolvenza a questa velocita'.
+
+    CWzator accorcia ogni rampa a meta' dell'elemento, e il punto e'
+    l'elemento piu' corto: 1200 diviso wpm millesimi, scalati dal peso.
+    Oltre questo valore, .m non cambia piu' niente sul punto.
+    """
+    return 600.0 / wpm * peso_punto / 50.0
 
 
 def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True):
@@ -594,7 +623,7 @@ def KeyboardCW():
     # erano rumore e nel catalogo delle traduzioni erano peggio.
     MNKeyboard_settings = _(
         "Benvenuto nella sezione dove potrai ascoltare il CW e configurare tutti i suoi parametri.\n"
-        "Questi parametri saranno validi e attivi in tutto CWAPU e verranno salvati automaticamente quando esci dall'app.\n"
+        "Questi parametri saranno validi e attivi in tutto CWapu e verranno salvati automaticamente quando esci dall'app.\n"
         "Ora, leggi attentamente quanto segue:\n"
         "\tPremi Invio senza digitare nulla per uscire e tornare al menu principale;\n"
         "\tdigita .w seguito da un valore numerico per impostare il WPM, da 5 a 120;\n"
@@ -689,10 +718,9 @@ def KeyboardCW():
             is_value_special_format = False
             command_processed_internally = False
             feedback_cw = ""
-            match_val_num = re.match("([a-zA-Z])(\\d+)", command_candidate_str)
-            if match_val_num and command_candidate_str == match_val_num.group(0):
-                cmd_letter_parsed = match_val_num.group(1).lower()
-                value_int_parsed = int(match_val_num.group(2))
+            letto_numerico = comando_numerico(command_candidate_str)
+            if letto_numerico is not None:
+                cmd_letter_parsed, value_int_parsed = letto_numerico
                 is_value_numeric_type = True
             else:
                 parts = command_candidate_str.split(maxsplit=1)
@@ -778,6 +806,13 @@ def KeyboardCW():
                         new_ms = max(1, min(30, value_int_parsed))
                         if overall_ms != new_ms:
                             overall_ms = new_ms
+                    # Il valore si salva intero, ma CWzator accorcia ogni rampa
+                    # a meta' dell'elemento: a 47 wpm tutto cio' che supera 12
+                    # suona uguale sul punto, e va detto invece di lasciarlo
+                    # scoprire all'orecchio.
+                    tetto_ms = rampa_massima_ms(overall_speed, overall_dots)
+                    if overall_ms > tetto_ms:
+                        print(_("MS {ms}, a {wpm} wpm il punto la limita a {tetto:.0f}.").format(ms=overall_ms, wpm=overall_speed, tetto=tetto_ms))
                     feedback_cw = _("bk r ms is {overall_ms} bk").format(overall_ms=overall_ms)
                     command_processed_internally = True
                 elif cmd_letter_parsed == "f":
@@ -855,7 +890,7 @@ def StringCleaning(stringa):
 def CreateDictionary():
     print(
         _(
-            "Attenzione! Si prega di leggere attentamente.\nPer gli esercizi di ricezione, (r) dal menu principale, CWAPU utilizza il file words.txt, che deve stare nella stessa cartella di cwapu.py o di cwapu.exe. Se questo file non esiste, creane uno con un editor di testo e scrivi alcune parole al suo interno, una parola per linea, quindi salva.\nLa procedura WordsCreator ti permette di scansionare tutti i file txt contenuti nelle cartelle che indichi e aggiungere tutte le parole da questi file a words.txt. Le parole saranno aggiunte unicamente, cioè saranno tutte diverse tra loro.\nIl file prodotto da questo processo sarà denominato words_updated.txt. Controllalo con un editor di testo e, se sei soddisfatto, rinominalo in words.txt, sostituendo l'esistente words.txt.\nPuoi ripetere questa operazione tutte le volte che vuoi: words_updated.txt conterrà le parole da words.txt più tutte quelle raccolte dai nuovi file .txt elaborati."
+            "Attenzione! Si prega di leggere attentamente.\nPer gli esercizi di ricezione, (r) dal menu principale, CWapu utilizza il file words.txt, che deve stare nella stessa cartella di cwapu.py o di cwapu.exe. Se questo file non esiste, creane uno con un editor di testo e scrivi alcune parole al suo interno, una parola per linea, quindi salva.\nLa procedura WordsCreator ti permette di scansionare tutti i file txt contenuti nelle cartelle che indichi e aggiungere tutte le parole da questi file a words.txt. Le parole saranno aggiunte unicamente, cioè saranno tutte diverse tra loro.\nIl file prodotto da questo processo sarà denominato words_updated.txt. Controllalo con un editor di testo e, se sei soddisfatto, rinominalo in words.txt, sostituendo l'esistente words.txt.\nPuoi ripetere questa operazione tutte le volte che vuoi: words_updated.txt conterrà le parole da words.txt più tutte quelle raccolte dai nuovi file .txt elaborati."
         )
     )
     import Words_Creator
@@ -2250,7 +2285,7 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
             f.write("</head>\n")
             f.write("<body>\n")
             f.write('    <div class="container">\n')
-            f.write(_("<h1>CWAPU - Report Statistiche Storiche Esercizi Rx ({cat})</h1>\n").format(cat=cat_display_name))
+            f.write(_("<h1>CWapu - Report Statistiche Storiche Esercizi Rx ({cat})</h1>\n").format(cat=cat_display_name))
             f.write(
                 _('<p class="report-subtitle">Statistiche basate su {count} esercizi (G={g_value}, X={x_value})</p>\n').format(count=num_sessions_in_current_report, g_value=g_value, x_value=x_value)
             )
@@ -2460,8 +2495,8 @@ def controlla_aggiornamenti():
         return
     if enter_escape(_("Desideri scaricare e installare l'aggiornamento ora? (INVIO per si', ESC per ignorare): ")):
         print(_("Download dell'aggiornamento in corso. Attendere prego..."))
-        if perform_update(dl_url, "cwapu"):
-            print(_("Aggiornamento pronto. Cwapu si chiudera' per l'installazione..."))
+        if perform_update(dl_url, "CWapu"):
+            print(_("Aggiornamento pronto. CWapu si chiudera' per l'installazione..."))
             sys.exit(0)
         else:
             print(_("Si e' verificato un errore durante la preparazione dell'aggiornamento."))
@@ -2522,7 +2557,7 @@ def mostra_statistiche_timeline():
         _clear_screen_ansi()
         print(_("Report Timeline per {category_name}").format(category_name=category_name_translated))
         report_con_header = timeline.genera_report_temporale_completo(log_sessioni, _, app_language)
-        chiusura = _("Fine del report. Bye da CWAPU {version}").format(version=VERSION)
+        chiusura = _("Fine del report. Bye da CWapu {version}").format(version=VERSION)
         report_finale = report_con_header + "\n" + chiusura + "\n"
         print(report_finale)
         salva = enter_escape(prompt=_("Invio per salvare, Esc per proseguire..."))
@@ -2560,7 +2595,7 @@ def main():
     overall_wave = overall_settings.get("wave_index", 1)
     _clear_screen_ansi()
     print(
-        _("\nCWAPU - VERSIONE: {version} DEL {data} DI GABRY - IZ4APU.\n\tUtilità per il tuo CW.\n\t\tLancio app: {count}. Scrivi 'm' per il menu.").format(
+        _("\nCWapu - VERSIONE: {version} DEL {data} DI GABRY - IZ4APU.\n\tUtilità per il tuo CW.\n\t\tLancio app: {count}. Scrivi 'm' per il menu.").format(
             version=VERSION, data=RELEASE_DATE, count=launch_count
         )
     )

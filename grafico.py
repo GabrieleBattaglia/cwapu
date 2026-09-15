@@ -50,7 +50,7 @@ def crea_report_grafico(current_aggregates, previous_aggregates, g_val, x_val, n
     y_cursor = 0.98
     line_height_fig = 0.03
     section_spacing_fig = 0.04
-    title_text = _("CWAPU - Report Statistiche Storiche Esercizi Rx")
+    title_text = _("CWapu - Report Statistiche Storiche Esercizi Rx")
     fig.text(0.5, y_cursor, title_text, color=text_color, ha="center", va="top", fontsize=16, weight="bold")
     y_cursor -= line_height_fig * 1.5
     subtitle_text = _("Statistiche basate su {count} esercizi").format(count=num_sessions_in_report) + f" (G={g_val}, X={x_val})"
