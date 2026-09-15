@@ -4389,3 +4389,36 @@ Elenco delle parole copiate male:
 	(17) TX: ALLEIATE, RX: ALLEATI, DIF: IE;
 Nota: nessuna
 Fine del rapporto.
+
+Esercizio di ricezione #40 eseguito il 2026/09/15 alle 08:30 minuti:
+In questa sessione #40, ti ho inviato 60 Lettere e ne hai ricevuti 41: 68.3%
+	30 di questi sono stati ricevuti al primo ascolto: 73.2%
+	mentre 11 Lettere al secondo tentativo: 26.8%.
+Durante la sessione, la tua velocità minima è stata 25.00, la massima di 47.00: pari ad una variazione di 22.00 WPM.
+	La velocità media di ricezione è di: 37.85 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'B': 3 errori su 9 invii. Tasso errore stimato: [12.1% - 64.6%]    'P': 3 errori su 8 invii. Tasso errore stimato: [13.7% - 69.4%]    'H': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'J': 2 errori su 7 invii. Tasso errore stimato: [8.2% - 64.1%]    'V': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'X': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'C': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'L': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'M': 1 errori su 5 invii. Tasso errore stimato: [3.6% - 62.4%]    'S': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'U': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'Y': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'Z': 1 errori su 11 invii. Tasso errore stimato: [1.6% - 37.7%]
+
+Errori totali: 21 su 180 = 11.67%
+Caratteri mai sbagliati: A D E F G I K N O Q R T W
+Elenco delle parole copiate male:
+	(3) TX: WGB, RX: WGD, DIF: B;
+	(7) TX: ZVC, RX: ZUC, DIF: V;
+	(11) TX: FSO, RX: FHO, DIF: S;
+	(25) TX: KVZ, RX: KUB, DIF: VZ;
+	(28) TX: YFN, RX: XFN, DIF: Y;
+	(30) TX: KZX, RX: KZB, DIF: X;
+	(35) TX: PVN, RX: WVN, DIF: P;
+	(36) TX: CGU, RX: CGV, DIF: U;
+	(37) TX: XKL, RX: XKD, DIF: L;
+	(39) TX: JDT, RX: WDT, DIF: J;
+	(40) TX: ZPF, RX: ZOF, DIF: P;
+	(41) TX: CPQ, RX: CDQ, DIF: P;
+	(42) TX: WHY, RX: WSY, DIF: H;
+	(45) TX: AAB, RX: AAD, DIF: B;
+	(46) TX: JHH, RX: JHS, DIF: H;
+	(49) TX: LXM, RX: LKD, DIF: XM;
+	(50) TX: BJP, RX: BWP, DIF: J;
+	(54) TX: QBL, RX: QDL, DIF: B;
+	(58) TX: GCM, RX: GYM, DIF: C;
+Nota: nessuna
+Fine del rapporto.
