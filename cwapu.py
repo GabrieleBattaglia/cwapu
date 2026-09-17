@@ -15,6 +15,7 @@ import traceback
 
 import pyperclip
 from GBUtils import (
+    Acusticator,
     CWzator,
     Donazione,
     cartella_applicazione,
@@ -154,7 +155,21 @@ NUMERI_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(str
 SIMBOLI_MORSE_POOL = VALID_MORSE_CHARS_FOR_CUSTOM_SET - LETTERE_MORSE_POOL - NUMERI_MORSE_POOL
 DEFAULT_DATA = {
     "app_info": {"launch_count": 0},
-    "overall_settings": {"app_language": "en", "speed": 18, "pitch": 550, "dashes": 30, "spaces": 50, "dots": 50, "volume": 0.5, "ms": 1, "fs_index": 5, "wave_index": 1, "farnsworth": 0},
+    "overall_settings": {
+        "app_language": "en",
+        "speed": 18,
+        "pitch": 550,
+        "dashes": 30,
+        "spaces": 50,
+        "dots": 50,
+        "volume": 0.5,
+        "ms": 1,
+        "fs_index": 5,
+        "wave_index": 1,
+        "farnsworth": 0,
+        "uscita_interfaccia": "",
+        "uscita_dispositivo": "",
+    },
     "rxing_stats_words": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
     "rxing_stats_chars": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
     "rxing_stats_qrz": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
@@ -330,6 +345,168 @@ def valore_comando_fw(msg):
     return int(resto)
 
 
+def descrivi_uscita(voce):
+    """La riga di menu di un dispositivo di uscita, tutta a parole.
+
+    Interfaccia, nome, latenza e frequenza, e poi cio' che conta per
+    scegliere: se porta alla scheda su cui si sta gia' ascoltando, che e'
+    il dato da mostrare, se e' il predefinito di sistema, che di solito e'
+    la via lenta alla stessa scheda, se prende il dispositivo in esclusiva,
+    e se non si apre, con il motivo.
+    """
+    # Il nome si ripulisce solo qui, per la lettura: certi driver Bluetooth
+    # ci mettono dentro un ritorno a capo vero, che spezzerebbe la riga in
+    # due e con lo screen reader farebbe sembrare la coda una voce orfana.
+    # Per il confronto e per il salvataggio il nome resta quello grezzo.
+    nome = " ".join(str(voce["dispositivo"]).split())
+    parti = [f"{voce['breve']}, {nome}, {voce['latenza']:.0f} ms, {voce['frequenza']:.0f} Hz"]
+    if voce.get("stessa_scheda"):
+        parti.append(_("stessa scheda di adesso"))
+    if voce.get("predefinito"):
+        parti.append(_("predefinito di sistema"))
+    if voce.get("esclusiva"):
+        # Con una scheda sola, l'esclusiva zittisce anche il lettore di
+        # schermo per tutto il tempo in cui il mixer tiene aperta la scheda.
+        parti.append(_("esclusiva, zittirebbe NVDA e gli altri programmi"))
+    if voce.get("apribile") is False:
+        parti.append(_("non si apre: {motivo}").format(motivo=voce.get("motivo") or "?"))
+    return ", ".join(parti)
+
+
+def ordina_uscite(elenco):
+    """Prima le uscite che si aprono, nell'ordine di GBUtils; in fondo quelle che non si aprono.
+
+    Non si nascondono: un elenco che tace su una scelta che il sistema
+    offre lascia l'utente a chiedersi dove sia finita. Si segnano, con il
+    motivo, e stanno in coda.
+    """
+    return [v for v in elenco if v.get("apribile") is not False] + [v for v in elenco if v.get("apribile") is False]
+
+
+def risolvi_uscita_audio(interfaccia, dispositivo, elenco=None):
+    """L'indice di oggi dell'uscita salvata, o None se non c'e' o se la scelta e' automatica.
+
+    Si salva la coppia interfaccia e nome, non l'indice: gli indici cambiano
+    quando si attacca o si stacca una periferica, i nomi no. Se la coppia
+    salvata oggi non c'e', per esempio una scheda USB staccata, si torna
+    alla scelta automatica per questa volta e la coppia resta salvata per
+    quando tornera'.
+    """
+    if not interfaccia or not dispositivo:
+        return None
+    if elenco is None:
+        elenco = CWzator.elenco_dispositivi(prova="nessuno")
+    for voce in elenco:
+        if voce["breve"] == interfaccia and voce["dispositivo"] == dispositivo:
+            return voce["indice"]
+    return None
+
+
+def descrizione_uscita(interfaccia, dispositivo):
+    """Come l'uscita si legge nei riepiloghi: automatica, oppure interfaccia e nome."""
+    if not interfaccia:
+        return _("automatica")
+    return f"{interfaccia}, {' '.join(str(dispositivo).split())}"
+
+
+def uscita_automatica(elenco=None):
+    """Interfaccia e nome del dispositivo che CWzator sceglie da se', o (None, None).
+
+    Si legge dalla cache di CWzator, che dalla seconda volta non costa
+    niente, e si cerca nell'elenco dei dispositivi per dare all'utente il
+    nome e non un numero. (None, None) quando CWzator lascia fare al
+    sistema, per esempio fuori da Windows.
+    """
+    try:
+        indice, _nome_api = CWzator.scegli_dispositivo()
+    except Exception:  # noqa: BLE001 -- senza una scelta si dice "automatica" e basta
+        return None, None
+    if indice is None:
+        return None, None
+    if elenco is None:
+        elenco = CWzator.elenco_dispositivi(prova="nessuno")
+    for voce in elenco:
+        if voce["indice"] == indice:
+            return voce["breve"], voce["dispositivo"]
+    return None, None
+
+
+def descrizione_uscita_corrente(elenco=None):
+    """L'uscita su cui si suona adesso, a parole.
+
+    Quella scelta con .o se oggi c'e'; altrimenti la scelta automatica,
+    con il dispositivo che CWzator ha scelto quando lo sa. Cosi' chi legge
+    "automatica" sa anche dove sta andando il suono.
+    """
+    if overall_uscita_interfaccia and overall_api is not None:
+        return descrizione_uscita(overall_uscita_interfaccia, overall_uscita_dispositivo)
+    interfaccia, dispositivo = uscita_automatica(elenco)
+    if not interfaccia:
+        return _("automatica")
+    return _("automatica: {uscita}").format(uscita=descrizione_uscita(interfaccia, dispositivo))
+
+
+def scegli_uscita_audio(elenco=None, chiedi=None, automatica=None):
+    """Il comando .o: elenca le uscite e ne fa scegliere una, o lascia scegliere a CWapu.
+
+    Restituisce la coppia scelta (interfaccia, dispositivo), vuota per la
+    scelta automatica, oppure None se non e' cambiato niente. L'elenco si
+    costruisce provando ad aprire ogni dispositivo, perche' cio' che il
+    sistema dichiara e cio' che si apre davvero non coincidono: sulla
+    macchina di sviluppo sei dispositivi su ventuno non si aprono. Costa
+    un quarto di secondo, una volta sola.
+    elenco, chiedi e automatica servono alle prove, che passano un elenco
+    finto, una domanda che risponde da sola e l'indice della scelta
+    automatica; di serie l'indice lo dice CWzator.
+    """
+    global overall_uscita_interfaccia, overall_uscita_dispositivo, overall_api
+    if elenco is None:
+        print(_("Provo ad aprire ogni uscita, un attimo..."))
+        elenco = CWzator.elenco_dispositivi(prova="tutti")
+    voci = ordina_uscite(elenco)
+    if not voci:
+        print(_("Nessuna uscita audio trovata."))
+        return None
+    if automatica is None:
+        try:
+            automatica, _nome_api = CWzator.scegli_dispositivo()
+        except Exception:  # noqa: BLE001 -- senza la scelta automatica l'elenco resta buono, solo senza il segno
+            automatica = None
+    # La coppia salvata conta come scelta solo se oggi c'e': altrimenti si
+    # sta suonando in automatico, e l'elenco deve dirlo.
+    scelta_esplicita = bool(overall_uscita_interfaccia) and overall_api is not None
+    predefinito = 0
+    for numero, voce in enumerate(voci, start=1):
+        e_quella_scelta = scelta_esplicita and voce["breve"] == overall_uscita_interfaccia and voce["dispositivo"] == overall_uscita_dispositivo
+        if e_quella_scelta:
+            predefinito = numero
+        coda = ""
+        if e_quella_scelta:
+            coda = _(", scelta adesso")
+        elif not scelta_esplicita and automatica is not None and voce["indice"] == automatica:
+            coda = _(", quella che CWapu sceglie adesso")
+        print(f"{numero}. {descrivi_uscita(voce)}{coda}")
+    if overall_uscita_interfaccia and overall_api is None:
+        print(_("L'uscita salvata, {uscita}, oggi non c'è: si sta suonando in automatico.").format(uscita=descrizione_uscita(overall_uscita_interfaccia, overall_uscita_dispositivo)))
+    print(_("0. Lascia scegliere a CWapu"))
+    if chiedi is None:
+        chiedi = dgt
+    numero = chiedi(prompt=_("Numero da 0 a {massimo}, Invio per {predefinito}> ").format(massimo=len(voci), predefinito=predefinito), kind="i", imin=0, imax=len(voci), default=predefinito)
+    if numero == 0:
+        # Lo zero e' "niente da cambiare" solo se la scelta e' gia' automatica
+        # per scelta: con una coppia salvata ma assente oggi, lo zero la
+        # cancella davvero, altrimenti l'avviso tornerebbe a ogni avvio.
+        if not overall_uscita_interfaccia:
+            return None
+        overall_uscita_interfaccia, overall_uscita_dispositivo, overall_api = "", "", None
+        return ("", "")
+    if numero == predefinito:
+        return None
+    voce = voci[numero - 1]
+    overall_uscita_interfaccia, overall_uscita_dispositivo, overall_api = voce["breve"], voce["dispositivo"], voce["indice"]
+    return (voce["breve"], voce["dispositivo"])
+
+
 def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None):
     """Manda un messaggio al motore CW con le impostazioni correnti dell'utente.
 
@@ -360,6 +537,7 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
         "sync": sync,
         "to_file": to_file,
         "farnsworth": effettiva or None,
+        "api": overall_api,
     }
     handle, rwpm = CWzator(**parametri)
     errore = getattr(CWzator, "ultimo_errore", None)
@@ -374,6 +552,14 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
     if handle is None:
         if avvisa:
             print(_("Il motore CW non ha trasmesso il messaggio: {errore}").format(errore=getattr(CWzator, "ultimo_errore", None)))
+        return None, 0.0
+    if getattr(handle, "errore", None) and not (to_file and getattr(handle, "file_salvato", None) is None):
+        # Il motore ha accettato il messaggio ma il mixer non l'ha suonato,
+        # per esempio perche' l'uscita scelta con .o non si apre. Con
+        # to_file lo stesso attributo porta anche un WAV non scritto mentre
+        # il CW e' gia' uscito: quello lo dice gia' chi ha chiesto il file.
+        if avvisa:
+            print(_("Il motore CW non ha trasmesso il messaggio: {errore}").format(errore=handle.errore))
         return None, 0.0
     return handle, rwpm
 
@@ -740,6 +926,7 @@ def ItemChooser(items):
 def KeyboardCW():
     """Settings for CW and tx with keyboard"""
     global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave, overall_farnsworth
+    global overall_uscita_interfaccia, overall_uscita_dispositivo, overall_api
     # Le righe si concatenano invece di continuare con la barra rovesciata:
     # cosi' non finiscono ventotto spazi in fondo a ognuna, che a schermo
     # erano rumore e nel catalogo delle traduzioni erano peggio.
@@ -762,6 +949,7 @@ def KeyboardCW():
         "\tdigita .t #-# dove i # sono i valori minimo-massimo del filtro per la scelta delle parole;\n"
         "\tdigita .y per impostare un gruppo personalizzato di caratteri su cui allenarti;\n"
         "\tdigita .sr per impostare il sample rate da inviare alla scheda audio;\n"
+        "\tdigita .o per scegliere da quale uscita audio suonare;\n"
         "\tdigita ? per vedere questo messaggio di aiuto;\n"
         "\tdigita ?? per visualizzare i parametri impostati;\n"
         "\tdigita .rs per reimpostare il CW al peso standard di 1/3 e spegnere il Farnsworth;\n"
@@ -818,13 +1006,42 @@ def KeyboardCW():
             )
             print(base_settings_line1)
             print(base_settings_line2)
+            print(_("\tUscita audio: {uscita}.").format(uscita=descrizione_uscita_corrente()))
+            if overall_uscita_interfaccia and overall_api is None:
+                print(_("Uscita audio salvata non trovata oggi: lascio scegliere a CWapu, e la riprovo al prossimo avvio."))
             print(history_settings_line)
             print(new_filter_settings_line)
             msg_for_cw = "bk r parameters are bk"
+        elif msg == ".o ":
+            prima = (overall_uscita_interfaccia, overall_uscita_dispositivo, overall_api)
+            cambiata = scegli_uscita_audio() is not None
+            # Il feedback suona sull'uscita di adesso ed e' la prova vera,
+            # anche quando non e' cambiato niente: cosi' si sente sempre da
+            # dove si sta suonando. Se non si apre e si era appena cambiata,
+            # si torna a quella di prima e lo si dice.
+            plo, rwpm_temp = suona("bk r out ok bk", avvisa=False)
+            if plo is None:
+                errore = getattr(CWzator, "ultimo_errore", None)
+                if cambiata:
+                    overall_uscita_interfaccia, overall_uscita_dispositivo, overall_api = prima
+                    dove = descrizione_uscita(prima[0], prima[1]) if prima[2] is not None else _("automatica")
+                    print(_("Uscita non utilizzabile, torno a {uscita}: {errore}").format(uscita=dove, errore=errore))
+                    plo, rwpm_temp = suona("?")
+                else:
+                    print(_("Il motore CW non ha trasmesso il messaggio: {errore}").format(errore=errore))
+            if rwpm_temp is not None:
+                rwpm = rwpm_temp
+            msg_for_cw = ""
         elif msg == ".sr ":
             new_fs_index = ItemChooser(SAMPLE_RATES)
             if new_fs_index != overall_fs:
                 overall_fs = new_fs_index
+            # Il mixer condiviso apre la scheda alla propria frequenza e
+            # riporta a quella ogni messaggio: senza questa riga la
+            # frequenza di .sr non arrivava alla scheda, come invece
+            # promette. Il feedback che segue suona gia' alla frequenza
+            # nuova, e se l'uscita non la regge suona() lo dice.
+            Acusticator.setup(fs=SAMPLE_RATES[overall_fs])
             plo, rwpm_temp = suona(_("bk fs is {} bk").format(SAMPLE_RATES[overall_fs]))
             if rwpm_temp is not None:
                 rwpm = rwpm_temp
@@ -2772,6 +2989,7 @@ def main():
     global app_data
     global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots
     global overall_volume, overall_ms, overall_fs, overall_wave, overall_farnsworth
+    global overall_uscita_interfaccia, overall_uscita_dispositivo, overall_api
     app_data = load_settings()
     app_data["app_info"]["launch_count"] = app_data.get("app_info", {}).get("launch_count", 0) + 1
     launch_count = app_data["app_info"]["launch_count"]
@@ -2788,6 +3006,12 @@ def main():
     # La coppia salvata potrebbe essere nata incoerente: il Farnsworth non
     # supera mai la velocita' dei caratteri.
     overall_farnsworth = limita_farnsworth(overall_settings.get("farnsworth", 0), overall_speed)
+    overall_uscita_interfaccia = overall_settings.get("uscita_interfaccia", "") or ""
+    overall_uscita_dispositivo = overall_settings.get("uscita_dispositivo", "") or ""
+    overall_api = risolvi_uscita_audio(overall_uscita_interfaccia, overall_uscita_dispositivo)
+    # La frequenza di .sr e' quella con cui il mixer apre la scheda: il
+    # mixer condiviso di GBUtils parte a 44100 e ricampionerebbe tutto.
+    Acusticator.setup(fs=SAMPLE_RATES[overall_fs])
     _clear_screen_ansi()
     print(
         _("\nCWapu - VERSIONE: {version} DEL {data} DI GABRY - IZ4APU.\n\tUtilità per il tuo CW.\n\t\tLancio app: {count}. Scrivi 'm' per il menu.").format(
@@ -2808,6 +3032,9 @@ def main():
             fw=overall_farnsworth or _("no"),
         )
     )
+    print(_("\tUscita audio: {uscita}.").format(uscita=descrizione_uscita_corrente()))
+    if overall_uscita_interfaccia and overall_api is None:
+        print(_("Uscita audio salvata non trovata oggi: lascio scegliere a CWapu, e la riprovo al prossimo avvio."))
     # Dopo il riepilogo, cosi' se il Farnsworth salvato non regge i pesi
     # salvati l'utente legge il valore che aveva e poi cosa e' cambiato.
     allinea_farnsworth()
@@ -2852,6 +3079,8 @@ def main():
             "fs_index": overall_fs,
             "wave_index": overall_wave,
             "farnsworth": overall_farnsworth,
+            "uscita_interfaccia": overall_uscita_interfaccia,
+            "uscita_dispositivo": overall_uscita_dispositivo,
         }
     )
     save_settings(app_data)

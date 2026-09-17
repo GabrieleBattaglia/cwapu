@@ -29,6 +29,7 @@ IMPOSTAZIONI = {
     "overall_fs": 5,
     "overall_wave": 1,
     "overall_farnsworth": 0,
+    "overall_api": None,
 }
 
 
