@@ -4422,3 +4422,24 @@ Elenco delle parole copiate male:
 	(58) TX: GCM, RX: GYM, DIF: C;
 Nota: nessuna
 Fine del rapporto.
+
+Esercizio di ricezione #558 eseguito il 2026/09/15 alle 17:03 minuti:
+In questa sessione #558, ti ho inviato 20 Parole e ne hai ricevuti 13: 65.0%
+	10 di questi sono stati ricevuti al primo ascolto: 76.9%
+	mentre 3 Parole al secondo tentativo: 23.1%.
+Durante la sessione, la tua velocità minima è stata 28.00, la massima di 28.00: pari ad una variazione di 0.00 WPM.
+	La velocità media di ricezione è di: 28.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'I': 5 errori su 19 invii. Tasso errore stimato: [11.8% - 48.8%]    'E': 3 errori su 14 invii. Tasso errore stimato: [7.6% - 47.6%]    'T': 2 errori su 9 invii. Tasso errore stimato: [6.3% - 54.7%]    'A': 1 errori su 21 invii. Tasso errore stimato: [0.8% - 22.7%]    'D': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]    'N': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'U': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 14 su 141 = 9.93%
+Caratteri mai sbagliati: B C F G L M O P R S V
+Elenco delle parole copiate male:
+	(4) TX: AGRIGNO, RX: AGREGATO, DIF: IN;
+	(8) TX: LANIERE, RX: LANIERI, DIF: E;
+	(9) TX: DEDITA, RX: DIETATA, DIF: DEETA;
+	(10) TX: PRESEPI, RX: PRESEPE, DIF: I;
+	(16) TX: LIUTISTA, RX: LEVISTA, DIF: IUT;
+	(18) TX: OSSALATI, RX: OSSALATA, DIF: I;
+	(20) TX: MIAGOLI, RX: MIAGOLII, DIF: I;
+Nota: nessuna
+Fine del rapporto.
