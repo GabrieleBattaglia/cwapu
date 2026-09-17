@@ -4,14 +4,24 @@
 # Il percorso di GBUtils si ricava dalla posizione di questo file, cosi' la
 # compilazione riesce anche su una macchina dove i repository stanno altrove.
 import os
+from pathlib import Path
 
 GBUTILS_DIR = os.path.abspath(os.path.join(SPECPATH, '..', 'GBUtils'))
+
+# Delle traduzioni al programma servono soltanto i cataloghi compilati: i .po
+# sono il testo su cui si lavora e nel pacchetto pubblico non c'entrano, come
+# dice il punto 4.6 del prontuario di rilascio. L'elenco si ricava da SPECPATH,
+# cosi' non dipende dalla cartella da cui si lancia PyInstaller.
+CATALOGHI = [
+    (str(percorso), str(percorso.parent.relative_to(Path(SPECPATH))))
+    for percorso in Path(SPECPATH, 'locales').rglob('*.mo')
+]
 
 a = Analysis(
     ['cwapu.py'],
     pathex=[GBUTILS_DIR],
     binaries=[],
-    datas=[('words.txt', '.'), ('MASTER.SCP', '.'), ('Manuale_CWapu.html', '.'), ('locales', 'locales')],
+    datas=[('words.txt', '.'), ('MASTER.SCP', '.'), ('Manuale_CWapu.html', '.')] + CATALOGHI,
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
