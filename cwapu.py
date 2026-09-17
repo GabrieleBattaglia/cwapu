@@ -154,7 +154,7 @@ NUMERI_MORSE_POOL = {k for k in VALID_MORSE_CHARS_FOR_CUSTOM_SET if k in set(str
 SIMBOLI_MORSE_POOL = VALID_MORSE_CHARS_FOR_CUSTOM_SET - LETTERE_MORSE_POOL - NUMERI_MORSE_POOL
 DEFAULT_DATA = {
     "app_info": {"launch_count": 0},
-    "overall_settings": {"app_language": "en", "speed": 18, "pitch": 550, "dashes": 30, "spaces": 50, "dots": 50, "volume": 0.5, "ms": 1, "fs_index": 5, "wave_index": 1},
+    "overall_settings": {"app_language": "en", "speed": 18, "pitch": 550, "dashes": 30, "spaces": 50, "dots": 50, "volume": 0.5, "ms": 1, "fs_index": 5, "wave_index": 1, "farnsworth": 0},
     "rxing_stats_words": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
     "rxing_stats_chars": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
     "rxing_stats_qrz": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
@@ -226,7 +226,111 @@ def rampa_massima_ms(wpm, peso_punto=50):
     return 600.0 / wpm * peso_punto / 50.0
 
 
-def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True):
+def limita_farnsworth(valore, wpm):
+    """Il Farnsworth che si puo' davvero impostare.
+
+    Zero o meno spegne. Altrimenti sta fra il minimo del motore e la
+    velocita' dei caratteri, perche' il Farnsworth allarga le spaziature e
+    quindi la velocita' effettiva sta sotto a quella dei caratteri, mai sopra.
+    """
+    if valore <= 0:
+        return 0
+    return max(WPM_MIN, min(int(wpm), int(valore)))
+
+
+def pavimento_velocita(farnsworth):
+    """Sotto quale velocita' dei caratteri la velocita' variabile non scende.
+
+    Con il Farnsworth impostato e' il Farnsworth stesso: deciso da Gabriele
+    il 2026-09-17, il Farnsworth resta fermo mentre i caratteri salgono e
+    scendono, e i caratteri non gli passano mai sotto.
+    """
+    return max(WPM_MIN, int(farnsworth or 0))
+
+
+def farnsworth_impostato():
+    """Vero quando in k c'e' un Farnsworth: gli esercizi si fanno, ma non lasciano tracce su disco."""
+    return bool(overall_farnsworth)
+
+
+def pavimento_ammesso(farnsworth, wpm, l, s, p):
+    """La velocita' dei caratteri piu' bassa a cui questo Farnsworth e' ancora ammesso.
+
+    Con i pesi standard e' il Farnsworth stesso; con spazi larghi sta piu' in
+    alto, perche' il tetto che i pesi impongono scende con la velocita': con
+    s a 75, un Farnsworth di 15 regge a 20 wpm e non a 19. Si interroga il
+    motore a vuoto da pavimento_velocita in su, fino a wpm: la seconda
+    revisione del 2026-09-17 ha misurato 116 prove in cinque millesimi.
+    """
+    base = pavimento_velocita(farnsworth)
+    if not farnsworth:
+        return base
+    velocita = base
+    while velocita < int(wpm) and not farnsworth_ammesso(farnsworth, velocita, l, s, p):
+        velocita += 1
+    return velocita
+
+
+def farnsworth_ammesso(farnsworth, wpm, l, s, p):
+    """Vero se il motore accetta questo Farnsworth con questi pesi.
+
+    Prova a vuoto, senza suonare: il limite che i pesi impongono si calcola
+    sulla parola campione e non dipende dal messaggio, quindi bastano due
+    lettere.
+    """
+    prova, _rwpm = CWzator(msg="ee", wpm=limita_wpm(wpm), l=l, s=s, p=p, farnsworth=farnsworth, play=False)
+    return prova is not None
+
+
+def allinea_farnsworth():
+    """Tiene il Farnsworth dentro cio' che velocita' e pesi consentono, e lo dice.
+
+    Il Farnsworth non supera la velocita' dei caratteri e non chiede
+    spaziature piu' strette dei pesi: quando un comando cambia velocita' o
+    pesi, il Farnsworth scende fino al massimo ammesso, e a zero se non ne
+    esiste uno. Va chiamata dopo ogni cambiamento di velocita' o di pesi,
+    e all'avvio, perche' la coppia salvata potrebbe essere nata incoerente.
+    L'ha chiesto la revisione del 2026-09-17, che aveva trovato tre strade
+    per portare i caratteri sotto il Farnsworth: a quel punto il motore
+    rifiutava ogni messaggio e l'esercizio, trasmesso a CW standard, non
+    veniva nemmeno salvato. Restituisce il valore nuovo, o None se non ha
+    toccato niente.
+    """
+    global overall_farnsworth
+    if not overall_farnsworth:
+        return None
+    nuovo = min(int(overall_farnsworth), int(overall_speed))
+    while nuovo >= WPM_MIN and not farnsworth_ammesso(nuovo, overall_speed, overall_dashes, overall_spaces, overall_dots):
+        nuovo -= 1
+    if nuovo < WPM_MIN:
+        nuovo = 0
+    if nuovo == overall_farnsworth:
+        return None
+    overall_farnsworth = nuovo
+    if nuovo == 0:
+        print(_("FW spento: con questi pesi nessuna velocità effettiva è raggiungibile."))
+    elif nuovo == overall_speed:
+        print(_("FW portato a {fw}, la velocità dei caratteri.").format(fw=nuovo))
+    else:
+        print(_("FW portato a {fw}, il massimo che questi pesi consentono.").format(fw=nuovo))
+    return nuovo
+
+
+def valore_comando_fw(msg):
+    """Il numero di un comando .fw, oppure None se il comando e' malformato.
+
+    Accetta le maiuscole e lo spazio, come gli altri comandi numerici. Usa
+    isdecimal e non isdigit: isdigit accetta anche apici e cifre cerchiate,
+    che int rifiuta, e un ValueError qui farebbe cadere l'applicazione
+    senza salvare le impostazioni.
+    """
+    resto = msg.strip()[3:].strip()
+    if not resto or not resto.isdecimal():
+        return None
+    return int(resto)
+
+
+def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None):
     """Manda un messaggio al motore CW con le impostazioni correnti dell'utente.
 
     Raccoglie i dieci parametri che ogni chiamata ripeteva identici e lascia
@@ -234,21 +338,39 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
     (handle, velocita' effettiva) di CWzator. Quando la libreria rifiuta il
     messaggio restituisce (None, 0.0) e lo dice: prima si proseguiva in
     silenzio e l'utente restava senza suono senza sapere perche'.
+    farnsworth: None prende il valore impostato nella sezione k; zero lo
+    spegne per questo messaggio, ed e' cio' che fa il contest, dove per
+    decisione presa il Farnsworth non esiste. Se il motore rifiuta il
+    Farnsworth, perche' i pesi degli spazi non consentono la velocita'
+    effettiva chiesta, lo si dice con le parole del motore, che spiegano
+    fin dove si puo' arrivare, e si trasmette senza.
     """
-    handle, rwpm = CWzator(
-        msg=msg,
-        wpm=limita_wpm(overall_speed if wpm is None else wpm),
-        pitch=overall_pitch if pitch is None else pitch,
-        l=overall_dashes if l is None else l,
-        s=overall_spaces if s is None else s,
-        p=overall_dots if p is None else p,
-        vol=overall_volume,
-        ms=overall_ms,
-        fs=SAMPLE_RATES[overall_fs],
-        wv=overall_wave,
-        sync=sync,
-        to_file=to_file,
-    )
+    effettiva = overall_farnsworth if farnsworth is None else farnsworth
+    parametri = {
+        "msg": msg,
+        "wpm": limita_wpm(overall_speed if wpm is None else wpm),
+        "pitch": overall_pitch if pitch is None else pitch,
+        "l": overall_dashes if l is None else l,
+        "s": overall_spaces if s is None else s,
+        "p": overall_dots if p is None else p,
+        "vol": overall_volume,
+        "ms": overall_ms,
+        "fs": SAMPLE_RATES[overall_fs],
+        "wv": overall_wave,
+        "sync": sync,
+        "to_file": to_file,
+        "farnsworth": effettiva or None,
+    }
+    handle, rwpm = CWzator(**parametri)
+    errore = getattr(CWzator, "ultimo_errore", None)
+    if handle is None and effettiva and "farnsworth" in str(errore).lower():
+        # Solo un rifiuto che riguarda davvero il Farnsworth giustifica il
+        # secondo tentativo: per ogni altro errore riprovare senza sarebbe
+        # inutile e attribuirebbe al Farnsworth una colpa non sua.
+        if avvisa:
+            print(_("Farnsworth non applicato: {errore}").format(errore=errore))
+        parametri["farnsworth"] = None
+        handle, rwpm = CWzator(**parametri)
     if handle is None:
         if avvisa:
             print(_("Il motore CW non ha trasmesso il messaggio: {errore}").format(errore=getattr(CWzator, "ultimo_errore", None)))
@@ -617,7 +739,7 @@ def ItemChooser(items):
 
 def KeyboardCW():
     """Settings for CW and tx with keyboard"""
-    global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave
+    global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots, overall_volume, overall_ms, overall_fs, overall_wave, overall_farnsworth
     # Le righe si concatenano invece di continuare con la barra rovesciata:
     # cosi' non finiscono ventotto spazi in fondo a ognuna, che a schermo
     # erano rumore e nel catalogo delle traduzioni erano peggio.
@@ -627,6 +749,7 @@ def KeyboardCW():
         "Ora, leggi attentamente quanto segue:\n"
         "\tPremi Invio senza digitare nulla per uscire e tornare al menu principale;\n"
         "\tdigita .w seguito da un valore numerico per impostare il WPM, da 5 a 120;\n"
+        "\tdigita .fw seguito dalla velocità effettiva Farnsworth, da 5 alla velocità dei caratteri, oppure .fw 0 per spegnerlo;\n"
         "\tdigita .h seguito da un valore per il pitch della nota CW, da 200 a 2700;\n"
         "\tdigita .l seguito da un valore per impostare la linea, il default è 30;\n"
         "\tdigita .s seguito da un valore per impostare lo spazio, il default è 50;\n"
@@ -641,7 +764,7 @@ def KeyboardCW():
         "\tdigita .sr per impostare il sample rate da inviare alla scheda audio;\n"
         "\tdigita ? per vedere questo messaggio di aiuto;\n"
         "\tdigita ?? per visualizzare i parametri impostati;\n"
-        "\tdigita .rs per reimpostare il CW al peso standard di 1/3;\n"
+        "\tdigita .rs per reimpostare il CW al peso standard di 1/3 e spegnere il Farnsworth;\n"
         "\tdigita .sv seguito dal testo per salvare il CW in un file .wav;\n"
         "\tqualunque altra cosa scrivi viene trasmessa in CW.\n"
     )
@@ -678,8 +801,14 @@ def KeyboardCW():
             t_filter_display = f"{parole_min}-{parole_max}" if parole_min > 0 and parole_max > 0 else _("Filtro non impostato")
             y_custom_set_display = f'"{custom_set_str}"' if custom_set_str else _("Gruppo vuoto")
             base_settings_line1 = _("\n\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {}").format(int(overall_volume * 100), overall_speed=overall_speed, overall_pitch=overall_pitch)
-            base_settings_line2 = _("\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {}, MS: {overall_ms}, FS: {}.").format(
-                WAVE_TYPES[overall_wave - 1], SAMPLE_RATES[overall_fs], overall_dashes=overall_dashes, overall_spaces=overall_spaces, overall_dots=overall_dots, overall_ms=overall_ms
+            base_settings_line2 = _("\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, FW: {fw}, Wave: {}, MS: {overall_ms}, FS: {}.").format(
+                WAVE_TYPES[overall_wave - 1],
+                SAMPLE_RATES[overall_fs],
+                overall_dashes=overall_dashes,
+                overall_spaces=overall_spaces,
+                overall_dots=overall_dots,
+                overall_ms=overall_ms,
+                fw=overall_farnsworth or _("no"),
             )
             history_settings_line = _("\tMax Exercises History (g): {current_max_sessions_g_val}, Report size (x): {current_report_interval_x_val}.").format(
                 current_max_sessions_g_val=current_max_sessions_g_val, current_report_interval_x_val=current_report_interval_x_val
@@ -703,7 +832,34 @@ def KeyboardCW():
         elif msg == ".rs ":
             if not (overall_dashes == 30 and overall_spaces == 50 and (overall_dots == 50)):
                 overall_dashes, overall_spaces, overall_dots = (30, 50, 50)
+            # Il CW standard e' anche senza Farnsworth: lasciarlo acceso qui
+            # farebbe di "reimposta al peso standard" una mezza verita'.
+            overall_farnsworth = 0
             plo, rwpm_temp = suona("bk reset ok bk")
+            if rwpm_temp is not None:
+                rwpm = rwpm_temp
+            msg_for_cw = ""
+        elif msg.lower().startswith(".fw"):
+            # Sta prima del parser numerico generico, che leggerebbe .fw8
+            # come il comando f seguito da spazzatura.
+            valore_fw = valore_comando_fw(msg)
+            if valore_fw is not None:
+                richiesto = limita_farnsworth(valore_fw, overall_speed)
+                if richiesto == 0:
+                    overall_farnsworth = 0
+                    feedback_fw = "bk r fw off bk"
+                elif farnsworth_ammesso(richiesto, overall_speed, overall_dashes, overall_spaces, overall_dots):
+                    overall_farnsworth = richiesto
+                    feedback_fw = _("bk r fw is {fw} bk").format(fw=richiesto)
+                else:
+                    # I pesi di adesso non consentono questa velocita'
+                    # effettiva: il messaggio del motore dice fin dove si
+                    # puo' arrivare, e il valore non si imposta.
+                    print(_("Farnsworth non impostato: {errore}").format(errore=getattr(CWzator, "ultimo_errore", None)))
+                    feedback_fw = "?"
+            else:
+                feedback_fw = "?"
+            plo, rwpm_temp = suona(feedback_fw)
             if rwpm_temp is not None:
                 rwpm = rwpm_temp
             msg_for_cw = ""
@@ -799,6 +955,7 @@ def KeyboardCW():
                         new_speed = limita_wpm(value_int_parsed)
                         if overall_speed != new_speed:
                             overall_speed = new_speed
+                    allinea_farnsworth()
                     feedback_cw = _("bk r w is {overall_speed} bk").format(overall_speed=overall_speed)
                     command_processed_internally = True
                 elif cmd_letter_parsed == "m":
@@ -833,6 +990,7 @@ def KeyboardCW():
                         new_dashes = max(1, min(99, value_int_parsed))
                         if overall_dashes != new_dashes:
                             overall_dashes = new_dashes
+                    allinea_farnsworth()
                     feedback_cw = _("bk r l is {overall_dashes} bk").format(overall_dashes=overall_dashes)
                     command_processed_internally = True
                 elif cmd_letter_parsed == "s":
@@ -840,6 +998,7 @@ def KeyboardCW():
                         new_spaces = max(3, min(99, value_int_parsed))
                         if overall_spaces != new_spaces:
                             overall_spaces = new_spaces
+                    allinea_farnsworth()
                     feedback_cw = _("bk r s is {overall_spaces} bk").format(overall_spaces=overall_spaces)
                     command_processed_internally = True
                 elif cmd_letter_parsed == "p":
@@ -847,6 +1006,7 @@ def KeyboardCW():
                         new_dots = max(1, min(99, value_int_parsed))
                         if overall_dots != new_dots:
                             overall_dots = new_dots
+                    allinea_farnsworth()
                     feedback_cw = _("bk r p is {overall_dots} bk").format(overall_dots=overall_dots)
                     command_processed_internally = True
                 elif cmd_letter_parsed == "v":
@@ -1214,7 +1374,10 @@ def RxingContest(menu_config_scelta):
     print(_("Comandi rapidi: F9/F10 (WPM), F5 (Call), F6 (Serial), F7 (Rpt), F8 (NIL), Alt+W (Wipe), ESC (Exit), Enter (Check)"))
     key(_("Premi un tasto per iniziare..."))
     print(f"\r{' ' * 79}\r", end="", flush=True)  # Clean initial line
-    suona("CQ CQ TEST K", sync=True)
+    # Nel contest il Farnsworth non esiste, per decisione presa: farnsworth=0
+    # lo spegne qualunque cosa sia impostato in k, e le statistiche si
+    # salvano sempre.
+    suona("CQ CQ TEST K", sync=True, farnsworth=0)
 
     start_time = dt.datetime.now()
     session_calls = 0
@@ -1280,7 +1443,7 @@ def RxingContest(menu_config_scelta):
         if current_audio:
             current_audio.stop()
         if msg:
-            current_audio, rwpm_prodotta = suona(msg, wpm=speed, pitch=pitch, l=l, s=s, p=p, sync=False)
+            current_audio, rwpm_prodotta = suona(msg, wpm=speed, pitch=pitch, l=l, s=s, p=p, sync=False, farnsworth=0)
             ultima_rwpm_dx = rwpm_prodotta if current_audio is not None else 0.0
 
     def play_sync_me(msg):
@@ -1288,7 +1451,7 @@ def RxingContest(menu_config_scelta):
         if current_audio:
             current_audio.stop()
         if msg:
-            suona(msg, sync=True)
+            suona(msg, sync=True, farnsworth=0)
 
     try:
         while True:
@@ -1523,6 +1686,11 @@ def RxingContest(menu_config_scelta):
                     elif event_key == keyboard.Key.f9:
                         overall_speed = max(WPM_MIN, overall_speed - 2)
                         print(f"\n[WPM: {overall_speed}]")
+                        # La velocita' e' quella globale e resta dopo il
+                        # contest: il Farnsworth di k deve seguirla. Dopo la
+                        # riga del WPM, cosi' il suo messaggio non si incolla
+                        # al nominativo che si stava scrivendo.
+                        allinea_farnsworth()
                         redraw_line()
 
                     elif event_key == keyboard.Key.f7:
@@ -1765,6 +1933,15 @@ def Rxing():
         RxingContest(menu_config_scelta)
         return
 
+    # Con il Farnsworth impostato l'esercizio si fa e il rapporto si legge,
+    # ma sul disco non resta niente: ne' diario, ne' archivio, ne' statistiche,
+    # ne' rapporti generati. Deciso da Gabriele il 2026-09-12 per tenere
+    # l'archivio confrontabile, vedi la issue 11. Una condizione sola, letta
+    # qui, governa tutti i punti che scrivono.
+    traccia_su_disco = not farnsworth_impostato()
+    if not traccia_su_disco:
+        print(_("Farnsworth a {fw}: l'esercizio si fa, ma non lascia tracce su disco.").format(fw=overall_farnsworth))
+
     parole_filtrate_per_sessione = menu_config_scelta["parole_filtrate_list"]
     custom_set_attivo_per_sessione = menu_config_scelta["custom_set_string_active"]
     lunghezza_gruppo_per_generati = menu_config_scelta["group_length_for_generated"]
@@ -1827,12 +2004,17 @@ def Rxing():
     # Usa le impostazioni storiche condivise
     report_interval = historical_settings.get("report_interval", HISTORICAL_RX_REPORT_INTERVAL)
 
+    # Con il Farnsworth impostato i caratteri non scendono sotto la velocita'
+    # piu' bassa a cui il motore lo accetta ancora con i pesi di adesso,
+    # nemmeno alla partenza: il minimo della domanda e' quel pavimento, e
+    # vale per tutta la sessione perche' pesi e Farnsworth qui non cambiano.
+    minimo_wpm = pavimento_ammesso(overall_farnsworth, overall_speed, overall_dashes, overall_spaces, overall_dots)
     overall_speed = dgt(
-        prompt=_("Vuoi cambiare la velocità in WPM, da {minimo} a {massimo}? Invio per accettare {wpm}> ").format(minimo=WPM_MIN, massimo=WPM_MAX, wpm=overall_speed),
+        prompt=_("Vuoi cambiare la velocità in WPM, da {minimo} a {massimo}? Invio per accettare {wpm}> ").format(minimo=minimo_wpm, massimo=WPM_MAX, wpm=overall_speed),
         kind="i",
-        imin=WPM_MIN,
+        imin=minimo_wpm,
         imax=WPM_MAX,
-        default=overall_speed,
+        default=max(minimo_wpm, overall_speed),
     )
     rwpm = overall_speed
     _clear_screen_ansi()
@@ -1932,7 +2114,7 @@ def Rxing():
                 diff_ratio = (1 - difflib.SequenceMatcher(None, original_qrz, guess).ratio()) * 100
                 print(_("TX: {} RX: {} <>: {} RT: {}").format(original_qrz.upper(), guess.upper(), diff.upper(), int(diff_ratio)))
                 dz_mistakes[len(callssend)] = (original_qrz, guess)
-                if not fix_speed and overall_speed > WPM_MIN:
+                if not fix_speed and overall_speed > minimo_wpm:
                     overall_speed -= 1
             calls += 1
             maxwpm = max(maxwpm, rwpm)
@@ -1999,7 +2181,9 @@ def Rxing():
             print(_("Nessun errore sui caratteri registrato in questa sessione."))
         historical_rx_settings = app_data.get("historical_rx_settings", {})
         report_interval = historical_rx_settings.get("report_interval", HISTORICAL_RX_REPORT_INTERVAL)
-        if report_interval > 0:
+        if report_interval <= 0:
+            print(_("La generazione automatica dei report è disabilitata."))
+        elif traccia_su_disco:
             chars_done = app_data[f"historical_rx_data_{category_key}"].get("chars_since_last_report", 0) + send_char
             chars_target = report_interval
             percentage_done = chars_done / chars_target * 100 if chars_target > 0 else 0.0
@@ -2009,162 +2193,170 @@ def Rxing():
                     s=send_char, x=chars_done, y=chars_target, z=f"{percentage_done:.2f}", w=chars_missing
                 )
             )
-        else:
-            print(_("La generazione automatica dei report è disabilitata."))
-        nota = dgt(prompt=_("\nNota su questo esercizio: "), kind="s", smin=0, smax=512)
-        adesso = dt.datetime.now()
-        date_str = adesso.strftime("%Y/%m/%d")
-        time_str = adesso.strftime("%H:%M")
-        try:
-            with open(DIARY_FILE, "a", encoding="utf-8") as f:
-                f.write(_("\nEsercizio di ricezione #{sessions} eseguito il {date} alle {time} minuti:\n").format(sessions=numero_sessione, date=date_str, time=time_str))
-                f.write(
-                    _("In questa sessione #{sessions}, ti ho inviato {calls} {kindstring} e ne hai ricevuti {callsget_len}: {percentage:.1f}%").format(
-                        sessions=numero_sessione, calls=total_sent_processed, kindstring=kindstring, callsget_len=len(callsget), percentage=percentage_correct
+        if traccia_su_disco:
+            nota = dgt(prompt=_("\nNota su questo esercizio: "), kind="s", smin=0, smax=512)
+            adesso = dt.datetime.now()
+            date_str = adesso.strftime("%Y/%m/%d")
+            time_str = adesso.strftime("%H:%M")
+            try:
+                with open(DIARY_FILE, "a", encoding="utf-8") as f:
+                    f.write(_("\nEsercizio di ricezione #{sessions} eseguito il {date} alle {time} minuti:\n").format(sessions=numero_sessione, date=date_str, time=time_str))
+                    f.write(
+                        _("In questa sessione #{sessions}, ti ho inviato {calls} {kindstring} e ne hai ricevuti {callsget_len}: {percentage:.1f}%").format(
+                            sessions=numero_sessione, calls=total_sent_processed, kindstring=kindstring, callsget_len=len(callsget), percentage=percentage_correct
+                        )
+                        + "\n"
                     )
-                    + "\n"
-                )
-                f.write(
-                    _("\t{first_shot} di questi sono stati ricevuti al primo ascolto: {first_shot_percentage:.1f}%").format(first_shot=first_shot_correct, first_shot_percentage=first_shot_percentage)
-                    + "\n"
-                )
-                f.write(
-                    _("\tmentre {repetitions} {kindstring} al secondo tentativo: {repetitions_percentage:.1f}%.").format(
-                        repetitions=callsrepeated, kindstring=kindstring, repetitions_percentage=repetitions_percentage
+                    f.write(
+                        _("\t{first_shot} di questi sono stati ricevuti al primo ascolto: {first_shot_percentage:.1f}%").format(
+                            first_shot=first_shot_correct, first_shot_percentage=first_shot_percentage
+                        )
+                        + "\n"
                     )
-                    + "\n"
-                )
-                f.write(
-                    _(
-                        "Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la massima di {maxwpm:.2f}: pari ad una variazione di {range_wpm:.2f} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM."
-                    ).format(minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm - minwpm, average_wpm=avg_wpm_calc)
-                    + "\n"
-                )
-                f.write(_("Carattere: errori = Intervallo di Confidenza Errore (Wilson)"))
-                if total_mistakes_calculated > 0:
-                    sorted_errors = sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0]))
-                    for char, errori in sorted_errors:
-                        inviati = sent_chars_detail_this_session.get(char, 0)
-                        limite_inferiore = wilson_score_lower_bound(errori, inviati) * 100
-                        limite_superiore = wilson_score_upper_bound(errori, inviati) * 100
+                    f.write(
+                        _("\tmentre {repetitions} {kindstring} al secondo tentativo: {repetitions_percentage:.1f}%.").format(
+                            repetitions=callsrepeated, kindstring=kindstring, repetitions_percentage=repetitions_percentage
+                        )
+                        + "\n"
+                    )
+                    f.write(
+                        _(
+                            "Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la massima di {maxwpm:.2f}: pari ad una variazione di {range_wpm:.2f} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM."
+                        ).format(minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm - minwpm, average_wpm=avg_wpm_calc)
+                        + "\n"
+                    )
+                    f.write(_("Carattere: errori = Intervallo di Confidenza Errore (Wilson)"))
+                    if total_mistakes_calculated > 0:
+                        sorted_errors = sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0]))
+                        for char, errori in sorted_errors:
+                            inviati = sent_chars_detail_this_session.get(char, 0)
+                            limite_inferiore = wilson_score_lower_bound(errori, inviati) * 100
+                            limite_superiore = wilson_score_upper_bound(errori, inviati) * 100
+                            f.write(
+                                _("    '{char_display}': {errori} errori su {inviati} invii. Tasso errore stimato: [{inf:.1f}% - {sup:.1f}%]").format(
+                                    char_display=char.upper(), errori=errori, inviati=inviati, inf=limite_inferiore, sup=limite_superiore
+                                )
+                            )
+                        f.write("\n")
                         f.write(
-                            _("    '{char_display}': {errori} errori su {inviati} invii. Tasso errore stimato: [{inf:.1f}% - {sup:.1f}%]").format(
-                                char_display=char.upper(), errori=errori, inviati=inviati, inf=limite_inferiore, sup=limite_superiore
+                            _("\nErrori totali: {global_mistakes} su {send_char} = {mistake_percentage:.2f}%").format(
+                                global_mistakes=total_mistakes_calculated, send_char=send_char, mistake_percentage=mistake_percentage
                             )
                         )
-                    f.write("\n")
-                    f.write(
-                        _("\nErrori totali: {global_mistakes} su {send_char} = {mistake_percentage:.2f}%").format(
-                            global_mistakes=total_mistakes_calculated, send_char=send_char, mistake_percentage=mistake_percentage
-                        )
-                    )
-                    f.write(_("\nCaratteri mai sbagliati: {good_letters}").format(good_letters=" ".join(sorted(good_letters)).upper()))
-                else:
-                    f.write("\n" + _("Nessun errore sui caratteri registrato in questa sessione.") + "\n")
-                f.write(_("\nElenco delle parole copiate male:"))
-                for k, v in sorted(dz_mistakes.items()):
-                    rslt = MistakesCollectorInStrings(v[0], v[1])
-                    f.write(_("\n\t({k}) TX: {tx}, RX: {rx}, DIF: {dif};").format(k=k, tx=v[0].upper(), rx=v[1].upper(), dif=rslt.upper()))
-                if nota != "":
-                    f.write(_("Nota: {nota}").format(nota=nota) + "\n" + FINE_RECORD_DIARIO)
-                else:
-                    f.write("\n" + _("Nota: nessuna") + "\n" + FINE_RECORD_DIARIO)
-            print(_("Rapporto salvato su {nome_diario}").format(nome_diario=DIARY_NAME))
-        except OSError as e:
-            print(_("Diario non scritto: {errore}").format(errore=e))
+                        f.write(_("\nCaratteri mai sbagliati: {good_letters}").format(good_letters=" ".join(sorted(good_letters)).upper()))
+                    else:
+                        f.write("\n" + _("Nessun errore sui caratteri registrato in questa sessione.") + "\n")
+                    f.write(_("\nElenco delle parole copiate male:"))
+                    for k, v in sorted(dz_mistakes.items()):
+                        rslt = MistakesCollectorInStrings(v[0], v[1])
+                        f.write(_("\n\t({k}) TX: {tx}, RX: {rx}, DIF: {dif};").format(k=k, tx=v[0].upper(), rx=v[1].upper(), dif=rslt.upper()))
+                    if nota != "":
+                        f.write(_("Nota: {nota}").format(nota=nota) + "\n" + FINE_RECORD_DIARIO)
+                    else:
+                        f.write("\n" + _("Nota: nessuna") + "\n" + FINE_RECORD_DIARIO)
+                print(_("Rapporto salvato su {nome_diario}").format(nome_diario=DIARY_NAME))
+            except OSError as e:
+                print(_("Diario non scritto: {errore}").format(errore=e))
+        else:
+            print(_("Farnsworth impostato: rapporto letto, ma niente nel diario."))
     else:
         print(_("Hai ricevuto troppo pochi {kindstring} per generare statistiche consistenti.").format(kindstring=kindstring))
-    current_session_items = len(callssend)
-    current_session_correct = len(callsget)
-    current_session_wrong = len(dz_mistakes)
+    duration_str = str(active_exerctime).split(".")[0]
+    if traccia_su_disco:
+        current_session_items = len(callssend)
+        current_session_correct = len(callsget)
+        current_session_wrong = len(dz_mistakes)
 
-    new_totalcalls = current_rx_stats["total_calls"] + current_session_items
-    new_totalget = current_rx_stats["total_correct"] + current_session_correct
-    new_totalwrong = current_rx_stats["total_wrong_items"] + current_session_wrong
-    new_totaltime = dt.timedelta(seconds=current_rx_stats["total_time_seconds"]) + active_exerctime
+        new_totalcalls = current_rx_stats["total_calls"] + current_session_items
+        new_totalget = current_rx_stats["total_correct"] + current_session_correct
+        new_totalwrong = current_rx_stats["total_wrong_items"] + current_session_wrong
+        new_totaltime = dt.timedelta(seconds=current_rx_stats["total_time_seconds"]) + active_exerctime
 
-    current_rx_stats.update(
-        {
-            "total_calls": new_totalcalls,
-            "sessions": current_rx_stats["sessions"] + 1,
-            "total_correct": new_totalget,
-            "total_wrong_items": new_totalwrong,
-            "total_time_seconds": new_totaltime.total_seconds(),
-        }
-    )
-
-    corrected_item_details = [{"rwpm": item["wpm"], "correct": item["correct"]} for item in item_details]
-    session_data_for_history = {
-        "timestamp_iso": starttime.isoformat(),
-        "duration_seconds": active_exerctime.total_seconds(),
-        "rwpm_min": minwpm,
-        "rwpm_max": maxwpm,
-        "rwpm_avg": avg_wpm_calc,
-        "items_sent_session": len(callssend),
-        "items_correct_session": len(callsget),
-        "item_details": corrected_item_details,
-        "chars_sent_session": send_char,
-        "errors_detail_session": char_error_counts,
-        "total_errors_chars_session": total_mistakes_calculated,
-        "sent_chars_detail_session": sent_chars_detail_this_session,
-    }
-
-    historical_rx_log = current_historical_data.get("sessions_log", [])
-    historical_rx_log.append(session_data_for_history)
-
-    g = historical_settings.get("max_sessions_to_keep", HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
-
-    while len(historical_rx_log) > g:
-        sessione_eliminata = historical_rx_log.pop(0)
-        data_sessione_str = sessione_eliminata.get("timestamp_iso", "N/D")
-        data_sessione_dt = dt.datetime.fromisoformat(data_sessione_str).strftime("%Y-%m-%d %H:%M")
-        durata_sessione = int(sessione_eliminata.get("duration_seconds", 0))
-        contenuto_sessione = sessione_eliminata.get("chars_sent_session", 0)
-        print(
-            _("Sessione del {data}, durata {durata}s, contenuto {contenuto} caratteri, eliminata dalla coda degli esercizi di {category_name}.").format(
-                data=data_sessione_dt,
-                durata=durata_sessione,
-                contenuto=contenuto_sessione,
-                category_name=_("parole") if category_key == "words" else _("caratteri/misto") if category_key == "chars" else "QRZ",
-            )
+        current_rx_stats.update(
+            {
+                "total_calls": new_totalcalls,
+                "sessions": current_rx_stats["sessions"] + 1,
+                "total_correct": new_totalget,
+                "total_wrong_items": new_totalwrong,
+                "total_time_seconds": new_totaltime.total_seconds(),
+            }
         )
 
-    current_historical_data["chars_since_last_report"] = current_historical_data.get("chars_since_last_report", 0) + send_char
-    current_historical_data["sessions_log"] = historical_rx_log
+        corrected_item_details = [{"rwpm": item["wpm"], "correct": item["correct"]} for item in item_details]
+        session_data_for_history = {
+            "timestamp_iso": starttime.isoformat(),
+            "duration_seconds": active_exerctime.total_seconds(),
+            "rwpm_min": minwpm,
+            "rwpm_max": maxwpm,
+            "rwpm_avg": avg_wpm_calc,
+            "items_sent_session": len(callssend),
+            "items_correct_session": len(callsget),
+            "item_details": corrected_item_details,
+            "chars_sent_session": send_char,
+            "errors_detail_session": char_error_counts,
+            "total_errors_chars_session": total_mistakes_calculated,
+            "sent_chars_detail_session": sent_chars_detail_this_session,
+        }
 
-    if report_interval > 0 and current_historical_data["chars_since_last_report"] >= report_interval:
-        print(_("Generazione report storico in corso..."))
-        sessions_log = current_historical_data.get("sessions_log", [])
-        chars_to_account_for = current_historical_data["chars_since_last_report"]
-        sessions_for_this_report = []
-        accumulated_chars = 0
-        for session in reversed(sessions_log):
-            sessions_for_this_report.insert(0, session)
-            accumulated_chars += session.get("chars_sent_session", 0)
-            if accumulated_chars >= chars_to_account_for:
-                break
-        new_report_aggregates = generate_historical_rx_report(sessions_for_this_report, category_key)
-        if new_report_aggregates:
-            historical_reports = current_historical_data.get("historical_reports", [])
-            historical_reports.append(new_report_aggregates)
-            current_historical_data["historical_reports"] = historical_reports
-        chars_in_this_report = accumulated_chars
-        overshoot = chars_in_this_report - report_interval
-        current_historical_data["chars_since_last_report"] = max(0, overshoot)
+        historical_rx_log = current_historical_data.get("sessions_log", [])
+        historical_rx_log.append(session_data_for_history)
 
-    duration_str = str(active_exerctime).split(".")[0]
-    print(_("\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.").format(session_number=current_rx_stats["sessions"], duration=duration_str))
+        g = historical_settings.get("max_sessions_to_keep", HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+
+        while len(historical_rx_log) > g:
+            sessione_eliminata = historical_rx_log.pop(0)
+            data_sessione_str = sessione_eliminata.get("timestamp_iso", "N/D")
+            data_sessione_dt = dt.datetime.fromisoformat(data_sessione_str).strftime("%Y-%m-%d %H:%M")
+            durata_sessione = int(sessione_eliminata.get("duration_seconds", 0))
+            contenuto_sessione = sessione_eliminata.get("chars_sent_session", 0)
+            print(
+                _("Sessione del {data}, durata {durata}s, contenuto {contenuto} caratteri, eliminata dalla coda degli esercizi di {category_name}.").format(
+                    data=data_sessione_dt,
+                    durata=durata_sessione,
+                    contenuto=contenuto_sessione,
+                    category_name=_("parole") if category_key == "words" else _("caratteri/misto") if category_key == "chars" else "QRZ",
+                )
+            )
+
+        current_historical_data["chars_since_last_report"] = current_historical_data.get("chars_since_last_report", 0) + send_char
+        current_historical_data["sessions_log"] = historical_rx_log
+
+        if report_interval > 0 and current_historical_data["chars_since_last_report"] >= report_interval:
+            print(_("Generazione report storico in corso..."))
+            sessions_log = current_historical_data.get("sessions_log", [])
+            chars_to_account_for = current_historical_data["chars_since_last_report"]
+            sessions_for_this_report = []
+            accumulated_chars = 0
+            for session in reversed(sessions_log):
+                sessions_for_this_report.insert(0, session)
+                accumulated_chars += session.get("chars_sent_session", 0)
+                if accumulated_chars >= chars_to_account_for:
+                    break
+            new_report_aggregates = generate_historical_rx_report(sessions_for_this_report, category_key)
+            if new_report_aggregates:
+                historical_reports = current_historical_data.get("historical_reports", [])
+                historical_reports.append(new_report_aggregates)
+                current_historical_data["historical_reports"] = historical_reports
+            chars_in_this_report = accumulated_chars
+            overshoot = chars_in_this_report - report_interval
+            current_historical_data["chars_since_last_report"] = max(0, overshoot)
+
+        print(_("\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.").format(session_number=current_rx_stats["sessions"], duration=duration_str))
+        # La lunghezza si legge dopo la potatura, altrimenti a limite raggiunto
+        # l'applicazione annunciava una sessione di troppo e uno spazio negativo.
+        x = len(historical_rx_log)
+        print(
+            _("L'archivio ora contiene {x} sessioni salvate per gli esercizi di {category_name}, ancora {g_minus_x} al raggiungimento del limite stabilito.").format(
+                x=x, g_minus_x=max(0, g - x), category_name=_("parole") if category_key == "words" else _("caratteri/misto") if category_key == "chars" else "QRZ"
+            )
+        )
+    else:
+        print(_("\nDurata attiva {duration}: sessione non salvata, con il Farnsworth impostato non entra nell'archivio ne' nelle statistiche.").format(duration=duration_str))
+    # La pausa e' informazione di rapporto, non di salvataggio: si legge in
+    # tutti e due i casi.
     if total_pause_time.total_seconds() > 0:
         pause_str = str(total_pause_time).split(".")[0]
         print(_("\t(Tempo totale in pausa rilevato: {pause_time})").format(pause_time=pause_str))
-    # La lunghezza si legge dopo la potatura, altrimenti a limite raggiunto
-    # l'applicazione annunciava una sessione di troppo e uno spazio negativo.
-    x = len(historical_rx_log)
-    print(
-        _("L'archivio ora contiene {x} sessioni salvate per gli esercizi di {category_name}, ancora {g_minus_x} al raggiungimento del limite stabilito.").format(
-            x=x, g_minus_x=max(0, g - x), category_name=_("parole") if category_key == "words" else _("caratteri/misto") if category_key == "chars" else "QRZ"
-        )
-    )
     return
 
 
@@ -2579,7 +2771,7 @@ def main():
     """Avvio, menu principale e uscita ordinata."""
     global app_data
     global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots
-    global overall_volume, overall_ms, overall_fs, overall_wave
+    global overall_volume, overall_ms, overall_fs, overall_wave, overall_farnsworth
     app_data = load_settings()
     app_data["app_info"]["launch_count"] = app_data.get("app_info", {}).get("launch_count", 0) + 1
     launch_count = app_data["app_info"]["launch_count"]
@@ -2593,6 +2785,9 @@ def main():
     overall_ms = overall_settings.get("ms", 1)
     overall_fs = overall_settings.get("fs_index", 5)
     overall_wave = overall_settings.get("wave_index", 1)
+    # La coppia salvata potrebbe essere nata incoerente: il Farnsworth non
+    # supera mai la velocita' dei caratteri.
+    overall_farnsworth = limita_farnsworth(overall_settings.get("farnsworth", 0), overall_speed)
     _clear_screen_ansi()
     print(
         _("\nCWapu - VERSIONE: {version} DEL {data} DI GABRY - IZ4APU.\n\tUtilità per il tuo CW.\n\t\tLancio app: {count}. Scrivi 'm' per il menu.").format(
@@ -2600,7 +2795,7 @@ def main():
         )
     )
     print(
-        _("\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, Wave: {}, MS:\t{overall_ms}, FS: {}.").format(
+        _("\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {}\n\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, FW: {fw}, Wave: {}, MS: {overall_ms}, FS: {}.").format(
             int(overall_volume * 100),
             WAVE_TYPES[overall_wave - 1],
             SAMPLE_RATES[overall_fs],
@@ -2610,8 +2805,12 @@ def main():
             overall_spaces=overall_spaces,
             overall_dots=overall_dots,
             overall_ms=overall_ms,
+            fw=overall_farnsworth or _("no"),
         )
     )
+    # Dopo il riepilogo, cosi' se il Farnsworth salvato non regge i pesi
+    # salvati l'utente legge il valore che aveva e poi cosa e' cambiato.
+    allinea_farnsworth()
     if getattr(sys, "frozen", False):
         controlla_aggiornamenti()
     while True:
@@ -2626,11 +2825,10 @@ def main():
         elif k == "k":
             KeyboardCW()
         elif k == "l":
-            ltc = pyperclip.paste()
-            if ltc:
-                suona(StringCleaning(ltc))
-            else:
-                suona(_("vuoti"))
+            # Appunti fatti di soli simboli restano vuoti dopo la pulizia, e
+            # una stringa vuota il motore la rifiuta: vale come appunti vuoti.
+            testo_appunti = StringCleaning(pyperclip.paste() or "").strip()
+            suona(testo_appunti if testo_appunti else _("vuoti"))
         elif k == "m":
             menu(d=MNMAIN, show_only=True)
         elif k == "w":
@@ -2653,6 +2851,7 @@ def main():
             "ms": overall_ms,
             "fs_index": overall_fs,
             "wave_index": overall_wave,
+            "farnsworth": overall_farnsworth,
         }
     )
     save_settings(app_data)

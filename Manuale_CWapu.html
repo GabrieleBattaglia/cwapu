@@ -226,11 +226,12 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 </thead>
 <tbody>
 <tr><td><code>.w</code></td><td>Velocità in parole al minuto.</td><td>da 5 a 120</td></tr>
+<tr><td><code>.fw</code></td><td>Velocità effettiva Farnsworth: i caratteri restano alla velocità di <code>.w</code>, si allungano solo i silenzi fra lettere e fra parole. Zero lo spegne.</td><td>0, oppure da 5 alla velocità dei caratteri</td></tr>
 <tr><td><code>.h</code></td><td>Altezza del tono, in hertz.</td><td>da 200 a 2700</td></tr>
 <tr><td><code>.l</code></td><td>Peso della linea.</td><td>da 1 a 99, standard 30</td></tr>
 <tr><td><code>.s</code></td><td>Peso degli spazi.</td><td>da 3 a 99, standard 50</td></tr>
 <tr><td><code>.p</code></td><td>Peso del punto.</td><td>da 1 a 99, standard 50</td></tr>
-<tr><td><code>.rs</code></td><td>Riporta L, S e P ai valori standard.</td><td>nessun valore</td></tr>
+<tr><td><code>.rs</code></td><td>Riporta L, S e P ai valori standard e spegne il Farnsworth.</td><td>nessun valore</td></tr>
 <tr><td><code>.v</code></td><td>Volume, in percentuale.</td><td>da 0 a 100</td></tr>
 <tr><td><code>.m</code></td><td>Dissolvenza in apertura e chiusura di ogni suono, in millesimi di secondo.</td><td>da 1 a 30</td></tr>
 <tr><td><code>.f1</code> … <code>.f4</code></td><td>Forma d'onda: 1 sinusoide, 2 quadra, 3 triangolare, 4 dente di sega.</td><td>da 1 a 4</td></tr>
@@ -267,7 +268,8 @@ iz4apu
 cq cq de iz4apu k
 </code></pre>
 <p>I toni restano quelli di venti parole al minuto, ma tutti i silenzi si allungano quasi del doppio, e la velocità percepita scende parecchio. Quando si è pronti si scende con <code>.s70</code>, poi <code>.s60</code>, fino a tornare a <code>.s50</code>. Oppure si usa <code>.rs</code> per tornare di colpo allo standard.</p>
-<p><strong>Attenzione però</strong>: questo non è il metodo Farnsworth, anche se gli somiglia. Il Farnsworth vero allunga soltanto i silenzi <em>fra</em> una lettera e l'altra, e lascia il suono della singola lettera identico a quello che avrà alla velocità finale, che è tutto il punto del metodo. Il comando <code>.s</code> allunga anche il silenzio <em>dentro</em> la lettera, quindi la lettera suona diversa da come suonerà quando andrete veloci. Per imparare i caratteri conviene quindi lasciare <code>.s</code> allo standard e abbassare la velocità con <code>.w</code>, oppure usare la velocità variabile dell'esercizio di ricezione, che si assesta da sola sul limite delle vostre possibilità. Il Farnsworth vero è fra le cose in programma: chi vuole seguirne la storia trova la richiesta fra le issue del progetto GBUtils.</p>
+<p><strong>Attenzione però</strong>: questo non è il metodo Farnsworth, anche se gli somiglia. Il Farnsworth vero allunga soltanto i silenzi <em>fra</em> una lettera e l'altra, e lascia il suono della singola lettera identico a quello che avrà alla velocità finale, che è tutto il punto del metodo. Il comando <code>.s</code> allunga anche il silenzio <em>dentro</em> la lettera, quindi la lettera suona diversa da come suonerà quando andrete veloci. Per imparare i caratteri si usa il Farnsworth vero, che CWapu ha dalla versione 6.1.0 con il comando <code>.fw</code>: si lascia <code>.s</code> allo standard, si tiene <code>.w</code> alla velocità a cui si vuole arrivare e si mette in <code>.fw</code> la velocità d'insieme che si regge adesso.</p>
+<p><strong>Il Farnsworth.</strong> <code>.fw 8</code> con <code>.w 20</code> manda ogni lettera come suona a venti parole al minuto, e distanzia le lettere finché una PARIS dura quanto durerebbe a otto. Dentro la lettera non cambia niente: punto, linea e spazio fra simboli restano quelli decisi da L, S e P. Il valore va da 5 alla velocità dei caratteri, <code>.fw 0</code> lo spegne, e lo spegne anche <code>.rs</code>. Il Farnsworth non supera mai la velocità dei caratteri e non chiede spaziature più strette dei pesi: se si abbassa <code>.w</code> sotto di lui, scende con lei; se dopo un <code>.s</code> più largo il valore impostato non è più raggiungibile, scende al massimo che i pesi consentono, e se non ne esiste uno si spegne. In tutti i casi CWapu scrive cosa ha fatto. Per la stessa ragione <code>.fw</code> rifiuta un valore che i pesi del momento non consentono, riportando il messaggio del motore, che dice fin dove si può arrivare. Se nonostante tutto il motore rifiutasse il Farnsworth al momento di trasmettere, CWapu riporta il suo messaggio e trasmette senza. Nel prompt della sezione tastiera la velocità che compare, RWPM, è quella effettiva, cioè quella d'insieme. Due conseguenze da sapere: con il Farnsworth impostato gli esercizi di ricezione si fanno e il rapporto si legge, ma niente viene scritto su disco, vedi la sezione 5.8; e nel contest il Farnsworth non esiste, lì si trasmette sempre a CW standard.</p>
 </div>
 
 <div class="esempio">
@@ -368,7 +370,7 @@ cq cq de iz4apu k
 
 <ol>
 <li><strong>La lunghezza dei gruppi</strong>, da 1 a 7. Viene chiesta soltanto se è acceso almeno un tipo che genera gruppi, cioè lettere, numeri, misto, simboli o custom. Per le parole e per i nominativi non ha senso e non viene chiesta.</li>
-<li><strong>La velocità</strong>, da 5 a 120 parole al minuto. Invio accetta quella corrente.</li>
+<li><strong>La velocità</strong>, da 5 a 120 parole al minuto. Invio accetta quella corrente. Con il Farnsworth impostato il minimo sale: è la velocità più bassa a cui quel Farnsworth resta possibile con i pesi del momento, vedi la sezione 5.8.</li>
 <li><strong>Quanti item ricevere</strong>, da 10 a 1000. Invio significa senza limite: si andrà avanti finché non si decide di smettere.</li>
 <li><strong>Velocità fissa o variabile</strong>: Invio per variabile, Esc per fissa.</li>
 </ol>
@@ -423,6 +425,7 @@ cq cq de iz4apu k
 </ul>
 
 <p>Poi chiede una nota, facoltativa, e scrive tutto nel <a href="#diario">diario</a>.</p>
+<p><strong>Con il Farnsworth impostato non si salva niente.</strong> Se nella sezione tastiera c'è un valore di <code>.fw</code>, l'esercizio si fa come sempre e il rapporto di fine sessione si legge intero, ma non finisce nel diario, nell'archivio storico, nelle statistiche né nei rapporti generati: CWapu lo dice all'inizio dell'esercizio e alla fine. La ragione è l'archivio: chi si allena in velocità lo fa su un CW standard, e una sessione con il Farnsworth, dove a settanta parole al minuto di carattere quasi nove decimi del tempo sono silenzio, non è confrontabile con una senza. Con la velocità variabile il Farnsworth resta fermo al valore impostato, e la velocità dei caratteri non scende mai sotto la più bassa a cui quel Farnsworth resta possibile con i pesi del momento: con i pesi standard è il Farnsworth stesso, con spazi larghi sta più in alto, perché il limite che i pesi impongono scende insieme alla velocità. Vale anche per la domanda sulla velocità con cui l'esercizio comincia.</p>
 
 <div class="nota">
 <p><strong>Il tempo in pausa.</strong> Se ci si allontana dal computer nel mezzo di un esercizio, CWapu se ne accorge: quando fra un item e la risposta passano più di trenta secondi, il tempo in eccesso viene contato come pausa e non come tempo di esercizio. Così la velocità media e il tempo totale non vengono falsati da una telefonata.</p>
@@ -726,7 +729,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <dd>La parola usata come metro. Vale esattamente cinquanta unità di punto, spazio finale compreso, e per questo serve a definire la velocità in modo univoco.</dd>
 
 <dt><strong>Farnsworth</strong></dt>
-<dd>Metodo di insegnamento che trasmette i caratteri alla velocità finale, senza toccarne il suono, e allunga soltanto i silenzi fra una lettera e l'altra. Evita di dover reimparare il suono dei caratteri quando si accelera. <strong>CWapu non ce l'ha ancora</strong>: il comando <code>.s</code> gli somiglia, ma allunga anche i silenzi dentro la lettera, e quindi la lettera cambia suono.</dd>
+<dd>Metodo di insegnamento che trasmette i caratteri alla velocità finale, senza toccarne il suono, e allunga soltanto i silenzi fra una lettera e l'altra. Evita di dover reimparare il suono dei caratteri quando si accelera. In CWapu si imposta con <code>.fw</code> nella sezione tastiera. Il comando <code>.s</code> gli somiglia, ma allunga anche i silenzi dentro la lettera, e quindi la lettera cambia suono: non è la stessa cosa.</dd>
 
 <dt><strong>QRZ</strong></dt>
 <dd>Nel codice Q significa "chi mi chiama?". Per estensione, nel gergo, indica il nominativo di una stazione.</dd>
