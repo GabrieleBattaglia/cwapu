@@ -1,6 +1,6 @@
 {
     "app_info": {
-        "launch_count": 521
+        "launch_count": 522
     },
     "overall_settings": {
         "app_language": "it",
@@ -12,7 +12,10 @@
         "volume": 0.18,
         "ms": 1,
         "fs_index": 2,
-        "wave_index": 1
+        "wave_index": 1,
+        "farnsworth": 0,
+        "uscita_interfaccia": "",
+        "uscita_dispositivo": ""
     },
     "rxing_stats_words": {
         "total_calls": 26716,
