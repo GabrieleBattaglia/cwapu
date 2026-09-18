@@ -2,8 +2,10 @@
 # Data concepimento 21/12/2022.
 # GitHub publishing on july 2nd, 2024.
 
+import contextlib
 import datetime as dt
 import difflib
+import io
 import json
 import os
 import random
@@ -106,6 +108,108 @@ MNMAIN = {
     "w": _("Crea dizionario personalizzato"),
 }
 FINE_RECORD_DIARIO = _("Fine del rapporto.") + "\n"
+
+# Il diario non cresce all'infinito: oltre questo tetto le voci piu' vecchie
+# se ne vanno, a voci intere. Deciso da Gabriele con la issue 14.
+DIARIO_MAX_BYTE = 1_000_000
+# Come finisce una voce, nelle due lingue e nelle versioni fino alla 5, che
+# chiudevano con tre asterischi: si taglia solo dopo una di queste righe.
+TERMINATORI_DIARIO = ("Fine del rapporto.", "End of report.", "***")
+
+
+def taglia_diario(testo, massimo=DIARIO_MAX_BYTE):
+    """Toglie dalla testa le voci piu' vecchie finche' il diario sta sotto il tetto.
+
+    Restituisce la coppia (testo nuovo, voci tolte). Il taglio cade sempre
+    dopo il terminatore di una voce, cosi' la prima voce che resta e'
+    intera, e non tocca mai l'ultima voce, quella appena scritta. Si scende
+    un dieci per cento sotto il tetto, cosi' il taglio non si ripete a ogni
+    esercizio. Con meno di due voci delimitate non si taglia niente:
+    meglio un diario sopra il tetto che uno spezzato a meta' voce.
+    """
+    righe = testo.splitlines(keepends=True)
+    byte_totali = sum(len(riga.encode("utf-8")) for riga in righe)
+    if byte_totali <= massimo:
+        return testo, 0
+    terminatori = [indice for indice, riga in enumerate(righe) if riga.strip() in TERMINATORI_DIARIO]
+    if len(terminatori) < 2:
+        return testo, 0
+    # L'ultimo terminatore chiude la voce appena scritta: non e' un punto di
+    # taglio, altrimenti un diario con la sola voce nuova delimitata si
+    # svuoterebbe per intero, voce nuova compresa.
+    candidati = terminatori[:-1]
+    da_togliere = byte_totali - int(massimo * 0.9)
+    tolti = 0
+    taglio = None
+    voci = 0
+    prossimo = 0
+    for indice, riga in enumerate(righe):
+        tolti += len(riga.encode("utf-8"))
+        if prossimo < len(candidati) and indice == candidati[prossimo]:
+            prossimo += 1
+            voci = prossimo
+            if tolti >= da_togliere:
+                taglio = indice + 1
+                break
+    if taglio is None:
+        # Nessun taglio ammesso raggiunge la soglia: si toglie tutto il
+        # possibile, cioe' fino al penultimo terminatore.
+        taglio = candidati[-1] + 1
+        voci = len(candidati)
+    while taglio < len(righe) and not righe[taglio].strip():
+        taglio += 1
+    return "".join(righe[taglio:]), voci
+
+
+def scrivi_diario(testo):
+    """Accoda una voce al diario e lo tiene sotto il tetto, dicendolo in una riga.
+
+    Solleva OSError come farebbe open, cosi' chi chiama continua a dire se
+    il rapporto e' stato salvato oppure no. Restituisce quante voci vecchie
+    ha tolto, di solito zero.
+    """
+    with open(DIARY_FILE, "a", encoding="utf-8") as f:
+        f.write(testo)
+    if os.path.getsize(DIARY_FILE) <= DIARIO_MAX_BYTE:
+        return 0
+    # errors="replace": il manuale invita ad aprire il diario con qualunque
+    # editor, e un editor che salva in ANSI lascia byte che non sono UTF-8.
+    # Farebbero cadere il programma a fine esercizio; cosi' diventano il
+    # carattere di sostituzione e il file riscritto torna UTF-8 valido.
+    with open(DIARY_FILE, encoding="utf-8", errors="replace", newline="") as f:
+        intero = f.read()
+    nuovo, voci = taglia_diario(intero, DIARIO_MAX_BYTE)
+    if nuovo == intero:
+        return 0
+    # Si scrive un file di appoggio e lo si scambia con il diario in un colpo
+    # solo: un guasto a meta' lascia il diario com'era, voce nuova compresa,
+    # invece di lasciarlo vuoto come farebbe una riscrittura sul posto.
+    appoggio = DIARY_FILE + ".tmp"
+    with open(appoggio, "w", encoding="utf-8", newline="") as f:
+        f.write(nuovo)
+    try:
+        os.replace(appoggio, DIARY_FILE)
+    except OSError:
+        with contextlib.suppress(OSError):
+            os.remove(appoggio)
+        raise
+    print(_("Diario: tolte {voci} voci vecchie, ora {kb} KB.").format(voci=voci, kb=os.path.getsize(DIARY_FILE) // 1024))
+    return voci
+
+
+@contextlib.contextmanager
+def apri_diario():
+    """Il posto unico da cui il diario si scrive.
+
+    Si usa come open in aggiunta: cio' che si scrive nel blocco finisce nel
+    diario alla chiusura, in un colpo solo, e poi il file si tiene sotto il
+    tetto. Se il blocco solleva, non si scrive niente.
+    """
+    buffer = io.StringIO()
+    yield buffer
+    scrivi_diario(buffer.getvalue())
+
+
 # I tipi di esercizio si mescolano solo se producono statistiche confrontabili.
 # Parole, qrz e contest sono esclusivi, perche' ricevere una parola, un
 # nominativo o uno scambio di contest sono mestieri diversi e metterli nella
@@ -1476,7 +1580,7 @@ def Count():
         date_str = adesso.strftime("%Y/%m/%d")
         time_str = adesso.strftime("%H:%M")
         try:
-            with open(DIARY_FILE, "a", encoding="utf-8") as f:
+            with apri_diario() as f:
                 f.write(_("Esercizio di conteggio #{esnum} eseguito il {date} alle {time} minuti:\n").format(esnum=esnum, date=date_str, time=time_str))
                 f.write(_("Totale: {cont}, corrette: {corr}, errori(%): {pde:.2f}%.\n").format(cont=cont, corr=corr, pde=pde))
                 if pde <= 6:
@@ -2085,7 +2189,7 @@ def RxingContest(menu_config_scelta):
             time_str = adesso.strftime("%H:%M")
             diario_scritto = False
             try:
-                with open(DIARY_FILE, "a", encoding="utf-8") as f:
+                with apri_diario() as f:
                     f.write(_("\nEsercizio di ricezione CONTEST #{sessions} eseguito il {date} alle {time} minuti:\n").format(sessions=stats["sessions"], date=date_str, time=time_str))
                     f.write(_("Durata: {duration}\n").format(duration=duration_str))
                     f.write(
@@ -2416,7 +2520,7 @@ def Rxing():
             date_str = adesso.strftime("%Y/%m/%d")
             time_str = adesso.strftime("%H:%M")
             try:
-                with open(DIARY_FILE, "a", encoding="utf-8") as f:
+                with apri_diario() as f:
                     f.write(_("\nEsercizio di ricezione #{sessions} eseguito il {date} alle {time} minuti:\n").format(sessions=numero_sessione, date=date_str, time=time_str))
                     f.write(
                         _("In questa sessione #{sessions}, ti ho inviato {calls} {kindstring} e ne hai ricevuti {callsget_len}: {percentage:.1f}%").format(
