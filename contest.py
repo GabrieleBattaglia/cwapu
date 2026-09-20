@@ -34,9 +34,35 @@ PAZIENZA_PIENA = 5
 ABILITA = 2
 SCALA_RAYLEIGH = 3.191538  # media 4, cioe' 4 per radice di 2 su pi greco
 SKILLS_ATTESA = 6
-INTERVALLO_QRM = 60.0
+INTERVALLO_QRM = 240.0  # il tqrm di cwsim: un disturbo ogni quattro minuti
 PESO_STANDARD = (30, 50, 50)
 PAN_MASSIMO = 100.0
+
+
+def numero_come_testo(rng, rst, nr, errore=False):
+    """Rapporto e numero come li manda un operatore vero: 5NN, T e O per lo zero, N per il nove.
+
+    Con l'errore chiesto il numero esce sbagliato di uno o di dieci e viene
+    corretto con la serie di e e la ripetizione, come in cwsim. La usano le
+    stazioni e la uso io: il mio scambio esce nella stessa forma del loro,
+    non con il numero nudo accanto al rapporto.
+    """
+    testo = f"{int(rst)}{int(nr):03d}"
+    if errore:
+        if testo[-1] in "234567":
+            sbagliato = nr - 1 if rng.random() < 0.5 else nr + 1
+            testo = f"{int(rst)}{sbagliato:03d}eeeee {int(nr):03d}"
+        elif testo[-2] in "234567":
+            sbagliato = nr - 10 if rng.random() < 0.5 else nr + 10
+            testo = f"{int(rst)}{sbagliato:03d}eeeee {int(nr):03d}"
+    testo = testo.replace("599", "5NN").replace("000", "TTT").replace("00", "TT")
+    if rng.random() < 0.4:
+        testo = testo.replace("0", "O")
+    elif rng.random() < 0.97:
+        testo = testo.replace("0", "T")
+    if rng.random() < 0.97:
+        testo = testo.replace("9", "N")
+    return testo
 
 
 class Msg(enum.Enum):
@@ -282,13 +308,13 @@ class Operatore:
     def distanza(self, mandato):
         """La distanza di edit fra cio' che ho mandato e il suo nominativo, con il jolly.
 
-        E' la matrice di Morse Runner come sta nell'upstream di cwsim. Nel
-        ramo di Gabriele l'ultimo passaggio ha perso il piu' uno sulla
-        cancellazione, ed e' il rilievo 8 dell'analisi di cwsim: con quella
-        forma l'ultima lettera diventa gratuita, e DL3XZ risulta uguale a
-        DL3XY. Qui si tiene la forma a monte, che distingue le due; se
-        Gabriele volesse l'altra, e' un piu' uno da togliere nella riga
-        segnata sotto.
+        E' la matrice di Morse Runner come sta nell'upstream di cwsim. Nella
+        riga finale il passo orizzontale non costa: le lettere del mio
+        nominativo che non sono arrivate restano gratuite, e a segnalarle e'
+        il confronto di lunghezza dentro confronta(), che declassa a QUASI.
+        Il ramo di Gabriele ha perso anche il piu' uno sul passo verticale,
+        ed e' il rilievo 8 dell'analisi di cwsim: con quella forma diventava
+        gratuita pure l'ultima lettera sbagliata, e DL3XZ valeva DL3XY.
         """
         c0 = self.mio
         c = mandato
@@ -310,8 +336,8 @@ class Operatore:
             if c[x - 1] != "?":
                 for y in range(1, colonne):
                     d = m[x - 1][y - 1] + (0 if c[x - 1] == c0[y - 1] else 1)
-                    # La forma a monte: il piu' uno c'e' anche qui.
-                    m[x][y] = min(m[x][y - 1] + 1, m[x - 1][y] + 1, d)
+                    # Riga finale: il passo orizzontale e' gratis, come a monte.
+                    m[x][y] = min(m[x][y - 1], m[x - 1][y] + 1, d)
             else:
                 for y in range(1, colonne):
                     m[x][y] = min(m[x][y - 1], m[x - 1][y], m[x - 1][y - 1])
@@ -472,27 +498,9 @@ class Stazione:
         return self.motore.mio_nominativo
 
     def testo_numero(self):
-        """Rapporto e numero come li manda un operatore vero: 5NN, T e O per lo zero, N per il nove.
-
-        Con gli sbadati un numero su dieci esce sbagliato di uno o di dieci e
-        viene corretto con un errore e la ripetizione, come in cwsim.
-        """
-        testo = f"{int(self.rst)}{int(self.nr):03d}"
-        if self.errore_nr:
-            if testo[-1] in "234567":
-                sbagliato = self.nr - 1 if self.rng.random() < 0.5 else self.nr + 1
-                testo = f"{int(self.rst)}{sbagliato:03d}eeeee {int(self.nr):03d}"
-            elif testo[-2] in "234567":
-                sbagliato = self.nr - 10 if self.rng.random() < 0.5 else self.nr + 10
-                testo = f"{int(self.rst)}{sbagliato:03d}eeeee {int(self.nr):03d}"
-            self.errore_nr = False
-        testo = testo.replace("599", "5NN").replace("000", "TTT").replace("00", "TT")
-        if self.rng.random() < 0.4:
-            testo = testo.replace("0", "O")
-        elif self.rng.random() < 0.97:
-            testo = testo.replace("0", "T")
-        if self.rng.random() < 0.97:
-            testo = testo.replace("9", "N")
+        """Rapporto e numero della stazione, con l'errore dello sbadato quando tocca."""
+        testo = numero_come_testo(self.rng, self.rst, self.nr, self.errore_nr)
+        self.errore_nr = False
         return testo
 
     def testo_di(self, messaggio):
@@ -774,8 +782,10 @@ class Contest:
         self.io_trasmette = False
         self.inizio = None
         self.ultimo_tick = None
-        self.ultima_verita = None
+        self.verita_pendenti = []
         self.in_attesa = None
+        self.attesa_annullata = False
+        self.eventi_rimandati = []
         self._contatore = 0
 
     def nuovo_id(self):
@@ -809,7 +819,7 @@ class Contest:
         pezzi = []
         for m in messaggi:
             testo = TESTI[m]
-            testo = testo.replace("<#>", f"5NN {self.mio_nr}")
+            testo = testo.replace("<#>", numero_come_testo(self.rng, 599, self.mio_nr))
             testo = testo.replace("<my>", self.mio_nominativo).replace("<his>", self.suo_nominativo)
             pezzi.append(testo)
         return " ".join(pezzi)
@@ -822,12 +832,21 @@ class Contest:
             self.suo_nominativo = suo_nominativo.strip().upper()
         self.io_messaggi = list(messaggi)
         self.io_trasmette = True
+        if Msg.TU in self.io_messaggi:
+            self.attesa_annullata = False
         for s in self.stazioni:
             s.processa(Evento.IO_INIZIO, adesso)
         return Richiesta(IO, testo if testo is not None else self.testo_mio(self.io_messaggi), self.mio_wpm, self.mio_pitch, *PESO_STANDARD, 1.0, 0.0, tuple(self.io_messaggi))
 
     def io_finito(self, adesso):
-        """Ho finito di trasmettere: nel pile-up nascono le stazioni nuove, e tutte decidono cosa fare."""
+        """Ho finito di trasmettere: nel pile-up nascono le stazioni nuove, e tutte decidono cosa fare.
+
+        Dopo un Esc la trasmissione e' gia' chiusa, e chi mi usa puo' dirmi
+        lo stesso che e' finita: la seconda volta non conta, altrimenti le
+        stazioni perderebbero due punti di pazienza per una chiamata sola.
+        """
+        if not self.io_trasmette:
+            return
         self.io_trasmette = False
         if self.pileup and (Msg.CQ in self.io_messaggi or (Msg.TU in self.io_messaggi and Msg.MIO in self.io_messaggi)):
             for _ in range(poisson(self.rng, 0.5 * self.attivita)):
@@ -836,9 +855,44 @@ class Contest:
             s.processa(Evento.IO_FINE, adesso)
 
     def annulla_trasmissione(self, adesso):
-        """Esc mentre trasmetto: le stazioni hanno sentito spazzatura."""
+        """Esc mentre trasmetto: le stazioni hanno sentito spazzatura.
+
+        Il QSO gia' messo a log resta in sospeso: la stazione non ha sentito
+        il mio TU e non dira' la sua verita', quindi chiuderlo adesso lo
+        marcherebbe NIL per colpa dell'interruzione. Lo chiude il TU
+        rimandato, o la fine del contest.
+        """
         self.io_messaggi = [Msg.SPAZZATURA]
+        if self.in_attesa is not None:
+            self.attesa_annullata = True
         self.io_finito(adesso)
+
+    def prendi_verita(self, nominativo):
+        """La verita' della stazione che ho messo a log, o la piu' vecchia se nessuna corrisponde.
+
+        Due stazioni possono finire nello stesso giro: prendendo l'ultima
+        arrivata, un QSO giusto diventerebbe NIL per colpa dell'altra. Si
+        cerca prima quella che torna con il nominativo a log; se nessuna
+        torna, il NIL e' meritato.
+        """
+        for i, verita in enumerate(self.verita_pendenti):
+            if verita[0] == nominativo:
+                return self.verita_pendenti.pop(i)
+        return self.verita_pendenti.pop(0) if self.verita_pendenti else None
+
+    def chiudi_attesa(self):
+        """Porta a log il QSO in sospeso e restituisce l'evento da riferire."""
+        quando, nominativo, rst, nr, nr_mandato = self.in_attesa
+        self.in_attesa = None
+        self.attesa_annullata = False
+        verita = self.prendi_verita(nominativo)
+        self.verita_pendenti.clear()
+        verifica = self.punteggio.registra(quando, nominativo, rst, nr, nr_mandato, verita)
+        return ("log", self.punteggio.log[-1], verifica)
+
+    def chiudi_contest(self):
+        """Fine del contest: il QSO eventualmente in sospeso va a log com'e'."""
+        return [self.chiudi_attesa()] if self.in_attesa is not None else []
 
     def avanza(self, adesso, finite=()):
         """Un giro di orologio: scadenze, trasmissioni finite, nascite e rinunce."""
@@ -846,6 +900,9 @@ class Contest:
             self.inizio = adesso
         finite = set(finite)
         esito = Esito()
+        if self.eventi_rimandati:
+            esito.eventi.extend(self.eventi_rimandati)
+            self.eventi_rimandati.clear()
         if IO in finite:
             self.io_finito(adesso)
         for s in list(self.stazioni):
@@ -860,24 +917,24 @@ class Contest:
                 self.stazioni.remove(s)
         for s in list(self.stazioni):
             if isinstance(s, StazioneDX) and s.oper.stato == StatoOp.FATTO:
-                self.ultima_verita = s.verita()
-                esito.eventi.append(("qso", self.ultima_verita))
+                verita = s.verita()
+                self.verita_pendenti.append(verita)
+                esito.eventi.append(("qso", verita))
                 self.stazioni.remove(s)
-        if self.in_attesa is not None and not self.io_trasmette:
+        if self.in_attesa is not None and not self.io_trasmette and not self.attesa_annullata:
             # Il QSO messo a log con l'Invio si chiude quando la mia trasmissione
             # di TU e' finita e la stazione ha detto la sua verita', o non l'ha
             # detta: cosi' la verifica e' una sola e non dipende da chi arriva
             # prima, come invece in cwsim, che aggiornava la riga a posteriori.
-            quando, nominativo, rst, nr, nr_mandato = self.in_attesa
-            self.in_attesa = None
-            verifica = self.punteggio.registra(quando, nominativo, rst, nr, nr_mandato, self.ultima_verita)
-            self.ultima_verita = None
-            esito.eventi.append(("log", self.punteggio.log[-1], verifica))
+            esito.eventi.append(self.chiudi_attesa())
         if not self.pileup and not self.dx_attive():
             nuova = StazioneDX(self, adesso, singola=True)
             self.stazioni.append(nuova)
             esito.eventi.append(("nasce", nuova.mio))
-            nuova.processa(Evento.IO_FINE, adesso)
+            if not self.io_trasmette:
+                nuova.processa(Evento.IO_FINE, adesso)
+            # Se nasce mentre trasmetto e' gia' in COPIA: sente la mia chiamata
+            # dal mezzo e risponde quando ho finito, non sopra di me.
         if self.qrm and self.ultimo_tick is not None:
             dt = max(0.0, adesso - self.ultimo_tick)
             if len(self.qrm_attive()) < self.qrm_massime and self.rng.random() < dt / INTERVALLO_QRM:
@@ -892,6 +949,17 @@ class Contest:
         del mio TU, quando la stazione ha detto la sua verita': vuota se e'
         tutto giusto, NIL, NR o RST altrimenti, come la colonna Chk di cwsim.
         Il mio progressivo avanza subito, perche' il prossimo QSO e' un altro.
+        Se il TU era stato interrotto con Esc e lo rimando, la riga resta
+        quella di prima, con il suo istante e il suo progressivo.
         """
-        self.in_attesa = (adesso - (self.inizio or adesso), nominativo.strip().upper(), int(rst), int(nr), self.mio_nr)
-        self.mio_nr += 1
+        nominativo = nominativo.strip().upper()
+        if self.in_attesa is not None and self.in_attesa[1] == nominativo:
+            quando, _, _, _, nr_mandato = self.in_attesa
+        else:
+            if self.in_attesa is not None:
+                self.eventi_rimandati.append(self.chiudi_attesa())
+            quando = adesso - (adesso if self.inizio is None else self.inizio)
+            nr_mandato = self.mio_nr
+            self.mio_nr += 1
+        self.in_attesa = (quando, nominativo, int(rst), int(nr), nr_mandato)
+        self.attesa_annullata = False

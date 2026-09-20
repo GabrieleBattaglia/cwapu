@@ -193,7 +193,10 @@ class TestQsoSingolo:
         m.stazioni[0].oper.prob_ripeti = 0.0
         avanza_fino(m, 2.5, 3.0, finite=[chiamante])
         scambio = m.io_trasmetti([ct.Msg.SUO, ct.Msg.NR], 3.0, suo_nominativo="DL3XY")
-        assert scambio.testo == "DL3XY 5NN 1"
+        # Il mio scambio esce nella forma delle stazioni: rapporto e tre cifre
+        # attaccati, con lo zero abbreviato.
+        assert scambio.testo.startswith("DL3XY 5NN")
+        assert scambio.testo.removeprefix("DL3XY 5NN") in ("TT1", "OO1")
         richieste, _ = avanza_fino(m, 4.0, 5.0, finite=[ct.IO])
         assert len(richieste) == 1 and richieste[0].testo.startswith("R 5NN")
         avanza_fino(m, 5.5, 6.0, finite=[chiamante])
@@ -352,3 +355,126 @@ class TestNumeri:
         testo = s.testo_numero()
         assert "eeeee" in testo
         assert s.errore_nr is False
+
+
+class TestCorrezioniDelPorting:
+    """I rilievi della revisione del motore, ognuno con la sua prova."""
+
+    def test_i_disturbi_hanno_l_intervallo_di_cwsim(self):
+        assert ct.INTERVALLO_QRM == 240.0
+
+    def test_l_ultima_lettera_sbagliata_non_e_gratis(self):
+        o = ct.Operatore(random.Random(1), motore(), "DL3XY", 0.0, True)
+        assert o.distanza("DL3XY") == 0
+        assert o.distanza("DL3XZ") == 1
+        assert o.confronta("DL3XY") == ct.Copia.SI
+        assert o.confronta("DL3XZ") == ct.Copia.QUASI
+        assert o.confronta("IK2ABC") == ct.Copia.NO
+
+    def test_il_nominativo_troncato_vale_un_quasi(self):
+        # Nella riga finale le lettere non arrivate non costano: e' il
+        # parziale, che la stazione ripete invece di ignorare.
+        o = ct.Operatore(random.Random(1), motore(), "DL3XY", 0.0, False)
+        assert o.distanza("DL3") == 0
+        assert o.confronta("DL3") == ct.Copia.QUASI
+        assert o.confronta("?L3XY") == ct.Copia.QUASI
+
+    def test_l_istante_del_log_non_e_sempre_zero(self):
+        m = motore(pileup=True)
+        m.avanza(0.0)
+        m.registra_qso(42.0, "DL3XY", nr=1)
+        m.verita_pendenti.append(("DL3XY", 599, 1))
+        eventi = m.avanza(43.0).eventi
+        voce = next(e for e in eventi if e[0] == "log")[1]
+        assert voce.quando == 42.0
+
+    def test_la_verita_si_prende_da_chi_corrisponde(self):
+        # Due stazioni finite nello stesso giro: la riga a log non deve
+        # pescare quella sbagliata e diventare NIL per colpa dell'altra.
+        m = motore()
+        m.verita_pendenti = [("IK2ABC", 599, 4), ("DL3XY", 599, 7)]
+        assert m.prendi_verita("DL3XY") == ("DL3XY", 599, 7)
+        assert m.prendi_verita("W9CF") == ("IK2ABC", 599, 4)
+        assert m.prendi_verita("W9CF") is None
+
+    def test_la_fine_detta_due_volte_vale_una(self):
+        m = motore(pileup=False, sbadati=False)
+        m.avanza(0.0)
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        stazione = m.dx_attive()[0]
+        m.annulla_trasmissione(1.0)
+        pazienza = stazione.oper.pazienza
+        m.io_finito(1.0)
+        assert m.io_trasmette is False
+        assert stazione.oper.pazienza == pazienza
+
+    def test_l_esc_sul_tu_lascia_il_qso_in_sospeso(self):
+        m = motore(pileup=True, sbadati=False)
+        m.avanza(0.0)
+        m.registra_qso(1.0, "DL3XY", nr=5)
+        m.io_trasmetti([ct.Msg.TU], 1.0)
+        m.annulla_trasmissione(2.0)
+        eventi = m.avanza(2.5).eventi
+        assert [e for e in eventi if e[0] == "log"] == []
+        assert m.in_attesa is not None
+        # Il TU rimandato chiude la riga, e la verita' arrivata vale.
+        m.io_trasmetti([ct.Msg.TU], 3.0)
+        m.verita_pendenti.append(("DL3XY", 599, 5))
+        eventi = m.avanza(4.0, [ct.IO]).eventi
+        log = [e for e in eventi if e[0] == "log"]
+        assert len(log) == 1 and log[0][2] == ""
+        assert m.mio_nr == 2
+
+    def test_il_tu_rimandato_non_consuma_un_altro_progressivo(self):
+        m = motore(pileup=True, sbadati=False)
+        m.avanza(0.0)
+        m.registra_qso(1.0, "DL3XY", nr=5)
+        m.io_trasmetti([ct.Msg.TU], 1.0)
+        m.annulla_trasmissione(2.0)
+        m.registra_qso(3.0, "DL3XY", nr=5)
+        assert m.mio_nr == 2
+        assert m.in_attesa[0] == 1.0
+        assert m.in_attesa[4] == 1
+
+    def test_la_riga_abbandonata_va_a_log_quando_ne_arriva_un_altra(self):
+        m = motore(pileup=True, sbadati=False)
+        m.avanza(0.0)
+        m.registra_qso(1.0, "DL3XY", nr=5)
+        m.io_trasmetti([ct.Msg.TU], 1.0)
+        m.annulla_trasmissione(2.0)
+        m.registra_qso(9.0, "IK2ABC", nr=6)
+        eventi = m.avanza(10.0).eventi
+        log = [e for e in eventi if e[0] == "log"]
+        # La riga abbandonata esce per prima, con il suo istante e il suo NIL.
+        assert [e[1].nominativo for e in log] == ["DL3XY", "IK2ABC"]
+        assert log[0][1].quando == 1.0 and log[0][2] == "NIL"
+        assert m.mio_nr == 3
+
+    def test_la_fine_del_contest_chiude_la_riga_in_sospeso(self):
+        m = motore(pileup=True, sbadati=False)
+        m.avanza(0.0)
+        m.registra_qso(1.0, "DL3XY", nr=5)
+        m.io_trasmetti([ct.Msg.TU], 1.0)
+        m.annulla_trasmissione(2.0)
+        chiusura = m.chiudi_contest()
+        assert len(chiusura) == 1 and chiusura[0][1].nominativo == "DL3XY"
+        assert m.chiudi_contest() == []
+
+    def test_in_modo_singolo_nessuno_nasce_sopra_la_mia_voce(self):
+        m = motore(pileup=False, sbadati=False)
+        m.avanza(0.0)
+        stazione = m.dx_attive()[0]
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        stazione.oper.stato = ct.StatoOp.FATTO
+        eventi = m.avanza(1.0).eventi
+        assert any(e[0] == "nasce" for e in eventi)
+        nuova = m.dx_attive()[0]
+        assert nuova.stato == ct.Stato.COPIA
+        assert nuova.scadenza is None
+
+    def test_il_mio_scambio_ha_la_forma_delle_stazioni(self):
+        m = motore()
+        m.mio_nr = 7
+        testo = m.testo_mio([ct.Msg.NR])
+        assert testo.startswith("5NN")
+        assert testo.removeprefix("5NN") in ("TT7", "OO7")
