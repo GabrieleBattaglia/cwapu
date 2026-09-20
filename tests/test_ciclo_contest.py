@@ -380,6 +380,71 @@ class TestCicloContest:
         assert "?" in banco["cw"].testi
 
 
+class TestRapporto:
+    def test_il_pannello_si_legge_in_una_riga(self):
+        stati = dict(cwapu.CONTEST_PREDEFINITI)
+        riga = cwapu.descrivi_pannello_contest(stati)
+        assert "una stazione alla volta" in riga
+        assert "banda 500 hertz" in riga
+        assert "manipolo sporco al 30 per cento" in riga
+        assert "QRM" not in riga
+
+    def test_il_pannello_dice_cio_che_e_acceso(self):
+        stati = dict(cwapu.CONTEST_PREDEFINITI, pileup=True, attivita=6, qrm=True, qrm_massime=3, manipolo=False)
+        riga = cwapu.descrivi_pannello_contest(stati)
+        assert "pile-up con attività 6" in riga
+        assert "QRM fino a 3" in riga
+        assert "manipolo pulito" in riga
+
+    def test_il_rapporto_porta_punteggio_errori_e_ritmo(self):
+        punteggio = ct.Punteggio()
+        punteggio.registra(10.0, "DL3XY", 599, 1, 1, ("DL3XY", 599, 1))
+        punteggio.registra(20.0, "IK2ABC", 599, 2, 2, ("IK2ABD", 599, 2))
+        punteggio.registra(30.0, "W9CF", 599, 3, 3, ("W9CF", 599, 4))
+        punteggio.rinuncia("F5IN")
+        righe = cwapu.righe_rapporto_contest(punteggio, dict(cwapu.CONTEST_PREDEFINITI), 600)
+        intero = " ".join(righe)
+        assert "Punti 3, prefissi 3, punteggio 9." in intero
+        assert "Verificati: punti 1, prefissi 1, punteggio 1." in intero
+        assert "QSO sbagliati: 66.7%." in intero
+        assert "Ritmo:" in intero and "all'ora" in intero
+        assert "Nominativi copiati male: IK2ABC." in intero
+        assert "Scambi copiati male: W9CF 599 3." in intero
+        assert "Se ne sono andate: F5IN." in intero
+        assert "Sessione fatta con:" in intero
+
+    def test_senza_errori_il_rapporto_non_elenca_niente(self):
+        punteggio = ct.Punteggio()
+        punteggio.registra(10.0, "DL3XY", 599, 1, 1, ("DL3XY", 599, 1))
+        intero = " ".join(cwapu.righe_rapporto_contest(punteggio, dict(cwapu.CONTEST_PREDEFINITI), 300))
+        assert "copiati male" not in intero
+        assert "Se ne sono andate" not in intero
+
+    def test_il_rapporto_esce_a_video_e_nel_diario(self, monkeypatch, capsys):
+        def numero_della_stazione():
+            attive = banco["contest"][0].dx_attive() if banco["contest"] else []
+            return str(attive[0].nr) if attive else ""
+
+        copione = [
+            *scrivi(3.0, "DL3XY"),
+            (3.6, "\r"),
+            (7.0, numero_della_stazione),
+            (7.5, "\r"),
+            (9.0, "alt-x"),
+        ]
+        banco = prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        diario = banco["diario"].getvalue()
+        for pezzo in ("Punti 1", "Verificati: punti 1", "QSO sbagliati: 0.0%", "Sessione fatta con:"):
+            assert pezzo in uscita, pezzo
+            assert pezzo in diario, pezzo
+        sessione = cwapu.app_data["historical_rx_data_qrz"]["sessions_log"][-1]
+        assert sessione["punteggio_verificato"] == 1
+        assert sessione["prefissi_verificati"] == 1
+        assert sessione["contest_settings"]["banda"] == 500
+
+
 @pytest.mark.parametrize("tasto", ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8"])
 def test_ogni_tasto_funzione_manda_qualcosa(monkeypatch, tasto):
     """I tasti di cwsim mandano tutti un messaggio, anche a campo vuoto."""

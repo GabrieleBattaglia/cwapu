@@ -1800,6 +1800,69 @@ CONTEST_PASSO_CICLO = 0.05
 CONTEST_TAGLIO_NUMERI = {"T": "0", "O": "0", "N": "9"}
 
 
+def descrivi_pannello_contest(stati):
+    """Gli interruttori e i valori con cui la sessione e' stata fatta.
+
+    Vanno nel rapporto e nel diario perche' una sessione in pile-up con il
+    manipolo sporco al cento per cento e una da sola con il manipolo pulito
+    non sono confrontabili, e l'archivio deve poterlo dire.
+    """
+    pezzi = [_("pile-up con attività {n}").format(n=stati["attivita"]) if stati["pileup"] else _("una stazione alla volta")]
+    if stati["qrm"]:
+        pezzi.append(_("QRM fino a {n}").format(n=stati["qrm_massime"]))
+    for chiave, nome in (("qrn", _("QRN")), ("qsb", _("QSB")), ("flutter", _("flutter")), ("sbadati", _("operatori sbadati"))):
+        if stati[chiave]:
+            pezzi.append(nome)
+    pezzi.append(_("stereo {n}").format(n=stati["stereo"]))
+    pezzi.append(_("banda {n} hertz").format(n=stati["banda"]))
+    if stati["manipolo"]:
+        pezzi.append(
+            _("manipolo sporco al {p} per cento, L {l0}-{l1}, S {s0}-{s1}, P {p0}-{p1}").format(
+                p=stati["manipolo_probabilita"],
+                l0=stati["manipolo_l_min"],
+                l1=stati["manipolo_l_max"],
+                s0=stati["manipolo_s_min"],
+                s1=stati["manipolo_s_max"],
+                p0=stati["manipolo_p_min"],
+                p1=stati["manipolo_p_max"],
+            )
+        )
+    else:
+        pezzi.append(_("manipolo pulito"))
+    return ", ".join(pezzi)
+
+
+def righe_rapporto_contest(punteggio, stati, durata_secondi):
+    """Le righe che il contest aggiunge al rapporto, a video e nel diario.
+
+    Sono quelle di cwsim: punti, prefissi e punteggio grezzi e verificati, la
+    percentuale di errore, il ritmo per ogni cinque minuti, cio' che e' stato
+    copiato male e chi se n'e' andato, piu' i valori del pannello.
+    """
+    righe = [
+        _("Punti {punti}, prefissi {prefissi}, punteggio {totale}.").format(
+            punti=punteggio.punti_grezzi, prefissi=len(punteggio.prefissi_grezzi), totale=punteggio.punteggio_grezzo
+        ),
+        _("Verificati: punti {punti}, prefissi {prefissi}, punteggio {totale}.").format(
+            punti=punteggio.punti_verificati, prefissi=len(punteggio.prefissi_verificati), totale=punteggio.punteggio_verificato
+        ),
+        _("QSO sbagliati: {errore:.1f}%.").format(errore=punteggio.percentuale_errore),
+    ]
+    ritmo = punteggio.qso_all_ora(durata_secondi)
+    if ritmo:
+        righe.append(_("Ritmo: ") + "; ".join(_("dal {da} al {a} minuto {quanti} all'ora").format(da=da, a=a, quanti=quanti) for da, a, quanti in ritmo) + ".")
+    sbagliati = punteggio.nominativi_sbagliati()
+    if sbagliati:
+        righe.append(_("Nominativi copiati male: {elenco}.").format(elenco=", ".join(sbagliati)))
+    scambi = punteggio.scambi_sbagliati()
+    if scambi:
+        righe.append(_("Scambi copiati male: {elenco}.").format(elenco=", ".join(f"{v.nominativo} {v.rst_ricevuto} {v.nr_ricevuto}" for v in scambi)))
+    if punteggio.rinunce:
+        righe.append(_("Se ne sono andate: {elenco}.").format(elenco=", ".join(punteggio.rinunce)))
+    righe.append(_("Sessione fatta con: {valori}.").format(valori=descrivi_pannello_contest(stati)))
+    return righe
+
+
 def chiedi_pesi_manipolo(stati):
     """I sette valori del manipolo sporco, uno per uno, con dgt che ne tiene i limiti.
 
@@ -2270,6 +2333,12 @@ def RxingContest(menu_config_scelta):
                 "errors_detail_session": char_error_counts,
                 "total_errors_chars_session": total_mistakes_calculated,
                 "sent_chars_detail_session": sent_chars_detail_this_session,
+                # Campi nuovi del contest rifatto: i rapporti storici gia'
+                # scritti non li hanno e chi li legge li ignora.
+                "punteggio_grezzo": motore.punteggio.punteggio_grezzo,
+                "punteggio_verificato": motore.punteggio.punteggio_verificato,
+                "prefissi_verificati": len(motore.punteggio.prefissi_verificati),
+                "contest_settings": dict(stati),
             }
             historical_data = app_data["historical_rx_data_qrz"]
             historical_rx_log = historical_data.get("sessions_log", [])
@@ -2297,6 +2366,8 @@ def RxingContest(menu_config_scelta):
                     "Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la massima di {maxwpm:.2f}: pari ad una variazione di {range_wpm:.2f} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM."
                 ).format(minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm - minwpm, average_wpm=avg_wpm_calc)
             )
+            for riga in righe_rapporto_contest(motore.punteggio, stati, elapsed_total):
+                print(riga)
             if total_mistakes_calculated > 0:
                 print(_("Carattere: errori = Intervallo di Confidenza Errore (Wilson)"))
                 sorted_errors = sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0]))
@@ -2342,6 +2413,8 @@ def RxingContest(menu_config_scelta):
                         + "\n"
                     )
                     f.write(_("Velocità: Min {minwpm:.2f}, Max {maxwpm:.2f}, Avg {average_wpm:.2f} WPM.").format(minwpm=minwpm, maxwpm=maxwpm, average_wpm=avg_wpm_calc) + "\n")
+                    for riga in righe_rapporto_contest(motore.punteggio, stati, elapsed_total):
+                        f.write(riga + "\n")
                     if total_mistakes_calculated > 0:
                         f.write(_("Carattere: errori = Wilson Interval") + "\n")
                         for char, errori in sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0])):
