@@ -29,6 +29,7 @@ from GBUtils import (
     polipo,
 )
 
+import contest as ct
 from grafico import crea_report_grafico
 from wilson import wilson_score_lower_bound, wilson_score_upper_bound
 
@@ -273,6 +274,7 @@ DEFAULT_DATA = {
         "farnsworth": 0,
         "uscita_interfaccia": "",
         "uscita_dispositivo": "",
+        "contest_call": "",
     },
     "rxing_stats_words": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
     "rxing_stats_chars": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
@@ -1664,50 +1666,117 @@ def format_duration(td):
     return ", ".join(parts[:-1]) + " " + _("e") + " " + parts[-1]
 
 
-def RxingContest(menu_config_scelta):
-    global overall_speed
+# Il contest: i valori che si regolano con i tasti durante la sessione e non
+# stanno nelle impostazioni, perche' valgono per il contest in corso.
+CONTEST_BANDA_DEFAULT = 500
+CONTEST_BANDA_MIN = 100
+CONTEST_BANDA_MAX = 3000
+CONTEST_PASSO_BANDA = 50
+CONTEST_PASSO_PITCH = 50
+CONTEST_PASSO_WPM = 2
+# Ogni quanto il ciclo guarda la tastiera e fa girare l'orologio del motore.
+# key con un'attesa breve su Windows aspetta dentro il sistema, quindi il
+# ciclo non consuma processore come farebbe un giro a vuoto.
+CONTEST_PASSO_CICLO = 0.05
+CONTEST_TAGLIO_NUMERI = {"T": "0", "O": "0", "N": "9"}
 
-    # pynput si carica qui e non in cima al file: e' l'unica parte di CWapu
-    # che lo usa, e su macOS vuole anche il permesso di accessibilita'. Chi
-    # non ce l'ha perde il contest, non tutta l'applicazione.
-    try:
-        from pynput import keyboard
-    except Exception as e:  # noqa: BLE001 -- pynput fallisce in modi diversi su ogni sistema
-        print(_("Il contest ha bisogno della libreria pynput, che qui non funziona: {errore}").format(errore=e))
-        print(_("Gli altri esercizi restano disponibili."))
+
+def numero_dal_taglio(testo):
+    """Le abbreviazioni dei numeri tornano cifre: T e O valgono zero, N vale nove.
+
+    Sono le sole tre che le stazioni producono, e sono quelle che conviene
+    scrivere al volo invece di tradurle a mente: 5NN TT1 vale 599 1.
+    """
+    return "".join(CONTEST_TAGLIO_NUMERI.get(c, c) for c in testo.upper())
+
+
+def leggi_scambio(testo):
+    """Il campo dello scambio: restituisce (rapporto, numero), o None se non si legge.
+
+    Decisione D8 del 2026-09-15: si scrive il solo numero, oppure rapporto e
+    numero separati da uno spazio. Senza rapporto vale 599, che in contest si
+    manda sempre.
+    """
+    pezzi = numero_dal_taglio(testo).split()
+    if not pezzi:
+        return None
+    rst, nr = ("599", pezzi[0]) if len(pezzi) == 1 else (pezzi[0], pezzi[1])
+    if not rst.isdecimal() or not nr.isdecimal():
+        return None
+    return int(rst), int(nr)
+
+
+def chiedi_nominativo_contest():
+    """Il nominativo con cui si va in contest, chiesto la prima volta e riproposto poi.
+
+    Decisione D7 del 2026-09-15. Restituisce la stringa vuota se non lo si
+    vuole dare, e allora il contest non comincia.
+    """
+    global overall_contest_call
+    scritto = dgt(prompt=_("Il tuo nominativo: "), kind="s", smin=0, smax=12, default=overall_contest_call or "")
+    scritto = (scritto or "").strip().upper()
+    if scritto:
+        overall_contest_call = scritto
+    return overall_contest_call
+
+
+def RxingContest(menu_config_scelta):
+    """Il contest con il motore di contest.py: modo singolo, una stazione alla volta.
+
+    Tappa 3 del piano della issue 7. Il ciclo non inventa piu' i QSO: chiede
+    al motore cosa suonare, gli dice quali suoni sono finiti e gli riferisce i
+    tasti. pynput esce di scena, perche' i tasti arrivano da key con un'attesa
+    breve. Il pile-up, il pannello dei valori e gli effetti sono le tappe
+    seguenti, e qui non ci sono: una stazione alla volta, al centro, senza
+    disturbi. Nel contest il Farnsworth non esiste, per decisione presa: ogni
+    messaggio parte con farnsworth zero e le statistiche si salvano sempre.
+    """
+    global overall_speed, overall_pitch
+    mio_nominativo = chiedi_nominativo_contest()
+    if not mio_nominativo:
+        print(_("Senza nominativo il contest non si fa."))
         key(_("Premi un tasto per tornare al menu..."))
         return
-
-    print(_("\nModalità contest."))
-    print(_("Simulazione scambio rapido: Call + 5NN + Serial"))
-
-    # Setup durata
-    scelta_durata = menu(d={"1": _("Numero di QRZ"), "2": _("Tempo (minuti)")}, p=_("Scegli la durata: "))
+    scelta_durata = menu(d={"1": _("Numero di QSO"), "2": _("Tempo (minuti)")}, p=_("Scegli la durata: "))
     if not scelta_durata:
         return
     duration_type = int(scelta_durata)
-    limit = 0
     if duration_type == 1:
-        limit = dgt(prompt=_("Quanti QRZ? "), kind="i", imin=5, imax=500, default=50)
+        limit = dgt(prompt=_("Quanti QSO? "), kind="i", imin=1, imax=500, default=50)
     else:
         limit = dgt(prompt=_("Quanti minuti? "), kind="i", imin=1, imax=60, default=10)
-
-    print(_("Comandi rapidi: F9/F10 (WPM), F5 (Call), F6 (Serial), F7 (Rpt), F8 (NIL), Alt+W (Wipe), ESC (Exit), Enter (Check)"))
+    print(_("Contest come {call}, una stazione alla volta.").format(call=mio_nominativo))
+    print(_("F1 CQ, F2 scambio, F3 TU, F4 il mio call"))
+    print(_("F5 il suo call, F6 QSO B4, F7 ?, F8 NIL"))
+    print(_("Invio manda cio' che serve e mette a log"))
+    print(_("Tab cambia campo, lo spazio va allo scambio"))
+    print(_("Esc ferma la trasmissione o pulisce il campo"))
+    print(_("F9 e PagGiu' meno 2 WPM, F10 e PagSu piu' 2"))
+    print(_("Alt+Su e Alt+Giu' il tono, Ctrl+Su e Giu' la banda"))
+    print(_("Alt+W pulisce i campi, Alt+X chiude il contest"))
     key(_("Premi un tasto per iniziare..."))
-    print(f"\r{' ' * 79}\r", end="", flush=True)  # Clean initial line
-    # Nel contest il Farnsworth non esiste, per decisione presa: farnsworth=0
-    # lo spegne qualunque cosa sia impostato in k, e le statistiche si
-    # salvano sempre.
-    suona("CQ CQ TEST K", sync=True, farnsworth=0)
 
+    def prossimo_nominativo():
+        return Mkdqrz(random.choices(list(MDL.keys()), weights=list(MDL.values()), k=1))
+
+    banda = CONTEST_BANDA_DEFAULT
+    motore = ct.Contest(
+        mio_nominativo,
+        overall_speed,
+        overall_pitch,
+        prossimo_nominativo,
+        pileup=False,
+        sbadati=False,
+        qrm=False,
+        ampiezza_stereo=0,
+        banda=banda,
+        pesi_sporchi=(RX_LSP_VARIATION_PROBABILITY, RX_LSP_RANGE_L, RX_LSP_RANGE_S, RX_LSP_RANGE_P),
+    )
     start_time = dt.datetime.now()
     session_calls = 0
-    my_progressive = 0  # Counter for my sent serials (only increases on success)
     correct_calls = 0
     total_calls_correct = 0
     total_serials_correct = 0
-
-    # Stats trackers
     item_details = []
     sent_chars_detail_this_session = {}
     char_error_counts = {}
@@ -1715,396 +1784,287 @@ def RxingContest(menu_config_scelta):
     minwpm = None
     maxwpm = 0
     sum_wpm = 0.0
-    callssend = []
-    callsget = []
-    active_exerctime = dt.timedelta(0)  # Approssimato
+    active_exerctime = dt.timedelta(0)
+    campo_call = ""
+    campo_nr = ""
+    campo_attivo = "call"
+    call_mandato = False
+    scambio_mandato = False
+    suoni = {}
+    da_chiudere = set()
+    rwpm_corrente = 0.0
 
-    import queue
-    import threading
-    import time
+    def ferma(chi):
+        """Zittisce una trasmissione e la toglie dai suoni in corso."""
+        handle = suoni.pop(chi, None)
+        if handle is not None:
+            handle.stop()
 
-    input_queue = queue.Queue()
-    stop_event = threading.Event()
-    current_modifiers = set()
+    def riga_di_stato():
+        """La riga che si riscrive: il QSO, il nominativo e lo scambio, con il campo attivo in fondo.
 
-    def on_press(key):
-        if stop_event.is_set():
-            return False
-        try:
-            if key in {keyboard.Key.alt, keyboard.Key.alt_l, keyboard.Key.alt_r}:
-                current_modifiers.add("alt")
-            input_queue.put(("press", key))
-        except (AttributeError, ValueError):
-            # Tasto che pynput non sa classificare: si scarta e si prosegue,
-            # perche' un errore qui fermerebbe l'ascolto della tastiera.
-            pass
-
-    def on_release(key):
-        try:
-            if key in {keyboard.Key.alt, keyboard.Key.alt_l, keyboard.Key.alt_r}:
-                current_modifiers.discard("alt")
-            input_queue.put(("release", key))
-        except (AttributeError, ValueError):
-            pass
-
-    listener = keyboard.Listener(on_press=on_press, on_release=on_release, suppress=False)
-    listener.start()
-
-    current_audio = None
-    last_enter_time = 0
-    last_backspace_time = 0
-    ultima_rwpm_dx = 0.0
-
-    # Audio Helpers
-    def play_async(msg, speed=None, pitch=None, l=None, s=None, p=None):
-        # La velocita' effettiva la misura il motore CW sulla durata davvero
-        # prodotta: con i pesi sporchi della stazione DX si discosta parecchio
-        # da quella nominale, ed e' quella che deve finire nelle statistiche.
-        nonlocal current_audio, ultima_rwpm_dx
-        if current_audio:
-            current_audio.stop()
-        if msg:
-            current_audio, rwpm_prodotta = suona(msg, wpm=speed, pitch=pitch, l=l, s=s, p=p, sync=False, farnsworth=0)
-            ultima_rwpm_dx = rwpm_prodotta if current_audio is not None else 0.0
-
-    def play_sync_me(msg):
-        nonlocal current_audio
-        if current_audio:
-            current_audio.stop()
-        if msg:
-            suona(msg, sync=True, farnsworth=0)
-
-    try:
-        while True:
-            # Check duration
-            elapsed = dt.datetime.now() - start_time
-            elapsed_minutes = elapsed.total_seconds() / 60.0
-
-            if duration_type == 1 and session_calls >= limit:
-                break
-            if duration_type == 2 and elapsed_minutes >= limit:
-                break
-
-            # Generate Exchange
-            c = random.choices(list(MDL.keys()), weights=MDL.values(), k=1)
-            qrz = Mkdqrz(c)
-
-            # Serial
-            skill = random.randint(1, 4)
-            serial = round(1 + random.random() * max(0.1, elapsed_minutes) * skill)
-
-            # DX Params
-            dx_patience = random.randint(0, 5)
-            # round e non int: il troncamento e' asimmetrico e regalava mezzo
-            # wpm di sconto sistematico su tutto il contest.
-            dx_speed = limita_wpm(round(overall_speed * (1 + random.uniform(-0.1, 0.1))))
-
-            # Pitch logic with avoidance (+/- 5Hz) - UPDATED RANGE to +/- 300 with manual clamp 200-2000
-            dx_pitch = overall_pitch
-            for _tentativo in range(20):
-                dx_pitch = max(200, min(2000, overall_pitch + random.randint(-300, 300)))
-                if abs(dx_pitch - overall_pitch) > 5:
-                    break
-
-            # LSP Logic
-            dx_l, dx_s, dx_p = 30, 50, 50
-            if random.random() < RX_LSP_VARIATION_PROBABILITY:
-                dx_l = random.randint(*RX_LSP_RANGE_L)
-                dx_s = random.randint(*RX_LSP_RANGE_S)
-                dx_p = random.randint(*RX_LSP_RANGE_P)
-
-            # Messages
-            msg_call = qrz
-            msg_exchange = f"R 5NN {serial}"
-            msg_serial_only = str(serial)
-            msg_full_for_stats = f"{qrz} 5NN {serial}"
-
-            callssend.append(msg_full_for_stats)
-
-            # Update sent chars stats
-            for ch in msg_full_for_stats:
-                if ch.isalnum():
-                    sent_chars_detail_this_session[ch.lower()] = sent_chars_detail_this_session.get(ch.lower(), 0) + 1
-
-            # --- STARTQSO ---
-            current_stage = "CALL"
-            remaining_patience = dx_patience
-            qso_done = False
-            final_call_ok = False
-            final_serial_ok = False
-            current_buffer = []
-
-            def redraw_line():
-                # Legge di proposito le variabili del QSO in corso: viene
-                # chiamata soltanto dentro il giro che le ha appena definite.
-                if current_stage == "CALL":  # noqa: B023
-                    prompt_label = "CALL:"
-                else:
-                    prompt_label = f"{msg_call.upper()} 5NN NR:"  # noqa: B023
-                line_content = f"RX #{session_calls + 1} {prompt_label} {''.join(current_buffer)}"  # noqa: B023
-                print(f"\r{' ' * 79}\r{line_content}", end="", flush=True)
-
-            # 1. DX Calls (Async)
-            play_async(msg_call, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-            # La velocita' del QSO e' quella davvero prodotta dalla prima
-            # chiamata, non quella nominale chiesta al motore.
-            rwpm_qso = ultima_rwpm_dx if ultima_rwpm_dx > 0 else dx_speed
-            minwpm = rwpm_qso if minwpm is None else min(minwpm, rwpm_qso)
-            maxwpm = max(maxwpm, rwpm_qso)
-            sum_wpm += rwpm_qso
-
-            redraw_line()
-            item_start_time = dt.datetime.now()
-
-            while not qso_done:
-                try:
-                    event_type, event_key = input_queue.get(timeout=0.1)
-                    if event_type != "press":
-                        continue
-
-                    if event_key == keyboard.Key.esc:
-                        if current_audio:
-                            current_audio.stop()
-                        stop_event.set()
-                        return
-
-                    if event_key == keyboard.Key.enter:
-                        now = time.time()
-                        if now - last_enter_time < 0.5:
-                            continue
-                        last_enter_time = now
-
-                        if current_audio:
-                            current_audio.stop()
-                        typed = "".join(current_buffer).upper().strip()
-                        print()
-                        my_serial_to_send = my_progressive + 1
-
-                        if current_stage == "CALL":
-                            target = msg_call.upper()
-                            if typed == target:
-                                # CALL OK
-                                my_msg = f"{typed} 5NN {my_serial_to_send}"
-                                play_sync_me(my_msg)
-                                final_call_ok = True
-                                current_stage = "SERIAL"
-                                current_buffer = []
-                                time.sleep(0.2)
-                                play_async(msg_exchange, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                                redraw_line()
-                            elif typed == "":
-                                # Empty -> Me: TEST
-                                play_sync_me("TEST")
-                                if remaining_patience > 0:
-                                    remaining_patience -= 1
-                                    time.sleep(0.2)
-                                    play_async(msg_call, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                                    redraw_line()
-                                else:
-                                    print(f" {msg_full_for_stats.upper()} (NIL)")
-                                    qso_done = True
-                            else:
-                                # Wrong or Partial
-                                my_msg = f"{typed} 5NN {my_serial_to_send}"
-                                play_sync_me(my_msg)
-                                total_mistakes_calculated += collect_char_errors(target.lower(), typed.lower(), char_error_counts)
-
-                                # Partial Match Logic (New v5.1.0)
-                                # Requires >= 2 chars AND being a valid substring of target
-                                if len(typed) >= 2 and typed in target:
-                                    if remaining_patience > 0:
-                                        remaining_patience -= 1
-                                        reaction = random.randint(1, 3)
-                                        time.sleep(0.2)
-
-                                        if reaction == 1:
-                                            # Mode A: "R {call}" (Standard retry)
-                                            play_async(f"R {msg_call}", speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                                        elif reaction == 2:
-                                            # Mode B: "R {call} {call}" (Double repeat)
-                                            play_async(f"R {msg_call} {msg_call}", speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                                        else:
-                                            # Mode C: "R {call}" (Slow retry)
-                                            dx_speed = limita_wpm(round(dx_speed * random.uniform(0.7, 0.9)))
-                                            play_async(f"R {msg_call}", speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-
-                                        current_buffer = []
-                                        redraw_line()
-                                    else:
-                                        print(f" {msg_full_for_stats.upper()} (NIL)")
-                                        qso_done = True
-                                else:
-                                    # Totally Wrong
-                                    if remaining_patience > 0:
-                                        remaining_patience -= 1
-                                        time.sleep(0.2)
-                                        play_async(msg_call, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                                        current_buffer = []
-                                        redraw_line()
-                                    else:
-                                        print(f" {msg_full_for_stats.upper()} (NIL)")
-                                        qso_done = True
-
-                        else:  # current_stage == "SERIAL"
-                            target = msg_serial_only.upper()
-                            if typed == target:
-                                # SERIAL OK
-                                final_serial_ok = True
-                                qso_done = True
-                                correct_calls += 1
-                                my_progressive += 1
-                                callsget.append(msg_full_for_stats)
-                                item_details.append({"rwpm": rwpm_qso, "correct": True})
-                                final_msg = random.choice(["TU", "73", "GL", "R", ""])
-                                if final_msg:
-                                    time.sleep(0.2)
-                                    play_async(final_msg, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                            elif typed == "":
-                                play_sync_me("TEST")
-                                if remaining_patience > 0:
-                                    remaining_patience -= 1
-                                    time.sleep(0.2)
-                                    play_async(msg_serial_only, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                                    redraw_line()
-                                else:
-                                    print(f" {msg_full_for_stats.upper()} (NIL)")
-                                    qso_done = True
-                            else:
-                                # Wrong
-                                total_mistakes_calculated += collect_char_errors(target.lower(), typed.lower(), char_error_counts)
-                                if remaining_patience > 0:
-                                    remaining_patience -= 1
-                                    time.sleep(0.2)
-                                    play_async(msg_serial_only, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                                    current_buffer = []
-                                    redraw_line()
-                                else:
-                                    print(f" {msg_full_for_stats.upper()} (NIL)")
-                                    qso_done = True
-
-                        while not input_queue.empty():
-                            try:
-                                input_queue.get_nowait()
-                            except queue.Empty:
-                                break
-
-                    elif event_key == keyboard.Key.backspace:
-                        now = time.time()
-                        if now - last_backspace_time < 0.15:
-                            continue
-                        last_backspace_time = now
-                        if current_buffer:
-                            current_buffer.pop()
-                            redraw_line()
-
-                    elif event_key == keyboard.Key.f10:
-                        # Senza tetto si superava il massimo che il motore CW
-                        # accetta, e da li' in poi non si sentiva piu' niente.
-                        overall_speed = min(WPM_MAX, overall_speed + 2)
-                        print(f"\n[WPM: {overall_speed}]")
-                        redraw_line()
-
-                    elif event_key == keyboard.Key.f9:
-                        overall_speed = max(WPM_MIN, overall_speed - 2)
-                        print(f"\n[WPM: {overall_speed}]")
-                        # La velocita' e' quella globale e resta dopo il
-                        # contest: il Farnsworth di k deve seguirla. Dopo la
-                        # riga del WPM, cosi' il suo messaggio non si incolla
-                        # al nominativo che si stava scrivendo.
-                        allinea_farnsworth()
-                        redraw_line()
-
-                    elif event_key == keyboard.Key.f7:
-                        if current_audio:
-                            current_audio.stop()
-                        play_sync_me("?")
-                        if remaining_patience > 0:
-                            remaining_patience -= 1
-                            msg_to_rpt = msg_call if current_stage == "CALL" else msg_exchange
-                            play_async(msg_to_rpt, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                        else:
-                            print(f" {msg_full_for_stats.upper()} (NIL)")
-                            qso_done = True
-
-                    elif event_key == keyboard.Key.f8:
-                        if current_audio:
-                            current_audio.stop()
-                        play_sync_me("NIL")
-                        print(f" {msg_full_for_stats.upper()} (NIL)")
-                        qso_done = True
-
-                    elif event_key == keyboard.Key.f5:
-                        if current_audio:
-                            current_audio.stop()
-                        play_sync_me("?")
-                        if remaining_patience > 0:
-                            remaining_patience -= 1
-                            play_async(msg_call, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                        else:
-                            print(f" {msg_full_for_stats.upper()} (NIL)")
-                            qso_done = True
-
-                    elif event_key == keyboard.Key.f6:
-                        if current_audio:
-                            current_audio.stop()
-                        play_sync_me("?")
-                        if remaining_patience > 0:
-                            remaining_patience -= 1
-                            play_async(msg_serial_only, speed=dx_speed, pitch=dx_pitch, l=dx_l, s=dx_s, p=dx_p)
-                        else:
-                            print(f" {msg_full_for_stats.upper()} (NIL)")
-                            qso_done = True
-
-                    elif hasattr(event_key, "char") and event_key.char == "w" and "alt" in current_modifiers:
-                        if current_audio:
-                            current_audio.stop()
-                        current_buffer = []
-                        print(f"\r{' ' * 79}", end="\r", flush=True)
-                        redraw_line()
-
-                    elif hasattr(event_key, "char") and event_key.char:
-                        if event_key.char.isalnum() or event_key.char in [" ", "/"]:
-                            current_buffer.append(event_key.char)
-                            print(event_key.char, end="", flush=True)
-
-                except queue.Empty:
-                    pass
-
-            if not final_call_ok or not final_serial_ok:
-                item_details.append({"rwpm": rwpm_qso, "correct": False})
-
-            if final_call_ok:
-                total_calls_correct += 1
-            if final_serial_ok:
-                total_serials_correct += 1
-
-            if current_audio:
-                current_audio.wait_done()
-            time.sleep(1.0)
-
-            active_exerctime += dt.datetime.now() - item_start_time
-            session_calls += 1
-
-    finally:
-        if current_audio:
-            current_audio.stop()
-        play_sync_me("_ + QRT TU E E")
-        stop_event.set()
-        listener.stop()
-        if os.name == "nt":
-            import msvcrt
-
-            while msvcrt.kbhit():
-                msvcrt.getch()
+        Decisione D2: si riscrive solo quando si batte un tasto, cosi' il
+        display braille non insegue una riga che cambia da sola.
+        """
+        if campo_attivo == "call":
+            testo = _("Q{n} CALL {call}").format(n=session_calls + 1, call=campo_call)
         else:
-            import sys
-            import termios
+            testo = _("Q{n} {call} NR {nr}").format(n=session_calls + 1, call=campo_call or "?", nr=campo_nr)
+        print(f"\r{' ' * 79}\r{testo}", end="", flush=True)
 
-            try:  # noqa: SIM105 -- il commento spiega perche' si tace
-                termios.tcflush(sys.stdin, termios.TCIOFLUSH)
-            except (OSError, termios.error):
-                # Svuotare la tastiera e' un di piu': se non riesce, pazienza.
-                pass
+    def dillo(riga):
+        """Una riga di servizio in mezzo al contest, al posto della riga di stato.
+
+        Non ridisegna: la riga di stato torna alla prossima battuta, perche'
+        la decisione D2 vuole che si riscriva quando si batte un tasto.
+        """
+        print(f"\r{' ' * 79}\r{riga}")
+
+    def trasmetti(messaggi, adesso):
+        """Comincia una mia trasmissione: il motore compone il testo, il ciclo lo suona.
+
+        Se il motore CW non suona, la trasmissione si dichiara finita subito:
+        altrimenti le stazioni resterebbero in ascolto di una voce che non
+        arriva mai e il contest si fermerebbe.
+        """
+        ferma(ct.IO)
+        richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=campo_call.strip())
+        handle, _rwpm = suona(richiesta.testo, sync=False, farnsworth=0)
+        if handle is None:
+            motore.io_finito(adesso)
+            return
+        suoni[ct.IO] = handle
+
+    def conta_caratteri(testo):
+        """I caratteri che mi sono stati mandati, per il tasso di errore per carattere."""
+        for ch in testo:
+            if ch.isalnum():
+                sent_chars_detail_this_session[ch.lower()] = sent_chars_detail_this_session.get(ch.lower(), 0) + 1
+
+    def segna_velocita(rwpm):
+        """La velocita' davvero prodotta da questo QSO entra nelle statistiche."""
+        nonlocal minwpm, maxwpm, sum_wpm
+        minwpm = rwpm if minwpm is None else min(minwpm, rwpm)
+        maxwpm = max(maxwpm, rwpm)
+        sum_wpm += rwpm
+
+    def chiudi_qso(voce, verifica, verita):
+        """Un QSO e' a log: statistiche, errori per carattere e la riga che lo dice.
+
+        La verifica del motore dice dov'e' l'errore: vuota se e' tutto giusto,
+        NIL se il nominativo e' sbagliato, NR se il numero, RST se il rapporto.
+        I caratteri mandati si contano una volta per QSO, come faceva il
+        contest di prima, cosi' le sessioni restano confrontabili nell'archivio
+        anche se una stazione ha ripetuto dieci volte.
+        """
+        nonlocal session_calls, correct_calls, total_calls_correct, total_serials_correct, total_mistakes_calculated
+        vero_call, _vero_rst, vero_nr = verita if verita else (voce.nominativo, voce.rst_ricevuto, voce.nr_ricevuto)
+        call_ok = verifica != "NIL"
+        serial_ok = verifica in ("", "RST")
+        session_calls += 1
+        if verifica == "":
+            correct_calls += 1
+        if call_ok:
+            total_calls_correct += 1
+        if serial_ok:
+            total_serials_correct += 1
+        rwpm = rwpm_corrente if rwpm_corrente > 0 else float(overall_speed)
+        item_details.append({"rwpm": rwpm, "correct": verifica == ""})
+        segna_velocita(rwpm)
+        conta_caratteri(f"{vero_call} 5NN {vero_nr}")
+        if verita and not call_ok:
+            total_mistakes_calculated += collect_char_errors(vero_call.lower(), voce.nominativo.lower(), char_error_counts)
+        if verita and not serial_ok:
+            total_mistakes_calculated += collect_char_errors(str(vero_nr), str(voce.nr_ricevuto), char_error_counts)
+        if verifica == "":
+            dillo(_("{call} {nr} a log.").format(call=voce.nominativo, nr=voce.nr_ricevuto))
+        elif verita:
+            dillo(_("{call} {nr}: {esito}, era {vero} {vero_nr}.").format(call=voce.nominativo, nr=voce.nr_ricevuto, esito=verifica, vero=vero_call, vero_nr=vero_nr))
+        else:
+            dillo(_("{call} {nr}: {esito}.").format(call=voce.nominativo, nr=voce.nr_ricevuto, esito=verifica))
+
+    def abbandona(nominativo):
+        """La stazione ha perso la pazienza e se ne e' andata: e' il NIL del contest di prima."""
+        nonlocal session_calls
+        session_calls += 1
+        rwpm = rwpm_corrente if rwpm_corrente > 0 else float(overall_speed)
+        item_details.append({"rwpm": rwpm, "correct": False})
+        segna_velocita(rwpm)
+        conta_caratteri(nominativo)
+        dillo(_("{call} se n'è andata.").format(call=nominativo))
+
+    def durata_finita(adesso):
+        """Vero quando il contest ha raggiunto i QSO chiesti o i minuti chiesti."""
+        if duration_type == 1:
+            return session_calls >= limit
+        return adesso >= limit * 60.0
+
+    t0 = time.monotonic()
+    try:
+        trasmetti([ct.Msg.CQ], 0.0)
+        riga_di_stato()
+        while True:
+            adesso = time.monotonic() - t0
+            finite = set(da_chiudere)
+            da_chiudere.clear()
+            for chi, handle in list(suoni.items()):
+                if not handle.is_playing.is_set():
+                    finite.add(chi)
+                    del suoni[chi]
+            esito = motore.avanza(adesso, finite)
+            for richiesta in esito.richieste:
+                handle, rwpm = suona(richiesta.testo, wpm=richiesta.wpm, pitch=richiesta.pitch, l=richiesta.l, s=richiesta.s, p=richiesta.p, sync=False, farnsworth=0)
+                if handle is None:
+                    da_chiudere.add(richiesta.stazione)
+                    continue
+                suoni[richiesta.stazione] = handle
+                if rwpm > 0:
+                    rwpm_corrente = rwpm
+            # La verita' della stazione e la riga a log arrivano nello stesso
+            # giro, perche' il log si chiude quando la stazione ha finito. Se
+            # nessuna riga la consuma, per esempio dopo un TU mandato con F3
+            # senza mettere a log, quella verita' si perde qui: tenerla per il
+            # QSO seguente lo manderebbe a NIL senza colpa.
+            verita_del_giro = None
+            for evento in esito.eventi:
+                if evento[0] == "qso":
+                    verita_del_giro = evento[1]
+                elif evento[0] == "log":
+                    chiudi_qso(evento[1], evento[2], verita_del_giro)
+                    verita_del_giro = None
+                elif evento[0] == "rinuncia":
+                    abbandona(evento[1])
+            if durata_finita(adesso):
+                break
+            tasto = key(attesa=CONTEST_PASSO_CICLO, alla_scadenza=None)
+            if tasto is None:
+                continue
+            if tasto == "alt-x":
+                break
+            if tasto == "\x1b":
+                if ct.IO in suoni:
+                    ferma(ct.IO)
+                    motore.annulla_trasmissione(adesso)
+                elif campo_attivo == "call":
+                    campo_call = ""
+                    call_mandato = False
+                else:
+                    campo_nr = ""
+            elif tasto == "alt-w":
+                if ct.IO in suoni:
+                    ferma(ct.IO)
+                    motore.annulla_trasmissione(adesso)
+                campo_call, campo_nr, campo_attivo = "", "", "call"
+                call_mandato = scambio_mandato = False
+            elif tasto == "\r":
+                if not campo_call.strip():
+                    trasmetti([ct.Msg.CQ], adesso)
+                else:
+                    # L'Invio manda cio' che manca, come in Morse Runner: il
+                    # nominativo se non l'ho ancora mandato, il mio scambio se
+                    # non l'ho ancora dato, il punto interrogativo se aspetto
+                    # il suo e non e' arrivato, il TU quando il suo scambio c'e'.
+                    gia_call, gia_scambio = call_mandato, scambio_mandato
+                    letto = leggi_scambio(campo_nr)
+                    messaggi = []
+                    if (not gia_call) or ((not gia_scambio) and letto is None):
+                        messaggi.append(ct.Msg.SUO)
+                    if not gia_scambio:
+                        messaggi.append(ct.Msg.NR)
+                    if gia_scambio and letto is None:
+                        messaggi.append(ct.Msg.QM)
+                    chiude = letto is not None and (gia_call or gia_scambio)
+                    if chiude:
+                        messaggi.append(ct.Msg.TU)
+                    if ct.Msg.SUO in messaggi:
+                        call_mandato = True
+                    if ct.Msg.NR in messaggi:
+                        scambio_mandato = True
+                    if chiude:
+                        motore.registra_qso(adesso, campo_call.strip(), letto[1], letto[0])
+                    elif campo_attivo == "call":
+                        campo_attivo = "nr"
+                    if messaggi:
+                        trasmetti(messaggi, adesso)
+                    if chiude:
+                        campo_call, campo_nr, campo_attivo = "", "", "call"
+                        call_mandato = scambio_mandato = False
+            elif tasto == "\x08":
+                if campo_attivo == "call":
+                    campo_call = campo_call[:-1]
+                    call_mandato = False
+                elif campo_nr:
+                    campo_nr = campo_nr[:-1]
+                else:
+                    campo_attivo = "call"
+            elif tasto in ("\t", " ") and campo_attivo == "call":
+                campo_attivo = "nr"
+            elif tasto == "\t":
+                campo_attivo = "call"
+            elif tasto == "shift-tab":
+                campo_attivo = "call" if campo_attivo == "nr" else "nr"
+            elif tasto == "f1":
+                trasmetti([ct.Msg.CQ], adesso)
+            elif tasto == "f2":
+                trasmetti([ct.Msg.NR], adesso)
+                scambio_mandato = True
+            elif tasto == "f3":
+                trasmetti([ct.Msg.TU], adesso)
+            elif tasto == "f4":
+                trasmetti([ct.Msg.MIO], adesso)
+            elif tasto == "f5":
+                trasmetti([ct.Msg.SUO], adesso)
+                call_mandato = True
+            elif tasto == "f6":
+                trasmetti([ct.Msg.B4], adesso)
+            elif tasto == "f7":
+                trasmetti([ct.Msg.QM], adesso)
+            elif tasto == "f8":
+                trasmetti([ct.Msg.NIL], adesso)
+            elif tasto in ("f10", "pageup", "f9", "pagedown"):
+                # Senza tetto si superava il massimo che il motore CW accetta,
+                # e da li' in poi non si sentiva piu' niente.
+                if tasto in ("f10", "pageup"):
+                    overall_speed = min(WPM_MAX, overall_speed + CONTEST_PASSO_WPM)
+                else:
+                    overall_speed = max(WPM_MIN, overall_speed - CONTEST_PASSO_WPM)
+                motore.mio_wpm = overall_speed
+                dillo(_("WPM {valore}").format(valore=overall_speed))
+                # La velocita' e' quella globale e resta dopo il contest: il
+                # Farnsworth di k deve seguirla.
+                allinea_farnsworth()
+            elif tasto in ("alt-up", "alt-down"):
+                passo = CONTEST_PASSO_PITCH if tasto == "alt-up" else -CONTEST_PASSO_PITCH
+                overall_pitch = max(200, min(2000, overall_pitch + passo))
+                motore.mio_pitch = overall_pitch
+                dillo(_("Tono {valore}").format(valore=overall_pitch))
+            elif tasto in ("ctrl-up", "ctrl-down"):
+                passo = CONTEST_PASSO_BANDA if tasto == "ctrl-up" else -CONTEST_PASSO_BANDA
+                banda = max(CONTEST_BANDA_MIN, min(CONTEST_BANDA_MAX, banda + passo))
+                motore.banda = banda
+                dillo(_("Banda {valore}").format(valore=banda))
+            elif len(tasto) == 1 and (tasto.isalnum() or tasto in "/?"):
+                if campo_attivo == "call":
+                    campo_call += tasto.upper()
+                    call_mandato = False
+                else:
+                    campo_nr += tasto.upper()
+            elif tasto == " ":
+                campo_nr += " "
+            else:
+                continue
+            riga_di_stato()
+    finally:
+        for chi in list(suoni):
+            ferma(chi)
+        for evento in motore.chiudi_contest():
+            chiudi_qso(evento[1], evento[2], None)
+        active_exerctime = dt.datetime.now() - start_time
+        print()
+        suona("_ + QRT TU E E", sync=True, farnsworth=0)
+        # I tasti battuti mentre suonava il saluto non devono finire nel menu.
+        while key(attesa=0, alla_scadenza=None) is not None:
+            pass
 
         # --- STATS SAVING ---
         if session_calls == 0:
@@ -3093,7 +3053,7 @@ def main():
     global app_data
     global overall_speed, overall_pitch, overall_dashes, overall_spaces, overall_dots
     global overall_volume, overall_ms, overall_fs, overall_wave, overall_farnsworth
-    global overall_uscita_interfaccia, overall_uscita_dispositivo, overall_api
+    global overall_uscita_interfaccia, overall_uscita_dispositivo, overall_api, overall_contest_call
     app_data = load_settings()
     app_data["app_info"]["launch_count"] = app_data.get("app_info", {}).get("launch_count", 0) + 1
     launch_count = app_data["app_info"]["launch_count"]
@@ -3112,6 +3072,7 @@ def main():
     overall_farnsworth = limita_farnsworth(overall_settings.get("farnsworth", 0), overall_speed)
     overall_uscita_interfaccia = overall_settings.get("uscita_interfaccia", "") or ""
     overall_uscita_dispositivo = overall_settings.get("uscita_dispositivo", "") or ""
+    overall_contest_call = (overall_settings.get("contest_call", "") or "").strip().upper()
     overall_api = risolvi_uscita_audio(overall_uscita_interfaccia, overall_uscita_dispositivo)
     # La frequenza di .sr e' quella con cui il mixer apre la scheda: il
     # mixer condiviso di GBUtils parte a 44100 e ricampionerebbe tutto.
@@ -3185,6 +3146,7 @@ def main():
             "farnsworth": overall_farnsworth,
             "uscita_interfaccia": overall_uscita_interfaccia,
             "uscita_dispositivo": overall_uscita_dispositivo,
+            "contest_call": overall_contest_call,
         }
     )
     save_settings(app_data)
