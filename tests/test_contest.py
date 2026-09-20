@@ -363,6 +363,40 @@ class TestCorrezioniDelPorting:
     def test_i_disturbi_hanno_l_intervallo_di_cwsim(self):
         assert ct.INTERVALLO_QRM == 240.0
 
+    def test_senza_qsb_nessuna_stazione_evanesce(self):
+        m = motore()
+        assert all(m.evanescenza() is None for _ in range(20))
+
+    def test_con_il_qsb_ogni_stazione_prende_la_sua_banda(self):
+        m = motore(qsb=True)
+        bande = [m.evanescenza() for _ in range(50)]
+        assert all(ct.QSB_BANDA[0] <= b <= ct.QSB_BANDA[1] for b in bande)
+        assert len(set(bande)) > 10
+
+    def test_con_il_flutter_tre_stazioni_su_dieci_vanno_veloci(self):
+        m = motore(qsb=True, flutter=True, seme=3)
+        bande = [m.evanescenza() for _ in range(400)]
+        veloci = [b for b in bande if b >= ct.FLUTTER_BANDA[0]]
+        assert all(ct.FLUTTER_BANDA[0] <= b <= ct.FLUTTER_BANDA[1] for b in veloci)
+        assert 0.2 < len(veloci) / len(bande) < 0.4, len(veloci) / len(bande)
+
+    def test_il_flutter_senza_qsb_non_esiste(self):
+        m = motore(qsb=False, flutter=True)
+        assert all(m.evanescenza() is None for _ in range(20))
+
+    def test_la_richiesta_porta_la_banda_della_stazione(self):
+        m = motore(pileup=False, qsb=True, seme=4)
+        m.avanza(0.0)
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        richieste, _ = avanza_fino(m, 1.0, 3.0, finite=[ct.IO])
+        assert richieste
+        assert all(r.qsb is not None for r in richieste)
+        assert all(ct.QSB_BANDA[0] <= r.qsb <= ct.FLUTTER_BANDA[1] for r in richieste)
+
+    def test_il_mio_messaggio_non_evanesce_mai(self):
+        m = motore(pileup=False, qsb=True, flutter=True)
+        assert m.io_trasmetti([ct.Msg.CQ], 0.0).qsb is None
+
     def test_l_ultima_lettera_sbagliata_non_e_gratis(self):
         o = ct.Operatore(random.Random(1), motore(), "DL3XY", 0.0, True)
         assert o.distanza("DL3XY") == 0

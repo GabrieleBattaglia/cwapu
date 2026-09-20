@@ -253,9 +253,6 @@ CONTEST_PREDEFINITI = {
     "manipolo_p_min": 15,
     "manipolo_p_max": 50,
 }
-# Gli effetti che il motore audio non offre ancora: gli interruttori ci sono,
-# ma dicono che non e' il momento. Sono le issue 39 e 40 su GBUtils.
-CONTEST_NON_DISPONIBILI = ("qrn", "qsb", "flutter")
 CONTEST_VOCI = [
     {"id": "1", "key_state": "qrn", "etichetta": _("QRN")},
     {
@@ -306,6 +303,32 @@ CONTEST_VOCI = [
         ),
     },
 ]
+def effetti_non_disponibili():
+    """Gli effetti radio che la GBUtils installata non sa ancora fare.
+
+    QSB e flutter vogliono il parametro qsb di CWzator, il fondo di QRN vuole
+    Acusticator.ciclo: sono arrivati insieme con la V165. Con una GBUtils piu'
+    vecchia gli interruttori restano, e dicono che non e' ancora il momento,
+    invece di far fallire il contest a meta'.
+    """
+    import inspect
+
+    mancanti = []
+    if not hasattr(Acusticator, "ciclo"):
+        mancanti.append("qrn")
+    try:
+        if "qsb" not in inspect.signature(CWzator).parameters:
+            mancanti.extend(("qsb", "flutter"))
+    except (TypeError, ValueError):  # pragma: no cover - una firma illeggibile e' un caso che non si e' mai visto
+        mancanti.extend(("qsb", "flutter"))
+    return tuple(mancanti)
+
+
+CONTEST_NON_DISPONIBILI = effetti_non_disponibili()
+# Il fondo di rumore: dieci secondi sintetizzati una volta sola e tenuti in
+# ciclo sotto le stazioni, limitati alla banda del filtro del ricevitore.
+CONTEST_FONDO_SECONDI = 10.0
+CONTEST_FONDO_VOLUME = 0.5
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 730
 HISTORICAL_RX_REPORT_INTERVAL = 3500
 
@@ -691,7 +714,7 @@ def scegli_uscita_audio(elenco=None, chiedi=None, automatica=None):
     return (voce["breve"], voce["dispositivo"])
 
 
-def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None):
+def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None):
     """Manda un messaggio al motore CW con le impostazioni correnti dell'utente.
 
     Raccoglie i dieci parametri che ogni chiamata ripeteva identici e lascia
@@ -710,6 +733,10 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
     questo messaggio da zero a uno; None prende il volume generale. Servono al
     pile-up, dove ogni stazione arriva da una sua posizione e con una sua
     forza, e non cambiano niente per chi non li passa.
+    qsb: la banda in hertz dell'evanescenza, cioe' il segnale che va e viene;
+    None non ne mette. Si passa al motore soltanto quando c'e', cosi' con una
+    GBUtils precedente alla V165, che il parametro non lo conosce, tutto il
+    resto continua a funzionare.
     """
     effettiva = overall_farnsworth if farnsworth is None else farnsworth
     parametri = {
@@ -729,6 +756,8 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
         "farnsworth": effettiva or None,
         "api": overall_api,
     }
+    if qsb is not None:
+        parametri["qsb"] = qsb
     handle, rwpm = CWzator(**parametri)
     errore = getattr(CWzator, "ultimo_errore", None)
     if handle is None and effettiva and "farnsworth" in str(errore).lower():
@@ -2022,6 +2051,8 @@ def RxingContest(menu_config_scelta):
         sbadati=stati["sbadati"],
         qrm=stati["qrm"],
         qrm_massime=stati["qrm_massime"],
+        qsb=stati["qsb"],
+        flutter=stati["flutter"],
         ampiezza_stereo=stati["stereo"],
         banda=banda,
         pesi_sporchi=pesi_del_manipolo(stati),
@@ -2045,6 +2076,34 @@ def RxingContest(menu_config_scelta):
     suoni = {}
     da_chiudere = set()
     rwpm_corrente = 0.0
+    fondo = None
+
+    def accendi_fondo():
+        """Il fruscio di QRN, limitato alla banda del filtro, in ciclo sotto le stazioni.
+
+        Si risintetizza quando la banda o il tono cambiano, perche' stringere
+        il filtro deve stringere anche il rumore: sono cinquanta millesimi di
+        secondo, e succede solo quando si batte un tasto.
+        """
+        nonlocal fondo
+        spegni_fondo()
+        if not stati["qrn"]:
+            return
+        basso = max(50, overall_pitch - banda // 2)
+        alto = max(basso + 50, overall_pitch + banda // 2)
+        fondo = Acusticator.ciclo(
+            [f"{basso}-{alto}", CONTEST_FONDO_SECONDI, 0.0, CONTEST_FONDO_VOLUME],
+            kind=6,
+            adsr=[0, 0, 100, 0],
+            fs=SAMPLE_RATES[overall_fs],
+        )
+
+    def spegni_fondo():
+        """Spegne il fondo, e soltanto quello: le stazioni proseguono."""
+        nonlocal fondo
+        if fondo is not None:
+            fondo.stop()
+            fondo = None
 
     def ferma(chi):
         """Zittisce una trasmissione e la toglie dai suoni in corso."""
@@ -2155,6 +2214,7 @@ def RxingContest(menu_config_scelta):
 
     t0 = time.monotonic()
     try:
+        accendi_fondo()
         trasmetti([ct.Msg.CQ], 0.0)
         riga_di_stato()
         while True:
@@ -2178,6 +2238,7 @@ def RxingContest(menu_config_scelta):
                     farnsworth=0,
                     pan=richiesta.pan,
                     vol=richiesta.volume,
+                    qsb=richiesta.qsb,
                 )
                 if handle is None:
                     da_chiudere.add(richiesta.stazione)
@@ -2276,11 +2337,13 @@ def RxingContest(menu_config_scelta):
                 passo = CONTEST_PASSO_PITCH if tasto == "alt-up" else -CONTEST_PASSO_PITCH
                 overall_pitch = max(200, min(2000, overall_pitch + passo))
                 motore.mio_pitch = overall_pitch
+                accendi_fondo()
                 dillo(_("Tono {valore}").format(valore=overall_pitch))
             elif tasto in ("ctrl-up", "ctrl-down"):
                 passo = CONTEST_PASSO_BANDA if tasto == "ctrl-up" else -CONTEST_PASSO_BANDA
                 banda = max(CONTEST_BANDA_MIN, min(CONTEST_BANDA_MAX, banda + passo))
                 motore.banda = banda
+                accendi_fondo()
                 dillo(_("Banda {valore}").format(valore=banda))
             elif len(tasto) == 1 and (tasto.isalnum() or tasto in "/?"):
                 campo += tasto.upper()
@@ -2292,6 +2355,7 @@ def RxingContest(menu_config_scelta):
                 continue
             riga_di_stato()
     finally:
+        spegni_fondo()
         for chi in list(suoni):
             ferma(chi)
         for evento in motore.chiudi_contest():

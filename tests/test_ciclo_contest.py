@@ -69,6 +69,31 @@ class Suono:
         self.fine = self.orologio.adesso
 
 
+class Fondo:
+    """La finta maniglia di un ciclo acceso, con il conto degli stop."""
+
+    def __init__(self, score, chiavi):
+        self.score = score
+        self.chiavi = chiavi
+        self.fermato = False
+
+    def stop(self):
+        self.fermato = True
+        return True
+
+
+class Acustica:
+    """Al posto di Acusticator: registra i cicli accesi invece di suonarli."""
+
+    def __init__(self):
+        self.cicli = []
+
+    def ciclo(self, score, **chiavi):
+        acceso = Fondo(score, chiavi)
+        self.cicli.append(acceso)
+        return acceso
+
+
 class MotoreFinto:
     """Al posto di suona: registra cio' che gli si chiede e restituisce un suono."""
 
@@ -77,9 +102,9 @@ class MotoreFinto:
         self.testi = []
         self.chiamate = []
 
-    def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None):
+    def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None):
         self.testi.append(msg)
-        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol})
+        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol, "qsb": qsb})
         if sync:
             return None, 0.0
         # Un carattere ogni sessanta millesimi e' l'ordine di grandezza del CW
@@ -155,11 +180,13 @@ def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY", contest=None):
     nominativi = itertools.cycle([nominativo] if isinstance(nominativo, str) else nominativo)
     monkeypatch.setattr(cwapu, "Mkdqrz", lambda scelta: next(nominativi))
     monkeypatch.setattr(cwapu, "apri_diario", finto_diario)
+    acustica = Acustica()
+    monkeypatch.setattr(cwapu, "Acusticator", acustica)
     monkeypatch.setattr(cwapu.ct, "Contest", Spia)
     dati = copy.deepcopy(cwapu.DEFAULT_DATA)
     dati["contest_settings"].update(contest or {})
     monkeypatch.setattr(cwapu, "app_data", dati, raising=False)
-    return {"orologio": orologio, "cw": cw, "tastiera": tastiera, "diario": diario, "contest": contest_creati}
+    return {"orologio": orologio, "cw": cw, "tastiera": tastiera, "diario": diario, "contest": contest_creati, "acustica": acustica}
 
 
 def scrivi(istante, testo):
@@ -359,6 +386,38 @@ class TestCicloContest:
         assert motore.sbadati is False
         assert motore.qrm is True and motore.qrm_massime == 3
         assert motore.pesi_sporchi[0] == 0
+
+    def test_con_il_qrn_il_fondo_si_accende_e_si_spegne(self, monkeypatch):
+        banco = prepara(monkeypatch, [(2.0, "alt-x")], contest={"qrn": True, "banda": 400})
+        cwapu.RxingContest({})
+        cicli = banco["acustica"].cicli
+        assert len(cicli) == 1
+        # Il rumore e' limitato alla banda del filtro attorno al mio tono.
+        assert cicli[0].score[0] == "350-750"
+        assert cicli[0].chiavi["kind"] == 6
+        assert cicli[0].fermato is True
+
+    def test_senza_qrn_non_si_accende_niente(self, monkeypatch):
+        banco = prepara(monkeypatch, [(2.0, "alt-x")], contest={"qrn": False})
+        cwapu.RxingContest({})
+        assert banco["acustica"].cicli == []
+
+    def test_stringendo_la_banda_il_fondo_si_rifa(self, monkeypatch):
+        banco = prepara(monkeypatch, [(1.0, "ctrl-down"), (2.0, "alt-x")], contest={"qrn": True, "banda": 400})
+        cwapu.RxingContest({})
+        cicli = banco["acustica"].cicli
+        assert len(cicli) == 2
+        assert cicli[0].score[0] == "350-750" and cicli[1].score[0] == "375-725"
+        assert all(c.fermato for c in cicli)
+
+    def test_con_il_qsb_le_stazioni_evanescono(self, monkeypatch):
+        banco = prepara(monkeypatch, [(6.0, "alt-x")], contest={"qsb": True})
+        cwapu.RxingContest({})
+        stazioni = [c for c in banco["cw"].chiamate if c["vol"] is not None]
+        assert stazioni
+        assert all(c["qsb"] is not None for c in stazioni)
+        mie = [c for c in banco["cw"].chiamate if c["vol"] is None]
+        assert all(c["qsb"] is None for c in mie)
 
     def test_alt_s_dice_come_va(self, monkeypatch, capsys):
         copione = [(2.0, "alt-s"), (2.5, "alt-x")]

@@ -182,12 +182,22 @@ class TestPesiDelManipolo:
 
 
 class TestPannelloContest:
-    def test_gli_effetti_che_non_ci_sono_ancora_restano_spenti(self, monkeypatch):
+    def test_gli_effetti_si_accendono_se_gbutils_li_sa_fare(self, monkeypatch):
         for numero, chiave in (("1", "qrn"), ("3", "qsb"), ("4", "flutter")):
             banco(monkeypatch, numero)
             stati = cwapu.pannello_contest()
             assert stati is not None
-            assert stati[chiave] is False
+            assert stati[chiave] is (chiave not in cwapu.CONTEST_NON_DISPONIBILI)
+
+    def test_un_effetto_che_gbutils_non_sa_fare_resta_spento(self, monkeypatch):
+        """Con una GBUtils vecchia l'interruttore c'e' e dice che non e' il momento."""
+        banco(monkeypatch, "1")
+        monkeypatch.setattr(cwapu, "CONTEST_NON_DISPONIBILI", ("qrn",))
+        assert cwapu.pannello_contest()["qrn"] is False
+
+    def test_con_la_gbutils_di_oggi_gli_effetti_ci_sono_tutti(self):
+        """La V165 porta il qsb di CWzator e il ciclo di Acusticator."""
+        assert cwapu.effetti_non_disponibili() == ()
 
     def test_l_escape_esce_senza_stati(self, monkeypatch):
         banco(monkeypatch, "\x1b")

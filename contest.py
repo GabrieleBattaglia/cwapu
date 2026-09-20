@@ -37,6 +37,13 @@ SKILLS_ATTESA = 6
 INTERVALLO_QRM = 240.0  # il tqrm di cwsim: un disturbo ogni quattro minuti
 PESO_STANDARD = (30, 50, 50)
 PAN_MASSIMO = 100.0
+# Le bande dell'evanescenza, da Morse Runner: l'inverso del tempo di
+# correlazione, in hertz. Il QSB delle propagazioni normali e' lento, il
+# flutter di quelle polari e' rapido, e tocca a tre stazioni su dieci fra
+# quelle che hanno gia' il QSB.
+QSB_BANDA = (0.1, 0.6)
+FLUTTER_BANDA = (3.0, 33.0)
+PROB_FLUTTER = 0.3
 
 
 def numero_come_testo(rng, rst, nr, errore=False):
@@ -173,6 +180,8 @@ class Richiesta:
     volume: float
     pan: float
     messaggi: tuple
+    # La banda dell'evanescenza di questa stazione, None se non ne ha.
+    qsb: float = None
 
 
 @dataclass
@@ -491,6 +500,10 @@ class Stazione:
         self.rst = 599
         self.nr = 1
         self.errore_nr = False
+        # La banda dell'evanescenza: le figlie la prendono dal motore, che
+        # sa se il QSB e il flutter sono accesi. Qui resta None, cosi' una
+        # stazione costruita a mano nelle prove non ne ha.
+        self.qsb = None
 
     @property
     def suo(self):
@@ -522,7 +535,7 @@ class Stazione:
         # Il volume della richiesta e' gia' filtrato: la forza della stazione
         # attenuata da quanto il suo tono e' lontano dal mio, cioe' il filtro
         # del ricevitore reso voce per voce, come dice il piano.
-        return Richiesta(self.id, testo, self.wpm, self.pitch, self.l, self.s, self.p, self.motore.guadagno(self), self.pan, tuple(self.messaggi))
+        return Richiesta(self.id, testo, self.wpm, self.pitch, self.l, self.s, self.p, self.motore.guadagno(self), self.pan, tuple(self.messaggi), self.qsb)
 
     def tick(self, adesso, finita):
         """Un giro di orologio: chiude la trasmissione finita o fa scattare la scadenza."""
@@ -557,6 +570,7 @@ class StazioneDX(Stazione):
         super().__init__(motore, nominativo, wpm, pitch, pan, volume, motore.pesi_stazione())
         self.oper = oper
         self.scarto_tono = scarto
+        self.qsb = motore.evanescenza()
         self.chiamato = False
         self.nr = oper.numero()
         if motore.sbadati and rng.random() < motore.prob_rst_sbagliato:
@@ -620,6 +634,7 @@ class StazioneQRM(Stazione):
         volume = 0.2 + 0.8 * rng.random()
         super().__init__(motore, motore.nominativi(), rng.randint(30, 50), pitch, pan, volume)
         self.scarto_tono = pitch - motore.mio_pitch
+        self.qsb = motore.evanescenza()
         self.pazienza = rng.randint(1, 5)
         self.prima = rng.choice(self.MESSAGGI)
         self.stato = Stato.PREPARA
@@ -739,6 +754,7 @@ class Contest:
       attivita: quante stazioni rispondono in media a ogni chiamata, il doppio della media di Poisson come in cwsim.
       sbadati: gli operatori che sbagliano rapporto e numero e chiamano fuori turno.
       qrm, qrm_massime: le stazioni che disturbano, e quante al massimo insieme.
+      qsb: l'evanescenza, cioe' il segnale che va e viene; flutter: la sua forma rapida, che tocca tre stazioni su dieci fra quelle che hanno gia' il QSB.
       ampiezza_stereo: da 0 a 100, quanto le stazioni si allargano fra gli altoparlanti.
       banda: la larghezza del filtro del ricevitore in hertz, che attenua i toni lontani dal mio.
       pesi_sporchi: (probabilita', intervallo l, intervallo s, intervallo p) del manipolo sporco, dalle impostazioni.
@@ -757,6 +773,8 @@ class Contest:
         sbadati=True,
         qrm=False,
         qrm_massime=1,
+        qsb=False,
+        flutter=False,
         ampiezza_stereo=100,
         banda=500,
         pesi_sporchi=(0.3, (30, 60), (25, 75), (15, 50)),
@@ -772,6 +790,8 @@ class Contest:
         self.sbadati = bool(sbadati)
         self.qrm = bool(qrm)
         self.qrm_massime = max(1, int(qrm_massime))
+        self.qsb = bool(qsb)
+        self.flutter = bool(flutter)
         self.ampiezza_stereo = max(0.0, min(PAN_MASSIMO, float(ampiezza_stereo)))
         self.banda = int(banda)
         self.pesi_sporchi = pesi_sporchi
@@ -799,6 +819,19 @@ class Contest:
         if self.inizio is None:
             return 0.0
         return max(0.0, (adesso - self.inizio) / 60.0)
+
+    def evanescenza(self):
+        """La banda dell'evanescenza di una stazione che nasce adesso, o None.
+
+        Con il QSB acceso ogni stazione ne prende una lenta; con il flutter
+        acceso, tre su dieci fra quelle si prendono invece quella rapida, come
+        in Morse Runner.
+        """
+        if not self.qsb:
+            return None
+        if self.flutter and self.rng.random() < PROB_FLUTTER:
+            return self.rng.uniform(*FLUTTER_BANDA)
+        return self.rng.uniform(*QSB_BANDA)
 
     def pesi_stazione(self):
         """I pesi di una stazione: standard, oppure sporchi con la probabilita' e gli intervalli delle impostazioni."""
