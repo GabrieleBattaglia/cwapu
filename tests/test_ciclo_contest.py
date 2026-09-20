@@ -8,6 +8,7 @@
 import contextlib
 import copy
 import io
+import itertools
 import os
 import sys
 
@@ -74,9 +75,11 @@ class MotoreFinto:
     def __init__(self, orologio):
         self.orologio = orologio
         self.testi = []
+        self.chiamate = []
 
-    def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None):
+    def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None):
         self.testi.append(msg)
+        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol})
         if sync:
             return None, 0.0
         # Un carattere ogni sessanta millesimi e' l'ordine di grandezza del CW
@@ -117,8 +120,13 @@ class Tastiera:
         return tasto
 
 
-def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY"):
-    """Mette al posto del mondo esterno le controfigure, e restituisce il banco."""
+def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY", contest=None):
+    """Mette al posto del mondo esterno le controfigure, e restituisce il banco.
+
+    contest: gli stati del pannello del contest da mettere fra le impostazioni
+    salvate, che il pannello poi conferma da solo, perche' la tastiera finta
+    risponde Invio a chi la chiama senza attesa.
+    """
     for nome, valore in IMPOSTAZIONI.items():
         monkeypatch.setattr(cwapu, nome, valore, raising=False)
     orologio = Orologio()
@@ -144,10 +152,13 @@ def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY"):
     monkeypatch.setattr(cwapu, "key", tastiera)
     monkeypatch.setattr(cwapu, "menu", lambda **chiavi: "2")
     monkeypatch.setattr(cwapu, "dgt", lambda **chiavi: chiavi.get("default") if chiavi.get("kind") == "s" else minuti)
-    monkeypatch.setattr(cwapu, "Mkdqrz", lambda scelta: nominativo)
+    nominativi = itertools.cycle([nominativo] if isinstance(nominativo, str) else nominativo)
+    monkeypatch.setattr(cwapu, "Mkdqrz", lambda scelta: next(nominativi))
     monkeypatch.setattr(cwapu, "apri_diario", finto_diario)
     monkeypatch.setattr(cwapu.ct, "Contest", Spia)
-    monkeypatch.setattr(cwapu, "app_data", copy.deepcopy(cwapu.DEFAULT_DATA), raising=False)
+    dati = copy.deepcopy(cwapu.DEFAULT_DATA)
+    dati["contest_settings"].update(contest or {})
+    monkeypatch.setattr(cwapu, "app_data", dati, raising=False)
     return {"orologio": orologio, "cw": cw, "tastiera": tastiera, "diario": diario, "contest": contest_creati}
 
 
@@ -313,6 +324,41 @@ class TestCicloContest:
         uscita = capsys.readouterr().out
         assert "RX #1 CALL: DL3XY" in uscita
         assert "RX #1 DL3XY 5NN NR: 579 27" in uscita
+
+    def test_il_pile_up_manda_le_stazioni_sul_fronte_stereo(self, monkeypatch):
+        """Con il pile-up acceso rispondono in piu' di una, ognuna dal suo posto."""
+        banco = prepara(
+            monkeypatch,
+            [(8.0, "alt-x")],
+            nominativo=["DL3XY", "IK2ABC", "W9CF", "F5IN", "JA1ZZZ", "VE3NEA"],
+            contest={"pileup": True, "attivita": 8, "stereo": 100},
+        )
+        cwapu.RxingContest({})
+        assert banco["contest"][0].pileup is True
+        stazioni = [c for c in banco["cw"].chiamate if c["vol"] is not None]
+        assert len(stazioni) >= 2
+        assert any(abs(c["pan"]) > 1 for c in stazioni)
+        assert all(0.0 <= c["vol"] <= 1.0 for c in stazioni)
+        assert all(-100.0 <= c["pan"] <= 100.0 for c in stazioni)
+
+    def test_in_modo_singolo_la_stazione_sta_al_centro_del_pannello(self, monkeypatch):
+        banco = prepara(monkeypatch, [(4.0, "alt-x")], contest={"pileup": False, "stereo": 0})
+        cwapu.RxingContest({})
+        assert banco["contest"][0].pileup is False
+        assert all(c["pan"] == 0 for c in banco["cw"].chiamate)
+
+    def test_il_pannello_passa_i_suoi_valori_al_motore(self, monkeypatch):
+        banco = prepara(
+            monkeypatch,
+            [(1.0, "alt-x")],
+            contest={"banda": 300, "sbadati": False, "qrm": True, "qrm_massime": 3, "manipolo": False},
+        )
+        cwapu.RxingContest({})
+        motore = banco["contest"][0]
+        assert motore.banda == 300
+        assert motore.sbadati is False
+        assert motore.qrm is True and motore.qrm_massime == 3
+        assert motore.pesi_sporchi[0] == 0
 
     def test_alt_s_dice_come_va(self, monkeypatch, capsys):
         copione = [(2.0, "alt-s"), (2.5, "alt-x")]

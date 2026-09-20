@@ -519,7 +519,10 @@ class Stazione:
         self.stato = Stato.TRASMETTE
         self.scadenza = None
         testo = " ".join(self.testo_di(m) for m in self.messaggi)
-        return Richiesta(self.id, testo, self.wpm, self.pitch, self.l, self.s, self.p, self.volume, self.pan, tuple(self.messaggi))
+        # Il volume della richiesta e' gia' filtrato: la forza della stazione
+        # attenuata da quanto il suo tono e' lontano dal mio, cioe' il filtro
+        # del ricevitore reso voce per voce, come dice il piano.
+        return Richiesta(self.id, testo, self.wpm, self.pitch, self.l, self.s, self.p, self.motore.guadagno(self), self.pan, tuple(self.messaggi))
 
     def tick(self, adesso, finita):
         """Un giro di orologio: chiude la trasmissione finita o fa scattare la scadenza."""

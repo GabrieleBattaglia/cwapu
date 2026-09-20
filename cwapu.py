@@ -229,6 +229,83 @@ RX_SWITCHER_ITEMS = [
     {"id": "7", "key_state": "qrz", "etichetta": "qrz", "is_exclusive": True, "category_group": "QRZ"},
     {"id": "8", "key_state": "contest", "etichetta": _("contest"), "is_exclusive": True, "category_group": "QRZ"},
 ]
+# Il pannello del contest: gli stati e i valori con cui si gioca, con i
+# predefiniti presi da cwsim dove cwsim li ha. Chi legge le impostazioni
+# completa con questi le chiavi che mancano, cosi' un file vecchio non rompe
+# niente.
+CONTEST_PREDEFINITI = {
+    "qrn": False,
+    "qrm": False,
+    "qrm_massime": 1,
+    "qsb": False,
+    "flutter": False,
+    "sbadati": True,
+    "pileup": False,
+    "attivita": 4,
+    "stereo": 100,
+    "banda": 500,
+    "manipolo": True,
+    "manipolo_probabilita": 30,
+    "manipolo_l_min": 30,
+    "manipolo_l_max": 60,
+    "manipolo_s_min": 25,
+    "manipolo_s_max": 75,
+    "manipolo_p_min": 15,
+    "manipolo_p_max": 50,
+}
+# Gli effetti che il motore audio non offre ancora: gli interruttori ci sono,
+# ma dicono che non e' il momento. Sono le issue 39 e 40 su GBUtils.
+CONTEST_NON_DISPONIBILI = ("qrn", "qsb", "flutter")
+CONTEST_VOCI = [
+    {"id": "1", "key_state": "qrn", "etichetta": _("QRN")},
+    {
+        "id": "2",
+        "key_state": "qrm",
+        "etichetta": _("QRM"),
+        "valore": "qrm_massime",
+        "chiedi": lambda salvato: dgt(prompt=_("Quante stazioni di disturbo al massimo insieme? "), kind="i", imin=1, imax=5, default=salvato),
+        "descrivi": lambda stati: _("{n} stazioni").format(n=stati["qrm_massime"]),
+    },
+    {"id": "3", "key_state": "qsb", "etichetta": _("QSB")},
+    {"id": "4", "key_state": "flutter", "etichetta": _("flutter")},
+    {"id": "5", "key_state": "sbadati", "etichetta": _("operatori sbadati")},
+    {
+        "id": "6",
+        "key_state": "pileup",
+        "etichetta": _("pile-up"),
+        "valore": "attivita",
+        "chiedi": lambda salvato: dgt(prompt=_("Attività, quante stazioni rispondono in media a ogni chiamata? "), kind="i", imin=1, imax=9, default=salvato),
+        "descrivi": lambda stati: _("attività {n}").format(n=stati["attivita"]),
+    },
+    {
+        "id": "7",
+        "etichetta": _("stereo"),
+        "valore": "stereo",
+        "chiedi": lambda salvato: dgt(prompt=_("Quanto le stazioni si allargano fra gli altoparlanti, da 0 a 100? "), kind="i", imin=0, imax=100, default=salvato),
+        "descrivi": lambda stati: _("{n} su 100").format(n=stati["stereo"]),
+    },
+    {
+        "id": "8",
+        "etichetta": _("banda"),
+        "valore": "banda",
+        "chiedi": lambda salvato: 50 * round(dgt(prompt=_("Larghezza del filtro in hertz, da 100 a 600 a passi di 50: "), kind="i", imin=CONTEST_BANDA_MIN, imax=CONTEST_BANDA_MAX, default=salvato) / 50),
+        "descrivi": lambda stati: _("{n} hertz").format(n=stati["banda"]),
+    },
+    {
+        "id": "9",
+        "key_state": "manipolo",
+        "etichetta": _("manipolo sporco"),
+        "descrivi": lambda stati: _("{p} per cento, L {l0}-{l1}, S {s0}-{s1}, P {p0}-{p1}").format(
+            p=stati["manipolo_probabilita"],
+            l0=stati["manipolo_l_min"],
+            l1=stati["manipolo_l_max"],
+            s0=stati["manipolo_s_min"],
+            s1=stati["manipolo_s_max"],
+            p0=stati["manipolo_p_min"],
+            p1=stati["manipolo_p_max"],
+        ),
+    },
+]
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 730
 HISTORICAL_RX_REPORT_INTERVAL = 3500
 
@@ -280,6 +357,7 @@ DEFAULT_DATA = {
     "rxing_stats_chars": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
     "rxing_stats_qrz": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
     "counting_stats": {"exercise_number": 1},
+    "contest_settings": dict(CONTEST_PREDEFINITI),
     "rx_menu_switcher_states": {
         "parole": True,
         "lettere": False,
@@ -735,168 +813,203 @@ def applica_esclusione_switcher(stati, chiave_accesa):
     return stati
 
 
+def riga_interruttore(voce, stati):
+    """La riga di una voce del pannello: numero, nome, indicatore, stato e valore.
+
+    Ogni riga resta una frase, perche' lo screen reader la legge di seguito:
+    "2. QRM <X> ATTIVATO, 2 stazioni". Le voci che sono solo un valore, come
+    lo stereo e la banda, non hanno indicatore ne' stato: hanno il valore.
+    """
+    chiave = voce.get("key_state")
+    acceso = bool(stati.get(chiave)) if chiave else True
+    if chiave:
+        # Il nome in maiuscolo quando e' acceso, in minuscolo quando e' spento:
+        # lo stato si sente anche dal nome, non solo dall'indicatore.
+        etichetta = voce["etichetta"].upper() if acceso else voce["etichetta"].lower()
+        marcatore = "<X>" if acceso else "< >"
+        riga = "{}. {} {} {}".format(voce["id"], etichetta, marcatore, _("ATTIVATO") if acceso else _("disattivato"))
+    else:
+        # Le voci che sono solo un valore non si accendono: il nome resta com'e'.
+        riga = "{}. {}".format(voce["id"], voce["etichetta"])
+    if voce.get("descrivi") and acceso:
+        riga += ", " + voce["descrivi"](stati)
+    return riga
+
+
+def pannello_interruttori(voci, stati, titolo, al_cambio=None, alla_conferma=None):
+    """Il pannello a interruttori, quello degli esercizi Rx, usato anche dal contest.
+
+    voci: l'elenco delle voci. Ognuna porta id, il numero che la accende;
+      etichetta, cio' che si legge; key_state, la chiave dello stato, che le
+      voci di solo valore non hanno; e, dove c'e' un valore, valore con la sua
+      chiave, chiedi per domandarlo e descrivi per raccontarlo.
+    stati: il dizionario degli stati e dei valori, cambiato sul posto.
+    titolo: la riga che sta sopra il pannello.
+    al_cambio: chiamata con (stati, voce) dopo ogni cambio; restituisce il
+      messaggio da mostrare, o la stringa vuota.
+    alla_conferma: chiamata con (stati, riga) all'Invio, dove riga e' la riga
+      dello schermo su cui puo' scrivere; restituisce un messaggio che
+      impedisce di uscire, o la stringa vuota per uscire.
+    Restituisce vero se si e' confermato con l'Invio, falso se si e' usciti
+    con Escape senza scegliere.
+    """
+    riga_base = 3
+    riga_messaggi = riga_base + len(voci) + 1
+    riga_prompt = riga_base + len(voci) + 2
+    messaggio = ""
+    while True:
+        _move_cursor(riga_base - 1, 1)
+        sys.stdout.write(titolo)
+        _clear_line_from_cursor()
+        print()
+        for indice, voce in enumerate(voci):
+            _move_cursor(riga_base + indice, 1)
+            sys.stdout.write(riga_interruttore(voce, stati))
+            _clear_line_from_cursor()
+        _move_cursor(riga_messaggi, 1)
+        if messaggio:
+            sys.stdout.write(messaggio)
+        _clear_line_from_cursor()
+        messaggio = ""
+        sommario = []
+        for voce in voci:
+            chiave = voce.get("key_state")
+            if not chiave:
+                sommario.append("({})".format(voce["id"]))
+            else:
+                sommario.append("[{}]".format(voce["id"]) if stati.get(chiave) else "<{}>".format(voce["id"]))
+        _move_cursor(riga_prompt, 1)
+        _clear_line_from_cursor()
+        sys.stdout.flush()
+        scelta = key(prompt="\r" + " ".join(sommario) + ": \r")
+        if scelta == "\x1b":
+            pulisci_pannello(riga_base, len(voci))
+            return False
+        if not scelta or scelta == "\r":
+            messaggio = alla_conferma(stati, riga_prompt + 1) if alla_conferma else ""
+            if messaggio:
+                suona("?")
+                continue
+            pulisci_pannello(riga_base, len(voci))
+            return True
+        scelto = next((v for v in voci if v["id"] == scelta), None)
+        if scelto is None:
+            messaggio = _("Scelta non valida.")
+            suona("?")
+            continue
+        chiave = scelto.get("key_state")
+        if chiave:
+            stati[chiave] = not stati.get(chiave)
+        if scelto.get("valore") and (not chiave or stati.get(chiave)):
+            # Accendendo una voce con un valore lo si chiede subito, con il
+            # salvato come predefinito: un Invio lo conferma.
+            _move_cursor(riga_prompt + 1, 1)
+            _clear_line_from_cursor()
+            stati[scelto["valore"]] = scelto["chiedi"](stati.get(scelto["valore"]))
+            _move_cursor(riga_prompt + 1, 1)
+            _clear_line_from_cursor()
+        if al_cambio:
+            messaggio = al_cambio(stati, scelto) or ""
+
+
+def pulisci_pannello(riga_base, quante):
+    """Cancella le righe del pannello e riporta il cursore in cima."""
+    for scarto in range(quante + 4):
+        _move_cursor(riga_base - 1 + scarto, 1)
+        _clear_line_from_cursor()
+    _move_cursor(riga_base, 1)
+
+
 def seleziona_modalita_rx():
+    """Il pannello degli esercizi Rx: quali tipi di item mandare.
+
+    La tecnica del pannello sta in pannello_interruttori, che il contest usa
+    con le sue voci; qui restano le regole degli esercizi Rx, cioe'
+    l'esclusione fra i gruppi, il filtro delle parole, il set personalizzato e
+    la lunghezza dei gruppi generati.
+    """
     switcher_settings_key = "rx_menu_switcher_states"
     if switcher_settings_key not in app_data:
         app_data[switcher_settings_key] = DEFAULT_DATA[switcher_settings_key].copy()
-    current_switcher_states = app_data[switcher_settings_key].copy()
-    parole_filtrate_sessione = None
-    custom_set_string_sessione = current_switcher_states.get("custom_set_string", "")
-    if current_switcher_states.get("parole"):
-        min_len = current_switcher_states.get("parole_filter_min", 0)
-        max_len = current_switcher_states.get("parole_filter_max", 0)
-        if min_len > 0 and max_len > 0 and (min_len <= max_len):
-            parole_filtrate_sessione = [w for w in words if len(w) >= min_len and len(w) <= max_len]
-            if not parole_filtrate_sessione:
-                current_switcher_states["parole"] = False
+    stati = app_data[switcher_settings_key].copy()
+    sessione = {"parole": None, "custom": stati.get("custom_set_string", ""), "lunghezza": 0}
+    if stati.get("parole"):
+        minimo = stati.get("parole_filter_min", 0)
+        massimo = stati.get("parole_filter_max", 0)
+        if minimo > 0 and massimo > 0 and minimo <= massimo:
+            sessione["parole"] = [w for w in words if minimo <= len(w) <= massimo]
+            if not sessione["parole"]:
+                stati["parole"] = False
         else:
-            current_switcher_states["parole"] = False
-    if current_switcher_states.get("custom") and (not custom_set_string_sessione):
-        current_switcher_states["custom"] = False
-    MENU_BASE_ROW = 3
-    user_message_line_row = MENU_BASE_ROW + len(RX_SWITCHER_ITEMS) + 1
-    prompt_actual_line_row = MENU_BASE_ROW + len(RX_SWITCHER_ITEMS) + 2
+            stati["parole"] = False
+    if stati.get("custom") and not sessione["custom"]:
+        stati["custom"] = False
 
-    def _display_single_switcher_line(index, is_on_state):
-        item_config = RX_SWITCHER_ITEMS[index]
-        riga_da_scrivere = MENU_BASE_ROW + index
-        _move_cursor(riga_da_scrivere, 1)
-        label_text_trans = item_config["etichetta"]
-        status_marker = "<X>" if is_on_state else "< >"
-        status_text_trans = _("ATTIVATO") if is_on_state else _("disattivato")
-        display_label_cased = label_text_trans.upper() if is_on_state else label_text_trans.lower()
-        line_output = "{}. {display_label_cased} {status_marker} {status_text_trans}".format(
-            item_config["id"], display_label_cased=display_label_cased, status_marker=status_marker, status_text_trans=status_text_trans
-        )
-        sys.stdout.write(line_output)
+    def al_cambio(stati, voce):
+        chiave = voce["key_state"]
+        if not stati.get(chiave):
+            return ""
+        applica_esclusione_switcher(stati, chiave)
+        if chiave == "parole":
+            minimo = stati.get("parole_filter_min", 0)
+            massimo = stati.get("parole_filter_max", 0)
+            if not (minimo > 0 and massimo > 0 and minimo <= massimo):
+                stati["parole"] = False
+                sessione["parole"] = None
+                return _("Filtro parole non impostato/valido. Usa il comando '.t #-#' nelle Impostazioni (k). Switcher 'Parole' disattivato.")
+            sessione["parole"] = [w for w in words if minimo <= len(w) <= massimo]
+            if not sessione["parole"]:
+                stati["parole"] = False
+                return _("Filtro parole caricato dalle impostazioni non ha prodotto risultati. Switcher 'Parole' disattivato.")
+            return _("Filtro parole applicato dalle impostazioni ({count} parole).").format(count=len(sessione["parole"]))
+        if chiave == "custom":
+            if sessione["custom"] and len(sessione["custom"]) >= 2:
+                return _("Gruppo Custom caricato dalle impostazioni: [{set_string}]").format(set_string=sessione["custom"])
+            pulisci_pannello(3, len(RX_SWITCHER_ITEMS))
+            _move_cursor(1, 1)
+            sys.stdout.write(_("Avvio configurazione gruppo personalizzato...") + "\n\n")
+            sys.stdout.flush()
+            nuovo = CustomSet(overall_speed)
+            if len(nuovo) >= 2:
+                sessione["custom"] = nuovo
+                stati["custom_set_string"] = nuovo
+                return ""
+            stati["custom"] = False
+            sessione["custom"] = ""
+            stati["custom_set_string"] = ""
+            return _("Gruppo Custom non creato o non valido. Switcher 'Custom' disattivato.")
+        return ""
+
+    def alla_conferma(stati, riga):
+        if not any(stati.get(voce["key_state"]) for voce in RX_SWITCHER_ITEMS):
+            return _("Nessuna modalità di esercizio selezionata! Attiva almeno uno switcher.")
+        if stati.get("parole") and not sessione["parole"]:
+            return _("Errore: 'Parole' attivo ma il filtro non è impostato o non produce risultati. Usa '.t #-#'.")
+        if stati.get("custom") and (not sessione["custom"] or len(sessione["custom"]) < 2):
+            return _("Errore: il set personalizzato non è valido o è vuoto. Controlla le impostazioni.")
+        if not any(stati.get(chiave) for chiave in ("lettere", "numeri", "custom", "lettere e numeri", "simboli")):
+            return ""
+        _move_cursor(riga, 1)
+        domanda = _("Lunghezza gruppi (1-7 per Lettere/Numeri/Simboli/Custom):")
+        sys.stdout.write(domanda)
         _clear_line_from_cursor()
         sys.stdout.flush()
+        _move_cursor(riga, len(domanda) + 1)
+        scritto = input()
+        if scritto.isdigit() and 1 <= int(scritto) <= 7:
+            sessione["lunghezza"] = int(scritto)
+            return ""
+        return _("Lunghezza non valida. Inserire un numero da 1 a 7.")
 
-    def _redraw_menu_interface_for_key_prompt(current_states_dict, message_for_user=""):
-        _move_cursor(MENU_BASE_ROW - 1, 1)
-        sys.stdout.write(_("Esercizi Rx - Seleziona Tipi (Invio per iniziare):"))
-        _clear_line_from_cursor()
-        print()
-        for idx_redraw, item_config_redraw in enumerate(RX_SWITCHER_ITEMS):
-            _display_single_switcher_line(idx_redraw, current_states_dict[item_config_redraw["key_state"]])
-        _move_cursor(user_message_line_row, 1)
-        if message_for_user:
-            sys.stdout.write(message_for_user)
-            _clear_line_from_cursor()
-        else:
-            _clear_line_from_cursor()
-        status_display_parts = []
-        for item_cfg_key_prompt in RX_SWITCHER_ITEMS:
-            is_on_key_prompt = current_states_dict.get(item_cfg_key_prompt["key_state"], False)
-            status_display_parts.append("[{}]".format(item_cfg_key_prompt["id"]) if is_on_key_prompt else "<{}>".format(item_cfg_key_prompt["id"]))
-        _move_cursor(prompt_actual_line_row, 1)
-        _clear_line_from_cursor()
-        sys.stdout.flush()
-        return " ".join(status_display_parts) + ": "
-
-    user_message_content = ""
-    while True:
-        prompt_string = _redraw_menu_interface_for_key_prompt(current_switcher_states, user_message_content)
-        user_message_content = ""
-        scelta = key(prompt=prompt_string)
-        if not scelta or scelta == "\r":
-            active_switches_final = [item["key_state"] for item in RX_SWITCHER_ITEMS if current_switcher_states.get(item["key_state"])]
-            if not active_switches_final:
-                user_message_content = _("Nessuna modalità di esercizio selezionata! Attiva almeno uno switcher.")
-                suona("?")
-                continue
-            if current_switcher_states.get("parole") and (not parole_filtrate_sessione):
-                user_message_content = _("Errore: 'Parole' attivo ma il filtro non è impostato o non produce risultati. Usa '.t #-#'.")
-                suona("?")
-                continue
-            if current_switcher_states.get("custom") and (not custom_set_string_sessione or len(custom_set_string_sessione) < 2):
-                user_message_content = _("Errore: il set personalizzato non è valido o è vuoto. Controlla le impostazioni.")
-                suona("?")
-                continue
-            group_len_val_final = 0
-            ask_for_length = False
-            if (
-                current_switcher_states.get("lettere")
-                or current_switcher_states.get("numeri")
-                or current_switcher_states.get("custom")
-                or current_switcher_states.get("lettere e numeri")
-                or current_switcher_states.get("simboli")
-            ):
-                ask_for_length = True
-            if ask_for_length:
-                _move_cursor(prompt_actual_line_row + 1, 1)
-                prompt_len_text_final = _("Lunghezza gruppi (1-7 per Lettere/Numeri/Simboli/Custom):")
-                sys.stdout.write(prompt_len_text_final)
-                _clear_line_from_cursor()
-                sys.stdout.flush()
-                _move_cursor(prompt_actual_line_row + 1, len(prompt_len_text_final) + 1)
-                len_str_final = input()
-                if len_str_final.isdigit() and 1 <= int(len_str_final) <= 7:
-                    group_len_val_final = int(len_str_final)
-                else:
-                    user_message_content = _("Lunghezza non valida. Inserire un numero da 1 a 7.")
-                    suona("?")
-                    continue
-            app_data[switcher_settings_key].update(current_switcher_states)
-            for i_clean_final in range(len(RX_SWITCHER_ITEMS) + 4):
-                _move_cursor(MENU_BASE_ROW - 1 + i_clean_final, 1)
-                _clear_line_from_cursor()
-            _move_cursor(MENU_BASE_ROW, 1)
-            return {
-                "active_switcher_states": current_switcher_states,
-                "parole_filtrate_list": parole_filtrate_sessione if current_switcher_states.get("parole") else None,
-                "custom_set_string_active": custom_set_string_sessione if current_switcher_states.get("custom") else None,
-                "group_length_for_generated": group_len_val_final,
-            }
-        if scelta.isdigit() and "1" <= scelta <= str(len(RX_SWITCHER_ITEMS)):
-            chosen_idx = int(scelta) - 1
-            item_config_toggled = RX_SWITCHER_ITEMS[chosen_idx]
-            item_key_toggle_loop = item_config_toggled["key_state"]
-
-            # Toggle dello stato
-            current_switcher_states[item_key_toggle_loop] = not current_switcher_states[item_key_toggle_loop]
-            is_now_active = current_switcher_states[item_key_toggle_loop]
-            if is_now_active:
-                applica_esclusione_switcher(current_switcher_states, item_key_toggle_loop)
-
-            if is_now_active:
-                if item_key_toggle_loop == "parole":
-                    min_len_saved_loop = current_switcher_states.get("parole_filter_min", 0)
-                    max_len_saved_loop = current_switcher_states.get("parole_filter_max", 0)
-                    if not (min_len_saved_loop > 0 and max_len_saved_loop > 0 and (min_len_saved_loop <= max_len_saved_loop)):
-                        user_message_content = _("Filtro parole non impostato/valido. Usa il comando '.t #-#' nelle Impostazioni (k). Switcher 'Parole' disattivato.")
-                        current_switcher_states["parole"] = False
-                        parole_filtrate_sessione = None
-                    else:
-                        parole_filtrate_sessione = [w for w in words if len(w) >= min_len_saved_loop and len(w) <= max_len_saved_loop]
-                        if not parole_filtrate_sessione:
-                            user_message_content = _("Filtro parole caricato dalle impostazioni non ha prodotto risultati. Switcher 'Parole' disattivato.")
-                            current_switcher_states["parole"] = False
-                        else:
-                            user_message_content = _("Filtro parole applicato dalle impostazioni ({count} parole).").format(count=len(parole_filtrate_sessione))
-                elif item_key_toggle_loop == "custom":
-                    if not custom_set_string_sessione or len(custom_set_string_sessione) < 2:
-                        for i_clean_cs in range(len(RX_SWITCHER_ITEMS) + 4):
-                            _move_cursor(MENU_BASE_ROW - 1 + i_clean_cs, 1)
-                            _clear_line_from_cursor()
-                        _move_cursor(1, 1)
-                        sys.stdout.write(_("Avvio configurazione gruppo personalizzato...") + "\n\n")
-                        sys.stdout.flush()
-                        custom_set_string_nuovo = CustomSet(overall_speed)
-                        if len(custom_set_string_nuovo) >= 2:
-                            custom_set_string_sessione = custom_set_string_nuovo
-                            current_switcher_states["custom_set_string"] = custom_set_string_nuovo
-                        else:
-                            user_message_content = _("Gruppo Custom non creato o non valido. Switcher 'Custom' disattivato.")
-                            current_switcher_states["custom"] = False
-                            custom_set_string_sessione = ""
-                            current_switcher_states["custom_set_string"] = ""
-                    else:
-                        user_message_content = _("Gruppo Custom caricato dalle impostazioni: [{set_string}]").format(set_string=custom_set_string_sessione)
-        else:
-            user_message_content = _("Scelta non valida.")
-            suona("?")
-    return None
+    if not pannello_interruttori(RX_SWITCHER_ITEMS, stati, _("Esercizi Rx - Seleziona Tipi (Invio per iniziare):"), al_cambio, alla_conferma):
+        return None
+    app_data[switcher_settings_key].update(stati)
+    return {
+        "active_switcher_states": stati,
+        "parole_filtrate_list": sessione["parole"] if stati.get("parole") else None,
+        "custom_set_string_active": sessione["custom"] if stati.get("custom") else None,
+        "group_length_for_generated": sessione["lunghezza"],
+    }
 
 
 def _move_cursor(riga, colonna):
@@ -1676,7 +1789,7 @@ def format_duration(td):
 # stanno nelle impostazioni, perche' valgono per il contest in corso.
 CONTEST_BANDA_DEFAULT = 500
 CONTEST_BANDA_MIN = 100
-CONTEST_BANDA_MAX = 3000
+CONTEST_BANDA_MAX = 600
 CONTEST_PASSO_BANDA = 50
 CONTEST_PASSO_PITCH = 50
 CONTEST_PASSO_WPM = 2
@@ -1685,6 +1798,70 @@ CONTEST_PASSO_WPM = 2
 # ciclo non consuma processore come farebbe un giro a vuoto.
 CONTEST_PASSO_CICLO = 0.05
 CONTEST_TAGLIO_NUMERI = {"T": "0", "O": "0", "N": "9"}
+
+
+def chiedi_pesi_manipolo(stati):
+    """I sette valori del manipolo sporco, uno per uno, con dgt che ne tiene i limiti.
+
+    Decisioni D13 e D14: la probabilita' e' una sola, come oggi, e ogni valore
+    si chiede con dgt proponendo il salvato, cosi' sette Invio confermano
+    tutto e nessun valore puo' finire fuori intervallo. Il massimo si chiede
+    dopo il minimo con il minimo come limite inferiore, cosi' un intervallo
+    rovesciato non si puo' nemmeno scrivere. I limiti sono da 1 a 100, che e'
+    cio' che CWzator accetta.
+    """
+    stati["manipolo_probabilita"] = dgt(prompt=_("Manipolo sporco, probabilità in percentuale: "), kind="i", imin=0, imax=100, default=stati["manipolo_probabilita"])
+    for lettera, nome in (("l", _("linea")), ("s", _("spazio")), ("p", _("punto"))):
+        minimo = dgt(prompt=_("{nome}, minimo: ").format(nome=nome), kind="i", imin=1, imax=100, default=stati[f"manipolo_{lettera}_min"])
+        massimo = dgt(prompt=_("{nome}, massimo: ").format(nome=nome), kind="i", imin=minimo, imax=100, default=max(minimo, stati[f"manipolo_{lettera}_max"]))
+        stati[f"manipolo_{lettera}_min"] = minimo
+        stati[f"manipolo_{lettera}_max"] = massimo
+
+
+def impostazioni_contest():
+    """Gli stati del contest salvati, completati con i predefiniti dove mancano."""
+    salvati = app_data.setdefault("contest_settings", {})
+    return {**CONTEST_PREDEFINITI, **{chiave: valore for chiave, valore in salvati.items() if chiave in CONTEST_PREDEFINITI}}
+
+
+def pesi_del_manipolo(stati):
+    """Gli intervalli del manipolo sporco come il motore li vuole.
+
+    Con il manipolo spento la probabilita' e' zero, e tutte le stazioni
+    manipolano con i pesi standard di CWzator.
+    """
+    probabilita = stati["manipolo_probabilita"] if stati["manipolo"] else 0
+    return (
+        probabilita,
+        (stati["manipolo_l_min"], stati["manipolo_l_max"]),
+        (stati["manipolo_s_min"], stati["manipolo_s_max"]),
+        (stati["manipolo_p_min"], stati["manipolo_p_max"]),
+    )
+
+
+def pannello_contest():
+    """Il pannello del contest: restituisce gli stati, o None se si esce con Escape.
+
+    Gli stati e i valori si salvano in cwapu_settings.json sotto una chiave
+    propria del contest, come quelli degli esercizi Rx.
+    """
+    stati = impostazioni_contest()
+
+    def al_cambio(stati, voce):
+        chiave = voce.get("key_state")
+        if chiave in CONTEST_NON_DISPONIBILI and stati.get(chiave):
+            stati[chiave] = False
+            return _("Non c'è ancora: arriverà quando il motore audio saprà farlo.")
+        if chiave == "manipolo" and stati.get(chiave):
+            pulisci_pannello(3, len(CONTEST_VOCI))
+            _move_cursor(1, 1)
+            chiedi_pesi_manipolo(stati)
+        return ""
+
+    if not pannello_interruttori(CONTEST_VOCI, stati, _("Contest - Interruttori e valori (Invio per iniziare):"), al_cambio):
+        return None
+    app_data.setdefault("contest_settings", {}).update(stati)
+    return stati
 
 
 def numero_dal_taglio(testo):
@@ -1743,6 +1920,9 @@ def RxingContest(menu_config_scelta):
         print(_("Senza nominativo il contest non si fa."))
         key(_("Premi un tasto per tornare al menu..."))
         return
+    stati = pannello_contest()
+    if stati is None:
+        return
     scelta_durata = menu(d={"1": _("Numero di QSO"), "2": _("Tempo (minuti)")}, p=_("Scegli la durata: "))
     if not scelta_durata:
         return
@@ -1751,7 +1931,10 @@ def RxingContest(menu_config_scelta):
         limit = dgt(prompt=_("Quanti QSO? "), kind="i", imin=1, imax=500, default=50)
     else:
         limit = dgt(prompt=_("Quanti minuti? "), kind="i", imin=1, imax=60, default=10)
-    print(_("Contest come {call}, una stazione alla volta.").format(call=mio_nominativo))
+    if stati["pileup"]:
+        print(_("Contest come {call}, pile-up con attività {n}.").format(call=mio_nominativo, n=stati["attivita"]))
+    else:
+        print(_("Contest come {call}, una stazione alla volta.").format(call=mio_nominativo))
     print(_("F1 CQ, F2 scambio, F3 TU, F4 il mio call"))
     print(_("F5 il suo call, F6 QSO B4, F7 ?, F8 NIL"))
     print(_("Invio manda cio' che serve e mette a log"))
@@ -1765,18 +1948,20 @@ def RxingContest(menu_config_scelta):
     def prossimo_nominativo():
         return Mkdqrz(random.choices(list(MDL.keys()), weights=list(MDL.values()), k=1))
 
-    banda = CONTEST_BANDA_DEFAULT
+    banda = stati["banda"]
     motore = ct.Contest(
         mio_nominativo,
         overall_speed,
         overall_pitch,
         prossimo_nominativo,
-        pileup=False,
-        sbadati=False,
-        qrm=False,
-        ampiezza_stereo=0,
+        pileup=stati["pileup"],
+        attivita=stati["attivita"],
+        sbadati=stati["sbadati"],
+        qrm=stati["qrm"],
+        qrm_massime=stati["qrm_massime"],
+        ampiezza_stereo=stati["stereo"],
         banda=banda,
-        pesi_sporchi=(RX_LSP_VARIATION_PROBABILITY, RX_LSP_RANGE_L, RX_LSP_RANGE_S, RX_LSP_RANGE_P),
+        pesi_sporchi=pesi_del_manipolo(stati),
     )
     start_time = dt.datetime.now()
     session_calls = 0
@@ -1919,7 +2104,18 @@ def RxingContest(menu_config_scelta):
                     del suoni[chi]
             esito = motore.avanza(adesso, finite)
             for richiesta in esito.richieste:
-                handle, rwpm = suona(richiesta.testo, wpm=richiesta.wpm, pitch=richiesta.pitch, l=richiesta.l, s=richiesta.s, p=richiesta.p, sync=False, farnsworth=0)
+                handle, rwpm = suona(
+                    richiesta.testo,
+                    wpm=richiesta.wpm,
+                    pitch=richiesta.pitch,
+                    l=richiesta.l,
+                    s=richiesta.s,
+                    p=richiesta.p,
+                    sync=False,
+                    farnsworth=0,
+                    pan=richiesta.pan,
+                    vol=richiesta.volume,
+                )
                 if handle is None:
                     da_chiudere.add(richiesta.stazione)
                     continue
