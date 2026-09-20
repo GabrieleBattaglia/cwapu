@@ -613,7 +613,7 @@ def scegli_uscita_audio(elenco=None, chiedi=None, automatica=None):
     return (voce["breve"], voce["dispositivo"])
 
 
-def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None):
+def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None):
     """Manda un messaggio al motore CW con le impostazioni correnti dell'utente.
 
     Raccoglie i dieci parametri che ogni chiamata ripeteva identici e lascia
@@ -627,6 +627,11 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
     Farnsworth, perche' i pesi degli spazi non consentono la velocita'
     effettiva chiesta, lo si dice con le parole del motore, che spiegano
     fin dove si puo' arrivare, e si trasmette senza.
+    pan: da meno cento a piu' cento, la posizione fra gli altoparlanti; zero
+    e' il centro, ed e' cio' che CWapu ha sempre fatto. vol: la forza di
+    questo messaggio da zero a uno; None prende il volume generale. Servono al
+    pile-up, dove ogni stazione arriva da una sua posizione e con una sua
+    forza, e non cambiano niente per chi non li passa.
     """
     effettiva = overall_farnsworth if farnsworth is None else farnsworth
     parametri = {
@@ -636,7 +641,8 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
         "l": overall_dashes if l is None else l,
         "s": overall_spaces if s is None else s,
         "p": overall_dots if p is None else p,
-        "vol": overall_volume,
+        "vol": overall_volume if vol is None else max(0.0, min(1.0, float(vol))) * overall_volume,
+        "pan": max(-100.0, min(100.0, float(pan))),
         "ms": overall_ms,
         "fs": SAMPLE_RATES[overall_fs],
         "wv": overall_wave,
@@ -1749,8 +1755,8 @@ def RxingContest(menu_config_scelta):
     print(_("F1 CQ, F2 scambio, F3 TU, F4 il mio call"))
     print(_("F5 il suo call, F6 QSO B4, F7 ?, F8 NIL"))
     print(_("Invio manda cio' che serve e mette a log"))
-    print(_("Tab cambia campo, lo spazio va allo scambio"))
-    print(_("Esc ferma la trasmissione o pulisce il campo"))
+    print(_("Esc ferma la trasmissione o pulisce la riga"))
+    print(_("Alt+S dice tempo, QSO, punti e punteggio"))
     print(_("F9 e PagGiu' meno 2 WPM, F10 e PagSu piu' 2"))
     print(_("Alt+Su e Alt+Giu' il tono, Ctrl+Su e Giu' la banda"))
     print(_("Alt+W pulisce i campi, Alt+X chiude il contest"))
@@ -1785,11 +1791,9 @@ def RxingContest(menu_config_scelta):
     maxwpm = 0
     sum_wpm = 0.0
     active_exerctime = dt.timedelta(0)
-    campo_call = ""
-    campo_nr = ""
-    campo_attivo = "call"
-    call_mandato = False
-    scambio_mandato = False
+    campo = ""
+    stadio = "call"
+    suo_call = ""
     suoni = {}
     da_chiudere = set()
     rwpm_corrente = 0.0
@@ -1801,16 +1805,20 @@ def RxingContest(menu_config_scelta):
             handle.stop()
 
     def riga_di_stato():
-        """La riga che si riscrive: il QSO, il nominativo e lo scambio, con il campo attivo in fondo.
+        """La riga che si riscrive: e' quella di oggi, dentro i quaranta caratteri.
 
         Decisione D2: si riscrive solo quando si batte un tasto, cosi' il
-        display braille non insegue una riga che cambia da sola.
+        display braille non insegue una riga che cambia da sola. Il campo e'
+        uno: prima aspetta il nominativo, poi il numero.
         """
-        if campo_attivo == "call":
-            testo = _("Q{n} CALL {call}").format(n=session_calls + 1, call=campo_call)
-        else:
-            testo = _("Q{n} {call} NR {nr}").format(n=session_calls + 1, call=campo_call or "?", nr=campo_nr)
-        print(f"\r{' ' * 79}\r{testo}", end="", flush=True)
+        etichetta = "CALL:" if stadio == "call" else f"{suo_call} 5NN NR:"
+        print(f"\r{' ' * 79}\rRX #{session_calls + 1} {etichetta} {campo}", end="", flush=True)
+
+    def stato_a_richiesta(adesso):
+        """Alt+S: tempo trascorso, QSO, punti, prefissi e punteggio, su una riga sola."""
+        punteggio = motore.punteggio
+        minuti, secondi = divmod(int(adesso), 60)
+        dillo(f"{minuti:02d}:{secondi:02d} QSO {punteggio.punti_grezzi} PT {punteggio.punti_verificati} PFX {len(punteggio.prefissi_verificati)} = {punteggio.punteggio_verificato}")
 
     def dillo(riga):
         """Una riga di servizio in mezzo al contest, al posto della riga di stato.
@@ -1828,7 +1836,7 @@ def RxingContest(menu_config_scelta):
         arriva mai e il contest si fermerebbe.
         """
         ferma(ct.IO)
-        richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=campo_call.strip())
+        richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=(campo if stadio == "call" else suo_call).strip())
         handle, _rwpm = suona(richiesta.testo, sync=False, farnsworth=0)
         if handle is None:
             motore.io_finito(adesso)
@@ -1876,12 +1884,10 @@ def RxingContest(menu_config_scelta):
             total_mistakes_calculated += collect_char_errors(vero_call.lower(), voce.nominativo.lower(), char_error_counts)
         if verita and not serial_ok:
             total_mistakes_calculated += collect_char_errors(str(vero_nr), str(voce.nr_ricevuto), char_error_counts)
-        if verifica == "":
-            dillo(_("{call} {nr} a log.").format(call=voce.nominativo, nr=voce.nr_ricevuto))
-        elif verita:
-            dillo(_("{call} {nr}: {esito}, era {vero} {vero_nr}.").format(call=voce.nominativo, nr=voce.nr_ricevuto, esito=verifica, vero=vero_call, vero_nr=vero_nr))
-        else:
-            dillo(_("{call} {nr}: {esito}.").format(call=voce.nominativo, nr=voce.nr_ricevuto, esito=verifica))
+        riga = f"#{session_calls} {voce.nominativo} {voce.rst_ricevuto} {voce.nr_ricevuto} {verifica or 'ok'}"
+        if verifica and verita:
+            riga += f" = {vero_call} {vero_nr}"
+        dillo(riga)
 
     def abbandona(nominativo):
         """La stazione ha perso la pazienza e se ne e' andata: e' il NIL del contest di prima."""
@@ -1942,79 +1948,53 @@ def RxingContest(menu_config_scelta):
             if tasto == "alt-x":
                 break
             if tasto == "\x1b":
+                # Decisione D4: se sto trasmettendo, Esc zittisce; altrimenti
+                # pulisce la riga.
                 if ct.IO in suoni:
                     ferma(ct.IO)
                     motore.annulla_trasmissione(adesso)
-                elif campo_attivo == "call":
-                    campo_call = ""
-                    call_mandato = False
                 else:
-                    campo_nr = ""
+                    campo = ""
             elif tasto == "alt-w":
                 if ct.IO in suoni:
                     ferma(ct.IO)
                     motore.annulla_trasmissione(adesso)
-                campo_call, campo_nr, campo_attivo = "", "", "call"
-                call_mandato = scambio_mandato = False
+                campo, stadio, suo_call = "", "call", ""
+            elif tasto == "alt-s":
+                stato_a_richiesta(adesso)
             elif tasto == "\r":
-                if not campo_call.strip():
-                    trasmetti([ct.Msg.CQ], adesso)
+                if stadio == "call":
+                    # A riga vuota l'Invio e' un CQ; altrimenti manda il suo
+                    # nominativo con il mio scambio e la riga passa ad
+                    # aspettare il numero, come nel contest di oggi.
+                    if not campo.strip():
+                        trasmetti([ct.Msg.CQ], adesso)
+                    else:
+                        suo_call = campo.strip()
+                        campo, stadio = "", "nr"
+                        trasmetti([ct.Msg.SUO, ct.Msg.NR], adesso)
                 else:
-                    # L'Invio manda cio' che manca, come in Morse Runner: il
-                    # nominativo se non l'ho ancora mandato, il mio scambio se
-                    # non l'ho ancora dato, il punto interrogativo se aspetto
-                    # il suo e non e' arrivato, il TU quando il suo scambio c'e'.
-                    gia_call, gia_scambio = call_mandato, scambio_mandato
-                    letto = leggi_scambio(campo_nr)
-                    messaggi = []
-                    if (not gia_call) or ((not gia_scambio) and letto is None):
-                        messaggi.append(ct.Msg.SUO)
-                    if not gia_scambio:
-                        messaggi.append(ct.Msg.NR)
-                    if gia_scambio and letto is None:
-                        messaggi.append(ct.Msg.QM)
-                    chiude = letto is not None and (gia_call or gia_scambio)
-                    if chiude:
-                        messaggi.append(ct.Msg.TU)
-                    if ct.Msg.SUO in messaggi:
-                        call_mandato = True
-                    if ct.Msg.NR in messaggi:
-                        scambio_mandato = True
-                    if chiude:
-                        motore.registra_qso(adesso, campo_call.strip(), letto[1], letto[0])
-                    elif campo_attivo == "call":
-                        campo_attivo = "nr"
-                    if messaggi:
-                        trasmetti(messaggi, adesso)
-                    if chiude:
-                        campo_call, campo_nr, campo_attivo = "", "", "call"
-                        call_mandato = scambio_mandato = False
+                    letto = leggi_scambio(campo)
+                    if letto is None:
+                        # La riga non porta uno scambio leggibile: e' il caso in
+                        # cui in cwsim si manda il punto interrogativo.
+                        trasmetti([ct.Msg.QM], adesso)
+                    else:
+                        motore.registra_qso(adesso, suo_call, letto[1], letto[0])
+                        trasmetti([ct.Msg.TU], adesso)
+                        campo, stadio, suo_call = "", "call", ""
             elif tasto == "\x08":
-                if campo_attivo == "call":
-                    campo_call = campo_call[:-1]
-                    call_mandato = False
-                elif campo_nr:
-                    campo_nr = campo_nr[:-1]
-                else:
-                    campo_attivo = "call"
-            elif tasto in ("\t", " ") and campo_attivo == "call":
-                campo_attivo = "nr"
-            elif tasto == "\t":
-                campo_attivo = "call"
-            elif tasto == "shift-tab":
-                campo_attivo = "call" if campo_attivo == "nr" else "nr"
+                campo = campo[:-1]
             elif tasto == "f1":
                 trasmetti([ct.Msg.CQ], adesso)
             elif tasto == "f2":
                 trasmetti([ct.Msg.NR], adesso)
-                scambio_mandato = True
             elif tasto == "f3":
                 trasmetti([ct.Msg.TU], adesso)
             elif tasto == "f4":
                 trasmetti([ct.Msg.MIO], adesso)
             elif tasto == "f5":
                 trasmetti([ct.Msg.SUO], adesso)
-                call_mandato = True
             elif tasto == "f6":
                 trasmetti([ct.Msg.B4], adesso)
             elif tasto == "f7":
@@ -2044,13 +2024,11 @@ def RxingContest(menu_config_scelta):
                 motore.banda = banda
                 dillo(_("Banda {valore}").format(valore=banda))
             elif len(tasto) == 1 and (tasto.isalnum() or tasto in "/?"):
-                if campo_attivo == "call":
-                    campo_call += tasto.upper()
-                    call_mandato = False
-                else:
-                    campo_nr += tasto.upper()
-            elif tasto == " ":
-                campo_nr += " "
+                campo += tasto.upper()
+            elif tasto == " " and stadio == "nr":
+                # Lo spazio serve soltanto a separare il rapporto dal numero,
+                # quando la stazione sbadata ne ha mandato uno diverso da 599.
+                campo += " "
             else:
                 continue
             riga_di_stato()

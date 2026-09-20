@@ -230,7 +230,8 @@ class TestCicloContest:
         assert "CQ TEST IZ4APU" in testi
         assert any(t.startswith("DL3XY 5NN") for t in testi), testi
         assert "TU" in testi
-        assert "a log" in uscita
+        # La riga breve del log: numero, nominativo, scambio e verifica.
+        assert "#1 DL3XY 599" in uscita and uscita.count(" ok") >= 1
         assert cwapu.app_data["rxing_stats_qrz"]["sessions"] == 1
         assert cwapu.app_data["rxing_stats_qrz"]["total_calls"] == 1
         assert cwapu.app_data["rxing_stats_qrz"]["total_correct"] == 1
@@ -281,20 +282,56 @@ class TestCicloContest:
         assert banco["cw"].testi[0] == "CQ TEST IZ4APU"
         assert cwapu.app_data["rxing_stats_qrz"]["sessions"] == 0
 
-    def test_lo_spazio_porta_allo_scambio_e_il_tab_torna_indietro(self, monkeypatch, capsys):
+    def test_il_campo_e_uno_e_passa_dal_call_al_numero(self, monkeypatch, capsys):
+        """Il piano vuole un campo solo: l'Invio lo fa passare da CALL a NR."""
         copione = [
             *scrivi(3.0, "DL3XY"),
-            (3.4, " "),
-            *scrivi(3.5, "27"),
-            (3.8, "\t"),
-            (4.0, "alt-x"),
+            (3.6, "\r"),
+            *scrivi(4.0, "27"),
+            (4.5, "alt-x"),
         ]
         prepara(monkeypatch, copione)
         cwapu.RxingContest({})
         uscita = capsys.readouterr().out
-        # Lo spazio ha portato allo scambio, il Tab e' tornato al nominativo.
-        assert "Q1 DL3XY NR 27" in uscita
-        assert uscita.rstrip().endswith("Q1 CALL DL3XY") or "Q1 CALL DL3XY" in uscita
+        assert "RX #1 CALL: DL3XY" in uscita
+        assert "RX #1 DL3XY 5NN NR: 27" in uscita
+
+    def test_lo_spazio_scrive_solo_nel_numero(self, monkeypatch, capsys):
+        """Nel nominativo lo spazio non serve e non si scrive; nel numero separa il rapporto."""
+        copione = [
+            *scrivi(3.0, "DL"),
+            (3.3, " "),
+            *scrivi(3.4, "3XY"),
+            (3.8, "\r"),
+            *scrivi(4.2, "579"),
+            (4.6, " "),
+            *scrivi(4.7, "27"),
+            (5.2, "alt-x"),
+        ]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        assert "RX #1 CALL: DL3XY" in uscita
+        assert "RX #1 DL3XY 5NN NR: 579 27" in uscita
+
+    def test_alt_s_dice_come_va(self, monkeypatch, capsys):
+        copione = [(2.0, "alt-s"), (2.5, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        assert "QSO 0 PT 0 PFX 0 = 0" in uscita
+        assert "00:0" in uscita
+
+    def test_senza_uno_scambio_leggibile_si_manda_il_punto_interrogativo(self, monkeypatch):
+        copione = [
+            *scrivi(3.0, "DL3XY"),
+            (3.6, "\r"),
+            (5.0, "\r"),
+            (5.5, "alt-x"),
+        ]
+        banco = prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert "?" in banco["cw"].testi
 
 
 @pytest.mark.parametrize("tasto", ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8"])
