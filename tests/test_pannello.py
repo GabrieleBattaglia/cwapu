@@ -210,6 +210,88 @@ class TestPannelloContest:
         assert cwapu.app_data["contest_settings"]["sbadati"] is False
 
 
+class TestSelezioneRx:
+    """Il pannello degli esercizi Rx dopo il refactoring.
+
+    Sono centosessanta righe che Gabriele usa tutti i giorni e che prima non
+    erano coperte da niente: adesso la tecnica sta in pannello_interruttori e
+    qui restano le regole degli esercizi, cioe' l'esclusione fra i gruppi, il
+    filtro delle parole, il set personalizzato e la lunghezza dei gruppi.
+    """
+
+    def prepara(self, monkeypatch, *tasti, lunghezza="5"):
+        banco(monkeypatch, *tasti)
+        monkeypatch.setattr(cwapu, "words", ["cq", "test", "morse", "radio", "antenna"], raising=False)
+        monkeypatch.setattr(cwapu, "overall_speed", 20, raising=False)
+        monkeypatch.setattr("builtins.input", lambda: lunghezza)
+
+    def test_con_le_parole_accese_torna_l_elenco_filtrato(self, monkeypatch):
+        self.prepara(monkeypatch)
+        scelta = cwapu.seleziona_modalita_rx()
+        assert scelta is not None
+        assert scelta["active_switcher_states"]["parole"] is True
+        # Il filtro di serie e' da tre a sette lettere: cq resta fuori.
+        assert scelta["parole_filtrate_list"] == ["test", "morse", "radio", "antenna"]
+        assert scelta["group_length_for_generated"] == 0
+
+    def test_l_escape_torna_al_menu_senza_scegliere(self, monkeypatch):
+        self.prepara(monkeypatch, "\x1b")
+        assert cwapu.seleziona_modalita_rx() is None
+
+    def test_accendendo_le_lettere_le_parole_si_spengono(self, monkeypatch):
+        """L'esclusione fra i gruppi e' la regola che tiene confrontabili le statistiche."""
+        self.prepara(monkeypatch, "2")
+        scelta = cwapu.seleziona_modalita_rx()
+        assert scelta["active_switcher_states"]["lettere"] is True
+        assert scelta["active_switcher_states"]["parole"] is False
+        assert scelta["parole_filtrate_list"] is None
+        # Con i gruppi generati si chiede la lunghezza, e quella risposta vale.
+        assert scelta["group_length_for_generated"] == 5
+
+    def test_una_lunghezza_fuori_intervallo_non_passa(self, monkeypatch):
+        """La domanda si ripete finche' la risposta non sta fra uno e sette."""
+        risposte = iter(["9", "0", "3"])
+        self.prepara(monkeypatch, "2")
+        monkeypatch.setattr("builtins.input", lambda: next(risposte))
+        assert cwapu.seleziona_modalita_rx()["group_length_for_generated"] == 3
+
+    def test_senza_nessuno_switcher_acceso_non_si_comincia(self, monkeypatch):
+        """Il primo Invio viene respinto, il secondo, dopo aver acceso, no."""
+        self.prepara(monkeypatch, "1", "\r", "3")
+        scelta = cwapu.seleziona_modalita_rx()
+        assert scelta["active_switcher_states"]["numeri"] is True
+        assert scelta["active_switcher_states"]["parole"] is False
+
+    def test_il_filtro_delle_parole_che_non_pesca_niente_spegne_lo_switcher(self, monkeypatch):
+        self.prepara(monkeypatch, "1", "1", "3")
+        cwapu.app_data["rx_menu_switcher_states"]["parole_filter_min"] = 30
+        cwapu.app_data["rx_menu_switcher_states"]["parole_filter_max"] = 35
+        scelta = cwapu.seleziona_modalita_rx()
+        assert scelta["active_switcher_states"]["parole"] is False
+        assert scelta["parole_filtrate_list"] is None
+
+    def test_il_set_personalizzato_si_chiede_quando_manca(self, monkeypatch):
+        self.prepara(monkeypatch, "6")
+        monkeypatch.setattr(cwapu, "CustomSet", lambda velocita: "abc")
+        scelta = cwapu.seleziona_modalita_rx()
+        assert scelta["active_switcher_states"]["custom"] is True
+        assert scelta["custom_set_string_active"] == "abc"
+        assert cwapu.app_data["rx_menu_switcher_states"]["custom_set_string"] == "abc"
+
+    def test_un_set_personalizzato_troppo_corto_spegne_lo_switcher(self, monkeypatch):
+        self.prepara(monkeypatch, "6", "3")
+        monkeypatch.setattr(cwapu, "CustomSet", lambda velocita: "a")
+        scelta = cwapu.seleziona_modalita_rx()
+        assert scelta["active_switcher_states"]["custom"] is False
+        assert scelta["custom_set_string_active"] is None
+
+    def test_cio_che_si_sceglie_resta_per_la_volta_dopo(self, monkeypatch):
+        self.prepara(monkeypatch, "3")
+        cwapu.seleziona_modalita_rx()
+        salvati = cwapu.app_data["rx_menu_switcher_states"]
+        assert salvati["numeri"] is True and salvati["parole"] is False
+
+
 @pytest.mark.parametrize("chiave", sorted(cwapu.CONTEST_PREDEFINITI))
 def test_ogni_predefinito_sta_nelle_impostazioni_di_serie(chiave):
     assert chiave in cwapu.DEFAULT_DATA["contest_settings"]
