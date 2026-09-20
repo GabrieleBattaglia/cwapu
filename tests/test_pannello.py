@@ -210,6 +210,24 @@ class TestPannelloContest:
         assert cwapu.app_data["contest_settings"]["sbadati"] is False
 
 
+class TestBanda:
+    """Il passo di cinquanta della larghezza del filtro."""
+
+    def test_il_mezzo_sale_sempre(self):
+        """round di Python manderebbe 325 a 300 e 375 a 400: due valori a
+        mezza via che si comportano in modo opposto non si spiegano."""
+        assert cwapu.arrotonda_banda(325) == 350
+        assert cwapu.arrotonda_banda(375) == 400
+
+    def test_gli_altri_vanno_al_passo_piu_vicino(self):
+        assert [cwapu.arrotonda_banda(v) for v in (324, 326, 349, 350, 374)] == [300, 350, 350, 350, 350]
+
+    def test_resta_dentro_i_limiti(self):
+        assert cwapu.arrotonda_banda(10) == cwapu.CONTEST_BANDA_MIN
+        assert cwapu.arrotonda_banda(9999) == cwapu.CONTEST_BANDA_MAX
+        assert cwapu.arrotonda_banda(100) == 100 and cwapu.arrotonda_banda(600) == 600
+
+
 class TestSelezioneRx:
     """Il pannello degli esercizi Rx dopo il refactoring.
 

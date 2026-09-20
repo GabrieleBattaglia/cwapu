@@ -83,6 +83,10 @@ RELEASE_DATE = "2026-09-15"
 # era quello che chi riceve veloce incontrava per primo.
 WPM_MIN = 5
 WPM_MAX = 120
+# I limiti del tono, quelli che il comando .h accetta: valgono anche per
+# Alt con le frecce nel contest, perche' il tono e' lo stesso.
+PITCH_MIN = 200
+PITCH_MAX = 2700
 RX_ITEM_TIMEOUT_SECONDS = 30  # Tempo massimo per item prima di considerarlo una pausa
 RX_LSP_VARIATION_PROBABILITY = 0.3
 RX_LSP_RANGE_L = (30, 60)
@@ -285,7 +289,7 @@ CONTEST_VOCI = [
         "id": "8",
         "etichetta": _("banda"),
         "valore": "banda",
-        "chiedi": lambda salvato: 50 * round(dgt(prompt=_("Larghezza del filtro in hertz, da 100 a 600 a passi di 50: "), kind="i", imin=CONTEST_BANDA_MIN, imax=CONTEST_BANDA_MAX, default=salvato) / 50),
+        "chiedi": lambda salvato: arrotonda_banda(dgt(prompt=_("Larghezza del filtro in hertz, da 100 a 600 a passi di 50: "), kind="i", imin=CONTEST_BANDA_MIN, imax=CONTEST_BANDA_MAX, default=salvato)),
         "descrivi": lambda stati: _("{n} hertz").format(n=stati["banda"]),
     },
     {
@@ -303,6 +307,17 @@ CONTEST_VOCI = [
         ),
     },
 ]
+def arrotonda_banda(valore):
+    """La banda al passo di cinquanta piu' vicino, con il mezzo che sale.
+
+    round di Python arrotonda il mezzo al pari: 325 diviso 50 fa 6,5 e
+    diventa 6, cioe' 300, mentre 375 diventa 400. Due valori a mezza via
+    che si comportano in modo opposto non si spiegano a chi li scrive.
+    """
+    passo = CONTEST_PASSO_BANDA
+    return max(CONTEST_BANDA_MIN, min(CONTEST_BANDA_MAX, int((int(valore) + passo // 2) // passo * passo)))
+
+
 def effetti_non_disponibili():
     """Gli effetti radio che la GBUtils installata non sa ancora fare.
 
@@ -1451,7 +1466,7 @@ def KeyboardCW():
                     command_processed_internally = True
                 elif cmd_letter_parsed == "h":
                     if overall_pitch != value_int_parsed:
-                        new_pitch = max(200, min(2700, value_int_parsed))
+                        new_pitch = max(PITCH_MIN, min(PITCH_MAX, value_int_parsed))
                         if overall_pitch != new_pitch:
                             overall_pitch = new_pitch
                     feedback_cw = _("bk r h is {overall_pitch} bk").format(overall_pitch=overall_pitch)
@@ -2335,7 +2350,11 @@ def RxingContest(menu_config_scelta):
                 allinea_farnsworth()
             elif tasto in ("alt-up", "alt-down"):
                 passo = CONTEST_PASSO_PITCH if tasto == "alt-up" else -CONTEST_PASSO_PITCH
-                overall_pitch = max(200, min(2000, overall_pitch + passo))
+                # Gli stessi limiti del comando .h della sezione k: il tono e'
+                # quello generale e resta dopo il contest, quindi qui non puo'
+                # avere un tetto piu' basso, che lo abbasserebbe in silenzio a
+                # chi lo tiene alto.
+                overall_pitch = max(PITCH_MIN, min(PITCH_MAX, overall_pitch + passo))
                 motore.mio_pitch = overall_pitch
                 accendi_fondo()
                 dillo(_("Tono {valore}").format(valore=overall_pitch))

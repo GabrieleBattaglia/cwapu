@@ -419,6 +419,20 @@ class TestCicloContest:
         mie = [c for c in banco["cw"].chiamate if c["vol"] is None]
         assert all(c["qsb"] is None for c in mie)
 
+    def test_il_tono_del_contest_ha_i_limiti_del_comando_h(self, monkeypatch, capsys):
+        """Il tono e' quello generale e resta dopo il contest: un tetto piu'
+        basso qui lo abbasserebbe in silenzio a chi lo tiene alto."""
+        copione = [(1.0, "alt-up"), (1.5, "alt-x")]
+        prepara(monkeypatch, copione)
+        monkeypatch.setattr(cwapu, "overall_pitch", cwapu.PITCH_MAX, raising=False)
+        cwapu.RxingContest({})
+        assert cwapu.overall_pitch == cwapu.PITCH_MAX
+        copione = [(1.0, "alt-down"), (1.5, "alt-x")]
+        prepara(monkeypatch, copione)
+        monkeypatch.setattr(cwapu, "overall_pitch", cwapu.PITCH_MIN, raising=False)
+        cwapu.RxingContest({})
+        assert cwapu.overall_pitch == cwapu.PITCH_MIN
+
     def test_alt_s_dice_come_va(self, monkeypatch, capsys):
         copione = [(2.0, "alt-s"), (2.5, "alt-x")]
         prepara(monkeypatch, copione)
