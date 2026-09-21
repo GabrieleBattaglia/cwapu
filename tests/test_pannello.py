@@ -145,6 +145,15 @@ class TestImpostazioniContest:
         assert stati["attivita"] == cwapu.CONTEST_PREDEFINITI["attivita"]
         assert stati["banda"] == 500
 
+    def test_le_chiavi_vecchie_del_manipolo_si_leggono_lo_stesso(self, monkeypatch):
+        """Si sono chiamate manipolo per un giorno solo, il 20 settembre 2026:
+        un file salvato quel giorno non deve tornare ai predefiniti in silenzio."""
+        monkeypatch.setattr(cwapu, "app_data", {"contest_settings": {"manipolo": False, "manipolo_l_min": 44}}, raising=False)
+        stati = cwapu.impostazioni_contest()
+        assert stati["tasto_verticale"] is False
+        assert stati["tasto_l_min"] == 44
+        assert "manipolo" not in stati and "manipolo_l_min" not in stati
+
     def test_le_chiavi_che_non_conosco_non_entrano(self, monkeypatch):
         monkeypatch.setattr(cwapu, "app_data", {"contest_settings": {"roba_vecchia": 7}}, raising=False)
         assert "roba_vecchia" not in cwapu.impostazioni_contest()
@@ -154,14 +163,14 @@ class TestImpostazioniContest:
         assert cwapu.impostazioni_contest() == cwapu.CONTEST_PREDEFINITI
 
 
-class TestPesiDelManipolo:
-    def test_con_il_manipolo_spento_la_probabilita_e_zero(self):
-        stati = dict(cwapu.CONTEST_PREDEFINITI, manipolo=False)
-        assert cwapu.pesi_del_manipolo(stati)[0] == 0
+class TestPesiDelTasto:
+    def test_con_il_tasto_verticale_spento_la_probabilita_e_zero(self):
+        stati = dict(cwapu.CONTEST_PREDEFINITI, tasto_verticale=False)
+        assert cwapu.pesi_del_tasto(stati)[0] == 0
 
     def test_acceso_porta_i_valori_del_pannello(self):
         stati = dict(cwapu.CONTEST_PREDEFINITI)
-        assert cwapu.pesi_del_manipolo(stati) == (30, (30, 60), (25, 75), (15, 50))
+        assert cwapu.pesi_del_tasto(stati) == (30, (30, 60), (25, 75), (15, 50))
 
     def test_il_massimo_non_puo_scendere_sotto_il_minimo(self, monkeypatch):
         """Il massimo si chiede con il minimo come limite inferiore."""
@@ -173,8 +182,8 @@ class TestPesiDelManipolo:
 
         monkeypatch.setattr(cwapu, "dgt", finto_dgt)
         stati = dict(cwapu.CONTEST_PREDEFINITI)
-        cwapu.chiedi_pesi_manipolo(stati)
-        assert stati["manipolo_l_min"] == 1 and stati["manipolo_l_max"] == 1
+        cwapu.chiedi_pesi_tasto(stati)
+        assert stati["tasto_l_min"] == 1 and stati["tasto_l_max"] == 1
         # Sette domande: la probabilita' e i tre intervalli.
         assert len(chieste) == 7
         for prima, dopo in zip(chieste[1::2], chieste[2::2], strict=True):

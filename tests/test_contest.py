@@ -298,17 +298,17 @@ class TestQrm:
 
 class TestPesi:
     def test_con_probabilita_zero_i_pesi_sono_standard(self):
-        m = motore(pesi_sporchi=(0, (30, 60), (25, 75), (15, 50)))
+        m = motore(pesi_manuali=(0, (30, 60), (25, 75), (15, 50)))
         assert all(m.pesi_stazione() == ct.PESO_STANDARD for _ in range(20))
 
     def test_con_probabilita_piena_stanno_negli_intervalli(self):
-        m = motore(pesi_sporchi=(100, (30, 60), (25, 75), (15, 50)))
+        m = motore(pesi_manuali=(100, (30, 60), (25, 75), (15, 50)))
         for _ in range(50):
             l, s, p = m.pesi_stazione()
             assert 30 <= l <= 60 and 25 <= s <= 75 and 15 <= p <= 50
 
     def test_la_probabilita_si_accetta_anche_in_frazione(self):
-        m = motore(pesi_sporchi=(1.0, (40, 40), (50, 50), (50, 50)))
+        m = motore(pesi_manuali=(1.0, (40, 40), (50, 50), (50, 50)))
         assert m.pesi_stazione() == (40, 50, 50)
 
 

@@ -475,7 +475,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><td>6. pile-up</td><td>Acceso, a ogni chiamata rispondono più stazioni insieme: il valore è l'attività, da 1 a 9, cioè quante rispondono in media. Spento, è una stazione alla volta, come nelle versioni precedenti. Spento di serie.</td></tr>
 <tr><td>7. stereo</td><td>Da 0 a 100: quanto le stazioni si allargano fra i due altoparlanti. A 0 arrivano tutte al centro, come si sta al centro noi.</td></tr>
 <tr><td>8. banda</td><td>La larghezza del filtro del ricevitore, da 100 a 600 hertz. Più è stretta, più le stazioni lontane dal proprio tono arrivano deboli: è il filtro che in radio si stringe quando c'è folla.</td></tr>
-<tr><td>9. manipolo sporco</td><td>Quante stazioni manipolano male e quanto male. Accendendolo si scelgono sette valori: la probabilità in percentuale e gli intervalli della linea, dello spazio e del punto. Acceso di serie, al trenta per cento.</td></tr>
+<tr><td>9. tasto verticale</td><td>Quante stazioni manipolano a mano invece che in automatico, e quanto irregolare è la loro manipolazione. Accendendolo si scelgono sette valori: la probabilità in percentuale e gli intervalli della linea, dello spazio e del punto. Acceso di serie, al trenta per cento.</td></tr>
 </tbody>
 </table>
 
@@ -542,7 +542,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <li><strong>Un tono</strong> diverso dal proprio, fino a trecento hertz di distanza, e una posizione fra gli altoparlanti se lo stereo è acceso.</li>
 <li><strong>Un'evanescenza</strong>, se il QSB è acceso: il segnale va e viene, lentamente, oppure con il tremolio rapido del flutter. Sono i valori di Morse Runner, che chi fa contest riconosce a orecchio.</li>
 <li><strong>Una forza</strong>, perché non arrivano tutte allo stesso modo, e il filtro attenua chi sta lontano dal proprio tono.</li>
-<li><strong>Un manipolo</strong> che con la probabilità scelta nel pannello è "sporco", cioè con pesi lontani dallo standard: la stessa lettera suona diversa da com'è abituati a sentirla. È il caso più difficile e anche il più utile.</li>
+<li><strong>Un modo di manipolare</strong>: automatico, cioè con i pesi regolari del CW standard, oppure, con la probabilità scelta nel pannello, manuale, cioè a tasto verticale, con pesi lontani dallo standard. La stessa lettera suona allora diversa da com'è abituati a sentirla, ed è il caso più difficile e anche il più utile.</li>
 <li><strong>Una pazienza</strong>, estratta da una distribuzione che dà quattro tentativi in media. Esaurita quella, la stazione se ne va, esattamente come farebbe in un contest vero chi ha una coda di gente che chiama. Chi se n'è andato finisce nel rapporto.</li>
 </ul>
 
@@ -566,7 +566,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <p>A ogni QSO chiuso esce una riga breve con il numero, il nominativo, lo scambio e la verifica, che è <code>ok</code> se è tutto giusto, <code>NIL</code> se il nominativo è sbagliato, <code>NR</code> se il numero, <code>RST</code> se il rapporto. Quando non è ok, la riga dice anche cos'era davvero.</p>
 
-<p>Alla fine, oltre alle statistiche di sempre, il rapporto dice punti, prefissi e punteggio nei due modi, la percentuale di QSO sbagliati, il ritmo per ogni cinque minuti riportato all'ora, i nominativi e gli scambi copiati male, le stazioni che se ne sono andate, e con quali interruttori e valori la sessione è stata fatta. Quest'ultima riga serve: una sessione in pile-up con il manipolo sporco al cento per cento e una da sola con il manipolo pulito non sono confrontabili, e il diario deve poterlo dire.</p>
+<p>Alla fine, oltre alle statistiche di sempre, il rapporto dice punti, prefissi e punteggio nei due modi, la percentuale di QSO sbagliati, il ritmo per ogni cinque minuti riportato all'ora, i nominativi e gli scambi copiati male, le stazioni che se ne sono andate, e con quali interruttori e valori la sessione è stata fatta. Quest'ultima riga serve: una sessione in pile-up con il tasto verticale al cento per cento e una da sola con tutti in manipolazione automatica non sono confrontabili, e il diario deve poterlo dire.</p>
 
 <div class="nota">
 <p><strong>Il Farnsworth nel contest non c'è.</strong> Anche con <code>.fw</code> impostato, il contest trasmette sempre a spaziature normali: in un contest vero nessuno rallenta le pause, e le statistiche del contest si salvano sempre proprio perché la velocità è quella vera.</p>

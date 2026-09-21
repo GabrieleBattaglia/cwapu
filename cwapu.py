@@ -248,14 +248,14 @@ CONTEST_PREDEFINITI = {
     "attivita": 4,
     "stereo": 100,
     "banda": 500,
-    "manipolo": True,
-    "manipolo_probabilita": 30,
-    "manipolo_l_min": 30,
-    "manipolo_l_max": 60,
-    "manipolo_s_min": 25,
-    "manipolo_s_max": 75,
-    "manipolo_p_min": 15,
-    "manipolo_p_max": 50,
+    "tasto_verticale": True,
+    "tasto_probabilita": 30,
+    "tasto_l_min": 30,
+    "tasto_l_max": 60,
+    "tasto_s_min": 25,
+    "tasto_s_max": 75,
+    "tasto_p_min": 15,
+    "tasto_p_max": 50,
 }
 CONTEST_VOCI = [
     {"id": "1", "key_state": "qrn", "etichetta": _("QRN")},
@@ -294,16 +294,16 @@ CONTEST_VOCI = [
     },
     {
         "id": "9",
-        "key_state": "manipolo",
-        "etichetta": _("manipolo sporco"),
+        "key_state": "tasto_verticale",
+        "etichetta": _("tasto verticale"),
         "descrivi": lambda stati: _("{p} per cento, L {l0}-{l1}, S {s0}-{s1}, P {p0}-{p1}").format(
-            p=stati["manipolo_probabilita"],
-            l0=stati["manipolo_l_min"],
-            l1=stati["manipolo_l_max"],
-            s0=stati["manipolo_s_min"],
-            s1=stati["manipolo_s_max"],
-            p0=stati["manipolo_p_min"],
-            p1=stati["manipolo_p_max"],
+            p=stati["tasto_probabilita"],
+            l0=stati["tasto_l_min"],
+            l1=stati["tasto_l_max"],
+            s0=stati["tasto_s_min"],
+            s1=stati["tasto_s_max"],
+            p0=stati["tasto_p_min"],
+            p1=stati["tasto_p_max"],
         ),
     },
 ]
@@ -1848,7 +1848,7 @@ def descrivi_pannello_contest(stati):
     """Gli interruttori e i valori con cui la sessione e' stata fatta.
 
     Vanno nel rapporto e nel diario perche' una sessione in pile-up con il
-    manipolo sporco al cento per cento e una da sola con il manipolo pulito
+    tasto verticale al cento per cento e una da sola con tutti in automatico
     non sono confrontabili, e l'archivio deve poterlo dire.
     """
     pezzi = [_("pile-up con attività {n}").format(n=stati["attivita"]) if stati["pileup"] else _("una stazione alla volta")]
@@ -1859,20 +1859,20 @@ def descrivi_pannello_contest(stati):
             pezzi.append(nome)
     pezzi.append(_("stereo {n}").format(n=stati["stereo"]))
     pezzi.append(_("banda {n} hertz").format(n=stati["banda"]))
-    if stati["manipolo"]:
+    if stati["tasto_verticale"]:
         pezzi.append(
-            _("manipolo sporco al {p} per cento, L {l0}-{l1}, S {s0}-{s1}, P {p0}-{p1}").format(
-                p=stati["manipolo_probabilita"],
-                l0=stati["manipolo_l_min"],
-                l1=stati["manipolo_l_max"],
-                s0=stati["manipolo_s_min"],
-                s1=stati["manipolo_s_max"],
-                p0=stati["manipolo_p_min"],
-                p1=stati["manipolo_p_max"],
+            _("manipolazione manuale al {p} per cento, L {l0}-{l1}, S {s0}-{s1}, P {p0}-{p1}").format(
+                p=stati["tasto_probabilita"],
+                l0=stati["tasto_l_min"],
+                l1=stati["tasto_l_max"],
+                s0=stati["tasto_s_min"],
+                s1=stati["tasto_s_max"],
+                p0=stati["tasto_p_min"],
+                p1=stati["tasto_p_max"],
             )
         )
     else:
-        pezzi.append(_("manipolo pulito"))
+        pezzi.append(_("tutti in manipolazione automatica"))
     return ", ".join(pezzi)
 
 
@@ -1907,8 +1907,8 @@ def righe_rapporto_contest(punteggio, stati, durata_secondi):
     return righe
 
 
-def chiedi_pesi_manipolo(stati):
-    """I sette valori del manipolo sporco, uno per uno, con dgt che ne tiene i limiti.
+def chiedi_pesi_tasto(stati):
+    """I sette valori del tasto verticale, uno per uno, con dgt che ne tiene i limiti.
 
     Decisioni D13 e D14: la probabilita' e' una sola, come oggi, e ogni valore
     si chiede con dgt proponendo il salvato, cosi' sette Invio confermano
@@ -1917,32 +1917,45 @@ def chiedi_pesi_manipolo(stati):
     rovesciato non si puo' nemmeno scrivere. I limiti sono da 1 a 100, che e'
     cio' che CWzator accetta.
     """
-    stati["manipolo_probabilita"] = dgt(prompt=_("Manipolo sporco, probabilità in percentuale: "), kind="i", imin=0, imax=100, default=stati["manipolo_probabilita"])
+    stati["tasto_probabilita"] = dgt(prompt=_("Tasto verticale, probabilità in percentuale: "), kind="i", imin=0, imax=100, default=stati["tasto_probabilita"])
     for lettera, nome in (("l", _("linea")), ("s", _("spazio")), ("p", _("punto"))):
-        minimo = dgt(prompt=_("{nome}, minimo: ").format(nome=nome), kind="i", imin=1, imax=100, default=stati[f"manipolo_{lettera}_min"])
-        massimo = dgt(prompt=_("{nome}, massimo: ").format(nome=nome), kind="i", imin=minimo, imax=100, default=max(minimo, stati[f"manipolo_{lettera}_max"]))
-        stati[f"manipolo_{lettera}_min"] = minimo
-        stati[f"manipolo_{lettera}_max"] = massimo
+        minimo = dgt(prompt=_("{nome}, minimo: ").format(nome=nome), kind="i", imin=1, imax=100, default=stati[f"tasto_{lettera}_min"])
+        massimo = dgt(prompt=_("{nome}, massimo: ").format(nome=nome), kind="i", imin=minimo, imax=100, default=max(minimo, stati[f"tasto_{lettera}_max"]))
+        stati[f"tasto_{lettera}_min"] = minimo
+        stati[f"tasto_{lettera}_max"] = massimo
 
 
 def impostazioni_contest():
-    """Gli stati del contest salvati, completati con i predefiniti dove mancano."""
-    salvati = app_data.setdefault("contest_settings", {})
-    return {**CONTEST_PREDEFINITI, **{chiave: valore for chiave, valore in salvati.items() if chiave in CONTEST_PREDEFINITI}}
+    """Gli stati del contest salvati, completati con i predefiniti dove mancano.
 
-
-def pesi_del_manipolo(stati):
-    """Gli intervalli del manipolo sporco come il motore li vuole.
-
-    Con il manipolo spento la probabilita' e' zero, e tutte le stazioni
-    manipolano con i pesi standard di CWzator.
+    Le chiavi del tasto verticale si sono chiamate manipolo per un giorno
+    solo, il 20 settembre 2026: un file salvato quel giorno le porta ancora,
+    e si leggono lo stesso invece di tornare ai predefiniti senza dirlo.
     """
-    probabilita = stati["manipolo_probabilita"] if stati["manipolo"] else 0
+    salvati = app_data.setdefault("contest_settings", {})
+    letti = {}
+    for chiave, valore in salvati.items():
+        if chiave == "manipolo":
+            chiave = "tasto_verticale"
+        elif chiave.startswith("manipolo_"):
+            chiave = "tasto_" + chiave[len("manipolo_") :]
+        if chiave in CONTEST_PREDEFINITI:
+            letti[chiave] = valore
+    return {**CONTEST_PREDEFINITI, **letti}
+
+
+def pesi_del_tasto(stati):
+    """Gli intervalli del tasto verticale come il motore li vuole.
+
+    Con il tasto verticale spento la probabilita' e' zero, e tutte le
+    stazioni manipolano in automatico, con i pesi standard di CWzator.
+    """
+    probabilita = stati["tasto_probabilita"] if stati["tasto_verticale"] else 0
     return (
         probabilita,
-        (stati["manipolo_l_min"], stati["manipolo_l_max"]),
-        (stati["manipolo_s_min"], stati["manipolo_s_max"]),
-        (stati["manipolo_p_min"], stati["manipolo_p_max"]),
+        (stati["tasto_l_min"], stati["tasto_l_max"]),
+        (stati["tasto_s_min"], stati["tasto_s_max"]),
+        (stati["tasto_p_min"], stati["tasto_p_max"]),
     )
 
 
@@ -1959,10 +1972,10 @@ def pannello_contest():
         if chiave in CONTEST_NON_DISPONIBILI and stati.get(chiave):
             stati[chiave] = False
             return _("Non c'è ancora: arriverà quando il motore audio saprà farlo.")
-        if chiave == "manipolo" and stati.get(chiave):
+        if chiave == "tasto_verticale" and stati.get(chiave):
             pulisci_pannello(3, len(CONTEST_VOCI))
             _move_cursor(1, 1)
-            chiedi_pesi_manipolo(stati)
+            chiedi_pesi_tasto(stati)
         return ""
 
     if not pannello_interruttori(CONTEST_VOCI, stati, _("Contest - Interruttori e valori (Invio per iniziare):"), al_cambio):
@@ -2070,7 +2083,7 @@ def RxingContest(menu_config_scelta):
         flutter=stati["flutter"],
         ampiezza_stereo=stati["stereo"],
         banda=banda,
-        pesi_sporchi=pesi_del_manipolo(stati),
+        pesi_manuali=pesi_del_tasto(stati),
     )
     start_time = dt.datetime.now()
     session_calls = 0

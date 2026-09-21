@@ -757,7 +757,7 @@ class Contest:
       qsb: l'evanescenza, cioe' il segnale che va e viene; flutter: la sua forma rapida, che tocca tre stazioni su dieci fra quelle che hanno gia' il QSB.
       ampiezza_stereo: da 0 a 100, quanto le stazioni si allargano fra gli altoparlanti.
       banda: la larghezza del filtro del ricevitore in hertz, che attenua i toni lontani dal mio.
-      pesi_sporchi: (probabilita', intervallo l, intervallo s, intervallo p) del manipolo sporco, dalle impostazioni.
+      pesi_manuali: (probabilita', intervallo l, intervallo s, intervallo p) di chi manipola a mano con il tasto verticale, dalle impostazioni.
       seme: per le prove, un generatore casuale ripetibile.
     """
 
@@ -777,7 +777,7 @@ class Contest:
         flutter=False,
         ampiezza_stereo=100,
         banda=500,
-        pesi_sporchi=(0.3, (30, 60), (25, 75), (15, 50)),
+        pesi_manuali=(0.3, (30, 60), (25, 75), (15, 50)),
         seme=None,
     ):
         self.rng = random.Random(seme)
@@ -794,7 +794,7 @@ class Contest:
         self.flutter = bool(flutter)
         self.ampiezza_stereo = max(0.0, min(PAN_MASSIMO, float(ampiezza_stereo)))
         self.banda = int(banda)
-        self.pesi_sporchi = pesi_sporchi
+        self.pesi_manuali = pesi_manuali
         self.prob_rst_sbagliato = 0.03
         self.prob_nr_sbagliato = 0.1
         self.stazioni = []
@@ -834,8 +834,13 @@ class Contest:
         return self.rng.uniform(*QSB_BANDA)
 
     def pesi_stazione(self):
-        """I pesi di una stazione: standard, oppure sporchi con la probabilita' e gli intervalli delle impostazioni."""
-        probabilita, (l0, l1), (s0, s1), (p0, p1) = self.pesi_sporchi
+        """I pesi di una stazione: quelli della manipolazione automatica, oppure quelli di chi usa il tasto verticale.
+
+        La probabilita' e i tre intervalli vengono dalle impostazioni: quando
+        la sorte dice tasto verticale, i tre pesi si estraggono insieme,
+        ciascuno nel proprio intervallo, e valgono per tutta la stazione.
+        """
+        probabilita, (l0, l1), (s0, s1), (p0, p1) = self.pesi_manuali
         if self.rng.random() < probabilita / (100.0 if probabilita > 1 else 1.0):
             return (self.rng.randint(l0, l1), self.rng.randint(s0, s1), self.rng.randint(p0, p1))
         return PESO_STANDARD

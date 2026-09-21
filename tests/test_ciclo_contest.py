@@ -378,14 +378,14 @@ class TestCicloContest:
         banco = prepara(
             monkeypatch,
             [(1.0, "alt-x")],
-            contest={"banda": 300, "sbadati": False, "qrm": True, "qrm_massime": 3, "manipolo": False},
+            contest={"banda": 300, "sbadati": False, "qrm": True, "qrm_massime": 3, "tasto_verticale": False},
         )
         cwapu.RxingContest({})
         motore = banco["contest"][0]
         assert motore.banda == 300
         assert motore.sbadati is False
         assert motore.qrm is True and motore.qrm_massime == 3
-        assert motore.pesi_sporchi[0] == 0
+        assert motore.pesi_manuali[0] == 0
 
     def test_con_il_qrn_il_fondo_si_accende_e_si_spegne(self, monkeypatch):
         banco = prepara(monkeypatch, [(2.0, "alt-x")], contest={"qrn": True, "banda": 400})
@@ -459,15 +459,15 @@ class TestRapporto:
         riga = cwapu.descrivi_pannello_contest(stati)
         assert "una stazione alla volta" in riga
         assert "banda 500 hertz" in riga
-        assert "manipolo sporco al 30 per cento" in riga
+        assert "manipolazione manuale al 30 per cento" in riga
         assert "QRM" not in riga
 
     def test_il_pannello_dice_cio_che_e_acceso(self):
-        stati = dict(cwapu.CONTEST_PREDEFINITI, pileup=True, attivita=6, qrm=True, qrm_massime=3, manipolo=False)
+        stati = dict(cwapu.CONTEST_PREDEFINITI, pileup=True, attivita=6, qrm=True, qrm_massime=3, tasto_verticale=False)
         riga = cwapu.descrivi_pannello_contest(stati)
         assert "pile-up con attività 6" in riga
         assert "QRM fino a 3" in riga
-        assert "manipolo pulito" in riga
+        assert "tutti in manipolazione automatica" in riga
 
     def test_il_rapporto_porta_punteggio_errori_e_ritmo(self):
         punteggio = ct.Punteggio()
