@@ -525,6 +525,15 @@ class TestCicloContest:
         # resterebbe fermo ad aspettarle e non nascerebbe piu' niente.
         assert len(banco["cw"].testi) > 4, banco["cw"].testi
 
+    def test_chi_molla_non_si_annuncia_ma_finisce_nel_rapporto(self, monkeypatch, capsys):
+        """Decisione D2: a schermo solo cio' che non si sente. Che una stazione
+        se ne sia andata si sente, perche' smette di chiamare."""
+        prepara(monkeypatch, [(70.0, "alt-x")], minuti=2)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        assert "Se ne sono andate" in uscita, "il rapporto deve elencarle"
+        assert "se n\'" not in uscita, "durante il contest non si annunciano"
+
     def test_alt_s_dice_come_va(self, monkeypatch, capsys):
         copione = [(2.0, "alt-s"), (2.5, "alt-x")]
         prepara(monkeypatch, copione)

@@ -6,6 +6,7 @@
 
 import copy
 import os
+import re
 import sys
 
 import pytest
@@ -161,6 +162,20 @@ class TestSommario:
 
     def test_la_voce_di_solo_valore_diversa_da_zero_e_accesa(self, monkeypatch):
         assert "[3]" in self.leggi(monkeypatch, [VOCE_SOLO_VALORE], {"stereo": 60})
+
+    def test_fra_le_voci_e_il_prompt_non_resta_una_riga_vuota_di_troppo(self, monkeypatch, capsys):
+        """Il messaggio sta subito sotto l'ultima voce e il prompt sotto di lui.
+
+        Prima ne restavano due: quella saltata e quella del messaggio vuoto.
+        """
+        banco(monkeypatch)
+        voci = [VOCE_SEMPLICE, VOCE_CON_VALORE, VOCE_SOLO_VALORE]
+        cwapu.pannello_interruttori(voci, {"acceso": True, "qrm": True, "quante": 2, "stereo": 50}, "titolo")
+        righe = [int(numero) for numero in re.findall(r"\x1b\[(\d+);1H", capsys.readouterr().out)]
+        # Titolo, le tre voci, il messaggio e il prompt: sei righe di fila,
+        # senza salti.
+        primi = righe[: 3 + len(voci)]
+        assert primi == list(range(primi[0], primi[0] + len(primi))), primi
 
     def test_il_prompt_sta_fra_due_ritorni_carrello(self, monkeypatch):
         """Cosi' il focus, e quindi il display braille, ci resta sopra."""

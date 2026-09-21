@@ -942,8 +942,11 @@ def pannello_interruttori(voci, stati, titolo, al_cambio=None, alla_conferma=Non
     con Escape senza scegliere.
     """
     riga_base = 3
-    riga_messaggi = riga_base + len(voci) + 1
-    riga_prompt = riga_base + len(voci) + 2
+    # Il messaggio sta subito sotto l'ultima voce e il prompt subito sotto di
+    # lui: fra le voci e il prompt resta al massimo una riga vuota, quella del
+    # messaggio quando non c'e' niente da dire, e nessuna quando c'e'.
+    riga_messaggi = riga_base + len(voci)
+    riga_prompt = riga_messaggi + 1
     messaggio = ""
     while True:
         _move_cursor(riga_base - 1, 1)
@@ -2335,14 +2338,18 @@ def RxingContest(menu_config_scelta):
         dillo(riga)
 
     def abbandona(nominativo):
-        """La stazione ha perso la pazienza e se ne e' andata: e' il NIL del contest di prima."""
+        """La stazione ha perso la pazienza e se ne e' andata: e' il NIL del contest di prima.
+
+        Non si annuncia: che se ne sia andata si sente, perche' smette di
+        chiamare, e chi e' andato via sta nel rapporto di fine sessione. E'
+        la decisione D2, che vuole a schermo solo cio' che non si sente.
+        """
         nonlocal session_calls
         session_calls += 1
         rwpm = rwpm_corrente if rwpm_corrente > 0 else float(overall_speed)
         item_details.append({"rwpm": rwpm, "correct": False})
         segna_velocita(rwpm)
         conta_caratteri(nominativo)
-        dillo(_("{call} se n'è andata.").format(call=nominativo))
 
     def durata_finita(adesso):
         """Vero quando il contest ha raggiunto i QSO chiesti o i minuti chiesti."""
