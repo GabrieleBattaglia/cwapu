@@ -57,16 +57,21 @@ class Orologio:
 class Suono:
     """Il finto PlaybackHandle: suona per una durata e poi risulta finito."""
 
-    def __init__(self, orologio, durata):
+    def __init__(self, orologio, durata, registro=None, fs=44100):
         self.orologio = orologio
         self.fine = orologio.adesso + durata
         self.is_playing = self
         self.errore = None
+        self.sample_rate = fs
+        self.audio_data = np.zeros(int(durata * fs))
+        self._registro = registro
 
     def is_set(self):
         return self.orologio.adesso < self.fine
 
     def stop(self):
+        if self._registro is not None and self.orologio.adesso < self.fine:
+            self._registro.append(self.orologio.adesso)
         self.fine = self.orologio.adesso
 
 
@@ -116,6 +121,7 @@ class MotoreFinto:
         self.orologio = orologio
         self.testi = []
         self.chiamate = []
+        self.zittite = []
 
     def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None):
         self.testi.append(msg)
@@ -125,7 +131,8 @@ class MotoreFinto:
         # Un carattere ogni sessanta millesimi e' l'ordine di grandezza del CW
         # a venti parole al minuto: basta perche' le scadenze del motore abbiano
         # un senso l'una rispetto all'altra.
-        return Suono(self.orologio, max(0.2, len(msg) * 0.06)), float(wpm or 20)
+        registro = self.zittite if vol is not None else None
+        return Suono(self.orologio, max(0.2, len(msg) * 0.06), registro), float(wpm or 20)
 
 
 class Tastiera:
@@ -201,7 +208,7 @@ def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY", contest=None):
     dati = copy.deepcopy(cwapu.DEFAULT_DATA)
     dati["contest_settings"].update(contest or {})
     monkeypatch.setattr(cwapu, "app_data", dati, raising=False)
-    return {"orologio": orologio, "cw": cw, "tastiera": tastiera, "diario": diario, "contest": contest_creati, "acustica": acustica}
+    return {"orologio": orologio, "cw": cw, "tastiera": tastiera, "diario": diario, "contest": contest_creati, "acustica": acustica, "zittite": cw.zittite}
 
 
 def scrivi(istante, testo):
@@ -365,8 +372,8 @@ class TestCicloContest:
         prepara(monkeypatch, copione)
         cwapu.RxingContest({})
         uscita = capsys.readouterr().out
-        assert "RX #1 CALL: DL3XY" in uscita
-        assert "RX #1 DL3XY 5NN NR: 27" in uscita
+        assert "+0 -0 =0 CALL: DL3XY" in uscita
+        assert "+0 -0 =0 DL3XY 5NN NR: 27" in uscita
 
     def test_lo_spazio_scrive_solo_nel_numero(self, monkeypatch, capsys):
         """Nel nominativo lo spazio non serve e non si scrive; nel numero separa il rapporto."""
@@ -383,8 +390,8 @@ class TestCicloContest:
         prepara(monkeypatch, copione)
         cwapu.RxingContest({})
         uscita = capsys.readouterr().out
-        assert "RX #1 CALL: DL3XY" in uscita
-        assert "RX #1 DL3XY 5NN NR: 579 27" in uscita
+        assert "+0 -0 =0 CALL: DL3XY" in uscita
+        assert "+0 -0 =0 DL3XY 5NN NR: 579 27" in uscita
 
     def test_il_pile_up_manda_le_stazioni_sul_fronte_stereo(self, monkeypatch):
         """Con il pile-up acceso rispondono in piu' di una, ognuna dal suo posto."""
@@ -476,6 +483,47 @@ class TestCicloContest:
         monkeypatch.setattr(cwapu, "overall_pitch", cwapu.PITCH_MIN, raising=False)
         cwapu.RxingContest({})
         assert cwapu.overall_pitch == cwapu.PITCH_MIN
+
+    def test_la_riga_dice_come_sto_andando(self, monkeypatch, capsys):
+        """In testa alla riga non c'e' il numero del QSO ma il bilancio."""
+        def numero_della_stazione():
+            attive = banco["contest"][0].dx_attive() if banco["contest"] else []
+            return str(attive[0].nr) if attive else ""
+
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (7.0, numero_della_stazione), (7.5, "\r"), (11.0, "A"), (12.0, "alt-x")]
+        banco = prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        # Prima del QSO il bilancio e' a zero, dopo porta il punto e il prefisso.
+        assert "+0 -0 =0 CALL: DL3XY" in uscita
+        assert "+1 -0 =1 CALL: A" in uscita
+
+    def test_il_bilancio_conta_anche_gli_sbagliati(self, monkeypatch, capsys):
+        copione = [*scrivi(3.0, "DL3XZ"), (3.6, "\r"), *scrivi(7.0, "1"), (7.5, "\r"), (11.0, "A"), (12.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert "+0 -1 =0 CALL: A" in capsys.readouterr().out
+
+    def test_mentre_trasmetto_il_ricevitore_tace(self, monkeypatch):
+        """In radio non ci si sente addosso ne' il fruscio ne' chi e' gia' in aria."""
+        # Il CQ si rilancia mentre le stazioni stanno ancora rispondendo, che
+        # e' il momento in cui il difetto si sentiva.
+        copione = [(istante, "f1") for istante in (1.1, 1.3, 1.5, 1.7, 2.0, 2.3)] + [(6.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, contest={"qrn": True, "pileup": True, "attivita": 9})
+        cwapu.RxingContest({})
+        cicli = banco["acustica"].cicli
+        # Il fruscio si spegne a ogni mia trasmissione e torna quando ho finito.
+        assert cicli and all(c.fermato for c in cicli)
+        # E nessuna stazione resta a suonare mentre trasmetto.
+        assert banco["zittite"], "nessuna stazione e' stata zittita"
+
+    def test_zittire_una_stazione_non_sposta_i_tempi_del_contest(self, monkeypatch):
+        """Il motore la considera finita quando il suo messaggio sarebbe finito."""
+        banco = prepara(monkeypatch, [(6.0, "f1"), (20.0, "alt-x")], contest={"pileup": True, "attivita": 8})
+        cwapu.RxingContest({})
+        # Se le zittite non venissero mai dichiarate finite, il motore
+        # resterebbe fermo ad aspettarle e non nascerebbe piu' niente.
+        assert len(banco["cw"].testi) > 4, banco["cw"].testi
 
     def test_alt_s_dice_come_va(self, monkeypatch, capsys):
         copione = [(2.0, "alt-s"), (2.5, "alt-x")]

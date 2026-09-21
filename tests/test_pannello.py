@@ -21,15 +21,20 @@ class Tastiera:
 
     def __init__(self, *tasti):
         self.tasti = list(tasti)
+        self.chiesto = []
 
     def __call__(self, prompt="", attesa=None, alla_scadenza=""):
+        self.chiesto.append(prompt)
         return self.tasti.pop(0) if self.tasti else "\r"
 
 
 def banco(monkeypatch, *tasti):
-    monkeypatch.setattr(cwapu, "key", Tastiera(*tasti))
+    """Mette la tastiera finta e la restituisce, cosi' si leggono anche i prompt."""
+    tastiera = Tastiera(*tasti)
+    monkeypatch.setattr(cwapu, "key", tastiera)
     monkeypatch.setattr(cwapu, "suona", lambda *a, **k: (None, 0.0))
     monkeypatch.setattr(cwapu, "app_data", copy.deepcopy(cwapu.DEFAULT_DATA), raising=False)
+    return tastiera
 
 
 VOCE_SEMPLICE = {"id": "1", "key_state": "acceso", "etichetta": "prova"}
@@ -135,6 +140,32 @@ class TestPannello:
         visti = []
         cwapu.pannello_interruttori([VOCE_SEMPLICE], {"acceso": False}, "titolo", al_cambio=lambda stati, voce: visti.append(voce["id"]) or "")
         assert visti == ["1"]
+
+
+class TestSommario:
+    """La riga di riepilogo in fondo al pannello: quadre acceso, angolari spento."""
+
+    def leggi(self, monkeypatch, voci, stati):
+        """Il riepilogo sta nel prompt che il pannello passa a key, non a schermo."""
+        tastiera = banco(monkeypatch)
+        cwapu.pannello_interruttori(voci, stati, "titolo")
+        return tastiera.chiesto[-1]
+
+    def test_acceso_fra_quadre_e_spento_fra_angolari(self, monkeypatch):
+        letto = self.leggi(monkeypatch, [VOCE_SEMPLICE, VOCE_CON_VALORE], {"acceso": True, "qrm": False, "quante": 2})
+        assert "[1]" in letto and "<2>" in letto, letto
+
+    def test_la_voce_di_solo_valore_a_zero_e_spenta(self, monkeypatch):
+        """Lo stereo a zero non allarga niente: nel riepilogo si legge spento."""
+        assert "<3>" in self.leggi(monkeypatch, [VOCE_SOLO_VALORE], {"stereo": 0})
+
+    def test_la_voce_di_solo_valore_diversa_da_zero_e_accesa(self, monkeypatch):
+        assert "[3]" in self.leggi(monkeypatch, [VOCE_SOLO_VALORE], {"stereo": 60})
+
+    def test_il_prompt_sta_fra_due_ritorni_carrello(self, monkeypatch):
+        """Cosi' il focus, e quindi il display braille, ci resta sopra."""
+        letto = self.leggi(monkeypatch, [VOCE_SEMPLICE], {"acceso": True})
+        assert letto.startswith("\r") and letto.endswith("\r")
 
 
 class TestImpostazioniContest:

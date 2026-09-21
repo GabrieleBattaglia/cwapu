@@ -317,7 +317,7 @@ cq cq de iz4apu k
 </tbody>
 </table>
 
-<p>Ogni riga dice il numero, il nome, un indicatore fra parentesi angolari e la parola acceso o spento, così la si legge tutta ad alta voce senza doversi ricordare la posizione. La riga in fondo riassume lo stato di tutti e otto: le parentesi quadre indicano un interruttore acceso, quelle angolari uno spento.</p>
+<p>Ogni riga dice il numero, il nome, un indicatore fra parentesi angolari e la parola acceso o spento, così la si legge tutta ad alta voce senza doversi ricordare la posizione. La riga in fondo riassume lo stato di tutti e otto: le parentesi quadre indicano un interruttore acceso, quelle angolari uno spento. Nel pannello del contest la stessa regola vale anche per le voci che sono solo un valore, come lo stereo: quadre se il valore non è zero, angolari se è zero, perché uno stereo a zero non allarga niente.</p>
 
 <h3 id="convivenza">5.2 Che cosa può stare insieme e che cosa no</h3>
 
@@ -479,7 +479,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 </tbody>
 </table>
 
-<p>Tutto quello che si sceglie qui si salva e si ritrova al contest successivo. Dopo il pannello CWapu chiede, come sempre, se si vuole finire dopo un certo numero di QSO oppure dopo un certo tempo.</p>
+<p>Ogni domanda dice fra che limiti si può rispondere e propone fra parentesi quadre il valore salvato, che un Invio a vuoto conferma: <code>Larghezza stereo, da 0 a 100 [100]: </code>. Tutto quello che si sceglie si ritrova al contest successivo. Dopo il pannello CWapu chiede, come sempre, se si vuole finire dopo un certo numero di QSO oppure dopo un certo tempo.</p>
 
 <div class="nota">
 <p><strong>Il proprio nominativo.</strong> Al primo contest CWapu lo chiede: serve per il <code>CQ TEST</code>, per il tasto che lo trasmette e perché le stazioni di disturbo sappiano a chi dire di cambiare frequenza. Da lì in poi lo propone e basta un Invio.</p>
@@ -540,6 +540,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <ul>
 <li><strong>Una velocità</strong> che si discosta dalla propria, e che a volte abbassa apposta per farsi capire.</li>
 <li><strong>Un tono</strong> diverso dal proprio, fino a quattrocentocinquanta hertz di distanza, e una posizione fra gli altoparlanti se lo stereo è acceso. Chi chiama molto lontano dal proprio tono arriva debole, perché è il filtro a mangiarselo, ed è il motivo per cui il filtro si stringe.</li>
+<li><strong>Una voce che si sente solo quando si ascolta</strong>: mentre si trasmette il ricevitore tace, come in radio, quindi né il fruscio né chi è già in aria si sovrappongono alla propria chiamata. Chi stava trasmettendo prosegue per conto suo e il contest lo sa: semplicemente quel pezzo non lo si è sentito.</li>
 <li><strong>Un'evanescenza</strong>, se il QSB è acceso: il segnale va e viene. Metà delle stazioni ha un'onda lenta, che impiega qualche secondo a scendere e altrettanti a risalire, e le altre un'onda più rapida; se il flutter è acceso, tre stazioni su dieci fra queste hanno invece il tremolio veloce delle propagazioni polari.</li>
 <li><strong>Una forza</strong>, perché non arrivano tutte allo stesso modo, e il filtro attenua chi sta lontano dal proprio tono.</li>
 <li><strong>Un modo di manipolare</strong>: automatico, cioè con i pesi regolari del CW standard, oppure, con la probabilità scelta nel pannello, manuale, cioè a tasto verticale, con pesi lontani dallo standard. La stessa lettera suona allora diversa da com'è abituati a sentirla, ed è il caso più difficile e anche il più utile.</li>
@@ -552,10 +553,11 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <div class="esempio">
 <p>Si batte Invio a riga vuota e CWapu lancia <code>CQ TEST IZ4APU</code>. Poi si sente una stazione chiamare.</p>
-<pre><code>RX #1 CALL: DL3XY</code></pre>
+<pre><code>+0 -0 =0 CALL: DL3XY</code></pre>
 <p>Si è capito il nominativo e si batte Invio. CWapu trasmette <code>DL3XY 5NNTT1</code>, e la stazione ribatte con <code>R</code> e il suo numero.</p>
-<pre><code>RX #1 DL3XY 5NN NR: 27</code></pre>
+<pre><code>+0 -0 =0 DL3XY 5NN NR: 27</code></pre>
 <p>Si batte Invio. CWapu manda <code>TU</code>, il QSO va a log e compare la riga che dice com'è andata.</p>
+<p>I tre numeri in testa alla riga sono il bilancio: i QSO giusti, quelli sbagliati e il punteggio, cioè punti per prefissi. Dopo questo primo QSO la riga ripartirà con <code>+1 -0 =1</code>.</p>
 <pre><code>#1 DL3XY 599 27 ok</code></pre>
 <p>Se invece del nominativo si fosse capito soltanto <code>DL3</code>, si sarebbe potuto scrivere proprio <code>DL3</code> e battere Invio: essendo una parte corretta, la stazione avrebbe ripetuto. Oppure si sarebbe potuto premere <kbd>F7</kbd> per chiedere la ripetizione, al costo di un punto di pazienza.</p>
 </div>

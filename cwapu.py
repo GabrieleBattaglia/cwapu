@@ -264,7 +264,7 @@ CONTEST_VOCI = [
         "key_state": "qrm",
         "etichetta": _("QRM"),
         "valore": "qrm_massime",
-        "chiedi": lambda salvato: dgt(prompt=_("Quante stazioni di disturbo al massimo insieme? "), kind="i", imin=1, imax=5, default=salvato),
+        "chiedi": lambda salvato: chiedi_intero(_("Stazioni di disturbo insieme"), 1, 5, salvato),
         "descrivi": lambda stati: _("{n} stazioni").format(n=stati["qrm_massime"]),
     },
     {"id": "3", "key_state": "qsb", "etichetta": _("QSB")},
@@ -275,21 +275,21 @@ CONTEST_VOCI = [
         "key_state": "pileup",
         "etichetta": _("pile-up"),
         "valore": "attivita",
-        "chiedi": lambda salvato: dgt(prompt=_("Attività, quante stazioni rispondono in media a ogni chiamata? "), kind="i", imin=1, imax=9, default=salvato),
+        "chiedi": lambda salvato: chiedi_intero(_("Attività, stazioni per chiamata"), 1, 9, salvato),
         "descrivi": lambda stati: _("attività {n}").format(n=stati["attivita"]),
     },
     {
         "id": "7",
         "etichetta": _("stereo"),
         "valore": "stereo",
-        "chiedi": lambda salvato: dgt(prompt=_("Quanto le stazioni si allargano fra gli altoparlanti, da 0 a 100? "), kind="i", imin=0, imax=100, default=salvato),
+        "chiedi": lambda salvato: chiedi_intero(_("Larghezza stereo"), 0, 100, salvato),
         "descrivi": lambda stati: _("{n} su 100").format(n=stati["stereo"]),
     },
     {
         "id": "8",
         "etichetta": _("banda"),
         "valore": "banda",
-        "chiedi": lambda salvato: arrotonda_banda(dgt(prompt=_("Larghezza del filtro in hertz, da 100 a 600 a passi di 50: "), kind="i", imin=CONTEST_BANDA_MIN, imax=CONTEST_BANDA_MAX, default=salvato)),
+        "chiedi": lambda salvato: arrotonda_banda(chiedi_intero(_("Banda in hertz, a passi di 50"), CONTEST_BANDA_MIN, CONTEST_BANDA_MAX, salvato)),
         "descrivi": lambda stati: _("{n} hertz").format(n=stati["banda"]),
     },
     {
@@ -307,6 +307,19 @@ CONTEST_VOCI = [
         ),
     },
 ]
+def chiedi_intero(domanda, minimo, massimo, proposto):
+    """Una domanda del contest: cosa si chiede, fra che limiti, e cosa l'Invio conferma.
+
+    Il valore fra quadre e' quello salvato, che un Invio a vuoto conferma; i
+    due limiti dicono cosa si puo' scrivere senza doverlo indovinare. Sono una
+    richiesta di Gabriele del 21 settembre 2026, e valgono per ogni domanda
+    del contest.
+    """
+    proposto = max(minimo, min(massimo, int(proposto)))
+    prompt = _("{domanda}, da {minimo} a {massimo} [{proposto}]: ").format(domanda=domanda, minimo=minimo, massimo=massimo, proposto=proposto)
+    return dgt(prompt=prompt, kind="i", imin=minimo, imax=massimo, default=proposto)
+
+
 def arrotonda_banda(valore):
     """La banda al passo di cinquanta piu' vicino, con il mezzo che sale.
 
@@ -372,6 +385,9 @@ CONTEST_FONDO_ADSR = [0, 0, 100, 0]
 # Annunciarlo a ogni pressione riempie la voce di numeri che scorrono e non
 # si ascoltano: e' il rilievo di Gabriele del 21 settembre 2026.
 CONTEST_ATTESA_ANNUNCIO = 2.0
+# Le due durate proposte quando si sceglie come finire il contest.
+CONTEST_QSO_PREDEFINITI = 50
+CONTEST_MINUTI_PREDEFINITI = 10
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 730
 HISTORICAL_RX_REPORT_INTERVAL = 3500
 
@@ -946,10 +962,12 @@ def pannello_interruttori(voci, stati, titolo, al_cambio=None, alla_conferma=Non
         sommario = []
         for voce in voci:
             chiave = voce.get("key_state")
-            if not chiave:
-                sommario.append("({})".format(voce["id"]))
-            else:
-                sommario.append("[{}]".format(voce["id"]) if stati.get(chiave) else "<{}>".format(voce["id"]))
+            # Le voci che sono solo un valore contano come accese quando il
+            # valore non e' zero: lo stereo a zero e' spento, e nel sommario
+            # si legge fra angolari come tutto cio' che e' spento. E' una
+            # richiesta di Gabriele del 21 settembre 2026.
+            acceso = bool(stati.get(chiave)) if chiave else bool(stati.get(voce.get("valore")))
+            sommario.append("[{}]".format(voce["id"]) if acceso else "<{}>".format(voce["id"]))
         _move_cursor(riga_prompt, 1)
         _clear_line_from_cursor()
         sys.stdout.flush()
@@ -1945,10 +1963,10 @@ def chiedi_pesi_tasto(stati):
     rovesciato non si puo' nemmeno scrivere. I limiti sono da 1 a 100, che e'
     cio' che CWzator accetta.
     """
-    stati["tasto_probabilita"] = dgt(prompt=_("Tasto verticale, probabilità in percentuale: "), kind="i", imin=0, imax=100, default=stati["tasto_probabilita"])
+    stati["tasto_probabilita"] = chiedi_intero(_("Tasto verticale, percentuale"), 0, 100, stati["tasto_probabilita"])
     for lettera, nome in (("l", _("linea")), ("s", _("spazio")), ("p", _("punto"))):
-        minimo = dgt(prompt=_("{nome}, minimo: ").format(nome=nome), kind="i", imin=1, imax=100, default=stati[f"tasto_{lettera}_min"])
-        massimo = dgt(prompt=_("{nome}, massimo: ").format(nome=nome), kind="i", imin=minimo, imax=100, default=max(minimo, stati[f"tasto_{lettera}_max"]))
+        minimo = chiedi_intero(_("{nome}, minimo").format(nome=nome), 1, 100, stati[f"tasto_{lettera}_min"])
+        massimo = chiedi_intero(_("{nome}, massimo").format(nome=nome), minimo, 100, max(minimo, stati[f"tasto_{lettera}_max"]))
         stati[f"tasto_{lettera}_min"] = minimo
         stati[f"tasto_{lettera}_max"] = massimo
 
@@ -2044,7 +2062,9 @@ def chiedi_nominativo_contest():
     vuole dare, e allora il contest non comincia.
     """
     global overall_contest_call
-    scritto = dgt(prompt=_("Il tuo nominativo: "), kind="s", smin=0, smax=12, default=overall_contest_call or "")
+    salvato = overall_contest_call or ""
+    prompt = _("Il tuo nominativo [{proposto}]: ").format(proposto=salvato) if salvato else _("Il tuo nominativo: ")
+    scritto = dgt(prompt=prompt, kind="s", smin=0, smax=12, default=salvato)
     scritto = (scritto or "").strip().upper()
     if scritto:
         overall_contest_call = scritto
@@ -2076,9 +2096,9 @@ def RxingContest(menu_config_scelta):
         return
     duration_type = int(scelta_durata)
     if duration_type == 1:
-        limit = dgt(prompt=_("Quanti QSO? "), kind="i", imin=1, imax=500, default=50)
+        limit = chiedi_intero(_("Quanti QSO"), 1, 500, CONTEST_QSO_PREDEFINITI)
     else:
-        limit = dgt(prompt=_("Quanti minuti? "), kind="i", imin=1, imax=60, default=10)
+        limit = chiedi_intero(_("Quanti minuti"), 1, 60, CONTEST_MINUTI_PREDEFINITI)
     if stati["pileup"]:
         print(_("Contest come {call}, pile-up con attività {n}.").format(call=mio_nominativo, n=stati["attivita"]))
     else:
@@ -2133,17 +2153,20 @@ def RxingContest(menu_config_scelta):
     da_chiudere = set()
     rwpm_corrente = 0.0
     fondo = None
+    fondo_pronto = None
     annunci = {}
+    attesa_fine = {}
 
-    def accendi_fondo():
-        """Il fruscio di QRN, largo quanto lo stereo chiede, in ciclo sotto le stazioni.
+    def prepara_fondo():
+        """Sintetizza il fruscio di QRN, largo quanto lo stereo chiede.
 
-        Si risintetizza quando la banda o il tono cambiano, perche' stringere
-        il filtro deve stringere anche il rumore: sono cinquanta millesimi di
-        secondo, e succede solo quando si batte un tasto.
+        Costa un decimo di secondo, quindi si fa solo quando cambia qualcosa
+        che lo riguarda: la banda, il tono, o l'inizio del contest. Stringere
+        il filtro deve stringere anche il rumore.
         """
-        nonlocal fondo
+        nonlocal fondo_pronto
         spegni_fondo()
+        fondo_pronto = None
         if not stati["qrn"]:
             return
         basso = max(50, overall_pitch - banda // 2)
@@ -2155,7 +2178,13 @@ def RxingContest(menu_config_scelta):
         secondo = Acusticator.sintetizza(score, kind=6, adsr=CONTEST_FONDO_ADSR, fs=frequenza)
         if primo is None or secondo is None:
             return
-        fondo = Acusticator.ciclo_di(fronte_stereo(primo, secondo, stati["stereo"]), fs=frequenza)
+        fondo_pronto = fronte_stereo(primo, secondo, stati["stereo"])
+
+    def accendi_fondo():
+        """Rimette in aria il fruscio gia' pronto: non risintetizza niente."""
+        nonlocal fondo
+        if fondo is None and fondo_pronto is not None:
+            fondo = Acusticator.ciclo_di(fondo_pronto, fs=SAMPLE_RATES[overall_fs])
 
     def spegni_fondo():
         """Spegne il fondo, e soltanto quello: le stazioni proseguono."""
@@ -2163,6 +2192,26 @@ def RxingContest(menu_config_scelta):
         if fondo is not None:
             fondo.stop()
             fondo = None
+
+    def durata_suono(handle):
+        """I secondi che quel messaggio durera', per sapere quando finirebbe anche zittito."""
+        try:
+            return handle.audio_data.size / float(handle.sample_rate)
+        except (AttributeError, TypeError, ValueError, ZeroDivisionError):
+            return 0.0
+
+    def zittisci_ricezione():
+        """Mentre trasmetto non sento niente: ne' il fruscio ne' chi e' gia' in aria.
+
+        In radio il ricevitore tace mentre si trasmette, e sentirsi le
+        stazioni sopra la propria chiamata non succede. Chi era in aria
+        prosegue per conto suo, e il motore lo sa: qui si toglie soltanto il
+        suono, e l'istante in cui quel messaggio sarebbe finito resta
+        segnato, cosi' i tempi del contest non si muovono di un millesimo.
+        """
+        spegni_fondo()
+        for chi in [c for c in suoni if c != ct.IO]:
+            ferma(chi)
 
     def ferma(chi):
         """Zittisce una trasmissione e la toglie dai suoni in corso."""
@@ -2176,9 +2225,16 @@ def RxingContest(menu_config_scelta):
         Decisione D2: si riscrive solo quando si batte un tasto, cosi' il
         display braille non insegue una riga che cambia da sola. Il campo e'
         uno: prima aspetta il nominativo, poi il numero.
+        In testa non c'e' piu' il numero del QSO, che non diceva niente, ma
+        come sto andando: piu' i QSO giusti, meno quelli sbagliati, uguale il
+        punteggio, cioe' punti per prefissi. E' una richiesta di Gabriele del
+        21 settembre 2026.
         """
+        punteggio = motore.punteggio
+        sbagliati = punteggio.punti_grezzi - punteggio.punti_verificati
+        conto = f"+{punteggio.punti_verificati} -{sbagliati} ={punteggio.punteggio_verificato}"
         etichetta = "CALL:" if stadio == "call" else f"{suo_call} 5NN NR:"
-        print(f"\r{' ' * 79}\rRX #{session_calls + 1} {etichetta} {campo}", end="", flush=True)
+        print(f"\r{' ' * 79}\r{conto} {etichetta} {campo}", end="", flush=True)
 
     def stato_a_richiesta(adesso):
         """Alt+S: tempo trascorso, QSO, punti, prefissi e punteggio, su una riga sola."""
@@ -2224,6 +2280,7 @@ def RxingContest(menu_config_scelta):
         arriva mai e il contest si fermerebbe.
         """
         ferma(ct.IO)
+        zittisci_ricezione()
         richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=(campo if stadio == "call" else suo_call).strip())
         handle, _rwpm = suona(richiesta.testo, sync=False, farnsworth=0)
         if handle is None:
@@ -2295,7 +2352,7 @@ def RxingContest(menu_config_scelta):
 
     t0 = time.monotonic()
     try:
-        accendi_fondo()
+        prepara_fondo()
         trasmetti([ct.Msg.CQ], 0.0)
         riga_di_stato()
         while True:
@@ -2306,6 +2363,11 @@ def RxingContest(menu_config_scelta):
                 if not handle.is_playing.is_set():
                     finite.add(chi)
                     del suoni[chi]
+                    attesa_fine.pop(chi, None)
+            for chi, quando in list(attesa_fine.items()):
+                if chi not in suoni and adesso >= quando:
+                    finite.add(chi)
+                    del attesa_fine[chi]
             esito = motore.avanza(adesso, finite)
             for richiesta in esito.richieste:
                 handle, rwpm = suona(
@@ -2325,6 +2387,7 @@ def RxingContest(menu_config_scelta):
                     da_chiudere.add(richiesta.stazione)
                     continue
                 suoni[richiesta.stazione] = handle
+                attesa_fine[richiesta.stazione] = adesso + durata_suono(handle)
                 if rwpm > 0:
                     rwpm_corrente = rwpm
             # La verita' della stazione e la riga a log arrivano nello stesso
@@ -2333,6 +2396,9 @@ def RxingContest(menu_config_scelta):
             # senza mettere a log, quella verita' si perde qui: tenerla per il
             # QSO seguente lo manderebbe a NIL senza colpa.
             verita_del_giro = None
+            if not motore.io_trasmette and ct.IO not in suoni:
+                # Ho smesso di trasmettere: il ricevitore torna in ascolto.
+                accendi_fondo()
             for evento in esito.eventi:
                 if evento[0] == "qso":
                     verita_del_giro = evento[1]
@@ -2423,7 +2489,7 @@ def RxingContest(menu_config_scelta):
                 # chi lo tiene alto.
                 overall_pitch = max(PITCH_MIN, min(PITCH_MAX, overall_pitch + passo))
                 motore.mio_pitch = overall_pitch
-                accendi_fondo()
+                prepara_fondo()
                 annuncia("tono", _("Tono {valore}").format(valore=overall_pitch), adesso)
             elif tasto in ("shift-up", "shift-down"):
                 # La banda sta su Shift e non su Ctrl con le frecce: in una
@@ -2434,7 +2500,7 @@ def RxingContest(menu_config_scelta):
                 passo = CONTEST_PASSO_BANDA if tasto == "shift-up" else -CONTEST_PASSO_BANDA
                 banda = max(CONTEST_BANDA_MIN, min(CONTEST_BANDA_MAX, banda + passo))
                 motore.banda = banda
-                accendi_fondo()
+                prepara_fondo()
                 annuncia("banda", _("Banda {valore}").format(valore=banda), adesso)
             elif len(tasto) == 1 and (tasto.isalnum() or tasto in "/?"):
                 campo += tasto.upper()
