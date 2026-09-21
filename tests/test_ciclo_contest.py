@@ -534,6 +534,64 @@ class TestCicloContest:
         assert "Se ne sono andate" in uscita, "il rapporto deve elencarle"
         assert "se n\'" not in uscita, "durante il contest non si annunciano"
 
+    def test_il_volume_si_muove_con_alt_e_i_tasti_funzione(self, monkeypatch, capsys):
+        """E' il quarto valore che si cambia durante il contest."""
+        copione = [(1.0, "alt-f10"), (1.2, "alt-f10"), (8.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert round(cwapu.overall_volume * 100) == 60
+        assert "Volume 60" in capsys.readouterr().out
+
+    def test_il_volume_non_esce_dai_suoi_limiti(self, monkeypatch):
+        copione = [(istante / 10, "alt-f9") for istante in range(10, 22)] + [(8.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert cwapu.overall_volume == 0.0
+
+    def test_il_fruscio_segue_il_volume(self, monkeypatch):
+        """Se non lo seguisse, abbassando il volume si alzerebbe rispetto alle stazioni."""
+        banco = prepara(monkeypatch, [(1.0, "alt-f9"), (8.0, "alt-x")], contest={"qrn": True})
+        cwapu.RxingContest({})
+        score = banco["acustica"].score
+        assert len(score) >= 4, score
+        # Il volume dello score e' il quarto campo della quartina.
+        assert score[-1][3] < score[0][3], (score[0], score[-1])
+
+    def test_ogni_valore_cambiato_conferma_con_una_r(self, monkeypatch):
+        """L'annuncio a voce aspetta che la mano si fermi; la r no."""
+        copione = [(1.0, "f10"), (2.0, "alt-up"), (3.0, "shift-up"), (4.0, "alt-f10"), (8.0, "alt-x")]
+        banco = prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert banco["cw"].testi.count("r") == 4, banco["cw"].testi
+
+    def test_il_backspace_a_riga_vuota_torna_al_nominativo(self, monkeypatch, capsys):
+        """DL3BA chiama, io copio DL2BA e lo mando, lui corregge: cosi' rimedio."""
+        copione = [
+            *scrivi(3.0, "DL2BA"),
+            (3.6, "\r"),
+            (6.0, "\x08"),
+            (6.2, "\x08"),
+            (6.3, "\x08"),
+            (6.4, "\x08"),
+            *scrivi(6.6, "3BA"),
+            (7.2, "\r"),
+            (9.0, "alt-x"),
+        ]
+        banco = prepara(monkeypatch, copione, nominativo="DL3BA")
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        # Il primo Invio manda il nominativo sbagliato, il secondo quello giusto.
+        assert any(t.startswith("DL2BA 5NN") for t in banco["cw"].testi), banco["cw"].testi
+        assert any(t.startswith("DL3BA 5NN") for t in banco["cw"].testi), banco["cw"].testi
+        # Tornando indietro il nominativo sbagliato e' li' da correggere.
+        assert "CALL: DL2BA" in uscita
+        assert "CALL: DL3BA" in uscita
+
+    def test_il_backspace_a_riga_vuota_sul_nominativo_non_fa_niente(self, monkeypatch, capsys):
+        prepara(monkeypatch, [(3.0, "\x08"), (3.5, "A"), (4.0, "alt-x")])
+        cwapu.RxingContest({})
+        assert "CALL: A" in capsys.readouterr().out
+
     def test_alt_s_dice_come_va(self, monkeypatch, capsys):
         copione = [(2.0, "alt-s"), (2.5, "alt-x")]
         prepara(monkeypatch, copione)

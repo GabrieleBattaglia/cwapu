@@ -376,9 +376,28 @@ class TestCorrezioniDelPorting:
     def test_con_il_flutter_tre_stazioni_su_dieci_vanno_veloci(self):
         m = motore(qsb=True, flutter=True, seme=3)
         bande = [m.evanescenza() for _ in range(400)]
-        veloci = [b for b in bande if b >= ct.FLUTTER_BANDA[0]]
-        assert all(ct.FLUTTER_BANDA[0] <= b <= ct.FLUTTER_BANDA[1] for b in veloci)
+        veloci = [b for b in bande if ct.FLUTTER_BANDA[0] <= b <= ct.FLUTTER_BANDA[1]]
         assert 0.2 < len(veloci) / len(bande) < 0.4, len(veloci) / len(bande)
+
+    def test_con_il_flutter_una_su_dieci_ha_la_nota_ruvida(self):
+        """Non sta in Morse Runner: la chiede Gabriele, che in radio di
+        difetti ne sente molti di piu' di uno."""
+        m = motore(qsb=True, flutter=True, seme=3)
+        bande = [m.evanescenza() for _ in range(400)]
+        ruvide = [b for b in bande if b >= ct.RUVIDO_BANDA[0]]
+        assert all(ct.RUVIDO_BANDA[0] <= b <= ct.RUVIDO_BANDA[1] for b in ruvide)
+        assert 0.05 < len(ruvide) / len(bande) < 0.16, len(ruvide) / len(bande)
+        # Le tre nature non si mescolano: ogni banda sta in uno dei tre gruppi.
+        for banda in bande:
+            assert (
+                ct.QSB_BANDA[0] <= banda <= ct.QSB_BANDA[1]
+                or ct.FLUTTER_BANDA[0] <= banda <= ct.FLUTTER_BANDA[1]
+                or ct.RUVIDO_BANDA[0] <= banda <= ct.RUVIDO_BANDA[1]
+            ), banda
+
+    def test_senza_flutter_la_nota_ruvida_non_esiste(self):
+        m = motore(qsb=True, flutter=False, seme=3)
+        assert all(b <= ct.QSB_BANDA[1] for b in (m.evanescenza() for _ in range(200)))
 
     def test_le_onde_lente_del_qsb_non_sono_una_rarita(self):
         """Estraendo la banda in modo uniforme, le onde lente occupano un
@@ -412,7 +431,24 @@ class TestCorrezioniDelPorting:
         m.mio_pitch = 2600
         toni = {ct.StazioneDX(m, 0.0, singola=False).pitch for _ in range(60)}
         assert len(toni) > 30, sorted(toni)[:5]
-        assert max(toni) > 2000
+
+    def test_nessuna_stazione_nasce_fuori_da_cio_che_il_motore_accetta(self):
+        """Fuori dai limiti CWzator rifiuta il messaggio e lo dice: Gabriele
+        riceveva una fila di errori avvicinandosi ai limiti del tono."""
+        for mio in (200, 550, 1500, 2700):
+            m = motore(pileup=True, seme=9)
+            m.mio_pitch = mio
+            for _ in range(200):
+                assert ct.TONO_STAZIONE[0] <= ct.StazioneDX(m, 0.0, singola=False).pitch <= ct.TONO_STAZIONE[1]
+
+    def test_ai_limiti_lo_scarto_si_ribalta_invece_di_tagliarsi(self):
+        """Tagliare ammucchierebbe le stazioni sul bordo, lontanissime dal mio
+        tono e quindi mute sotto il filtro."""
+        alto = ct.TONO_STAZIONE[1]
+        assert ct.tono_stazione(2700, 450) == 2250
+        assert ct.tono_stazione(200, -450) == 650
+        # E quando ribaltare non basta, il limite regge lo stesso.
+        assert ct.TONO_STAZIONE[0] <= ct.tono_stazione(alto, 0) <= alto
 
     def test_il_flutter_senza_qsb_non_esiste(self):
         m = motore(qsb=False, flutter=True)

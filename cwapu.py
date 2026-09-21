@@ -1886,6 +1886,8 @@ CONTEST_BANDA_MAX = 600
 CONTEST_PASSO_BANDA = 50
 CONTEST_PASSO_PITCH = 50
 CONTEST_PASSO_WPM = 2
+# Il volume si muove in percentuale, come lo scrive il comando .v.
+CONTEST_PASSO_VOLUME = 5
 # Ogni quanto il ciclo guarda la tastiera e fa girare l'orologio del motore.
 # key con un'attesa breve su Windows aspetta dentro il sistema, quindi il
 # ciclo non consuma processore come farebbe un giro a vuoto.
@@ -2085,7 +2087,7 @@ def RxingContest(menu_config_scelta):
     disturbi. Nel contest il Farnsworth non esiste, per decisione presa: ogni
     messaggio parte con farnsworth zero e le statistiche si salvano sempre.
     """
-    global overall_speed, overall_pitch
+    global overall_speed, overall_pitch, overall_volume
     mio_nominativo = chiedi_nominativo_contest()
     if not mio_nominativo:
         print(_("Senza nominativo il contest non si fa."))
@@ -2110,8 +2112,10 @@ def RxingContest(menu_config_scelta):
     print(_("F5 il suo call, F6 QSO B4, F7 ?, F8 NIL"))
     print(_("Invio manda cio' che serve e mette a log"))
     print(_("Esc ferma la trasmissione o pulisce la riga"))
+    print(_("Backspace a riga vuota torna al nominativo"))
     print(_("Alt+S dice tempo, QSO, punti e punteggio"))
     print(_("F9 e PagGiu' meno 2 WPM, F10 e PagSu piu' 2"))
+    print(_("Alt+F9 e Alt+F10 abbassano e alzano il volume"))
     print(_("Alt+Su e Alt+Giu' il tono, Shift+Su e Giu' la banda"))
     print(_("Alt+W pulisce i campi, Alt+X chiude il contest"))
     key(_("Premi un tasto per iniziare..."))
@@ -2174,7 +2178,9 @@ def RxingContest(menu_config_scelta):
             return
         basso = max(50, overall_pitch - banda // 2)
         alto = max(basso + 50, overall_pitch + banda // 2)
-        score = [f"{basso}-{alto}", CONTEST_FONDO_SECONDI, 0.0, CONTEST_FONDO_VOLUME]
+        # Il fruscio segue il volume generale, come tutto il resto: se non lo
+        # seguisse, abbassando il volume si alzerebbe rispetto alle stazioni.
+        score = [f"{basso}-{alto}", CONTEST_FONDO_SECONDI, 0.0, CONTEST_FONDO_VOLUME * overall_volume]
         frequenza = SAMPLE_RATES[overall_fs]
         # Due sintesi, una per canale: lo score da solo le farebbe identiche.
         primo = Acusticator.sintetizza(score, kind=6, adsr=CONTEST_FONDO_ADSR, fs=frequenza)
@@ -2244,6 +2250,16 @@ def RxingContest(menu_config_scelta):
         punteggio = motore.punteggio
         minuti, secondi = divmod(int(adesso), 60)
         dillo(f"{minuti:02d}:{secondi:02d} QSO {punteggio.punti_grezzi} PT {punteggio.punti_verificati} PFX {len(punteggio.prefissi_verificati)} = {punteggio.punteggio_verificato}")
+
+    def conferma_in_cw():
+        """Una r in CW a ogni valore cambiato, perche' la mano sappia subito che e' arrivato.
+
+        L'annuncio a voce aspetta che la mano si fermi; questo no, ed e' il
+        segno che in radio si manda per dire ricevuto. Esce con il tono, la
+        velocita' e il volume del momento, quindi dice anche com'e' il valore
+        nuovo. Richiesta di Gabriele del 21 settembre 2026.
+        """
+        suona("r", sync=False, farnsworth=0)
 
     def annuncia(chiave, riga, adesso):
         """Rimanda l'annuncio di un valore: chi lo cambia in raffica lo sente una volta sola.
@@ -2459,7 +2475,14 @@ def RxingContest(menu_config_scelta):
                         trasmetti([ct.Msg.TU], adesso)
                         campo, stadio, suo_call = "", "call", ""
             elif tasto == "\x08":
-                campo = campo[:-1]
+                if campo:
+                    campo = campo[:-1]
+                elif stadio == "nr":
+                    # Cancellato tutto il numero, il Backspace torna al
+                    # nominativo e lo rimette nella riga da correggere: e' il
+                    # modo di rimediare quando la stazione ci fa capire che
+                    # l'avevamo copiato male, senza buttare via il QSO.
+                    campo, stadio, suo_call = suo_call, "call", ""
             elif tasto == "f1":
                 trasmetti([ct.Msg.CQ], adesso)
             elif tasto == "f2":
@@ -2484,10 +2507,20 @@ def RxingContest(menu_config_scelta):
                 else:
                     overall_speed = max(WPM_MIN, overall_speed - CONTEST_PASSO_WPM)
                 motore.mio_wpm = overall_speed
+                conferma_in_cw()
                 annuncia("wpm", _("WPM {valore}").format(valore=overall_speed), adesso)
                 # La velocita' e' quella globale e resta dopo il contest: il
                 # Farnsworth di k deve seguirla.
                 allinea_farnsworth()
+            elif tasto in ("alt-f10", "alt-f9"):
+                # Il volume sta sui tasti funzione con Alt, accanto a quelli
+                # della velocita': e' il quarto valore che si muove durante il
+                # contest, e come gli altri conferma in CW e si annuncia dopo.
+                passo = CONTEST_PASSO_VOLUME if tasto == "alt-f10" else -CONTEST_PASSO_VOLUME
+                overall_volume = max(0, min(100, round(overall_volume * 100) + passo)) / 100.0
+                prepara_fondo()
+                conferma_in_cw()
+                annuncia("volume", _("Volume {valore}").format(valore=round(overall_volume * 100)), adesso)
             elif tasto in ("alt-up", "alt-down"):
                 passo = CONTEST_PASSO_PITCH if tasto == "alt-up" else -CONTEST_PASSO_PITCH
                 # Gli stessi limiti del comando .h della sezione k: il tono e'
@@ -2497,6 +2530,7 @@ def RxingContest(menu_config_scelta):
                 overall_pitch = max(PITCH_MIN, min(PITCH_MAX, overall_pitch + passo))
                 motore.mio_pitch = overall_pitch
                 prepara_fondo()
+                conferma_in_cw()
                 annuncia("tono", _("Tono {valore}").format(valore=overall_pitch), adesso)
             elif tasto in ("shift-up", "shift-down"):
                 # La banda sta su Shift e non su Ctrl con le frecce: in una
@@ -2508,6 +2542,7 @@ def RxingContest(menu_config_scelta):
                 banda = max(CONTEST_BANDA_MIN, min(CONTEST_BANDA_MAX, banda + passo))
                 motore.banda = banda
                 prepara_fondo()
+                conferma_in_cw()
                 annuncia("banda", _("Banda {valore}").format(valore=banda), adesso)
             elif len(tasto) == 1 and (tasto.isalnum() or tasto in "/?"):
                 campo += tasto.upper()

@@ -54,10 +54,15 @@ PROB_FLUTTER = 0.3
 # con il filtro largo nessuna stazione e' del tutto muta.
 TONO_SCARTO = 220.0
 TONO_MASSIMO = 450.0
-# I toni che una stazione puo' avere. Il tetto stava a duemila, e con il tono
-# proprio piu' in alto tutte le stazioni ci finivano sopra, a centinaia di
-# hertz dal mio, cioe' fuori da qualunque filtro e quindi mute.
-TONO_STAZIONE = (100, 4000)
+# I toni che una stazione puo' avere: sono quelli che CWzator accetta, non
+# uno di piu'. Fuori di li' il motore rifiuta il messaggio e lo dice, e con
+# il tono proprio vicino a un estremo arrivava una fila di errori.
+TONO_STAZIONE = (130, 2800)
+# La nota ruvida: una modulazione cosi' rapida da non sentirsi piu' come
+# un andirivieni ma come sporcizia sulla nota. Non sta in Morse Runner: la
+# chiede Gabriele, che in radio di difetti ne sente molti di piu' di uno.
+RUVIDO_BANDA = (40.0, 120.0)
+PROB_RUVIDO = 0.1
 
 
 def numero_come_testo(rng, rst, nr, errore=False):
@@ -239,6 +244,21 @@ def guadagno_filtro(banda_hz, scarto_hz):
     if fuori >= 1.0:
         return 0.0
     return 0.5 * (1.0 + math.cos(math.pi * fuori))
+
+
+def tono_stazione(mio, scarto):
+    """Il tono di una stazione: il mio piu' lo scarto, ribaltato se esce dai limiti.
+
+    Con il tono proprio vicino a un estremo, sommare lo scarto porterebbe fuori
+    da cio' che il motore CW accetta: tagliare ammucchierebbe tutte le stazioni
+    sul limite, cioe' lontanissime dal mio tono e quindi mute sotto il filtro.
+    Ribaltando lo scarto la distanza resta quella, dall'altra parte.
+    """
+    basso, alto = TONO_STAZIONE
+    tono = round(mio + scarto)
+    if not (basso <= tono <= alto):
+        tono = round(mio - scarto)
+    return max(basso, min(alto, tono))
 
 
 def prefisso(nominativo):
@@ -578,7 +598,7 @@ class StazioneDX(Stazione):
         # Il tono a piu' o meno trecento hertz dal mio, come oggi; la panoramica
         # entro l'ampiezza stereo scelta; la forza fra un quinto e il pieno.
         scarto = math.fmod(rng.gauss(0.0, TONO_SCARTO), TONO_MASSIMO)
-        pitch = max(TONO_STAZIONE[0], min(TONO_STAZIONE[1], round(motore.mio_pitch + scarto)))
+        pitch = tono_stazione(motore.mio_pitch, scarto)
         pan = rng.uniform(-motore.ampiezza_stereo, motore.ampiezza_stereo)
         volume = 0.2 + 0.8 * (1.0 + math.sin(math.pi * (rng.random() - 0.5))) / 2.0
         super().__init__(motore, nominativo, wpm, pitch, pan, volume, motore.pesi_stazione())
@@ -643,7 +663,7 @@ class StazioneQRM(Stazione):
 
     def __init__(self, motore, adesso):
         rng = motore.rng
-        pitch = max(TONO_STAZIONE[0], min(TONO_STAZIONE[1], motore.mio_pitch + rng.randint(-int(TONO_MASSIMO), int(TONO_MASSIMO))))
+        pitch = tono_stazione(motore.mio_pitch, rng.randint(-int(TONO_MASSIMO), int(TONO_MASSIMO)))
         pan = rng.uniform(-motore.ampiezza_stereo, motore.ampiezza_stereo)
         volume = 0.2 + 0.8 * rng.random()
         super().__init__(motore, motore.nominativi(), rng.randint(30, 50), pitch, pan, volume)
@@ -837,14 +857,21 @@ class Contest:
     def evanescenza(self):
         """La banda dell'evanescenza di una stazione che nasce adesso, o None.
 
-        Con il QSB acceso ogni stazione ne prende una lenta; con il flutter
-        acceso, tre su dieci fra quelle si prendono invece quella rapida, come
-        in Morse Runner.
+        Con il QSB acceso ogni stazione ne prende una; con il flutter acceso,
+        tre su dieci fra quelle si prendono il tremolio polare di Morse Runner
+        e una su dieci la nota ruvida, che Morse Runner non ha.
         """
         if not self.qsb:
             return None
-        if self.flutter and self.rng.random() < PROB_FLUTTER:
-            return self.rng.uniform(*FLUTTER_BANDA)
+        if self.flutter:
+            # Con il flutter acceso, tre stazioni su dieci hanno il tremolio
+            # polare e una su dieci la nota ruvida: sono i difetti del segnale,
+            # e stanno insieme sotto lo stesso interruttore.
+            sorte = self.rng.random()
+            if sorte < PROB_FLUTTER:
+                return self.rng.uniform(*FLUTTER_BANDA)
+            if sorte < PROB_FLUTTER + PROB_RUVIDO:
+                return self.rng.uniform(*RUVIDO_BANDA)
         # L'estrazione e' logaritmica, non uniforme. La banda e' l'inverso del
         # tempo: fra tre centesimi e sei decimi di hertz i tempi vanno da dodici
         # secondi a sei decimi, e prendendo a caso in modo uniforme le onde
