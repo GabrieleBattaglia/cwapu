@@ -77,17 +77,31 @@ class TestFiltro:
         assert ct.guadagno_filtro(500, 0) == 1.0
         assert ct.guadagno_filtro(500, 250) == 1.0
 
-    def test_a_una_banda_intera_non_passa_niente(self):
-        assert ct.guadagno_filtro(500, 500) == 0.0
-        assert ct.guadagno_filtro(500, 1000) == 0.0
+    def test_fuori_banda_resta_il_pavimento_mai_il_silenzio(self):
+        """Una stazione muta chiama, aspetta e rinuncia senza che nessuno
+        possa sentirla: finiva fra le rinunce del rapporto come un'occasione
+        persa che non c'era mai stata."""
+        assert ct.guadagno_filtro(500, 500) == ct.FILTRO_PAVIMENTO
+        assert ct.guadagno_filtro(500, 5000) == ct.FILTRO_PAVIMENTO
+        assert ct.FILTRO_PAVIMENTO > 0.0
 
     def test_in_mezzo_al_fianco_passa_meta(self):
-        assert ct.guadagno_filtro(500, 375) == pytest.approx(0.5)
-        assert ct.guadagno_filtro(500, -375) == pytest.approx(0.5)
+        mezzo = ct.FILTRO_PAVIMENTO + (1.0 - ct.FILTRO_PAVIMENTO) / 2.0
+        assert ct.guadagno_filtro(500, 375) == pytest.approx(mezzo)
+        assert ct.guadagno_filtro(500, -375) == pytest.approx(mezzo)
+
+    def test_il_fianco_scende_senza_gradini(self):
+        """Fra la banda passante e il pavimento non ci sono salti."""
+        valori = [ct.guadagno_filtro(400, s) for s in range(0, 500, 5)]
+        assert valori[0] == 1.0 and valori[-1] == ct.FILTRO_PAVIMENTO
+        passi = list(itertools.pairwise(valori))
+        assert all(b <= a + 1e-9 for a, b in passi)
+        assert max(a - b for a, b in passi) < 0.05
 
     def test_una_banda_larga_lascia_passare_di_piu(self):
         assert ct.guadagno_filtro(600, 300) == 1.0
-        assert ct.guadagno_filtro(100, 100) == 0.0
+        assert ct.guadagno_filtro(100, 100) == ct.FILTRO_PAVIMENTO
+        assert ct.guadagno_filtro(600, 300) > ct.guadagno_filtro(100, 300)
 
 
 class TestSorte:
@@ -449,6 +463,30 @@ class TestCorrezioniDelPorting:
         assert ct.tono_stazione(200, -450) == 650
         # E quando ribaltare non basta, il limite regge lo stesso.
         assert ct.TONO_STAZIONE[0] <= ct.tono_stazione(alto, 0) <= alto
+
+    def test_nessuna_stazione_nasce_muta(self):
+        """Nasceva muta e moriva muta: chiamava, aspettava, rinunciava, e la
+        rinuncia finiva nel rapporto come un'occasione persa mai esistita.
+        Con la banda a cento erano sei stazioni su dieci."""
+        for banda in (100, 150, 250, 400, 600):
+            m = motore(pileup=True, seme=5, banda=banda)
+            m.mio_pitch = 500
+            volumi = [m.guadagno(ct.StazioneDX(m, 0.0, singola=False)) for _ in range(300)]
+            assert min(volumi) > 0.0, f"banda {banda}: {min(volumi)}"
+
+    def test_il_filtro_segue_il_mio_tono(self):
+        """Spostando il mio tono con Alt e le frecce, una stazione che prima
+        era lontana deve avvicinarsi: lo scarto era congelato alla nascita e
+        cercare con la sintonia non serviva a niente."""
+        m = motore(pileup=True, seme=7, banda=200)
+        m.mio_pitch = 500
+        s = ct.StazioneDX(m, 0.0, singola=False)
+        s.pitch = 900
+        lontana = m.guadagno(s)
+        m.mio_pitch = 900
+        assert s.scarto_tono == 0
+        assert m.guadagno(s) > lontana
+        assert m.guadagno(s) == pytest.approx(s.volume)
 
     def test_i_difetti_di_nota_vanno_con_il_flutter(self):
         """Il chirp e il vibrato sono difetti del segnale, come il flutter."""

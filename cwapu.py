@@ -2306,9 +2306,19 @@ def RxingContest(menu_config_scelta):
         altrimenti le stazioni resterebbero in ascolto di una voce che non
         arriva mai e il contest si fermerebbe.
         """
+        nominativo = (campo if stadio == "call" else suo_call).strip()
+        if ct.Msg.SUO in messaggi and not nominativo:
+            # Senza un nominativo nella riga il suo nominativo e' un vuoto: il
+            # motore CW rifiuta un messaggio vuoto, e le stazioni sentirebbero
+            # chiamare qualcun altro e smetterebbero tutte di rispondere. In
+            # radio, del resto, non si risponde a chi non si e' ancora copiato.
+            return
         ferma(ct.IO)
         zittisci_ricezione()
-        richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=(campo if stadio == "call" else suo_call).strip())
+        richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=nominativo)
+        if not richiesta.testo.strip():
+            motore.io_finito(adesso)
+            return
         handle, _rwpm = suona(richiesta.testo, sync=False, farnsworth=0)
         if handle is None:
             motore.io_finito(adesso)

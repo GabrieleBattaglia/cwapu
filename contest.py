@@ -50,18 +50,28 @@ PROB_FLUTTER = 0.3
 # le ha sentite tutte piuttosto centrate, mentre in radio si chiama anche da
 # molto fuori banda. Qui la gaussiana e' piu' larga e il ripiegamento piu'
 # lontano, cosi' le stazioni lontane esistono e il filtro se le mangia, che
-# e' poi il suo mestiere. Il ripiegamento resta sotto la banda massima, cosi'
-# con il filtro largo nessuna stazione e' del tutto muta.
+# e' poi il suo mestiere, ma senza mai mangiarsele del tutto: sotto c'e' il
+# pavimento del filtro, e una stazione lontana si sente debole, non sparisce.
 TONO_SCARTO = 220.0
 TONO_MASSIMO = 450.0
-# I toni che una stazione puo' avere: sono quelli che CWzator accetta, non
-# uno di piu'. Fuori di li' il motore rifiuta il messaggio e lo dice, e con
-# il tono proprio vicino a un estremo arrivava una fila di errori.
-TONO_STAZIONE = (130, 2800)
+# I toni che una stazione puo' avere. Il tetto e' quello che CWzator accetta,
+# perche' oltre rifiuta il messaggio e lo dice. Il pavimento no: e' piu' alto
+# del suo, perche' sotto i duecentocinquanta hertz la nota e' cupa e si copia
+# male, e con il tono proprio basso le stazioni ci finivano dentro.
+TONO_STAZIONE = (250, 2800)
+# Quanto il filtro lascia passare fuori dalla sua banda. Non e' zero: nessun
+# filtro ha reiezione infinita, e soprattutto una stazione muta chiamerebbe,
+# aspetterebbe e rinuncerebbe senza che nessuno possa sentirla, finendo fra
+# le rinunce del rapporto come un'occasione persa che non c'e' mai stata. A
+# meno ventiquattro decibel si sente che c'e' traffico e non si copia niente,
+# che e' poi cio' che fa un filtro stretto.
+FILTRO_PAVIMENTO = 0.06
 # La nota ruvida: una modulazione cosi' rapida da non sentirsi piu' come
 # un andirivieni ma come sporcizia sulla nota. Non sta in Morse Runner: la
-# chiede Gabriele, che in radio di difetti ne sente molti di piu' di uno.
-RUVIDO_BANDA = (40.0, 120.0)
+# chiede Gabriele, che in radio di difetti ne sente molti di piu' di uno. Il
+# tetto e' cento perche' e' quanto il motore CW accetta: chiedendo di piu'
+# rifiutava il messaggio, e quelle stazioni non suonavano affatto.
+RUVIDO_BANDA = (40.0, 100.0)
 PROB_RUVIDO = 0.1
 # I due difetti di nota che il motore CW sa fare dalla V167: il tono che
 # scivola dentro l'elemento, cioe' il trasmettitore con l'alimentazione
@@ -247,16 +257,17 @@ def guadagno_filtro(banda_hz, scarto_hz):
 
     Le voci CW sono toni puri, quindi il filtro di banda del ricevitore di
     cwsim, che lavorava sulla somma dei segnali, qui diventa un volume per
-    stazione: piena dentro meta' banda, poi un fianco a coseno che si spegne
-    a una banda intera dal centro.
+    stazione: piena dentro meta' banda, poi un fianco a coseno che scende
+    fino al pavimento a una banda intera dal centro.
     """
     meta = max(1.0, float(banda_hz)) / 2.0
     fuori = (abs(float(scarto_hz)) - meta) / meta
     if fuori <= 0.0:
         return 1.0
     if fuori >= 1.0:
-        return 0.0
-    return 0.5 * (1.0 + math.cos(math.pi * fuori))
+        return FILTRO_PAVIMENTO
+    fianco = 0.5 * (1.0 + math.cos(math.pi * fuori))
+    return FILTRO_PAVIMENTO + (1.0 - FILTRO_PAVIMENTO) * fianco
 
 
 def tono_stazione(mio, scarto):
@@ -556,6 +567,18 @@ class Stazione:
         self.vibrato = None
 
     @property
+    def scarto_tono(self):
+        """Quanto il tono di questa stazione dista dal mio, adesso.
+
+        Si ricalcola invece di restare quello della nascita: spostando il mio
+        tono con Alt e le frecce, il filtro deve trattare le stazioni gia' in
+        aria come tratterebbe una che nascesse adesso. Prima no, e cercare
+        con la sintonia una stazione che non si sentiva era un gesto che non
+        serviva a niente.
+        """
+        return self.pitch - self.motore.mio_pitch
+
+    @property
     def suo(self):
         """Il corrispondente della stazione, cioe' io."""
         return self.motore.mio_nominativo
@@ -619,7 +642,6 @@ class StazioneDX(Stazione):
         volume = 0.2 + 0.8 * (1.0 + math.sin(math.pi * (rng.random() - 0.5))) / 2.0
         super().__init__(motore, nominativo, wpm, pitch, pan, volume, motore.pesi_stazione())
         self.oper = oper
-        self.scarto_tono = scarto
         self.qsb = motore.evanescenza()
         self.chirp, self.vibrato = motore.difetti_di_nota()
         self.chiamato = False
@@ -684,7 +706,6 @@ class StazioneQRM(Stazione):
         pan = rng.uniform(-motore.ampiezza_stereo, motore.ampiezza_stereo)
         volume = 0.2 + 0.8 * rng.random()
         super().__init__(motore, motore.nominativi(), rng.randint(30, 50), pitch, pan, volume)
-        self.scarto_tono = pitch - motore.mio_pitch
         self.qsb = motore.evanescenza()
         self.chirp, self.vibrato = motore.difetti_di_nota()
         self.pazienza = rng.randint(1, 5)
@@ -933,7 +954,7 @@ class Contest:
 
     def guadagno(self, stazione):
         """Il volume con cui la stazione arriva: la sua forza per il filtro di banda."""
-        return stazione.volume * guadagno_filtro(self.banda, getattr(stazione, "scarto_tono", 0.0))
+        return stazione.volume * guadagno_filtro(self.banda, stazione.scarto_tono)
 
     def dx_attive(self):
         return [s for s in self.stazioni if isinstance(s, StazioneDX) and s.oper.stato != StatoOp.FATTO]
