@@ -63,6 +63,16 @@ TONO_STAZIONE = (130, 2800)
 # chiede Gabriele, che in radio di difetti ne sente molti di piu' di uno.
 RUVIDO_BANDA = (40.0, 120.0)
 PROB_RUVIDO = 0.1
+# I due difetti di nota che il motore CW sa fare dalla V167: il tono che
+# scivola dentro l'elemento, cioe' il trasmettitore con l'alimentazione
+# debole, e il tono che oscilla. Vanno con il flutter, che e'
+# l'interruttore dei difetti del segnale, e sono indipendenti fra loro e
+# dall'evanescenza: in radio una stazione puo' avere tutto insieme.
+CHIRP_SCARTO = (10.0, 40.0)
+PROB_CHIRP = 0.15
+VIBRATO_PROFONDITA = (3.0, 12.0)
+VIBRATO_FREQUENZA = (2.0, 9.0)
+PROB_VIBRATO = 0.1
 
 
 def numero_come_testo(rng, rst, nr, errore=False):
@@ -201,6 +211,9 @@ class Richiesta:
     messaggi: tuple
     # La banda dell'evanescenza di questa stazione, None se non ne ha.
     qsb: float = None
+    # I due difetti di nota, None se la stazione non ne ha.
+    chirp: float = None
+    vibrato: tuple = None
 
 
 @dataclass
@@ -534,10 +547,13 @@ class Stazione:
         self.rst = 599
         self.nr = 1
         self.errore_nr = False
-        # La banda dell'evanescenza: le figlie la prendono dal motore, che
-        # sa se il QSB e il flutter sono accesi. Qui resta None, cosi' una
-        # stazione costruita a mano nelle prove non ne ha.
+        # La banda dell'evanescenza e i due difetti di nota: le figlie li
+        # prendono dal motore, che sa quali interruttori sono accesi. Qui
+        # restano vuoti, cosi' una stazione costruita a mano nelle prove
+        # suona pulita.
         self.qsb = None
+        self.chirp = None
+        self.vibrato = None
 
     @property
     def suo(self):
@@ -569,7 +585,7 @@ class Stazione:
         # Il volume della richiesta e' gia' filtrato: la forza della stazione
         # attenuata da quanto il suo tono e' lontano dal mio, cioe' il filtro
         # del ricevitore reso voce per voce, come dice il piano.
-        return Richiesta(self.id, testo, self.wpm, self.pitch, self.l, self.s, self.p, self.motore.guadagno(self), self.pan, tuple(self.messaggi), self.qsb)
+        return Richiesta(self.id, testo, self.wpm, self.pitch, self.l, self.s, self.p, self.motore.guadagno(self), self.pan, tuple(self.messaggi), self.qsb, self.chirp, self.vibrato)
 
     def tick(self, adesso, finita):
         """Un giro di orologio: chiude la trasmissione finita o fa scattare la scadenza."""
@@ -605,6 +621,7 @@ class StazioneDX(Stazione):
         self.oper = oper
         self.scarto_tono = scarto
         self.qsb = motore.evanescenza()
+        self.chirp, self.vibrato = motore.difetti_di_nota()
         self.chiamato = False
         self.nr = oper.numero()
         if motore.sbadati and rng.random() < motore.prob_rst_sbagliato:
@@ -669,6 +686,7 @@ class StazioneQRM(Stazione):
         super().__init__(motore, motore.nominativi(), rng.randint(30, 50), pitch, pan, volume)
         self.scarto_tono = pitch - motore.mio_pitch
         self.qsb = motore.evanescenza()
+        self.chirp, self.vibrato = motore.difetti_di_nota()
         self.pazienza = rng.randint(1, 5)
         self.prima = rng.choice(self.MESSAGGI)
         self.stato = Stato.PREPARA
@@ -881,6 +899,25 @@ class Contest:
         # e altrettanti a risalire, che e' il QSB che si sente davvero.
         basso, alto = QSB_BANDA
         return math.exp(self.rng.uniform(math.log(basso), math.log(alto)))
+
+    def difetti_di_nota(self):
+        """Il chirp e il vibrato di una stazione che nasce adesso, o niente.
+
+        Vanno con il flutter, che e' l'interruttore dei difetti del segnale, e
+        sono indipendenti fra loro e dall'evanescenza: in radio una stazione
+        puo' avere tutto insieme, oppure niente. Il chirp cade da una parte o
+        dall'altra con la stessa probabilita', perche' un trasmettitore puo'
+        salire o scendere.
+        """
+        if not self.flutter:
+            return None, None
+        chirp = None
+        if self.rng.random() < PROB_CHIRP:
+            chirp = self.rng.uniform(*CHIRP_SCARTO) * self.rng.choice((-1, 1))
+        vibrato = None
+        if self.rng.random() < PROB_VIBRATO:
+            vibrato = (self.rng.uniform(*VIBRATO_PROFONDITA), self.rng.uniform(*VIBRATO_FREQUENZA))
+        return chirp, vibrato
 
     def pesi_stazione(self):
         """I pesi di una stazione: quelli della manipolazione automatica, oppure quelli di chi usa il tasto verticale.

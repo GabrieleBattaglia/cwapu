@@ -365,8 +365,14 @@ def effetti_non_disponibili():
     if not hasattr(Acusticator, "ciclo"):
         mancanti.append("qrn")
     try:
-        if "qsb" not in inspect.signature(CWzator).parameters:
+        parametri = inspect.signature(CWzator).parameters
+        if "qsb" not in parametri:
             mancanti.extend(("qsb", "flutter"))
+        elif "chirp" not in parametri:
+            # Il flutter porta con se' i difetti di nota, che sono arrivati
+            # con la V167: senza di quelli l'interruttore prometterebbe piu'
+            # di quello che sa fare.
+            mancanti.append("flutter")
     except (TypeError, ValueError):  # pragma: no cover - una firma illeggibile e' un caso che non si e' mai visto
         mancanti.extend(("qsb", "flutter"))
     return tuple(mancanti)
@@ -773,7 +779,7 @@ def scegli_uscita_audio(elenco=None, chiedi=None, automatica=None):
     return (voce["breve"], voce["dispositivo"])
 
 
-def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None):
+def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None):
     """Manda un messaggio al motore CW con le impostazioni correnti dell'utente.
 
     Raccoglie i dieci parametri che ogni chiamata ripeteva identici e lascia
@@ -793,9 +799,10 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
     pile-up, dove ogni stazione arriva da una sua posizione e con una sua
     forza, e non cambiano niente per chi non li passa.
     qsb: la banda in hertz dell'evanescenza, cioe' il segnale che va e viene;
-    None non ne mette. Si passa al motore soltanto quando c'e', cosi' con una
-    GBUtils precedente alla V165, che il parametro non lo conosce, tutto il
-    resto continua a funzionare.
+    chirp: lo scarto in hertz con cui il tono scivola dentro ogni elemento;
+    vibrato: la profondita' e la frequenza con cui il tono oscilla. None non
+    ne mette. Si passano al motore soltanto quando ci sono, cosi' con una
+    GBUtils che non li conosce tutto il resto continua a funzionare.
     """
     effettiva = overall_farnsworth if farnsworth is None else farnsworth
     parametri = {
@@ -815,8 +822,9 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
         "farnsworth": effettiva or None,
         "api": overall_api,
     }
-    if qsb is not None:
-        parametri["qsb"] = qsb
+    for nome, valore in (("qsb", qsb), ("chirp", chirp), ("vibrato", vibrato)):
+        if valore is not None:
+            parametri[nome] = valore
     handle, rwpm = CWzator(**parametri)
     errore = getattr(CWzator, "ultimo_errore", None)
     if handle is None and effettiva and "farnsworth" in str(errore).lower():
@@ -2348,10 +2356,14 @@ def RxingContest(menu_config_scelta):
             total_mistakes_calculated += collect_char_errors(vero_call.lower(), voce.nominativo.lower(), char_error_counts)
         if verita and not serial_ok:
             total_mistakes_calculated += collect_char_errors(str(vero_nr), str(voce.nr_ricevuto), char_error_counts)
-        riga = f"#{session_calls} {voce.nominativo} {voce.rst_ricevuto} {voce.nr_ricevuto} {verifica or 'ok'}"
-        if verifica and verita:
-            riga += f" = {vero_call} {vero_nr}"
-        dillo(riga)
+        # Il QSO riuscito non si annuncia: i contatori in testa alla riga lo
+        # dicono gia', e in radio non c'e' nessuno che te lo conferma. Quello
+        # sbagliato si', perche' cosa fosse davvero non lo si saprebbe.
+        if verifica:
+            riga = f"#{session_calls} {voce.nominativo} {voce.rst_ricevuto} {voce.nr_ricevuto} {verifica}"
+            if verita:
+                riga += f" = {vero_call} {vero_nr}"
+            dillo(riga)
 
     def abbandona(nominativo):
         """La stazione ha perso la pazienza e se ne e' andata: e' il NIL del contest di prima.
@@ -2405,6 +2417,8 @@ def RxingContest(menu_config_scelta):
                     pan=richiesta.pan,
                     vol=richiesta.volume,
                     qsb=richiesta.qsb,
+                    chirp=richiesta.chirp,
+                    vibrato=richiesta.vibrato,
                 )
                 if handle is None:
                     da_chiudere.add(richiesta.stazione)

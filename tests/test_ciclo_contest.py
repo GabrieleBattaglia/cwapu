@@ -123,9 +123,9 @@ class MotoreFinto:
         self.chiamate = []
         self.zittite = []
 
-    def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None):
+    def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None):
         self.testi.append(msg)
-        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol, "qsb": qsb})
+        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol, "qsb": qsb, "chirp": chirp, "vibrato": vibrato})
         if sync:
             return None, 0.0
         # Un carattere ogni sessanta millesimi e' l'ordine di grandezza del CW
@@ -291,7 +291,9 @@ class TestCicloContest:
         assert any(t.startswith("DL3XY 5NN") for t in testi), testi
         assert "TU" in testi
         # La riga breve del log: numero, nominativo, scambio e verifica.
-        assert "#1 DL3XY 599" in uscita and uscita.count(" ok") >= 1
+        # Il QSO riuscito non si annuncia: lo dicono i contatori in testa.
+        assert "#1 DL3XY 599" not in uscita
+        assert " ok" not in uscita
         assert cwapu.app_data["rxing_stats_qrz"]["sessions"] == 1
         assert cwapu.app_data["rxing_stats_qrz"]["total_calls"] == 1
         assert cwapu.app_data["rxing_stats_qrz"]["total_correct"] == 1
@@ -591,6 +593,55 @@ class TestCicloContest:
         prepara(monkeypatch, [(3.0, "\x08"), (3.5, "A"), (4.0, "alt-x")])
         cwapu.RxingContest({})
         assert "CALL: A" in capsys.readouterr().out
+
+    def test_il_qso_riuscito_non_si_annuncia_ma_quello_sbagliato_si(self, monkeypatch, capsys):
+        """In radio nessuno ti conferma che hai copiato bene; se hai copiato
+        male, invece, cosa fosse davvero non lo sapresti mai."""
+        copione = [*scrivi(3.0, "DL3XZ"), (3.6, "\r"), *scrivi(7.0, "1"), (7.5, "\r"), (11.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        assert "NIL" in uscita, "il QSO sbagliato deve dirlo"
+        assert "DL3XZ" in uscita, "con il nominativo come l'avevo scritto"
+
+    def test_i_difetti_di_nota_arrivano_al_motore(self, monkeypatch):
+        """Il chirp e il vibrato vanno con il flutter, che e' l'interruttore
+        dei difetti del segnale."""
+        # Il CQ si rilancia spesso, cosi' nascono abbastanza stazioni da
+        # vedere due difetti che toccano a una su sei e a una su dieci.
+        copione = [(istante, "f1") for istante in (2.0, 5.0, 8.0, 11.0, 14.0, 17.0, 20.0)] + [(30.0, "alt-x")]
+        banco = prepara(
+            monkeypatch,
+            copione,
+            nominativo=["DL3XY", "IK2ABC", "W9CF", "F5IN", "JA1ZZZ", "VE3NEA", "OH2BH", "EA3XY"],
+            contest={"pileup": True, "attivita": 9, "qsb": True, "flutter": True},
+        )
+        cwapu.RxingContest({})
+        stazioni = [c for c in banco["cw"].chiamate if c["vol"] is not None]
+        assert len(stazioni) >= 15, len(stazioni)
+        assert any(c["chirp"] is not None for c in stazioni), "nessun chirp"
+        assert any(c["vibrato"] is not None for c in stazioni), "nessun vibrato"
+        for c in stazioni:
+            if c["chirp"] is not None:
+                assert ct.CHIRP_SCARTO[0] <= abs(c["chirp"]) <= ct.CHIRP_SCARTO[1]
+            if c["vibrato"] is not None:
+                profondita, frequenza = c["vibrato"]
+                assert ct.VIBRATO_PROFONDITA[0] <= profondita <= ct.VIBRATO_PROFONDITA[1]
+                assert ct.VIBRATO_FREQUENZA[0] <= frequenza <= ct.VIBRATO_FREQUENZA[1]
+
+    def test_senza_flutter_le_note_sono_pulite(self, monkeypatch):
+        banco = prepara(monkeypatch, [(12.0, "alt-x")], contest={"pileup": True, "attivita": 9, "qsb": True, "flutter": False})
+        cwapu.RxingContest({})
+        stazioni = [c for c in banco["cw"].chiamate if c["vol"] is not None]
+        assert stazioni
+        assert all(c["chirp"] is None and c["vibrato"] is None for c in stazioni)
+
+    def test_il_mio_messaggio_non_ha_difetti_di_nota(self, monkeypatch):
+        banco = prepara(monkeypatch, [(6.0, "f1"), (9.0, "alt-x")], contest={"qsb": True, "flutter": True})
+        cwapu.RxingContest({})
+        miei = [c for c in banco["cw"].chiamate if c["vol"] is None]
+        assert miei
+        assert all(c["chirp"] is None and c["vibrato"] is None and c["qsb"] is None for c in miei)
 
     def test_alt_s_dice_come_va(self, monkeypatch, capsys):
         copione = [(2.0, "alt-s"), (2.5, "alt-x")]

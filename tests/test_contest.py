@@ -450,6 +450,35 @@ class TestCorrezioniDelPorting:
         # E quando ribaltare non basta, il limite regge lo stesso.
         assert ct.TONO_STAZIONE[0] <= ct.tono_stazione(alto, 0) <= alto
 
+    def test_i_difetti_di_nota_vanno_con_il_flutter(self):
+        """Il chirp e il vibrato sono difetti del segnale, come il flutter."""
+        m = motore(qsb=True, flutter=True, seme=11)
+        difetti = [m.difetti_di_nota() for _ in range(400)]
+        chirp = [c for c, _ in difetti if c is not None]
+        vibrato = [v for _, v in difetti if v is not None]
+        assert 0.08 < len(chirp) / len(difetti) < 0.24, len(chirp) / len(difetti)
+        assert 0.04 < len(vibrato) / len(difetti) < 0.18, len(vibrato) / len(difetti)
+        # Il chirp cade da una parte e dall'altra: un trasmettitore puo' salire
+        # o scendere.
+        assert any(c > 0 for c in chirp) and any(c < 0 for c in chirp)
+        assert all(ct.CHIRP_SCARTO[0] <= abs(c) <= ct.CHIRP_SCARTO[1] for c in chirp)
+        assert all(ct.VIBRATO_PROFONDITA[0] <= p <= ct.VIBRATO_PROFONDITA[1] for p, _ in vibrato)
+        assert all(ct.VIBRATO_FREQUENZA[0] <= f <= ct.VIBRATO_FREQUENZA[1] for _, f in vibrato)
+
+    def test_senza_flutter_nessun_difetto_di_nota(self):
+        m = motore(qsb=True, flutter=False)
+        assert all(m.difetti_di_nota() == (None, None) for _ in range(50))
+
+    def test_la_richiesta_porta_i_difetti_di_nota(self):
+        m = motore(pileup=False, qsb=True, flutter=True, seme=4)
+        m.avanza(0.0)
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        richieste, _ = avanza_fino(m, 1.0, 3.0, finite=[ct.IO])
+        assert richieste
+        # Il mio messaggio non ha mai difetti: sono io.
+        assert m.io_trasmetti([ct.Msg.CQ], 0.0).chirp is None
+        assert m.io_trasmetti([ct.Msg.CQ], 0.0).vibrato is None
+
     def test_il_flutter_senza_qsb_non_esiste(self):
         m = motore(qsb=False, flutter=True)
         assert all(m.evanescenza() is None for _ in range(20))

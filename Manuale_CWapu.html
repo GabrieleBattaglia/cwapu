@@ -543,6 +543,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <li><strong>Un tono</strong> diverso dal proprio, fino a quattrocentocinquanta hertz di distanza, e una posizione fra gli altoparlanti se lo stereo è acceso. Chi chiama molto lontano dal proprio tono arriva debole, perché è il filtro a mangiarselo, ed è il motivo per cui il filtro si stringe.</li>
 <li><strong>Una voce che si sente solo quando si ascolta</strong>: mentre si trasmette il ricevitore tace, come in radio, quindi né il fruscio né chi è già in aria si sovrappongono alla propria chiamata. Chi stava trasmettendo prosegue per conto suo e il contest lo sa: semplicemente quel pezzo non lo si è sentito.</li>
 <li><strong>Un'evanescenza</strong>, se il QSB è acceso: il segnale va e viene. Metà delle stazioni ha un'onda lenta, che impiega qualche secondo a scendere e altrettanti a risalire, e le altre un'onda più rapida. Se il flutter è acceso, fra queste tre stazioni su dieci hanno il tremolio veloce delle propagazioni polari e una su dieci la nota ruvida, cioè una modulazione così rapida da non sentirsi più come un andirivieni ma come sporcizia sul segnale.</li>
+<li><strong>Un difetto di nota</strong>, sempre con il flutter acceso: una stazione su sei ha il <em>chirp</em>, cioè il tono che scivola mentre il punto o la linea suonano, che è il difetto del trasmettitore con l'alimentazione debole, e una su dieci ha il tono instabile, che oscilla attorno alla sua frequenza. Sono indipendenti fra loro e dall'evanescenza: in radio una stazione può avere tutto insieme, oppure niente.</li>
 <li><strong>Una forza</strong>, perché non arrivano tutte allo stesso modo, e il filtro attenua chi sta lontano dal proprio tono.</li>
 <li><strong>Un modo di manipolare</strong>: automatico, cioè con i pesi regolari del CW standard, oppure, con la probabilità scelta nel pannello, manuale, cioè a tasto verticale, con pesi lontani dallo standard. La stessa lettera suona allora diversa da com'è abituati a sentirla, ed è il caso più difficile e anche il più utile.</li>
 <li><strong>Una pazienza</strong>, estratta da una distribuzione che dà quattro tentativi in media. Esaurita quella, la stazione se ne va, esattamente come farebbe in un contest vero chi ha una coda di gente che chiama. Chi se n'è andato finisce nel rapporto.</li>
@@ -557,9 +558,10 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <pre><code>+0 -0 =0 CALL: DL3XY</code></pre>
 <p>Si è capito il nominativo e si batte Invio. CWapu trasmette <code>DL3XY 5NNTT1</code>, e la stazione ribatte con <code>R</code> e il suo numero.</p>
 <pre><code>+0 -0 =0 DL3XY 5NN NR: 27</code></pre>
-<p>Si batte Invio. CWapu manda <code>TU</code>, il QSO va a log e compare la riga che dice com'è andata.</p>
+<p>Si batte Invio. CWapu manda <code>TU</code> e il QSO va a log, in silenzio: in radio non c'è nessuno che ti conferma di aver copiato giusto.</p>
 <p>I tre numeri in testa alla riga sono il bilancio: i QSO giusti, quelli sbagliati e il punteggio, cioè punti per prefissi. Dopo questo primo QSO la riga ripartirà con <code>+1 -0 =1</code>.</p>
-<pre><code>#1 DL3XY 599 27 ok</code></pre>
+<p>Se invece avessi copiato male, quello CWapu te lo direbbe, perché cosa fosse davvero non lo sapresti in nessun altro modo:</p>
+<pre><code>#3 DL3XZ 599 27 NIL = DL3XY 31</code></pre>
 <p>Se invece del nominativo si fosse capito soltanto <code>DL3</code>, si sarebbe potuto scrivere proprio <code>DL3</code> e battere Invio: essendo una parte corretta, la stazione avrebbe ripetuto. Oppure si sarebbe potuto premere <kbd>F7</kbd> per chiedere la ripetizione, al costo di un punto di pazienza.</p>
 </div>
 
@@ -567,7 +569,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <p>Il punteggio è quello del WPX, semplificato come in Morse Runner: un punto per ogni QSO e un moltiplicatore per ogni prefisso diverso, cioè la parte del nominativo fino all'ultima cifra. Il punteggio è punti per prefissi, e si contano in due modi: quello grezzo, che è come lo vede il proprio log, e quello verificato, che tiene solo i QSO copiati bene.</p>
 
-<p>A ogni QSO chiuso esce una riga breve con il numero, il nominativo, lo scambio e la verifica, che è <code>ok</code> se è tutto giusto, <code>NIL</code> se il nominativo è sbagliato, <code>NR</code> se il numero, <code>RST</code> se il rapporto. Quando non è ok, la riga dice anche cos'era davvero.</p>
+<p>Quando un QSO si chiude male esce una riga breve con il numero, il nominativo, lo scambio e la verifica: <code>NIL</code> se il nominativo è sbagliato, <code>NR</code> se il numero, <code>RST</code> se il rapporto, e dove si può anche cos'era davvero. I QSO andati bene non dicono niente: li contano i tre numeri in testa alla riga.</p>
 
 <p>Alla fine, oltre alle statistiche di sempre, il rapporto dice punti, prefissi e punteggio nei due modi, la percentuale di QSO sbagliati, il ritmo per ogni cinque minuti riportato all'ora, i nominativi e gli scambi copiati male, le stazioni che se ne sono andate, e con quali interruttori e valori la sessione è stata fatta. Quest'ultima riga serve: una sessione in pile-up con il tasto verticale al cento per cento e una da sola con tutti in manipolazione automatica non sono confrontabili, e il diario deve poterlo dire.</p>
 
