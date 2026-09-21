@@ -1,15 +1,15 @@
 {
     "app_info": {
-        "launch_count": 523
+        "launch_count": 525
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 40,
-        "pitch": 2700,
+        "speed": 26,
+        "pitch": 350,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
-        "volume": 0.2,
+        "volume": 0.3,
         "ms": 1,
         "fs_index": 2,
         "wave_index": 1,
@@ -33,11 +33,11 @@
         "total_time_seconds": 7888.115495
     },
     "rxing_stats_qrz": {
-        "total_calls": 964,
-        "sessions": 63,
-        "total_correct": 630,
-        "total_wrong_items": 334,
-        "total_time_seconds": 16099.236588
+        "total_calls": 1034,
+        "sessions": 70,
+        "total_correct": 632,
+        "total_wrong_items": 402,
+        "total_time_seconds": 17053.281709999996
     },
     "counting_stats": {
         "exercise_number": 100
@@ -46,12 +46,12 @@
         "qrn": true,
         "qrm": false,
         "qrm_massime": 3,
-        "qsb": false,
+        "qsb": true,
         "flutter": false,
-        "sbadati": false,
+        "sbadati": true,
         "pileup": true,
-        "attivita": 6,
-        "stereo": 100,
+        "attivita": 3,
+        "stereo": 50,
         "banda": 600,
         "tasto_verticale": true,
         "tasto_probabilita": 30,
@@ -90344,6 +90344,729 @@
                     "pileup": true,
                     "attivita": 6,
                     "stereo": 100,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-21T22:26:49.391703",
+                "duration_seconds": 98.688235,
+                "rwpm_min": 37,
+                "rwpm_max": 44,
+                "rwpm_avg": 40.333333333333336,
+                "items_sent_session": 18,
+                "items_correct_session": 0,
+                "item_details": [
+                    {
+                        "rwpm": 44,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 44,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 43,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 38,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 38,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 93,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "d": 5,
+                    "m": 2,
+                    "8": 1,
+                    "t": 4,
+                    "p": 5,
+                    "k": 6,
+                    "c": 4,
+                    "3": 5,
+                    "r": 5,
+                    "h": 2,
+                    "q": 1,
+                    "2": 5,
+                    "u": 2,
+                    "n": 1,
+                    "l": 4,
+                    "j": 1,
+                    "v": 6,
+                    "e": 4,
+                    "5": 2,
+                    "s": 2,
+                    "i": 4,
+                    "y": 1,
+                    "a": 4,
+                    "g": 2,
+                    "z": 3,
+                    "0": 3,
+                    "f": 3,
+                    "9": 1,
+                    "4": 1,
+                    "x": 2,
+                    "w": 1,
+                    "6": 1
+                },
+                "punteggio_grezzo": 0,
+                "punteggio_verificato": 0,
+                "prefissi_verificati": 0,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": false,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": true,
+                    "attivita": 9,
+                    "stereo": 100,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-21T22:29:35.282231",
+                "duration_seconds": 49.462511,
+                "rwpm_min": 37,
+                "rwpm_max": 42,
+                "rwpm_avg": 38.375,
+                "items_sent_session": 8,
+                "items_correct_session": 0,
+                "item_details": [
+                    {
+                        "rwpm": 42,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 41,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 39,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 37,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 40,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "p": 4,
+                    "r": 1,
+                    "8": 2,
+                    "l": 3,
+                    "g": 1,
+                    "i": 1,
+                    "n": 4,
+                    "4": 2,
+                    "w": 1,
+                    "a": 1,
+                    "o": 3,
+                    "t": 1,
+                    "0": 2,
+                    "c": 2,
+                    "h": 1,
+                    "y": 2,
+                    "5": 1,
+                    "d": 1,
+                    "z": 2,
+                    "q": 1,
+                    "f": 1,
+                    "k": 1,
+                    "3": 1,
+                    "u": 1
+                },
+                "punteggio_grezzo": 0,
+                "punteggio_verificato": 0,
+                "prefissi_verificati": 0,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": false,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": true,
+                    "attivita": 9,
+                    "stereo": 100,
+                    "banda": 200,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-21T22:34:01.349101",
+                "duration_seconds": 236.603692,
+                "rwpm_min": 17.626859977107973,
+                "rwpm_max": 40,
+                "rwpm_avg": 27.514002745965975,
+                "items_sent_session": 21,
+                "items_correct_session": 0,
+                "item_details": [
+                    {
+                        "rwpm": 32.270168855534706,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 32.270168855534706,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 40,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 24,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 24,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 24,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 17.626859977107973,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 26,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 17.626859977107973,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 108,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "a": 7,
+                    "8": 5,
+                    "d": 6,
+                    "c": 4,
+                    "y": 6,
+                    "2": 3,
+                    "r": 4,
+                    "j": 6,
+                    "k": 6,
+                    "h": 1,
+                    "t": 3,
+                    "w": 4,
+                    "7": 2,
+                    "v": 5,
+                    "e": 1,
+                    "6": 3,
+                    "f": 3,
+                    "x": 2,
+                    "l": 2,
+                    "1": 3,
+                    "9": 1,
+                    "4": 4,
+                    "n": 5,
+                    "z": 2,
+                    "i": 3,
+                    "m": 3,
+                    "0": 2,
+                    "3": 1,
+                    "o": 4,
+                    "5": 1,
+                    "u": 3,
+                    "p": 1,
+                    "g": 1,
+                    "s": 1
+                },
+                "punteggio_grezzo": 0,
+                "punteggio_verificato": 0,
+                "prefissi_verificati": 0,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": true,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": true,
+                    "attivita": 9,
+                    "stereo": 100,
+                    "banda": 200,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-21T22:41:33.481332",
+                "duration_seconds": 58.050662,
+                "rwpm_min": 24,
+                "rwpm_max": 28,
+                "rwpm_avg": 25.428571428571427,
+                "items_sent_session": 7,
+                "items_correct_session": 0,
+                "item_details": [
+                    {
+                        "rwpm": 24,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 24,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 24,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 24,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 38,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "g": 3,
+                    "0": 1,
+                    "o": 2,
+                    "r": 2,
+                    "y": 2,
+                    "n": 2,
+                    "4": 2,
+                    "a": 4,
+                    "c": 2,
+                    "x": 1,
+                    "e": 2,
+                    "6": 1,
+                    "f": 1,
+                    "3": 1,
+                    "v": 2,
+                    "m": 1,
+                    "k": 1,
+                    "i": 1,
+                    "z": 1,
+                    "1": 1,
+                    "p": 1,
+                    "l": 1,
+                    "h": 1,
+                    "2": 1,
+                    "j": 1
+                },
+                "punteggio_grezzo": 0,
+                "punteggio_verificato": 0,
+                "prefissi_verificati": 0,
+                "contest_settings": {
+                    "qrn": true,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": true,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": true,
+                    "attivita": 9,
+                    "stereo": 100,
+                    "banda": 200,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-21T22:43:35.613568",
+                "duration_seconds": 138.645446,
+                "rwpm_min": 21.27403846153846,
+                "rwpm_max": 28,
+                "rwpm_avg": 23.5604395995797,
+                "items_sent_session": 8,
+                "items_correct_session": 0,
+                "item_details": [
+                    {
+                        "rwpm": 21.838163608969246,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 25.09727626459144,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 21.27403846153846,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 21.27403846153846,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 25,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 40,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "k": 1,
+                    "s": 2,
+                    "1": 2,
+                    "v": 1,
+                    "m": 4,
+                    "w": 3,
+                    "f": 2,
+                    "8": 1,
+                    "d": 3,
+                    "r": 1,
+                    "6": 1,
+                    "b": 1,
+                    "9": 1,
+                    "l": 1,
+                    "c": 1,
+                    "u": 1,
+                    "n": 2,
+                    "3": 2,
+                    "o": 2,
+                    "z": 1,
+                    "g": 2,
+                    "p": 1,
+                    "5": 1,
+                    "h": 1,
+                    "i": 1,
+                    "j": 1
+                },
+                "punteggio_grezzo": 0,
+                "punteggio_verificato": 0,
+                "prefissi_verificati": 0,
+                "contest_settings": {
+                    "qrn": true,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": true,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": true,
+                    "attivita": 9,
+                    "stereo": 50,
+                    "banda": 200,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-21T22:53:20.641785",
+                "duration_seconds": 208.513565,
+                "rwpm_min": 24,
+                "rwpm_max": 27,
+                "rwpm_avg": 26.0,
+                "items_sent_session": 3,
+                "items_correct_session": 0,
+                "item_details": [
+                    {
+                        "rwpm": 24,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 14,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "r": 1,
+                    "x": 2,
+                    "4": 2,
+                    "h": 1,
+                    "j": 1,
+                    "n": 1,
+                    "8": 1,
+                    "d": 1,
+                    "0": 1,
+                    "z": 2,
+                    "s": 1
+                },
+                "punteggio_grezzo": 0,
+                "punteggio_verificato": 0,
+                "prefissi_verificati": 0,
+                "contest_settings": {
+                    "qrn": true,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": true,
+                    "flutter": false,
+                    "sbadati": true,
+                    "pileup": true,
+                    "attivita": 3,
+                    "stereo": 50,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-22T00:14:57.831701",
+                "duration_seconds": 137.235777,
+                "rwpm_min": 18.507657217334636,
+                "rwpm_max": 31.931948306886966,
+                "rwpm_avg": 25.419399590771203,
+                "items_sent_session": 5,
+                "items_correct_session": 2,
+                "item_details": [
+                    {
+                        "rwpm": 24.32869621481721,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 24.32869621481721,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 18.507657217334636,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31.931948306886966,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 34,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "h": 2,
+                    "b": 2,
+                    "9": 1,
+                    "q": 1,
+                    "a": 3,
+                    "6": 1,
+                    "d": 1,
+                    "2": 3,
+                    "v": 1,
+                    "e": 2,
+                    "n": 6,
+                    "5": 2,
+                    "1": 2,
+                    "0": 1,
+                    "s": 1,
+                    "f": 2,
+                    "o": 1,
+                    "k": 2
+                },
+                "punteggio_grezzo": 4,
+                "punteggio_verificato": 4,
+                "prefissi_verificati": 2,
+                "contest_settings": {
+                    "qrn": true,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": true,
+                    "flutter": false,
+                    "sbadati": true,
+                    "pileup": true,
+                    "attivita": 3,
+                    "stereo": 50,
                     "banda": 600,
                     "tasto_verticale": true,
                     "tasto_probabilita": 30,

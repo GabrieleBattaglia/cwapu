@@ -3662,7 +3662,10 @@ def main():
     )
     save_settings(app_data)
     print(_("hpe cuagn - 73 de IZ4APU - Gabe in Bologna, JN54pl."))
-    suona("bk hpe cuagn - 73 de iz4apu tu e e", sync=True)
+    # Il trattino basso in coda e' una pausa che non si sente: serve perche'
+    # l'applicazione si chiude subito dopo, e senza di lui l'ultima e resta
+    # nel buffer della scheda audio e non esce mai.
+    suona("bk hpe cuagn - 73 de iz4apu tu e e _", sync=True)
     _clear_screen_ansi()
     Donazione(lang=app_language)
 
