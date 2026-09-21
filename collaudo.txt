@@ -18,12 +18,6 @@ RIPROVA B: LE ONDE LENTE
 Cosa fare: l'evanescenza ora si estrae in modo logaritmico fra tre centesimi e sei decimi di hertz, cosi' meta' delle stazioni ha un'onda che impiega piu' di tre secondi a scendere e altrettanti a risalire. Il rapido di prima c'e' ancora. Pannello: 3 QSB, 7 stereo 0, 8 banda 600. Durata 2, 15 minuti. Premi F1 e ascolta per intero la risposta senza rispondere, al silenzio F1 di nuovo, per almeno quindici risposte. Se i messaggi ti sembrano corti per giudicare, F9 quattro volte e F10 altrettante prima di uscire.
 Cosa dirmi: se fra le quindici ne trovi adesso di lente e di rapide, in che proporzione ti sembrano, e se le lente sono lente quanto quelle che senti in aria o ancora no. Dimmi anche se qualcuna resta troppo a lungo ferma su un picco senza muoversi.
 Esito:
-RIPROVA F: IL FLUTTER E GLI SBADATI
-Cosa fare: della prova sulla propagazione avevi giudicato solo la prima fase, il QSB; queste due non le hai ancora sentite. Il flutter non e' cambiato, gli sbadati nemmeno.
-Prima. Pannello: 3 QSB, 4 flutter, 7 stereo 0, 8 banda 600. Durata 2, 15 minuti. Premi F1, ascolta per intero la risposta senza rispondere, al silenzio F1 di nuovo, per almeno quindici risposte, perche' il flutter tocca a tre stazioni su dieci fra quelle che hanno gia' il QSB e non a tutte. Alt+X.
-Seconda. Come sopra, accendendo anche 5 sbadati. Dieci risposte, copiando a mente nominativo e numero senza scrivere niente nella riga, e tenendo il conto di quante prendi al primo colpo. Alt+X.
-Cosa dirmi: della prima, se fra le quindici risposte ne riconosci di due nature diverse, e per quelle diverse se attribuiresti la differenza a un fenomeno di propagazione o a un guasto nella generazione del tono. Della seconda, quante su dieci al primo colpo, cosa te lo ha impedito per le altre, e se questa difficolta' in piu' ti sembra allenamento utile o solo fastidio.
-Esito:
 RIPROVA C: IL FRUSCIO CHE SI ALLARGA
 Cosa fare: il fondo di QRN non esce piu' dal centro: si sintetizza in due canali indipendenti e si mescola secondo la voce stereo, a potenza costante. Pannello: 1 QRN, 6 pile-up attivita' 6, 8 banda 500, 7 stereo 100. Durata 2, 8 minuti. Ascolta due o tre minuti di traffico rilanciando F1, poi Alt+X. Rifai con 7 stereo 0, e infine con 7 stereo 50.
 Cosa dirmi: per ognuna delle tre larghezze, da dove ti arriva il fruscio e che scena ne esce; se il livello del fruscio ti sembra lo stesso in tutte e tre o se cambia allargandolo; e quale larghezza ti aiuta di piu' a tenere una stazione sola.
@@ -35,6 +29,12 @@ Esito:
 RIPROVA E: LA BANDA SU SHIFT E I VALORI CHE SI ANNUNCIANO
 Cosa fare: Ctrl con le frecce, nelle console di Windows, fa scorrere il testo gia' scritto, ed e' per questo che NVDA ricominciava a leggerti tutto da capo. La banda si sposta su Shift con le frecce, che in CWapu sono libere perche' il RIT non c'e'. E velocita', tono e banda si annunciano due secondi dopo l'ultima pressione, non a ogni pressione. Pannello: 1 QRN, 6 pile-up attivita' 6, 8 banda 600. Durata 2, 10 minuti. Premi Shift+Freccia giu' dieci volte di fila il piu' in fretta che riesci, poi fermati e aspetta. Poi Shift+Freccia su cinque volte in fretta, fermati e aspetta. Poi, senza fermarti fra l'uno e l'altro, F9 due volte, Alt+Freccia su due volte e Shift+Freccia giu' due volte, e aspetta. Infine cambia la banda una volta sola e premi subito Alt+X.
 Cosa dirmi: se Shift con le frecce lascia il terminale fermo dov'e', oppure se anche lui ti fa ripartire la lettura. Se due secondi sono l'attesa giusta, troppo o poco. Se dopo le tre pressioni diverse hai sentito tutti e tre i valori e in che ordine. E se cambiando la banda e chiudendo subito l'hai sentita lo stesso.
+Esito:
+RIPROVA F: IL FLUTTER E GLI SBADATI
+Cosa fare: della prova sulla propagazione avevi giudicato solo la prima fase, il QSB; queste due non le hai ancora sentite. Il flutter non e' cambiato, gli sbadati nemmeno.
+Prima. Pannello: 3 QSB, 4 flutter, 7 stereo 0, 8 banda 600. Durata 2, 15 minuti. Premi F1, ascolta per intero la risposta senza rispondere, al silenzio F1 di nuovo, per almeno quindici risposte, perche' il flutter tocca a tre stazioni su dieci fra quelle che hanno gia' il QSB e non a tutte. Alt+X.
+Seconda. Come sopra, accendendo anche 5 sbadati. Dieci risposte, copiando a mente nominativo e numero senza scrivere niente nella riga, e tenendo il conto di quante prendi al primo colpo. Alt+X.
+Cosa dirmi: della prima, se fra le quindici risposte ne riconosci di due nature diverse, e per quelle diverse se attribuiresti la differenza a un fenomeno di propagazione o a un guasto nella generazione del tono. Della seconda, quante su dieci al primo colpo, cosa te lo ha impedito per le altre, e se questa difficolta' in piu' ti sembra allenamento utile o solo fastidio.
 Esito:
 PROVA 6: LA RIGA DI STATO SOTTO LE DITA
 Cosa fare: due fasi, una sessione per fase.
