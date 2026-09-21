@@ -318,6 +318,26 @@ def arrotonda_banda(valore):
     return max(CONTEST_BANDA_MIN, min(CONTEST_BANDA_MAX, int((int(valore) + passo // 2) // passo * passo)))
 
 
+def fronte_stereo(primo, secondo, ampiezza):
+    """Due rumori indipendenti diventano un fronte largo quanto l'ampiezza chiede.
+
+    A zero i due canali sono identici e il suono sta al centro; a cento sono
+    scorrelati e riempie la scena. Serve perche' il rumore di fondo di una
+    radio non viene da un punto: viene da tutte le parti, e allargarlo e' il
+    modo di dirlo. Uno score lo sintetizza con i due canali identici, quindi
+    il fronte si costruisce qui da due sintesi diverse.
+    La miscela tiene la potenza costante, perche' il fondo non deve cambiare
+    livello mentre si allarga: i quadrati dei due pesi sommano a uno.
+    """
+    import numpy as np
+
+    larghezza = max(0.0, min(1.0, float(ampiezza) / 100.0))
+    sinistra = np.asarray(primo, dtype=np.float32)[:, 0]
+    destra = np.asarray(secondo, dtype=np.float32)[: len(sinistra), 0]
+    miscelato = (1.0 - larghezza**2) ** 0.5 * sinistra[: len(destra)] + larghezza * destra
+    return np.stack([sinistra[: len(destra)], miscelato], axis=1).astype(np.float32)
+
+
 def effetti_non_disponibili():
     """Gli effetti radio che la GBUtils installata non sa ancora fare.
 
@@ -344,6 +364,14 @@ CONTEST_NON_DISPONIBILI = effetti_non_disponibili()
 # ciclo sotto le stazioni, limitati alla banda del filtro del ricevitore.
 CONTEST_FONDO_SECONDI = 10.0
 CONTEST_FONDO_VOLUME = 0.5
+# Il fondo non ha dissolvenze ai capi: a chiuderlo su se' stesso ci pensa
+# Acusticator, che dalla V166 taglia i due transitori e incrocia la testa
+# con la coda.
+CONTEST_FONDO_ADSR = [0, 0, 100, 0]
+# Quanto la mano deve stare ferma prima che il valore cambiato venga detto.
+# Annunciarlo a ogni pressione riempie la voce di numeri che scorrono e non
+# si ascoltano: e' il rilievo di Gabriele del 21 settembre 2026.
+CONTEST_ATTESA_ANNUNCIO = 2.0
 HISTORICAL_RX_MAX_SESSIONS_DEFAULT = 730
 HISTORICAL_RX_REPORT_INTERVAL = 3500
 
@@ -2061,7 +2089,7 @@ def RxingContest(menu_config_scelta):
     print(_("Esc ferma la trasmissione o pulisce la riga"))
     print(_("Alt+S dice tempo, QSO, punti e punteggio"))
     print(_("F9 e PagGiu' meno 2 WPM, F10 e PagSu piu' 2"))
-    print(_("Alt+Su e Alt+Giu' il tono, Ctrl+Su e Giu' la banda"))
+    print(_("Alt+Su e Alt+Giu' il tono, Shift+Su e Giu' la banda"))
     print(_("Alt+W pulisce i campi, Alt+X chiude il contest"))
     key(_("Premi un tasto per iniziare..."))
 
@@ -2105,9 +2133,10 @@ def RxingContest(menu_config_scelta):
     da_chiudere = set()
     rwpm_corrente = 0.0
     fondo = None
+    annunci = {}
 
     def accendi_fondo():
-        """Il fruscio di QRN, limitato alla banda del filtro, in ciclo sotto le stazioni.
+        """Il fruscio di QRN, largo quanto lo stereo chiede, in ciclo sotto le stazioni.
 
         Si risintetizza quando la banda o il tono cambiano, perche' stringere
         il filtro deve stringere anche il rumore: sono cinquanta millesimi di
@@ -2119,12 +2148,14 @@ def RxingContest(menu_config_scelta):
             return
         basso = max(50, overall_pitch - banda // 2)
         alto = max(basso + 50, overall_pitch + banda // 2)
-        fondo = Acusticator.ciclo(
-            [f"{basso}-{alto}", CONTEST_FONDO_SECONDI, 0.0, CONTEST_FONDO_VOLUME],
-            kind=6,
-            adsr=[0, 0, 100, 0],
-            fs=SAMPLE_RATES[overall_fs],
-        )
+        score = [f"{basso}-{alto}", CONTEST_FONDO_SECONDI, 0.0, CONTEST_FONDO_VOLUME]
+        frequenza = SAMPLE_RATES[overall_fs]
+        # Due sintesi, una per canale: lo score da solo le farebbe identiche.
+        primo = Acusticator.sintetizza(score, kind=6, adsr=CONTEST_FONDO_ADSR, fs=frequenza)
+        secondo = Acusticator.sintetizza(score, kind=6, adsr=CONTEST_FONDO_ADSR, fs=frequenza)
+        if primo is None or secondo is None:
+            return
+        fondo = Acusticator.ciclo_di(fronte_stereo(primo, secondo, stati["stereo"]), fs=frequenza)
 
     def spegni_fondo():
         """Spegne il fondo, e soltanto quello: le stazioni proseguono."""
@@ -2154,6 +2185,28 @@ def RxingContest(menu_config_scelta):
         punteggio = motore.punteggio
         minuti, secondi = divmod(int(adesso), 60)
         dillo(f"{minuti:02d}:{secondi:02d} QSO {punteggio.punti_grezzi} PT {punteggio.punti_verificati} PFX {len(punteggio.prefissi_verificati)} = {punteggio.punteggio_verificato}")
+
+    def annuncia(chiave, riga, adesso):
+        """Rimanda l'annuncio di un valore: chi lo cambia in raffica lo sente una volta sola.
+
+        Decisione di Gabriele del 21 settembre 2026. Il valore si sente subito
+        nell'audio, perche' la banda e il tono cambiano cio' che arriva: a
+        dirlo si fa in tempo quando la mano si ferma.
+        L'attesa vale per ogni valore a se': con una sola in comune, chi cambia
+        la velocita' e poi il tono perderebbe il primo annuncio, perche' il
+        secondo gli prenderebbe il posto.
+        """
+        annunci[chiave] = (riga, adesso + CONTEST_ATTESA_ANNUNCIO)
+
+    def annunci_maturi(adesso, tutti=False):
+        """Dice gli annunci la cui attesa e' scaduta, nell'ordine in cui scadono.
+
+        Con tutti li dice comunque: serve alla chiusura, perche' chi cambia un
+        valore e chiude subito dopo non deve restare senza saperlo.
+        """
+        pronti = sorted((quando, chiave) for chiave, (_, quando) in annunci.items() if tutti or adesso >= quando)
+        for _, chiave in pronti:
+            dillo(annunci.pop(chiave)[0])
 
     def dillo(riga):
         """Una riga di servizio in mezzo al contest, al posto della riga di stato.
@@ -2290,6 +2343,7 @@ def RxingContest(menu_config_scelta):
                     abbandona(evento[1])
             if durata_finita(adesso):
                 break
+            annunci_maturi(adesso)
             tasto = key(attesa=CONTEST_PASSO_CICLO, alla_scadenza=None)
             if tasto is None:
                 continue
@@ -2357,7 +2411,7 @@ def RxingContest(menu_config_scelta):
                 else:
                     overall_speed = max(WPM_MIN, overall_speed - CONTEST_PASSO_WPM)
                 motore.mio_wpm = overall_speed
-                dillo(_("WPM {valore}").format(valore=overall_speed))
+                annuncia("wpm", _("WPM {valore}").format(valore=overall_speed), adesso)
                 # La velocita' e' quella globale e resta dopo il contest: il
                 # Farnsworth di k deve seguirla.
                 allinea_farnsworth()
@@ -2370,13 +2424,18 @@ def RxingContest(menu_config_scelta):
                 overall_pitch = max(PITCH_MIN, min(PITCH_MAX, overall_pitch + passo))
                 motore.mio_pitch = overall_pitch
                 accendi_fondo()
-                dillo(_("Tono {valore}").format(valore=overall_pitch))
-            elif tasto in ("ctrl-up", "ctrl-down"):
-                passo = CONTEST_PASSO_BANDA if tasto == "ctrl-up" else -CONTEST_PASSO_BANDA
+                annuncia("tono", _("Tono {valore}").format(valore=overall_pitch), adesso)
+            elif tasto in ("shift-up", "shift-down"):
+                # La banda sta su Shift e non su Ctrl con le frecce: in una
+                # console di Windows, Ctrl con le frecce fa scorrere il buffer
+                # del terminale, e lo screen reader ricomincia a leggere tutto
+                # da capo. Shift con le frecce, in CWapu, e' libero: in Morse
+                # Runner e' il RIT, che qui non c'e'.
+                passo = CONTEST_PASSO_BANDA if tasto == "shift-up" else -CONTEST_PASSO_BANDA
                 banda = max(CONTEST_BANDA_MIN, min(CONTEST_BANDA_MAX, banda + passo))
                 motore.banda = banda
                 accendi_fondo()
-                dillo(_("Banda {valore}").format(valore=banda))
+                annuncia("banda", _("Banda {valore}").format(valore=banda), adesso)
             elif len(tasto) == 1 and (tasto.isalnum() or tasto in "/?"):
                 campo += tasto.upper()
             elif tasto == " " and stadio == "nr":
@@ -2387,6 +2446,7 @@ def RxingContest(menu_config_scelta):
                 continue
             riga_di_stato()
     finally:
+        annunci_maturi(0.0, tutti=True)
         spegni_fondo()
         for chi in list(suoni):
             ferma(chi)

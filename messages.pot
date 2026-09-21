@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-21 09:25+0200\n"
+"POT-Creation-Date: 2026-09-21 21:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,8 +66,8 @@ msgstr ""
 msgid "Diario: tolte {voci} voci vecchie, ora {kb} KB."
 msgstr ""
 
-#: cwapu.py:227 cwapu.py:2606 cwapu.py:2941 cwapu.py:2974 cwapu.py:3074
-#: cwapu.py:3368
+#: cwapu.py:227 cwapu.py:2666 cwapu.py:3001 cwapu.py:3034 cwapu.py:3134
+#: cwapu.py:3428
 msgid "parole"
 msgstr ""
 
@@ -95,7 +95,7 @@ msgstr ""
 msgid "contest"
 msgstr ""
 
-#: cwapu.py:261 cwapu.py:1857
+#: cwapu.py:261 cwapu.py:1885
 msgid "QRN"
 msgstr ""
 
@@ -112,15 +112,15 @@ msgstr ""
 msgid "{n} stazioni"
 msgstr ""
 
-#: cwapu.py:270 cwapu.py:1857
+#: cwapu.py:270 cwapu.py:1885
 msgid "QSB"
 msgstr ""
 
-#: cwapu.py:271 cwapu.py:1857
+#: cwapu.py:271 cwapu.py:1885
 msgid "flutter"
 msgstr ""
 
-#: cwapu.py:272 cwapu.py:1857
+#: cwapu.py:272 cwapu.py:1885
 msgid "operatori sbadati"
 msgstr ""
 
@@ -172,223 +172,223 @@ msgstr ""
 msgid "{p} per cento, L {l0}-{l1}, S {s0}-{s1}, P {p0}-{p1}"
 msgstr ""
 
-#: cwapu.py:359
+#: cwapu.py:387
 msgid ""
 "Attenzione: MASTER.SCP non trovato.\n"
 "\tNegli esercizi QRZ userò solo nominativi inventati."
 msgstr ""
 
-#: cwapu.py:367
+#: cwapu.py:395
 #, python-brace-format
 msgid ""
 "Attenzione: MASTER.SCP non leggibile ({errore}).\n"
 "\tNegli esercizi QRZ userò solo nominativi inventati."
 msgstr ""
 
-#: cwapu.py:548
+#: cwapu.py:576
 msgid "FW spento: con questi pesi nessuna velocità effettiva è raggiungibile."
 msgstr ""
 
-#: cwapu.py:550
+#: cwapu.py:578
 #, python-brace-format
 msgid "FW portato a {fw}, la velocità dei caratteri."
 msgstr ""
 
-#: cwapu.py:552
+#: cwapu.py:580
 #, python-brace-format
 msgid "FW portato a {fw}, il massimo che questi pesi consentono."
 msgstr ""
 
-#: cwapu.py:586
+#: cwapu.py:614
 msgid "stessa scheda di adesso"
 msgstr ""
 
-#: cwapu.py:588
+#: cwapu.py:616
 msgid "predefinito di sistema"
 msgstr ""
 
-#: cwapu.py:592
+#: cwapu.py:620
 msgid "esclusiva, zittirebbe NVDA e gli altri programmi"
 msgstr ""
 
-#: cwapu.py:594
+#: cwapu.py:622
 #, python-brace-format
 msgid "non si apre: {motivo}"
 msgstr ""
 
-#: cwapu.py:630 cwapu.py:667 cwapu.py:1296
+#: cwapu.py:658 cwapu.py:695 cwapu.py:1324
 msgid "automatica"
 msgstr ""
 
-#: cwapu.py:668
+#: cwapu.py:696
 #, python-brace-format
 msgid "automatica: {uscita}"
 msgstr ""
 
-#: cwapu.py:686
+#: cwapu.py:714
 msgid "Provo ad aprire ogni uscita, un attimo..."
 msgstr ""
 
-#: cwapu.py:690
+#: cwapu.py:718
 msgid "Nessuna uscita audio trovata."
 msgstr ""
 
-#: cwapu.py:707
+#: cwapu.py:735
 msgid ", scelta adesso"
 msgstr ""
 
-#: cwapu.py:709
+#: cwapu.py:737
 msgid ", quella che CWapu sceglie adesso"
 msgstr ""
 
-#: cwapu.py:712
+#: cwapu.py:740
 #, python-brace-format
 msgid "L'uscita salvata, {uscita}, oggi non c'è: si sta suonando in automatico."
 msgstr ""
 
-#: cwapu.py:713
+#: cwapu.py:741
 msgid "0. Lascia scegliere a CWapu"
 msgstr ""
 
-#: cwapu.py:716
+#: cwapu.py:744
 #, python-brace-format
 msgid "Numero da 0 a {massimo}, Invio per {predefinito}> "
 msgstr ""
 
-#: cwapu.py:783
+#: cwapu.py:811
 #, python-brace-format
 msgid "Farnsworth non applicato: {errore}"
 msgstr ""
 
-#: cwapu.py:788 cwapu.py:796 cwapu.py:1300
+#: cwapu.py:816 cwapu.py:824 cwapu.py:1328
 #, python-brace-format
 msgid "Il motore CW non ha trasmesso il messaggio: {errore}"
 msgstr ""
 
-#: cwapu.py:874
+#: cwapu.py:902
 msgid "ATTIVATO"
 msgstr ""
 
-#: cwapu.py:874
+#: cwapu.py:902
 msgid "disattivato"
 msgstr ""
 
-#: cwapu.py:941
+#: cwapu.py:969
 msgid "Scelta non valida."
 msgstr ""
 
-#: cwapu.py:1003
+#: cwapu.py:1031
 msgid ""
 "Filtro parole non impostato/valido. Usa il comando '.t #-#' nelle "
 "Impostazioni (k). Switcher 'Parole' disattivato."
 msgstr ""
 
-#: cwapu.py:1007
+#: cwapu.py:1035
 msgid ""
 "Filtro parole caricato dalle impostazioni non ha prodotto risultati. "
 "Switcher 'Parole' disattivato."
 msgstr ""
 
-#: cwapu.py:1008
+#: cwapu.py:1036
 #, python-brace-format
 msgid "Filtro parole applicato dalle impostazioni ({count} parole)."
 msgstr ""
 
-#: cwapu.py:1011
+#: cwapu.py:1039
 #, python-brace-format
 msgid "Gruppo Custom caricato dalle impostazioni: [{set_string}]"
 msgstr ""
 
-#: cwapu.py:1014
+#: cwapu.py:1042
 msgid "Avvio configurazione gruppo personalizzato..."
 msgstr ""
 
-#: cwapu.py:1024
+#: cwapu.py:1052
 msgid "Gruppo Custom non creato o non valido. Switcher 'Custom' disattivato."
 msgstr ""
 
-#: cwapu.py:1029
+#: cwapu.py:1057
 msgid "Nessuna modalità di esercizio selezionata! Attiva almeno uno switcher."
 msgstr ""
 
-#: cwapu.py:1031
+#: cwapu.py:1059
 msgid ""
 "Errore: 'Parole' attivo ma il filtro non è impostato o non produce "
 "risultati. Usa '.t #-#'."
 msgstr ""
 
-#: cwapu.py:1033
+#: cwapu.py:1061
 msgid ""
 "Errore: il set personalizzato non è valido o è vuoto. Controlla le "
 "impostazioni."
 msgstr ""
 
-#: cwapu.py:1037
+#: cwapu.py:1065
 msgid "Lunghezza gruppi (1-7 per Lettere/Numeri/Simboli/Custom):"
 msgstr ""
 
-#: cwapu.py:1046
+#: cwapu.py:1074
 msgid "Lunghezza non valida. Inserire un numero da 1 a 7."
 msgstr ""
 
-#: cwapu.py:1048
+#: cwapu.py:1076
 msgid "Esercizi Rx - Seleziona Tipi (Invio per iniziare):"
 msgstr ""
 
-#: cwapu.py:1083
+#: cwapu.py:1111
 msgid "Migrated old 'rxing_stats' to 'rxing_stats_words'."
 msgstr ""
 
-#: cwapu.py:1104
+#: cwapu.py:1132
 msgid ""
 "Migrated old 'historical_rx_data' to 'historical_rx_data_words' and "
 "extracted settings."
 msgstr ""
 
-#: cwapu.py:1154
+#: cwapu.py:1182
 #, python-brace-format
 msgid "Archivio ripulito: tolte {quante} sessioni senza dati."
 msgstr ""
 
-#: cwapu.py:1155
+#: cwapu.py:1183
 msgid "Impostazioni generali caricate"
 msgstr ""
 
-#: cwapu.py:1158
+#: cwapu.py:1186
 msgid "Errore durante il caricamento del file di impostazioni."
 msgstr ""
 
-#: cwapu.py:1161
+#: cwapu.py:1189
 msgid "Impostazioni generali di default"
 msgstr ""
 
-#: cwapu.py:1176
+#: cwapu.py:1204
 msgid "Impostazioni generali salvate sul disco."
 msgstr ""
 
-#: cwapu.py:1178
+#: cwapu.py:1206
 #, python-brace-format
 msgid "Errore nel salvare {SETTINGS_FILE}: {e}"
 msgstr ""
 
-#: cwapu.py:1180
+#: cwapu.py:1208
 #, python-brace-format
 msgid ""
 "Errore di tipo durante la preparazione dei dati per JSON: {e} - Dati: "
 "{data_to_save}"
 msgstr ""
 
-#: cwapu.py:1189
+#: cwapu.py:1217
 #, python-brace-format
 msgid "Numero da 1 a {massimo}, Invio per {predefinito}> "
 msgstr ""
 
-#: cwapu.py:1192
+#: cwapu.py:1220
 #, python-brace-format
 msgid "Scelta non valida: serve un numero da 1 a {massimo}."
 msgstr ""
 
-#: cwapu.py:1203
+#: cwapu.py:1231
 msgid ""
 "Benvenuto nella sezione dove potrai ascoltare il CW e configurare tutti i"
 " suoi parametri.\n"
@@ -430,170 +430,170 @@ msgid ""
 "\tqualunque altra cosa scrivi viene trasmessa in CW.\n"
 msgstr ""
 
-#: cwapu.py:1233
+#: cwapu.py:1261
 #, python-brace-format
 msgid "RWPM: {rwpm:.2f}"
 msgstr ""
 
-#: cwapu.py:1235
+#: cwapu.py:1263
 #, python-brace-format
 msgid "WPM: {overall_speed:.2f}"
 msgstr ""
 
-#: cwapu.py:1258
+#: cwapu.py:1286
 msgid "Filtro non impostato"
 msgstr ""
 
-#: cwapu.py:1259
+#: cwapu.py:1287
 msgid "Gruppo vuoto"
 msgstr ""
 
-#: cwapu.py:1260
+#: cwapu.py:1288
 #, python-brace-format
 msgid ""
 "\n"
 "\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {}"
 msgstr ""
 
-#: cwapu.py:1261
+#: cwapu.py:1289
 #, python-brace-format
 msgid ""
 "\tL/S/P: {overall_dashes}/{overall_spaces}/{overall_dots}, FW: {fw}, "
 "Wave: {}, MS: {overall_ms}, FS: {}."
 msgstr ""
 
-#: cwapu.py:1268 cwapu.py:3440
+#: cwapu.py:1296 cwapu.py:3500
 msgid "no"
 msgstr ""
 
-#: cwapu.py:1270
+#: cwapu.py:1298
 #, python-brace-format
 msgid ""
 "\tMax Exercises History (g): {current_max_sessions_g_val}, Report size "
 "(x): {current_report_interval_x_val}."
 msgstr ""
 
-#: cwapu.py:1273
+#: cwapu.py:1301
 #, python-brace-format
 msgid ""
 "\tWord Filter (T): {t_filter_display}, Custom Set (Y): "
 "{y_custom_set_display}"
 msgstr ""
 
-#: cwapu.py:1278 cwapu.py:3443
+#: cwapu.py:1306 cwapu.py:3503
 #, python-brace-format
 msgid "\tUscita audio: {uscita}."
 msgstr ""
 
-#: cwapu.py:1280 cwapu.py:3445
+#: cwapu.py:1308 cwapu.py:3505
 msgid ""
 "Uscita audio salvata non trovata oggi: lascio scegliere a CWapu, e la "
 "riprovo al prossimo avvio."
 msgstr ""
 
-#: cwapu.py:1297
+#: cwapu.py:1325
 #, python-brace-format
 msgid "Uscita non utilizzabile, torno a {uscita}: {errore}"
 msgstr ""
 
-#: cwapu.py:1314
+#: cwapu.py:1342
 #, python-brace-format
 msgid "bk fs is {} bk"
 msgstr ""
 
-#: cwapu.py:1339
+#: cwapu.py:1367
 #, python-brace-format
 msgid "bk r fw is {fw} bk"
 msgstr ""
 
-#: cwapu.py:1344
+#: cwapu.py:1372
 #, python-brace-format
 msgid "Farnsworth non impostato: {errore}"
 msgstr ""
 
-#: cwapu.py:1379
+#: cwapu.py:1407
 msgid "Avvio editor gruppo Custom..."
 msgstr ""
 
-#: cwapu.py:1385
+#: cwapu.py:1413
 #, python-brace-format
 msgid "Set custom: {num_chars} car."
 msgstr ""
 
-#: cwapu.py:1405
+#: cwapu.py:1433
 #, python-brace-format
 msgid "bk r word filter is {p_min_validated} {p_max_validated} bk"
 msgstr ""
 
-#: cwapu.py:1428
+#: cwapu.py:1456
 #, python-brace-format
 msgid "bk r max exercises is {new_val_g} bk"
 msgstr ""
 
-#: cwapu.py:1437
+#: cwapu.py:1465
 #, python-brace-format
 msgid "bk r report size is {new_val_x} bk"
 msgstr ""
 
-#: cwapu.py:1445
+#: cwapu.py:1473
 #, python-brace-format
 msgid "bk r w is {overall_speed} bk"
 msgstr ""
 
-#: cwapu.py:1458
+#: cwapu.py:1486
 #, python-brace-format
 msgid "MS {ms}, a {wpm} wpm il punto la limita a {tetto:.0f}."
 msgstr ""
 
-#: cwapu.py:1459
+#: cwapu.py:1487
 #, python-brace-format
 msgid "bk r ms is {overall_ms} bk"
 msgstr ""
 
-#: cwapu.py:1465
+#: cwapu.py:1493
 #, python-brace-format
 msgid "bk r wave is {} bk"
 msgstr ""
 
-#: cwapu.py:1472
+#: cwapu.py:1500
 #, python-brace-format
 msgid "bk r h is {overall_pitch} bk"
 msgstr ""
 
-#: cwapu.py:1480
+#: cwapu.py:1508
 #, python-brace-format
 msgid "bk r l is {overall_dashes} bk"
 msgstr ""
 
-#: cwapu.py:1488
+#: cwapu.py:1516
 #, python-brace-format
 msgid "bk r s is {overall_spaces} bk"
 msgstr ""
 
-#: cwapu.py:1496
+#: cwapu.py:1524
 #, python-brace-format
 msgid "bk r p is {overall_dots} bk"
 msgstr ""
 
-#: cwapu.py:1502
+#: cwapu.py:1530
 #, python-brace-format
 msgid "bk r v is {new_volume_percent} bk"
 msgstr ""
 
-#: cwapu.py:1522
+#: cwapu.py:1550
 #, python-brace-format
 msgid "CW salvato in: {percorso}"
 msgstr ""
 
-#: cwapu.py:1524
+#: cwapu.py:1552
 msgid "Il file WAV non e' stato scritto."
 msgstr ""
 
-#: cwapu.py:1526 cwapu.py:1697 cwapu.py:1766
+#: cwapu.py:1554 cwapu.py:1725 cwapu.py:1794
 msgid "Ciao per ora. Torniamo al menu principale."
 msgstr ""
 
-#: cwapu.py:1539
+#: cwapu.py:1567
 msgid ""
 "Attenzione! Si prega di leggere attentamente.\n"
 "Per gli esercizi di ricezione, (r) dal menu principale, CWapu utilizza il"
@@ -613,49 +613,49 @@ msgid ""
 "raccolte dai nuovi file .txt elaborati."
 msgstr ""
 
-#: cwapu.py:1554 cwapu.py:1558
+#: cwapu.py:1582 cwapu.py:1586
 msgid "s"
 msgstr ""
 
-#: cwapu.py:1554
+#: cwapu.py:1582
 msgid "Si, parti dai caratteri su cui sbaglio di piu'"
 msgstr ""
 
-#: cwapu.py:1554
+#: cwapu.py:1582
 msgid "n"
 msgstr ""
 
-#: cwapu.py:1554
+#: cwapu.py:1582
 msgid "No, comincio da un gruppo vuoto"
 msgstr ""
 
-#: cwapu.py:1555
+#: cwapu.py:1583
 msgid "Vuoi iniziare con un gruppo di caratteri precompilato? "
 msgstr ""
 
-#: cwapu.py:1556
+#: cwapu.py:1584
 msgid "Rispondi s oppure n."
 msgstr ""
 
-#: cwapu.py:1597
+#: cwapu.py:1625
 #, python-brace-format
 msgid "Gruppo precompilato con errori frequenti: {chars}"
 msgstr ""
 
-#: cwapu.py:1606
+#: cwapu.py:1634
 #, python-brace-format
 msgid "Gruppo precompilato con caratteri casuali: {chars}"
 msgstr ""
 
-#: cwapu.py:1608 cwapu.py:1610
+#: cwapu.py:1636 cwapu.py:1638
 msgid "Impossibile precompilare: nessun carattere valido disponibile."
 msgstr ""
 
-#: cwapu.py:1611
+#: cwapu.py:1639
 msgid "Inserisci/modifica caratteri (toggle). Invio per terminare."
 msgstr ""
 
-#: cwapu.py:1681
+#: cwapu.py:1709
 msgid ""
 "Esercizio di trasmissione.\n"
 "Ecco una serie casuale di pseudo-call e numeri progressivi,\n"
@@ -663,12 +663,12 @@ msgid ""
 "Qualsiasi tasto per passare al successivo, ESC per terminare l'esercizio."
 msgstr ""
 
-#: cwapu.py:1689
+#: cwapu.py:1717
 #, python-brace-format
 msgid "- {cont} {qrz} 5nn {pgr}"
 msgstr ""
 
-#: cwapu.py:1701
+#: cwapu.py:1729
 msgid ""
 "Conteggio, SÌ o NO?\n"
 "Barra spaziatrice significa: gruppo ricevuto;\n"
@@ -676,361 +676,361 @@ msgid ""
 "Premi ESC per tornare al menu principale."
 msgstr ""
 
-#: cwapu.py:1709
+#: cwapu.py:1737
 #, python-brace-format
 msgid "Esercizio numero {esnum}:"
 msgstr ""
 
-#: cwapu.py:1721
+#: cwapu.py:1749
 #, python-brace-format
 msgid "T{cont}, {percentuale}%, C{corr}/N{errati}> "
 msgstr ""
 
-#: cwapu.py:1723
+#: cwapu.py:1751
 msgid "T1, 0%, C0/N0> "
 msgstr ""
 
-#: cwapu.py:1737
+#: cwapu.py:1765
 #, python-brace-format
 msgid ""
 "\n"
 "Totale: {cont}, corrette: {corr}, errori(%): {pde:.2f}%."
 msgstr ""
 
-#: cwapu.py:1739 cwapu.py:1752
+#: cwapu.py:1767 cwapu.py:1780
 msgid "Superato!"
 msgstr ""
 
-#: cwapu.py:1741 cwapu.py:1754
+#: cwapu.py:1769 cwapu.py:1782
 #, python-brace-format, python-format
 msgid "Fallito: {difference:.2f}% oltre la soglia."
 msgstr ""
 
-#: cwapu.py:1743 cwapu.py:2821
+#: cwapu.py:1771 cwapu.py:2881
 msgid ""
 "\n"
 "Nota su questo esercizio: "
 msgstr ""
 
-#: cwapu.py:1749
+#: cwapu.py:1777
 #, python-brace-format
 msgid "Esercizio di conteggio #{esnum} eseguito il {date} alle {time} minuti:\n"
 msgstr ""
 
-#: cwapu.py:1750
+#: cwapu.py:1778
 #, python-brace-format
 msgid "Totale: {cont}, corrette: {corr}, errori(%): {pde:.2f}%.\n"
 msgstr ""
 
-#: cwapu.py:1756 cwapu.py:2878
+#: cwapu.py:1784 cwapu.py:2938
 #, python-brace-format
 msgid "Nota: {nota}"
 msgstr ""
 
-#: cwapu.py:1758 cwapu.py:2880
+#: cwapu.py:1786 cwapu.py:2940
 msgid "Nota: nessuna"
 msgstr ""
 
-#: cwapu.py:1759 cwapu.py:2526 cwapu.py:2881
+#: cwapu.py:1787 cwapu.py:2586 cwapu.py:2941
 #, python-brace-format
 msgid "Rapporto salvato su {nome_diario}"
 msgstr ""
 
-#: cwapu.py:1761 cwapu.py:2524 cwapu.py:2883
+#: cwapu.py:1789 cwapu.py:2584 cwapu.py:2943
 #, python-brace-format
 msgid "Diario non scritto: {errore}"
 msgstr ""
 
-#: cwapu.py:1763
+#: cwapu.py:1791
 #, python-brace-format
 msgid "Gruppi ricevuti {cont} su 100: esercizio non salvato su disco."
 msgstr ""
 
-#: cwapu.py:1814
+#: cwapu.py:1842
 #, python-brace-format
 msgid "{count} giorni"
 msgstr ""
 
-#: cwapu.py:1814
+#: cwapu.py:1842
 #, python-brace-format
 msgid "{count} giorno"
 msgstr ""
 
-#: cwapu.py:1817
+#: cwapu.py:1845
 #, python-brace-format
 msgid "{count} ore"
 msgstr ""
 
-#: cwapu.py:1817
+#: cwapu.py:1845
 #, python-brace-format
 msgid "{count} ora"
 msgstr ""
 
-#: cwapu.py:1820
+#: cwapu.py:1848
 #, python-brace-format
 msgid "{count} minuti"
 msgstr ""
 
-#: cwapu.py:1820
+#: cwapu.py:1848
 #, python-brace-format
 msgid "{count} minuto"
 msgstr ""
 
-#: cwapu.py:1823
+#: cwapu.py:1851
 #, python-brace-format
 msgid "{count} secondi"
 msgstr ""
 
-#: cwapu.py:1823
+#: cwapu.py:1851
 #, python-brace-format
 msgid "{count} secondo"
 msgstr ""
 
-#: cwapu.py:1829
+#: cwapu.py:1857
 msgid "e"
 msgstr ""
 
-#: cwapu.py:1854
+#: cwapu.py:1882
 #, python-brace-format
 msgid "pile-up con attività {n}"
 msgstr ""
 
-#: cwapu.py:1854
+#: cwapu.py:1882
 msgid "una stazione alla volta"
 msgstr ""
 
-#: cwapu.py:1856
+#: cwapu.py:1884
 #, python-brace-format
 msgid "QRM fino a {n}"
 msgstr ""
 
-#: cwapu.py:1860
+#: cwapu.py:1888
 #, python-brace-format
 msgid "stereo {n}"
 msgstr ""
 
-#: cwapu.py:1861
+#: cwapu.py:1889
 #, python-brace-format
 msgid "banda {n} hertz"
 msgstr ""
 
-#: cwapu.py:1864
+#: cwapu.py:1892
 #, python-brace-format
 msgid ""
 "manipolazione manuale al {p} per cento, L {l0}-{l1}, S {s0}-{s1}, P "
 "{p0}-{p1}"
 msgstr ""
 
-#: cwapu.py:1875
+#: cwapu.py:1903
 msgid "tutti in manipolazione automatica"
 msgstr ""
 
-#: cwapu.py:1887
+#: cwapu.py:1915
 #, python-brace-format
 msgid "Punti {punti}, prefissi {prefissi}, punteggio {totale}."
 msgstr ""
 
-#: cwapu.py:1890
+#: cwapu.py:1918
 #, python-brace-format
 msgid "Verificati: punti {punti}, prefissi {prefissi}, punteggio {totale}."
 msgstr ""
 
-#: cwapu.py:1893
+#: cwapu.py:1921
 #, python-brace-format
 msgid "QSO sbagliati: {errore:.1f}%."
 msgstr ""
 
-#: cwapu.py:1897
+#: cwapu.py:1925
 msgid "Ritmo: "
 msgstr ""
 
-#: cwapu.py:1897
+#: cwapu.py:1925
 #, python-brace-format
 msgid "dal {da} al {a} minuto {quanti} all'ora"
 msgstr ""
 
-#: cwapu.py:1900
+#: cwapu.py:1928
 #, python-brace-format
 msgid "Nominativi copiati male: {elenco}."
 msgstr ""
 
-#: cwapu.py:1903
+#: cwapu.py:1931
 #, python-brace-format
 msgid "Scambi copiati male: {elenco}."
 msgstr ""
 
-#: cwapu.py:1905
+#: cwapu.py:1933
 #, python-brace-format
 msgid "Se ne sono andate: {elenco}."
 msgstr ""
 
-#: cwapu.py:1906
+#: cwapu.py:1934
 #, python-brace-format
 msgid "Sessione fatta con: {valori}."
 msgstr ""
 
-#: cwapu.py:1920
+#: cwapu.py:1948
 msgid "Tasto verticale, probabilità in percentuale: "
 msgstr ""
 
-#: cwapu.py:1921
+#: cwapu.py:1949
 msgid "linea"
 msgstr ""
 
-#: cwapu.py:1921
+#: cwapu.py:1949
 msgid "spazio"
 msgstr ""
 
-#: cwapu.py:1921
+#: cwapu.py:1949
 msgid "punto"
 msgstr ""
 
-#: cwapu.py:1922
+#: cwapu.py:1950
 #, python-brace-format
 msgid "{nome}, minimo: "
 msgstr ""
 
-#: cwapu.py:1923
+#: cwapu.py:1951
 #, python-brace-format
 msgid "{nome}, massimo: "
 msgstr ""
 
-#: cwapu.py:1974
+#: cwapu.py:2002
 msgid "Non c'è ancora: arriverà quando il motore audio saprà farlo."
 msgstr ""
 
-#: cwapu.py:1981
+#: cwapu.py:2009
 msgid "Contest - Interruttori e valori (Invio per iniziare):"
 msgstr ""
 
-#: cwapu.py:2019
+#: cwapu.py:2047
 msgid "Il tuo nominativo: "
 msgstr ""
 
-#: cwapu.py:2040
+#: cwapu.py:2068
 msgid "Senza nominativo il contest non si fa."
 msgstr ""
 
-#: cwapu.py:2041 cwapu.py:2407 cwapu.py:2528
+#: cwapu.py:2069 cwapu.py:2467 cwapu.py:2588
 msgid "Premi un tasto per tornare al menu..."
 msgstr ""
 
-#: cwapu.py:2046
+#: cwapu.py:2074
 msgid "Numero di QSO"
 msgstr ""
 
-#: cwapu.py:2046
+#: cwapu.py:2074
 msgid "Tempo (minuti)"
 msgstr ""
 
-#: cwapu.py:2046
+#: cwapu.py:2074
 msgid "Scegli la durata: "
 msgstr ""
 
-#: cwapu.py:2051
+#: cwapu.py:2079
 msgid "Quanti QSO? "
 msgstr ""
 
-#: cwapu.py:2053
+#: cwapu.py:2081
 msgid "Quanti minuti? "
 msgstr ""
 
-#: cwapu.py:2055
+#: cwapu.py:2083
 #, python-brace-format
 msgid "Contest come {call}, pile-up con attività {n}."
 msgstr ""
 
-#: cwapu.py:2057
+#: cwapu.py:2085
 #, python-brace-format
 msgid "Contest come {call}, una stazione alla volta."
 msgstr ""
 
-#: cwapu.py:2058
+#: cwapu.py:2086
 msgid "F1 CQ, F2 scambio, F3 TU, F4 il mio call"
 msgstr ""
 
-#: cwapu.py:2059
+#: cwapu.py:2087
 msgid "F5 il suo call, F6 QSO B4, F7 ?, F8 NIL"
 msgstr ""
 
-#: cwapu.py:2060
+#: cwapu.py:2088
 msgid "Invio manda cio' che serve e mette a log"
 msgstr ""
 
-#: cwapu.py:2061
+#: cwapu.py:2089
 msgid "Esc ferma la trasmissione o pulisce la riga"
 msgstr ""
 
-#: cwapu.py:2062
+#: cwapu.py:2090
 msgid "Alt+S dice tempo, QSO, punti e punteggio"
 msgstr ""
 
-#: cwapu.py:2063
+#: cwapu.py:2091
 msgid "F9 e PagGiu' meno 2 WPM, F10 e PagSu piu' 2"
 msgstr ""
 
-#: cwapu.py:2064
-msgid "Alt+Su e Alt+Giu' il tono, Ctrl+Su e Giu' la banda"
+#: cwapu.py:2092
+msgid "Alt+Su e Alt+Giu' il tono, Shift+Su e Giu' la banda"
 msgstr ""
 
-#: cwapu.py:2065
+#: cwapu.py:2093
 msgid "Alt+W pulisce i campi, Alt+X chiude il contest"
 msgstr ""
 
-#: cwapu.py:2066
+#: cwapu.py:2094
 msgid "Premi un tasto per iniziare..."
 msgstr ""
 
-#: cwapu.py:2235
+#: cwapu.py:2288
 #, python-brace-format
 msgid "{call} se n'è andata."
 msgstr ""
 
-#: cwapu.py:2360
+#: cwapu.py:2414
 #, python-brace-format
 msgid "WPM {valore}"
 msgstr ""
 
-#: cwapu.py:2373
+#: cwapu.py:2427
 #, python-brace-format
 msgid "Tono {valore}"
 msgstr ""
 
-#: cwapu.py:2379
+#: cwapu.py:2438
 #, python-brace-format
 msgid "Banda {valore}"
 msgstr ""
 
-#: cwapu.py:2406
+#: cwapu.py:2466
 msgid "Contest chiuso prima del primo QSO: niente da salvare."
 msgstr ""
 
-#: cwapu.py:2449
+#: cwapu.py:2509
 msgid ""
 "\n"
 "È finita! Ora vediamo cosa abbiamo ottenuto."
 msgstr ""
 
-#: cwapu.py:2454
+#: cwapu.py:2514
 #, python-brace-format
 msgid ""
 "In questa sessione #{sessions}, ti ho inviato {calls} QRZ e ne hai "
 "ricevuti {callsget_len}: {percentage:.1f}%"
 msgstr ""
 
-#: cwapu.py:2458 cwapu.py:2503
+#: cwapu.py:2518 cwapu.py:2563
 #, python-brace-format
 msgid "\tCorrettezza Nominativi: {total_calls_correct}/{calls} ({call_acc:.1f}%)"
 msgstr ""
 
-#: cwapu.py:2459 cwapu.py:2506
+#: cwapu.py:2519 cwapu.py:2566
 #, python-brace-format
 msgid ""
 "\tCorrettezza Progressivi: {total_serials_correct}/{calls} "
 "({serial_acc:.1f}%)"
 msgstr ""
 
-#: cwapu.py:2462 cwapu.py:2781 cwapu.py:2848
+#: cwapu.py:2522 cwapu.py:2841 cwapu.py:2908
 #, python-brace-format
 msgid ""
 "Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la "
@@ -1038,18 +1038,18 @@ msgid ""
 "\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM."
 msgstr ""
 
-#: cwapu.py:2468 cwapu.py:2784 cwapu.py:2852
+#: cwapu.py:2528 cwapu.py:2844 cwapu.py:2912
 msgid "Carattere: errori = Intervallo di Confidenza Errore (Wilson)"
 msgstr ""
 
-#: cwapu.py:2475 cwapu.py:2792 cwapu.py:2860
+#: cwapu.py:2535 cwapu.py:2852 cwapu.py:2920
 #, python-brace-format
 msgid ""
 "    '{char_display}': {errori} errori su {inviati} invii. Tasso errore "
 "stimato: [{inf:.1f}% - {sup:.1f}%]"
 msgstr ""
 
-#: cwapu.py:2481 cwapu.py:2798 cwapu.py:2866
+#: cwapu.py:2541 cwapu.py:2858 cwapu.py:2926
 #, python-brace-format
 msgid ""
 "\n"
@@ -1057,7 +1057,7 @@ msgid ""
 "{mistake_percentage:.2f}%"
 msgstr ""
 
-#: cwapu.py:2494
+#: cwapu.py:2554
 #, python-brace-format
 msgid ""
 "\n"
@@ -1065,28 +1065,28 @@ msgid ""
 " minuti:\n"
 msgstr ""
 
-#: cwapu.py:2495
+#: cwapu.py:2555
 #, python-brace-format
 msgid "Durata: {duration}\n"
 msgstr ""
 
-#: cwapu.py:2497
+#: cwapu.py:2557
 #, python-brace-format
 msgid ""
 "In questa sessione, ti ho inviato {calls} QRZ e ne hai ricevuti "
 "{callsget_len}: {percentage:.1f}%"
 msgstr ""
 
-#: cwapu.py:2511
+#: cwapu.py:2571
 #, python-brace-format
 msgid "Velocità: Min {minwpm:.2f}, Max {maxwpm:.2f}, Avg {average_wpm:.2f} WPM."
 msgstr ""
 
-#: cwapu.py:2515
+#: cwapu.py:2575
 msgid "Carattere: errori = Wilson Interval"
 msgstr ""
 
-#: cwapu.py:2527 cwapu.py:2968
+#: cwapu.py:2587 cwapu.py:3028
 #, python-brace-format
 msgid ""
 "\n"
@@ -1094,7 +1094,7 @@ msgid ""
 "disco."
 msgstr ""
 
-#: cwapu.py:2534
+#: cwapu.py:2594
 msgid ""
 "\n"
 "E' il momento giusto per un bell'esercizio di ricezione? Ottimo, allora "
@@ -1104,24 +1104,24 @@ msgid ""
 "dizionario..."
 msgstr ""
 
-#: cwapu.py:2543
+#: cwapu.py:2603
 #, python-brace-format
 msgid "Dizionario delle parole caricato con {word_count} parole."
 msgstr ""
 
-#: cwapu.py:2546
+#: cwapu.py:2606
 #, python-brace-format
 msgid ""
 "Dizionario delle parole non caricato: {errore}.\n"
 "\tGli esercizi sulle parole non sono disponibili."
 msgstr ""
 
-#: cwapu.py:2567
+#: cwapu.py:2627
 #, python-brace-format
 msgid "Farnsworth a {fw}: l'esercizio si fa, ma non lascia tracce su disco."
 msgstr ""
 
-#: cwapu.py:2604
+#: cwapu.py:2664
 #, python-brace-format
 msgid ""
 "Ho recuperato i tuoi dati dal disco per gli esercizi di {category_name}, "
@@ -1132,33 +1132,33 @@ msgid ""
 "Il tempo totale speso su questo esercizio è stato di {totaltime}."
 msgstr ""
 
-#: cwapu.py:2606 cwapu.py:2941 cwapu.py:2974 cwapu.py:3074 cwapu.py:3368
+#: cwapu.py:2666 cwapu.py:3001 cwapu.py:3034 cwapu.py:3134 cwapu.py:3428
 msgid "caratteri/misto"
 msgstr ""
 
-#: cwapu.py:2637
+#: cwapu.py:2697
 #, python-brace-format
 msgid ""
 "Vuoi cambiare la velocità in WPM, da {minimo} a {massimo}? Invio per "
 "accettare {wpm}> "
 msgstr ""
 
-#: cwapu.py:2654
+#: cwapu.py:2714
 #, python-brace-format
 msgid "Misto ({types})"
 msgstr ""
 
-#: cwapu.py:2658
+#: cwapu.py:2718
 msgid ""
 "\n"
 "Quanti ne vuoi ricevere? (INVIO per infinito)> "
 msgstr ""
 
-#: cwapu.py:2659
+#: cwapu.py:2719
 msgid "Invio per velocità variabile, Esc per velocità fissa: "
 msgstr ""
 
-#: cwapu.py:2664
+#: cwapu.py:2724
 #, python-brace-format
 msgid ""
 "Fai molta attenzione adesso.\n"
@@ -1171,82 +1171,82 @@ msgid ""
 "\tPremi un tasto quando sei pronto per iniziare."
 msgstr ""
 
-#: cwapu.py:2668
+#: cwapu.py:2728
 #, python-brace-format
 msgid "Iniziamo la sessione {sessions}!"
 msgstr ""
 
-#: cwapu.py:2678
+#: cwapu.py:2738
 msgid ""
 "Errore: Impossibile generare item per l'esercizio con le selezioni "
 "attuali. Controlla le impostazioni del menu Rx."
 msgstr ""
 
-#: cwapu.py:2682
+#: cwapu.py:2742
 #, python-brace-format
 msgid ""
 "S{sessions}-#{calls} - WPM{rwpm:.2f}/{avg_wpm_display:.2f} - "
 "+{correct_count}/-{wrong_count}> "
 msgstr ""
 
-#: cwapu.py:2700
+#: cwapu.py:2760
 #, python-brace-format
 msgid "S{sessions}-#{calls} - WPM{rwpm:.2f}/{:.2f} - +{}/-{} - {prompt_indicator}"
 msgstr ""
 
-#: cwapu.py:2739
+#: cwapu.py:2799
 #, python-brace-format
 msgid "TX: {} RX: {} <>: {} RT: {}"
 msgstr ""
 
-#: cwapu.py:2747
+#: cwapu.py:2807
 msgid "È finita! Ora vediamo cosa abbiamo ottenuto."
 msgstr ""
 
-#: cwapu.py:2766 cwapu.py:2829
+#: cwapu.py:2826 cwapu.py:2889
 #, python-brace-format
 msgid ""
 "In questa sessione #{sessions}, ti ho inviato {calls} {kindstring} e ne "
 "hai ricevuti {callsget_len}: {percentage:.1f}%"
 msgstr ""
 
-#: cwapu.py:2773 cwapu.py:2835
+#: cwapu.py:2833 cwapu.py:2895
 #, python-brace-format
 msgid ""
 "\t{first_shot} di questi sono stati ricevuti al primo ascolto: "
 "{first_shot_percentage:.1f}%"
 msgstr ""
 
-#: cwapu.py:2775 cwapu.py:2841
+#: cwapu.py:2835 cwapu.py:2901
 #, python-brace-format
 msgid ""
 "\tmentre {repetitions} {kindstring} al secondo tentativo: "
 "{repetitions_percentage:.1f}%."
 msgstr ""
 
-#: cwapu.py:2803 cwapu.py:2870
+#: cwapu.py:2863 cwapu.py:2930
 #, python-brace-format
 msgid ""
 "\n"
 "Caratteri mai sbagliati: {good_letters}"
 msgstr ""
 
-#: cwapu.py:2805 cwapu.py:2872
+#: cwapu.py:2865 cwapu.py:2932
 msgid "Nessun errore sui caratteri registrato in questa sessione."
 msgstr ""
 
-#: cwapu.py:2809
+#: cwapu.py:2869
 msgid "La generazione automatica dei report è disabilitata."
 msgstr ""
 
-#: cwapu.py:2816
+#: cwapu.py:2876
 #, python-brace-format
 msgid ""
 "Completamento sezione corrente:\n"
 "+{s} -> ({x} / {y}) = {z}%, ne mancano {w} alla prossima generazione."
 msgstr ""
 
-#: cwapu.py:2827
+#: cwapu.py:2887
 #, python-brace-format
 msgid ""
 "\n"
@@ -1254,42 +1254,42 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cwapu.py:2873
+#: cwapu.py:2933
 msgid ""
 "\n"
 "Elenco delle parole copiate male:"
 msgstr ""
 
-#: cwapu.py:2876
+#: cwapu.py:2936
 #, python-brace-format
 msgid ""
 "\n"
 "\t({k}) TX: {tx}, RX: {rx}, DIF: {dif};"
 msgstr ""
 
-#: cwapu.py:2885
+#: cwapu.py:2945
 msgid "Farnsworth impostato: rapporto letto, ma niente nel diario."
 msgstr ""
 
-#: cwapu.py:2887
+#: cwapu.py:2947
 #, python-brace-format
 msgid ""
 "Hai ricevuto troppo pochi {kindstring} per generare statistiche "
 "consistenti."
 msgstr ""
 
-#: cwapu.py:2937
+#: cwapu.py:2997
 #, python-brace-format
 msgid ""
 "Sessione del {data}, durata {durata}s, contenuto {contenuto} caratteri, "
 "eliminata dalla coda degli esercizi di {category_name}."
 msgstr ""
 
-#: cwapu.py:2949
+#: cwapu.py:3009
 msgid "Generazione report storico in corso..."
 msgstr ""
 
-#: cwapu.py:2973
+#: cwapu.py:3033
 #, python-brace-format
 msgid ""
 "L'archivio ora contiene {x} sessioni salvate per gli esercizi di "
@@ -1297,7 +1297,7 @@ msgid ""
 "stabilito."
 msgstr ""
 
-#: cwapu.py:2978
+#: cwapu.py:3038
 #, python-brace-format
 msgid ""
 "\n"
@@ -1305,97 +1305,97 @@ msgid ""
 "impostato non entra nell'archivio ne' nelle statistiche."
 msgstr ""
 
-#: cwapu.py:2983
+#: cwapu.py:3043
 #, python-brace-format
 msgid "\t(Tempo totale in pausa rilevato: {pause_time})"
 msgstr ""
 
-#: cwapu.py:3050
+#: cwapu.py:3110
 msgid "Nessuna sessione nel blocco corrente da riportare."
 msgstr ""
 
-#: cwapu.py:3082
+#: cwapu.py:3142
 #, python-brace-format
 msgid ""
 "    <title>Report Statistiche Storiche Esercizi Rx ({cat}) G{g_value} "
 "X{x_value}</title>\n"
 msgstr ""
 
-#: cwapu.py:3104
+#: cwapu.py:3164
 #, python-brace-format
 msgid "<h1>CWapu - Report Statistiche Storiche Esercizi Rx ({cat})</h1>\n"
 msgstr ""
 
-#: cwapu.py:3106
+#: cwapu.py:3166
 #, python-brace-format
 msgid ""
 "<p class=\"report-subtitle\">Statistiche basate su {count} esercizi "
 "(G={g_value}, X={x_value})</p>\n"
 msgstr ""
 
-#: cwapu.py:3109
+#: cwapu.py:3169
 #, python-brace-format
 msgid ""
 "<p class=\"report-generation-time\">Report generato il: "
 "{timestamp_now}</p>\n"
 msgstr ""
 
-#: cwapu.py:3124
+#: cwapu.py:3184
 msgid "<h2>Statistiche Velocità Complessive</h2>\n"
 msgstr ""
 
-#: cwapu.py:3126 cwapu.py:3170
+#: cwapu.py:3186 cwapu.py:3230
 msgid "  <thead><tr><th>Metrica</th><th>Valore Attuale</th>"
 msgstr ""
 
-#: cwapu.py:3128 cwapu.py:3172
+#: cwapu.py:3188 cwapu.py:3232
 msgid "<th>Valore Precedente</th><th>Variazione</th>"
 msgstr ""
 
-#: cwapu.py:3131
+#: cwapu.py:3191
 #, python-brace-format
 msgid "    <tr><td>WPM Min</td><td>{} WPM</td>"
 msgstr ""
 
-#: cwapu.py:3138 cwapu.py:3150 cwapu.py:3162
+#: cwapu.py:3198 cwapu.py:3210 cwapu.py:3222
 #, python-brace-format
 msgid ""
 "<td>{prev_val} WPM</td><td class=\"{delta_class}\">{delta} "
 "WPM{perc_delta_str}</td>"
 msgstr ""
 
-#: cwapu.py:3143
+#: cwapu.py:3203
 #, python-brace-format
 msgid "    <tr><td>WPM Max</td><td>{} WPM</td>"
 msgstr ""
 
-#: cwapu.py:3155
+#: cwapu.py:3215
 #, python-brace-format
 msgid "    <tr><td>WPM Medio (media delle sessioni)</td><td>{} WPM</td>"
 msgstr ""
 
-#: cwapu.py:3168
+#: cwapu.py:3228
 msgid "<h2>Statistiche Errori Complessive</h2>\n"
 msgstr ""
 
-#: cwapu.py:3175
+#: cwapu.py:3235
 #, python-brace-format
 msgid "    <tr><td>Caratteri totali inviati (nel blocco)</td><td>{}</td>"
 msgstr ""
 
-#: cwapu.py:3180
+#: cwapu.py:3240
 #, python-brace-format
 msgid "<td>{prev_val}</td><td>{delta} {perc_delta_str}</td>"
 msgstr ""
 
-#: cwapu.py:3186
+#: cwapu.py:3246
 #, python-brace-format
 msgid ""
 "    <tr><td>Tasso errore generale</td><td>{total_errs_curr} / "
 "{total_chars_curr} ({overall_error_rate_curr}%)</td>"
 msgstr ""
 
-#: cwapu.py:3197
+#: cwapu.py:3257
 #, python-brace-format
 msgid ""
 "<td>{total_errs_prev} / {total_chars_prev} "
@@ -1403,18 +1403,18 @@ msgid ""
 " punti %</td>"
 msgstr ""
 
-#: cwapu.py:3204
+#: cwapu.py:3264
 msgid "<h2>Dettaglio errori per carattere</h2>\n"
 msgstr ""
 
-#: cwapu.py:3206
+#: cwapu.py:3266
 msgid ""
 "  <thead><tr><th>Carattere</th><th>Errori / Inviati</th><th style=\"text-"
 "align: center;\">Intervallo Confidenza Errore (Wilson)</th></tr></thead>"
 "\n"
 msgstr ""
 
-#: cwapu.py:3215
+#: cwapu.py:3275
 #, python-brace-format
 msgid ""
 "     <tr><td class=\"char-emphasis\">'{}'</td><td>{} su {} inv.</td><td "
@@ -1422,18 +1422,18 @@ msgid ""
 "\n"
 msgstr ""
 
-#: cwapu.py:3221
+#: cwapu.py:3281
 msgid "<h2>Variazioni Dettaglio Errori per Carattere</h2>\n"
 msgstr ""
 
-#: cwapu.py:3222
+#: cwapu.py:3282
 #, python-brace-format
 msgid ""
 "<p class=\"report-subtitle\">Variazioni rispetto al blocco di {count} "
 "esercizi precedente</p>\n"
 msgstr ""
 
-#: cwapu.py:3226
+#: cwapu.py:3286
 msgid ""
 "  <thead><tr><th>Carattere</th><th>Err. Att.</th><th>%Tot "
 "Att.</th><th>%Spec Att.</th><th>Err. Prec.</th><th>%Tot "
@@ -1441,13 +1441,13 @@ msgid ""
 "Spec.</th></tr></thead>\n"
 msgstr ""
 
-#: cwapu.py:3232
+#: cwapu.py:3292
 msgid ""
 "    <tr><td colspan=\"9\" style=\"text-align:center;\">Nessun errore "
 "registrato in nessuno dei due blocchi di riferimento.</td></tr>\n"
 msgstr ""
 
-#: cwapu.py:3252
+#: cwapu.py:3312
 #, python-brace-format
 msgid ""
 "     <tr><td class=\"char-"
@@ -1460,137 +1460,137 @@ msgid ""
 "%</td></tr>\n"
 msgstr ""
 
-#: cwapu.py:3273
+#: cwapu.py:3333
 #, python-brace-format
 msgid "Report storico salvato in: {filename}"
 msgstr ""
 
-#: cwapu.py:3275
+#: cwapu.py:3335
 #, python-brace-format
 msgid "Errore durante il salvataggio del report storico {filename}: {e}"
 msgstr ""
 
-#: cwapu.py:3278
+#: cwapu.py:3338
 msgid "Errore imprevisto durante la generazione del report. Seguono i dettagli."
 msgstr ""
 
-#: cwapu.py:3286
+#: cwapu.py:3346
 #, python-brace-format
 msgid "Report grafico salvato in: {filename}"
 msgstr ""
 
-#: cwapu.py:3290
+#: cwapu.py:3350
 #, python-brace-format
 msgid "Errore durante la generazione del report grafico: {errore}"
 msgstr ""
 
-#: cwapu.py:3299
+#: cwapu.py:3359
 msgid "Ricerca aggiornamenti in corso..."
 msgstr ""
 
-#: cwapu.py:3302
+#: cwapu.py:3362
 #, python-brace-format
 msgid "Hai gia' l'ultima versione disponibile ({ver})!"
 msgstr ""
 
-#: cwapu.py:3304
+#: cwapu.py:3364
 msgid ""
 "\n"
 "Aggiornamento disponibile."
 msgstr ""
 
-#: cwapu.py:3305
+#: cwapu.py:3365
 #, python-brace-format
 msgid "E' disponibile la nuova versione {new_ver}! (Attuale: {curr_ver})"
 msgstr ""
 
-#: cwapu.py:3307
+#: cwapu.py:3367
 msgid "Novita' di questa versione:"
 msgstr ""
 
-#: cwapu.py:3310
+#: cwapu.py:3370
 msgid ""
 "I file di installazione non sono ancora pronti per il download.\n"
 "\tRiprova piu' tardi."
 msgstr ""
 
-#: cwapu.py:3312
+#: cwapu.py:3372
 msgid ""
 "Desideri scaricare e installare l'aggiornamento ora? (INVIO per si', ESC "
 "per ignorare): "
 msgstr ""
 
-#: cwapu.py:3313
+#: cwapu.py:3373
 msgid "Download dell'aggiornamento in corso. Attendere prego..."
 msgstr ""
 
-#: cwapu.py:3315
+#: cwapu.py:3375
 msgid "Aggiornamento pronto. CWapu si chiudera' per l'installazione..."
 msgstr ""
 
-#: cwapu.py:3318
+#: cwapu.py:3378
 msgid "Si e' verificato un errore durante la preparazione dell'aggiornamento."
 msgstr ""
 
-#: cwapu.py:3330
+#: cwapu.py:3390
 #, python-brace-format
 msgid "Guida non trovata: manca il file {nome}."
 msgstr ""
 
-#: cwapu.py:3344
+#: cwapu.py:3404
 #, python-brace-format
 msgid "Copia della guida non riuscita: {errore}"
 msgstr ""
 
-#: cwapu.py:3348
+#: cwapu.py:3408
 #, python-brace-format
 msgid "Apro la guida nel browser: {percorso}"
 msgstr ""
 
-#: cwapu.py:3356
+#: cwapu.py:3416
 #, python-brace-format
 msgid "Errore aprendo il browser: {errore}"
 msgstr ""
 
-#: cwapu.py:3358
+#: cwapu.py:3418
 msgid ""
 "Non sono riuscita ad aprire il browser.\n"
 "\tPuoi aprire il file a mano dal percorso qui sopra."
 msgstr ""
 
-#: cwapu.py:3365
+#: cwapu.py:3425
 msgid "Preparo le statistiche, un momento..."
 msgstr ""
 
-#: cwapu.py:3374
+#: cwapu.py:3434
 #, python-brace-format
 msgid "Report Timeline per {category_name}"
 msgstr ""
 
-#: cwapu.py:3376
+#: cwapu.py:3436
 #, python-brace-format
 msgid "Fine del report. Bye da CWapu {version}"
 msgstr ""
 
-#: cwapu.py:3379
+#: cwapu.py:3439
 msgid "Invio per salvare, Esc per proseguire..."
 msgstr ""
 
-#: cwapu.py:3387
+#: cwapu.py:3447
 #, python-brace-format
 msgid ""
 "\n"
 "Report salvato con successo in: {}"
 msgstr ""
 
-#: cwapu.py:3390
+#: cwapu.py:3450
 #, python-brace-format
 msgid ""
 "\n"
 "Errore durante il salvataggio del file: {}"
 msgstr ""
 
-#: cwapu.py:3425
+#: cwapu.py:3485
 #, python-brace-format
 msgid ""
 "\n"
@@ -1599,7 +1599,7 @@ msgid ""
 "\t\tLancio app: {count}. Scrivi 'm' per il menu."
 msgstr ""
 
-#: cwapu.py:3430
+#: cwapu.py:3490
 #, python-brace-format
 msgid ""
 "\tWPM: {overall_speed}, Hz: {overall_pitch}, Volume: {}\n"
@@ -1607,15 +1607,15 @@ msgid ""
 "Wave: {}, MS: {overall_ms}, FS: {}."
 msgstr ""
 
-#: cwapu.py:3452
+#: cwapu.py:3512
 msgid "Non è un comando!"
 msgstr ""
 
-#: cwapu.py:3466
+#: cwapu.py:3526
 msgid "vuoti"
 msgstr ""
 
-#: cwapu.py:3496
+#: cwapu.py:3556
 msgid "hpe cuagn - 73 de IZ4APU - Gabe in Bologna, JN54pl."
 msgstr ""
 

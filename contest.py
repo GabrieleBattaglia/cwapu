@@ -41,9 +41,23 @@ PAN_MASSIMO = 100.0
 # correlazione, in hertz. Il QSB delle propagazioni normali e' lento, il
 # flutter di quelle polari e' rapido, e tocca a tre stazioni su dieci fra
 # quelle che hanno gia' il QSB.
-QSB_BANDA = (0.1, 0.6)
+QSB_BANDA = (0.03, 0.6)
 FLUTTER_BANDA = (3.0, 33.0)
 PROB_FLUTTER = 0.3
+# Lo scarto del tono di una stazione dal mio. cwsim usa una gaussiana di
+# centocinquanta ripiegata a trecento, e con il filtro a cinquecento le
+# stazioni restavano tutte dentro la banda passante: Gabriele, provandolo,
+# le ha sentite tutte piuttosto centrate, mentre in radio si chiama anche da
+# molto fuori banda. Qui la gaussiana e' piu' larga e il ripiegamento piu'
+# lontano, cosi' le stazioni lontane esistono e il filtro se le mangia, che
+# e' poi il suo mestiere. Il ripiegamento resta sotto la banda massima, cosi'
+# con il filtro largo nessuna stazione e' del tutto muta.
+TONO_SCARTO = 220.0
+TONO_MASSIMO = 450.0
+# I toni che una stazione puo' avere. Il tetto stava a duemila, e con il tono
+# proprio piu' in alto tutte le stazioni ci finivano sopra, a centinaia di
+# hertz dal mio, cioe' fuori da qualunque filtro e quindi mute.
+TONO_STAZIONE = (100, 4000)
 
 
 def numero_come_testo(rng, rst, nr, errore=False):
@@ -563,8 +577,8 @@ class StazioneDX(Stazione):
         wpm = oper.velocita(motore.mio_wpm)
         # Il tono a piu' o meno trecento hertz dal mio, come oggi; la panoramica
         # entro l'ampiezza stereo scelta; la forza fra un quinto e il pieno.
-        scarto = math.fmod(rng.gauss(0.0, 150.0), 300.0)
-        pitch = max(200, min(2000, round(motore.mio_pitch + scarto)))
+        scarto = math.fmod(rng.gauss(0.0, TONO_SCARTO), TONO_MASSIMO)
+        pitch = max(TONO_STAZIONE[0], min(TONO_STAZIONE[1], round(motore.mio_pitch + scarto)))
         pan = rng.uniform(-motore.ampiezza_stereo, motore.ampiezza_stereo)
         volume = 0.2 + 0.8 * (1.0 + math.sin(math.pi * (rng.random() - 0.5))) / 2.0
         super().__init__(motore, nominativo, wpm, pitch, pan, volume, motore.pesi_stazione())
@@ -629,7 +643,7 @@ class StazioneQRM(Stazione):
 
     def __init__(self, motore, adesso):
         rng = motore.rng
-        pitch = max(200, min(2000, motore.mio_pitch + rng.randint(-300, 300)))
+        pitch = max(TONO_STAZIONE[0], min(TONO_STAZIONE[1], motore.mio_pitch + rng.randint(-int(TONO_MASSIMO), int(TONO_MASSIMO))))
         pan = rng.uniform(-motore.ampiezza_stereo, motore.ampiezza_stereo)
         volume = 0.2 + 0.8 * rng.random()
         super().__init__(motore, motore.nominativi(), rng.randint(30, 50), pitch, pan, volume)
@@ -831,7 +845,15 @@ class Contest:
             return None
         if self.flutter and self.rng.random() < PROB_FLUTTER:
             return self.rng.uniform(*FLUTTER_BANDA)
-        return self.rng.uniform(*QSB_BANDA)
+        # L'estrazione e' logaritmica, non uniforme. La banda e' l'inverso del
+        # tempo: fra tre centesimi e sei decimi di hertz i tempi vanno da dodici
+        # secondi a sei decimi, e prendendo a caso in modo uniforme le onde
+        # lente non uscirebbero quasi mai, perche' occupano un angolo
+        # dell'intervallo. Cosi' meta' delle stazioni sta sotto tredici
+        # centesimi, cioe' con un'onda che impiega tre secondi buoni a scendere
+        # e altrettanti a risalire, che e' il QSB che si sente davvero.
+        basso, alto = QSB_BANDA
+        return math.exp(self.rng.uniform(math.log(basso), math.log(alto)))
 
     def pesi_stazione(self):
         """I pesi di una stazione: quelli della manipolazione automatica, oppure quelli di chi usa il tasto verticale.

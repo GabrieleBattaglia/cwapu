@@ -12,6 +12,7 @@ import itertools
 import os
 import sys
 
+import numpy as np
 import pytest
 
 RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -72,9 +73,10 @@ class Suono:
 class Fondo:
     """La finta maniglia di un ciclo acceso, con il conto degli stop."""
 
-    def __init__(self, score, chiavi):
+    def __init__(self, score, chiavi, buffer=None):
         self.score = score
         self.chiavi = chiavi
+        self.buffer = buffer
         self.fermato = False
 
     def stop(self):
@@ -83,13 +85,26 @@ class Fondo:
 
 
 class Acustica:
-    """Al posto di Acusticator: registra i cicli accesi invece di suonarli."""
+    """Al posto di Acusticator: registra cio' che gli si chiede invece di suonarlo.
+
+    sintetizza restituisce due canali di rumore finto, diversi a ogni
+    chiamata, cosi' il fronte stereo si puo' misurare davvero.
+    """
 
     def __init__(self):
         self.cicli = []
+        self.score = []
+        self.seme = 0
 
-    def ciclo(self, score, **chiavi):
-        acceso = Fondo(score, chiavi)
+    def sintetizza(self, score, kind=1, adsr=None, fs=44100, pan=None):
+        self.score.append(score)
+        self.seme += 1
+        generatore = np.random.default_rng(self.seme)
+        mono = generatore.standard_normal(2048).astype(np.float32)
+        return np.stack([mono, mono], axis=1)
+
+    def ciclo_di(self, buffer, fs=None, pan=0.0, dissolvenza=0.05):
+        acceso = Fondo(self.score[-1] if self.score else None, {"fs": fs, "pan": pan}, buffer)
         self.cicli.append(acceso)
         return acceso
 
@@ -296,7 +311,9 @@ class TestCicloContest:
         assert banco["cw"].testi
 
     def test_i_tasti_dei_valori_cambiano_velocita_tono_e_banda(self, monkeypatch, capsys):
-        copione = [(1.0, "f10"), (1.5, "f9"), (2.0, "f9"), (2.5, "alt-up"), (3.0, "ctrl-up"), (3.5, "alt-x")]
+        # Fra l'ultima pressione e Alt+X ci vuole piu' dell'attesa, altrimenti
+        # gli annunci restano in sospeso e non escono affatto.
+        copione = [(1.0, "f10"), (1.5, "f9"), (2.0, "f9"), (2.5, "alt-up"), (3.0, "shift-up"), (8.0, "alt-x")]
         banco = prepara(monkeypatch, copione)
         cwapu.RxingContest({})
         uscita = capsys.readouterr().out
@@ -305,6 +322,23 @@ class TestCicloContest:
         assert banco["contest"][0].banda == cwapu.CONTEST_BANDA_DEFAULT + cwapu.CONTEST_PASSO_BANDA
         assert banco["contest"][0].mio_wpm == 18
         assert "WPM 18" in uscita and "Tono 600" in uscita and "Banda 550" in uscita
+
+    def test_i_valori_si_annunciano_quando_la_mano_si_ferma(self, monkeypatch, capsys):
+        """Annunciare a ogni pressione riempie la voce di numeri che scorrono."""
+        copione = [(1.0, "shift-down"), (1.2, "shift-down"), (1.4, "shift-down"), (8.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        # Tre pressioni, un annuncio solo, e porta l'ultimo valore.
+        assert uscita.count("Banda ") == 1
+        assert "Banda 350" in uscita
+
+    def test_un_valore_cambiato_e_poi_chiuso_subito_non_resta_muto(self, monkeypatch, capsys):
+        """Chi cambia e chiude prima dell'attesa non deve perdere l'annuncio."""
+        copione = [(1.0, "shift-down"), (1.5, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert "Banda 450" in capsys.readouterr().out
 
     def test_esc_ferma_la_trasmissione_e_pulisce_il_campo(self, monkeypatch):
         copione = [
@@ -394,8 +428,18 @@ class TestCicloContest:
         assert len(cicli) == 1
         # Il rumore e' limitato alla banda del filtro attorno al mio tono.
         assert cicli[0].score[0] == "350-750"
-        assert cicli[0].chiavi["kind"] == 6
         assert cicli[0].fermato is True
+
+    def test_il_fondo_si_allarga_quanto_dice_lo_stereo(self, monkeypatch):
+        """Il rumore di fondo di una radio non viene da un punto solo."""
+        banco = prepara(monkeypatch, [(2.0, "alt-x")], contest={"qrn": True, "stereo": 100})
+        cwapu.RxingContest({})
+        largo = banco["acustica"].cicli[0].buffer
+        assert abs(float(np.corrcoef(largo[:, 0], largo[:, 1])[0, 1])) < 0.2
+        banco = prepara(monkeypatch, [(2.0, "alt-x")], contest={"qrn": True, "stereo": 0})
+        cwapu.RxingContest({})
+        stretto = banco["acustica"].cicli[0].buffer
+        assert np.allclose(stretto[:, 0], stretto[:, 1])
 
     def test_senza_qrn_non_si_accende_niente(self, monkeypatch):
         banco = prepara(monkeypatch, [(2.0, "alt-x")], contest={"qrn": False})
@@ -403,7 +447,7 @@ class TestCicloContest:
         assert banco["acustica"].cicli == []
 
     def test_stringendo_la_banda_il_fondo_si_rifa(self, monkeypatch):
-        banco = prepara(monkeypatch, [(1.0, "ctrl-down"), (2.0, "alt-x")], contest={"qrn": True, "banda": 400})
+        banco = prepara(monkeypatch, [(1.0, "shift-down"), (2.0, "alt-x")], contest={"qrn": True, "banda": 400})
         cwapu.RxingContest({})
         cicli = banco["acustica"].cicli
         assert len(cicli) == 2

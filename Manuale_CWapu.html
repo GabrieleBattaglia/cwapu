@@ -467,7 +467,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><th>Voce</th><th>Che cosa fa</th></tr>
 </thead>
 <tbody>
-<tr><td>1. QRN</td><td>Il fruscio atmosferico di fondo, un rumore rosa limitato alla banda del filtro, che sta sotto le stazioni per tutto il contest e si stringe insieme al filtro.</td></tr>
+<tr><td>1. QRN</td><td>Il fruscio atmosferico di fondo, un rumore rosa limitato alla banda del filtro, che sta sotto le stazioni per tutto il contest, si stringe insieme al filtro e si allarga fra gli altoparlanti quanto dice la voce stereo: il rumore di una radio non viene da un punto, viene da tutte le parti.</td></tr>
 <tr><td>2. QRM</td><td>Stazioni che disturbano: chiedono <code>QRL?</code>, lanciano il loro CQ o invitano a cambiare frequenza. Il valore dice quante al massimo insieme, da 1 a 5.</td></tr>
 <tr><td>3. QSB</td><td>L'evanescenza che fa andare e venire il segnale. Ogni stazione ne prende una sua, lenta come nelle propagazioni normali.</td></tr>
 <tr><td>4. flutter</td><td>Il tremolio rapido delle propagazioni polari. Tocca a tre stazioni su dieci fra quelle che hanno già il QSB, e senza QSB non si sente.</td></tr>
@@ -522,8 +522,8 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><td><kbd>F9</kbd> o <kbd>PagGiù</kbd></td><td>Abbassa la velocità di due parole al minuto.</td></tr>
 <tr><td><kbd>F10</kbd> o <kbd>PagSu</kbd></td><td>Alza la velocità di due parole al minuto, fino al massimo di 120.</td></tr>
 <tr><td><kbd>Alt</kbd>+<kbd>Su</kbd> e <kbd>Alt</kbd>+<kbd>Giù</kbd></td><td>Spostano il proprio tono di cinquanta hertz.</td></tr>
-<tr><td><kbd>Ctrl</kbd>+<kbd>Su</kbd> e <kbd>Ctrl</kbd>+<kbd>Giù</kbd></td><td>Allargano e stringono il filtro di cinquanta hertz.</td></tr>
-<tr><td><kbd>Alt</kbd>+<kbd>S</kbd></td><td>Dice a che punto si è: tempo trascorso, QSO, punti, prefissi e punteggio.</td></tr>
+<tr><td><kbd>Shift</kbd>+<kbd>Su</kbd> e <kbd>Shift</kbd>+<kbd>Giù</kbd></td><td>Allargano e stringono il filtro di cinquanta hertz. Non si usa <kbd>Ctrl</kbd> con le frecce, che in Morse Runner fa questo mestiere, perché nelle console di Windows fa scorrere il testo già scritto e lo screen reader ricomincia a leggerlo da capo.</td></tr>
+<tr><td><kbd>Alt</kbd>+<kbd>S</kbd></td><td>Dice a che punto si è: tempo trascorso, QSO, punti, prefissi e punteggio. È l'unico valore detto subito: velocità, tono e banda si sentono nell'audio e vengono annunciati due secondi dopo l'ultima pressione, così battendoli in raffica non si riempie la voce di numeri che scorrono.</td></tr>
 <tr><td><kbd>Alt</kbd>+<kbd>W</kbd></td><td>Cancella la riga e ricomincia il QSO da capo.</td></tr>
 <tr><td><kbd>Backspace</kbd></td><td>Cancella l'ultimo carattere.</td></tr>
 <tr><td><kbd>Esc</kbd></td><td>Se si sta trasmettendo, zittisce la trasmissione; altrimenti pulisce la riga.</td></tr>
@@ -539,8 +539,8 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <ul>
 <li><strong>Una velocità</strong> che si discosta dalla propria, e che a volte abbassa apposta per farsi capire.</li>
-<li><strong>Un tono</strong> diverso dal proprio, fino a trecento hertz di distanza, e una posizione fra gli altoparlanti se lo stereo è acceso.</li>
-<li><strong>Un'evanescenza</strong>, se il QSB è acceso: il segnale va e viene, lentamente, oppure con il tremolio rapido del flutter. Sono i valori di Morse Runner, che chi fa contest riconosce a orecchio.</li>
+<li><strong>Un tono</strong> diverso dal proprio, fino a quattrocentocinquanta hertz di distanza, e una posizione fra gli altoparlanti se lo stereo è acceso. Chi chiama molto lontano dal proprio tono arriva debole, perché è il filtro a mangiarselo, ed è il motivo per cui il filtro si stringe.</li>
+<li><strong>Un'evanescenza</strong>, se il QSB è acceso: il segnale va e viene. Metà delle stazioni ha un'onda lenta, che impiega qualche secondo a scendere e altrettanti a risalire, e le altre un'onda più rapida; se il flutter è acceso, tre stazioni su dieci fra queste hanno invece il tremolio veloce delle propagazioni polari.</li>
 <li><strong>Una forza</strong>, perché non arrivano tutte allo stesso modo, e il filtro attenua chi sta lontano dal proprio tono.</li>
 <li><strong>Un modo di manipolare</strong>: automatico, cioè con i pesi regolari del CW standard, oppure, con la probabilità scelta nel pannello, manuale, cioè a tasto verticale, con pesi lontani dallo standard. La stessa lettera suona allora diversa da com'è abituati a sentirla, ed è il caso più difficile e anche il più utile.</li>
 <li><strong>Una pazienza</strong>, estratta da una distribuzione che dà quattro tentativi in media. Esaurita quella, la stazione se ne va, esattamente come farebbe in un contest vero chi ha una coda di gente che chiama. Chi se n'è andato finisce nel rapporto.</li>

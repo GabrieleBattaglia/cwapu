@@ -265,8 +265,8 @@ class TestPileup:
         for s in stazioni:
             assert -60 <= s.pan <= 60
             assert 0.2 <= s.volume <= 1.0
-            assert 200 <= s.pitch <= 2000
-            assert abs(s.pitch - 600) <= 300
+            assert ct.TONO_STAZIONE[0] <= s.pitch <= ct.TONO_STAZIONE[1]
+            assert abs(s.pitch - 600) <= ct.TONO_MASSIMO
             assert 22 <= s.wpm <= 28
 
     def test_il_tu_con_il_mio_nominativo_richiama_altre_stazioni(self):
@@ -379,6 +379,40 @@ class TestCorrezioniDelPorting:
         veloci = [b for b in bande if b >= ct.FLUTTER_BANDA[0]]
         assert all(ct.FLUTTER_BANDA[0] <= b <= ct.FLUTTER_BANDA[1] for b in veloci)
         assert 0.2 < len(veloci) / len(bande) < 0.4, len(veloci) / len(bande)
+
+    def test_le_onde_lente_del_qsb_non_sono_una_rarita(self):
+        """Estraendo la banda in modo uniforme, le onde lente occupano un
+        angolo dell'intervallo e non uscirebbero quasi mai: e' il rilievo di
+        Gabriele del 21 settembre 2026, che le trovava tutte repentine."""
+        m = motore(qsb=True, seme=5)
+        bande = [m.evanescenza() for _ in range(400)]
+        assert all(ct.QSB_BANDA[0] <= b <= ct.QSB_BANDA[1] for b in bande)
+        lente = [b for b in bande if b <= 0.15]
+        assert 0.4 < len(lente) / len(bande) < 0.7, len(lente) / len(bande)
+        # E la piu' lenta di tutte deve impiegare parecchi secondi a scendere.
+        assert 0.37 / min(bande) > 8.0, 0.37 / min(bande)
+
+    def test_le_stazioni_si_allargano_sui_toni(self):
+        """Erano tutte centrate dentro la banda passante del filtro."""
+        m = motore(pileup=True, seme=3)
+        m.mio_pitch = 600
+        toni = []
+        for _ in range(300):
+            stazione = ct.StazioneDX(m, 0.0, singola=False)
+            toni.append(stazione.scarto_tono)
+        larghi = [t for t in toni if abs(t) > 300]
+        assert larghi, "nessuna stazione fuori dai trecento hertz"
+        assert all(abs(t) <= ct.TONO_MASSIMO for t in toni)
+        assert 0.1 < len(larghi) / len(toni) < 0.5, len(larghi) / len(toni)
+
+    def test_con_il_tono_alto_le_stazioni_non_si_ammucchiano(self):
+        """Il tetto stava a duemila: con il tono proprio piu' in alto tutte le
+        stazioni ci finivano sopra, a centinaia di hertz dal mio, cioe' mute."""
+        m = motore(pileup=True, seme=3)
+        m.mio_pitch = 2600
+        toni = {ct.StazioneDX(m, 0.0, singola=False).pitch for _ in range(60)}
+        assert len(toni) > 30, sorted(toni)[:5]
+        assert max(toni) > 2000
 
     def test_il_flutter_senza_qsb_non_esiste(self):
         m = motore(qsb=False, flutter=True)
