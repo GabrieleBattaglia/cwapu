@@ -1,7 +1,7 @@
 PROVE A MANO PER IL CONTEST NUOVO DI CWAPU
 Aperto il 2026-09-20 da ClaudIA, Claude Opus 5 modalita' ultracode, alla fine del lavoro sulla issue 7.
 Come si usa: se una prova va male, o se hai qualcosa da dirmi, scrivilo nella riga Esito. Se va bene, cancella la prova. Quando il file resta vuoto si cancella anche lui, e vuol dire che il contest e' pronto da pubblicare.
-Le prime cinque, quelle d'orecchio, le hai fatte il 21 settembre 2026 e hanno prodotto cinque correzioni: al loro posto ci sono adesso cinque riprove, dalla A alla E, che guardano solo cio' che e' cambiato e sono piu' corte. Poi restano le prove dalla sei alla diciotto, che non hai ancora fatto: dalla sei alla tredici sono di mani, le ultime guardano i file. Non serve farle tutte in una volta.
+Le prime cinque, quelle d'orecchio, le hai fatte il 21 settembre 2026 e hanno prodotto cinque correzioni: al loro posto ci sono adesso sei riprove, dalla A alla F, piu' corte perche' guardano solo cio' che e' cambiato; la F non e' una riprova ma la parte della prova sulla propagazione che non avevi ancora fatto. Poi restano le prove dalla sei alla diciotto, che non hai ancora fatto: dalla sei alla tredici sono di mani, le ultime guardano i file. Non serve farle tutte in una volta.
 Nelle prove d'ascolto non ti dico cosa dovresti sentire, di proposito: se te lo dicessi lo sentiresti anche se non c'e'. I numeri e le spiegazioni te li do dopo il tuo giudizio.
 COME SI ARRIVA AL CONTEST
 Dal menu, r. Nel pannello degli esercizi Rx la voce 8 e' il contest: accendila se non lo e', poi Invio. Al nominativo, Invio conferma quello salvato. Si apre il pannello del contest, nove voci: 1 QRN, 2 QRM, 3 QSB, 4 flutter, 5 sbadati, 6 pile-up, 7 stereo, 8 banda, 9 tasto verticale.
@@ -17,6 +17,12 @@ Esito:
 RIPROVA B: LE ONDE LENTE
 Cosa fare: l'evanescenza ora si estrae in modo logaritmico fra tre centesimi e sei decimi di hertz, cosi' meta' delle stazioni ha un'onda che impiega piu' di tre secondi a scendere e altrettanti a risalire. Il rapido di prima c'e' ancora. Pannello: 3 QSB, 7 stereo 0, 8 banda 600. Durata 2, 15 minuti. Premi F1 e ascolta per intero la risposta senza rispondere, al silenzio F1 di nuovo, per almeno quindici risposte. Se i messaggi ti sembrano corti per giudicare, F9 quattro volte e F10 altrettante prima di uscire.
 Cosa dirmi: se fra le quindici ne trovi adesso di lente e di rapide, in che proporzione ti sembrano, e se le lente sono lente quanto quelle che senti in aria o ancora no. Dimmi anche se qualcuna resta troppo a lungo ferma su un picco senza muoversi.
+Esito:
+RIPROVA F: IL FLUTTER E GLI SBADATI
+Cosa fare: della prova sulla propagazione avevi giudicato solo la prima fase, il QSB; queste due non le hai ancora sentite. Il flutter non e' cambiato, gli sbadati nemmeno.
+Prima. Pannello: 3 QSB, 4 flutter, 7 stereo 0, 8 banda 600. Durata 2, 15 minuti. Premi F1, ascolta per intero la risposta senza rispondere, al silenzio F1 di nuovo, per almeno quindici risposte, perche' il flutter tocca a tre stazioni su dieci fra quelle che hanno gia' il QSB e non a tutte. Alt+X.
+Seconda. Come sopra, accendendo anche 5 sbadati. Dieci risposte, copiando a mente nominativo e numero senza scrivere niente nella riga, e tenendo il conto di quante prendi al primo colpo. Alt+X.
+Cosa dirmi: della prima, se fra le quindici risposte ne riconosci di due nature diverse, e per quelle diverse se attribuiresti la differenza a un fenomeno di propagazione o a un guasto nella generazione del tono. Della seconda, quante su dieci al primo colpo, cosa te lo ha impedito per le altre, e se questa difficolta' in piu' ti sembra allenamento utile o solo fastidio.
 Esito:
 RIPROVA C: IL FRUSCIO CHE SI ALLARGA
 Cosa fare: il fondo di QRN non esce piu' dal centro: si sintetizza in due canali indipendenti e si mescola secondo la voce stereo, a potenza costante. Pannello: 1 QRN, 6 pile-up attivita' 6, 8 banda 500, 7 stereo 100. Durata 2, 8 minuti. Ascolta due o tre minuti di traffico rilanciando F1, poi Alt+X. Rifai con 7 stereo 0, e infine con 7 stereo 50.
