@@ -104,6 +104,34 @@ class TestFiltro:
         assert ct.guadagno_filtro(600, 300) > ct.guadagno_filtro(100, 300)
 
 
+class TestRitmo:
+    def test_l_ultimo_intervallo_si_rapporta_ai_secondi_davvero_trascorsi(self):
+        """Otto QSO in due minuti sono duecentoquaranta all'ora, non
+        novantasei: moltiplicare per dodici un intervallo che e' durato due
+        minuti faceva sembrare lentissima ogni sessione corta."""
+        p = ct.Punteggio()
+        for i in range(8):
+            p.registra(float(i), f"DL{i}XY", 599, i + 1, i + 1, None)
+        ritmo = p.qso_all_ora(120.0)
+        assert ritmo == [(0, 4, 240)], ritmo
+
+    def test_un_intervallo_pieno_resta_il_per_dodici_di_morse_runner(self):
+        p = ct.Punteggio()
+        for i in range(8):
+            p.registra(float(i), f"DL{i}XY", 599, i + 1, i + 1, None)
+        assert p.qso_all_ora(300.0) == [(0, 4, 96)]
+
+    def test_una_coda_piu_corta_di_un_minuto_non_si_riporta(self):
+        """Due QSO in dieci secondi darebbero settecentoventi all'ora, un
+        numero che non descrive niente."""
+        p = ct.Punteggio()
+        for i in range(4):
+            p.registra(float(i), f"DL{i}XY", 599, i + 1, i + 1, None)
+        p.registra(305.0, "W9CF", 599, 9, 9, None)
+        ritmo = p.qso_all_ora(310.0)
+        assert len(ritmo) == 1 and ritmo[0][0] == 0, ritmo
+
+
 class TestSorte:
     def test_poisson_ha_la_media_giusta(self):
         rng = random.Random(3)
@@ -487,6 +515,83 @@ class TestCorrezioniDelPorting:
         assert s.scarto_tono == 0
         assert m.guadagno(s) > lontana
         assert m.guadagno(s) == pytest.approx(s.volume)
+
+    def test_i_messaggi_si_accodano_invece_di_sostituirsi(self):
+        """F5 e poi F7: la stazione deve ricevere nominativo e punto
+        interrogativo insieme, non il solo punto interrogativo."""
+        m = motore(pileup=False, seme=2)
+        m.avanza(0.0)
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        m.io_finito(1.0)
+        m.io_trasmetti([ct.Msg.SUO], 2.0, suo_nominativo="DL3XY")
+        richiesta = m.io_trasmetti([ct.Msg.QM], 2.5, accoda=True)
+        assert m.io_messaggi == [ct.Msg.SUO, ct.Msg.QM]
+        # Il testo restituito e' quello dei soli messaggi nuovi: l'altro e'
+        # gia' in aria.
+        assert richiesta.testo.strip() == "?"
+        assert m.io_trasmette
+
+    def test_senza_accoda_i_messaggi_si_sostituiscono(self):
+        m = motore(pileup=False, seme=2)
+        m.avanza(0.0)
+        m.io_trasmetti([ct.Msg.SUO], 0.0, suo_nominativo="DL3XY")
+        m.io_trasmetti([ct.Msg.QM], 0.5)
+        assert m.io_messaggi == [ct.Msg.QM]
+
+    def test_accodare_non_ridice_l_inizio_alle_stazioni(self):
+        """Un secondo inizio rimetterebbe in ascolto chi stava gia' copiando."""
+        m = motore(pileup=True, attivita=9, seme=5)
+        m.avanza(0.0)
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        m.io_finito(1.0)
+        avanza_fino(m, 1.5, 4.0, trasmissioni_brevi=True)
+        assert m.stazioni, "nessuna stazione e' nata"
+        stati_prima = [s.stato for s in m.stazioni]
+        m.io_trasmetti([ct.Msg.SUO], 4.5, suo_nominativo="DL3XY")
+        stati_dopo_inizio = [s.stato for s in m.stazioni]
+        m.io_trasmetti([ct.Msg.QM], 5.0, accoda=True)
+        assert [s.stato for s in m.stazioni] == stati_dopo_inizio
+        assert stati_prima is not None
+
+    def test_la_verita_di_un_altra_stazione_non_si_spaccia_per_la_tua(self):
+        """Restituiva la piu' vecchia in sospeso: la riga diceva che avevi
+        copiato male un nominativo che non ti era mai stato mandato, e il
+        confronto carattere per carattere inventava errori."""
+        m = motore(pileup=True, seme=1)
+        m.verita_pendenti = [("DL3XY", 599, 1), ("W9CF", 599, 2)]
+        assert m.prendi_verita("IK2ABC") is None
+        assert len(m.verita_pendenti) == 2
+
+    def test_con_una_sola_verita_in_sospeso_quella_e(self):
+        """E' il caso normale del nominativo copiato male, e serve a dire
+        cos'era davvero."""
+        m = motore(pileup=True, seme=1)
+        m.verita_pendenti = [("DL3XY", 599, 1)]
+        assert m.prendi_verita("DL3XZ") == ("DL3XY", 599, 1)
+
+    def test_l_ultimo_qso_non_e_nil_solo_perche_il_tempo_e_scaduto(self):
+        """La stazione dice la sua verita' quando il mio TU e' finito: se il
+        tempo scade prima, gliela si chiede lo stesso."""
+        m = motore(pileup=False, seme=3)
+        m.avanza(0.0)
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        m.io_finito(1.0)
+        avanza_fino(m, 1.5, 6.0, trasmissioni_brevi=True)
+        vive = [s for s in m.stazioni if isinstance(s, ct.StazioneDX)]
+        assert vive, "nessuna stazione in aria"
+        stazione = vive[0]
+        m.registra_qso(7.0, stazione.mio, stazione.nr, 599)
+        eventi = m.chiudi_contest()
+        assert eventi and eventi[0][0] == "log"
+        assert eventi[0][2] == "", eventi[0]
+        assert eventi[0][3] == (stazione.mio, int(stazione.rst), int(stazione.nr))
+
+    def test_l_evento_di_log_porta_la_verita_usata(self):
+        m = motore(pileup=False, seme=3)
+        m.avanza(0.0)
+        m.registra_qso(1.0, "DL3XY", 7, 599)
+        eventi = m.chiudi_contest()
+        assert len(eventi[0]) == 4
 
     def test_i_difetti_di_nota_vanno_con_il_flutter(self):
         """Il chirp e il vibrato sono difetti del segnale, come il flutter."""

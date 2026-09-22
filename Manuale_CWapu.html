@@ -518,6 +518,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><td><kbd>F5</kbd></td><td>Manda il nominativo scritto sulla riga, cioè quello del corrispondente.</td></tr>
 <tr><td><kbd>F6</kbd></td><td>Manda <code>QSO B4</code>, cioè l'abbiamo già fatto.</td></tr>
 <tr><td><kbd>F7</kbd></td><td>Manda un punto interrogativo, che vuol dire ripeti.</td></tr>
+<tr><td colspan="2">I messaggi dei tasti funzione non si tagliano fra loro: premendone uno mentre un altro sta suonando, il secondo si mette in coda e parte quando il primo è finito, separato da uno spazio di parola. Così <kbd>F5</kbd> e poi <kbd>F7</kbd> mandano il nominativo copiato e poi il punto interrogativo, che è il modo di chiedere la ripetizione. La stazione riceve tutto insieme, come un messaggio solo. <kbd>Esc</kbd> butta via la coda intera.</td></tr>
 <tr><td><kbd>F8</kbd></td><td>Manda <code>NIL</code>, cioè non ho copiato niente: la stazione se ne va.</td></tr>
 <tr><td><kbd>F9</kbd> o <kbd>PagGiù</kbd></td><td>Abbassa la velocità di due parole al minuto.</td></tr>
 <tr><td><kbd>F10</kbd> o <kbd>PagSu</kbd></td><td>Alza la velocità di due parole al minuto, fino al massimo di 120.</td></tr>
@@ -526,7 +527,10 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><td><kbd>Shift</kbd>+<kbd>Su</kbd> e <kbd>Shift</kbd>+<kbd>Giù</kbd></td><td>Allargano e stringono il filtro di cinquanta hertz. Non si usa <kbd>Ctrl</kbd> con le frecce, che in Morse Runner fa questo mestiere, perché nelle console di Windows fa scorrere il testo già scritto e lo screen reader ricomincia a leggerlo da capo.</td></tr>
 <tr><td><kbd>Alt</kbd>+<kbd>S</kbd></td><td>Dice a che punto si è: tempo trascorso, QSO, punti, prefissi e punteggio. È l'unica cosa detta subito: velocità, tono, banda e volume vengono annunciati due secondi dopo l'ultima pressione, così battendoli in raffica non si riempie la voce di numeri che scorrono. Intanto ogni cambiamento si conferma con una <code>R</code> in CW, che arriva subito e porta con sé il tono, la velocità e il volume nuovi.</td></tr>
 <tr><td><kbd>Alt</kbd>+<kbd>W</kbd></td><td>Cancella la riga e ricomincia il QSO da capo.</td></tr>
-<tr><td><kbd>Backspace</kbd></td><td>Cancella l'ultimo carattere. Quando la riga è già vuota e si sta aspettando il numero, torna al nominativo e lo rimette nella riga da correggere: è il modo di rimediare quando la stazione fa capire che l'avevamo copiato male, senza buttare via il QSO.</td></tr>
+<tr><td><kbd>Sinistra</kbd> e <kbd>Destra</kbd></td><td>Spostano il cursore di un carattere dentro la riga. Il cursore è quello vero del sistema, quindi il display braille lo mostra dov'è e lo screen reader legge il carattere su cui si arriva: CWapu non dice niente in più, e il CW non viene coperto.</td></tr>
+<tr><td><kbd>Inizio</kbd> e <kbd>Fine</kbd></td><td>Portano il cursore al primo carattere e dopo l'ultimo.</td></tr>
+<tr><td><kbd>Canc</kbd></td><td>Cancella il carattere sotto il cursore e lo lascia dov'è.</td></tr>
+<tr><td><kbd>Backspace</kbd></td><td>Cancella il carattere prima del cursore e arretra di uno. Con il cursore sul primo carattere non fa niente, come in un editor. Quando la riga è già vuota e si sta aspettando il numero, torna al nominativo e lo rimette nella riga da correggere: è il modo di rimediare quando la stazione fa capire che l'avevamo copiato male, senza buttare via il QSO.</td></tr>
 <tr><td><kbd>Esc</kbd></td><td>Se si sta trasmettendo, zittisce la trasmissione; altrimenti pulisce la riga.</td></tr>
 <tr><td><kbd>Alt</kbd>+<kbd>X</kbd></td><td>Chiude il contest.</td></tr>
 </tbody>
@@ -571,7 +575,8 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <p>Quando un QSO si chiude male esce una riga breve con il numero, il nominativo, lo scambio e la verifica: <code>NIL</code> se il nominativo è sbagliato, <code>NR</code> se il numero, <code>RST</code> se il rapporto, e dove si può anche cos'era davvero. I QSO andati bene non dicono niente: li contano i tre numeri in testa alla riga.</p>
 
-<p>Alla fine, oltre alle statistiche di sempre, il rapporto dice punti, prefissi e punteggio nei due modi, la percentuale di QSO sbagliati, il ritmo per ogni cinque minuti riportato all'ora, i nominativi e gli scambi copiati male, le stazioni che se ne sono andate, e con quali interruttori e valori la sessione è stata fatta. Quest'ultima riga serve: una sessione in pile-up con il tasto verticale al cento per cento e una da sola con tutti in manipolazione automatica non sono confrontabili, e il diario deve poterlo dire.</p>
+<p>Alla fine, oltre alle statistiche di sempre, il rapporto dice punti, prefissi e punteggio nei due modi, la percentuale di QSO sbagliati, il ritmo per ogni cinque minuti riportato all'ora, i nominativi e gli scambi copiati male, quante stazioni se ne sono andate e quali, e con quali interruttori e valori la sessione è stata fatta. Quest'ultima riga serve: una sessione in pile-up con il tasto verticale al cento per cento e una da sola con tutti in manipolazione automatica non sono confrontabili, e il diario deve poterlo dire.</p>
+<p>Le stazioni che se ne sono andate si contano a parte, e non entrano né nei QSO né nelle percentuali né nelle velocità né nella durata. Sono occasioni perse, non contatti copiati male: in un pile-up ne sfugge sempre qualcuna, ed è normale. Per la stessa ragione la durata a numero di QSO conta soltanto quelli messi a log: chiedendone otto se ne fanno otto, per quante stazioni si siano stancate di aspettare nel frattempo.</p>
 
 <div class="nota">
 <p><strong>Il Farnsworth nel contest non c'è.</strong> Anche con <code>.fw</code> impostato, il contest trasmette sempre a spaziature normali: in un contest vero nessuno rallenta le pause, e le statistiche del contest si salvano sempre proprio perché la velocità è quella vera.</p>

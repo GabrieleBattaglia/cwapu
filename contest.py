@@ -224,6 +224,11 @@ class Richiesta:
     # I due difetti di nota, None se la stazione non ne ha.
     chirp: float = None
     vibrato: tuple = None
+    # Vero se chi trasmette e' una stazione che posso lavorare. Serve a chi
+    # tiene le statistiche: la velocita' del QSO e' la sua, non quella di
+    # una stazione di disturbo, che nasce fra trenta e cinquanta parole al
+    # minuto a prescindere dalla mia.
+    dx: bool = False
 
 
 @dataclass
@@ -608,7 +613,22 @@ class Stazione:
         # Il volume della richiesta e' gia' filtrato: la forza della stazione
         # attenuata da quanto il suo tono e' lontano dal mio, cioe' il filtro
         # del ricevitore reso voce per voce, come dice il piano.
-        return Richiesta(self.id, testo, self.wpm, self.pitch, self.l, self.s, self.p, self.motore.guadagno(self), self.pan, tuple(self.messaggi), self.qsb, self.chirp, self.vibrato)
+        return Richiesta(
+            self.id,
+            testo,
+            self.wpm,
+            self.pitch,
+            self.l,
+            self.s,
+            self.p,
+            self.motore.guadagno(self),
+            self.pan,
+            tuple(self.messaggi),
+            self.qsb,
+            self.chirp,
+            self.vibrato,
+            isinstance(self, StazioneDX),
+        )
 
     def tick(self, adesso, finita):
         """Un giro di orologio: chiude la trasmissione finita o fa scattare la scadenza."""
@@ -812,9 +832,25 @@ class Punteggio:
         return [v for v in self.log if v.verifica in ("NR", "RST")]
 
     def qso_all_ora(self, durata_secondi):
-        """Per ogni intervallo di cinque minuti, i QSO fatti riportati all'ora."""
-        intervalli = max(1, math.ceil(max(durata_secondi, 1.0) / 300.0))
-        return [(i * 5, i * 5 + 4, self.qso_per_intervallo.get(i, 0) * 12) for i in range(intervalli)]
+        """Per ogni intervallo di cinque minuti, i QSO fatti riportati all'ora.
+
+        L'ultimo intervallo quasi mai dura cinque minuti: moltiplicarlo per
+        dodici come gli altri faceva sembrare lentissima ogni sessione corta,
+        che e' proprio quella a numero di QSO. Otto QSO in due minuti sono
+        duecentoquaranta all'ora, non novantasei. Una coda piu' breve di un
+        minuto non si riporta affatto, perche' due QSO in dieci secondi
+        darebbero settecentoventi all'ora, un numero che non descrive niente.
+        """
+        durata = max(float(durata_secondi), 1.0)
+        intervalli = max(1, math.ceil(durata / 300.0))
+        righe = []
+        for i in range(intervalli):
+            secondi = min(300.0, durata - i * 300.0)
+            if secondi <= 0.0 or (secondi < 60.0 and righe):
+                continue
+            quanti = self.qso_per_intervallo.get(i, 0)
+            righe.append((i * 5, i * 5 + 4, round(quanti * 3600.0 / secondi)))
+        return righe
 
 
 class Contest:
@@ -972,19 +1008,35 @@ class Contest:
             pezzi.append(testo)
         return " ".join(pezzi)
 
-    def io_trasmetti(self, messaggi, adesso, suo_nominativo=None, testo=None):
-        """Comincio a trasmettere: le stazioni smettono di aspettare e si mettono a copiare."""
+    def io_trasmetti(self, messaggi, adesso, suo_nominativo=None, testo=None, accoda=False):
+        """Comincio a trasmettere: le stazioni smettono di aspettare e si mettono a copiare.
+
+        Con accoda, se sto gia' trasmettendo i messaggi si aggiungono a quelli
+        in corso invece di sostituirli, e l'inizio non si ridice: e' il gesto
+        di Morse Runner, dove F5 e poi F7 mandano il nominativo copiato e poi
+        il punto interrogativo. Le stazioni devono ricevere l'elenco completo
+        in una volta sola, alla fine di tutta la coda: due inizi e due fini
+        per una chiamata sola costerebbero loro due punti di pazienza, e nel
+        buco fra i due pezzi farebbero in tempo a rispondermi sopra.
+
+        Il testo restituito e' quello dei soli messaggi nuovi, perche' quello
+        di prima e' gia' in aria.
+        """
         if self.inizio is None:
             self.inizio = adesso
         if suo_nominativo is not None:
             self.suo_nominativo = suo_nominativo.strip().upper()
-        self.io_messaggi = list(messaggi)
-        self.io_trasmette = True
+        if accoda and self.io_trasmette:
+            self.io_messaggi.extend(messaggi)
+        else:
+            self.io_messaggi = list(messaggi)
         if Msg.TU in self.io_messaggi:
             self.attesa_annullata = False
-        for s in self.stazioni:
-            s.processa(Evento.IO_INIZIO, adesso)
-        return Richiesta(IO, testo if testo is not None else self.testo_mio(self.io_messaggi), self.mio_wpm, self.mio_pitch, *PESO_STANDARD, 1.0, 0.0, tuple(self.io_messaggi))
+        if not self.io_trasmette:
+            self.io_trasmette = True
+            for s in self.stazioni:
+                s.processa(Evento.IO_INIZIO, adesso)
+        return Richiesta(IO, testo if testo is not None else self.testo_mio(messaggi), self.mio_wpm, self.mio_pitch, *PESO_STANDARD, 1.0, 0.0, tuple(messaggi))
 
     def io_finito(self, adesso):
         """Ho finito di trasmettere: nel pile-up nascono le stazioni nuove, e tutte decidono cosa fare.
@@ -1016,31 +1068,55 @@ class Contest:
         self.io_finito(adesso)
 
     def prendi_verita(self, nominativo):
-        """La verita' della stazione che ho messo a log, o la piu' vecchia se nessuna corrisponde.
+        """La verita' della stazione che ho messo a log, quando si puo' dire quale e'.
 
-        Due stazioni possono finire nello stesso giro: prendendo l'ultima
-        arrivata, un QSO giusto diventerebbe NIL per colpa dell'altra. Si
-        cerca prima quella che torna con il nominativo a log; se nessuna
-        torna, il NIL e' meritato.
+        Si cerca prima quella che torna con il nominativo a log. Se nessuna
+        torna e ce n'e' una sola in sospeso, e' quella, ed e' il caso normale
+        del nominativo copiato male: serve a dire cos'era davvero. Se ce ne
+        sono piu' d'una non si indovina. Prima si restituiva comunque la piu'
+        vecchia, e poteva essere di una stazione che non c'entrava niente:
+        finiva nella riga a schermo come se fosse la verita' e nel confronto
+        carattere per carattere, inventando errori su lettere mai mandate.
         """
         for i, verita in enumerate(self.verita_pendenti):
             if verita[0] == nominativo:
                 return self.verita_pendenti.pop(i)
-        return self.verita_pendenti.pop(0) if self.verita_pendenti else None
+        if len(self.verita_pendenti) == 1:
+            return self.verita_pendenti.pop(0)
+        return None
 
     def chiudi_attesa(self):
-        """Porta a log il QSO in sospeso e restituisce l'evento da riferire."""
+        """Porta a log il QSO in sospeso e restituisce l'evento da riferire.
+
+        L'evento porta anche la verita' usata per la verifica, cosi' chi lo
+        riceve puo' dire cos'era davvero senza ricostruirla da se': a fine
+        contest non c'e' nessun evento qso nello stesso giro da cui prenderla.
+        """
         quando, nominativo, rst, nr, nr_mandato = self.in_attesa
         self.in_attesa = None
         self.attesa_annullata = False
         verita = self.prendi_verita(nominativo)
         self.verita_pendenti.clear()
         verifica = self.punteggio.registra(quando, nominativo, rst, nr, nr_mandato, verita)
-        return ("log", self.punteggio.log[-1], verifica)
+        return ("log", self.punteggio.log[-1], verifica, verita)
 
     def chiudi_contest(self):
-        """Fine del contest: il QSO eventualmente in sospeso va a log com'e'."""
-        return [self.chiudi_attesa()] if self.in_attesa is not None else []
+        """Fine del contest: il QSO eventualmente in sospeso va a log com'e'.
+
+        Prima pero' si chiede la verita' alla stazione che stavo lavorando, se
+        e' ancora viva. Senza, l'ultimo QSO di ogni sessione a tempo risultava
+        NIL anche copiato giusto: la stazione dice la sua verita' soltanto
+        quando il mio TU e' finito, e il tempo scade prima.
+        """
+        if self.in_attesa is None:
+            return []
+        nominativo = self.in_attesa[1]
+        if not any(v[0] == nominativo for v in self.verita_pendenti):
+            for s in self.stazioni:
+                if isinstance(s, StazioneDX) and s.mio == nominativo:
+                    self.verita_pendenti.append(s.verita())
+                    break
+        return [self.chiudi_attesa()]
 
     def avanza(self, adesso, finite=()):
         """Un giro di orologio: scadenze, trasmissioni finite, nascite e rinunce."""

@@ -122,6 +122,9 @@ class MotoreFinto:
         self.testi = []
         self.chiamate = []
         self.zittite = []
+        # I miei messaggi tagliati a meta': con la coda non deve
+        # succedere piu', e senza registrarli non si vedrebbe.
+        self.miei_tagliati = []
 
     def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None):
         self.testi.append(msg)
@@ -131,7 +134,7 @@ class MotoreFinto:
         # Un carattere ogni sessanta millesimi e' l'ordine di grandezza del CW
         # a venti parole al minuto: basta perche' le scadenze del motore abbiano
         # un senso l'una rispetto all'altra.
-        registro = self.zittite if vol is not None else None
+        registro = self.zittite if vol is not None else self.miei_tagliati
         return Suono(self.orologio, max(0.2, len(msg) * 0.06), registro), float(wpm or 20)
 
 
@@ -167,7 +170,7 @@ class Tastiera:
         return tasto
 
 
-def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY", contest=None):
+def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY", contest=None, quanti_qso=None):
     """Mette al posto del mondo esterno le controfigure, e restituisce il banco.
 
     contest: gli stati del pannello del contest da mettere fra le impostazioni
@@ -197,8 +200,12 @@ def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY", contest=None):
     monkeypatch.setattr(cwapu, "time", orologio)
     monkeypatch.setattr(cwapu, "suona", cw)
     monkeypatch.setattr(cwapu, "key", tastiera)
-    monkeypatch.setattr(cwapu, "menu", lambda **chiavi: "2")
-    monkeypatch.setattr(cwapu, "dgt", lambda **chiavi: chiavi.get("default") if chiavi.get("kind") == "s" else minuti)
+    # Con quanti_qso la durata si conta in QSO invece che in minuti: e' il
+    # ramo che nessuna prova aveva mai fatto girare, ed e' proprio quello
+    # dove Gabriele ha trovato il contest che finiva dopo due QSO su otto.
+    monkeypatch.setattr(cwapu, "menu", lambda **chiavi: "1" if quanti_qso is not None else "2")
+    quanto = minuti if quanti_qso is None else quanti_qso
+    monkeypatch.setattr(cwapu, "dgt", lambda **chiavi: chiavi.get("default") if chiavi.get("kind") == "s" else quanto)
     nominativi = itertools.cycle([nominativo] if isinstance(nominativo, str) else nominativo)
     monkeypatch.setattr(cwapu, "Mkdqrz", lambda scelta: next(nominativi))
     monkeypatch.setattr(cwapu, "apri_diario", finto_diario)
@@ -643,6 +650,130 @@ class TestCicloContest:
         assert miei
         assert all(c["chirp"] is None and c["vibrato"] is None and c["qsb"] is None for c in miei)
 
+    def test_la_durata_a_numero_conta_i_qso_a_log_non_le_stazioni_perdute(self, monkeypatch):
+        """Contava anche chi se ne andava senza essere lavorato: una sessione
+        da due QSO finiva al primo che mollava, e Gabriele ne faceva due o tre
+        su otto."""
+        banco = prepara(monkeypatch, [(70.0, "alt-x")], quanti_qso=2, contest={"pileup": True, "attivita": 9})
+        cwapu.RxingContest({})
+        contest = banco["contest"][0]
+        assert contest.punteggio.rinunce, "nessuna stazione se n'e' andata"
+        assert contest.punteggio.punti_grezzi == 0
+        # Il contest e' arrivato fino ad Alt+X: le rinunce non hanno consumato
+        # nemmeno uno dei due QSO chiesti.
+        assert banco["orologio"].adesso >= 70.0
+
+    def test_le_stazioni_perdute_restano_fuori_dalle_statistiche(self, monkeypatch, capsys):
+        """Erano il denominatore di tutte le percentuali: otto QSO su venticinque
+        voleva dire otto a log e diciassette andate via."""
+        banco = prepara(monkeypatch, [(70.0, "alt-x")], minuti=2, contest={"pileup": True, "attivita": 9})
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        contest = banco["contest"][0]
+        assert contest.punteggio.rinunce
+        assert f"Se ne sono andate {len(contest.punteggio.rinunce)}:" in uscita
+        assert "ti ho inviato 0 QRZ" in uscita, uscita[-800:]
+        # Il rapporto si legge, ma su disco non va: sarebbe una media su niente.
+        assert cwapu.app_data["rxing_stats_qrz"]["sessions"] == 0
+        assert not cwapu.app_data["historical_rx_data_qrz"]["sessions_log"]
+        assert not banco["diario"].getvalue()
+
+    def test_due_tasti_funzione_si_accodano_invece_di_tagliarsi(self, monkeypatch):
+        """F5 e poi F7 mandano il nominativo copiato e poi il punto
+        interrogativo, che e' il modo di chiedere la ripetizione. Prima il
+        primo messaggio non veniva tagliato: spariva del tutto, e le stazioni
+        non sapevano di essere state chiamate."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "f5"), (3.7, "f7"), (12.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=1)
+        cwapu.RxingContest({})
+        # Solo i miei messaggi: quelli delle stazioni finiscono nella stessa
+        # lista, e una stazione che si chiama DL3XY manda il proprio
+        # nominativo esattamente come lo mando io con F5.
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        assert "DL3XY" in miei, miei
+        assert miei[miei.index("DL3XY") + 1] == "_ ?", miei
+        assert not banco["cw"].miei_tagliati, "il primo messaggio e' stato tagliato"
+
+    def test_il_messaggio_accodato_arriva_al_motore_in_un_elenco_solo(self, monkeypatch):
+        """Le stazioni devono ricevere nominativo e punto interrogativo
+        insieme: due fini di trasmissione costerebbero loro due punti di
+        pazienza per una chiamata sola."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "f5"), (3.7, "f7"), (12.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=1)
+        cwapu.RxingContest({})
+        contest = banco["contest"][0]
+        assert ct.Msg.SUO in contest.io_messaggi and ct.Msg.QM in contest.io_messaggi, contest.io_messaggi
+
+    def test_esc_svuota_la_coda(self, monkeypatch):
+        """Chi si accorge di aver premuto il tasto sbagliato vuole il silenzio
+        subito, non il messaggio dopo."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "f5"), (3.7, "f7"), (3.8, "\x1b"), (12.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=1)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        assert "_ ?" not in miei, miei
+
+    def test_il_fruscio_non_si_riaccende_fra_due_messaggi_accodati(self, monkeypatch):
+        """Fra un pezzo e l'altro sto ancora trasmettendo: il ricevitore deve
+        restare zitto."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "f5"), (3.7, "f7"), (12.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=1, contest={"qrn": True})
+        cwapu.RxingContest({})
+        # Un ciclo acceso per ogni ritorno in ascolto: se il fondo si fosse
+        # riacceso fra i due messaggi ce ne sarebbe uno in piu'.
+        assert len(banco["acustica"].cicli) <= len([t for t in banco["cw"].testi if not t.startswith("_ ")])
+
+    def test_le_frecce_muovono_il_cursore_dentro_il_campo(self, monkeypatch, capsys):
+        """Il carattere sbagliato si sostituisce dove sta, senza cancellare
+        tutto quello che gli viene dopo."""
+        copione = [*scrivi(3.0, "DL2XY"), (3.6, "left"), (3.7, "left"), (3.8, "left"), (3.9, "delete"), (4.0, "3"), (6.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert "CALL: DL3XY" in capsys.readouterr().out
+
+    def test_home_e_fine_saltano_agli_estremi_del_campo(self, monkeypatch, capsys):
+        copione = [*scrivi(3.0, "L3XY"), (3.6, "home"), (3.7, "d"), (3.8, "end"), (3.9, "/"), (6.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert "CALL: DL3XY/" in capsys.readouterr().out
+
+    def test_il_backspace_toglie_il_carattere_prima_del_cursore(self, monkeypatch, capsys):
+        copione = [*scrivi(3.0, "DLL3XY"), (3.6, "left"), (3.7, "left"), (3.8, "left"), (3.9, "\x08"), (6.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert "CALL: DL3XY" in capsys.readouterr().out
+
+    def test_in_testa_al_campo_il_backspace_non_tocca_niente(self, monkeypatch, capsys):
+        """Come in un editor: a colonna zero non si cancella all'indietro."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "home"), (3.7, "\x08"), (3.8, "\x08"), (6.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert "CALL: DL3XY" in capsys.readouterr().out
+
+    def test_la_riga_porta_il_cursore_sulla_cella_del_carattere(self, monkeypatch, capsys):
+        """Il cursore di sistema, cioe' quello che il display braille mostra,
+        finisce sul carattere su cui sto: la riga si stampa intera e poi si
+        riscrive il solo pezzo che lo precede."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "left"), (3.7, "left"), (6.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        assert "+0 -0 =0 CALL: DL3XY\r+0 -0 =0 CALL: DL3" in capsys.readouterr().out
+
+    def test_la_velocita_del_qso_non_viene_dalle_stazioni_di_disturbo(self, monkeypatch, capsys):
+        """Le stazioni di disturbo nascono fra trenta e cinquanta parole al
+        minuto a prescindere dalla mia: con il QRM acceso la riga delle
+        velocita' misurava loro invece di chi stavo copiando."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), *scrivi(9.0, "1"), (9.5, "\r"), (20.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2, contest={"qrm": True, "qrm_massime": 5})
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        assert "ti ho inviato 1 QRZ" in uscita, uscita[-600:]
+        # La stazione che ho lavorato e' l'unica che manda il mio nominativo.
+        sue = {c["wpm"] for c in banco["cw"].chiamate if c["vol"] is not None and "DL3XY" in (c["msg"] or "")}
+        assert sue, "la stazione lavorata non ha mai trasmesso"
+        dettagli = cwapu.app_data["historical_rx_data_qrz"]["sessions_log"][-1]["item_details"]
+        assert [d["rwpm"] for d in dettagli] and all(d["rwpm"] in sue for d in dettagli), (dettagli, sue)
+
     def test_alt_s_dice_come_va(self, monkeypatch, capsys):
         copione = [(2.0, "alt-s"), (2.5, "alt-x")]
         prepara(monkeypatch, copione)
@@ -693,7 +824,7 @@ class TestRapporto:
         assert "Ritmo:" in intero and "all'ora" in intero
         assert "Nominativi copiati male: IK2ABC." in intero
         assert "Scambi copiati male: W9CF 599 3." in intero
-        assert "Se ne sono andate: F5IN." in intero
+        assert "Se ne sono andate 1: F5IN." in intero
         assert "Sessione fatta con:" in intero
 
     def test_senza_errori_il_rapporto_non_elenca_niente(self):

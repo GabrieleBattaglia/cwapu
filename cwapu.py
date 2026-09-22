@@ -1961,7 +1961,10 @@ def righe_rapporto_contest(punteggio, stati, durata_secondi):
     if scambi:
         righe.append(_("Scambi copiati male: {elenco}.").format(elenco=", ".join(f"{v.nominativo} {v.rst_ricevuto} {v.nr_ricevuto}" for v in scambi)))
     if punteggio.rinunce:
-        righe.append(_("Se ne sono andate: {elenco}.").format(elenco=", ".join(punteggio.rinunce)))
+        # Le occasioni perse dicono qualcosa di vero, cioe' quanto sono stato
+        # lento a rispondere, ma non sono QSO copiati male: stanno qui, e
+        # fuori da QSO, percentuali, velocita' e durata.
+        righe.append(_("Se ne sono andate {quante}: {elenco}.").format(quante=len(punteggio.rinunce), elenco=", ".join(punteggio.rinunce)))
     righe.append(_("Sessione fatta con: {valori}.").format(valori=descrivi_pannello_contest(stati)))
     return righe
 
@@ -2121,6 +2124,7 @@ def RxingContest(menu_config_scelta):
     print(_("Invio manda cio' che serve e mette a log"))
     print(_("Esc ferma la trasmissione o pulisce la riga"))
     print(_("Backspace a riga vuota torna al nominativo"))
+    print(_("Frecce, Inizio, Fine e Canc dentro la riga"))
     print(_("Alt+S dice tempo, QSO, punti e punteggio"))
     print(_("F9 e PagGiu' meno 2 WPM, F10 e PagSu piu' 2"))
     print(_("Alt+F9 e Alt+F10 abbassano e alzano il volume"))
@@ -2162,9 +2166,16 @@ def RxingContest(menu_config_scelta):
     sum_wpm = 0.0
     active_exerctime = dt.timedelta(0)
     campo = ""
+    # Dove sta il cursore dentro il campo: il nominativo si corregge come in
+    # un editor, non solo cancellando dalla coda.
+    cursore = 0
     stadio = "call"
     suo_call = ""
     suoni = {}
+    # I messaggi dei tasti funzione battuti mentre ne suona un altro: si
+    # accodano invece di tagliarlo, e ognuno porta con se' il nominativo
+    # che c'era nella riga quando il tasto e' stato premuto.
+    coda = []
     da_chiudere = set()
     rwpm_corrente = 0.0
     fondo = None
@@ -2251,13 +2262,29 @@ def RxingContest(menu_config_scelta):
         sbagliati = punteggio.punti_grezzi - punteggio.punti_verificati
         conto = f"+{punteggio.punti_verificati} -{sbagliati} ={punteggio.punteggio_verificato}"
         etichetta = "CALL:" if stadio == "call" else f"{suo_call} 5NN NR:"
-        print(f"\r{' ' * 79}\r{conto} {etichetta} {campo}", end="", flush=True)
+        riga = f"{conto} {etichetta} {campo}"
+        # Il cursore di sistema va sulla cella del carattere corrente: si
+        # stampa la riga intera, poi si torna a colonna zero e si riscrive il
+        # solo pezzo che precede il cursore. Niente sequenze ANSI e nessuna
+        # parola in piu' a coprire il CW: sul display braille il cursore si
+        # legge com'e' abituato a leggerlo in qualunque campo di testo.
+        prefisso = riga[: len(riga) - len(campo) + cursore]
+        print(f"\r{' ' * 79}\r{riga}\r{prefisso}", end="", flush=True)
 
     def stato_a_richiesta(adesso):
-        """Alt+S: tempo trascorso, QSO, punti, prefissi e punteggio, su una riga sola."""
+        """Alt+S: tempo trascorso, QSO, punti, prefissi, punteggio e quanto manca.
+
+        Quanto manca perche' altrimenti non c'era modo di saperlo: la riga di
+        stato dice come sto andando, non a che punto sono della sessione.
+        """
         punteggio = motore.punteggio
         minuti, secondi = divmod(int(adesso), 60)
-        dillo(f"{minuti:02d}:{secondi:02d} QSO {punteggio.punti_grezzi} PT {punteggio.punti_verificati} PFX {len(punteggio.prefissi_verificati)} = {punteggio.punteggio_verificato}")
+        if duration_type == 1:
+            manca = f" -{max(0, limit - punteggio.punti_grezzi)} QSO"
+        else:
+            resta = max(0, int(limit * 60.0 - adesso))
+            manca = f" -{resta // 60:d}:{resta % 60:02d}"
+        dillo(f"{minuti:02d}:{secondi:02d} QSO {punteggio.punti_grezzi} PT {punteggio.punti_verificati} PFX {len(punteggio.prefissi_verificati)} = {punteggio.punteggio_verificato}{manca}")
 
     def conferma_in_cw():
         """Una r in CW a ogni valore cambiato, perche' la mano sappia subito che e' arrivato.
@@ -2300,26 +2327,51 @@ def RxingContest(menu_config_scelta):
         print(f"\r{' ' * 79}\r{riga}")
 
     def trasmetti(messaggi, adesso):
-        """Comincia una mia trasmissione: il motore compone il testo, il ciclo lo suona.
+        """Un tasto funzione: il messaggio parte, o si mette in coda se ne sta suonando un altro.
 
-        Se il motore CW non suona, la trasmissione si dichiara finita subito:
-        altrimenti le stazioni resterebbero in ascolto di una voce che non
-        arriva mai e il contest si fermerebbe.
+        Accodare e non tagliare e' il gesto di Morse Runner: F5 e poi F7
+        mandano il nominativo copiato e poi il punto interrogativo, che e' il
+        modo di chiedere la ripetizione. Prima il primo messaggio spariva del
+        tutto, e non tagliato a meta': fermandolo, il ciclo non scopriva piu'
+        che era finito e il motore non lo raccontava alle stazioni, che quindi
+        non sapevano di essere state chiamate.
+
+        Il nominativo si congela adesso, quando il tasto viene premuto: se lo
+        leggessimo al momento di suonare, andrebbe in aria un nominativo
+        diverso da quello che avevo in mente.
         """
         nominativo = (campo if stadio == "call" else suo_call).strip()
         if ct.Msg.SUO in messaggi and not nominativo:
             # Senza un nominativo nella riga il suo nominativo e' un vuoto: il
             # motore CW rifiuta un messaggio vuoto, e le stazioni sentirebbero
-            # chiamare qualcun altro e smetterebbero tutte di rispondere. In
+            # chiamare qualcun altro e smetterebbero di rispondere. In
             # radio, del resto, non si risponde a chi non si e' ancora copiato.
             return
-        ferma(ct.IO)
+        if ct.IO in suoni:
+            coda.append((list(messaggi), nominativo))
+            return
+        manda(messaggi, nominativo, adesso, accoda=False)
+
+    def manda(messaggi, nominativo, adesso, accoda):
+        """Mette in aria un messaggio: il primo di una trasmissione o uno della coda.
+
+        Se il motore CW non suona, la trasmissione si dichiara finita subito:
+        altrimenti le stazioni resterebbero in ascolto di una voce che non
+        arriva mai e il contest si fermerebbe.
+        """
         zittisci_ricezione()
-        richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=nominativo)
-        if not richiesta.testo.strip():
+        richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=nominativo, accoda=accoda)
+        testo = richiesta.testo.strip()
+        if not testo:
             motore.io_finito(adesso)
             return
-        handle, _rwpm = suona(richiesta.testo, sync=False, farnsworth=0)
+        if accoda:
+            # Il trattino basso e' il silenzio di uno spazio di parola. Senza,
+            # il messaggio accodato si attaccherebbe all'ultima lettera del
+            # precedente e F5 piu' F7 suonerebbe come una parola sola, diversa
+            # da come suona gia' oggi l'Invio che manda nominativo e scambio.
+            testo = "_ " + testo
+        handle, _rwpm = suona(testo, sync=False, farnsworth=0)
         if handle is None:
             motore.io_finito(adesso)
             return
@@ -2375,24 +2427,16 @@ def RxingContest(menu_config_scelta):
                 riga += f" = {vero_call} {vero_nr}"
             dillo(riga)
 
-    def abbandona(nominativo):
-        """La stazione ha perso la pazienza e se ne e' andata: e' il NIL del contest di prima.
-
-        Non si annuncia: che se ne sia andata si sente, perche' smette di
-        chiamare, e chi e' andato via sta nel rapporto di fine sessione. E'
-        la decisione D2, che vuole a schermo solo cio' che non si sente.
-        """
-        nonlocal session_calls
-        session_calls += 1
-        rwpm = rwpm_corrente if rwpm_corrente > 0 else float(overall_speed)
-        item_details.append({"rwpm": rwpm, "correct": False})
-        segna_velocita(rwpm)
-        conta_caratteri(nominativo)
-
     def durata_finita(adesso):
-        """Vero quando il contest ha raggiunto i QSO chiesti o i minuti chiesti."""
+        """Vero quando il contest ha raggiunto i QSO chiesti o i minuti chiesti.
+
+        I QSO sono quelli a log, non le stazioni viste: contava anche chi se
+        ne andava senza essere lavorato, e una sessione da otto QSO finiva
+        dopo due o tre. Il conto lo tiene il motore, che sa cosa e' finito nel
+        log, cosi' i due mestieri restano separati per sempre.
+        """
         if duration_type == 1:
-            return session_calls >= limit
+            return motore.punteggio.punti_grezzi >= limit
         return adesso >= limit * 60.0
 
     t0 = time.monotonic()
@@ -2405,10 +2449,21 @@ def RxingContest(menu_config_scelta):
             finite = set(da_chiudere)
             da_chiudere.clear()
             for chi, handle in list(suoni.items()):
-                if not handle.is_playing.is_set():
-                    finite.add(chi)
-                    del suoni[chi]
-                    attesa_fine.pop(chi, None)
+                if handle.is_playing.is_set():
+                    continue
+                del suoni[chi]
+                attesa_fine.pop(chi, None)
+                if chi == ct.IO and coda:
+                    # La coda non e' vuota: parte il messaggio seguente e la
+                    # trasmissione non si dichiara finita. Le stazioni devono
+                    # ricevere l'elenco completo in una volta sola, alla fine
+                    # di tutta la coda: una fine per ogni pezzo costerebbe
+                    # loro un punto di pazienza a testa, e nel buco fra i due
+                    # farebbero in tempo a partire sopra la mia chiamata.
+                    messaggi_in_coda, nominativo_in_coda = coda.pop(0)
+                    manda(messaggi_in_coda, nominativo_in_coda, adesso, accoda=True)
+                    continue
+                finite.add(chi)
             for chi, quando in list(attesa_fine.items()):
                 if chi not in suoni and adesso >= quando:
                     finite.add(chi)
@@ -2435,25 +2490,25 @@ def RxingContest(menu_config_scelta):
                     continue
                 suoni[richiesta.stazione] = handle
                 attesa_fine[richiesta.stazione] = adesso + durata_suono(handle)
-                if rwpm > 0:
+                # Solo le stazioni che si lavorano danno la velocita' del QSO.
+                # Le stazioni di disturbo nascono fra trenta e cinquanta parole
+                # al minuto a prescindere dalla mia, e con il QRM acceso la riga
+                # delle velocita' del rapporto misurava loro invece di chi
+                # stavo copiando.
+                if rwpm > 0 and richiesta.dx:
                     rwpm_corrente = rwpm
-            # La verita' della stazione e la riga a log arrivano nello stesso
-            # giro, perche' il log si chiude quando la stazione ha finito. Se
-            # nessuna riga la consuma, per esempio dopo un TU mandato con F3
-            # senza mettere a log, quella verita' si perde qui: tenerla per il
-            # QSO seguente lo manderebbe a NIL senza colpa.
-            verita_del_giro = None
             if not motore.io_trasmette and ct.IO not in suoni:
                 # Ho smesso di trasmettere: il ricevitore torna in ascolto.
                 accendi_fondo()
             for evento in esito.eventi:
-                if evento[0] == "qso":
-                    verita_del_giro = evento[1]
-                elif evento[0] == "log":
-                    chiudi_qso(evento[1], evento[2], verita_del_giro)
-                    verita_del_giro = None
-                elif evento[0] == "rinuncia":
-                    abbandona(evento[1])
+                # La verita' viaggia dentro l'evento di log, perche' il motore
+                # sa quale stazione ho lavorato meglio di quanto possa saperlo
+                # il ciclo, e a fine contest non c'e' nessun altro evento dello
+                # stesso giro da cui prenderla. Le rinunce non passano di qui:
+                # stanno nel rapporto, contate a parte, e non sono QSO ne'
+                # consumano la durata della sessione.
+                if evento[0] == "log":
+                    chiudi_qso(evento[1], evento[2], evento[3])
             if durata_finita(adesso):
                 break
             annunci_maturi(adesso)
@@ -2464,17 +2519,21 @@ def RxingContest(menu_config_scelta):
                 break
             if tasto == "\x1b":
                 # Decisione D4: se sto trasmettendo, Esc zittisce; altrimenti
-                # pulisce la riga.
+                # pulisce la riga. Un Esc solo butta via tutta la coda, come
+                # fa Morse Runner: chi si accorge di aver premuto il tasto
+                # sbagliato vuole il silenzio subito, non il messaggio dopo.
                 if ct.IO in suoni:
+                    coda.clear()
                     ferma(ct.IO)
                     motore.annulla_trasmissione(adesso)
                 else:
-                    campo = ""
+                    campo, cursore = "", 0
             elif tasto == "alt-w":
                 if ct.IO in suoni:
+                    coda.clear()
                     ferma(ct.IO)
                     motore.annulla_trasmissione(adesso)
-                campo, stadio, suo_call = "", "call", ""
+                campo, stadio, suo_call, cursore = "", "call", "", 0
             elif tasto == "alt-s":
                 stato_a_richiesta(adesso)
             elif tasto == "\r":
@@ -2486,7 +2545,7 @@ def RxingContest(menu_config_scelta):
                         trasmetti([ct.Msg.CQ], adesso)
                     else:
                         suo_call = campo.strip()
-                        campo, stadio = "", "nr"
+                        campo, stadio, cursore = "", "nr", 0
                         trasmetti([ct.Msg.SUO, ct.Msg.NR], adesso)
                 else:
                     letto = leggi_scambio(campo)
@@ -2497,16 +2556,18 @@ def RxingContest(menu_config_scelta):
                     else:
                         motore.registra_qso(adesso, suo_call, letto[1], letto[0])
                         trasmetti([ct.Msg.TU], adesso)
-                        campo, stadio, suo_call = "", "call", ""
+                        campo, stadio, suo_call, cursore = "", "call", "", 0
             elif tasto == "\x08":
-                if campo:
-                    campo = campo[:-1]
-                elif stadio == "nr":
+                if cursore > 0:
+                    campo = campo[: cursore - 1] + campo[cursore:]
+                    cursore -= 1
+                elif not campo and stadio == "nr":
                     # Cancellato tutto il numero, il Backspace torna al
                     # nominativo e lo rimette nella riga da correggere: e' il
                     # modo di rimediare quando la stazione ci fa capire che
                     # l'avevamo copiato male, senza buttare via il QSO.
                     campo, stadio, suo_call = suo_call, "call", ""
+                    cursore = len(campo)
             elif tasto == "f1":
                 trasmetti([ct.Msg.CQ], adesso)
             elif tasto == "f2":
@@ -2568,12 +2629,34 @@ def RxingContest(menu_config_scelta):
                 prepara_fondo()
                 conferma_in_cw()
                 annuncia("banda", _("Banda {valore}").format(valore=banda), adesso)
+            elif tasto in ("left", "right", "home", "end", "delete"):
+                # Il nominativo si corregge dove serve, non solo cancellando
+                # dalla coda: sbagliato il terzo carattere di un nominativo
+                # lungo costava fino a dieci battute mentre la stazione
+                # trasmetteva. Sono i tasti di qualunque editor, e nel contest
+                # erano tutti liberi. Non si usa Ctrl con le frecce, che nelle
+                # console di Windows fa scorrere il buffer, ne' il tastierino,
+                # che con il blocco numerico spento se lo tiene NVDA.
+                if tasto == "left":
+                    cursore = max(0, cursore - 1)
+                elif tasto == "right":
+                    cursore = min(len(campo), cursore + 1)
+                elif tasto == "home":
+                    cursore = 0
+                elif tasto == "end":
+                    cursore = len(campo)
+                else:
+                    # Canc toglie il carattere sotto il cursore e lo lascia
+                    # dov'e'; il Backspace toglie quello prima e arretra.
+                    campo = campo[:cursore] + campo[cursore + 1 :]
             elif len(tasto) == 1 and (tasto.isalnum() or tasto in "/?"):
-                campo += tasto.upper()
+                campo = campo[:cursore] + tasto.upper() + campo[cursore:]
+                cursore += 1
             elif tasto == " " and stadio == "nr":
                 # Lo spazio serve soltanto a separare il rapporto dal numero,
                 # quando la stazione sbadata ne ha mandato uno diverso da 599.
-                campo += " "
+                campo = campo[:cursore] + " " + campo[cursore:]
+                cursore += 1
             else:
                 continue
             riga_di_stato()
@@ -2583,7 +2666,7 @@ def RxingContest(menu_config_scelta):
         for chi in list(suoni):
             ferma(chi)
         for evento in motore.chiudi_contest():
-            chiudi_qso(evento[1], evento[2], None)
+            chiudi_qso(evento[1], evento[2], evento[3])
         active_exerctime = dt.datetime.now() - start_time
         print()
         suona("_ + QRT TU E E", sync=True, farnsworth=0)
@@ -2592,22 +2675,33 @@ def RxingContest(menu_config_scelta):
             pass
 
         # --- STATS SAVING ---
-        if session_calls == 0:
+        if session_calls == 0 and not motore.punteggio.rinunce:
             # Uscita prima del primo QSO: non c'e' niente da registrare, e una
-            # sessione vuota sporcherebbe le medie dell'archivio storico.
+            # sessione vuota sporcherebbe le medie dell'archivio storico. Se
+            # pero' qualcuno mi ha chiamato e se n'e' andato, il rapporto si
+            # legge lo stesso: chi era, quanti erano, con che pannello stavo
+            # giocando. Su disco non va, perche' l'archivio scarta le sessioni
+            # a zero QSO, e le statistiche storiche restano pulite.
             print(_("Contest chiuso prima del primo QSO: niente da salvare."))
             key(_("Premi un tasto per tornare al menu..."))
         else:
             elapsed_total = (dt.datetime.now() - start_time).total_seconds()
             wrong_calls = session_calls - correct_calls
-            stats = app_data["rxing_stats_qrz"]
-            stats["sessions"] += 1
-            stats["total_calls"] += session_calls
-            stats["total_correct"] += correct_calls
-            stats["total_wrong_items"] += wrong_calls
-            stats["total_time_seconds"] += elapsed_total
             avg_wpm_calc = sum_wpm / session_calls if session_calls > 0 else 0
             send_char = sum(sent_chars_detail_this_session.values())
+            stats = app_data["rxing_stats_qrz"]
+            # Su disco va solo una sessione che ha messo qualcosa a log. Quella
+            # fatta di sole rinunce si legge nel rapporto, perche' dice quante
+            # occasioni sono sfuggite e con che pannello stavo giocando, ma non
+            # entra ne' nell'archivio storico ne' nel conto delle sessioni:
+            # sarebbe una media calcolata su niente, e load_settings la
+            # scarterebbe comunque al riavvio.
+            if session_calls:
+                stats["sessions"] += 1
+                stats["total_calls"] += session_calls
+                stats["total_correct"] += correct_calls
+                stats["total_wrong_items"] += wrong_calls
+                stats["total_time_seconds"] += elapsed_total
             session_data_for_history = {
                 "timestamp_iso": start_time.isoformat(),
                 "duration_seconds": active_exerctime.total_seconds(),
@@ -2628,14 +2722,30 @@ def RxingContest(menu_config_scelta):
                 "prefissi_verificati": len(motore.punteggio.prefissi_verificati),
                 "contest_settings": dict(stati),
             }
-            historical_data = app_data["historical_rx_data_qrz"]
-            historical_rx_log = historical_data.get("sessions_log", [])
-            historical_rx_log.append(session_data_for_history)
-            historical_settings = app_data["historical_rx_settings"]
-            g = historical_settings.get("max_sessions_to_keep", HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
-            while len(historical_rx_log) > g:
-                historical_rx_log.pop(0)
-            historical_data["sessions_log"] = historical_rx_log
+            if session_calls:
+                historical_data = app_data["historical_rx_data_qrz"]
+                historical_rx_log = historical_data.get("sessions_log", [])
+                historical_rx_log.append(session_data_for_history)
+                historical_settings = app_data["historical_rx_settings"]
+                g = historical_settings.get("max_sessions_to_keep", HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
+                while len(historical_rx_log) > g:
+                    # L'archivio si accorciava in silenzio: l'esercizio QRZ dice
+                    # quale sessione esce dalla coda, e il contest, che scrive
+                    # nello stesso archivio, non lo diceva.
+                    sessione_uscita = historical_rx_log.pop(0)
+                    print(
+                        _("Sessione del {data}, durata {durata}s, contenuto {contenuto} caratteri, eliminata dalla coda degli esercizi di {category_name}.").format(
+                            data=dt.datetime.fromisoformat(sessione_uscita.get("timestamp_iso", "N/D")).strftime("%Y-%m-%d %H:%M"),
+                            durata=int(sessione_uscita.get("duration_seconds", 0)),
+                            contenuto=sessione_uscita.get("chars_sent_session", 0),
+                            category_name="QRZ",
+                        )
+                    )
+                historical_data["sessions_log"] = historical_rx_log
+                # I caratteri del contest contano per il rapporto periodico come
+                # quelli dell'esercizio QRZ: non contandoli, il rapporto storico
+                # arrivava piu' tardi del dovuto.
+                historical_data["chars_since_last_report"] = historical_data.get("chars_since_last_report", 0) + send_char
 
             # --- REPORT A VIDEO ---
             print(_("\nÈ finita! Ora vediamo cosa abbiamo ottenuto."))
@@ -2649,12 +2759,16 @@ def RxingContest(menu_config_scelta):
             )
             print(_("\tCorrettezza Nominativi: {total_calls_correct}/{calls} ({call_acc:.1f}%)").format(total_calls_correct=total_calls_correct, calls=session_calls, call_acc=call_acc))
             print(_("\tCorrettezza Progressivi: {total_serials_correct}/{calls} ({serial_acc:.1f}%)").format(total_serials_correct=total_serials_correct, calls=session_calls, serial_acc=serial_acc))
-            print(
-                _(
-                    "Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la massima di {maxwpm:.2f}: pari ad una variazione di {range_wpm:.2f} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM."
-                ).format(minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm - minwpm, average_wpm=avg_wpm_calc)
-            )
-            for riga in righe_rapporto_contest(motore.punteggio, stati, elapsed_total):
+            if minwpm is not None:
+                # Senza nemmeno un QSO a log non c'e' nessuna velocita' da
+                # raccontare: le stazioni che se ne sono andate non entrano piu'
+                # nelle statistiche, e una riga di zeri non direbbe niente.
+                print(
+                    _(
+                        "Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la massima di {maxwpm:.2f}: pari ad una variazione di {range_wpm:.2f} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM."
+                    ).format(minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm - minwpm, average_wpm=avg_wpm_calc)
+                )
+            for riga in righe_rapporto_contest(motore.punteggio, stati, active_exerctime.total_seconds()):
                 print(riga)
             if total_mistakes_calculated > 0:
                 print(_("Carattere: errori = Intervallo di Confidenza Errore (Wilson)"))
@@ -2676,47 +2790,52 @@ def RxingContest(menu_config_scelta):
                 )
 
             # --- DIARY SAVING ---
-            duration_str = str(active_exerctime).split(".")[0]
-            adesso = dt.datetime.now()
-            date_str = adesso.strftime("%Y/%m/%d")
-            time_str = adesso.strftime("%H:%M")
-            diario_scritto = False
-            try:
-                with apri_diario() as f:
-                    f.write(_("\nEsercizio di ricezione CONTEST #{sessions} eseguito il {date} alle {time} minuti:\n").format(sessions=stats["sessions"], date=date_str, time=time_str))
-                    f.write(_("Durata: {duration}\n").format(duration=duration_str))
-                    f.write(
-                        _("In questa sessione, ti ho inviato {calls} QRZ e ne hai ricevuti {callsget_len}: {percentage:.1f}%").format(
-                            calls=session_calls, callsget_len=correct_calls, percentage=percentage_correct
+            # Il diario racconta le sessioni che hanno prodotto qualcosa. Una
+            # fatta di sole rinunce si e' gia' letta a schermo e non ha ne'
+            # QSO ne' velocita' da scrivere: finirebbe nel diario come una
+            # riga di zeri e di percentuali calcolate su niente.
+            if session_calls:
+                duration_str = str(active_exerctime).split(".")[0]
+                adesso = dt.datetime.now()
+                date_str = adesso.strftime("%Y/%m/%d")
+                time_str = adesso.strftime("%H:%M")
+                diario_scritto = False
+                try:
+                    with apri_diario() as f:
+                        f.write(_("\nEsercizio di ricezione CONTEST #{sessions} eseguito il {date} alle {time} minuti:\n").format(sessions=stats["sessions"], date=date_str, time=time_str))
+                        f.write(_("Durata: {duration}\n").format(duration=duration_str))
+                        f.write(
+                            _("In questa sessione, ti ho inviato {calls} QRZ e ne hai ricevuti {callsget_len}: {percentage:.1f}%").format(
+                                calls=session_calls, callsget_len=correct_calls, percentage=percentage_correct
+                            )
+                            + "\n"
                         )
-                        + "\n"
-                    )
-                    f.write(
-                        _("\tCorrettezza Nominativi: {total_calls_correct}/{calls} ({call_acc:.1f}%)").format(total_calls_correct=total_calls_correct, calls=session_calls, call_acc=call_acc) + "\n"
-                    )
-                    f.write(
-                        _("\tCorrettezza Progressivi: {total_serials_correct}/{calls} ({serial_acc:.1f}%)").format(
-                            total_serials_correct=total_serials_correct, calls=session_calls, serial_acc=serial_acc
+                        f.write(
+                            _("\tCorrettezza Nominativi: {total_calls_correct}/{calls} ({call_acc:.1f}%)").format(total_calls_correct=total_calls_correct, calls=session_calls, call_acc=call_acc) + "\n"
                         )
-                        + "\n"
-                    )
-                    f.write(_("Velocità: Min {minwpm:.2f}, Max {maxwpm:.2f}, Avg {average_wpm:.2f} WPM.").format(minwpm=minwpm, maxwpm=maxwpm, average_wpm=avg_wpm_calc) + "\n")
-                    for riga in righe_rapporto_contest(motore.punteggio, stati, elapsed_total):
-                        f.write(riga + "\n")
-                    if total_mistakes_calculated > 0:
-                        f.write(_("Carattere: errori = Wilson Interval") + "\n")
-                        for char, errori in sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0])):
-                            inviati = sent_chars_detail_this_session.get(char, 0)
-                            inf = wilson_score_lower_bound(errori, inviati) * 100
-                            sup = wilson_score_upper_bound(errori, inviati) * 100
-                            f.write(f"    '{char.upper()}': {errori}/{inviati} [{inf:.1f}% - {sup:.1f}%]\n")
-                    f.write(FINE_RECORD_DIARIO)
-                diario_scritto = True
-            except OSError as e:
-                print(_("Diario non scritto: {errore}").format(errore=e))
-            if diario_scritto:
-                print(_("Rapporto salvato su {nome_diario}").format(nome_diario=DIARY_NAME))
-                print(_("\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.").format(session_number=stats["sessions"], duration=duration_str))
+                        f.write(
+                            _("\tCorrettezza Progressivi: {total_serials_correct}/{calls} ({serial_acc:.1f}%)").format(
+                                total_serials_correct=total_serials_correct, calls=session_calls, serial_acc=serial_acc
+                            )
+                            + "\n"
+                        )
+                        f.write(_("Velocità: Min {minwpm:.2f}, Max {maxwpm:.2f}, Avg {average_wpm:.2f} WPM.").format(minwpm=minwpm, maxwpm=maxwpm, average_wpm=avg_wpm_calc) + "\n")
+                        for riga in righe_rapporto_contest(motore.punteggio, stati, active_exerctime.total_seconds()):
+                            f.write(riga + "\n")
+                        if total_mistakes_calculated > 0:
+                            f.write(_("Carattere: errori = Wilson Interval") + "\n")
+                            for char, errori in sorted(char_error_counts.items(), key=lambda item: (-item[1], item[0])):
+                                inviati = sent_chars_detail_this_session.get(char, 0)
+                                inf = wilson_score_lower_bound(errori, inviati) * 100
+                                sup = wilson_score_upper_bound(errori, inviati) * 100
+                                f.write(f"    '{char.upper()}': {errori}/{inviati} [{inf:.1f}% - {sup:.1f}%]\n")
+                        f.write(FINE_RECORD_DIARIO)
+                    diario_scritto = True
+                except OSError as e:
+                    print(_("Diario non scritto: {errore}").format(errore=e))
+                if diario_scritto:
+                    print(_("Rapporto salvato su {nome_diario}").format(nome_diario=DIARY_NAME))
+                    print(_("\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.").format(session_number=stats["sessions"], duration=duration_str))
             key(_("Premi un tasto per tornare al menu..."))
 
 

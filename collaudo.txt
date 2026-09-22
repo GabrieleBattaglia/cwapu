@@ -1,76 +1,268 @@
 PROVE A MANO PER IL CONTEST NUOVO DI CWAPU
 Aperto il 2026-09-20 da ClaudIA, Claude Opus 5 modalita' ultracode, alla fine del lavoro sulla issue 7.
-Come si usa: se una prova va male, o se hai qualcosa da dirmi, scrivilo nella riga Esito. Se va bene, cancella la prova. Quando il file resta vuoto si cancella anche lui, e vuol dire che il contest e' pronto da pubblicare.
-Le prime cinque, quelle d'orecchio, le hai fatte il 21 settembre 2026 e hanno prodotto cinque correzioni: al loro posto sono nate otto riprove, piu' corte perche' guardavano solo cio' che era cambiato. Le hai fatte tutte, e dalle ultime tre sono nate altre sei correzioni: restano le riprove dalla H alla M, che le mettono alla prova, piu' le prove dalla sette alla diciotto, che non hai ancora fatto: dalla sette alla tredici sono di mani, le ultime guardano i file. La sei e' passata. Non serve farle tutte in una volta.
+Come si usa: ogni prova e' fatta di righe che cominciano con Prima, Pannello, Durata, Passo e Domanda. Le righe si leggono una per una: quella che va bene si cancella, quella che non va si commenta scrivendo dopo i due punti, e nella riga Esito vanno le note generali della prova. Quando una prova resta senza righe si cancella tutta; quando il file resta vuoto si cancella anche lui, e vuol dire che il contest e' pronto da pubblicare.
+Le righe Pannello elencano le sole voci da accendere: tutto il resto spento.
+Dove non ti chiedo di mettere a log, non scrivere niente nella riga: senza QSO a log il diario e l'archivio restano intatti.
 Nelle prove d'ascolto non ti dico cosa dovresti sentire, di proposito: se te lo dicessi lo sentiresti anche se non c'e'. I numeri e le spiegazioni te li do dopo il tuo giudizio.
+A che punto siamo: le prime cinque prove d'orecchio le hai fatte il 21 settembre e hanno prodotto cinque correzioni, poi otto riprove dalla A alla H, poi altre sei correzioni e le riprove dalla I alla M. Le hai fatte tutte. Dall'ultimo giro sono usciti quattro rilievi tuoi e, insieme, dieci difetti di contorno con la stessa radice: sono tutti corretti, e le riprove dalla N alla R li mettono alla prova. Restano poi le prove dalla otto alla diciotto, che non hai ancora fatto: dalla otto alla tredici sono di mani, le ultime guardano i file. La sei e la sette sono passate. Non serve farle tutte in una volta.
 COME SI ARRIVA AL CONTEST
 Dal menu, r. Nel pannello degli esercizi Rx la voce 8 e' il contest: accendila se non lo e', poi Invio. Al nominativo, Invio conferma quello salvato. Si apre il pannello del contest, nove voci: 1 QRN, 2 QRM, 3 QSB, 4 flutter, 5 sbadati, 6 pile-up, 7 stereo, 8 banda, 9 tasto verticale.
 Il numero accende e spegne. Accendendo una voce che ha un valore, il valore si chiede subito e Invio conferma il salvato. Per cambiare il valore di una voce gia' accesa, premi il suo numero due volte: la prima spegne, la seconda riaccende e richiede.
 Il 9 non toccarlo se non te lo chiedo: accendendolo partono sette domande.
 Invio comincia, Escape torna al menu. Poi la durata: 1 conta i QSO, 2 conta i minuti.
-In ogni prova scrivo una riga Pannello con le sole voci che devono essere accese: tutto il resto spento.
-Dove non ti chiedo di mettere a log, non scrivere niente nella riga: senza QSO a log il diario e l'archivio restano intatti.
-RIPROVA H: IL VOLUME, LA R E IL NOMINATIVO DA CORREGGERE
-Cosa fare: sei cose nuove. Il volume si cambia con Alt+F9 e Alt+F10, cinque per cento per volta; ogni valore cambiato manda una R in CW oltre all'annuncio; il fruscio segue il volume; le stazioni non nascono piu' fuori dai limiti del motore; con il flutter una su dieci ha la nota ruvida; e il Backspace a riga vuota torna al nominativo. Prima, da k, .h 2700 e poi il punto e Invio, per metterti vicino al limite del tono. Pannello: 1 QRN, 3 QSB, 4 flutter, 6 pile-up attivita' 6, 8 banda 500. Durata 2, 12 minuti. Comincia premendo Alt+F9 quattro volte di fila, poi Alt+F10 otto volte, ascoltando cosa arriva a ogni pressione e cosa senti dopo. Poi gioca: fai almeno quattro QSO, e in uno di questi, dopo aver mandato il nominativo e mentre la stazione ti corregge, cancella il numero e premi ancora Backspace; correggi il nominativo e rimandalo. Ascolta anche le stazioni, cercando quella che suona sporca. Alla fine, da k, rimetti il tono che avevi.
-Cosa dirmi: se con il tono a 2700 ti arriva ancora qualche messaggio d'errore del motore, e se le stazioni ti sembrano ancora sparse o adesso ammucchiate. Se la R che conferma ti serve o ti da' fastidio, e se ti basta una R per tutti e quattro i valori o ne vorresti una diversa per ciascuno. Se il fruscio, abbassando il volume, scende insieme alle stazioni o si comporta per conto suo. Se il Backspace che torna al nominativo e' dove la mano lo cerca, e se ritrovarti il nominativo sbagliato da correggere e' comodo o preferiresti la riga vuota. E della nota ruvida, se la riconosci come un difetto di segnale o ti sembra un difetto del programma.
-Esito: Le cose che non nominano considerale ok. Ho però delle note, le metto qui sotto.
-In questa sessione #71, ti ho inviato 25 QRZ e ne hai ricevuti 8: 32.0%                                                                                                                                          
-        Correttezza Nominativi: 8/25 (32.0%)                                                                                                                                                                     
-        Correttezza Progressivi: 8/25 (32.0%)                                                                                                                                                                    
-Non penso che questa stats sia consistene: è logico che in un pile-up scappino moltissime stazioni. Penso che call e progressivi sbagliati debbano essere solo quelli messi a log in maniera errata, non tutte le stazioni non prese.
-I mqtc cw che invio con i tasti funzione non dovrebbero interrompersi fra loro ma accodarsi. Esempio, f5 + f7 dovrebbe inviare la parte di call che ho copiato + un "?" per chiedere la ripetizione all'altra stazione.
-Il campo edit del nominativo ricevuto. Ora posso solo cancellare in modo lifo. Sarebbe più comodo potersi spostare con le frecce e andare a sostiuire il carattere sbagliato come faccio in un editor di testi.
-
-RIPROVA M: F5 A VUOTO E LA NOTA RUVIDA
-Cosa fare: pannello 3 QSB, 4 flutter, 6 pile-up attivita' 6, 7 stereo 0, 8 banda 600. Durata 1, 8 QSO. Appena parte, e prima di scrivere niente nella riga, premi F5 due o tre volte con la riga vuota. Poi gioca normalmente e chiudi gli otto QSO.
-Cosa dirmi: se premendo F5 a riga vuota succede qualcosa, e cosa. Se dopo averlo premuto il pile-up continua a chiamarti come prima o se cala il silenzio. E, sulle note, se fra le stazioni ne senti di quelle con la nota sporca, sgranata, e se ti sembrano abbastanza o troppe.
-Esito: premendo f5 mi pare non succeda nulla. Però non riesco a concludere gli 8 qso, ne faccio 2 o 3, poi dice che ho finito. Penso che conti anche le stazioni perdute e non quelle effettivamente a log.
-
+RIPROVA N: GLI OTTO QSO SONO OTTO
+Prima: e' la riprova del tuo rilievo sulla durata e sulle statistiche.
+Pannello: 6 pile-up attivita' 6, 7 stereo 0, 8 banda 600.
+Durata: 1, 8 QSO.
+Passo 1: gioca normalmente e conta i QSO che metti a log, lasciando pure che qualche stazione si stanchi e se ne vada.
+Passo 2: quando il contest si chiude, leggi tutto il rapporto dall'inizio alla fine.
+Passo 3: premi Alt+S almeno due volte durante la partita, una all'inizio e una verso meta', e annota la riga intera.
+Domanda 1: quanti QSO hai messo a log prima che il contest si chiudesse.
+Domanda 2: cosa dice la riga che comincia con "In questa sessione", e se il numero di QRZ inviati corrisponde ai QSO che hai fatto.
+Domanda 3: cosa dicono le due righe di Correttezza, e se adesso ti tornano.
+Domanda 4: cosa dice la riga "Se ne sono andate", e se il numero davanti all'elenco ti serve.
+Domanda 5: le due righe di Alt+S che hai annotato, e se la parte finale che dice quanto manca ti sta comoda o e' di troppo.
+Domanda 6: se la riga di Alt+S, con quella aggiunta, ti sta ancora sotto le dita sul braille o devi scorrerla.
+Esito:
+RIPROVA O: F5 PIU' F7, I MESSAGGI IN CODA
+Prima: e' la riprova del tuo rilievo sui messaggi che si interrompevano.
+Pannello: 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
+Durata: 2, 6 minuti.
+Passo 1: quando una stazione ti chiama, scrivi il nominativo che hai copiato, premi F5 e, mentre ancora suona, premi F7.
+Passo 2: ripeti lo stesso gesto due o tre volte durante la partita, e una volta prova a premere tre tasti di fila, per esempio F5, F7 e ancora F5.
+Passo 3: una volta, dopo aver premuto F5 e F7, premi Esc mentre il primo sta ancora suonando.
+Passo 4: prova anche F4 e poi F1 attaccati, che e' il gesto di chi vuole rilanciare dicendo chi e'.
+Domanda 1: cosa senti dopo F5 seguito da F7: il nominativo si sente per intero?
+Domanda 2: il silenzio fra il nominativo e il punto interrogativo, se ti sembra quello giusto, troppo lungo o troppo corto.
+Domanda 3: se la stazione che stavi chiamando risponde come se avesse sentito tutto, o se si comporta come se non l'avessi chiamata.
+Domanda 4: con tre tasti di fila, se la sequenza esce nell'ordine in cui l'hai battuta.
+Domanda 5: cosa succede premendo Esc, e se e' quello che la mano si aspettava.
+Domanda 6: se ti e' capitato di restare in aria piu' di quanto volevi, e se in quel caso ti servirebbe un tetto al numero di messaggi accodabili.
+Esito:
+RIPROVA P: IL NOMINATIVO SI CORREGGE DOVE SBAGLIA
+Prima: e' la riprova del tuo rilievo sul campo che si cancellava solo all'indietro. Prima di cominciare, fammi un favore: apri un prompt dei comandi, scrivi una parola senza dare Invio, premi la freccia sinistra qualche volta e dimmi se NVDA ti legge i caratteri su cui passi. E' l'unica cosa che non ho potuto misurare io.
+Pannello: 6 pile-up attivita' 4, 7 stereo 0, 8 banda 600.
+Durata: 2, 8 minuti.
+Passo 1: quando una stazione chiama, scrivi il nominativo di proposito con un carattere sbagliato in mezzo, poi vai col cursore su quel carattere, cancellalo con Canc e scrivi quello giusto.
+Passo 2: rifai la stessa correzione usando il Backspace invece di Canc, cioe' mettendoti dopo il carattere sbagliato.
+Passo 3: prova Inizio e Fine, e prova a inserire una lettera in mezzo senza cancellare niente.
+Passo 4: con il cursore sul primo carattere premi Backspace due o tre volte.
+Passo 5: fai la stessa cosa nel campo del numero, dopo aver mandato il nominativo.
+Passo 6: svuota il campo del numero e premi ancora Backspace, per tornare al nominativo, e guarda dove si trova il cursore quando il nominativo ricompare.
+Domanda 1: muovendo il cursore con le frecce, cosa senti: il carattere su cui arrivi, niente, o qualcos'altro.
+Domanda 2: cosa mostra il display braille mentre muovi il cursore, e se capisci dove sei senza contare i caratteri.
+Domanda 3: se correggere un carattere in mezzo e' piu' rapido di prima, e quanto.
+Domanda 4: se Canc e Backspace fanno quello che la mano si aspetta, o se te li confondi.
+Domanda 5: con il cursore sul primo carattere, cosa fa il Backspace, e se e' quello che volevi.
+Domanda 6: tornando dal numero al nominativo, dove trovi il cursore e se e' dove ti serve.
+Domanda 7: se ti manca un tasto che porti il cursore sul primo punto interrogativo scritto nel campo, che e' il modo con cui in Morse Runner si segna il carattere non copiato.
+Esito:
+RIPROVA Q: L'ULTIMO QSO E IL RITMO
+Prima: da k, ?? e assicurati che la velocita' sia quella che usi di solito; poi il punto e Invio.
+Pannello: 5 sbadati, 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
+Durata: 2, 4 minuti.
+Passo 1: gioca e metti a log almeno quattro o cinque QSO, sbagliandone di proposito uno o due.
+Passo 2: verso la fine, fai in modo di avere un QSO in corso proprio mentre i quattro minuti scadono: manda il TU e lascia che il tempo finisca mentre suona.
+Passo 3: leggi tutto il rapporto, e in particolare la riga del ritmo e le righe dei QSO sbagliati.
+Domanda 1: l'ultimo QSO, quello chiuso mentre il tempo scadeva, compare come giusto o come sbagliato, e ti torna?
+Domanda 2: dei QSO che hai sbagliato di proposito, le righe che dicono cos'era davvero ti sembrano giuste, cioe' il nominativo vero e' quello della stazione che stavi copiando?
+Domanda 3: cosa dice la riga del ritmo, e se il numero all'ora ti sembra descrivere la partita che hai fatto.
+Domanda 4: se nel rapporto trovi ancora due numeri che dicono la stessa cosa in modo diverso.
+Esito:
+RIPROVA R: LA NOTA SPORCA
+Prima: era rimasta senza risposta dal giro precedente.
+Pannello: 3 QSB, 4 flutter, 6 pile-up attivita' 6, 7 stereo 0, 8 banda 600.
+Durata: 1, 6 QSO.
+Passo 1: gioca e ascolta con attenzione la nota di ogni stazione che risponde.
+Domanda 1: se fra le stazioni ne senti di quelle con la nota sporca, sgranata, e se ti sembrano abbastanza o troppe.
+Domanda 2: se le quattro nature del segnale, evanescenza lenta, tremolio, nota ruvida e tono che scivola, ti sembrano distinguibili l'una dall'altra.
+Esito:
 PROVA 8: ESC, ALT+W E IL FILO DEL LOG
-Cosa fare: pannello vuoto. Durata 1, 10 QSO.
-Prima parte, sei mosse, e dopo ognuna leggi la riga prima di passare alla seguente. Uno: mentre una stazione chiama, scrivi solo le prime tre lettere del suo nominativo e premi Esc. Due: scrivi il nominativo intero, Invio, e mentre la tua trasmissione suona premi Esc. Tre: Esc una seconda volta. Quattro: Alt+W. Cinque: riprendi il QSO, arriva a scrivere lo scambio e premi Esc. Sei: Alt+W.
-Seconda parte. Fai un QSO intero fino a premere Invio sullo scambio, e mentre il TU sta ancora suonando premi Esc; leggi la riga. Poi Invio a riga vuota per rilanciare il CQ e porta a termine un secondo QSO senza toccare Esc; Alt+S e leggi. Poi rifai la stessa cosa dall'inizio, ma dopo l'Esc sul TU, invece del CQ, premi F3; leggi. Alt+X e leggi il rapporto.
-Cosa dirmi: per ognuna delle sei mosse, cosa leggi sulla riga subito dopo e se e' cio' che la mano si aspettava; se dopo Esc e dopo Alt+W il contest ti lascia dove puoi ripartire o ti costringe a rifare lavoro; e se avere due tasti distinti ti serve o in corsa ti confonde. Della seconda parte, in che ordine compaiono le righe di log e con quali numeri, se fra l'Esc e la riga che chiude quel QSO c'e' stato un momento in cui non sapevi piu' a che punto eri, cosa risponde Alt+S in quel momento, e se nel rapporto finale ritrovi i QSO come li hai fatti davvero.
+Pannello: tutto spento.
+Durata: 1, 10 QSO.
+Passo 1: mentre una stazione chiama, scrivi solo le prime tre lettere del suo nominativo, premi Esc e leggi la riga.
+Passo 2: scrivi il nominativo intero, Invio, e mentre la tua trasmissione suona premi Esc; leggi la riga.
+Passo 3: premi Esc una seconda volta e leggi la riga.
+Passo 4: premi Alt+W e leggi la riga.
+Passo 5: riprendi il QSO, arriva a scrivere lo scambio, premi Esc e leggi la riga.
+Passo 6: premi Alt+W e leggi la riga.
+Passo 7: fai un QSO intero fino all'Invio sullo scambio e, mentre il TU sta ancora suonando, premi Esc; leggi la riga.
+Passo 8: Invio a riga vuota per rilanciare il CQ, porta a termine un secondo QSO senza toccare Esc, poi Alt+S e leggi.
+Passo 9: rifai la stessa cosa dall'inizio, ma dopo l'Esc sul TU, invece del CQ, premi F3; leggi.
+Passo 10: Alt+X e leggi il rapporto.
+Domanda 1: per ognuno dei primi sei passi, cosa leggi sulla riga subito dopo e se e' cio' che la mano si aspettava.
+Domanda 2: se dopo Esc e dopo Alt+W il contest ti lascia dove puoi ripartire o ti costringe a rifare lavoro.
+Domanda 3: se avere due tasti distinti ti serve o in corsa ti confonde.
+Domanda 4: in che ordine compaiono le righe di log dei passi 7, 8 e 9, e con quali numeri.
+Domanda 5: se fra l'Esc e la riga che chiude quel QSO c'e' stato un momento in cui non sapevi piu' a che punto eri.
+Domanda 6: cosa risponde Alt+S in quel momento.
+Domanda 7: se nel rapporto finale ritrovi i QSO come li hai fatti davvero.
 Esito:
 PROVA 9: IL NUMERO IN TESTA ALLA RIGA
-Cosa fare: k, .w 22, poi il punto e Invio. Pannello: 5 sbadati. Durata 1, 20 QSO. Fai due QSO interi, leggendo la riga prima e dopo ciascuno. Poi Invio a riga vuota per il CQ; quando una stazione chiama, scrivi il nominativo, Invio, aspetta che la tua trasmissione finisca, premi F8 e aspetta di sentire e leggere la riga che CWapu stampa; ora premi la lettera A, leggi tutta la riga, e togli la A con Backspace. Invio a riga vuota per un nuovo CQ, scrivi il nominativo, Invio, e ascolta con attenzione il gruppo di cifre che CWapu trasmette dopo il nominativo; completa il QSO scrivendo il numero che ricevi, Invio, e leggi la riga breve che compare. Poi un altro CQ e, quando la stazione chiama, non rispondere: resta fermo un minuto buono e leggi la riga. Fai un ultimo QSO intero e rileggi. Alt+X e leggi il rapporto.
-Cosa dirmi: che numero leggi in testa alla riga in tutti i momenti in cui l'hai letta, in particolare prima di F8, dopo F8, dopo il minuto di attesa e alla fine. Il progressivo che hai sentito trasmettere nel QSO dopo F8, il numero all'inizio della riga breve del QSO andato a log, e quanti QRZ il rapporto finale dichiara di averti inviato. Poi se quei numeri sono la stessa cosa o raccontano storie diverse, a cosa ti serve quel numero mentre giochi, e se e' quello che ti aspetti di trovarci.
+Prima: da k, .w 22, poi il punto e Invio.
+Pannello: 5 sbadati.
+Durata: 1, 20 QSO.
+Passo 1: fai due QSO interi, leggendo la riga prima e dopo ciascuno.
+Passo 2: Invio a riga vuota per il CQ; quando una stazione chiama, scrivi il nominativo e Invio.
+Passo 3: aspetta che la tua trasmissione finisca, premi F8 e aspetta di sentire e leggere la riga che CWapu stampa.
+Passo 4: premi la lettera A, leggi tutta la riga, e togli la A con Backspace.
+Passo 5: Invio a riga vuota per un nuovo CQ, scrivi il nominativo, Invio, e ascolta con attenzione il gruppo di cifre che CWapu trasmette dopo il nominativo.
+Passo 6: completa il QSO scrivendo il numero che ricevi, Invio, e leggi la riga breve che compare.
+Passo 7: un altro CQ e, quando la stazione chiama, non rispondere: resta fermo un minuto buono e leggi la riga.
+Passo 8: fai un ultimo QSO intero e rileggi la riga.
+Passo 9: Alt+X e leggi il rapporto.
+Domanda 1: che numero leggi in testa alla riga in tutti i momenti in cui l'hai letta, in particolare prima di F8, dopo F8, dopo il minuto di attesa e alla fine.
+Domanda 2: il progressivo che hai sentito trasmettere nel QSO dopo F8.
+Domanda 3: il numero all'inizio della riga breve del QSO andato a log.
+Domanda 4: quanti QRZ il rapporto finale dichiara di averti inviato.
+Domanda 5: se quei numeri sono la stessa cosa o raccontano storie diverse.
+Domanda 6: a cosa ti serve quel numero mentre giochi, e se e' quello che ti aspetti di trovarci.
 Esito:
 PROVA 10: IL PANNELLO Rx LETTO DA CAPO
-Cosa fare: questa guarda il pannello degli esercizi di ricezione, che ho riscritto sopra la stessa funzione del pannello del contest. Lancia CWapu e premi r. Senza premere altro, leggi con la barra la riga dove sta il cursore, poi rileggi con NVDA tutta la finestra dall'alto in basso. Premi 3, che accende i numeri, e rileggi con la barra la stessa riga. Premi Escape e, senza premere altro, rileggi la finestra dall'alto. Premi di nuovo r e rileggi tutte le righe delle voci. Ora spegni ogni voce accesa, poi premi 2, 3, 5 e rileggi tutte le voci. Premi 1 e leggi soltanto la riga del prompt in fondo e la riga del messaggio sotto l'ultima voce; poi rileggi tutte le voci. Premi 1 due volte di seguito e rileggi la riga del messaggio. Premi 6, leggi il messaggio e la riga 6; premi 6 di nuovo, poi 6 ancora, e rileggi il messaggio. Escape.
-Cosa dirmi: se le voci sono tutte al loro posto, nell'ordine e con la numerazione che conosci, e se lo stato di ciascuna si capisce senza esitare. Cosa c'e' sopra la prima riga e sotto l'ultima, e se e' rimasto qualcosa che con quel pannello non c'entra. Della riga del cursore, da quale carattere comincia quel che la barra ti mostra e se il contenuto ci sta nelle celle che hai. Dell'Escape, se dal suono e dalla voce hai capito che il pannello si era chiuso e dove eri finito. Dopo il 1, se dalle due righe sole hai capito cosa e' cambiato oltre alla voce che avevi premuto. Del 6, se il messaggio ti e' arrivato da solo o sei dovuto andarlo a cercare.
+Prima: questa guarda il pannello degli esercizi di ricezione, che ho riscritto sopra la stessa funzione del pannello del contest.
+Passo 1: lancia CWapu e premi r; senza premere altro, leggi con la barra la riga dove sta il cursore.
+Passo 2: rileggi con NVDA tutta la finestra dall'alto in basso.
+Passo 3: premi 3, che accende i numeri, e rileggi con la barra la stessa riga.
+Passo 4: premi Escape e, senza premere altro, rileggi la finestra dall'alto.
+Passo 5: premi di nuovo r e rileggi tutte le righe delle voci.
+Passo 6: spegni ogni voce accesa, poi premi 2, 3, 5 e rileggi tutte le voci.
+Passo 7: premi 1 e leggi soltanto la riga del prompt in fondo e la riga del messaggio sotto l'ultima voce; poi rileggi tutte le voci.
+Passo 8: premi 1 due volte di seguito e rileggi la riga del messaggio.
+Passo 9: premi 6, leggi il messaggio e la riga 6; premi 6 di nuovo, poi 6 ancora, e rileggi il messaggio.
+Passo 10: Escape.
+Domanda 1: se le voci sono tutte al loro posto, nell'ordine e con la numerazione che conosci.
+Domanda 2: se lo stato di ciascuna si capisce senza esitare.
+Domanda 3: cosa c'e' sopra la prima riga e sotto l'ultima, e se e' rimasto qualcosa che con quel pannello non c'entra.
+Domanda 4: della riga del cursore, da quale carattere comincia quel che la barra ti mostra e se il contenuto ci sta nelle celle che hai.
+Domanda 5: dell'Escape, se dal suono e dalla voce hai capito che il pannello si era chiuso e dove eri finito.
+Domanda 6: dopo il 1, se dalle due righe sole hai capito cosa e' cambiato oltre alla voce che avevi premuto.
+Domanda 7: del 6, se il messaggio ti e' arrivato da solo o sei dovuto andarlo a cercare.
 Esito:
 PROVA 11: IL PANNELLO DEL CONTEST, NOVE VOCI E TRE PARENTESI
-Cosa fare: lancia CWapu, r, 8, Invio. Scrivi su un foglio, nell'ordine, ogni domanda che CWapu ti fa prima che compaia il pannello del contest, e rispondi a ciascuna con Invio. Quando il pannello c'e', leggi tutte e nove le righe e la riga di riepilogo in fondo, e trascrivile; poi leggi sulla barra la riga dove sta il cursore; poi fatti rileggere quella stessa riga dalla sola voce, senza toccare la barra. Premi 2 e, senza premere Invio, rileggi la riga della domanda e quelle sopra; poi Invio a vuoto e leggi la riga 2. Premi 8, scrivi 125, Invio, e leggi la riga 8; premi 8 di nuovo, scrivi 175, Invio, e leggi la riga 8; premi 8 ancora e rimetti 500. Poi premi 1, rileggi la riga 1 e il riepilogo, premi 1 di nuovo e rileggi; ripeti la stessa coppia per 3, 4, 5, 6 e 7. Il 9 non toccarlo. Escape.
-Nota: da qui il pannello Rx resta con contest acceso, e alla prossima sessione ti basta premere 1 prima di Invio per rimetterlo come lo tieni di solito.
-Cosa dirmi: le domande nell'ordine esatto, le nove righe come NVDA le pronuncia e la riga di riepilogo. Della riga del cursore, da quale carattere comincia e se ci sta nelle celle. Se con la sola voce riesci a dire lo stato di tutte e nove le voci. Sul 2, se nel momento in cui la domanda aspettava sapevi quale numero l'Invio a vuoto avrebbe confermato, e da dove. Sull'8, i due numeri letti dopo 125 e dopo 175, e se ti sembra che seguano la stessa regola. Per ciascuno degli altri numeri, cosa succede alla prima e alla seconda pressione.
+Prima: da qui il pannello Rx resta con il contest acceso, e alla prossima sessione ti basta premere 1 prima di Invio per rimetterlo come lo tieni di solito.
+Passo 1: lancia CWapu, r, 8, Invio; scrivi su un foglio, nell'ordine, ogni domanda che CWapu ti fa prima che compaia il pannello del contest, e rispondi a ciascuna con Invio.
+Passo 2: quando il pannello c'e', leggi e trascrivi tutte e nove le righe e la riga di riepilogo in fondo.
+Passo 3: leggi sulla barra la riga dove sta il cursore.
+Passo 4: fatti rileggere quella stessa riga dalla sola voce, senza toccare la barra.
+Passo 5: premi 2 e, senza premere Invio, rileggi la riga della domanda e quelle sopra; poi Invio a vuoto e leggi la riga 2.
+Passo 6: premi 8, scrivi 125, Invio, e leggi la riga 8.
+Passo 7: premi 8 di nuovo, scrivi 175, Invio, e leggi la riga 8.
+Passo 8: premi 8 ancora e rimetti 500.
+Passo 9: premi 1, rileggi la riga 1 e il riepilogo, premi 1 di nuovo e rileggi; ripeti la stessa coppia per 3, 4, 5, 6 e 7.
+Passo 10: il 9 non toccarlo. Escape.
+Domanda 1: le domande nell'ordine esatto.
+Domanda 2: le nove righe come NVDA le pronuncia, e la riga di riepilogo.
+Domanda 3: della riga del cursore, da quale carattere comincia e se ci sta nelle celle.
+Domanda 4: se con la sola voce riesci a dire lo stato di tutte e nove le voci.
+Domanda 5: sul 2, se nel momento in cui la domanda aspettava sapevi quale numero l'Invio a vuoto avrebbe confermato, e da dove.
+Domanda 6: sull'8, i due numeri letti dopo 125 e dopo 175, e se ti sembra che seguano la stessa regola.
+Domanda 7: per ciascuno degli altri numeri, cosa succede alla prima e alla seconda pressione.
 Esito:
 PROVA 12: I TASTI CONTRO IL MANUALE
-Cosa fare: r, 8, Invio, Invio al nominativo, Invio sul pannello senza toccare niente. Durata 1, 30 QSO. Prima di premere il tasto che avvia, leggi le righe di aiuto che CWapu ha stampato e trascrivile. Parti. Poi, aspettando ogni volta che il suono finisca, premi in quest'ordine: F4, F1, F2, F3, F6, F7, F8. Poi scrivi A B C, un Backspace, leggi la riga; Alt+W e rileggi. Premi F9, poi PagGiu' del blocco a sei tasti e non del tastierino, poi F10 e PagSu, leggendo ogni volta. Poi Alt+Freccia su, Alt+Freccia giu', Shift+Freccia su, Shift+Freccia giu', leggendo ogni volta, e ricordando che questi tre valori si annunciano due secondi dopo l'ultima pressione. Alt+S e trascrivi la riga intera. Invio a riga vuota e, mentre senti la tua trasmissione, Esc; poi Esc di nuovo a riga ferma. Alt+X e resta in ascolto fino al prompt.
-Cosa dirmi: per ogni tasto, cosa hai sentito o cosa NVDA ha letto, con le parole che hai raccolto. Poi apri il 6.3 del manuale, scorri la tabella riga per riga e dimmi quali righe descrivono esattamente quello che hai osservato e quali no, Alt+W e Alt+S comprese; e se le righe di aiuto che CWapu stampa prima di cominciare dicono le stesse cose della tabella. Infine: dopo Alt+X hai sentito trasmettere qualcosa? Se si', e' annunciato da qualche parte nel manuale?
+Pannello: non toccare niente, Invio.
+Durata: 1, 30 QSO.
+Passo 1: r, 8, Invio, Invio al nominativo, Invio sul pannello; prima di premere il tasto che avvia, leggi e trascrivi le righe di aiuto che CWapu ha stampato.
+Passo 2: parti e, aspettando ogni volta che il suono finisca, premi in quest'ordine F4, F1, F2, F3, F6, F7, F8.
+Passo 3: scrivi A B C, un Backspace, leggi la riga; Alt+W e rileggi.
+Passo 4: premi F9, poi PagGiu' del blocco a sei tasti e non del tastierino, poi F10 e PagSu, leggendo ogni volta.
+Passo 5: premi Alt+Freccia su, Alt+Freccia giu', Maiusc+Freccia su, Maiusc+Freccia giu', leggendo ogni volta e ricordando che questi valori si annunciano due secondi dopo l'ultima pressione.
+Passo 6: Alt+S e trascrivi la riga intera.
+Passo 7: Invio a riga vuota e, mentre senti la tua trasmissione, Esc; poi Esc di nuovo a riga ferma.
+Passo 8: Alt+X e resta in ascolto fino al prompt.
+Domanda 1: per ogni tasto, cosa hai sentito o cosa NVDA ha letto, con le parole che hai raccolto.
+Domanda 2: apri il 6.3 del manuale, scorri la tabella riga per riga e dimmi quali righe descrivono esattamente quello che hai osservato e quali no, Alt+W e Alt+S comprese.
+Domanda 3: se le righe di aiuto che CWapu stampa prima di cominciare dicono le stesse cose della tabella.
+Domanda 4: dopo Alt+X hai sentito trasmettere qualcosa, e se si', e' annunciato da qualche parte nel manuale?
 Esito:
 PROVA 13: LA TIMELINE CON LA SESSIONE NUOVA
-Cosa fare: r, 8, Invio, Invio al nominativo, Invio sul pannello. Durata 1, 5 QSO. Falli e, nel rapporto, annota il numero della riga che comincia con In questa sessione. Torna al menu. Premi s e aspetta il caricamento. Al rapporto delle parole premi Esc per proseguire senza salvarlo, e lo stesso con quello dei caratteri. Al rapporto QRZ leggi la riga Numero totale di sessioni, percorri tutto il rapporto fino alla riga che saluta, e Esc per proseguire senza salvare. Torna al menu ed esci con q, lasciando che l'applicazione saluti fino in fondo.
-Cosa dirmi: se i tre rapporti sono usciti fino in fondo senza fermate e senza errori, che numero riporta la riga Numero totale di sessioni del rapporto QRZ, che numero riportava la riga In questa sessione del contest, e se quei due numeri ti tornano con i contest e gli esercizi QRZ che hai davvero fatto.
+Pannello: non toccare niente, Invio.
+Durata: 1, 5 QSO.
+Passo 1: r, 8, Invio, Invio al nominativo, Invio sul pannello; fai i cinque QSO e, nel rapporto, annota il numero della riga che comincia con "In questa sessione".
+Passo 2: torna al menu, premi s e aspetta il caricamento.
+Passo 3: al rapporto delle parole premi Esc per proseguire senza salvarlo, e lo stesso con quello dei caratteri.
+Passo 4: al rapporto QRZ leggi la riga "Numero totale di sessioni", percorri tutto il rapporto fino alla riga che saluta, e Esc per proseguire senza salvare.
+Passo 5: torna al menu ed esci con q, lasciando che l'applicazione saluti fino in fondo.
+Domanda 1: se i tre rapporti sono usciti fino in fondo senza fermate e senza errori.
+Domanda 2: che numero riporta la riga "Numero totale di sessioni" del rapporto QRZ.
+Domanda 3: che numero riportava la riga "In questa sessione" del contest.
+Domanda 4: se quei due numeri ti tornano con i contest e gli esercizi QRZ che hai davvero fatto.
 Esito:
 PROVA 14: IL FILE DI IMPOSTAZIONI DI OTTO MESI
-Cosa fare: questa falla per prima, prima di tutte le altre. Chiudi CWapu. Dalla console in E:\git\mine\cwapu copia il file: copy cwapu_settings.json E:\git\tmp\cwapu_settings_prima.json. Annota la dimensione in byte dell'originale. Avvia CWapu dai sorgenti, non l'eseguibile in dist. Ascolta per intero il riepilogo d'avvio: avvii, velocita', tono, pesi, Farnsworth, uscita audio. Premi r, poi Escape, e torni al menu. Esci con q e lascia che saluti fino in fondo. Annota di nuovo la dimensione. Poi dimmelo e il confronto fra i due file lo faccio io: ti dico quante sessioni e quanti rapporti c'erano prima e dopo nelle tre categorie, e quali chiavi sono comparse o sparite. Tieni la copia finche' non sei soddisfatto.
-Seconda parte, il nominativo. Riavvia, r, 8, Invio, e al nominativo scrivi IZ4APU e Invio. Pannello: 7 stereo 60. Durata 1, 3 QSO. Mettine a log almeno uno, altrimenti il contest si chiude senza rapporto, poi Alt+X. Nel rapporto cerca la riga che comincia con Sessione fatta con e annotala per intero. Torna al menu ed esci con q. Riavvia, r, 8, Invio, e al nominativo premi Invio senza scrivere niente; ascolta la riga che comincia con Contest come. Pannello: non toccare niente, Invio. Durata 1, 3 QSO, fanne uno, Alt+X, e annota di nuovo la riga Sessione fatta con.
-Cosa dirmi: le due dimensioni in byte. Cosa ha letto NVDA nel riepilogo d'avvio, valore per valore, e se qualcuno non e' quello che CWapu ti annunciava prima di oggi; e se durante l'uscita hai sentito la frase sul salvataggio delle impostazioni. Della seconda parte, cosa ha letto la riga Contest come dopo l'Invio a vuoto sul nominativo, e se le due righe Sessione fatta con dicono la stessa cosa o dove differiscono.
+Prima: questa falla per prima, prima di tutte le altre.
+Passo 1: chiudi CWapu; dalla console in E:\git\mine\cwapu copia il file con copy cwapu_settings.json E:\git\tmp\cwapu_settings_prima.json, e annota la dimensione in byte dell'originale.
+Passo 2: avvia CWapu dai sorgenti, non l'eseguibile in dist, e ascolta per intero il riepilogo d'avvio: avvii, velocita', tono, pesi, Farnsworth, uscita audio.
+Passo 3: premi r, poi Escape, e torna al menu; esci con q e lascia che saluti fino in fondo.
+Passo 4: annota di nuovo la dimensione, e tieni la copia finche' non sei soddisfatto. Il confronto fra i due file lo faccio io: ti dico quante sessioni e quanti rapporti c'erano prima e dopo nelle tre categorie, e quali chiavi sono comparse o sparite.
+Passo 5: riavvia, r, 8, Invio, e al nominativo scrivi IZ4APU e Invio; pannello 7 stereo 60, durata 1, 3 QSO.
+Passo 6: mettine a log almeno uno, altrimenti il contest si chiude senza rapporto, poi Alt+X; nel rapporto annota per intero la riga che comincia con "Sessione fatta con".
+Passo 7: torna al menu, esci con q, riavvia, r, 8, Invio, e al nominativo premi Invio senza scrivere niente; ascolta la riga che comincia con "Contest come".
+Passo 8: pannello non toccare niente, Invio; durata 1, 3 QSO, fanne uno, Alt+X, e annota di nuovo la riga "Sessione fatta con".
+Domanda 1: le due dimensioni in byte.
+Domanda 2: cosa ha letto NVDA nel riepilogo d'avvio, valore per valore, e se qualcuno non e' quello che CWapu ti annunciava prima di oggi.
+Domanda 3: se durante l'uscita hai sentito la frase sul salvataggio delle impostazioni.
+Domanda 4: cosa ha letto la riga "Contest come" dopo l'Invio a vuoto sul nominativo.
+Domanda 5: se le due righe "Sessione fatta con" dicono la stessa cosa o dove differiscono.
 Esito:
 PROVA 15: I SETTE VALORI DEL TASTO VERTICALE
-Cosa fare: r, 8, Invio, Invio al nominativo. Nel pannello premi 2 per il QRM: se non parte nessuna domanda, premilo altre due volte, cosi' parte. Alla domanda scrivi pippo e Invio, poi scrivi 9 e Invio. Rileggi con NVDA tutta la finestra dall'alto in basso. Ora premi 9 per spegnere il tasto verticale e poi 9 di nuovo: partono sette domande. Alla prima scrivi 55 e Invio, alle altre sei Invio a vuoto. Rileggi tutta la finestra dall'alto, e in particolare la riga 9, anche sulla barra. Escape. Rientra con r, Invio, Invio al nominativo, e leggi di nuovo la riga 9. Escape.
-Cosa dirmi: quante righe estranee al pannello trovi dopo il rifiuto e cosa dicono, se le nove voci sono ancora tutte presenti e in ordine, se il rifiuto della parola pippo lo hai saputo nel momento in cui e' successo o solo dopo andandolo a leggere, e in che lingua era. Cosa riporta la riga 9 subito dopo le sette domande e cosa riporta al rientro, e se i due numeri coincidono. Se sopra il titolo o sotto l'ultima voce e' rimasto qualcosa delle sette domande. Se la riga 9 sulla barra ti sta comoda o devi scorrerla.
+Passo 1: r, 8, Invio, Invio al nominativo; nel pannello premi 2 per il QRM e, se non parte nessuna domanda, premilo altre due volte cosi' parte.
+Passo 2: alla domanda scrivi pippo e Invio, poi scrivi 9 e Invio.
+Passo 3: rileggi con NVDA tutta la finestra dall'alto in basso.
+Passo 4: premi 9 per spegnere il tasto verticale e poi 9 di nuovo: partono sette domande; alla prima scrivi 55 e Invio, alle altre sei Invio a vuoto.
+Passo 5: rileggi tutta la finestra dall'alto, e in particolare la riga 9, anche sulla barra.
+Passo 6: Escape; rientra con r, Invio, Invio al nominativo, leggi di nuovo la riga 9, Escape.
+Domanda 1: quante righe estranee al pannello trovi dopo il rifiuto e cosa dicono.
+Domanda 2: se le nove voci sono ancora tutte presenti e in ordine.
+Domanda 3: se il rifiuto della parola pippo lo hai saputo nel momento in cui e' successo o solo dopo andandolo a leggere, e in che lingua era.
+Domanda 4: cosa riporta la riga 9 subito dopo le sette domande e cosa riporta al rientro, e se i due numeri coincidono.
+Domanda 5: se sopra il titolo o sotto l'ultima voce e' rimasto qualcosa delle sette domande.
+Domanda 6: se la riga 9 sulla barra ti sta comoda o devi scorrerla.
 Esito:
 PROVA 16: IL CONTEST CHE SI CHIUDE
-Cosa fare: k, .h 2500, .w 25, poi il punto e Invio. Pannello: 1 QRN, 2 QRM 5 stazioni, 6 pile-up attivita' 9. Durata 2, 3 minuti. Appena partito premi Alt+Freccia su tre volte leggendo ogni annuncio, poi F10 tre volte leggendo ogni annuncio. Gioca finche' non senti almeno tre o quattro stazioni sovrapposte, poi, proprio mentre stanno trasmettendo, premi Alt+X; subito dopo, senza aspettare, batti tre volte la lettera z e due volte la Freccia su. Aspetta la fine del saluto e leggi tutto cio' che esce fino al prompt che riporta al menu, e porta le dita sulla barra prima di premere. Premi un tasto e, al menu, ascolta la prima cosa che CWapu dice. Poi k, leggi la riga di riepilogo in cima con WPM, Hz e volume, e trascrivi i due numeri; poi il punto e Invio.
-Cosa dirmi: i tre annunci dopo Alt+Freccia su e i tre dopo F10, con i numeri esatti. Cosa senti nei due secondi dopo Alt+X, se qualcosa continua a suonare sotto o dopo il saluto, e se il saluto si sente per intero. Se al ritorno al menu trovi segni di comandi che non hai dato tu, e dove si ferma il display quando compare il prompt. I valori di WPM e Hz che hai letto rientrando in k, e se quello che e' successo al tono e quello che e' successo alla velocita' sono scritti da qualche parte nel manuale.
+Prima: da k, .h 2500, .w 25, poi il punto e Invio.
+Pannello: 1 QRN, 2 QRM 5 stazioni, 6 pile-up attivita' 9.
+Durata: 2, 3 minuti.
+Passo 1: appena partito premi Alt+Freccia su tre volte leggendo ogni annuncio, poi F10 tre volte leggendo ogni annuncio.
+Passo 2: gioca finche' non senti almeno tre o quattro stazioni sovrapposte.
+Passo 3: proprio mentre stanno trasmettendo, premi Alt+X; subito dopo, senza aspettare, batti tre volte la lettera z e due volte la Freccia su.
+Passo 4: aspetta la fine del saluto e leggi tutto cio' che esce fino al prompt che riporta al menu, e porta le dita sulla barra prima di premere.
+Passo 5: premi un tasto e, al menu, ascolta la prima cosa che CWapu dice.
+Passo 6: poi k, leggi la riga di riepilogo in cima con WPM, Hz e volume, trascrivi i due numeri, poi il punto e Invio.
+Domanda 1: i tre annunci dopo Alt+Freccia su e i tre dopo F10, con i numeri esatti.
+Domanda 2: cosa senti nei due secondi dopo Alt+X, e se qualcosa continua a suonare sotto o dopo il saluto.
+Domanda 3: se il saluto si sente per intero.
+Domanda 4: se al ritorno al menu trovi segni di comandi che non hai dato tu.
+Domanda 5: dove si ferma il display quando compare il prompt.
+Domanda 6: i valori di WPM e Hz che hai letto rientrando in k, e se quello che e' successo al tono e alla velocita' e' scritto da qualche parte nel manuale.
 Esito:
 PROVA 17: IL RAPPORTO CHE RACCONTA LA SESSIONE
-Cosa fare: prima, k, ??, e assicurati che la velocita' sia 18, altrimenti .w 18; poi il punto e Invio. Pannello: 2 QRM 3 stazioni, 5 sbadati, 6 pile-up attivita' 5, 8 banda 500. Durata 2, 15 minuti. Appena partito premi Shift+Freccia giu' quattro volte, aspetta l'annuncio e annota il valore, poi F9 due volte e annota la velocita', poi Alt+Freccia su due volte e annota il tono. Da li' non toccare piu' F9, F10, PagSu e PagGiu'. Fai il contest per tutti i quindici minuti, mettendo a log anche quello di cui non sei sicuro, perche' servono errori nel rapporto; e tieni a mente la stazione piu' veloce e quella piu' lenta che hai copiato. Quando si chiude non premere subito il tasto: percorri il rapporto dall'inizio alla fine con la revisione NVDA, una riga per volta, facendo scorrere la barra su quelle piu' lunghe, e trascrivi per intero la riga che comincia con Sessione fatta con e quella che parla delle velocita'.
-Cosa dirmi: cosa dicono le due righe trascritte, confrontate valore per valore con i tre numeri che avevi annotato per banda, velocita' e tono. Se i numeri della velocita' descrivono cio' che hai davvero ricevuto e come stanno rispetto alla stazione piu' veloce e alla piu' lenta che ricordi, e se rileggendo quel rapporto fra un anno capiresti a che velocita' ti stavi allenando e in che condizioni. Quali righe non riesci a seguire fino in fondo con la voce o con la barra, quali numeri ti arrivano indigeribili, e se c'e' un'informazione che avresti voluto spezzata in piu' righe o detta in un altro ordine.
+Prima: da k, ??, e assicurati che la velocita' sia 18, altrimenti .w 18; poi il punto e Invio.
+Pannello: 2 QRM 3 stazioni, 5 sbadati, 6 pile-up attivita' 5, 8 banda 500.
+Durata: 2, 15 minuti.
+Passo 1: appena partito premi Maiusc+Freccia giu' quattro volte, aspetta l'annuncio e annota il valore.
+Passo 2: premi F9 due volte e annota la velocita', poi Alt+Freccia su due volte e annota il tono; da li' non toccare piu' F9, F10, PagSu e PagGiu'.
+Passo 3: fai il contest per tutti i quindici minuti, mettendo a log anche quello di cui non sei sicuro, perche' servono errori nel rapporto.
+Passo 4: tieni a mente la stazione piu' veloce e quella piu' lenta che hai copiato.
+Passo 5: quando si chiude non premere subito il tasto: percorri il rapporto dall'inizio alla fine con la revisione NVDA, una riga per volta, facendo scorrere la barra su quelle piu' lunghe.
+Passo 6: trascrivi per intero la riga che comincia con "Sessione fatta con" e quella che parla delle velocita'.
+Domanda 1: cosa dicono le due righe trascritte, confrontate valore per valore con i tre numeri che avevi annotato per banda, velocita' e tono.
+Domanda 2: se i numeri della velocita' descrivono cio' che hai davvero ricevuto, e come stanno rispetto alla stazione piu' veloce e alla piu' lenta che ricordi.
+Domanda 3: se rileggendo quel rapporto fra un anno capiresti a che velocita' ti stavi allenando e in che condizioni.
+Domanda 4: quali righe non riesci a seguire fino in fondo con la voce o con la barra.
+Domanda 5: quali numeri ti arrivano indigeribili.
+Domanda 6: se c'e' un'informazione che avresti voluto spezzata in piu' righe o detta in un altro ordine.
 Esito:
 PROVA 18: IL DIARIO VERO
-Cosa fare: prima apri CWapu_Diary.txt con il Blocco note, Ctrl+Home, annota la prima riga, chiudi senza salvare, e annota la dimensione in byte. Avvia CWapu, r, 8, Invio, Invio al nominativo, Invio sul pannello. Durata 1, 3 QSO. Falli, e dal rapporto fino al ritorno al menu annota tutto quello che CWapu ti chiede e ti dice. Poi dal menu r, spegni la voce 8 e accendi la 7, Invio, e fai una decina di item dell'esercizio QRZ normale, chiudendolo con il punto; annota anche qui tutto quello che ti chiede e ti dice dal rapporto in poi. Torna al menu ed esci con q. Riapri il diario, Ctrl+Fine, e risali con freccia su tutte le righe degli ultimi due record fino alle righe che li intitolano con data e ora. Ctrl+Home e rileggi la prima riga. Chiudi senza salvare e annota di nuovo la dimensione.
-Cosa dirmi: se il record del contest e' completo dalla riga del titolo all'ultima, se le parole accentate le senti pronunciate giuste o storpiate, se la prima riga del file e' rimasta quella di prima, e le due dimensioni in byte. Poi metti in fila le due code, quella del contest e quella dell'esercizio QRZ: quali domande e quali righe ci sono in una e non nell'altra?
+Pannello: non toccare niente, Invio.
+Durata: 1, 3 QSO.
+Passo 1: apri CWapu_Diary.txt con il Blocco note, Ctrl+Home, annota la prima riga, chiudi senza salvare, e annota la dimensione in byte.
+Passo 2: avvia CWapu, r, 8, Invio, Invio al nominativo, Invio sul pannello; fai i tre QSO e, dal rapporto fino al ritorno al menu, annota tutto quello che CWapu ti chiede e ti dice.
+Passo 3: dal menu r, spegni la voce 8 e accendi la 7, Invio, e fai una decina di item dell'esercizio QRZ normale, chiudendolo con il punto; annota anche qui tutto quello che ti chiede e ti dice dal rapporto in poi.
+Passo 4: torna al menu ed esci con q.
+Passo 5: riapri il diario, Ctrl+Fine, e risali con freccia su tutte le righe degli ultimi due record fino alle righe che li intitolano con data e ora.
+Passo 6: Ctrl+Home e rileggi la prima riga; chiudi senza salvare e annota di nuovo la dimensione.
+Domanda 1: se il record del contest e' completo dalla riga del titolo all'ultima.
+Domanda 2: se le parole accentate le senti pronunciate giuste o storpiate.
+Domanda 3: se la prima riga del file e' rimasta quella di prima.
+Domanda 4: le due dimensioni in byte.
+Domanda 5: metti in fila le due code, quella del contest e quella dell'esercizio QRZ: quali domande e quali righe ci sono in una e non nell'altra?
 Esito:
