@@ -256,13 +256,15 @@ CONTEST_PREDEFINITI = {
     "tasto_s_max": 75,
     "tasto_p_min": 15,
     "tasto_p_max": 50,
-    "scambio_probabilita": 0,
-    "scambio_incremento": 15,
+    "scambio_veloce": False,
+    "scambio_probabilita": 30,
+    "scambio_incremento": 20,
 }
 CONTEST_VOCI = [
     {
         "id": "0",
-        "etichetta": _("5NN svelto"),
+        "key_state": "scambio_veloce",
+        "etichetta": _("5NN accelerato"),
         "valore": "scambio_probabilita",
         "chiedi": lambda salvato: chiedi_scambio_veloce(salvato),
         "descrivi": lambda stati: _("{p}% delle stazioni, +{d}%").format(p=stati["scambio_probabilita"], d=stati["scambio_incremento"]),
@@ -317,20 +319,19 @@ CONTEST_VOCI = [
     },
 ]
 def chiedi_scambio_veloce(salvato):
-    """Le due domande del 5NN svelto: quante stazioni lo fanno e di quanto.
+    """Le due domande del 5NN accelerato: quante stazioni lo fanno e di quanto.
 
     Nei contest il rapporto e' l'unico gruppo che tutti si aspettano, quindi
-    molti operatori lo tirano via e rallentano sul numero, che e' il dato
-    vero da copiare. La voce e' una sola nel pannello, come chiede Gabriele,
-    ma i valori sono due: la probabilita' fa da interruttore, perche' a zero
-    non lo fa nessuno, e l'incremento si chiede solo se la probabilita' non
-    e' zero, altrimenti sarebbe una domanda su una cosa che non succede.
+    molti operatori lo mandano piu' veloce del resto e rallentano sul numero,
+    che e' il dato vero da copiare. La voce del pannello e' una sola, con il
+    suo interruttore come tutte le altre, ma i valori sono due e si chiedono
+    insieme quando la si accende. Il minimo e' uno: zero vorrebbe dire accesa
+    e senza effetto, che a chi legge la riga non direbbe niente.
     """
-    quante = chiedi_intero(_("Stazioni che tirano via il 5NN, in percentuale"), 0, 100, salvato)
-    if quante:
-        app_data["contest_settings"]["scambio_incremento"] = chiedi_intero(
-            _("Di quanto accelerano il 5NN, in percentuale"), 5, 50, app_data["contest_settings"].get("scambio_incremento", CONTEST_PREDEFINITI["scambio_incremento"])
-        )
+    quante = chiedi_intero(_("Stazioni che accelerano il 5NN, in percentuale"), 1, 100, max(1, salvato or CONTEST_PREDEFINITI["scambio_probabilita"]))
+    app_data["contest_settings"]["scambio_incremento"] = chiedi_intero(
+        _("Di quanto accelerano il 5NN, in percentuale"), 5, 50, app_data["contest_settings"].get("scambio_incremento", CONTEST_PREDEFINITI["scambio_incremento"])
+    )
     return quante
 
 
@@ -2261,7 +2262,8 @@ def RxingContest(menu_config_scelta):
         ampiezza_stereo=stati["stereo"],
         banda=banda,
         pesi_manuali=pesi_del_tasto(stati),
-        scambio_probabilita=stati["scambio_probabilita"],
+        # Spento vuol dire che non lo fa nessuno, e nemmeno io.
+        scambio_probabilita=stati["scambio_probabilita"] if stati["scambio_veloce"] else 0,
         scambio_incremento=stati["scambio_incremento"],
     )
     start_time = dt.datetime.now()
@@ -2283,6 +2285,11 @@ def RxingContest(menu_config_scelta):
     cursore = 0
     stadio = "call"
     suo_call = ""
+    # Cosa ho gia' detto a questa stazione. Sono le due spie di Morse
+    # Runner: senza, l'Invio rimandava ogni volta tutto da capo, anche cio'
+    # che lei aveva gia' sentito e confermato.
+    suo_mandato = False
+    scambio_mandato = False
     suoni = {}
     # I messaggi dei tasti funzione battuti mentre ne suona un altro: si
     # accodano invece di tagliarlo, e ognuno porta con se' il nominativo
@@ -2354,10 +2361,10 @@ def RxingContest(menu_config_scelta):
             fondo.stop()
             fondo = None
 
-    def metti_in_aria(richiesta):
+    def metti_in_aria(richiesta, inizio=0.0):
         """Sintetizza la richiesta, in un pezzo solo o in piu' pezzi allineati.
 
-        Quando la stazione tira via il rapporto, il messaggio si spezza: ogni
+        Quando la stazione accelera il rapporto, il messaggio si spezza: ogni
         pezzo e' una sintesi a se', e i pezzi dopo il primo partono con un
         silenzio davanti pari a tutto quello che li precede, invece di
         aspettare che il precedente finisca. Cosi' escono tutti nello stesso
@@ -2368,6 +2375,10 @@ def RxingContest(menu_config_scelta):
         Restituisce una voce sola per il ciclo, e la velocita' di base, che e'
         quella del primo pezzo: registrando quella accelerata, le statistiche
         del QSO direbbero una velocita' che non e' mai stata la sua.
+
+        Con inizio maggiore di zero tutto il messaggio parte piu' tardi: e' il
+        silenzio che separa un mio messaggio accodato da quello che lo
+        precede.
         """
         voce = {
             "pitch": richiesta.pitch,
@@ -2377,25 +2388,27 @@ def RxingContest(menu_config_scelta):
             "sync": False,
             "farnsworth": 0,
             "pan": richiesta.pan,
-            "vol": richiesta.volume,
+            # La mia trasmissione usa il volume generale, non un volume di
+            # stazione: e' la stessa cosa in uscita, ma dice a chi ascolta il
+            # ciclo che quella voce sono io.
+            "vol": None if richiesta.stazione == ct.IO else richiesta.volume,
             "qsb": richiesta.qsb,
             "chirp": richiesta.chirp,
             "vibrato": richiesta.vibrato,
         }
         if not richiesta.pezzi:
-            return suona(richiesta.testo, wpm=richiesta.wpm, **voce)
+            return suona(richiesta.testo, wpm=richiesta.wpm, ritardo=inizio or None, **voce)
         maniglie = []
         # L'istante in cui ogni pezzo deve cominciare, contato dall'inizio
         # del messaggio: e' la somma di tutto cio' che lo precede, suono e
         # silenzio. La durata che il motore restituisce per un pezzo
         # ritardato comprende gia' il suo silenzio iniziale, quindi va
         # tolta per sapere quanto dura il solo suono.
-        inizio = 0.0
         base = 0.0
         for indice, (testo, wpm_pezzo, parola) in enumerate(richiesta.pezzi):
             if indice:
                 inizio += buco_fra_pezzi(richiesta.wpm, richiesta.s, parola)
-            handle, rwpm = suona(testo, wpm=wpm_pezzo, ritardo=inizio if indice else None, **voce)
+            handle, rwpm = suona(testo, wpm=wpm_pezzo, ritardo=inizio or None, **voce)
             if handle is None:
                 for gia in maniglie:
                     gia.stop()
@@ -2403,7 +2416,7 @@ def RxingContest(menu_config_scelta):
             maniglie.append(handle)
             if not indice:
                 base = rwpm
-            inizio += durata_suono(handle) - (inizio if indice else 0.0)
+            inizio = durata_suono(handle)
         return InsiemeDiSuoni(maniglie, inizio), base
 
     def durata_suono(handle):
@@ -2569,10 +2582,26 @@ def RxingContest(menu_config_scelta):
             # chiamare qualcun altro e smetterebbero di rispondere. In
             # radio, del resto, non si risponde a chi non si e' ancora copiato.
             return
+        segna_cosa_ho_detto(messaggi)
         if ct.IO in suoni:
             coda.append((list(messaggi), nominativo))
             return
         manda(messaggi, nominativo, adesso, accoda=False)
+
+    def segna_cosa_ho_detto(messaggi):
+        """Tiene il conto di cio' che la stazione ha gia' sentito da me.
+
+        Il suo nominativo, una volta mandato, resta mandato. Il mio scambio
+        no: vale finche' non le dico qualcos'altro, perche' se sono tornato a
+        ripetere il suo nominativo vuol dire che il primo scambio non e'
+        arrivato. E' la regola di Morse Runner, dove la spia del numero si
+        assegna a ogni messaggio invece di accumularsi.
+        """
+        nonlocal suo_mandato, scambio_mandato
+        for m in messaggi:
+            if m == ct.Msg.SUO:
+                suo_mandato = True
+            scambio_mandato = m == ct.Msg.NR
 
     def manda(messaggi, nominativo, adesso, accoda):
         """Mette in aria un messaggio: il primo di una trasmissione o uno della coda.
@@ -2584,17 +2613,15 @@ def RxingContest(menu_config_scelta):
         chiudi_i_finiti(adesso)
         zittisci_ricezione()
         richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=nominativo, accoda=accoda)
-        testo = richiesta.testo.strip()
-        if not testo:
+        if not richiesta.testo.strip():
             motore.io_finito(adesso)
             return
-        if accoda:
-            # Il trattino basso e' il silenzio di uno spazio di parola. Senza,
-            # il messaggio accodato si attaccherebbe all'ultima lettera del
-            # precedente e F5 piu' F7 suonerebbe come una parola sola, diversa
-            # da come suona gia' oggi l'Invio che manda nominativo e scambio.
-            testo = "_ " + testo
-        handle, _rwpm = suona(testo, sync=False, farnsworth=0)
+        # Un messaggio accodato parte dopo il silenzio di uno spazio di
+        # parola: senza, si attaccherebbe all'ultima lettera del precedente e
+        # F5 piu' F7 suonerebbe come una parola sola, diversa da come suona
+        # gia' l'Invio che manda nominativo e scambio.
+        inizio = buco_fra_pezzi(richiesta.wpm, richiesta.s, True) if accoda else 0.0
+        handle, _rwpm = metti_in_aria(richiesta, inizio)
         if handle is None:
             motore.io_finito(adesso)
             return
@@ -2762,6 +2789,12 @@ def RxingContest(menu_config_scelta):
                         # la riga passa da DL3XY 5NN NR: a CALL: DL3XY.
                         campo, stadio, suo_call = suo_call, "call", ""
                         cursore = len(campo)
+                        # Il messaggio e' stato tagliato: cio' che c'era dentro
+                        # lei non l'ha sentito, e va rimandato.
+                        if ct.Msg.SUO in tagliata:
+                            suo_mandato = False
+                        if ct.Msg.NR in tagliata:
+                            scambio_mandato = False
                 else:
                     campo, cursore = "", 0
             elif tasto == "alt-w":
@@ -2770,29 +2803,41 @@ def RxingContest(menu_config_scelta):
                     ferma(ct.IO)
                     motore.annulla_trasmissione(adesso)
                 campo, stadio, suo_call, cursore = "", "call", "", 0
+                suo_mandato, scambio_mandato = False, False
             elif tasto == "alt-s":
                 stato_a_richiesta(adesso)
             elif tasto == "\r":
-                if stadio == "call":
-                    # A riga vuota l'Invio e' un CQ; altrimenti manda il suo
-                    # nominativo con il mio scambio e la riga passa ad
-                    # aspettare il numero, come nel contest di oggi.
-                    if not campo.strip():
-                        trasmetti([ct.Msg.CQ], adesso)
-                    else:
-                        suo_call = campo.strip()
-                        campo, stadio, cursore = "", "nr", 0
-                        trasmetti([ct.Msg.SUO, ct.Msg.NR], adesso)
+                # L'Invio manda soltanto cio' che alla stazione manca, e chiude
+                # il QSO appena c'e' tutto. Prima rimandava ogni volta il suo
+                # nominativo con il mio scambio, anche quando lei li aveva gia'
+                # sentiti: e' la regola di Morse Runner, tradotta qui sulle due
+                # spie di cio' che le ho detto.
+                nominativo = campo.strip() if stadio == "call" else suo_call
+                if not nominativo:
+                    # A riga vuota l'Invio e' un CQ.
+                    trasmetti([ct.Msg.CQ], adesso)
                 else:
-                    letto = leggi_scambio(campo)
-                    if letto is None:
-                        # La riga non porta uno scambio leggibile: e' il caso in
-                        # cui in cwsim si manda il punto interrogativo.
-                        trasmetti([ct.Msg.QM], adesso)
-                    else:
+                    letto = leggi_scambio(campo) if stadio == "nr" else None
+                    messaggi = []
+                    if not suo_mandato or (not scambio_mandato and letto is None):
+                        messaggi.append(ct.Msg.SUO)
+                    if not scambio_mandato:
+                        messaggi.append(ct.Msg.NR)
+                    if scambio_mandato and letto is None:
+                        # Le ho gia' detto tutto e non ho il suo scambio: il
+                        # punto interrogativo e' il modo di chiederglielo.
+                        messaggi.append(ct.Msg.QM)
+                    if letto is not None and (suo_mandato or scambio_mandato):
                         motore.registra_qso(adesso, suo_call, letto[1], letto[0])
-                        trasmetti([ct.Msg.TU], adesso)
+                        messaggi.append(ct.Msg.TU)
+                        trasmetti(messaggi, adesso)
                         campo, stadio, suo_call, cursore = "", "call", "", 0
+                        suo_mandato, scambio_mandato = False, False
+                    else:
+                        if stadio == "call":
+                            suo_call = nominativo
+                            campo, stadio, cursore = "", "nr", 0
+                        trasmetti(messaggi, adesso)
             elif tasto == "\x08":
                 if cursore > 0:
                     campo = campo[: cursore - 1] + campo[cursore:]
@@ -2804,6 +2849,9 @@ def RxingContest(menu_config_scelta):
                     # l'avevamo copiato male, senza buttare via il QSO.
                     campo, stadio, suo_call = suo_call, "call", ""
                     cursore = len(campo)
+                    # Se il nominativo era sbagliato, chi mi ascoltava non era
+                    # lei: tutto quello che ho detto va ridetto.
+                    suo_mandato, scambio_mandato = False, False
             elif tasto == "f1":
                 trasmetti([ct.Msg.CQ], adesso)
             elif tasto == "f2":

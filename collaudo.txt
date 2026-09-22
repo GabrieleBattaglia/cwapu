@@ -3,23 +3,40 @@ Aperto il 2026-09-20 da ClaudIA, Claude Opus 5 modalita' ultracode, alla fine de
 Come si usa: ogni prova e' fatta di righe che cominciano con Prima, Pannello, Durata, Passo e Domanda. Le righe si leggono una per una: quella che va bene si cancella, quella che non va si commenta scrivendo dopo i due punti, e nella riga Esito vanno le note generali della prova. Quando una prova resta senza righe si cancella tutta; quando il file resta vuoto si cancella anche lui, e vuol dire che il contest e' pronto da pubblicare.
 Le righe Pannello elencano le sole voci da accendere: tutto il resto spento.
 Dove non ti chiedo di mettere a log, non scrivere niente nella riga: senza QSO a log il diario e l'archivio restano intatti.
-Nelle prove d'ascolto non ti dico cosa dovresti sentire, di proposito: se te lo dicessi lo sentiresti anche se non c'e'. I numeri e le spiegazioni te li do dopo il tuo giudizio.
-A che punto siamo: hai fatto tutte le prove e tutte le riprove dalla A alla R. Dall'ultimo giro sono usciti i tuoi rilievi sul pannello, sul QRM che trasmette sopra di te, sulla stazione che ripeteva il nominativo e sul 5NN da mandare piu' svelto, piu' la richiesta nuova. Sono tutti corretti, e le riprove dalla S alla Z li mettono alla prova. La prova 14 l'ho fatta io con git al posto tuo, e l'esito te l'ho scritto a parte.
-Il pannello ha una voce in piu': lo 0, il 5NN svelto. Le voci sono dieci, dallo 0 al 9.
+A che punto siamo: hai fatto tutte le prove e tutte le riprove dalla A alla Z. Dall'ultimo giro sono uscite la correzione del nome, il mio 5NN accelerato, l'interruttore della voce 0 e l'Invio intelligente. Restano queste due riprove.
 COME SI ARRIVA AL CONTEST
-Dal menu, r. Nel pannello degli esercizi Rx la voce 8 e' il contest: accendila se non lo e', poi Invio. Al nominativo, Invio conferma quello salvato. Si apre il pannello del contest, dieci voci: 0 5NN svelto, 1 QRN, 2 QRM, 3 QSB, 4 flutter, 5 sbadati, 6 pile-up, 7 stereo, 8 banda, 9 tasto verticale.
+Dal menu, r. Nel pannello degli esercizi Rx la voce 8 e' il contest: accendila se non lo e', poi Invio. Al nominativo, Invio conferma quello salvato. Si apre il pannello del contest, dieci voci: 0 5NN accelerato, 1 QRN, 2 QRM, 3 QSB, 4 flutter, 5 sbadati, 6 pile-up, 7 stereo, 8 banda, 9 tasto verticale.
 Il numero accende e spegne. Accendendo una voce che ha un valore, il valore si chiede subito e Invio conferma il salvato. Per cambiare il valore di una voce gia' accesa, premi il suo numero due volte: la prima spegne, la seconda riaccende e richiede.
-Il 9 non toccarlo se non te lo chiedo: accendendolo partono sette domande.
 Invio comincia, Escape torna al menu e butta via i valori appena risposti. Poi la durata: 1 conta i QSO, 2 conta i minuti.
-Esito: ok
-
-RIPROVA T: IL 5NN SVELTO
-Prima: e' la richiesta nuova. La voce 0 del pannello: premi 0, alla prima domanda scrivi 40 e Invio, alla seconda scrivi 25 e Invio.
-Esito: Qui bisogna fare qualche correzione e una modifica. Tirare via, come espressione non va. Si chiama 5nn accelerato. La modifica è questa: se la percentuale è > 0, anche il mio 5nn sarà accelerato della stessa proporzione indicata per le altre stazioni. Se lo switcher è spento (percentuale a 0%) anche il mio 5nn andrà alla stessa velocità. La differenza è che, se lo switcher è acceso, il mio 5nn è sempre accelerato, non tira la probabilità.
-Inoltre, ogni volta che premo 0, mi vengono poste le domande. Per coerenza vorrei il comportamento degli altri switcher, acceso spento con le domande solo quando si accende.
-
-Richiesta miglioramento.
-Il tasto invio deve diventare più intelligente. Deve sapere quali informazioni ho già inviato, magari il rapporto f2 o il call corretto e deve concludere il qso solo con le info necessarie. Bisogna che ti fai uno schema del qso e marchi come trasmesse o necessarie le varie parti che lo compongono. Invio porta a conlcusione senza ripetere info già date o confermate.
-Stessa cosa in ricezione: se ho passato tutto e il dx mi chiede il progressivo, io lo invio con f2, lui mi ringrazia con tu. invio può chiudere o inviare un tu, senza ripetere tutto.
-Fammi sapere se è tutto chiaro.
-Dopo siamo veramente prossimi alla conclusione.
+RIPROVA AA: IL 5NN ACCELERATO, ANCHE IL MIO
+Prima: la voce 0 adesso e' un interruttore come le altre. Entra nel pannello e premi 0 una volta sola: deve accendersi e fare le due domande. Rispondi 40 alla prima e 25 alla seconda.
+Passo 1: premi 0 di nuovo, una volta sola, e leggi la riga 0: deve spegnersi senza chiedere niente.
+Passo 2: premi 0 ancora e conferma i due valori con due Invio.
+Pannello: 0 5NN accelerato 40 e 25, 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
+Durata: 1, 8 QSO.
+Passo 3: gioca e chiudi gli otto QSO, ascoltando il tuo scambio quando lo mandi e quello delle stazioni quando arriva.
+Passo 4: verso meta' partita spegni la voce 0 rientrando dal menu, e rifai due o tre QSO per confrontare.
+Domanda 1: premendo 0 una volta sola si accende e chiede, e premendolo ancora si spegne in silenzio, come le altre voci.
+Domanda 2: il tuo 5NN, quando l'interruttore e' acceso, lo senti accelerato tutte le volte.
+Domanda 3: il passaggio dal tuo rapporto accelerato al tuo progressivo ti sembra naturale o senti uno strappo.
+Domanda 4: con l'interruttore spento, il tuo rapporto torna alla velocita' di tutto il resto.
+Domanda 5: il venticinque per cento ti sembra la misura giusta, per te e per loro.
+Esito:
+RIPROVA AB: L'INVIO CHE NON SI RIPETE
+Prima: l'Invio adesso manda solo cio' che alla stazione manca. Tiene il conto di due cose: se le hai gia' mandato il suo nominativo, e se le hai gia' mandato il tuo scambio.
+Pannello: 5 sbadati, 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
+Durata: 2, 8 minuti.
+Passo 1: fai un QSO normale: scrivi il nominativo, Invio, copia il numero, Invio. Ascolta cosa esce alla seconda pressione.
+Passo 2: in un altro QSO, dopo aver mandato nominativo e scambio, aspetta che la stazione ti chieda il progressivo; mandalo con F2 e poi premi Invio quando hai il suo.
+Passo 3: in un altro ancora, dopo aver mandato tutto, premi F5 per ripetere il suo nominativo, poi scrivi il numero e premi Invio.
+Passo 4: fai un QSO in cui, dopo aver mandato nominativo e scambio, premi Invio senza aver scritto niente nel campo del numero.
+Passo 5: fai un QSO in cui copi male il nominativo, torni indietro col Backspace a campo vuoto, lo correggi e premi Invio.
+Passo 6: e uno in cui, dopo aver mandato tutto, premi Alt+W e ricominci da capo con la stessa stazione.
+Domanda 1: al passo 1, la seconda pressione dell'Invio manda solo il TU o ripete anche nominativo e scambio.
+Domanda 2: al passo 2, dopo F2 l'Invio chiude e basta.
+Domanda 3: al passo 3, dopo F5 l'Invio rimanda il tuo scambio, e ti sembra giusto che lo faccia.
+Domanda 4: al passo 4, cosa manda l'Invio quando non hai il suo numero.
+Domanda 5: al passo 5, correggendo il nominativo l'Invio rimanda tutto da capo, come deve.
+Domanda 6: al passo 6, dopo Alt+W l'Invio ricomincia da zero.
+Domanda 7: complessivamente, i QSO sono piu' rapidi e ti sembra di parlare come si parla in radio, o ti manca qualche ripetizione che prima c'era.
+Esito:

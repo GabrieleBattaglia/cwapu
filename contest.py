@@ -89,7 +89,7 @@ VIBRATO_PROFONDITA = (3.0, 12.0)
 VIBRATO_FREQUENZA = (2.0, 9.0)
 PROB_VIBRATO = 0.1
 # Il segno con cui si marca, dentro il testo, il pezzo da mandare piu'
-# svelto. Non e' un carattere che il motore CW sappia suonare: serve solo a
+# accelerato. Non e' un carattere che il motore CW sappia suonare: serve solo a
 # dire dove tagliare, e dal testo della richiesta sparisce sempre.
 MARCA_VELOCE = "\x00"
 # Quanti caratteri del gruppo dello scambio sono il rapporto: 599 diventa
@@ -243,7 +243,7 @@ class Richiesta:
     dx: bool = False
     # Il messaggio diviso in pezzi, ognuno con la sua velocita', quando una
     # parte va mandata piu' svelta del resto: e' il 5NN dei contest, che
-    # tutti si aspettano e quindi molti tirano via. None vuol dire tutto il
+    # tutti si aspettano e quindi molti accelerano. None vuol dire tutto il
     # testo alla velocita' della richiesta, che e' il caso normale.
     pezzi: tuple = None
 
@@ -313,6 +313,39 @@ def tono_stazione(mio, scarto):
     if not (basso <= tono <= alto):
         tono = round(mio - scarto)
     return max(basso, min(alto, tono))
+
+
+def dividi_in_pezzi(marcato, wpm, incremento):
+    """Il testo marcato diventa pezzi con la loro velocita', o None se non serve.
+
+    I pezzi si alternano: fuori dai segni la velocita' di base, dentro
+    quella accelerata. Due pezzi di fila alla stessa velocita' si uniscono,
+    perche' ogni pezzo costa una voce del mixer e le voci sono trentadue.
+    Ogni pezzo dice anche se il confine che lo precede era uno spazio: fra
+    due gruppi il silenzio e' piu' lungo che fra due lettere, e chi rimette
+    insieme il suono, sbagliandolo, farebbe sentire uno strappo in mezzo
+    allo scambio.
+    """
+    if MARCA_VELOCE not in marcato:
+        return None
+    veloce = max(1, round(int(wpm) * (1.0 + float(incremento) / 100.0)))
+    parti = marcato.split(MARCA_VELOCE)
+    pezzi = []
+    for indice, parte in enumerate(parti):
+        if not parte.strip():
+            continue
+        velocita = veloce if indice % 2 else int(wpm)
+        # Il confine che conta e' quello che precede il pezzo: lo spazio sta
+        # in coda alla parte prima o in testa a questa. Il 5NN attaccato a
+        # una R sarebbe una parola sola.
+        prima = parti[indice - 1] if indice else ""
+        parola = prima.endswith(" ") or parte.startswith(" ")
+        if pezzi and pezzi[-1][1] == velocita:
+            unito = pezzi.pop()
+            pezzi.append((unito[0] + (" " if parola else "") + parte.strip(), velocita, unito[2]))
+            continue
+        pezzi.append((parte.strip(), velocita, parola))
+    return tuple(pezzi) if len(pezzi) > 1 else None
 
 
 def prefisso(nominativo):
@@ -596,7 +629,7 @@ class Stazione:
         self.chirp = None
         self.vibrato = None
         # Le stazioni di disturbo e quelle costruite a mano nelle prove non
-        # accelerano: il 5NN piu' svelto e' un gesto di chi sta facendo un QSO.
+        # accelerano: il 5NN accelerato e' un gesto di chi sta facendo un QSO.
         self.scambio_veloce = False
 
     @property
@@ -620,7 +653,7 @@ class Stazione:
         """Rapporto e numero della stazione, con l'errore dello sbadato quando tocca.
 
         Con marca, il rapporto esce fra due segni: chi costruisce la richiesta
-        sa dove tagliare per mandarlo piu' svelto. La marcatura viene dopo
+        sa dove tagliare per mandarlo accelerato. La marcatura viene dopo
         l'errore dello sbadato, cosi' la correzione con la serie di e resta
         alla velocita' di sempre.
         """
@@ -670,37 +703,8 @@ class Stazione:
         )
 
     def dividi_in_pezzi(self, marcato):
-        """Il testo marcato diventa pezzi con la loro velocita', o None se non serve.
-
-        I pezzi si alternano: fuori dai segni la velocita' della stazione,
-        dentro quella accelerata. Due pezzi di fila alla stessa velocita' si
-        uniscono, perche' ogni pezzo costa una voce del mixer e le voci sono
-        trentadue. Ogni pezzo dice anche se il confine che lo precede era uno
-        spazio: fra due gruppi il silenzio e' piu' lungo che fra due lettere,
-        e chi rimette insieme il suono, sbagliandolo, farebbe sentire uno
-        strappo in mezzo allo scambio.
-        """
-        if MARCA_VELOCE not in marcato:
-            return None
-        veloce = max(1, round(self.wpm * (1.0 + self.motore.scambio_incremento / 100.0)))
-        parti = marcato.split(MARCA_VELOCE)
-        pezzi = []
-        for indice, parte in enumerate(parti):
-            if not parte.strip():
-                continue
-            wpm = veloce if indice % 2 else self.wpm
-            # Il confine che conta e' quello che precede il pezzo: lo spazio
-            # sta in coda alla parte prima o in testa a questa. Fra due gruppi
-            # il silenzio e' piu' lungo che fra due lettere, e il 5NN attaccato
-            # a una R sarebbe una parola sola.
-            prima = parti[indice - 1] if indice else ""
-            parola = prima.endswith(" ") or parte.startswith(" ")
-            if pezzi and pezzi[-1][1] == wpm:
-                unito = pezzi.pop()
-                pezzi.append((unito[0] + (" " if parola else "") + parte.strip(), wpm, unito[2]))
-                continue
-            pezzi.append((parte.strip(), wpm, parola))
-        return tuple(pezzi) if len(pezzi) > 1 else None
+        """I pezzi di questa stazione, alla sua velocita'."""
+        return dividi_in_pezzi(marcato, self.wpm, self.motore.scambio_incremento)
 
     def tick(self, adesso, finita):
         """Un giro di orologio: chiude la trasmissione finita o fa scattare la scadenza."""
@@ -736,7 +740,7 @@ class StazioneDX(Stazione):
         self.oper = oper
         self.qsb = motore.evanescenza()
         self.chirp, self.vibrato = motore.difetti_di_nota()
-        # Chi tira via il rapporto lo fa per tutto il QSO: e' un'abitudine
+        # Chi accelera il rapporto lo fa per tutto il QSO: e' un'abitudine
         # dell'operatore, non un capriccio del momento.
         self.scambio_veloce = rng.random() * 100.0 < motore.scambio_probabilita
         self.chiamato = False
@@ -980,7 +984,7 @@ class Contest:
         self.flutter = bool(flutter)
         self.ampiezza_stereo = max(0.0, min(PAN_MASSIMO, float(ampiezza_stereo)))
         self.banda = int(banda)
-        # Quante stazioni su cento tirano via il rapporto, e di quanto per
+        # Quante stazioni su cento accelerano il rapporto, e di quanto per
         # cento accelerano rispetto alla propria velocita'. A zero nessuna lo
         # fa, ed e' come se la cosa non esistesse.
         self.scambio_probabilita = float(scambio_probabilita)
@@ -1080,12 +1084,22 @@ class Contest:
     def qrm_attive(self):
         return [s for s in self.stazioni if isinstance(s, StazioneQRM)]
 
-    def testo_mio(self, messaggi):
-        """Il testo che trasmetto io per questi messaggi."""
+    def testo_mio(self, messaggi, marca=False):
+        """Il testo che trasmetto io per questi messaggi.
+
+        Con marca il mio rapporto esce fra due segni, come quello delle
+        stazioni: chi costruisce il suono sa dove tagliare per mandarlo piu'
+        accelerato. Il mio non tira la probabilita': se l'interruttore e' acceso
+        il mio 5NN e' sempre accelerato, perche' e' una mia abitudine e non
+        una cosa che mi capita.
+        """
         pezzi = []
         for m in messaggi:
             testo = TESTI[m]
-            testo = testo.replace("<#>", numero_come_testo(self.rng, 599, self.mio_nr))
+            numero = numero_come_testo(self.rng, 599, self.mio_nr)
+            if marca and len(numero) > LUNGHEZZA_RAPPORTO:
+                numero = MARCA_VELOCE + numero[:LUNGHEZZA_RAPPORTO] + MARCA_VELOCE + numero[LUNGHEZZA_RAPPORTO:]
+            testo = testo.replace("<#>", numero)
             testo = testo.replace("<my>", self.mio_nominativo).replace("<his>", self.suo_nominativo)
             pezzi.append(testo)
         return " ".join(pezzi)
@@ -1118,7 +1132,13 @@ class Contest:
             self.io_trasmette = True
             for s in self.stazioni:
                 s.processa(Evento.IO_INIZIO, adesso)
-        return Richiesta(IO, testo if testo is not None else self.testo_mio(messaggi), self.mio_wpm, self.mio_pitch, *PESO_STANDARD, 1.0, 0.0, tuple(messaggi))
+        if testo is not None:
+            marcato = testo
+        else:
+            marcato = self.testo_mio(messaggi, marca=self.scambio_probabilita > 0)
+        mio_testo = marcato.replace(MARCA_VELOCE, "")
+        miei_pezzi = dividi_in_pezzi(marcato, self.mio_wpm, self.scambio_incremento)
+        return Richiesta(IO, mio_testo, self.mio_wpm, self.mio_pitch, *PESO_STANDARD, 1.0, 0.0, tuple(messaggi), None, None, None, False, miei_pezzi)
 
     def io_finito(self, adesso):
         """Ho finito di trasmettere: nel pile-up nascono le stazioni nuove, e tutte decidono cosa fare.

@@ -710,9 +710,13 @@ class TestCicloContest:
         # Solo i miei messaggi: quelli delle stazioni finiscono nella stessa
         # lista, e una stazione che si chiama DL3XY manda il proprio
         # nominativo esattamente come lo mando io con F5.
-        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
-        assert "DL3XY" in miei, miei
-        assert miei[miei.index("DL3XY") + 1] == "_ ?", miei
+        miei = [c for c in banco["cw"].chiamate if c["vol"] is None]
+        testi_miei = [c["msg"] for c in miei]
+        assert "DL3XY" in testi_miei, testi_miei
+        dopo = miei[testi_miei.index("DL3XY") + 1]
+        assert dopo["msg"] == "?", testi_miei
+        # Parte dopo il silenzio di uno spazio di parola, non attaccato.
+        assert dopo["ritardo"] > 0, dopo
         assert not banco["cw"].miei_tagliati, "il primo messaggio e' stato tagliato"
 
     def test_il_messaggio_accodato_arriva_al_motore_in_un_elenco_solo(self, monkeypatch):
@@ -732,7 +736,7 @@ class TestCicloContest:
         banco = prepara(monkeypatch, copione, minuti=1)
         cwapu.RxingContest({})
         miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
-        assert "_ ?" not in miei, miei
+        assert "?" not in miei, miei
 
     def test_il_fruscio_non_si_riaccende_fra_due_messaggi_accodati(self, monkeypatch):
         """Fra un pezzo e l'altro sto ancora trasmettendo: il ricevitore deve
@@ -805,7 +809,7 @@ class TestCicloContest:
             monkeypatch,
             copione,
             minuti=2,
-            contest={"pileup": True, "attivita": 9, "scambio_probabilita": 100, "scambio_incremento": 20},
+            contest={"pileup": True, "attivita": 9, "scambio_veloce": True, "scambio_probabilita": 100, "scambio_incremento": 20},
         )
         cwapu.RxingContest({})
         scambi = [c for c in banco["cw"].chiamate if c["vol"] is not None and c["ritardo"]]
@@ -822,7 +826,7 @@ class TestCicloContest:
 
     def test_senza_lo_switcher_nessun_messaggio_si_spezza(self, monkeypatch):
         copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (30.0, "alt-x")]
-        banco = prepara(monkeypatch, copione, minuti=2, contest={"pileup": True, "attivita": 9, "scambio_probabilita": 0})
+        banco = prepara(monkeypatch, copione, minuti=2, contest={"pileup": True, "attivita": 9, "scambio_veloce": False})
         cwapu.RxingContest({})
         assert not [c for c in banco["cw"].chiamate if c["ritardo"] and c["vol"] is not None]
 
@@ -946,6 +950,74 @@ class TestCicloContest:
         dopo = os.path.getmtime(percorso) if os.path.exists(percorso) else None
         assert prima == dopo, "il banco ha toccato il file di impostazioni vero"
         assert banco["salvataggi"] is not None
+
+    def test_l_invio_non_ripete_cio_che_ho_gia_detto(self, monkeypatch):
+        """Il primo Invio manda il suo nominativo con il mio scambio; il
+        secondo, quando ho copiato il suo, chiude e basta. Prima rimandava
+        tutto da capo ogni volta."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), *scrivi(12.0, "1"), (12.5, "\r"), (20.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        # Il nominativo con lo scambio una volta sola, e poi il solo TU.
+        assert any(m.startswith("DL3XY 5NN") for m in miei), miei
+        # L'ultimo messaggio del contest e' il saluto d'uscita.
+        assert miei[-2] == "TU", miei
+        assert sum(1 for m in miei if m.startswith("DL3XY 5NN")) == 1, miei
+
+    def test_dopo_f2_l_invio_non_rimanda_lo_scambio(self, monkeypatch):
+        """Se il DX mi chiede il progressivo io glielo mando con F2: l'Invio
+        poi chiude e basta, senza ripetere tutto."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (12.0, "f2"), *scrivi(20.0, "1"), (20.5, "\r"), (28.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        assert miei[-2] == "TU", miei
+
+    def test_dopo_f5_l_invio_rimanda_lo_scambio(self, monkeypatch):
+        """Se sono tornato a ripetere il suo nominativo, vuol dire che il primo
+        scambio non e' arrivato: va rimandato."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (12.0, "f5"), *scrivi(20.0, "1"), (20.5, "\r"), (28.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        # L'ultimo messaggio porta lo scambio, non il solo TU.
+        assert any("5NN" in m for m in miei[-3:]), miei
+
+    def test_senza_lo_scambio_l_invio_chiede_la_ripetizione(self, monkeypatch):
+        """Le ho gia' detto tutto e non ho il suo numero: il punto interrogativo
+        e' il modo di chiederglielo."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (14.0, "\r"), (20.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        assert "?" in miei, miei
+
+    def test_alt_w_dimentica_cio_che_avevo_detto(self, monkeypatch):
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (12.0, "alt-w"), *scrivi(14.0, "DL3XY"), (14.6, "\r"), (22.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        assert sum(1 for m in miei if m.startswith("DL3XY 5NN")) == 2, miei
+
+    def test_il_mio_5nn_e_accelerato_sempre_quando_l_interruttore_e_acceso(self, monkeypatch):
+        """Il mio non tira la probabilita': se l'interruttore e' acceso il mio
+        rapporto e' sempre piu' veloce, perche' e' una mia abitudine."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (20.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2, contest={"scambio_veloce": True, "scambio_probabilita": 1, "scambio_incremento": 25})
+        cwapu.RxingContest({})
+        miei = [c for c in banco["cw"].chiamate if c["vol"] is None]
+        rapporti = [c for c in miei if c["msg"] == "5NN"]
+        assert rapporti, [c["msg"] for c in miei]
+        lenti = [c["wpm"] for c in miei if c["msg"] == "DL3XY"]
+        assert lenti and all(r["wpm"] > min(lenti) for r in rapporti), (rapporti, lenti)
+
+    def test_con_l_interruttore_spento_il_mio_5nn_e_normale(self, monkeypatch):
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (20.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2, contest={"scambio_veloce": False})
+        cwapu.RxingContest({})
+        miei = [c for c in banco["cw"].chiamate if c["vol"] is None]
+        assert not [c for c in miei if c["ritardo"]], [c["msg"] for c in miei]
 
     def test_alt_s_dice_come_va(self, monkeypatch, capsys):
         copione = [(2.0, "alt-s"), (2.5, "alt-x")]
