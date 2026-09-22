@@ -67,7 +67,10 @@ def genera_report_attivita(df: pd.DataFrame, _, lang, giorni, mesi) -> str:
     giorni_coperti = delta_coperto.days
     prima_sessione_str = f"{giorni[prima_sessione.weekday()]} {prima_sessione.day} {mesi[prima_sessione.month]} {prima_sessione.year}, {prima_sessione.strftime('%H:%M')}"
     ultima_sessione_str = f"{giorni[ultima_sessione.weekday()]} {ultima_sessione.day} {mesi[ultima_sessione.month]} {ultima_sessione.year}, {ultima_sessione.strftime('%H:%M')}"
-    report_lines.append(_("   Numero totale di sessioni: {} (per un totale di {})").format(total_sessions, durata_totale_str))
+    # Il registro e' una coda: quando si riempie, le sessioni piu' vecchie
+    # escono. Dire totale a quel punto sarebbe falso, e i due numeri, questo
+    # e quello del contatore a vita, divergerebbero senza spiegazione.
+    report_lines.append(_("   Sessioni in archivio: {} (per un totale di {})").format(total_sessions, durata_totale_str))
     report_lines.append(_("  Prima sessione: {}").format(prima_sessione_str))
     report_lines.append(_("  Ultima sessione: {}").format(ultima_sessione_str))
     report_lines.append(_("  Periodo coperto: {}").format(periodo_coperto_str))

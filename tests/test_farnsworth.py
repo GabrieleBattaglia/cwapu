@@ -280,9 +280,15 @@ class TestSuona:
 
 class TestContest:
     def test_ogni_messaggio_del_contest_spegne_il_farnsworth(self):
-        """Decisione presa: nel contest il Farnsworth non esiste. Ogni suona() dentro RxingContest deve dirlo."""
+        """Decisione presa: nel contest il Farnsworth non esiste. Ogni suona() dentro RxingContest deve dirlo.
+
+        Dal 23 settembre i parametri comuni delle stazioni viaggiano in un
+        dizionario, perche' un messaggio spezzato li ripete pezzo per pezzo:
+        li' il Farnsworth sta dentro il dizionario, e vale per tutti.
+        """
         sorgente = inspect.getsource(cwapu.RxingContest)
+        assert '"farnsworth": 0' in sorgente, "il dizionario dei parametri non spegne il Farnsworth"
         chiamate = re.findall(r"suona\((.*)\)", sorgente)
         assert chiamate, "nessuna chiamata a suona nel contest?"
         for argomenti in chiamate:
-            assert "farnsworth=0" in argomenti, argomenti
+            assert "farnsworth=0" in argomenti or "**voce" in argomenti, argomenti

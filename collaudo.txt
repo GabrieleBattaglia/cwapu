@@ -4,99 +4,87 @@ Come si usa: ogni prova e' fatta di righe che cominciano con Prima, Pannello, Du
 Le righe Pannello elencano le sole voci da accendere: tutto il resto spento.
 Dove non ti chiedo di mettere a log, non scrivere niente nella riga: senza QSO a log il diario e l'archivio restano intatti.
 Nelle prove d'ascolto non ti dico cosa dovresti sentire, di proposito: se te lo dicessi lo sentiresti anche se non c'e'. I numeri e le spiegazioni te li do dopo il tuo giudizio.
-A che punto siamo: le prime cinque prove d'orecchio le hai fatte il 21 settembre e hanno prodotto cinque correzioni, poi otto riprove dalla A alla H, poi altre sei correzioni e le riprove dalla I alla M. Le hai fatte tutte. Dall'ultimo giro sono usciti quattro rilievi tuoi e, insieme, dieci difetti di contorno con la stessa radice: sono tutti corretti, e le riprove dalla N alla R li mettono alla prova. Restano poi le prove dalla otto alla diciotto, che non hai ancora fatto: dalla otto alla tredici sono di mani, le ultime guardano i file. La sei e la sette sono passate. Non serve farle tutte in una volta.
+A che punto siamo: hai fatto tutte le prove e tutte le riprove dalla A alla R. Dall'ultimo giro sono usciti i tuoi rilievi sul pannello, sul QRM che trasmette sopra di te, sulla stazione che ripeteva il nominativo e sul 5NN da mandare piu' svelto, piu' la richiesta nuova. Sono tutti corretti, e le riprove dalla S alla Z li mettono alla prova. La prova 14 l'ho fatta io con git al posto tuo, e l'esito te l'ho scritto a parte.
+Il pannello ha una voce in piu': lo 0, il 5NN svelto. Le voci sono dieci, dallo 0 al 9.
 COME SI ARRIVA AL CONTEST
-Dal menu, r. Nel pannello degli esercizi Rx la voce 8 e' il contest: accendila se non lo e', poi Invio. Al nominativo, Invio conferma quello salvato. Si apre il pannello del contest, nove voci: 1 QRN, 2 QRM, 3 QSB, 4 flutter, 5 sbadati, 6 pile-up, 7 stereo, 8 banda, 9 tasto verticale.
+Dal menu, r. Nel pannello degli esercizi Rx la voce 8 e' il contest: accendila se non lo e', poi Invio. Al nominativo, Invio conferma quello salvato. Si apre il pannello del contest, dieci voci: 0 5NN svelto, 1 QRN, 2 QRM, 3 QSB, 4 flutter, 5 sbadati, 6 pile-up, 7 stereo, 8 banda, 9 tasto verticale.
 Il numero accende e spegne. Accendendo una voce che ha un valore, il valore si chiede subito e Invio conferma il salvato. Per cambiare il valore di una voce gia' accesa, premi il suo numero due volte: la prima spegne, la seconda riaccende e richiede.
 Il 9 non toccarlo se non te lo chiedo: accendendolo partono sette domande.
-Invio comincia, Escape torna al menu. Poi la durata: 1 conta i QSO, 2 conta i minuti.
-RIPROVA N: GLI OTTO QSO SONO OTTO
-Prima: e' la riprova del tuo rilievo sulla durata e sulle statistiche.
+Invio comincia, Escape torna al menu e butta via i valori appena risposti. Poi la durata: 1 conta i QSO, 2 conta i minuti.
+RIPROVA S: LE STAZIONI SPARSE E IL FILTRO CHE ATTENUA
+Prima: e' la riprova del tuo rilievo sulle stazioni tutte vicine al centro frequenza. Da k, .h e mettiti al tono che usi di solito, poi il punto e Invio.
 Pannello: 6 pile-up attivita' 6, 7 stereo 0, 8 banda 600.
+Durata: 2, 4 minuti.
+Passo 1: manda CQ con F1 e ascolta il gruppo di stazioni che risponde, senza scrivere niente.
+Passo 2: ripeti tre o quattro volte, e ogni volta prova a contare quante note diverse riconosci e quanto sono distanti fra loro.
+Passo 3: stringi la banda a 300 con Maiusc freccia giu' e rimanda CQ un paio di volte.
+Passo 4: stringi fino a 100 e rimanda CQ.
+Passo 5: torna a 600 e, mentre un gruppo risponde, muovi il tono con Alt e le frecce di tre o quattro scatti per parte.
+Domanda 1: con la banda a 600, le stazioni ti sembrano sparse su tutta la banda o ancora ammucchiate al centro.
+Domanda 2: se dal volume riesci a capire quanto una stazione e' fuori dal tuo tono, o se arrivano tutte uguali.
+Domanda 3: stringendo a 300 e poi a 100, cosa succede a quelle lontane: spariscono, restano deboli, o non cambia niente.
+Domanda 4: muovendo il tono, senti qualche stazione farsi avanti e qualche altra allontanarsi.
+Domanda 5: complessivamente, il pile-up ti sembra adesso una banda affollata o resta un mucchio.
+Esito:
+RIPROVA T: IL 5NN SVELTO
+Prima: e' la richiesta nuova. La voce 0 del pannello: premi 0, alla prima domanda scrivi 40 e Invio, alla seconda scrivi 25 e Invio.
+Pannello: 0 5NN svelto 40 e 25, 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
 Durata: 1, 8 QSO.
-Passo 1: gioca normalmente e conta i QSO che metti a log, lasciando pure che qualche stazione si stanchi e se ne vada.
-Passo 2: quando il contest si chiude, leggi tutto il rapporto dall'inizio alla fine.
-Domanda 4: cosa dice la riga "Se ne sono andate", e se il numero davanti all'elenco ti serve.
-In realtà, va bene nel diario ma è troppo rumorosa nella console, non mi serve.
-Domanda 6: se la riga di Alt+S, con quella aggiunta, ti sta ancora sotto le dita sul braille o devi scorrerla.
-Va bene, però bisognerebbe aggiungerle i "\r" ad inizio e fine perchè la barra braille non la focalizza in automatico.
-Esito: Non c'entra nulla ma noto, facendo questo esercizio, che ho la banda a 600 eppure tutte le stazioni chiamanti sono vicinissime al centro frequenza. Avevamo già visto questo difetto. Non è che, per evitare gli errori del motore quando riceve dei pitch fuori range, hai rotto il meccanismo? Con banda così larga io mi aspetto stazioni molto molto lontane dal centro frquenza. Cioè, non per forza lontane ma, ecco, ovunque.
-
-PROVA 8: ESC, ALT+W E IL FILO DEL LOG
-Pannello: tutto spento.
-Durata: 1, 10 QSO.
-Passo 2: scrivi il nominativo intero, Invio, e mentre la tua trasmissione suona premi Esc; leggi la riga.
-Rimane dove devo inserire il progressivo ma la stazione non c'è più.
-Passo 4: premi Alt+W e leggi la riga.
-Torna a call.
-
-Annotazione generale: mi è capitata una cosa strana. Durante un esercizio ha chiamato B1MAN. L'ho copiato correttamente ma continuava a ridarmi il call come se lo avessi scritto male. Quando ha lasciato, ho potuto verificare che era proprio B1MAN come avevo scritto io. Non è una prova, magari sfugge a me qualcosa.
-
-PROVA 13: LA TIMELINE CON LA SESSIONE NUOVA
-Pannello: non toccare niente, Invio.
-Durata: 1, 5 QSO.
-Passo 1: r, 8, Invio, Invio al nominativo, Invio sul pannello; fai i cinque QSO e, nel rapporto, annota il numero della riga che comincia con "In questa sessione".
-Passo 2: torna al menu, premi s e aspetta il caricamento.
-Passo 3: al rapporto delle parole premi Esc per proseguire senza salvarlo, e lo stesso con quello dei caratteri.
-Passo 4: al rapporto QRZ leggi la riga "Numero totale di sessioni", percorri tutto il rapporto fino alla riga che saluta, e Esc per proseguire senza salvare.
-Passo 5: torna al menu ed esci con q, lasciando che l'applicazione saluti fino in fondo.
-Domanda 1: se i tre rapporti sono usciti fino in fondo senza fermate e senza errori. Sì
-Domanda 2: che numero riporta la riga "Numero totale di sessioni" del rapporto QRZ. 78
-Domanda 3: che numero riportava la riga "In questa sessione" del contest. 81
-Domanda 4: se quei due numeri ti tornano con i contest e gli esercizi QRZ che hai davvero fatto. Penso di sì perchè alcune sessioni avevano 0 qrz ricevuti.
+Passo 1: gioca e chiudi gli otto QSO, ascoltando con attenzione lo scambio di ogni stazione.
+Passo 2: verso meta' partita, se ne trovi una che tira via il rapporto, prova a farle ripetere con F7 e riascolta.
+Passo 3: alla fine leggi la riga 0 del pannello rientrando con r, per vedere se i due valori sono rimasti.
+Domanda 1: riconosci le stazioni che tirano via il 5NN, e quante te ne sembrano su dieci.
+Domanda 2: il passaggio dal rapporto svelto al progressivo normale ti sembra naturale o senti uno strappo, un buco, un salto.
+Domanda 3: il progressivo, che e' il dato da copiare, resta comodo da prendere.
+Domanda 4: il venticinque per cento di incremento ti sembra giusto, troppo o troppo poco.
+Domanda 5: se preferiresti che accelerasse anche il tuo scambio, quello che mandi tu.
 Esito:
-PROVA 14: IL FILE DI IMPOSTAZIONI DI OTTO MESI
-Prima: questa falla per prima, prima di tutte le altre.
-Passo 1: chiudi CWapu; dalla console in E:\git\mine\cwapu copia il file con copy cwapu_settings.json E:\git\tmp\cwapu_settings_prima.json, e annota la dimensione in byte dell'originale.
-Passo 2: avvia CWapu dai sorgenti, non l'eseguibile in dist, e ascolta per intero il riepilogo d'avvio: avvii, velocita', tono, pesi, Farnsworth, uscita audio.
-Passo 3: premi r, poi Escape, e torna al menu; esci con q e lascia che saluti fino in fondo.
-Passo 4: annota di nuovo la dimensione, e tieni la copia finche' non sei soddisfatto. Il confronto fra i due file lo faccio io: ti dico quante sessioni e quanti rapporti c'erano prima e dopo nelle tre categorie, e quali chiavi sono comparse o sparite.
-Passo 5: riavvia, r, 8, Invio, e al nominativo scrivi IZ4APU e Invio; pannello 7 stereo 60, durata 1, 3 QSO.
-Passo 6: mettine a log almeno uno, altrimenti il contest si chiude senza rapporto, poi Alt+X; nel rapporto annota per intero la riga che comincia con "Sessione fatta con".
-Passo 7: torna al menu, esci con q, riavvia, r, 8, Invio, e al nominativo premi Invio senza scrivere niente; ascolta la riga che comincia con "Contest come".
-Passo 8: pannello non toccare niente, Invio; durata 1, 3 QSO, fanne uno, Alt+X, e annota di nuovo la riga "Sessione fatta con".
-Esito: Purtroppo mi sono dimenticato di farla per prima. Ho però fatto qualche esercizio contest, quindi puoi fare il confronto fra questo file attuale ed uno preso da git di 2 giorni fa.
-
-PROVA 15: I SETTE VALORI DEL TASTO VERTICALE
-Passo 1: r, 8, Invio, Invio al nominativo; nel pannello premi 2 per il QRM e, se non parte nessuna domanda, premilo altre due volte cosi' parte.
+RIPROVA U: IL DISTURBO SOTTO E LA STAZIONE CHE SI RIPETEVA
+Prima: sono due rilievi tuoi insieme, il QRM che trasmetteva sopra di te e la stazione che continuava a ridarti il nominativo.
+Pannello: 2 QRM 5 stazioni, 5 sbadati, 6 pile-up attivita' 6, 7 stereo 0, 8 banda 600.
+Durata: 2, 6 minuti.
+Passo 1: gioca normalmente per tutti i sei minuti, mettendo a log quello che riesci.
+Passo 2: ogni tanto manda F1 o F4 apposta mentre il disturbo sta trasmettendo, e ascolta cosa succede al disturbo.
+Passo 3: quando una stazione ti risponde, prova due volte a battere Invio il piu' presto possibile, cioe' appena credi di aver copiato il nominativo, anche anticipando la sua ultima lettera.
+Passo 4: se una stazione ti ridà il nominativo, riscrivilo uguale e rimandalo con F5, e guarda se si sblocca.
+Domanda 1: mentre trasmetti tu, senti ancora qualcosa sotto o sopra la tua voce.
+Domanda 2: le stazioni di disturbo, quando riprendi ad ascoltare, sono ancora li' a meta' del loro messaggio o ricominciano da capo.
+Domanda 3: anticipando l'Invio, ti e' ancora capitato che una stazione ripetesse il nominativo all'infinito.
+Domanda 4: se e' capitato, quante volte su quante, e la stazione poi si e' sbloccata o se n'e' andata.
+Esito:
+RIPROVA V: IL PANNELLO E IL FRUSCIO
+Prima: sono i rilievi della prova 15 e della prova 16.
+Passo 1: r, 8, Invio, Invio al nominativo; nel pannello premi 2 per il QRM e, se non parte la domanda, premilo ancora una volta.
 Passo 2: alla domanda scrivi pippo e Invio, poi scrivi 9 e Invio.
-Passo 3: rileggi con NVDA tutta la finestra dall'alto in basso.
-Passo 4: premi 9 per spegnere il tasto verticale e poi 9 di nuovo: partono sette domande; alla prima scrivi 55 e Invio, alle altre sei Invio a vuoto.
-Passo 5: rileggi tutta la finestra dall'alto, e in particolare la riga 9, anche sulla barra.
-Passo 6: Escape; rientra con r, Invio, Invio al nominativo, leggi di nuovo la riga 9, Escape.
-Domanda 1: quante righe estranee al pannello trovi dopo il rifiuto e cosa dicono.
-Dicono serve un numero intero e poi da 1 a 5.
-Domanda 2: se le nove voci sono ancora tutte presenti e in ordine.
-Sì però qrm risulta disattivo
-Domanda 3: se il rifiuto della parola pippo lo hai saputo nel momento in cui e' successo o solo dopo andandolo a leggere, e in che lingua era.
-Dopo invio, in italiano.
-Domanda 4: cosa riporta la riga 9 subito dopo le sette domande e cosa riporta al rientro, e se i due numeri coincidono.
-Riporta: 9. TASTO VERTICALE <X> ATTIVATO, 30 per cento, L 30-60, S 25-75, P 15-50                                                                                                                                         
-Intanto userei % invece della parola percento. Poi forse un dato è sbagliato: il 30 doveva essere 55%? Non so ma forse con esc non salva e sarebbe anche corretto.
-Domanda 5: se sopra il titolo o sotto l'ultima voce e' rimasto qualcosa delle sette domande.
-no
-Domanda 6: se la riga 9 sulla barra ti sta comoda o devi scorrerla.
-E' lunga ma fa lo stesso.
+Passo 3: rileggi con NVDA tutta la finestra dall'alto in basso, e conta le righe che non appartengono al pannello.
+Passo 4: leggi la riga 2 e di' se il QRM risulta acceso e con quale valore.
+Passo 5: premi 9 per spegnere il tasto verticale e poi 9 di nuovo: alla prima delle sette domande scrivi 55 e Invio, alle altre sei Invio a vuoto.
+Passo 6: senza uscire, rileggi la riga 9 e la riga 1 dello schermo, quella sopra il titolo.
+Passo 7: Escape, poi rientra con r, Invio, Invio al nominativo, e leggi di nuovo la riga 9.
+Passo 8: leggi la riga del titolo del pannello, in cima.
+Passo 9: Invio, durata 2, 2 minuti, pannello con 1 QRN acceso; appena parte tieni premuto Alt+Freccia su per qualche secondo, fino a superare il tetto del tono.
+Passo 10: poi tieni premuto Alt+F10 per qualche secondo, e infine Maiusc+Freccia su.
+Domanda 1: dopo il rifiuto di pippo, quante righe estranee trovi e cosa dicono.
+Domanda 2: il QRM risulta acceso e con quale numero.
+Domanda 3: cosa riporta la riga 9 subito dopo le sette domande, prima di uscire.
+Domanda 4: cosa c'e' sulla riga sopra il titolo del pannello.
+Domanda 5: cosa riporta la riga 9 al rientro, e se il fatto che Escape butti via i valori ti e' chiaro dalla riga del titolo.
+Domanda 6: tenendo premuto Alt+Freccia su oltre il tetto, il fruscio cambia, si interrompe, o resta fermo com'e'.
+Domanda 7: la stessa cosa tenendo premuto Alt+F10 sul volume e Maiusc+Freccia su sulla banda: il fruscio si comporta come ti aspetti.
 Esito:
-
-PROVA 16: IL CONTEST CHE SI CHIUDE
-Prima: da k, .h 2500, .w 25, poi il punto e Invio.
-Pannello: 1 QRN, 2 QRM 5 stazioni, 6 pile-up attivita' 9.
-Durata: 2, 3 minuti.
-Passo 1: appena partito premi Alt+Freccia su tre volte leggendo ogni annuncio, poi F10 tre volte leggendo ogni annuncio.
-Passo 2: gioca finche' non senti almeno tre o quattro stazioni sovrapposte.
-Passo 3: proprio mentre stanno trasmettendo, premi Alt+X; subito dopo, senza aspettare, batti tre volte la lettera z e due volte la Freccia su.
-Passo 4: aspetta la fine del saluto e leggi tutto cio' che esce fino al prompt che riporta al menu, e porta le dita sulla barra prima di premere.
-Passo 5: premi un tasto e, al menu, ascolta la prima cosa che CWapu dice.
-Passo 6: poi k, leggi la riga di riepilogo in cima con WPM, Hz e volume, trascrivi i due numeri, poi il punto e Invio.
-Domanda 1: i tre annunci dopo Alt+Freccia su e i tre dopo F10, con i numeri esatti.
-Domanda 2: cosa senti nei due secondi dopo Alt+X, e se qualcosa continua a suonare sotto o dopo il saluto.
-Domanda 3: se il saluto si sente per intero.
-Domanda 4: se al ritorno al menu trovi segni di comandi che non hai dato tu.
-Domanda 5: dove si ferma il display quando compare il prompt.
-Domanda 6: i valori di WPM e Hz che hai letto rientrando in k, e se quello che e' successo al tono e alla velocita' e' scritto da qualche parte nel manuale.
-Esito: Non succede nulla di strano e non ci sono residui. Mi sembra di aver notato però, che se raggiungo il limite 2700 hz e continuo a premere alt+su, non salgo ovviamente ma forse si restringe la banda, non ne sono sicuro.
-
-Altre annotazioni.
-BUG: le stazioni qrm chiamano anche mentre sto trasmettendo io.
-La questione del 5NN inviato a velocità superiore. Vorrei reintrodurla anche qui nel contest. prendila da cwsim. Dovremo aggiungere lo switcher 0 (spento se 5nn allo 0%) e quando acceso le domande sulle percentuali di probabilità che capiti e sugli incrementi rispetto ai wpm del contester.
+RIPROVA Z: ESC SULLA RISPOSTA E ALT+S
+Pannello: 6 pile-up attivita' 4, 7 stereo 0, 8 banda 600.
+Durata: 1, 6 QSO.
+Passo 1: quando una stazione chiama, scrivi il nominativo, premi Invio e, mentre la tua trasmissione suona, premi Esc; leggi la riga.
+Passo 2: da li' premi Invio e ascolta cosa esce.
+Passo 3: porta a termine quel QSO.
+Passo 4: fai un altro QSO e, dopo aver mandato il nominativo, aspetta che la tua trasmissione finisca, poi scrivi due cifre e premi Esc; leggi la riga.
+Passo 5: premi Alt+S a meta' partita e leggi la riga intera, tenendo le dita sulla barra prima di premere.
+Passo 6: rifai il contest a tempo, 2 minuti, e premi Alt+S due volte durante la partita.
+Domanda 1: dopo l'Esc del passo 1, cosa leggi sulla riga e se e' dove la mano si aspettava di trovarsi.
+Domanda 2: l'Invio del passo 2 rimanda qualcosa, e la stazione ti risponde di nuovo.
+Domanda 3: dopo l'Esc del passo 4, la riga e' rimasta sul numero, come deve.
+Domanda 4: la riga di Alt+S, con la parte che dice quanto manca, ti sta sotto le dita quando compare o devi andarla a cercare.
+Domanda 5: se la riga ci sta nelle celle che hai o devi scorrerla.
+Domanda 6: a tempo, la parte che dice quanto manca ti torna con l'orologio.
+Esito:

@@ -48,12 +48,17 @@ PROB_FLUTTER = 0.3
 # centocinquanta ripiegata a trecento, e con il filtro a cinquecento le
 # stazioni restavano tutte dentro la banda passante: Gabriele, provandolo,
 # le ha sentite tutte piuttosto centrate, mentre in radio si chiama anche da
-# molto fuori banda. Qui la gaussiana e' piu' larga e il ripiegamento piu'
-# lontano, cosi' le stazioni lontane esistono e il filtro se le mangia, che
-# e' poi il suo mestiere, ma senza mai mangiarsele del tutto: sotto c'e' il
-# pavimento del filtro, e una stazione lontana si sente debole, non sparisce.
-TONO_SCARTO = 220.0
-TONO_MASSIMO = 450.0
+# molto fuori banda. Morse Runner sparge le stazioni con una gaussiana di
+# centocinquanta hertz ripiegata a trecento, quindi nemmeno li' esiste una
+# stazione piu' lontana di trecento hertz: con il filtro a seicento non ce
+# n'e' una sola attenuata di piu' di 5,6 decibel. Gabriele, che con la banda
+# larga si aspetta di trovarne ovunque, ha scelto di staccarsi dall'originale
+# e allargare: settecento hertz di ripiegamento coprono tutta la banda piu'
+# larga. Il filtro se le mangia, che e' poi il suo mestiere, ma senza mai
+# mangiarsele del tutto: sotto c'e' il pavimento, e una stazione lontana si
+# sente debole, non sparisce.
+TONO_SCARTO = 300.0
+TONO_MASSIMO = 700.0
 # I toni che una stazione puo' avere. Il tetto e' quello che CWzator accetta,
 # perche' oltre rifiuta il messaggio e lo dice. Il pavimento no: e' piu' alto
 # del suo, perche' sotto i duecentocinquanta hertz la nota e' cupa e si copia
@@ -83,6 +88,13 @@ PROB_CHIRP = 0.15
 VIBRATO_PROFONDITA = (3.0, 12.0)
 VIBRATO_FREQUENZA = (2.0, 9.0)
 PROB_VIBRATO = 0.1
+# Il segno con cui si marca, dentro il testo, il pezzo da mandare piu'
+# svelto. Non e' un carattere che il motore CW sappia suonare: serve solo a
+# dire dove tagliare, e dal testo della richiesta sparisce sempre.
+MARCA_VELOCE = "\x00"
+# Quanti caratteri del gruppo dello scambio sono il rapporto: 599 diventa
+# 5NN, e restano tre anche con le abbreviazioni.
+LUNGHEZZA_RAPPORTO = 3
 
 
 def numero_come_testo(rng, rst, nr, errore=False):
@@ -229,6 +241,11 @@ class Richiesta:
     # una stazione di disturbo, che nasce fra trenta e cinquanta parole al
     # minuto a prescindere dalla mia.
     dx: bool = False
+    # Il messaggio diviso in pezzi, ognuno con la sua velocita', quando una
+    # parte va mandata piu' svelta del resto: e' il 5NN dei contest, che
+    # tutti si aspettano e quindi molti tirano via. None vuol dire tutto il
+    # testo alla velocita' della richiesta, che e' il caso normale.
+    pezzi: tuple = None
 
 
 @dataclass
@@ -262,13 +279,21 @@ def guadagno_filtro(banda_hz, scarto_hz):
 
     Le voci CW sono toni puri, quindi il filtro di banda del ricevitore di
     cwsim, che lavorava sulla somma dei segnali, qui diventa un volume per
-    stazione: piena dentro meta' banda, poi un fianco a coseno che scende
-    fino al pavimento a una banda intera dal centro.
+    stazione: una campana che comincia a scendere subito e arriva al
+    pavimento a una banda intera dal centro.
+
+    Subito, non dopo meta' banda. Prima il guadagno restava pieno fino a
+    meta' banda, e due stazioni, una centrata e una a duecentocinquanta
+    hertz, arrivavano con lo stesso identico volume: spariva l'unico
+    segnale che dice all'orecchio quanto una stazione e' fuori, e il
+    pile-up sembrava tutto ammassato al centro. Il filtro di cwsim, tre
+    medie mobili in cascata, a meta' banda e' gia' sceso di 5,6 decibel:
+    questa campana lo insegue da vicino, misurata a banda 600, prima il
+    nostro poi il suo: a 100 hertz -0,6 contro -0,6; a 200 -2,3 contro
+    -2,4; a 300 -5,5 contro -5,6; a 400 -10,6 contro -10,3.
     """
-    meta = max(1.0, float(banda_hz)) / 2.0
-    fuori = (abs(float(scarto_hz)) - meta) / meta
-    if fuori <= 0.0:
-        return 1.0
+    banda = max(1.0, float(banda_hz))
+    fuori = abs(float(scarto_hz)) / banda
     if fuori >= 1.0:
         return FILTRO_PAVIMENTO
     fianco = 0.5 * (1.0 + math.cos(math.pi * fuori))
@@ -570,6 +595,9 @@ class Stazione:
         self.qsb = None
         self.chirp = None
         self.vibrato = None
+        # Le stazioni di disturbo e quelle costruite a mano nelle prove non
+        # accelerano: il 5NN piu' svelto e' un gesto di chi sta facendo un QSO.
+        self.scambio_veloce = False
 
     @property
     def scarto_tono(self):
@@ -588,16 +616,24 @@ class Stazione:
         """Il corrispondente della stazione, cioe' io."""
         return self.motore.mio_nominativo
 
-    def testo_numero(self):
-        """Rapporto e numero della stazione, con l'errore dello sbadato quando tocca."""
+    def testo_numero(self, marca=False):
+        """Rapporto e numero della stazione, con l'errore dello sbadato quando tocca.
+
+        Con marca, il rapporto esce fra due segni: chi costruisce la richiesta
+        sa dove tagliare per mandarlo piu' svelto. La marcatura viene dopo
+        l'errore dello sbadato, cosi' la correzione con la serie di e resta
+        alla velocita' di sempre.
+        """
         testo = numero_come_testo(self.rng, self.rst, self.nr, self.errore_nr)
         self.errore_nr = False
+        if marca and len(testo) > LUNGHEZZA_RAPPORTO:
+            testo = MARCA_VELOCE + testo[:LUNGHEZZA_RAPPORTO] + MARCA_VELOCE + testo[LUNGHEZZA_RAPPORTO:]
         return testo
 
-    def testo_di(self, messaggio):
+    def testo_di(self, messaggio, marca=False):
         testo = TESTI[messaggio]
         while "<#>" in testo:
-            testo = testo.replace("<#>", self.testo_numero(), 1)
+            testo = testo.replace("<#>", self.testo_numero(marca), 1)
         return testo.replace("<my>", self.mio).replace("<his>", self.suo)
 
     def trasmetti(self, messaggi, adesso):
@@ -609,7 +645,9 @@ class Stazione:
             return None
         self.stato = Stato.TRASMETTE
         self.scadenza = None
-        testo = " ".join(self.testo_di(m) for m in self.messaggi)
+        marcato = " ".join(self.testo_di(m, self.scambio_veloce) for m in self.messaggi)
+        testo = marcato.replace(MARCA_VELOCE, "")
+        pezzi = self.dividi_in_pezzi(marcato)
         # Il volume della richiesta e' gia' filtrato: la forza della stazione
         # attenuata da quanto il suo tono e' lontano dal mio, cioe' il filtro
         # del ricevitore reso voce per voce, come dice il piano.
@@ -628,7 +666,41 @@ class Stazione:
             self.chirp,
             self.vibrato,
             isinstance(self, StazioneDX),
+            pezzi,
         )
+
+    def dividi_in_pezzi(self, marcato):
+        """Il testo marcato diventa pezzi con la loro velocita', o None se non serve.
+
+        I pezzi si alternano: fuori dai segni la velocita' della stazione,
+        dentro quella accelerata. Due pezzi di fila alla stessa velocita' si
+        uniscono, perche' ogni pezzo costa una voce del mixer e le voci sono
+        trentadue. Ogni pezzo dice anche se il confine che lo precede era uno
+        spazio: fra due gruppi il silenzio e' piu' lungo che fra due lettere,
+        e chi rimette insieme il suono, sbagliandolo, farebbe sentire uno
+        strappo in mezzo allo scambio.
+        """
+        if MARCA_VELOCE not in marcato:
+            return None
+        veloce = max(1, round(self.wpm * (1.0 + self.motore.scambio_incremento / 100.0)))
+        parti = marcato.split(MARCA_VELOCE)
+        pezzi = []
+        for indice, parte in enumerate(parti):
+            if not parte.strip():
+                continue
+            wpm = veloce if indice % 2 else self.wpm
+            # Il confine che conta e' quello che precede il pezzo: lo spazio
+            # sta in coda alla parte prima o in testa a questa. Fra due gruppi
+            # il silenzio e' piu' lungo che fra due lettere, e il 5NN attaccato
+            # a una R sarebbe una parola sola.
+            prima = parti[indice - 1] if indice else ""
+            parola = prima.endswith(" ") or parte.startswith(" ")
+            if pezzi and pezzi[-1][1] == wpm:
+                unito = pezzi.pop()
+                pezzi.append((unito[0] + (" " if parola else "") + parte.strip(), wpm, unito[2]))
+                continue
+            pezzi.append((parte.strip(), wpm, parola))
+        return tuple(pezzi) if len(pezzi) > 1 else None
 
     def tick(self, adesso, finita):
         """Un giro di orologio: chiude la trasmissione finita o fa scattare la scadenza."""
@@ -664,6 +736,9 @@ class StazioneDX(Stazione):
         self.oper = oper
         self.qsb = motore.evanescenza()
         self.chirp, self.vibrato = motore.difetti_di_nota()
+        # Chi tira via il rapporto lo fa per tutto il QSO: e' un'abitudine
+        # dell'operatore, non un capriccio del momento.
+        self.scambio_veloce = rng.random() * 100.0 < motore.scambio_probabilita
         self.chiamato = False
         self.nr = oper.numero()
         if motore.sbadati and rng.random() < motore.prob_rst_sbagliato:
@@ -887,6 +962,8 @@ class Contest:
         ampiezza_stereo=100,
         banda=500,
         pesi_manuali=(0.3, (30, 60), (25, 75), (15, 50)),
+        scambio_probabilita=0,
+        scambio_incremento=15,
         seme=None,
     ):
         self.rng = random.Random(seme)
@@ -903,6 +980,11 @@ class Contest:
         self.flutter = bool(flutter)
         self.ampiezza_stereo = max(0.0, min(PAN_MASSIMO, float(ampiezza_stereo)))
         self.banda = int(banda)
+        # Quante stazioni su cento tirano via il rapporto, e di quanto per
+        # cento accelerano rispetto alla propria velocita'. A zero nessuna lo
+        # fa, ed e' come se la cosa non esistesse.
+        self.scambio_probabilita = float(scambio_probabilita)
+        self.scambio_incremento = float(scambio_incremento)
         self.pesi_manuali = pesi_manuali
         self.prob_rst_sbagliato = 0.03
         self.prob_nr_sbagliato = 0.1

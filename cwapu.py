@@ -256,8 +256,17 @@ CONTEST_PREDEFINITI = {
     "tasto_s_max": 75,
     "tasto_p_min": 15,
     "tasto_p_max": 50,
+    "scambio_probabilita": 0,
+    "scambio_incremento": 15,
 }
 CONTEST_VOCI = [
+    {
+        "id": "0",
+        "etichetta": _("5NN svelto"),
+        "valore": "scambio_probabilita",
+        "chiedi": lambda salvato: chiedi_scambio_veloce(salvato),
+        "descrivi": lambda stati: _("{p}% delle stazioni, +{d}%").format(p=stati["scambio_probabilita"], d=stati["scambio_incremento"]),
+    },
     {"id": "1", "key_state": "qrn", "etichetta": _("QRN")},
     {
         "id": "2",
@@ -296,7 +305,7 @@ CONTEST_VOCI = [
         "id": "9",
         "key_state": "tasto_verticale",
         "etichetta": _("tasto verticale"),
-        "descrivi": lambda stati: _("{p} per cento, L {l0}-{l1}, S {s0}-{s1}, P {p0}-{p1}").format(
+        "descrivi": lambda stati: _("{p}%, L {l0}-{l1}, S {s0}-{s1}, P {p0}-{p1}").format(
             p=stati["tasto_probabilita"],
             l0=stati["tasto_l_min"],
             l1=stati["tasto_l_max"],
@@ -307,6 +316,24 @@ CONTEST_VOCI = [
         ),
     },
 ]
+def chiedi_scambio_veloce(salvato):
+    """Le due domande del 5NN svelto: quante stazioni lo fanno e di quanto.
+
+    Nei contest il rapporto e' l'unico gruppo che tutti si aspettano, quindi
+    molti operatori lo tirano via e rallentano sul numero, che e' il dato
+    vero da copiare. La voce e' una sola nel pannello, come chiede Gabriele,
+    ma i valori sono due: la probabilita' fa da interruttore, perche' a zero
+    non lo fa nessuno, e l'incremento si chiede solo se la probabilita' non
+    e' zero, altrimenti sarebbe una domanda su una cosa che non succede.
+    """
+    quante = chiedi_intero(_("Stazioni che tirano via il 5NN, in percentuale"), 0, 100, salvato)
+    if quante:
+        app_data["contest_settings"]["scambio_incremento"] = chiedi_intero(
+            _("Di quanto accelerano il 5NN, in percentuale"), 5, 50, app_data["contest_settings"].get("scambio_incremento", CONTEST_PREDEFINITI["scambio_incremento"])
+        )
+    return quante
+
+
 def chiedi_intero(domanda, minimo, massimo, proposto):
     """Una domanda del contest: cosa si chiede, fra che limiti, e cosa l'Invio conferma.
 
@@ -779,7 +806,7 @@ def scegli_uscita_audio(elenco=None, chiedi=None, automatica=None):
     return (voce["breve"], voce["dispositivo"])
 
 
-def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None):
+def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None, ritardo=None):
     """Manda un messaggio al motore CW con le impostazioni correnti dell'utente.
 
     Raccoglie i dieci parametri che ogni chiamata ripeteva identici e lascia
@@ -825,6 +852,14 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
     for nome, valore in (("qsb", qsb), ("chirp", chirp), ("vibrato", vibrato)):
         if valore is not None:
             parametri[nome] = valore
+    if ritardo:
+        # Il silenzio davanti al messaggio, in secondi: il trattino basso e'
+        # il segnaposto che CWzator riempie con la pausa chiesta, esatta al
+        # millesimo e indipendente dalla velocita'. Serve a far partire un
+        # pezzo nell'istante giusto senza aspettare che il precedente
+        # finisca, cioe' a rimettere insieme un messaggio spezzato.
+        parametri["msg"] = "_ " + parametri["msg"]
+        parametri["pausa"] = float(ritardo) * 1000.0
     handle, rwpm = CWzator(**parametri)
     errore = getattr(CWzator, "ultimo_errore", None)
     if handle is None and effettiva and "farnsworth" in str(errore).lower():
@@ -1005,10 +1040,10 @@ def pannello_interruttori(voci, stati, titolo, al_cambio=None, alla_conferma=Non
             # Accendendo una voce con un valore lo si chiede subito, con il
             # salvato come predefinito: un Invio lo conferma.
             _move_cursor(riga_prompt + 1, 1)
-            _clear_line_from_cursor()
+            _clear_screen_from_cursor()
             stati[scelto["valore"]] = scelto["chiedi"](stati.get(scelto["valore"]))
             _move_cursor(riga_prompt + 1, 1)
-            _clear_line_from_cursor()
+            _clear_screen_from_cursor()
         if al_cambio:
             messaggio = al_cambio(stati, scelto) or ""
 
@@ -1018,6 +1053,10 @@ def pulisci_pannello(riga_base, quante):
     for scarto in range(quante + 4):
         _move_cursor(riga_base - 1 + scarto, 1)
         _clear_line_from_cursor()
+    # E poi tutto cio' che sta sotto, che nessuno sa quanto e': le domande
+    # rifiutate scrivono una riga per rifiuto.
+    _move_cursor(riga_base + quante + 3, 1)
+    _clear_screen_from_cursor()
     _move_cursor(riga_base, 1)
 
 
@@ -1123,6 +1162,18 @@ def _clear_line_from_cursor():
     sys.stdout.write("\x1b[K")
 
 
+def _clear_screen_from_cursor():
+    """Pulisce dal cursore fino in fondo allo schermo.
+
+    Serve dove non si sa quante righe si sono sporcate: una domanda
+    rifiutata da dgt ne scrive una per ogni rifiuto, e nessuno sa quanti
+    ne farai. Cancellare solo la riga corrente lasciava sotto il pannello
+    le spiegazioni di una domanda gia' chiusa, e fra quelle l'unica riga
+    che diceva che il valore era stato riportato dentro i limiti.
+    """
+    sys.stdout.write("\x1b[J")
+
+
 def load_settings():
     """Carica le impostazioni dal file JSON o restituisce i default."""
     if os.path.exists(SETTINGS_FILE):
@@ -1205,8 +1256,16 @@ def load_settings():
                 log = merged_data[hist_data_key].get("sessions_log", [])
                 log_pulito = [s for s in log if s.get("items_sent_session", 0) > 0]
                 if len(log_pulito) != len(log):
-                    sessioni_vuote += len(log) - len(log_pulito)
+                    tolte = len(log) - len(log_pulito)
+                    sessioni_vuote += tolte
                     merged_data[hist_data_key]["sessions_log"] = log_pulito
+                    # Il contatore scende insieme al registro. Prima no, e i
+                    # due numeri divergevano in silenzio: il rapporto QRZ
+                    # diceva 78 sessioni e il contest 81, che sono le stesse
+                    # sessioni contate da due parti diverse, meno tre vuote
+                    # tolte il 7 settembre e mai scalate.
+                    conta = merged_data[f"rxing_stats_{key_suffix}"]
+                    conta["sessions"] = max(len(log_pulito), conta.get("sessions", 0) - tolte)
             if sessioni_vuote:
                 print(_("Archivio ripulito: tolte {quante} sessioni senza dati.").format(quante=sessioni_vuote))
             print(_("Impostazioni generali caricate"))
@@ -1920,7 +1979,7 @@ def descrivi_pannello_contest(stati):
     pezzi.append(_("banda {n} hertz").format(n=stati["banda"]))
     if stati["tasto_verticale"]:
         pezzi.append(
-            _("manipolazione manuale al {p} per cento, L {l0}-{l1}, S {s0}-{s1}, P {p0}-{p1}").format(
+            _("manipolazione manuale al {p}%, L {l0}-{l1}, S {s0}-{s1}, P {p0}-{p1}").format(
                 p=stati["tasto_probabilita"],
                 l0=stati["tasto_l_min"],
                 l1=stati["tasto_l_max"],
@@ -1935,8 +1994,51 @@ def descrivi_pannello_contest(stati):
     return ", ".join(pezzi)
 
 
-def righe_rapporto_contest(punteggio, stati, durata_secondi):
+class InsiemeDiSuoni:
+    """Piu' pezzi che insieme fanno un messaggio solo.
+
+    Il ciclo del contest tiene una voce per stazione e la interroga per
+    sapere se ha finito, o la zittisce quando comincio a trasmettere. Un
+    messaggio spezzato in pezzi sono piu' voci, ma per il ciclo devono
+    restare una cosa sola: altrimenti ne fermerebbe uno e gli altri
+    continuerebbero a suonare sotto la mia trasmissione.
+    """
+
+    def __init__(self, pezzi, durata):
+        self.pezzi = list(pezzi)
+        self.durata = float(durata)
+        self.is_playing = self
+
+    def is_set(self):
+        """Suona finche' almeno un pezzo suona."""
+        return any(h.is_playing.is_set() for h in self.pezzi)
+
+    def stop(self):
+        for h in self.pezzi:
+            h.stop()
+        return True
+
+
+def buco_fra_pezzi(wpm, s, parola):
+    """Il silenzio che separa due pezzi, in secondi.
+
+    Misurato su CWzator: fra due lettere vale 1,4 unita' piu' sei centesimi
+    per ogni punto di peso degli spazi sopra venticinque, e fra due parole
+    due unita' in piu' ogni venticinque punti di peso. Con i pesi standard
+    fanno 2,9 e 6,9 unita', e la formula segue la misura entro tre
+    millesimi di secondo da diciotto a cinquanta parole al minuto.
+    """
+    unita = 1.2 / max(1, int(wpm))
+    lettere = 1.4 + (int(s) - 25) * 0.06
+    return unita * (lettere + (2.0 * int(s) / 25.0 if parola else 0.0))
+
+
+def righe_rapporto_contest(punteggio, stati, durata_secondi, con_rinunce=True):
     """Le righe che il contest aggiunge al rapporto, a video e nel diario.
+
+    Con con_rinunce falso si lascia fuori l'elenco di chi se n'e' andato,
+    che a schermo e' una riga lunga di nominativi che scorrono via senza
+    servire a niente: nel diario invece si rilegge con calma.
 
     Sono quelle di cwsim: punti, prefissi e punteggio grezzi e verificati, la
     percentuale di errore, il ritmo per ogni cinque minuti, cio' che e' stato
@@ -1960,10 +2062,12 @@ def righe_rapporto_contest(punteggio, stati, durata_secondi):
     scambi = punteggio.scambi_sbagliati()
     if scambi:
         righe.append(_("Scambi copiati male: {elenco}.").format(elenco=", ".join(f"{v.nominativo} {v.rst_ricevuto} {v.nr_ricevuto}" for v in scambi)))
-    if punteggio.rinunce:
+    if punteggio.rinunce and con_rinunce:
         # Le occasioni perse dicono qualcosa di vero, cioe' quanto sono stato
-        # lento a rispondere, ma non sono QSO copiati male: stanno qui, e
-        # fuori da QSO, percentuali, velocita' e durata.
+        # lento a rispondere, ma non sono QSO copiati male: stanno fuori da
+        # QSO, percentuali, velocita' e durata. E stanno fuori anche dalla
+        # console, dove l'elenco dei nominativi e' rumore che scorre via:
+        # nel diario invece resta, e li' serve.
         righe.append(_("Se ne sono andate {quante}: {elenco}.").format(quante=len(punteggio.rinunce), elenco=", ".join(punteggio.rinunce)))
     righe.append(_("Sessione fatta con: {valori}.").format(valori=descrivi_pannello_contest(stati)))
     return righe
@@ -2038,9 +2142,15 @@ def pannello_contest():
             pulisci_pannello(3, len(CONTEST_VOCI))
             _move_cursor(1, 1)
             chiedi_pesi_tasto(stati)
+            # Sette domande scritte dalla riga uno in giu': senza questo, la
+            # prima resta sopra il titolo del pannello con dentro la risposta
+            # che hai dato, e se poi cambi idea dice un valore che non e' piu'
+            # vero.
+            _move_cursor(1, 1)
+            _clear_screen_from_cursor()
         return ""
 
-    if not pannello_interruttori(CONTEST_VOCI, stati, _("Contest - Interruttori e valori (Invio per iniziare):"), al_cambio):
+    if not pannello_interruttori(CONTEST_VOCI, stati, _("Contest - Interruttori e valori (Invio comincia, Esc annulla tutto):"), al_cambio):
         return None
     app_data.setdefault("contest_settings", {}).update(stati)
     return stati
@@ -2151,6 +2261,8 @@ def RxingContest(menu_config_scelta):
         ampiezza_stereo=stati["stereo"],
         banda=banda,
         pesi_manuali=pesi_del_tasto(stati),
+        scambio_probabilita=stati["scambio_probabilita"],
+        scambio_incremento=stati["scambio_incremento"],
     )
     start_time = dt.datetime.now()
     session_calls = 0
@@ -2177,9 +2289,17 @@ def RxingContest(menu_config_scelta):
     # che c'era nella riga quando il tasto e' stato premuto.
     coda = []
     da_chiudere = set()
+    # Cio' che il motore ha prodotto in un giro di orologio fatto fuori dal
+    # ciclo, cioe' in chiudi_i_finiti: il ciclo lo raccoglie al primo giro
+    # utile, che dista al massimo un passo.
+    richieste_rimandate = []
+    eventi_rimandati = []
     rwpm_corrente = 0.0
     fondo = None
     fondo_pronto = None
+    # Cio' con cui il fruscio pronto e' stato fatto: se non cambia, non si
+    # rifa'.
+    fondo_chiave = None
     annunci = {}
     attesa_fine = {}
 
@@ -2189,14 +2309,27 @@ def RxingContest(menu_config_scelta):
         Costa un decimo di secondo, quindi si fa solo quando cambia qualcosa
         che lo riguarda: la banda, il tono, o l'inizio del contest. Stringere
         il filtro deve stringere anche il rumore.
+
+        E si fa solo quando cambia davvero. Alt e le frecce al tetto del tono
+        non lo alzano, ma rifacevano il fruscio da capo a ogni pressione, con
+        una grana nuova ogni volta e un decimo di secondo di ciclo perso:
+        tenendo premuto si sentiva un rumore che si interrompe e riparte molte
+        volte al secondo, e a orecchio sembrava che si stringesse la banda.
         """
-        nonlocal fondo_pronto
-        spegni_fondo()
-        fondo_pronto = None
+        nonlocal fondo_pronto, fondo_chiave
         if not stati["qrn"]:
+            spegni_fondo()
+            fondo_pronto = None
+            fondo_chiave = None
             return
         basso = max(50, overall_pitch - banda // 2)
         alto = max(basso + 50, overall_pitch + banda // 2)
+        chiave = (basso, alto, overall_volume, stati["stereo"], overall_fs)
+        if fondo_pronto is not None and chiave == fondo_chiave:
+            return
+        spegni_fondo()
+        fondo_pronto = None
+        fondo_chiave = chiave
         # Il fruscio segue il volume generale, come tutto il resto: se non lo
         # seguisse, abbassando il volume si alzerebbe rispetto alle stazioni.
         score = [f"{basso}-{alto}", CONTEST_FONDO_SECONDI, 0.0, CONTEST_FONDO_VOLUME * overall_volume]
@@ -2221,12 +2354,92 @@ def RxingContest(menu_config_scelta):
             fondo.stop()
             fondo = None
 
+    def metti_in_aria(richiesta):
+        """Sintetizza la richiesta, in un pezzo solo o in piu' pezzi allineati.
+
+        Quando la stazione tira via il rapporto, il messaggio si spezza: ogni
+        pezzo e' una sintesi a se', e i pezzi dopo il primo partono con un
+        silenzio davanti pari a tutto quello che li precede, invece di
+        aspettare che il precedente finisca. Cosi' escono tutti nello stesso
+        giro di ciclo e il messaggio si riunisce al millesimo: aspettare il
+        giro dopo avrebbe aperto un buco di cinquanta millesimi in mezzo a un
+        gruppo di lettere, che si sente come uno strappo.
+
+        Restituisce una voce sola per il ciclo, e la velocita' di base, che e'
+        quella del primo pezzo: registrando quella accelerata, le statistiche
+        del QSO direbbero una velocita' che non e' mai stata la sua.
+        """
+        voce = {
+            "pitch": richiesta.pitch,
+            "l": richiesta.l,
+            "s": richiesta.s,
+            "p": richiesta.p,
+            "sync": False,
+            "farnsworth": 0,
+            "pan": richiesta.pan,
+            "vol": richiesta.volume,
+            "qsb": richiesta.qsb,
+            "chirp": richiesta.chirp,
+            "vibrato": richiesta.vibrato,
+        }
+        if not richiesta.pezzi:
+            return suona(richiesta.testo, wpm=richiesta.wpm, **voce)
+        maniglie = []
+        # L'istante in cui ogni pezzo deve cominciare, contato dall'inizio
+        # del messaggio: e' la somma di tutto cio' che lo precede, suono e
+        # silenzio. La durata che il motore restituisce per un pezzo
+        # ritardato comprende gia' il suo silenzio iniziale, quindi va
+        # tolta per sapere quanto dura il solo suono.
+        inizio = 0.0
+        base = 0.0
+        for indice, (testo, wpm_pezzo, parola) in enumerate(richiesta.pezzi):
+            if indice:
+                inizio += buco_fra_pezzi(richiesta.wpm, richiesta.s, parola)
+            handle, rwpm = suona(testo, wpm=wpm_pezzo, ritardo=inizio if indice else None, **voce)
+            if handle is None:
+                for gia in maniglie:
+                    gia.stop()
+                return None, 0.0
+            maniglie.append(handle)
+            if not indice:
+                base = rwpm
+            inizio += durata_suono(handle) - (inizio if indice else 0.0)
+        return InsiemeDiSuoni(maniglie, inizio), base
+
     def durata_suono(handle):
         """I secondi che quel messaggio durera', per sapere quando finirebbe anche zittito."""
+        if isinstance(handle, InsiemeDiSuoni):
+            return handle.durata
         try:
             return handle.audio_data.size / float(handle.sample_rate)
         except (AttributeError, TypeError, ValueError, ZeroDivisionError):
             return 0.0
+
+    def chiudi_i_finiti(adesso):
+        """Dice al motore chi ha appena finito, prima che io cominci a parlare.
+
+        Il ciclo se ne accorge una volta ogni cinquanta millesimi, ma il tasto
+        si batte quando si vuole: fra l'ultimo elemento di una stazione e il
+        giro che lo registra c'e' una finestra cieca in cui lei, per il
+        motore, sta ancora trasmettendo. Partendo li' dentro la stazione
+        sente spazzatura e butta via tutto il messaggio, compreso il proprio
+        nominativo: ripete, si riscrive uguale, ripete ancora, e dopo tre o
+        quattro giri se ne va. Chi copia al volo ci cade spesso, e non ha
+        modo di accorgersene, perche' il ricevitore si spegne nell'istante
+        del tasto.
+        """
+        finiti = {chi for chi, handle in suoni.items() if chi != ct.IO and not handle.is_playing.is_set()}
+        if not finiti:
+            return
+        for chi in finiti:
+            ferma(chi)
+            attesa_fine.pop(chi, None)
+        esito = motore.avanza(adesso, finiti)
+        # Cio' che nasce in questo giro fuori turno non si butta: una stazione
+        # che riparte proprio adesso, o un QSO che si chiude, li prende il
+        # ciclo al giro seguente, che dista al massimo un passo.
+        richieste_rimandate.extend(esito.richieste)
+        eventi_rimandati.extend(esito.eventi)
 
     def zittisci_ricezione():
         """Mentre trasmetto non sento niente: ne' il fruscio ne' chi e' gia' in aria.
@@ -2240,6 +2453,10 @@ def RxingContest(menu_config_scelta):
         spegni_fondo()
         for chi in [c for c in suoni if c != ct.IO]:
             ferma(chi)
+
+    def in_trasmissione():
+        """Vero se il mio tasto e' abbassato, cioe' se il ricevitore deve tacere."""
+        return motore.io_trasmette or ct.IO in suoni
 
     def ferma(chi):
         """Zittisce una trasmissione e la toglie dai suoni in corso."""
@@ -2323,8 +2540,13 @@ def RxingContest(menu_config_scelta):
 
         Non ridisegna: la riga di stato torna alla prossima battuta, perche'
         la decisione D2 vuole che si riscriva quando si batte un tasto.
+
+        Finisce con un ritorno a capo senza andare a capo davvero, cosi' il
+        cursore di sistema resta sulla riga e il display braille la mostra da
+        solo: altrimenti bisogna andarla a cercare, e intanto il contest
+        corre.
         """
-        print(f"\r{' ' * 79}\r{riga}")
+        print(f"\r{' ' * 79}\r{riga}\r", end="", flush=True)
 
     def trasmetti(messaggi, adesso):
         """Un tasto funzione: il messaggio parte, o si mette in coda se ne sta suonando un altro.
@@ -2359,6 +2581,7 @@ def RxingContest(menu_config_scelta):
         altrimenti le stazioni resterebbero in ascolto di una voce che non
         arriva mai e il contest si fermerebbe.
         """
+        chiudi_i_finiti(adesso)
         zittisci_ricezione()
         richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=nominativo, accoda=accoda)
         testo = richiesta.testo.strip()
@@ -2469,27 +2692,28 @@ def RxingContest(menu_config_scelta):
                     finite.add(chi)
                     del attesa_fine[chi]
             esito = motore.avanza(adesso, finite)
-            for richiesta in esito.richieste:
-                handle, rwpm = suona(
-                    richiesta.testo,
-                    wpm=richiesta.wpm,
-                    pitch=richiesta.pitch,
-                    l=richiesta.l,
-                    s=richiesta.s,
-                    p=richiesta.p,
-                    sync=False,
-                    farnsworth=0,
-                    pan=richiesta.pan,
-                    vol=richiesta.volume,
-                    qsb=richiesta.qsb,
-                    chirp=richiesta.chirp,
-                    vibrato=richiesta.vibrato,
-                )
+            richieste = richieste_rimandate + esito.richieste
+            eventi = eventi_rimandati + esito.eventi
+            richieste_rimandate.clear()
+            eventi_rimandati.clear()
+            for richiesta in richieste:
+                handle, rwpm = metti_in_aria(richiesta)
                 if handle is None:
                     da_chiudere.add(richiesta.stazione)
                     continue
                 suoni[richiesta.stazione] = handle
                 attesa_fine[richiesta.stazione] = adesso + durata_suono(handle)
+                if richiesta.stazione != ct.IO and in_trasmissione():
+                    # Nata mentre il mio tasto e' abbassato: prosegue per conto
+                    # suo e non si sente, come quelle che zittisci_ricezione
+                    # trova gia' in aria. Prima venivano zittite solo quelle,
+                    # una volta sola, all'inizio della mia trasmissione: le
+                    # stazioni di disturbo, che nascono quando vogliono, mi
+                    # partivano sopra a piena voce, misurate quindici volte su
+                    # ventuno in mezz'ora. L'istante in cui il loro messaggio
+                    # sarebbe finito resta segnato in attesa_fine, quindi i
+                    # tempi del contest non si muovono di un millesimo.
+                    ferma(richiesta.stazione)
                 # Solo le stazioni che si lavorano danno la velocita' del QSO.
                 # Le stazioni di disturbo nascono fra trenta e cinquanta parole
                 # al minuto a prescindere dalla mia, e con il QRM acceso la riga
@@ -2497,10 +2721,10 @@ def RxingContest(menu_config_scelta):
                 # stavo copiando.
                 if rwpm > 0 and richiesta.dx:
                     rwpm_corrente = rwpm
-            if not motore.io_trasmette and ct.IO not in suoni:
+            if not in_trasmissione():
                 # Ho smesso di trasmettere: il ricevitore torna in ascolto.
                 accendi_fondo()
-            for evento in esito.eventi:
+            for evento in eventi:
                 # La verita' viaggia dentro l'evento di log, perche' il motore
                 # sa quale stazione ho lavorato meglio di quanto possa saperlo
                 # il ciclo, e a fine contest non c'e' nessun altro evento dello
@@ -2525,7 +2749,19 @@ def RxingContest(menu_config_scelta):
                 if ct.IO in suoni:
                     coda.clear()
                     ferma(ct.IO)
+                    tagliata = list(motore.io_messaggi)
                     motore.annulla_trasmissione(adesso)
+                    if stadio == "nr" and (ct.Msg.SUO in tagliata or ct.Msg.NR in tagliata):
+                        # La mia risposta non e' andata in aria: la stazione ha
+                        # sentito spazzatura, non sa che stavo rispondendo a lei
+                        # e non parlera' piu' finche' non le rimando qualcosa.
+                        # La riga torna al nominativo, gia' pieno, cosi' un
+                        # Invio lo rimanda; restando sul numero, invece, quel
+                        # tasto metteva a log un QSO che la stazione non aveva
+                        # mai concluso, e usciva NIL ogni volta. E si sente:
+                        # la riga passa da DL3XY 5NN NR: a CALL: DL3XY.
+                        campo, stadio, suo_call = suo_call, "call", ""
+                        cursore = len(campo)
                 else:
                     campo, cursore = "", 0
             elif tasto == "alt-w":
@@ -2768,7 +3004,11 @@ def RxingContest(menu_config_scelta):
                         "Durante la sessione, la tua velocità minima è stata {minwpm:.2f}, la massima di {maxwpm:.2f}: pari ad una variazione di {range_wpm:.2f} WPM.\n\tLa velocità media di ricezione è di: {average_wpm:.2f} WPM."
                     ).format(minwpm=minwpm, maxwpm=maxwpm, range_wpm=maxwpm - minwpm, average_wpm=avg_wpm_calc)
                 )
-            for riga in righe_rapporto_contest(motore.punteggio, stati, active_exerctime.total_seconds()):
+            # A schermo l'elenco non si stampa, perche' e' rumore che scorre
+            # via. L'unica eccezione e' la sessione senza nemmeno un QSO a
+            # log: quella nel diario non ci finisce, quindi se non lo
+            # dicessimo qui non lo direbbe piu' nessuno.
+            for riga in righe_rapporto_contest(motore.punteggio, stati, active_exerctime.total_seconds(), con_rinunce=not session_calls):
                 print(riga)
             if total_mistakes_calculated > 0:
                 print(_("Carattere: errori = Intervallo di Confidenza Errore (Wilson)"))
@@ -2836,6 +3076,13 @@ def RxingContest(menu_config_scelta):
                 if diario_scritto:
                     print(_("Rapporto salvato su {nome_diario}").format(nome_diario=DIARY_NAME))
                     print(_("\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.").format(session_number=stats["sessions"], duration=duration_str))
+            # Su disco adesso, non solo uscendo. Le impostazioni si salvavano
+            # una volta sola, alla fine della sessione di lavoro: chi faceva
+            # sette contest in un pomeriggio li aveva tutti e sette nel diario,
+            # che scrive subito, e nessuno nell'archivio finche' non chiudeva
+            # con q. Un blocco o una mancanza di corrente li cancellava, e il
+            # diario restava a raccontare sessioni che l'archivio non aveva.
+            save_settings(app_data)
             key(_("Premi un tasto per tornare al menu..."))
 
 
@@ -3197,7 +3444,12 @@ def Rxing():
     else:
         print(_("Hai ricevuto troppo pochi {kindstring} per generare statistiche consistenti.").format(kindstring=kindstring))
     duration_str = str(active_exerctime).split(".")[0]
-    if traccia_su_disco:
+    # Senza nemmeno un item non c'e' niente da archiviare: una sessione a
+    # zero entrava nel contatore e nel registro, e alla ripulitura del
+    # riavvio usciva dal registro lasciando il contatore piu' alto. Sono i
+    # tre buchi del dicembre 2025. Nel contest questo guard c'e' dal 22
+    # settembre, qui mancava.
+    if traccia_su_disco and callssend:
         current_session_items = len(callssend)
         current_session_correct = len(callsget)
         current_session_wrong = len(dz_mistakes)
@@ -3287,6 +3539,8 @@ def Rxing():
         )
     else:
         print(_("\nDurata attiva {duration}: sessione non salvata, con il Farnsworth impostato non entra nell'archivio ne' nelle statistiche.").format(duration=duration_str))
+    # Su disco adesso, non solo uscendo: vale qui come nel contest.
+    save_settings(app_data)
     # La pausa e' informazione di rapporto, non di salvataggio: si legge in
     # tutti e due i casi.
     if total_pause_time.total_seconds() > 0:

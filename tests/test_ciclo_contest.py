@@ -126,16 +126,18 @@ class MotoreFinto:
         # succedere piu', e senza registrarli non si vedrebbe.
         self.miei_tagliati = []
 
-    def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None):
+    def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None, ritardo=None):
         self.testi.append(msg)
-        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol, "qsb": qsb, "chirp": chirp, "vibrato": vibrato})
+        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol, "qsb": qsb, "chirp": chirp, "vibrato": vibrato, "ritardo": ritardo})
         if sync:
             return None, 0.0
         # Un carattere ogni sessanta millesimi e' l'ordine di grandezza del CW
         # a venti parole al minuto: basta perche' le scadenze del motore abbiano
         # un senso l'una rispetto all'altra.
         registro = self.zittite if vol is not None else self.miei_tagliati
-        return Suono(self.orologio, max(0.2, len(msg) * 0.06), registro), float(wpm or 20)
+        # Come il motore vero: la durata di un pezzo ritardato comprende il
+        # silenzio che gli sta davanti.
+        return Suono(self.orologio, (ritardo or 0.0) + max(0.2, len(msg) * 0.06), registro), float(wpm or 20)
 
 
 class Tastiera:
@@ -209,13 +211,29 @@ def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY", contest=None, qu
     nominativi = itertools.cycle([nominativo] if isinstance(nominativo, str) else nominativo)
     monkeypatch.setattr(cwapu, "Mkdqrz", lambda scelta: next(nominativi))
     monkeypatch.setattr(cwapu, "apri_diario", finto_diario)
+    # Il banco non tocca il disco. Dal 23 settembre il contest e l'esercizio
+    # salvano le impostazioni appena finiscono, invece di aspettare l'uscita
+    # dal menu: senza questa sostituzione le prove scriverebbero i loro dati
+    # finti sopra l'archivio vero di Gabriele, che e' grande tre megabyte e
+    # contiene anni di esercizi. E' successo una volta.
+    salvataggi = []
+    monkeypatch.setattr(cwapu, "save_settings", lambda dati: salvataggi.append(dati))
     acustica = Acustica()
     monkeypatch.setattr(cwapu, "Acusticator", acustica)
     monkeypatch.setattr(cwapu.ct, "Contest", Spia)
     dati = copy.deepcopy(cwapu.DEFAULT_DATA)
     dati["contest_settings"].update(contest or {})
     monkeypatch.setattr(cwapu, "app_data", dati, raising=False)
-    return {"orologio": orologio, "cw": cw, "tastiera": tastiera, "diario": diario, "contest": contest_creati, "acustica": acustica, "zittite": cw.zittite}
+    return {
+        "orologio": orologio,
+        "cw": cw,
+        "tastiera": tastiera,
+        "diario": diario,
+        "contest": contest_creati,
+        "acustica": acustica,
+        "zittite": cw.zittite,
+        "salvataggi": salvataggi,
+    }
 
 
 def scrivi(istante, testo):
@@ -516,9 +534,12 @@ class TestCicloContest:
     def test_mentre_trasmetto_il_ricevitore_tace(self, monkeypatch):
         """In radio non ci si sente addosso ne' il fruscio ne' chi e' gia' in aria."""
         # Il CQ si rilancia mentre le stazioni stanno ancora rispondendo, che
-        # e' il momento in cui il difetto si sentiva.
-        copione = [(istante, "f1") for istante in (1.1, 1.3, 1.5, 1.7, 2.0, 2.3)] + [(6.0, "alt-x")]
-        banco = prepara(monkeypatch, copione, contest={"qrn": True, "pileup": True, "attivita": 9})
+        # e' il momento in cui il difetto si sentiva. Gli istanti sono distanti
+        # fra loro perche' dal 23 settembre i tasti funzione si accodano: sei
+        # CQ battuti a raffica sarebbero una trasmissione sola e lunga, e
+        # nessuna stazione farebbe in tempo a rispondere.
+        copione = [(istante, "f1") for istante in (1.1, 6.0, 11.0, 16.0)] + [(22.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2, contest={"qrn": True, "pileup": True, "attivita": 9})
         cwapu.RxingContest({})
         cicli = banco["acustica"].cicli
         # Il fruscio si spegne a ogni mia trasmissione e torna quando ho finito.
@@ -774,6 +795,158 @@ class TestCicloContest:
         dettagli = cwapu.app_data["historical_rx_data_qrz"]["sessions_log"][-1]["item_details"]
         assert [d["rwpm"] for d in dettagli] and all(d["rwpm"] in sue for d in dettagli), (dettagli, sue)
 
+    def test_il_rapporto_svelto_esce_in_due_pezzi_allineati(self, monkeypatch):
+        """Il messaggio si spezza, ma i pezzi partono tutti nello stesso giro
+        di ciclo e con il silenzio giusto in mezzo: aspettare il giro dopo
+        aprirebbe un buco di cinquanta millesimi dentro un gruppo."""
+        # Lo scambio la stazione lo manda solo dopo che le ho risposto.
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (30.0, "alt-x")]
+        banco = prepara(
+            monkeypatch,
+            copione,
+            minuti=2,
+            contest={"pileup": True, "attivita": 9, "scambio_probabilita": 100, "scambio_incremento": 20},
+        )
+        cwapu.RxingContest({})
+        scambi = [c for c in banco["cw"].chiamate if c["vol"] is not None and c["ritardo"]]
+        assert scambi, [c["msg"] for c in banco["cw"].chiamate]
+        # Il pezzo che segue porta davanti il silenzio di tutto cio' che lo
+        # precede, invece di aspettare il giro dopo.
+        assert all(c["ritardo"] > 0 for c in scambi)
+        # E il primo pezzo e' il rapporto, tre caratteri, piu' svelto del resto.
+        rapporti = [c for c in banco["cw"].chiamate if c["vol"] is not None and len(c["msg"]) == 3 and c["msg"][0] == "5"]
+        assert rapporti, [c["msg"] for c in banco["cw"].chiamate]
+        # Il rapporto va piu' svelto del resto del messaggio.
+        lenti = [c["wpm"] for c in banco["cw"].chiamate if c["vol"] is not None and c["msg"].startswith("TT")]
+        assert lenti and all(r["wpm"] > min(lenti) for r in rapporti), (rapporti, lenti)
+
+    def test_senza_lo_switcher_nessun_messaggio_si_spezza(self, monkeypatch):
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (30.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2, contest={"pileup": True, "attivita": 9, "scambio_probabilita": 0})
+        cwapu.RxingContest({})
+        assert not [c for c in banco["cw"].chiamate if c["ritardo"] and c["vol"] is not None]
+
+    def test_il_buco_fra_i_pezzi_segue_la_misura(self):
+        """Misurato su CWzator: fra due lettere 2,9 unita' con i pesi standard,
+        fra due parole 6,9."""
+        unita = 1.2 / 25
+        assert cwapu.buco_fra_pezzi(25, 50, False) == pytest.approx(unita * 2.9)
+        assert cwapu.buco_fra_pezzi(25, 50, True) == pytest.approx(unita * 6.9)
+        assert cwapu.buco_fra_pezzi(25, 25, False) == pytest.approx(unita * 1.4)
+        assert cwapu.buco_fra_pezzi(25, 75, True) == pytest.approx(unita * 10.4)
+
+    def test_un_insieme_di_suoni_si_ferma_tutto_insieme(self):
+        """Fermandone uno solo, gli altri continuerebbero a suonare sotto la
+        mia trasmissione."""
+
+        class Finto:
+            def __init__(self):
+                self.fermato = False
+                self.is_playing = self
+
+            def is_set(self):
+                return not self.fermato
+
+            def stop(self):
+                self.fermato = True
+
+        pezzi = [Finto(), Finto(), Finto()]
+        insieme = cwapu.InsiemeDiSuoni(pezzi, 1.5)
+        assert insieme.is_playing.is_set()
+        insieme.stop()
+        assert all(p.fermato for p in pezzi)
+        assert not insieme.is_playing.is_set()
+        assert insieme.durata == 1.5
+
+    def test_le_stazioni_che_nascono_mentre_trasmetto_non_si_sentono(self, monkeypatch):
+        """Il ricevitore si zittiva una volta sola, all'inizio della mia
+        trasmissione: le stazioni di disturbo, che nascono quando vogliono, mi
+        partivano sopra a piena voce."""
+        copione = [(1.0, "f1"), (2.0, "f1"), (3.0, "f1"), (30.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2, contest={"qrm": True, "qrm_massime": 5, "pileup": True, "attivita": 9})
+        cwapu.RxingContest({})
+        assert banco["zittite"], "nessuna stazione e' stata zittita"
+
+    def test_esc_sulla_mia_risposta_riporta_la_riga_al_nominativo(self, monkeypatch, capsys):
+        """La stazione ha sentito spazzatura e non parlera' piu': restando sul
+        numero, l'Invio metteva a log un QSO che lei non aveva concluso, e
+        usciva NIL ogni volta."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (3.9, "\x1b"), (8.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        assert "CALL: DL3XY" in uscita
+        assert uscita.rindex("CALL: DL3XY") > uscita.rindex("5NN NR:")
+
+    def test_esc_senza_trasmettere_lascia_la_riga_dov_e(self, monkeypatch, capsys):
+        """Li' la mia risposta e' andata in aria davvero: azzerare il numero mal
+        copiato e riscriverlo e' il gesto giusto."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), *scrivi(9.0, "12"), (9.6, "\x1b"), (12.0, "alt-x")]
+        prepara(monkeypatch, copione)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        assert "5NN NR:" in uscita[uscita.rindex("DL3XY") :] or "5NN NR:" in uscita
+
+    def test_le_rinunce_a_schermo_solo_quando_il_diario_non_le_avra(self, monkeypatch, capsys):
+        """L'elenco dei nominativi a schermo e' rumore che scorre via. Ma una
+        sessione senza QSO a log nel diario non ci finisce, quindi li' l'unico
+        posto dove dirlo e' lo schermo."""
+        # Un QSO a log e poi qualche CQ a vuoto, cosi' nascono stazioni che
+        # si stancano di aspettare.
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), *scrivi(9.0, "1"), (9.5, "\r"), (20.0, "f1"), (40.0, "f1"), (110.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=3, contest={"pileup": True, "attivita": 9})
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        contest = banco["contest"][0]
+        assert contest.punteggio.rinunce, "nessuna stazione se n'e' andata"
+        assert contest.punteggio.punti_grezzi >= 1
+        assert "Se ne sono andate" not in uscita
+        assert "Se ne sono andate" in banco["diario"].getvalue()
+
+    def test_alt_s_resta_sotto_le_dita(self, monkeypatch, capsys):
+        """La riga finisce con un ritorno a capo senza andare a capo davvero:
+        il cursore resta li' e il display braille la mostra da solo."""
+        prepara(monkeypatch, [(5.0, "alt-s"), (7.0, "alt-x")])
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        assert "QSO 0 PT 0" in uscita
+        inizio = uscita.index("QSO 0 PT 0")
+        assert "\r" in uscita[inizio : inizio + 120], repr(uscita[inizio : inizio + 120])
+
+    def test_alt_s_dice_quanto_manca(self, monkeypatch, capsys):
+        prepara(monkeypatch, [(5.0, "alt-s"), (7.0, "alt-x")], quanti_qso=8)
+        cwapu.RxingContest({})
+        assert "-8 QSO" in capsys.readouterr().out
+
+    def test_alt_s_dice_quanto_manca_anche_a_tempo(self, monkeypatch, capsys):
+        prepara(monkeypatch, [(5.0, "alt-s"), (7.0, "alt-x")], minuti=2)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        assert "-1:" in uscita, uscita[-300:]
+
+    def test_il_contest_salva_appena_finisce(self, monkeypatch):
+        """Le impostazioni si salvavano una volta sola, uscendo dal menu: chi
+        faceva sette contest in un pomeriggio li aveva tutti nel diario e
+        nessuno nell'archivio finche' non chiudeva."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), *scrivi(9.0, "1"), (9.5, "\r"), (14.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        assert banco["salvataggi"], "la sessione non e' stata salvata su disco"
+
+    def test_il_banco_non_scrive_mai_sul_file_vero(self, monkeypatch):
+        """Regola della casa: il collaudo sostituisce le funzioni che toccano
+        il sistema. Senza, queste prove riscrivono l'archivio di Gabriele, che
+        e' di tre megabyte e contiene anni di esercizi."""
+        import os
+
+        percorso = cwapu.SETTINGS_FILE
+        prima = os.path.getmtime(percorso) if os.path.exists(percorso) else None
+        banco = prepara(monkeypatch, [(5.0, "alt-x")])
+        cwapu.RxingContest({})
+        dopo = os.path.getmtime(percorso) if os.path.exists(percorso) else None
+        assert prima == dopo, "il banco ha toccato il file di impostazioni vero"
+        assert banco["salvataggi"] is not None
+
     def test_alt_s_dice_come_va(self, monkeypatch, capsys):
         copione = [(2.0, "alt-s"), (2.5, "alt-x")]
         prepara(monkeypatch, copione)
@@ -800,7 +973,7 @@ class TestRapporto:
         riga = cwapu.descrivi_pannello_contest(stati)
         assert "una stazione alla volta" in riga
         assert "banda 500 hertz" in riga
-        assert "manipolazione manuale al 30 per cento" in riga
+        assert "manipolazione manuale al 30%" in riga
         assert "QRM" not in riga
 
     def test_il_pannello_dice_cio_che_e_acceso(self):

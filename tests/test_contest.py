@@ -73,9 +73,13 @@ class TestPrefisso:
 
 
 class TestFiltro:
-    def test_dentro_meta_banda_passa_tutto(self):
+    def test_solo_al_centro_passa_tutto(self):
+        """Il tetto piatto fino a meta' banda faceva arrivare con lo stesso
+        volume una stazione centrata e una a duecentocinquanta hertz: spariva
+        l'unico segnale che dice quanto una stazione e' fuori."""
         assert ct.guadagno_filtro(500, 0) == 1.0
-        assert ct.guadagno_filtro(500, 250) == 1.0
+        assert ct.guadagno_filtro(500, 250) < 0.6
+        assert ct.guadagno_filtro(500, 50) < 1.0
 
     def test_fuori_banda_resta_il_pavimento_mai_il_silenzio(self):
         """Una stazione muta chiama, aspetta e rinuncia senza che nessuno
@@ -85,23 +89,114 @@ class TestFiltro:
         assert ct.guadagno_filtro(500, 5000) == ct.FILTRO_PAVIMENTO
         assert ct.FILTRO_PAVIMENTO > 0.0
 
-    def test_in_mezzo_al_fianco_passa_meta(self):
+    def test_a_meta_banda_passa_meta(self):
         mezzo = ct.FILTRO_PAVIMENTO + (1.0 - ct.FILTRO_PAVIMENTO) / 2.0
-        assert ct.guadagno_filtro(500, 375) == pytest.approx(mezzo)
-        assert ct.guadagno_filtro(500, -375) == pytest.approx(mezzo)
+        assert ct.guadagno_filtro(500, 250) == pytest.approx(mezzo)
+        assert ct.guadagno_filtro(500, -250) == pytest.approx(mezzo)
+
+    def test_la_campana_insegue_il_filtro_di_cwsim(self):
+        """Tre medie mobili in cascata, misurate a banda 600. Il nostro
+        coseno le insegue entro mezzo decibel fino a quattrocento hertz."""
+        import math
+
+        atteso = {100: -0.6, 200: -2.4, 300: -5.6, 400: -10.3}
+        for scarto, decibel in atteso.items():
+            nostro = 20.0 * math.log10(ct.guadagno_filtro(600, scarto))
+            assert abs(nostro - decibel) < 0.6, (scarto, nostro, decibel)
 
     def test_il_fianco_scende_senza_gradini(self):
         """Fra la banda passante e il pavimento non ci sono salti."""
-        valori = [ct.guadagno_filtro(400, s) for s in range(0, 500, 5)]
+        valori = [ct.guadagno_filtro(400, s) for s in range(0, 450, 5)]
         assert valori[0] == 1.0 and valori[-1] == ct.FILTRO_PAVIMENTO
         passi = list(itertools.pairwise(valori))
         assert all(b <= a + 1e-9 for a, b in passi)
         assert max(a - b for a, b in passi) < 0.05
 
     def test_una_banda_larga_lascia_passare_di_piu(self):
-        assert ct.guadagno_filtro(600, 300) == 1.0
+        assert ct.guadagno_filtro(600, 300) > ct.guadagno_filtro(300, 300)
         assert ct.guadagno_filtro(100, 100) == ct.FILTRO_PAVIMENTO
         assert ct.guadagno_filtro(600, 300) > ct.guadagno_filtro(100, 300)
+
+
+class TestScambioVeloce:
+    """Il 5NN mandato piu' svelto del resto, come fanno in radio."""
+
+    def test_a_probabilita_zero_non_lo_fa_nessuno(self):
+        m = motore(pileup=True, seme=4, scambio_probabilita=0)
+        stazioni = [ct.StazioneDX(m, 0.0, singola=False) for _ in range(80)]
+        assert not any(s.scambio_veloce for s in stazioni)
+
+    def test_a_probabilita_cento_lo_fanno_tutte(self):
+        m = motore(pileup=True, seme=4, scambio_probabilita=100)
+        stazioni = [ct.StazioneDX(m, 0.0, singola=False) for _ in range(40)]
+        assert all(s.scambio_veloce for s in stazioni)
+
+    def test_la_probabilita_si_rispetta(self):
+        m = motore(pileup=True, seme=8, scambio_probabilita=30)
+        quante = sum(ct.StazioneDX(m, 0.0, singola=False).scambio_veloce for _ in range(600))
+        assert 0.22 < quante / 600 < 0.38, quante / 600
+
+    def test_chi_accelera_lo_fa_per_tutto_il_qso(self):
+        """E' un'abitudine dell'operatore, non un capriccio del momento: il
+        sorteggio si fa alla nascita e non cambia piu'."""
+        m = motore(pileup=False, seme=4, scambio_probabilita=100)
+        s = ct.StazioneDX(m, 0.0, singola=True)
+        primi = s.trasmetti([ct.Msg.NR], 0.0).pezzi
+        secondi = s.trasmetti([ct.Msg.NR], 1.0).pezzi
+        assert primi and secondi
+
+    def test_accelera_il_rapporto_e_non_il_progressivo(self):
+        """Il 5NN e' l'unico gruppo che tutti si aspettano; il progressivo e'
+        il dato vero da copiare e resta alla velocita' della stazione."""
+        m = motore(pileup=False, seme=4, scambio_probabilita=100, scambio_incremento=20)
+        s = ct.StazioneDX(m, 0.0, singola=True)
+        s.rst, s.nr, s.errore_nr = 599, 1, False
+        richiesta = s.trasmetti([ct.Msg.NR], 0.0)
+        assert richiesta.pezzi and len(richiesta.pezzi) == 2, richiesta.pezzi
+        rapporto, numero = richiesta.pezzi
+        assert len(rapporto[0]) == 3, rapporto
+        assert rapporto[1] > numero[1], richiesta.pezzi
+        assert numero[1] == s.wpm
+        assert rapporto[1] == round(s.wpm * 1.2)
+        # Fra rapporto e numero il confine e' di lettera, non di parola: sono
+        # un gruppo solo.
+        assert rapporto[2] is False and numero[2] is False
+        # E il testo della richiesta resta pulito: il segno serve solo a dire
+        # dove tagliare.
+        assert ct.MARCA_VELOCE not in richiesta.testo
+
+    def test_fra_la_erre_e_il_rapporto_il_confine_e_di_parola(self):
+        m = motore(pileup=False, seme=4, scambio_probabilita=100)
+        s = ct.StazioneDX(m, 0.0, singola=True)
+        s.rst, s.nr, s.errore_nr = 599, 7, False
+        pezzi = s.trasmetti([ct.Msg.R_NR], 0.0).pezzi
+        assert len(pezzi) == 3, pezzi
+        assert pezzi[0][0] == "R"
+        assert pezzi[1][2] is True, pezzi
+        assert pezzi[2][2] is False, pezzi
+
+    def test_senza_accelerazione_non_ci_sono_pezzi(self):
+        m = motore(pileup=False, seme=4, scambio_probabilita=0)
+        s = ct.StazioneDX(m, 0.0, singola=True)
+        assert s.trasmetti([ct.Msg.R_NR], 0.0).pezzi is None
+
+    def test_le_stazioni_di_disturbo_non_accelerano(self):
+        m = motore(pileup=True, seme=4, scambio_probabilita=100, qrm=True)
+        q = ct.StazioneQRM(m, 0.0)
+        assert q.scambio_veloce is False
+        assert q.trasmetti([ct.Msg.QRL], 0.0).pezzi is None
+
+    def test_lo_sbadato_tiene_la_correzione_alla_sua_velocita(self):
+        """L'errore di progressivo si corregge con la serie di e e la
+        ripetizione: quella parte non si tira via, altrimenti il rimedio
+        sarebbe piu' difficile dello sbaglio."""
+        m = motore(pileup=False, seme=4, scambio_probabilita=100)
+        s = ct.StazioneDX(m, 0.0, singola=True)
+        s.rst, s.nr, s.errore_nr = 599, 5, True
+        pezzi = s.trasmetti([ct.Msg.NR], 0.0).pezzi
+        assert pezzi and len(pezzi) == 2
+        assert "e" in pezzi[1][0].lower(), pezzi
+        assert pezzi[1][1] == s.wpm
 
 
 class TestRitmo:
