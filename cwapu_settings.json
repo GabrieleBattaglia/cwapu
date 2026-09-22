@@ -1,15 +1,15 @@
 {
     "app_info": {
-        "launch_count": 525
+        "launch_count": 526
     },
     "overall_settings": {
         "app_language": "it",
         "speed": 26,
-        "pitch": 350,
+        "pitch": 750,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
-        "volume": 0.3,
+        "volume": 0.35,
         "ms": 1,
         "fs_index": 2,
         "wave_index": 1,
@@ -33,25 +33,25 @@
         "total_time_seconds": 7888.115495
     },
     "rxing_stats_qrz": {
-        "total_calls": 1034,
-        "sessions": 70,
-        "total_correct": 632,
-        "total_wrong_items": 402,
-        "total_time_seconds": 17053.281709999996
+        "total_calls": 1083,
+        "sessions": 75,
+        "total_correct": 650,
+        "total_wrong_items": 433,
+        "total_time_seconds": 18027.237767
     },
     "counting_stats": {
         "exercise_number": 100
     },
     "contest_settings": {
-        "qrn": true,
+        "qrn": false,
         "qrm": false,
         "qrm_massime": 3,
-        "qsb": true,
+        "qsb": false,
         "flutter": false,
-        "sbadati": true,
-        "pileup": true,
-        "attivita": 3,
-        "stereo": 50,
+        "sbadati": false,
+        "pileup": false,
+        "attivita": 6,
+        "stereo": 0,
         "banda": 600,
         "tasto_verticale": true,
         "tasto_probabilita": 30,
@@ -91067,6 +91067,515 @@
                     "pileup": true,
                     "attivita": 3,
                     "stereo": 50,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-22T10:43:23.139921",
+                "duration_seconds": 476.500148,
+                "rwpm_min": 15.699800779043144,
+                "rwpm_max": 28,
+                "rwpm_avg": 24.996214242105772,
+                "items_sent_session": 25,
+                "items_correct_session": 8,
+                "item_details": [
+                    {
+                        "rwpm": 25,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 25,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 25,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 26,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 25,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 21.25340599455041,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 21.25340599455041,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 26,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 15.699800779043144,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 26,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 26,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 26,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 26,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23.174685821125127,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23.174685821125127,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23.174685821125127,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23.174685821125127,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 163,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "x": 3,
+                    "l": 2,
+                    "3": 5,
+                    "q": 6,
+                    "t": 3,
+                    "m": 4,
+                    "8": 4,
+                    "p": 6,
+                    "y": 3,
+                    "b": 7,
+                    "0": 4,
+                    "s": 3,
+                    "c": 5,
+                    "v": 3,
+                    "5": 12,
+                    "n": 18,
+                    "2": 2,
+                    "d": 2,
+                    "u": 7,
+                    "k": 5,
+                    "g": 4,
+                    "z": 5,
+                    "o": 5,
+                    "1": 6,
+                    "i": 8,
+                    "4": 6,
+                    "f": 7,
+                    "a": 5,
+                    "w": 5,
+                    "6": 2,
+                    "e": 3,
+                    "9": 2,
+                    "r": 1
+                },
+                "punteggio_grezzo": 64,
+                "punteggio_verificato": 64,
+                "prefissi_verificati": 8,
+                "contest_settings": {
+                    "qrn": true,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": true,
+                    "flutter": true,
+                    "sbadati": false,
+                    "pileup": true,
+                    "attivita": 6,
+                    "stereo": 50,
+                    "banda": 500,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-22T10:59:18.599067",
+                "duration_seconds": 88.77883,
+                "rwpm_min": 24,
+                "rwpm_max": 28,
+                "rwpm_avg": 26.11111111111111,
+                "items_sent_session": 9,
+                "items_correct_session": 1,
+                "item_details": [
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 25,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 25,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 25,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 24,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 24,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 55,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "d": 3,
+                    "l": 2,
+                    "4": 1,
+                    "s": 1,
+                    "r": 2,
+                    "a": 3,
+                    "f": 2,
+                    "6": 1,
+                    "w": 1,
+                    "i": 3,
+                    "b": 1,
+                    "3": 4,
+                    "q": 2,
+                    "p": 4,
+                    "j": 4,
+                    "o": 2,
+                    "9": 1,
+                    "n": 5,
+                    "k": 1,
+                    "c": 2,
+                    "m": 1,
+                    "e": 2,
+                    "1": 3,
+                    "5": 2,
+                    "t": 1,
+                    "2": 1
+                },
+                "punteggio_grezzo": 1,
+                "punteggio_verificato": 1,
+                "prefissi_verificati": 1,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": true,
+                    "flutter": true,
+                    "sbadati": false,
+                    "pileup": true,
+                    "attivita": 6,
+                    "stereo": 0,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-22T11:01:23.252245",
+                "duration_seconds": 86.660514,
+                "rwpm_min": 25,
+                "rwpm_max": 28,
+                "rwpm_avg": 26.963138623540413,
+                "items_sent_session": 5,
+                "items_correct_session": 1,
+                "item_details": [
+                    {
+                        "rwpm": 25,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 26.692332370869423,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27.561680373416316,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 27.561680373416316,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": false
+                    }
+                ],
+                "chars_sent_session": 34,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "n": 3,
+                    "c": 2,
+                    "8": 1,
+                    "t": 1,
+                    "l": 1,
+                    "z": 2,
+                    "5": 1,
+                    "1": 1,
+                    "j": 3,
+                    "g": 2,
+                    "7": 1,
+                    "p": 1,
+                    "s": 3,
+                    "y": 2,
+                    "3": 2,
+                    "m": 1,
+                    "o": 1,
+                    "a": 1,
+                    "e": 2,
+                    "v": 1,
+                    "x": 1,
+                    "4": 1
+                },
+                "punteggio_grezzo": 1,
+                "punteggio_verificato": 1,
+                "prefissi_verificati": 1,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": true,
+                    "flutter": true,
+                    "sbadati": false,
+                    "pileup": true,
+                    "attivita": 6,
+                    "stereo": 0,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-22T11:05:23.556156",
+                "duration_seconds": 240.00023,
+                "rwpm_min": 21.281312347594767,
+                "rwpm_max": 29,
+                "rwpm_avg": 24.79957884551475,
+                "items_sent_session": 8,
+                "items_correct_session": 6,
+                "item_details": [
+                    {
+                        "rwpm": 24,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 25,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 25.11531841652323,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 23,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 21.281312347594767,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 66,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "r": 3,
+                    "4": 4,
+                    "i": 3,
+                    "t": 2,
+                    "5": 7,
+                    "n": 12,
+                    "1": 2,
+                    "p": 1,
+                    "0": 2,
+                    "l": 4,
+                    "2": 1,
+                    "y": 1,
+                    "b": 3,
+                    "c": 1,
+                    "d": 1,
+                    "3": 3,
+                    "h": 3,
+                    "g": 1,
+                    "o": 2,
+                    "e": 2,
+                    "7": 1,
+                    "s": 2,
+                    "w": 2,
+                    "j": 1,
+                    "u": 1,
+                    "6": 1
+                },
+                "punteggio_grezzo": 36,
+                "punteggio_verificato": 36,
+                "prefissi_verificati": 6,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": false,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": false,
+                    "attivita": 6,
+                    "stereo": 0,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-22T11:10:50.580084",
+                "duration_seconds": 60.037898,
+                "rwpm_min": 27,
+                "rwpm_max": 27,
+                "rwpm_avg": 27.0,
+                "items_sent_session": 2,
+                "items_correct_session": 2,
+                "item_details": [
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 19,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "e": 1,
+                    "w": 1,
+                    "1": 2,
+                    "n": 5,
+                    "m": 1,
+                    "5": 2,
+                    "j": 2,
+                    "h": 1,
+                    "7": 1,
+                    "u": 2,
+                    "2": 1
+                },
+                "punteggio_grezzo": 4,
+                "punteggio_verificato": 4,
+                "prefissi_verificati": 2,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": false,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": false,
+                    "attivita": 6,
+                    "stereo": 0,
                     "banda": 600,
                     "tasto_verticale": true,
                     "tasto_probabilita": 30,
