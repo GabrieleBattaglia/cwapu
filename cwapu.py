@@ -76,8 +76,8 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "6.1.0"
-RELEASE_DATE = "2026-09-15"
+VERSION = "7.0.0"
+RELEASE_DATE = "2026-09-23"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
 # era quello che chi riceve veloce incontrava per primo.
@@ -266,7 +266,10 @@ CONTEST_VOCI = [
         "key_state": "scambio_veloce",
         "etichetta": _("5NN accelerato"),
         "chiedi_stati": lambda stati: chiedi_scambio_veloce(stati),
-        "descrivi": lambda stati: _("{p}% delle stazioni, +{d}%").format(p=stati["scambio_probabilita"], d=stati["scambio_incremento"]),
+        # Il simbolo di percentuale non va mai seguito da spazio e da una
+        # lettera come d o o: Babel scambierebbe la frase per un formato
+        # Python e la compilazione dei cataloghi potrebbe fallire.
+        "descrivi": lambda stati: _("stazioni {p}%, +{d}%").format(p=stati["scambio_probabilita"], d=stati["scambio_incremento"]),
     },
     {"id": "1", "key_state": "qrn", "etichetta": _("QRN")},
     {
