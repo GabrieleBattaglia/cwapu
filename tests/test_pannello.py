@@ -265,6 +265,33 @@ class TestPannelloContest:
         assert cwapu.app_data["contest_settings"]["sbadati"] is False
 
 
+    def test_le_due_risposte_del_5nn_accelerato_arrivano_e_restano(self, monkeypatch):
+        """Riprova AA di Gabriele: scriveva 25 all'incremento e il contest
+        usava 15. La seconda risposta andava nelle impostazioni salvate, e il
+        pannello, che lavora su una copia, alla conferma ci ricopiava sopra la
+        sua: il valore non arrivava ne' alla partita ne' al file."""
+        risposte = iter([40, 25])
+        monkeypatch.setattr(cwapu, "dgt", lambda **chiavi: next(risposte))
+        banco(monkeypatch, "0")
+        cwapu.app_data["contest_settings"]["scambio_incremento"] = 15
+        stati = cwapu.pannello_contest()
+        assert stati["scambio_veloce"] is True
+        assert stati["scambio_probabilita"] == 40
+        assert stati["scambio_incremento"] == 25
+        salvati = cwapu.app_data["contest_settings"]
+        assert salvati["scambio_probabilita"] == 40
+        assert salvati["scambio_incremento"] == 25
+
+    def test_spegnendo_lo_zero_non_si_chiede_niente(self, monkeypatch):
+        chieste = []
+        monkeypatch.setattr(cwapu, "dgt", lambda **chiavi: chieste.append(chiavi) or 30)
+        banco(monkeypatch, "0", "0")
+        stati = cwapu.pannello_contest()
+        assert stati["scambio_veloce"] is False
+        # Due domande all'accensione, nessuna allo spegnimento.
+        assert len(chieste) == 2
+
+
 class TestBanda:
     """Il passo di cinquanta della larghezza del filtro."""
 

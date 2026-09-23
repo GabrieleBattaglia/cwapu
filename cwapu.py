@@ -265,8 +265,7 @@ CONTEST_VOCI = [
         "id": "0",
         "key_state": "scambio_veloce",
         "etichetta": _("5NN accelerato"),
-        "valore": "scambio_probabilita",
-        "chiedi": lambda salvato: chiedi_scambio_veloce(salvato),
+        "chiedi_stati": lambda stati: chiedi_scambio_veloce(stati),
         "descrivi": lambda stati: _("{p}% delle stazioni, +{d}%").format(p=stati["scambio_probabilita"], d=stati["scambio_incremento"]),
     },
     {"id": "1", "key_state": "qrn", "etichetta": _("QRN")},
@@ -318,7 +317,7 @@ CONTEST_VOCI = [
         ),
     },
 ]
-def chiedi_scambio_veloce(salvato):
+def chiedi_scambio_veloce(stati):
     """Le due domande del 5NN accelerato: quante stazioni lo fanno e di quanto.
 
     Nei contest il rapporto e' l'unico gruppo che tutti si aspettano, quindi
@@ -327,12 +326,19 @@ def chiedi_scambio_veloce(salvato):
     suo interruttore come tutte le altre, ma i valori sono due e si chiedono
     insieme quando la si accende. Il minimo e' uno: zero vorrebbe dire accesa
     e senza effetto, che a chi legge la riga non direbbe niente.
+
+    Le due risposte si scrivono negli stati del pannello, entrambe. La
+    seconda andava direttamente nelle impostazioni salvate, e il pannello,
+    che lavora su una copia, alla conferma ci ricopiava sopra la sua: il
+    valore chiesto non arrivava ne' alla partita ne' al file, e restava
+    quello di prima.
     """
-    quante = chiedi_intero(_("Stazioni che accelerano il 5NN, in percentuale"), 1, 100, max(1, salvato or CONTEST_PREDEFINITI["scambio_probabilita"]))
-    app_data["contest_settings"]["scambio_incremento"] = chiedi_intero(
-        _("Di quanto accelerano il 5NN, in percentuale"), 5, 50, app_data["contest_settings"].get("scambio_incremento", CONTEST_PREDEFINITI["scambio_incremento"])
+    stati["scambio_probabilita"] = chiedi_intero(
+        _("Stazioni che accelerano il 5NN, in percentuale"), 1, 100, max(1, stati.get("scambio_probabilita") or CONTEST_PREDEFINITI["scambio_probabilita"])
     )
-    return quante
+    stati["scambio_incremento"] = chiedi_intero(
+        _("Di quanto accelerano il 5NN, in percentuale"), 5, 50, stati.get("scambio_incremento", CONTEST_PREDEFINITI["scambio_incremento"])
+    )
 
 
 def chiedi_intero(domanda, minimo, massimo, proposto):
@@ -1037,12 +1043,17 @@ def pannello_interruttori(voci, stati, titolo, al_cambio=None, alla_conferma=Non
         chiave = scelto.get("key_state")
         if chiave:
             stati[chiave] = not stati.get(chiave)
-        if scelto.get("valore") and (not chiave or stati.get(chiave)):
+        if (scelto.get("valore") or scelto.get("chiedi_stati")) and (not chiave or stati.get(chiave)):
             # Accendendo una voce con un valore lo si chiede subito, con il
-            # salvato come predefinito: un Invio lo conferma.
+            # salvato come predefinito: un Invio lo conferma. Una voce con
+            # piu' valori li chiede tutti e li scrive negli stati del
+            # pannello, che sono gli stessi che poi si salvano e si usano.
             _move_cursor(riga_prompt + 1, 1)
             _clear_screen_from_cursor()
-            stati[scelto["valore"]] = scelto["chiedi"](stati.get(scelto["valore"]))
+            if scelto.get("chiedi_stati"):
+                scelto["chiedi_stati"](stati)
+            else:
+                stati[scelto["valore"]] = scelto["chiedi"](stati.get(scelto["valore"]))
             _move_cursor(riga_prompt + 1, 1)
             _clear_screen_from_cursor()
         if al_cambio:
