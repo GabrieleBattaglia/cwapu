@@ -128,7 +128,7 @@ class MotoreFinto:
 
     def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None, ritardo=None):
         self.testi.append(msg)
-        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol, "qsb": qsb, "chirp": chirp, "vibrato": vibrato, "ritardo": ritardo})
+        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol, "qsb": qsb, "chirp": chirp, "vibrato": vibrato, "ritardo": ritardo, "quando": self.orologio.adesso})
         if sync:
             return None, 0.0
         # Un carattere ogni sessanta millesimi e' l'ordine di grandezza del CW
@@ -730,6 +730,32 @@ class TestCicloContest:
         # Parte dopo il silenzio di uno spazio di parola, non attaccato.
         assert dopo["ritardo"] > 0, dopo
         assert not banco["cw"].miei_tagliati, "il primo messaggio e' stato tagliato"
+
+    def test_il_punto_interrogativo_si_attacca_e_il_resto_no(self, monkeypatch):
+        """In radio DL3XY? si manda come una parola sola, per fare prima: il ?
+        parte dopo il silenzio fra due lettere. Gli altri messaggi accodati
+        partono dopo uno spazio di parola."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "f5"), (3.7, "f7"), (9.0, "f5"), (9.1, "f4"), (16.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=1)
+        cwapu.RxingContest({})
+        miei = [c for c in banco["cw"].chiamate if c["vol"] is None]
+        testi = [c["msg"] for c in miei]
+        wpm = cwapu.overall_speed
+        s = cwapu.overall_spaces
+
+        def silenzio_prima(indice):
+            # Il silenzio vero: quello gia' trascorso quando il ciclo si e'
+            # accorto della fine del messaggio precedente, piu' il ritardo.
+            prima, dopo = miei[indice - 1], miei[indice]
+            fine_prima = prima["quando"] + (prima["ritardo"] or 0.0) + max(0.2, len(prima["msg"]) * 0.06)
+            return dopo["quando"] + (dopo["ritardo"] or 0.0) - fine_prima
+
+        punto = testi.index("?")
+        assert testi[punto - 1] == "DL3XY", testi
+        assert silenzio_prima(punto) == pytest.approx(cwapu.buco_fra_pezzi(wpm, s, False), abs=1e-6)
+        mio = testi.index("IZ4APU")
+        assert testi[mio - 1] == "DL3XY", testi
+        assert silenzio_prima(mio) == pytest.approx(cwapu.buco_fra_pezzi(wpm, s, True), abs=1e-6)
 
     def test_il_messaggio_accodato_arriva_al_motore_in_un_elenco_solo(self, monkeypatch):
         """Le stazioni devono ricevere nominativo e punto interrogativo

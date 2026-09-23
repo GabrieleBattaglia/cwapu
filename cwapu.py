@@ -2310,6 +2310,10 @@ def RxingContest(menu_config_scelta):
     # accodano invece di tagliarlo, e ognuno porta con se' il nominativo
     # che c'era nella riga quando il tasto e' stato premuto.
     coda = []
+    # L'istante in cui la mia ultima trasmissione finisce davvero: il ciclo
+    # se ne accorge fino a un passo dopo, e il messaggio accodato deve
+    # contare anche il silenzio gia' trascorso.
+    fine_mia = 0.0
     da_chiudere = set()
     # Cio' che il motore ha prodotto in un giro di orologio fatto fuori dal
     # ciclo, cioe' in chiudi_i_finiti: il ciclo lo raccoglie al primo giro
@@ -2632,6 +2636,7 @@ def RxingContest(menu_config_scelta):
         altrimenti le stazioni resterebbero in ascolto di una voce che non
         arriva mai e il contest si fermerebbe.
         """
+        nonlocal fine_mia
         chiudi_i_finiti(adesso)
         zittisci_ricezione()
         richiesta = motore.io_trasmetti(messaggi, adesso, suo_nominativo=nominativo, accoda=accoda)
@@ -2639,15 +2644,30 @@ def RxingContest(menu_config_scelta):
             motore.io_finito(adesso)
             return
         # Un messaggio accodato parte dopo il silenzio di uno spazio di
-        # parola: senza, si attaccherebbe all'ultima lettera del precedente e
-        # F5 piu' F7 suonerebbe come una parola sola, diversa da come suona
-        # gia' l'Invio che manda nominativo e scambio.
-        inizio = buco_fra_pezzi(richiesta.wpm, richiesta.s, True) if accoda else 0.0
+        # parola, come fra due parole dello stesso messaggio. Il punto
+        # interrogativo no: in radio chi chiede la ripetizione lo attacca
+        # all'ultima cosa che ha detto, per fare prima, e DL3XY? si manda
+        # come una parola sola. Attaccato vuol dire con il silenzio fra due
+        # lettere, non zero, che fonderebbe gli elementi in un carattere che
+        # non esiste. Scelta di Gabriele del 23 settembre 2026.
+        attaccato = bool(messaggi) and messaggi[0] == ct.Msg.QM
+        inizio = 0.0
+        if accoda:
+            # Il ciclo si accorge della fine del messaggio precedente fino a
+            # cinquanta millesimi dopo: quel silenzio c'e' gia' stato, e va
+            # tolto, altrimenti il punto interrogativo attaccato arriverebbe
+            # a meta' strada fra lo spazio di lettera e quello di parola.
+            # L'orologio si legge adesso, non all'inizio del giro: un tasto
+            # arriva dopo un'attesa fino a cinquanta millesimi, e il tempo del
+            # giro sarebbe vecchio proprio di quel tanto.
+            trascorso = max(0.0, time.monotonic() - t0 - fine_mia)
+            inizio = max(0.0, buco_fra_pezzi(richiesta.wpm, richiesta.s, not attaccato) - trascorso)
         handle, _rwpm = metti_in_aria(richiesta, inizio)
         if handle is None:
             motore.io_finito(adesso)
             return
         suoni[ct.IO] = handle
+        fine_mia = time.monotonic() - t0 + durata_suono(handle)
 
     def conta_caratteri(testo):
         """I caratteri che mi sono stati mandati, per il tasso di errore per carattere."""
