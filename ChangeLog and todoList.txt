@@ -3,6 +3,7 @@ Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
 	6.1.0 (2026-09-15)
+		+ Il contest rifatto da capo, issue 7. Autori: Gabriele Battaglia (IZ4APU) & ClaudIA (Opus 5.5 UltraCode).
 		+ I comandi numerici della sezione k accettano il numero anche dopo uno spazio: .m 50 vale quanto .m50. Prima la forma con lo spazio non era un comando e veniva trasmessa in CW come testo, cosi' si sentiva m 50 e sembrava la conferma del valore, mentre non era cambiato niente. Il manuale lo avvertiva, ma un comando che si scrive in due modi naturali deve accettarli entrambi. Chiude la issue 13.
 		+ Il comando .m dice quando la velocita' limita la dissolvenza. CWzator accorcia ogni rampa a meta' dell'elemento, e il punto e' il piu' corto: misurato a 47 wpm, i valori 15, 30, 50 e 200 producono tutti una rampa di 11,7 millesimi sul punto, e 10 ne produce 9,3. Per questo oltre un certo valore non si sente piu' differenza. Ora, quando il valore accettato supera meta' del punto, il comando lo scrive: MS 30, a 47 wpm il punto la limita a 12. Il tetto di 30 e il valore salvato non cambiano.
 		+ Il nome dell'applicazione e' scritto CWapu dovunque lo si legga: era CWAPU nel riepilogo d'avvio, nella guida della sezione k, nell'avviso del dizionario, nei rapporti storici e nel saluto di fine report, Cwapu nell'aggiornamento e cwapu nella finestra dell'aggiornatore. I nomi dei file restano minuscoli, perche' sono identificatori e non il nome.

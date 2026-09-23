@@ -75,7 +75,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 
 <h1>Manuale di CWapu</h1>
 <p><strong>Versione 6.1.0 del 15 settembre 2026.</strong></p>
-<p>CWapu è scritto da Gabriele Battaglia, IZ4APU, e da ClaudIA, Claude Opus 5 in modalità UltraCode.</p>
+<p>CWapu è scritto da Gabriele Battaglia, IZ4APU, e da ClaudIA, Claude Opus 5.5 in modalità UltraCode.</p>
 
 <div class="nota">
 <h2 id="lingua" style="margin-top:0; border-top:none; font-size:1.15rem;">Una nota sulla lingua</h2>
@@ -459,7 +459,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <h3 id="pannello-contest">6.1 Il pannello</h3>
 
-<p>Prima di cominciare CWapu mostra un pannello di interruttori, con gli stessi gesti di quello degli esercizi di ricezione: il numero accende la voce, e accendendola chiede subito il suo valore proponendo quello che si era scelto l'ultima volta, così un Invio lo conferma; lo stesso numero su una voce accesa la spegne; Invio comincia il contest ed Escape torna al menu. Ogni riga è una frase sola, per esempio <code>2. QRM &lt;X&gt; ATTIVATO, 2 stazioni</code>.</p>
+<p>Prima di cominciare CWapu mostra un pannello di interruttori, con gli stessi gesti di quello degli esercizi di ricezione: il numero accende la voce, e accendendola chiede subito il suo valore proponendo quello che si era scelto l'ultima volta, così un Invio lo conferma; lo stesso numero su una voce accesa la spegne; Invio comincia il contest ed Escape torna al menu buttando via i valori appena scelti, come dice la riga del titolo. Ogni riga è una frase sola, per esempio <code>2. QRM &lt;X&gt; ATTIVATO, 2 stazioni</code>.</p>
 
 <table>
 <caption>Le voci del pannello del contest</caption>
@@ -467,6 +467,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><th>Voce</th><th>Che cosa fa</th></tr>
 </thead>
 <tbody>
+<tr><td>0. 5NN accelerato</td><td>Quante stazioni su cento mandano il rapporto più veloce del resto, e di quanto per cento accelerano rispetto alla propria velocità. È un'abitudine dell'operatore, non un capriccio: chi lo fa lo fa per tutto il QSO. Il 5NN è l'unico gruppo che tutti si aspettano, e infatti accelera solo lui: il progressivo, che è il dato vero da copiare, resta alla velocità della stazione. Con l'interruttore acceso accelera anche il tuo rapporto, sempre, della stessa percentuale: quella non è una probabilità, è come mandi tu.</td></tr>
 <tr><td>1. QRN</td><td>Il fruscio atmosferico di fondo, un rumore rosa limitato alla banda del filtro, che sta sotto le stazioni per tutto il contest, si stringe insieme al filtro, segue il volume generale e si allarga fra gli altoparlanti quanto dice la voce stereo: il rumore di una radio non viene da un punto, viene da tutte le parti.</td></tr>
 <tr><td>2. QRM</td><td>Stazioni che disturbano: chiedono <code>QRL?</code>, lanciano il loro CQ o invitano a cambiare frequenza. Il valore dice quante al massimo insieme, da 1 a 5.</td></tr>
 <tr><td>3. QSB</td><td>L'evanescenza che fa andare e venire il segnale. Ogni stazione ne prende una sua, lenta come nelle propagazioni normali.</td></tr>
@@ -474,7 +475,6 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><td>5. operatori sbadati</td><td>Stazioni che sbagliano il rapporto o il numero, lo correggono con una fila di <code>e</code> e lo ripetono, e ogni tanto rispondono fuori turno. Acceso di serie.</td></tr>
 <tr><td>6. pile-up</td><td>Acceso, a ogni chiamata rispondono più stazioni insieme: il valore è l'attività, da 1 a 9, cioè quante rispondono in media. Spento, è una stazione alla volta, come nelle versioni precedenti. Spento di serie.</td></tr>
 <tr><td>7. stereo</td><td>Da 0 a 100: quanto le stazioni si allargano fra i due altoparlanti. A 0 arrivano tutte al centro, come si sta al centro noi.</td></tr>
-<tr><td>0. 5NN accelerato</td><td>Quante stazioni su cento mandano il rapporto più veloce del resto, e di quanto per cento accelerano rispetto alla propria velocità. È un'abitudine dell'operatore, non un capriccio: chi lo fa lo fa per tutto il QSO. Il 5NN è l'unico gruppo che tutti si aspettano, e infatti accelera solo lui: il progressivo, che è il dato vero da copiare, resta alla velocità della stazione. Con l'interruttore acceso accelera anche il tuo rapporto, sempre, della stessa percentuale: quella non è una probabilità, è come mandi tu.</td></tr>
 <tr><td>8. banda</td><td>La larghezza del filtro del ricevitore, da 100 a 600 hertz. Più è stretta, più le stazioni lontane dal proprio tono arrivano deboli: è il filtro che in radio si stringe quando c'è folla. Spostando il tono con <kbd>Alt</kbd> e le frecce la distanza si ricalcola, quindi sintonizzarsi su una stazione debole la porta davvero in banda passante.</td></tr>
 <tr><td>9. tasto verticale</td><td>Quante stazioni manipolano a mano invece che in automatico, e quanto irregolare è la loro manipolazione. Accendendolo si scelgono sette valori: la probabilità in percentuale e gli intervalli della linea, dello spazio e del punto. Acceso di serie, al trenta per cento.</td></tr>
 </tbody>
@@ -492,7 +492,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <ol>
 <li><strong>Il nominativo.</strong> Si batte Invio a riga vuota e CWapu lancia <code>CQ TEST</code> con il proprio nominativo. Una stazione risponde. Si scrive quello che si è capito e si batte Invio: CWapu trasmette il nominativo scritto seguito dal proprio scambio, <code>5NN</code> e il progressivo, e la riga passa ad aspettare il numero.</li>
-<li><strong>Il numero.</strong> La stazione risponde con <code>R 5NN</code> e il suo numero. Si scrive il solo numero e si batte Invio: CWapu manda <code>TU</code>, il QSO va a log e il proprio progressivo avanza.</li>
+<li><strong>Il numero.</strong> La stazione risponde con <code>R 5NN</code> e il suo numero. Si scrive il solo numero e si batte Invio: CWapu chiude, di solito con <code>TU</code>, il QSO va a log e il proprio progressivo avanza.</li>
 </ol>
 
 <p>Se il nominativo scritto non è il suo, la stazione non risponde; se gli somiglia, o se è una parte di almeno due caratteri di quello vero, capisce che ci si sta avvicinando e ripete. Il QSO si chiude comunque, anche con il nominativo sbagliato: a dire com'è andata è la verifica, che arriva subito dopo.</p>
@@ -511,7 +511,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><th>Tasto</th><th>Che cosa fa</th></tr>
 </thead>
 <tbody>
-<tr><td><kbd>Invio</kbd></td><td>Manda quello che in quel momento serve: a riga vuota il CQ, con il nominativo scritto il nominativo e il proprio scambio, con il numero scritto il <code>TU</code> che chiude il QSO e lo mette a log. Se la riga aspetta il numero e non c'è niente di leggibile, manda un punto interrogativo.</td></tr>
+<tr><td><kbd>Invio</kbd></td><td>Manda soltanto quello che alla stazione manca: a riga vuota il CQ, poi nominativo e scambio, e con il suo numero scritto la chiusura che mette il QSO a log. Non ripete mai quello che lei ha già sentito; le regole sono spiegate sotto la tabella.</td></tr>
 <tr><td><kbd>F1</kbd></td><td>Lancia <code>CQ TEST</code>.</td></tr>
 <tr><td><kbd>F2</kbd></td><td>Manda il proprio scambio, <code>5NN</code> e il progressivo.</td></tr>
 <tr><td><kbd>F3</kbd></td><td>Manda <code>TU</code>.</td></tr>
@@ -531,6 +531,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><td><kbd>Sinistra</kbd> e <kbd>Destra</kbd></td><td>Spostano il cursore di un carattere dentro la riga. Il cursore è quello vero del sistema, quindi il display braille lo mostra dov'è e lo screen reader legge il carattere su cui si arriva: CWapu non dice niente in più, e il CW non viene coperto.</td></tr>
 <tr><td><kbd>Inizio</kbd> e <kbd>Fine</kbd></td><td>Portano il cursore al primo carattere e dopo l'ultimo.</td></tr>
 <tr><td><kbd>Canc</kbd></td><td>Cancella il carattere sotto il cursore e lo lascia dov'è.</td></tr>
+<tr><td><kbd>Spazio</kbd></td><td>Nel campo del nominativo passa al numero senza trasmettere niente; nel campo del numero separa il rapporto dal numero.</td></tr>
 <tr><td><kbd>Backspace</kbd></td><td>Cancella il carattere prima del cursore e arretra di uno. Con il cursore sul primo carattere non fa niente, come in un editor. Quando la riga è già vuota e si sta aspettando il numero, torna al nominativo e lo rimette nella riga da correggere: è il modo di rimediare quando la stazione fa capire che l'avevamo copiato male, senza buttare via il QSO.</td></tr>
 <tr><td><kbd>Esc</kbd></td><td>Se si sta trasmettendo, zittisce la trasmissione e butta via la coda; altrimenti pulisce la riga. Quando taglia la risposta a una stazione, cioè il suo nominativo con lo scambio, la riga torna al nominativo con dentro quello che avevi copiato: quella stazione ha sentito spazzatura e non parlerà più finché non le rimandi qualcosa, e un <kbd>Invio</kbd> glielo rimanda.</td></tr>
 <tr><td><kbd>Alt</kbd>+<kbd>X</kbd></td><td>Chiude il contest.</td></tr>
@@ -541,7 +542,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <p>Il punto interrogativo non cancella il ricordo del tuo scambio: chiederle il suo numero non vuol dire che lei non abbia il tuo, e dopo il <code>?</code> e il suo numero l'<kbd>Invio</kbd> chiude e basta. Lo cancella invece il suo nominativo ripetuto, con <kbd>F5</kbd>: se sei tornato sul nominativo vuol dire che il primo scambio non è arrivato. E le due spie valgono solo per il nominativo a cui hai parlato: se nella riga ne scrivi un altro, per lui si ricomincia da capo.</p>
 <p>Lo <kbd>Spazio</kbd> nel campo del nominativo passa al numero senza trasmettere niente, come nei programmi da contest. Serve quando la stazione ti ha già dato il suo scambio prima che tu rispondessi: scrivi nominativo, spazio, numero, e un <kbd>Invio</kbd> solo le manda nominativo, scambio e chiusura insieme.</p>
 <p>La chiusura non è sempre <code>TU</code>: la maggior parte delle volte sì, ma ogni tanto è <code>R TU</code>, <code>TU 73</code>, <code>TU GL</code>, <code>73</code> o <code>GL</code>, come in radio. E una stazione su cinque, ricevuta la tua chiusura, saluta prima di sparire, con la sua nota e dal suo posto: in pile-up il suo saluto si può sovrapporre alle nuove chiamate.</p>
-<p>Nella riga si scrivono lettere, cifre, la barra e il punto interrogativo. Lo spazio si scrive soltanto quando la riga aspetta il numero, dove serve a separare il rapporto dal numero: normalmente basta il numero, perché il rapporto vale 599, ma se una stazione sbadata ne ha mandato un altro si scrive per esempio <code>579 27</code>.</p>
+<p>Nella riga si scrivono lettere, cifre, la barra e il punto interrogativo. Nel campo del numero lo spazio separa il rapporto dal numero: normalmente basta il numero, perché il rapporto vale 599, ma se una stazione sbadata ne ha mandato un altro si scrive per esempio <code>579 27</code>.</p>
 
 <h3 id="pazienza">6.4 La pazienza della stazione</h3>
 
@@ -549,8 +550,8 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <ul>
 <li><strong>Una velocità</strong> che si discosta dalla propria, e che a volte abbassa apposta per farsi capire.</li>
-<li><strong>Un tono</strong> diverso dal proprio, fino a quattrocentocinquanta hertz di distanza, e una posizione fra gli altoparlanti se lo stereo è acceso. Chi chiama molto lontano dal proprio tono arriva debole, perché è il filtro a mangiarselo, ed è il motivo per cui il filtro si stringe. Debole, però, non muto: oltre una banda intera dal tuo tono il fianco del filtro si ferma a meno ventiquattro decibel, come fa un filtro vero, e si sente che c'è traffico anche dove non si copia. Il fianco comincia a scendere subito, non dopo mezza banda: una stazione a metà banda arriva già dimezzata, come in radio, ed è da quanto è debole che si capisce quanto è fuori. Serve anche a te: una stazione muta ti chiamerebbe, aspetterebbe e se ne andrebbe senza che tu possa saperlo, e la sua rinuncia finirebbe lo stesso nel rapporto di fine sessione.</li>
-<li><strong>Una voce che si sente solo quando si ascolta</strong>: mentre si trasmette il ricevitore tace, come in radio, quindi né il fruscio né chi è già in aria si sovrappongono alla propria chiamata. Chi stava trasmettendo prosegue per conto suo e il contest lo sa: semplicemente quel pezzo non lo si è sentito.</li>
+<li><strong>Un tono</strong> diverso dal proprio, fino a settecento hertz di distanza, così con il filtro largo le stazioni stanno sparse su tutta la banda, e una posizione fra gli altoparlanti se lo stereo è acceso. Chi chiama molto lontano dal proprio tono arriva debole, perché è il filtro a mangiarselo, ed è il motivo per cui il filtro si stringe. Debole, però, non muto: oltre una banda intera dal tuo tono il fianco del filtro si ferma a meno ventiquattro decibel, come fa un filtro vero, e si sente che c'è traffico anche dove non si copia. Il fianco comincia a scendere subito, non dopo mezza banda: una stazione a metà banda arriva già dimezzata, come in radio, ed è da quanto è debole che si capisce quanto è fuori. Serve anche a te: una stazione muta ti chiamerebbe, aspetterebbe e se ne andrebbe senza che tu possa saperlo, e la sua rinuncia finirebbe lo stesso nel rapporto di fine sessione.</li>
+<li><strong>Una voce che si sente solo quando si ascolta</strong>: mentre si trasmette il ricevitore tace, come in radio, quindi né il fruscio né chi è già in aria né chi comincia mentre trasmetti si sovrappongono alla propria chiamata. Chi stava trasmettendo prosegue per conto suo e il contest lo sa: semplicemente quel pezzo non lo si è sentito.</li>
 <li><strong>Un'evanescenza</strong>, se il QSB è acceso: il segnale va e viene. Metà delle stazioni ha un'onda lenta, che impiega qualche secondo a scendere e altrettanti a risalire, e le altre un'onda più rapida. Se il flutter è acceso, fra queste tre stazioni su dieci hanno il tremolio veloce delle propagazioni polari e una su dieci la nota ruvida, cioè una modulazione così rapida da non sentirsi più come un andirivieni ma come sporcizia sul segnale.</li>
 <li><strong>Un difetto di nota</strong>, sempre con il flutter acceso: una stazione su sei ha il <em>chirp</em>, cioè il tono che scivola mentre il punto o la linea suonano, che è il difetto del trasmettitore con l'alimentazione debole, e una su dieci ha il tono instabile, che oscilla attorno alla sua frequenza. Sono indipendenti fra loro e dall'evanescenza: in radio una stazione può avere tutto insieme, oppure niente.</li>
 <li><strong>Una forza</strong>, perché non arrivano tutte allo stesso modo, e il filtro attenua chi sta lontano dal proprio tono.</li>
@@ -813,7 +814,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <footer>
 <p>CWapu, versione 6.1.0 del 15 settembre 2026.</p>
-<p>Software e manuale di Gabriele Battaglia, IZ4APU, e di ClaudIA, Claude Opus 5 in modalità UltraCode.</p>
+<p>Software e manuale di Gabriele Battaglia, IZ4APU, e di ClaudIA, Claude Opus 5.5 in modalità UltraCode.</p>
 <p>Il motore CW è CWzator, dalla libreria GBUtils, su un'idea originale di Kevin Schmidt, W9CF.</p>
 <p>Le segnalazioni e le proposte si aprono come issue sul repository del progetto.</p>
 </footer>
