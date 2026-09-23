@@ -17,26 +17,32 @@ Durata: 1, 8 QSO.
 Passo 3: gioca e chiudi gli otto QSO, ascoltando il tuo scambio quando lo mandi e quello delle stazioni quando arriva.
 Passo 4: verso meta' partita spegni la voce 0 rientrando dal menu, e rifai due o tre QSO per confrontare.
 Domanda 1: premendo 0 una volta sola si accende e chiede, e premendolo ancora si spegne in silenzio, come le altre voci.
+Sì
 Domanda 2: il tuo 5NN, quando l'interruttore e' acceso, lo senti accelerato tutte le volte.
+Di poco. Non dell'incremento che ho indicato io.
 Domanda 3: il passaggio dal tuo rapporto accelerato al tuo progressivo ti sembra naturale o senti uno strappo.
+Naturale
 Domanda 4: con l'interruttore spento, il tuo rapporto torna alla velocita' di tutto il resto.
+Sì
 Domanda 5: il venticinque per cento ti sembra la misura giusta, per te e per loro.
-Esito:
+Non rispetta l'incremento dato.
+Esito: Ritengo che ci sia un problema. Penso che consideri solo il 15% senza usare il valore inserito. Inoltre, tornando al menù principale e rientrando in R 8, mantiene la percentuale di stazioni con 5nn accelerato, mantiene lo 0 acceso ma non la percentuale.
+
 RIPROVA AB: L'INVIO CHE NON SI RIPETE
 Prima: l'Invio adesso manda solo cio' che alla stazione manca. Tiene il conto di due cose: se le hai gia' mandato il suo nominativo, e se le hai gia' mandato il tuo scambio.
 Pannello: 5 sbadati, 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
 Durata: 2, 8 minuti.
 Passo 1: fai un QSO normale: scrivi il nominativo, Invio, copia il numero, Invio. Ascolta cosa esce alla seconda pressione.
+da lTU. e il qso si chiude.
 Passo 2: in un altro QSO, dopo aver mandato nominativo e scambio, aspetta che la stazione ti chieda il progressivo; mandalo con F2 e poi premi Invio quando hai il suo.
+Qui c'è un piccolo inghippo. Lei chiama, io copio e invio con f5, lei chiede il nr, lo invio con f2, lei dà il suo, a questo punto io devo premere invio per passare al campo nr, e qui mando un "?" obligandola a reinviare il nr, che io però avrei già copiato.
+Inoltre, quando io poi scrivo il suo nr e batto invio, la mia stazione ripete 5nn nr, che l'altra ha già copiato, rallentando il flusso.
 Passo 3: in un altro ancora, dopo aver mandato tutto, premi F5 per ripetere il suo nominativo, poi scrivi il numero e premi Invio.
+ok
 Passo 4: fai un QSO in cui, dopo aver mandato nominativo e scambio, premi Invio senza aver scritto niente nel campo del numero.
+Richiedo il nr, me lo dà, io lo scrivo, invio e la mia stazione ripete 5nn nr, che però aveva già inviato. Secondo me questo è un difetto. Lo fa anche morse runner ma in radio è difficile sentirlo, qui la corrispondente aveva già copiato.
 Passo 5: fai un QSO in cui copi male il nominativo, torni indietro col Backspace a campo vuoto, lo correggi e premi Invio.
+ok
 Passo 6: e uno in cui, dopo aver mandato tutto, premi Alt+W e ricominci da capo con la stessa stazione.
-Domanda 1: al passo 1, la seconda pressione dell'Invio manda solo il TU o ripete anche nominativo e scambio.
-Domanda 2: al passo 2, dopo F2 l'Invio chiude e basta.
-Domanda 3: al passo 3, dopo F5 l'Invio rimanda il tuo scambio, e ti sembra giusto che lo faccia.
-Domanda 4: al passo 4, cosa manda l'Invio quando non hai il suo numero.
-Domanda 5: al passo 5, correggendo il nominativo l'Invio rimanda tutto da capo, come deve.
-Domanda 6: al passo 6, dopo Alt+W l'Invio ricomincia da zero.
-Domanda 7: complessivamente, i QSO sono piu' rapidi e ti sembra di parlare come si parla in radio, o ti manca qualche ripetizione che prima c'era.
-Esito:
+ok
+Esito: Ho messo le mie riflessioni nelle risposte qui sopra. Sintetizzando, funziona ma si potrebbe snellire e rendere ancora più intelligente il tasto invio. Inoltre, nella realtà, capita che qualche stazione o la mia stessa, ogni tanto non chiuda sempre col TU, ma con gl, o 73, o "r" eccetera. Qui sento solo "tu", la maggior parte chiude e basta.
