@@ -6,31 +6,3 @@ A che punto siamo: la riprova AA ha trovato un difetto vero, l'incremento del 5N
 COME SI ARRIVA AL CONTEST
 Dal menu, r. Nel pannello degli esercizi Rx la voce 8 e' il contest: accendila se non lo e', poi Invio. Al nominativo, Invio conferma quello salvato. Si apre il pannello del contest, dieci voci dallo 0 al 9.
 Invio comincia, Escape torna al menu e butta via i valori appena risposti. Poi la durata: 1 conta i QSO, 2 conta i minuti.
-RIPROVA AC: L'INCREMENTO CHE ARRIVA E RESTA
-Prima: nel pannello spegni lo 0 se e' acceso, poi riaccendilo: alla prima domanda scrivi 40, alla seconda 30.
-Pannello: 0 5NN accelerato 40 e 30, 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
-Durata: 1, 5 QSO.
-Passo 1: gioca i cinque QSO ascoltando il tuo 5NN e quello delle stazioni che accelerano.
-Passo 2: torna al menu, rientra con r e 8, e leggi la riga 0 del pannello.
-Domanda 1: adesso il 5NN accelerato, il tuo e il loro, e' accelerato di quanto hai chiesto.
-Domanda 2: rientrando, la riga 0 riporta 40 e 30.
-Esito:
-RIPROVA AD: L'INVIO SNELLO, LO SPAZIO E LE CHIUSURE
-Pannello: 5 sbadati, 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
-Durata: 2, 8 minuti.
-Passo 1: il tuo caso della riprova AB: quando una stazione chiama, copia il nominativo e mandalo con F5; quando ti chiede il numero mandalo con F2; quando ti da' il suo, premi Invio.
-Passo 2: scrivi il suo numero e premi Invio.
-Passo 3: in un altro QSO, manda nominativo e scambio con l'Invio, poi premi Invio a numero vuoto per chiederle di ripetere; scrivi il numero che ti rimanda e premi Invio.
-Passo 4: in un altro ancora, se una stazione ti manda il suo numero prima che tu le abbia risposto, scrivi il nominativo, poi lo spazio, poi il numero, e premi Invio una volta sola.
-Passo 5: in un QSO, dopo F5 con un nominativo, correggi una lettera del nominativo con Backspace senza lasciare il campo e premi Invio.
-Passo 6: durante tutta la partita ascolta come chiudi tu e come chiudono loro.
-Passo 7: in un QSO, scrivi il nominativo che hai copiato, premi F5 e subito F7, e ascolta come esce.
-Domanda 1: al passo 1, l'Invio passa al numero senza mandare niente.
-Domanda 2: al passo 2, l'Invio chiude e basta, senza ripeterle 5NN e numero.
-Domanda 3: al passo 3, dopo il punto interrogativo e il suo numero, l'Invio chiude senza rimandarle il tuo scambio.
-Domanda 4: al passo 4, con un Invio solo partono nominativo, scambio e chiusura insieme, e la stazione chiude il QSO.
-Domanda 5: al passo 5, l'Invio manda nominativo corretto e scambio.
-Domanda 6: la tua chiusura varia, con il TU prevalente, e le varianti ti suonano naturali.
-Domanda 7: ogni tanto una stazione ti saluta dopo la tua chiusura, e una su cinque ti sembra la misura giusta.
-Domanda 8: al passo 7, il punto interrogativo esce attaccato al nominativo, come una parola sola.
-Esito:

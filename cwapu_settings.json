@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 529
+        "launch_count": 530
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 28,
+        "speed": 30,
         "pitch": 600,
         "dashes": 30,
         "spaces": 50,
@@ -33,11 +33,11 @@
         "total_time_seconds": 7888.115495
     },
     "rxing_stats_qrz": {
-        "total_calls": 1131,
-        "sessions": 81,
-        "total_correct": 696,
+        "total_calls": 1136,
+        "sessions": 82,
+        "total_correct": 701,
         "total_wrong_items": 435,
-        "total_time_seconds": 20176.087623
+        "total_time_seconds": 20362.618616
     },
     "counting_stats": {
         "exercise_number": 100
@@ -51,7 +51,7 @@
         "sbadati": false,
         "pileup": false,
         "attivita": 6,
-        "stereo": 100,
+        "stereo": 50,
         "banda": 600,
         "tasto_verticale": true,
         "tasto_probabilita": 30,
@@ -63,7 +63,7 @@
         "tasto_p_max": 50,
         "scambio_veloce": true,
         "scambio_probabilita": 75,
-        "scambio_incremento": 15
+        "scambio_incremento": 50
     },
     "rx_menu_switcher_states": {
         "parole": false,
@@ -82561,7 +82561,7 @@
         ]
     },
     "historical_rx_data_qrz": {
-        "chars_since_last_report": 1845,
+        "chars_since_last_report": 1889,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-12-17T23:04:48.130816",
@@ -92182,6 +92182,86 @@
                     "scambio_veloce": true,
                     "scambio_probabilita": 75,
                     "scambio_incremento": 15
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-23T10:04:24.848209",
+                "duration_seconds": 182.700402,
+                "rwpm_min": 26,
+                "rwpm_max": 37.77403035413154,
+                "rwpm_avg": 29.754806070826305,
+                "items_sent_session": 5,
+                "items_correct_session": 5,
+                "item_details": [
+                    {
+                        "rwpm": 26,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 37.77403035413154,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 44,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "l": 1,
+                    "y": 1,
+                    "4": 3,
+                    "q": 1,
+                    "5": 7,
+                    "n": 10,
+                    "1": 4,
+                    "e": 2,
+                    "a": 3,
+                    "o": 1,
+                    "g": 1,
+                    "i": 2,
+                    "z": 2,
+                    "p": 1,
+                    "k": 2,
+                    "v": 1,
+                    "6": 1,
+                    "7": 1
+                },
+                "punteggio_grezzo": 25,
+                "punteggio_verificato": 25,
+                "prefissi_verificati": 5,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 3,
+                    "qsb": false,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": false,
+                    "attivita": 6,
+                    "stereo": 50,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 30,
+                    "tasto_l_min": 30,
+                    "tasto_l_max": 60,
+                    "tasto_s_min": 25,
+                    "tasto_s_max": 75,
+                    "tasto_p_min": 15,
+                    "tasto_p_max": 50,
+                    "scambio_veloce": true,
+                    "scambio_probabilita": 75,
+                    "scambio_incremento": 50
                 }
             }
         ],
