@@ -95,6 +95,21 @@ MARCA_VELOCE = "\x00"
 # Quanti caratteri del gruppo dello scambio sono il rapporto: 599 diventa
 # 5NN, e restano tre anche con le abbreviazioni.
 LUNGHEZZA_RAPPORTO = 3
+# Come chiudo io un QSO: la prima e' la piu' frequente, le altre arrivano
+# ogni tanto. In radio non si chiude sempre con TU, e sentire sempre la
+# stessa parola non allena l'orecchio a niente. Le stazioni capiscono la
+# chiusura dal messaggio, non dal testo, quindi per il motore sono tutte
+# la stessa cosa.
+CHIUSURE = ("TU", "R TU", "TU 73", "TU GL", "73", "GL")
+PROB_CHIUSURA_TU = 0.6
+# Come saluta una stazione dopo il mio TU, quando saluta: una su cinque,
+# scelta di Gabriele. Le altre chiudono e spariscono, come si fa in un
+# contest affollato.
+SALUTI = ("TU", "73", "GL", "R", "EE", "TU 73", "GL 73", "R TU")
+PROB_SALUTO = 0.2
+# Quanto aspetta a salutare, in secondi: nessuno risponde nello stesso
+# istante in cui l'altro ha smesso.
+RITARDO_SALUTO = (0.15, 0.5)
 
 
 def numero_come_testo(rng, rst, nr, errore=False):
@@ -246,6 +261,9 @@ class Richiesta:
     # tutti si aspettano e quindi molti accelerano. None vuol dire tutto il
     # testo alla velocita' della richiesta, che e' il caso normale.
     pezzi: tuple = None
+    # I secondi di silenzio prima che il messaggio cominci. Zero per tutto,
+    # tranne il saluto di una stazione dopo il mio TU.
+    ritardo: float = 0.0
 
 
 @dataclass
@@ -788,6 +806,32 @@ class StazioneDX(Stazione):
             self.scadenza = None
         return None
 
+    def saluto(self, ritardo):
+        """Il suo saluto dopo il mio TU, con la sua voce, la sua nota e il suo posto.
+
+        Non cambia niente nel QSO, che e' gia' chiuso: e' una richiesta di
+        suono e basta. In pile-up puo' sovrapporsi alle nuove chiamate, come
+        in radio. Non porta la velocita' del QSO, che e' gia' stata presa.
+        """
+        return Richiesta(
+            self.id,
+            self.rng.choice(SALUTI),
+            self.wpm,
+            self.pitch,
+            self.l,
+            self.s,
+            self.p,
+            self.motore.guadagno(self),
+            self.pan,
+            (),
+            self.qsb,
+            self.chirp,
+            self.vibrato,
+            False,
+            None,
+            float(ritardo),
+        )
+
     def verita(self):
         """Nominativo, rapporto e numero veri, per il confronto con cio' che ho messo a log."""
         self.stato = Stato.DA_TOGLIERE
@@ -1096,6 +1140,8 @@ class Contest:
         pezzi = []
         for m in messaggi:
             testo = TESTI[m]
+            if m == Msg.TU:
+                testo = CHIUSURE[0] if self.rng.random() < PROB_CHIUSURA_TU else self.rng.choice(CHIUSURE[1:])
             numero = numero_come_testo(self.rng, 599, self.mio_nr)
             if marca and len(numero) > LUNGHEZZA_RAPPORTO:
                 numero = MARCA_VELOCE + numero[:LUNGHEZZA_RAPPORTO] + MARCA_VELOCE + numero[LUNGHEZZA_RAPPORTO:]
@@ -1246,6 +1292,8 @@ class Contest:
                 verita = s.verita()
                 self.verita_pendenti.append(verita)
                 esito.eventi.append(("qso", verita))
+                if self.rng.random() < PROB_SALUTO:
+                    esito.richieste.append(s.saluto(self.rng.uniform(*RITARDO_SALUTO)))
                 self.stazioni.remove(s)
         if self.in_attesa is not None and not self.io_trasmette and not self.attesa_annullata:
             # Il QSO messo a log con l'Invio si chiude quando la mia trasmissione

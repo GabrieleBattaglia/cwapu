@@ -402,23 +402,35 @@ class TestCicloContest:
         assert "+0 -0 =0 CALL: DL3XY" in uscita
         assert "+0 -0 =0 DL3XY 5NN NR: 27" in uscita
 
-    def test_lo_spazio_scrive_solo_nel_numero(self, monkeypatch, capsys):
-        """Nel nominativo lo spazio non serve e non si scrive; nel numero separa il rapporto."""
+    def test_lo_spazio_nel_nominativo_passa_al_numero_in_silenzio(self, monkeypatch, capsys):
+        """Come nei logger da contest: la stazione ha gia' dato il suo scambio
+        prima che io rispondessi, e io scrivo nominativo, spazio, numero."""
         copione = [
-            *scrivi(3.0, "DL"),
-            (3.3, " "),
-            *scrivi(3.4, "3XY"),
-            (3.8, "\r"),
+            *scrivi(3.0, "DL3XY"),
+            (3.4, " "),
             *scrivi(4.2, "579"),
             (4.6, " "),
             *scrivi(4.7, "27"),
             (5.2, "alt-x"),
         ]
-        prepara(monkeypatch, copione)
+        banco = prepara(monkeypatch, copione)
         cwapu.RxingContest({})
         uscita = capsys.readouterr().out
-        assert "+0 -0 =0 CALL: DL3XY" in uscita
         assert "+0 -0 =0 DL3XY 5NN NR: 579 27" in uscita
+        # Passando al numero non si e' trasmesso niente: solo il CQ d'apertura
+        # e il saluto d'uscita.
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        assert not [m for m in miei if "DL3XY" in m], miei
+
+    def test_nominativo_spazio_numero_e_un_invio_solo(self, monkeypatch):
+        """Un Invio solo le manda nominativo, scambio e TU insieme."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.4, " "), *scrivi(4.0, "1"), (4.5, "\r"), (12.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        chiusa = [m for m in miei if m.startswith("DL3XY 5NN")]
+        assert chiusa, miei
+        assert any(chiusa[0].endswith(" " + c) for c in ct.CHIUSURE), chiusa
 
     def test_il_pile_up_manda_le_stazioni_sul_fronte_stereo(self, monkeypatch):
         """Con il pile-up acceso rispondono in piu' di una, ognuna dal suo posto."""
@@ -962,7 +974,7 @@ class TestCicloContest:
         # Il nominativo con lo scambio una volta sola, e poi il solo TU.
         assert any(m.startswith("DL3XY 5NN") for m in miei), miei
         # L'ultimo messaggio del contest e' il saluto d'uscita.
-        assert miei[-2] == "TU", miei
+        assert miei[-2] in ct.CHIUSURE, miei
         assert sum(1 for m in miei if m.startswith("DL3XY 5NN")) == 1, miei
 
     def test_dopo_f2_l_invio_non_rimanda_lo_scambio(self, monkeypatch):
@@ -972,7 +984,7 @@ class TestCicloContest:
         banco = prepara(monkeypatch, copione, minuti=2)
         cwapu.RxingContest({})
         miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
-        assert miei[-2] == "TU", miei
+        assert miei[-2] in ct.CHIUSURE, miei
 
     def test_dopo_f5_l_invio_rimanda_lo_scambio(self, monkeypatch):
         """Se sono tornato a ripetere il suo nominativo, vuol dire che il primo
@@ -983,6 +995,55 @@ class TestCicloContest:
         miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
         # L'ultimo messaggio porta lo scambio, non il solo TU.
         assert any("5NN" in m for m in miei[-3:]), miei
+
+    def test_dopo_il_punto_interrogativo_l_invio_non_rimanda_lo_scambio(self, monkeypatch):
+        """Riprova AB, passo 4: chiedere il suo numero non vuol dire che lei non
+        abbia il mio. Dopo il ? e il suo numero, l'Invio chiude e basta."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (10.0, "\r"), *scrivi(16.0, "1"), (16.5, "\r"), (24.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        assert "?" in miei, miei
+        dopo = miei[miei.index("?") + 1]
+        assert dopo in ct.CHIUSURE, miei
+
+    def test_dopo_f5_l_invio_manda_solo_lo_scambio(self, monkeypatch):
+        """Il nominativo gliel'ho appena dato: basta lo scambio."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "f5"), (8.0, "\r"), (16.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        assert "DL3XY" in miei, miei
+        dopo = miei[miei.index("DL3XY") + 1]
+        assert dopo.startswith("5NN"), miei
+
+    def test_dopo_f5_e_f2_l_invio_passa_al_numero_in_silenzio(self, monkeypatch, capsys):
+        """Riprova AB, passo 2: le ho gia' detto tutto, e l'Invio mandava un ?
+        che la costringeva a ripetere un numero gia' copiato."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "f5"), (8.0, "f2"), (13.0, "\r"), (16.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        assert "?" not in miei, miei
+        assert "DL3XY 5NN NR:" in capsys.readouterr().out
+
+    def test_le_spie_valgono_solo_per_il_nominativo_a_cui_ho_parlato(self, monkeypatch):
+        """F5 e F2 a DL3XY, poi nella riga il nominativo diventa DL3XZ: a lui non
+        ho detto niente, e l'Invio deve mandargli nominativo e scambio invece di
+        passare al numero in silenzio."""
+        copione = [
+            *scrivi(3.0, "DL3XY"),
+            (3.6, "f5"),
+            (8.0, "f2"),
+            (13.0, "\x08"),
+            (13.1, "Z"),
+            (13.5, "\r"),
+            (20.0, "alt-x"),
+        ]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        miei = [c["msg"] for c in banco["cw"].chiamate if c["vol"] is None]
+        assert any(m.startswith("DL3XZ 5NN") for m in miei), miei
 
     def test_senza_lo_scambio_l_invio_chiede_la_ripetizione(self, monkeypatch):
         """Le ho gia' detto tutto e non ho il suo numero: il punto interrogativo
@@ -1111,3 +1172,35 @@ def test_ogni_tasto_funzione_manda_qualcosa(monkeypatch, tasto):
     banco = prepara(monkeypatch, copione)
     cwapu.RxingContest({})
     assert len(banco["cw"].testi) >= 2
+
+
+class TestChiusure:
+    """Non si chiude sempre con TU, ne' io ne' loro."""
+
+    def test_la_mia_chiusura_varia_con_il_tu_prevalente(self):
+        m = ct.Contest("IZ4APU", 25, 600, lambda: "DL3XY", seme=5)
+        m.suo_nominativo = "DL3XY"
+        chiusure = [m.testo_mio([ct.Msg.TU]) for _ in range(1000)]
+        assert set(chiusure) <= set(ct.CHIUSURE)
+        assert len(set(chiusure)) == len(ct.CHIUSURE), set(chiusure)
+        quota = chiusure.count("TU") / len(chiusure)
+        assert 0.55 < quota < 0.65, quota
+
+    def test_una_stazione_su_cinque_saluta(self):
+        salutano = 0
+        prove = 400
+        for seme in range(prove):
+            m = ct.Contest("IZ4APU", 25, 600, lambda: "DL3XY", seme=seme)
+            s = ct.StazioneDX(m, 0.0, singola=True)
+            m.stazioni.append(s)
+            s.oper.stato = ct.StatoOp.FATTO
+            esito = m.avanza(1.0)
+            saluti = [r for r in esito.richieste if r.stazione == s.id]
+            if saluti:
+                salutano += 1
+                r = saluti[0]
+                assert r.testo in ct.SALUTI
+                assert ct.RITARDO_SALUTO[0] <= r.ritardo <= ct.RITARDO_SALUTO[1]
+                # Il saluto non porta la velocita' del QSO, gia' presa.
+                assert r.dx is False
+        assert 0.15 < salutano / prove < 0.25, salutano / prove

@@ -2,47 +2,33 @@ PROVE A MANO PER IL CONTEST NUOVO DI CWAPU
 Aperto il 2026-09-20 da ClaudIA, Claude Opus 5 modalita' ultracode, alla fine del lavoro sulla issue 7.
 Come si usa: ogni prova e' fatta di righe che cominciano con Prima, Pannello, Durata, Passo e Domanda. Le righe si leggono una per una: quella che va bene si cancella, quella che non va si commenta scrivendo dopo i due punti, e nella riga Esito vanno le note generali della prova. Quando una prova resta senza righe si cancella tutta; quando il file resta vuoto si cancella anche lui, e vuol dire che il contest e' pronto da pubblicare.
 Le righe Pannello elencano le sole voci da accendere: tutto il resto spento.
-Dove non ti chiedo di mettere a log, non scrivere niente nella riga: senza QSO a log il diario e l'archivio restano intatti.
-A che punto siamo: hai fatto tutte le prove e tutte le riprove dalla A alla Z. Dall'ultimo giro sono uscite la correzione del nome, il mio 5NN accelerato, l'interruttore della voce 0 e l'Invio intelligente. Restano queste due riprove.
+A che punto siamo: la riprova AA ha trovato un difetto vero, l'incremento del 5NN accelerato che non arrivava, e la AB le proposte sull'Invio e sulle chiusure. Il difetto e' corretto e le proposte applicate come le hai scelte. Restano queste due riprove.
 COME SI ARRIVA AL CONTEST
-Dal menu, r. Nel pannello degli esercizi Rx la voce 8 e' il contest: accendila se non lo e', poi Invio. Al nominativo, Invio conferma quello salvato. Si apre il pannello del contest, dieci voci: 0 5NN accelerato, 1 QRN, 2 QRM, 3 QSB, 4 flutter, 5 sbadati, 6 pile-up, 7 stereo, 8 banda, 9 tasto verticale.
-Il numero accende e spegne. Accendendo una voce che ha un valore, il valore si chiede subito e Invio conferma il salvato. Per cambiare il valore di una voce gia' accesa, premi il suo numero due volte: la prima spegne, la seconda riaccende e richiede.
+Dal menu, r. Nel pannello degli esercizi Rx la voce 8 e' il contest: accendila se non lo e', poi Invio. Al nominativo, Invio conferma quello salvato. Si apre il pannello del contest, dieci voci dallo 0 al 9.
 Invio comincia, Escape torna al menu e butta via i valori appena risposti. Poi la durata: 1 conta i QSO, 2 conta i minuti.
-RIPROVA AA: IL 5NN ACCELERATO, ANCHE IL MIO
-Prima: la voce 0 adesso e' un interruttore come le altre. Entra nel pannello e premi 0 una volta sola: deve accendersi e fare le due domande. Rispondi 40 alla prima e 25 alla seconda.
-Passo 1: premi 0 di nuovo, una volta sola, e leggi la riga 0: deve spegnersi senza chiedere niente.
-Passo 2: premi 0 ancora e conferma i due valori con due Invio.
-Pannello: 0 5NN accelerato 40 e 25, 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
-Durata: 1, 8 QSO.
-Passo 3: gioca e chiudi gli otto QSO, ascoltando il tuo scambio quando lo mandi e quello delle stazioni quando arriva.
-Passo 4: verso meta' partita spegni la voce 0 rientrando dal menu, e rifai due o tre QSO per confrontare.
-Domanda 1: premendo 0 una volta sola si accende e chiede, e premendolo ancora si spegne in silenzio, come le altre voci.
-Sì
-Domanda 2: il tuo 5NN, quando l'interruttore e' acceso, lo senti accelerato tutte le volte.
-Di poco. Non dell'incremento che ho indicato io.
-Domanda 3: il passaggio dal tuo rapporto accelerato al tuo progressivo ti sembra naturale o senti uno strappo.
-Naturale
-Domanda 4: con l'interruttore spento, il tuo rapporto torna alla velocita' di tutto il resto.
-Sì
-Domanda 5: il venticinque per cento ti sembra la misura giusta, per te e per loro.
-Non rispetta l'incremento dato.
-Esito: Ritengo che ci sia un problema. Penso che consideri solo il 15% senza usare il valore inserito. Inoltre, tornando al menù principale e rientrando in R 8, mantiene la percentuale di stazioni con 5nn accelerato, mantiene lo 0 acceso ma non la percentuale.
-
-RIPROVA AB: L'INVIO CHE NON SI RIPETE
-Prima: l'Invio adesso manda solo cio' che alla stazione manca. Tiene il conto di due cose: se le hai gia' mandato il suo nominativo, e se le hai gia' mandato il tuo scambio.
+RIPROVA AC: L'INCREMENTO CHE ARRIVA E RESTA
+Prima: nel pannello spegni lo 0 se e' acceso, poi riaccendilo: alla prima domanda scrivi 40, alla seconda 30.
+Pannello: 0 5NN accelerato 40 e 30, 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
+Durata: 1, 5 QSO.
+Passo 1: gioca i cinque QSO ascoltando il tuo 5NN e quello delle stazioni che accelerano.
+Passo 2: torna al menu, rientra con r e 8, e leggi la riga 0 del pannello.
+Domanda 1: adesso il 5NN accelerato, il tuo e il loro, e' accelerato di quanto hai chiesto.
+Domanda 2: rientrando, la riga 0 riporta 40 e 30.
+Esito:
+RIPROVA AD: L'INVIO SNELLO, LO SPAZIO E LE CHIUSURE
 Pannello: 5 sbadati, 6 pile-up attivita' 5, 7 stereo 0, 8 banda 600.
 Durata: 2, 8 minuti.
-Passo 1: fai un QSO normale: scrivi il nominativo, Invio, copia il numero, Invio. Ascolta cosa esce alla seconda pressione.
-da lTU. e il qso si chiude.
-Passo 2: in un altro QSO, dopo aver mandato nominativo e scambio, aspetta che la stazione ti chieda il progressivo; mandalo con F2 e poi premi Invio quando hai il suo.
-Qui c'è un piccolo inghippo. Lei chiama, io copio e invio con f5, lei chiede il nr, lo invio con f2, lei dà il suo, a questo punto io devo premere invio per passare al campo nr, e qui mando un "?" obligandola a reinviare il nr, che io però avrei già copiato.
-Inoltre, quando io poi scrivo il suo nr e batto invio, la mia stazione ripete 5nn nr, che l'altra ha già copiato, rallentando il flusso.
-Passo 3: in un altro ancora, dopo aver mandato tutto, premi F5 per ripetere il suo nominativo, poi scrivi il numero e premi Invio.
-ok
-Passo 4: fai un QSO in cui, dopo aver mandato nominativo e scambio, premi Invio senza aver scritto niente nel campo del numero.
-Richiedo il nr, me lo dà, io lo scrivo, invio e la mia stazione ripete 5nn nr, che però aveva già inviato. Secondo me questo è un difetto. Lo fa anche morse runner ma in radio è difficile sentirlo, qui la corrispondente aveva già copiato.
-Passo 5: fai un QSO in cui copi male il nominativo, torni indietro col Backspace a campo vuoto, lo correggi e premi Invio.
-ok
-Passo 6: e uno in cui, dopo aver mandato tutto, premi Alt+W e ricominci da capo con la stessa stazione.
-ok
-Esito: Ho messo le mie riflessioni nelle risposte qui sopra. Sintetizzando, funziona ma si potrebbe snellire e rendere ancora più intelligente il tasto invio. Inoltre, nella realtà, capita che qualche stazione o la mia stessa, ogni tanto non chiuda sempre col TU, ma con gl, o 73, o "r" eccetera. Qui sento solo "tu", la maggior parte chiude e basta.
+Passo 1: il tuo caso della riprova AB: quando una stazione chiama, copia il nominativo e mandalo con F5; quando ti chiede il numero mandalo con F2; quando ti da' il suo, premi Invio.
+Passo 2: scrivi il suo numero e premi Invio.
+Passo 3: in un altro QSO, manda nominativo e scambio con l'Invio, poi premi Invio a numero vuoto per chiederle di ripetere; scrivi il numero che ti rimanda e premi Invio.
+Passo 4: in un altro ancora, se una stazione ti manda il suo numero prima che tu le abbia risposto, scrivi il nominativo, poi lo spazio, poi il numero, e premi Invio una volta sola.
+Passo 5: in un QSO, dopo F5 con un nominativo, correggi una lettera del nominativo con Backspace senza lasciare il campo e premi Invio.
+Passo 6: durante tutta la partita ascolta come chiudi tu e come chiudono loro.
+Domanda 1: al passo 1, l'Invio passa al numero senza mandare niente.
+Domanda 2: al passo 2, l'Invio chiude e basta, senza ripeterle 5NN e numero.
+Domanda 3: al passo 3, dopo il punto interrogativo e il suo numero, l'Invio chiude senza rimandarle il tuo scambio.
+Domanda 4: al passo 4, con un Invio solo partono nominativo, scambio e chiusura insieme, e la stazione chiude il QSO.
+Domanda 5: al passo 5, l'Invio manda nominativo corretto e scambio.
+Domanda 6: la tua chiusura varia, con il TU prevalente, e le varianti ti suonano naturali.
+Domanda 7: ogni tanto una stazione ti saluta dopo la tua chiusura, e una su cinque ti sembra la misura giusta.
+Esito:

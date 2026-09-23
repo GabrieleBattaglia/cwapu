@@ -2247,6 +2247,7 @@ def RxingContest(menu_config_scelta):
     print(_("Esc ferma la trasmissione o pulisce la riga"))
     print(_("Backspace a riga vuota torna al nominativo"))
     print(_("Frecce, Inizio, Fine e Canc dentro la riga"))
+    print(_("Spazio passa al numero senza trasmettere"))
     print(_("Alt+S dice tempo, QSO, punti e punteggio"))
     print(_("F9 e PagGiu' meno 2 WPM, F10 e PagSu piu' 2"))
     print(_("Alt+F9 e Alt+F10 abbassano e alzano il volume"))
@@ -2301,6 +2302,9 @@ def RxingContest(menu_config_scelta):
     # che lei aveva gia' sentito e confermato.
     suo_mandato = False
     scambio_mandato = False
+    # Il nominativo a cui le spie si riferiscono: se nel frattempo nella riga
+    # ce n'e' un altro, quello che ho detto non vale per lui.
+    nominativo_mandato = ""
     suoni = {}
     # I messaggi dei tasti funzione battuti mentre ne suona un altro: si
     # accodano invece di tagliarlo, e ognuno porta con se' il nominativo
@@ -2593,26 +2597,33 @@ def RxingContest(menu_config_scelta):
             # chiamare qualcun altro e smetterebbero di rispondere. In
             # radio, del resto, non si risponde a chi non si e' ancora copiato.
             return
-        segna_cosa_ho_detto(messaggi)
+        segna_cosa_ho_detto(messaggi, nominativo)
         if ct.IO in suoni:
             coda.append((list(messaggi), nominativo))
             return
         manda(messaggi, nominativo, adesso, accoda=False)
 
-    def segna_cosa_ho_detto(messaggi):
+    def segna_cosa_ho_detto(messaggi, nominativo):
         """Tiene il conto di cio' che la stazione ha gia' sentito da me.
 
         Il suo nominativo, una volta mandato, resta mandato. Il mio scambio
-        no: vale finche' non le dico qualcos'altro, perche' se sono tornato a
-        ripetere il suo nominativo vuol dire che il primo scambio non e'
-        arrivato. E' la regola di Morse Runner, dove la spia del numero si
-        assegna a ogni messaggio invece di accumularsi.
+        resta mandato anch'esso, tranne quando torno a ripeterle il
+        nominativo: vuol dire che il primo scambio non e' arrivato. In Morse
+        Runner lo spegneva qualunque altro messaggio, compreso il punto
+        interrogativo, e dopo un ? l'Invio le rimandava lo scambio che lei
+        aveva gia' copiato: chiedere il suo numero non vuol dire che lei non
+        abbia il mio. Il CQ, il NIL e il QSO B4 chiudono il QSO in corso e
+        spengono tutte e due le spie.
         """
-        nonlocal suo_mandato, scambio_mandato
+        nonlocal suo_mandato, scambio_mandato, nominativo_mandato
         for m in messaggi:
             if m == ct.Msg.SUO:
-                suo_mandato = True
-            scambio_mandato = m == ct.Msg.NR
+                suo_mandato, scambio_mandato = True, False
+                nominativo_mandato = nominativo
+            elif m == ct.Msg.NR:
+                scambio_mandato = True
+            elif m in (ct.Msg.CQ, ct.Msg.NIL, ct.Msg.B4):
+                suo_mandato, scambio_mandato = False, False
 
     def manda(messaggi, nominativo, adesso, accoda):
         """Mette in aria un messaggio: il primo di una trasmissione o uno della coda.
@@ -2735,7 +2746,7 @@ def RxingContest(menu_config_scelta):
             richieste_rimandate.clear()
             eventi_rimandati.clear()
             for richiesta in richieste:
-                handle, rwpm = metti_in_aria(richiesta)
+                handle, rwpm = metti_in_aria(richiesta, richiesta.ritardo)
                 if handle is None:
                     da_chiudere.add(richiesta.stazione)
                     continue
@@ -2819,36 +2830,46 @@ def RxingContest(menu_config_scelta):
                 stato_a_richiesta(adesso)
             elif tasto == "\r":
                 # L'Invio manda soltanto cio' che alla stazione manca, e chiude
-                # il QSO appena c'e' tutto. Prima rimandava ogni volta il suo
-                # nominativo con il mio scambio, anche quando lei li aveva gia'
-                # sentiti: e' la regola di Morse Runner, tradotta qui sulle due
-                # spie di cio' che le ho detto.
+                # il QSO appena c'e' tutto, senza mai ripetere cio' che lei ha
+                # gia' sentito. Il suo nominativo va sempre insieme al mio
+                # scambio, perche' e' il nominativo a dirle che lo scambio e'
+                # per lei; se il nominativo gliel'ho gia' dato, per esempio con
+                # F5, basta lo scambio.
                 nominativo = campo.strip() if stadio == "call" else suo_call
+                if nominativo != nominativo_mandato:
+                    # Il nominativo nella riga non e' quello a cui ho parlato:
+                    # quello che ho detto non vale per lui.
+                    suo_mandato, scambio_mandato = False, False
                 if not nominativo:
                     # A riga vuota l'Invio e' un CQ.
                     trasmetti([ct.Msg.CQ], adesso)
+                elif stadio == "call":
+                    suo_call = nominativo
+                    campo, stadio, cursore = "", "nr", 0
+                    if not suo_mandato:
+                        trasmetti([ct.Msg.SUO, ct.Msg.NR], adesso)
+                    elif not scambio_mandato:
+                        trasmetti([ct.Msg.NR], adesso)
+                    # Se le ho gia' detto nominativo e scambio, per esempio
+                    # con F5 e F2, l'Invio passa al numero e basta. Prima
+                    # mandava un punto interrogativo e la costringeva a
+                    # ripetere un numero gia' copiato.
                 else:
-                    letto = leggi_scambio(campo) if stadio == "nr" else None
+                    letto = leggi_scambio(campo)
                     messaggi = []
-                    if not suo_mandato or (not scambio_mandato and letto is None):
-                        messaggi.append(ct.Msg.SUO)
-                    if not scambio_mandato:
+                    if not suo_mandato:
+                        messaggi += [ct.Msg.SUO, ct.Msg.NR]
+                    elif not scambio_mandato:
                         messaggi.append(ct.Msg.NR)
-                    if scambio_mandato and letto is None:
+                    if letto is None:
                         # Le ho gia' detto tutto e non ho il suo scambio: il
                         # punto interrogativo e' il modo di chiederglielo.
-                        messaggi.append(ct.Msg.QM)
-                    if letto is not None and (suo_mandato or scambio_mandato):
+                        trasmetti(messaggi or [ct.Msg.QM], adesso)
+                    else:
                         motore.registra_qso(adesso, suo_call, letto[1], letto[0])
-                        messaggi.append(ct.Msg.TU)
-                        trasmetti(messaggi, adesso)
+                        trasmetti([*messaggi, ct.Msg.TU], adesso)
                         campo, stadio, suo_call, cursore = "", "call", "", 0
                         suo_mandato, scambio_mandato = False, False
-                    else:
-                        if stadio == "call":
-                            suo_call = nominativo
-                            campo, stadio, cursore = "", "nr", 0
-                        trasmetti(messaggi, adesso)
             elif tasto == "\x08":
                 if cursore > 0:
                     campo = campo[: cursore - 1] + campo[cursore:]
@@ -2947,6 +2968,14 @@ def RxingContest(menu_config_scelta):
             elif len(tasto) == 1 and (tasto.isalnum() or tasto in "/?"):
                 campo = campo[:cursore] + tasto.upper() + campo[cursore:]
                 cursore += 1
+            elif tasto == " " and stadio == "call" and campo.strip():
+                # Come nei logger da contest, lo spazio passa al numero senza
+                # trasmettere niente. Serve quando la stazione ha gia' dato il
+                # suo scambio prima che io rispondessi: si scrive nominativo,
+                # spazio, numero, e un Invio solo le manda nominativo, scambio
+                # e TU insieme.
+                suo_call = campo.strip()
+                campo, stadio, cursore = "", "nr", 0
             elif tasto == " " and stadio == "nr":
                 # Lo spazio serve soltanto a separare il rapporto dal numero,
                 # quando la stazione sbadata ne ha mandato uno diverso da 599.
