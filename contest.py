@@ -1012,6 +1012,7 @@ class Contest:
         pesi_manuali=(0.3, (30, 60), (25, 75), (15, 50)),
         scambio_probabilita=0,
         scambio_incremento=15,
+        mio_pesi=PESO_STANDARD,
         seme=None,
     ):
         self.rng = random.Random(seme)
@@ -1034,6 +1035,10 @@ class Contest:
         self.scambio_probabilita = float(scambio_probabilita)
         self.scambio_incremento = float(scambio_incremento)
         self.pesi_manuali = pesi_manuali
+        # I pesi della mia manipolazione, cioe' quelli della sezione k: la mia
+        # stazione manda come mando io in tutto il resto dell'applicazione.
+        # Nel contest solo il Farnsworth resta fuori.
+        self.mio_pesi = tuple(mio_pesi)
         self.prob_rst_sbagliato = 0.03
         self.prob_nr_sbagliato = 0.1
         self.stazioni = []
@@ -1184,7 +1189,7 @@ class Contest:
             marcato = self.testo_mio(messaggi, marca=self.scambio_probabilita > 0)
         mio_testo = marcato.replace(MARCA_VELOCE, "")
         miei_pezzi = dividi_in_pezzi(marcato, self.mio_wpm, self.scambio_incremento)
-        return Richiesta(IO, mio_testo, self.mio_wpm, self.mio_pitch, *PESO_STANDARD, 1.0, 0.0, tuple(messaggi), None, None, None, False, miei_pezzi)
+        return Richiesta(IO, mio_testo, self.mio_wpm, self.mio_pitch, *self.mio_pesi, 1.0, 0.0, tuple(messaggi), None, None, None, False, miei_pezzi)
 
     def io_finito(self, adesso):
         """Ho finito di trasmettere: nel pile-up nascono le stazioni nuove, e tutte decidono cosa fare.

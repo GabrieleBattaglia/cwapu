@@ -128,7 +128,7 @@ class MotoreFinto:
 
     def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None, ritardo=None):
         self.testi.append(msg)
-        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol, "qsb": qsb, "chirp": chirp, "vibrato": vibrato, "ritardo": ritardo, "quando": self.orologio.adesso})
+        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol, "qsb": qsb, "chirp": chirp, "vibrato": vibrato, "ritardo": ritardo, "quando": self.orologio.adesso, "l": l, "s": s, "p": p})
         if sync:
             return None, 0.0
         # Un carattere ogni sessanta millesimi e' l'ordine di grandezza del CW
@@ -756,6 +756,29 @@ class TestCicloContest:
         mio = testi.index("IZ4APU")
         assert testi[mio - 1] == "DL3XY", testi
         assert silenzio_prima(mio) == pytest.approx(cwapu.buco_fra_pezzi(wpm, s, True), abs=1e-6)
+
+    def test_la_mia_stazione_manipola_con_i_pesi_della_sezione_k(self, monkeypatch):
+        """Nel contest solo il Farnsworth resta fuori: .l .s .p sono il mio modo
+        di manipolare. La mia richiesta portava i pesi standard, e con i pesi
+        di serie nel banco nessuna prova poteva accorgersene: l'ha sentito
+        Gabriele provando l'eseguibile compilato."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (3.7, "f7"), (12.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        monkeypatch.setattr(cwapu, "overall_dashes", 42)
+        monkeypatch.setattr(cwapu, "overall_spaces", 61)
+        monkeypatch.setattr(cwapu, "overall_dots", 47)
+        cwapu.RxingContest({})
+        miei = [c for c in banco["cw"].chiamate if c["vol"] is None]
+        dal_contest = [c for c in miei if c["l"] is not None]
+        assert dal_contest, [c["msg"] for c in miei]
+        assert all((c["l"], c["s"], c["p"]) == (42, 61, 47) for c in dal_contest), [(c["msg"], c["l"], c["s"], c["p"]) for c in dal_contest]
+        # E il silenzio del ? attaccato si calcola con il mio peso degli spazi.
+        testi = [c["msg"] for c in miei]
+        punto = testi.index("?")
+        prima, dopo = miei[punto - 1], miei[punto]
+        fine_prima = prima["quando"] + (prima["ritardo"] or 0.0) + max(0.2, len(prima["msg"]) * 0.06)
+        silenzio = dopo["quando"] + (dopo["ritardo"] or 0.0) - fine_prima
+        assert silenzio == pytest.approx(cwapu.buco_fra_pezzi(cwapu.overall_speed, 61, False), abs=1e-6)
 
     def test_il_messaggio_accodato_arriva_al_motore_in_un_elenco_solo(self, monkeypatch):
         """Le stazioni devono ricevere nominativo e punto interrogativo

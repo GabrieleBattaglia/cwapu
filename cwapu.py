@@ -2277,6 +2277,13 @@ def RxingContest(menu_config_scelta):
         ampiezza_stereo=stati["stereo"],
         banda=banda,
         pesi_manuali=pesi_del_tasto(stati),
+        # La mia manipolazione ha i miei pesi, quelli di .l .s .p, come in
+        # tutta l'applicazione. Dal 22 settembre la mia richiesta passava per
+        # la stessa strada di quelle delle stazioni, e portava i pesi
+        # standard che il motore le dava: la mia stazione manipolava a 30 50
+        # 50 qualunque cosa avessi impostato. Trovato da Gabriele provando
+        # l'eseguibile compilato della 7.0.0.
+        mio_pesi=(overall_dashes, overall_spaces, overall_dots),
         # Spento vuol dire che non lo fa nessuno, e nemmeno io.
         scambio_probabilita=stati["scambio_probabilita"] if stati["scambio_veloce"] else 0,
         scambio_incremento=stati["scambio_incremento"],
