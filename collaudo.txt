@@ -1,8 +1,0 @@
-PROVE A MANO PER IL CONTEST NUOVO DI CWAPU
-Aperto il 2026-09-20 da ClaudIA, Claude Opus 5 modalita' ultracode, alla fine del lavoro sulla issue 7.
-Come si usa: ogni prova e' fatta di righe che cominciano con Prima, Pannello, Durata, Passo e Domanda. Le righe si leggono una per una: quella che va bene si cancella, quella che non va si commenta scrivendo dopo i due punti, e nella riga Esito vanno le note generali della prova. Quando una prova resta senza righe si cancella tutta; quando il file resta vuoto si cancella anche lui, e vuol dire che il contest e' pronto da pubblicare.
-Le righe Pannello elencano le sole voci da accendere: tutto il resto spento.
-A che punto siamo: la riprova AA ha trovato un difetto vero, l'incremento del 5NN accelerato che non arrivava, e la AB le proposte sull'Invio e sulle chiusure. Il difetto e' corretto e le proposte applicate come le hai scelte. Restano queste due riprove.
-COME SI ARRIVA AL CONTEST
-Dal menu, r. Nel pannello degli esercizi Rx la voce 8 e' il contest: accendila se non lo e', poi Invio. Al nominativo, Invio conferma quello salvato. Si apre il pannello del contest, dieci voci dallo 0 al 9.
-Invio comincia, Escape torna al menu e butta via i valori appena risposti. Poi la durata: 1 conta i QSO, 2 conta i minuti.
