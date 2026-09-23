@@ -27,6 +27,9 @@ FUORI = [
     "words.txt",
     "words_updated.txt",
     "cwapu_*.txt",
+    # La lingua scelta da chi ha provato l'eseguibile: finita nell'archivio,
+    # a chi scarica non verrebbe piu' chiesta.
+    "selected_language.json",
 ]
 
 
