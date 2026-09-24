@@ -439,7 +439,7 @@ def cwzator_accetta(parametro):
         return False
 
 
-# La profondita' dell'evanescenza arriva con la issue 44 di GBUtils. Senza,
+# La profondita' dell'evanescenza arriva con la V169 di GBUtils, issue 44. Senza,
 # la propagazione alta cambia soltanto la banda del QSB e la forza delle
 # stazioni, e nessuna voce del pannello ha bisogno di dirlo.
 CWZATOR_QSB_PROFONDITA = cwzator_accetta("qsb_profondita")

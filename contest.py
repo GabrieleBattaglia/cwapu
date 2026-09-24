@@ -133,7 +133,7 @@ ATTESA_SPONTANEI = (0.3, 1.5)
 # resta uno, e a 50 e' la forza di oggi.
 VOLUME_MINIMO = (0.1, 0.2, 0.5)
 # La profondita' del QSB lento a 100, in percento: da 50 in giu' e' piena.
-# CWzator la accetta solo dalla issue 44 di GBUtils; senza, chi suona la
+# CWzator la accetta dalla V169 di GBUtils, issue 44; senza, chi suona la
 # richiesta la lascia cadere e cambia soltanto la banda.
 QSB_PROFONDITA_PIENA = 40.0
 
