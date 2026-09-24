@@ -50,9 +50,9 @@ CWapu offers several modes to practice and utilize CW:
 *   **Project layout** (since version 8.0.0):
     *   `cwapu.py`: The main application, the only one to launch.
     *   `modules/`: The contest engine, the historical reports, the Wilson interval and the dictionary builder.
-    *   `resources/`: What ships with the program: `words.txt`, the dictionary for word exercises; `MASTER.SCP`, the database of real callsigns; `Manuale_CWapu.html`, the full manual in Italian; `locales/`, the translations.
+    *   `resources/`: What ships with the program: `words.txt`, the dictionary for word exercises; `MASTER.SCP`, the database of real callsigns; `locales/`, the translations.
     *   `tools/`: `zip_maker.py`, which builds the release archive, and `babel.cfg`, for extracting the strings to translate.
-    *   `docs/`: The changelog.
+    *   `docs/`: The changelog and `Manuale_CWapu.html`, the full manual in Italian.
     *   `tests/`: The automated tests, run with `python -m pytest`.
 
 ## Configuration and Data Files

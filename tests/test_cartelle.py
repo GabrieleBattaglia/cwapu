@@ -114,7 +114,7 @@ class TestCopiaDelManuale:
         monkeypatch.setattr(sys, "_MEIPASS", RADICE, raising=False)
         monkeypatch.setattr(cwapu, "USER_DATA_PATH", str(tmp_path))
         copia = tmp_path / cwapu.MANUALE_NAME
-        with open(os.path.join(RADICE, "resources", cwapu.MANUALE_NAME), "rb") as f:
+        with open(os.path.join(RADICE, "docs", cwapu.MANUALE_NAME), "rb") as f:
             originale = f.read()
         assert cwapu.aggiorna_copia_manuale() == str(copia)
         assert copia.read_bytes() == originale

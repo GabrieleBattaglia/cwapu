@@ -2,6 +2,8 @@ CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	8.0.1 (2026-09-24)
+		+ Il manuale sta in docs, accanto al changelog, che e' il suo posto naturale: nel sorgente e, per l'eseguibile, dentro _internal. La copia accanto a cwapu.exe resta dov'e', e si riscrive quando cambia. Scelta di Gabriele.
 	8.0.0 (2026-09-24)
 		+ La cartella di CWapu e' in ordine, issue 21. Accanto al programma restano soltanto lo stretto necessario e alcune sottocartelle, ciascuna con il suo contesto: data per impostazioni, diario, lingua scelta, dizionario personale e log degli aggiornamenti; reports per le pagine dei rapporti storici e i rapporti nel tempo; graphics per i grafici; audio per i file WAV del comando .sv, che fino alla 7 nascevano accanto al programma. Chi aggiorna dalla 7 non deve fare niente: al primo avvio CWapu sposta da se' i vecchi file nella sottocartella giusta e lo dice in una riga. Un file che nella sottocartella c'e' gia' non si sovrascrive mai: quello vecchio resta dov'era, e CWapu dice quale.
 		+ CWapu si distribuisce come cartella, non piu' come file unico: cwapu.exe con accanto _internal, dove stanno le librerie e le risorse, cioe' il dizionario, i nominativi veri, le lingue e il manuale. Parte piu' in fretta, perche' non si scompatta piu' in una cartella temporanea a ogni avvio. L'aggiornamento dalla 7 passa dall'auto updater come sempre.

@@ -15,8 +15,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import cwapu
 
 RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Dalla 8.0.0 la guida sta fra le risorse, issue 21.
-PERCORSO = os.path.join(RADICE, cwapu.RISORSE, cwapu.MANUALE_NAME)
+# Dalla 8.0.1 la guida sta in docs, accanto al changelog.
+PERCORSO = os.path.join(RADICE, cwapu.DOCUMENTI, cwapu.MANUALE_NAME)
 
 
 def leggi_guida():
@@ -71,7 +71,7 @@ def analizza():
 
 
 class TestEsistenza:
-    def test_la_guida_e_fra_le_risorse(self):
+    def test_la_guida_e_in_docs(self):
         assert os.path.exists(PERCORSO), f"manca {cwapu.MANUALE_NAME}"
 
     def test_e_dichiarata_nella_ricetta_di_compilazione(self):
@@ -81,8 +81,8 @@ class TestEsistenza:
         with open(percorso_spec, encoding="utf-8") as f:
             assert cwapu.MANUALE_NAME in f.read()
 
-    def test_user_file_path_la_trova(self):
-        assert os.path.exists(cwapu.user_file_path(cwapu.MANUALE_NAME))
+    def test_cwapu_la_trova(self):
+        assert os.path.exists(cwapu.resource_path(os.path.join(cwapu.DOCUMENTI, cwapu.MANUALE_NAME)))
 
 
 class TestStruttura:

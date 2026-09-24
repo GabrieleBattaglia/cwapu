@@ -5,10 +5,10 @@
 # compilazione riesce anche su una macchina dove i repository stanno altrove.
 # Dalla 8.0.0, issue 21, il pacchetto e' una cartella e non piu' un file
 # unico: in dist\cwapu c'e' cwapu.exe con accanto _internal, dove stanno le
-# librerie e le risorse, ciascuna sotto resources come nel sorgente. Cosi'
-# l'eseguibile non si scompatta piu' in una cartella temporanea a ogni avvio,
-# e percorso_risorsa trova resources\words.txt dentro _internal come lo trova
-# accanto a cwapu.py.
+# librerie e le risorse, ciascuna sotto resources come nel sorgente, e il
+# manuale sotto docs. Cosi' l'eseguibile non si scompatta piu' in una
+# cartella temporanea a ogni avvio, e percorso_risorsa trova
+# resources\words.txt dentro _internal come lo trova accanto a cwapu.py.
 import os
 from pathlib import Path
 
@@ -26,8 +26,10 @@ CATALOGHI = [
 ]
 RISORSE = [
     (os.path.join('resources', nome), 'resources')
-    for nome in ('words.txt', 'MASTER.SCP', 'Manuale_CWapu.html')
+    for nome in ('words.txt', 'MASTER.SCP')
 ]
+# Il manuale sta in docs dalla 8.0.1, e in _internal\docs nel pacchetto.
+RISORSE.append((os.path.join('docs', 'Manuale_CWapu.html'), 'docs'))
 
 a = Analysis(
     ['cwapu.py'],

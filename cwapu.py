@@ -60,6 +60,8 @@ GRAPHICS_PATH = os.path.join(USER_DATA_PATH, "graphics")
 AUDIO_PATH = os.path.join(USER_DATA_PATH, "audio")
 SOTTOCARTELLE = ("data", "reports", "graphics", "audio")
 RISORSE = "resources"
+# Il manuale sta con il changelog, in docs, scelta di Gabriele della 8.0.1.
+DOCUMENTI = "docs"
 # Dove vanno i file che le versioni fino alla 7.x lasciavano accanto al
 # programma: un nome o un motivo, e la sottocartella.
 DESTINAZIONI_VECCHIE = (
@@ -152,7 +154,7 @@ if RIORDINO[1]:
     print(_("Non spostati, perché nella sottocartella c'è già un file con lo stesso nome: {elenco}.").format(elenco=", ".join(RIORDINO[1])))
 
 # QC Costanti
-VERSION = "8.0.0"
+VERSION = "8.0.1"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -4252,7 +4254,7 @@ def aggiorna_copia_manuale():
     """
     if not getattr(sys, "frozen", False):
         return None
-    originale = resource_path(os.path.join(RISORSE, MANUALE_NAME))
+    originale = resource_path(os.path.join(DOCUMENTI, MANUALE_NAME))
     copia = os.path.join(USER_DATA_PATH, MANUALE_NAME)
     try:
         with open(originale, "rb") as f:
@@ -4276,7 +4278,7 @@ def apri_manuale():
     intestazioni con il lettore di schermo, e il browser puo' tradurla da
     solo per chi non legge l'italiano.
     """
-    percorso = resource_path(os.path.join(RISORSE, MANUALE_NAME))
+    percorso = resource_path(os.path.join(DOCUMENTI, MANUALE_NAME))
     if not os.path.exists(percorso):
         print(_("Guida non trovata: manca il file {nome}.").format(nome=MANUALE_NAME))
         return
