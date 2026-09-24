@@ -16,7 +16,7 @@ modulo non dipende da chi lo chiama.
 
 import datetime as dt
 
-from wilson import wilson_score_lower_bound, wilson_score_upper_bound
+from .wilson import wilson_score_lower_bound, wilson_score_upper_bound
 
 
 def crea_report_grafico(current_aggregates, previous_aggregates, g_val, x_val, num_sessions_in_report, output_filename, _, lang="en"):

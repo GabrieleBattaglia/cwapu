@@ -4,10 +4,10 @@
 # nessuno se n'e' accorto: chi usava cwapu in inglese vedeva ogni singola
 # stringa in italiano. Queste prove fanno in modo che non possa succedere di
 # nuovo in silenzio. Se falliscono, si rigenera il catalogo:
-#   pybabel extract -F babel.cfg -o messages.pot .
-#   pybabel update -i messages.pot -d locales -l en --ignore-obsolete
+#   pybabel extract -F tools/babel.cfg -o resources/locales/messages.pot .
+#   pybabel update -i resources/locales/messages.pot -d resources/locales -l en --ignore-obsolete
 #   (si traducono le voci nuove nel file .po)
-#   pybabel compile -d locales
+#   pybabel compile -d resources/locales
 
 import os
 import re
@@ -19,8 +19,9 @@ from babel.messages.pofile import read_po
 RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, RADICE)
 
-PO = os.path.join(RADICE, "locales", "en", "LC_MESSAGES", "messages.po")
-MO = os.path.join(RADICE, "locales", "en", "LC_MESSAGES", "messages.mo")
+LOCALES = os.path.join(RADICE, "resources", "locales")
+PO = os.path.join(LOCALES, "en", "LC_MESSAGES", "messages.po")
+MO = os.path.join(LOCALES, "en", "LC_MESSAGES", "messages.mo")
 SEGNAPOSTO = re.compile(r"\{[^{}]*\}")
 
 
@@ -40,7 +41,7 @@ def come_stringa(valore):
 class TestCompletezza:
     def test_il_catalogo_inglese_esiste(self):
         assert os.path.exists(PO)
-        assert os.path.exists(MO), "manca il .mo: serve pybabel compile -d locales"
+        assert os.path.exists(MO), "manca il .mo: serve pybabel compile -d resources/locales"
 
     def test_non_e_vuoto(self):
         assert len(voci()) > 300
@@ -99,7 +100,7 @@ class TestCoerenza:
             compilate = {come_stringa(m.id): come_tupla(m.string) for m in read_mo(f) if m.id}
         attese = {come_stringa(m.id): come_tupla(m.string) for m in voci() if m.string and not m.fuzzy}
         diverse = sorted(k for k in attese.keys() | compilate.keys() if attese.get(k) != compilate.get(k))
-        assert diverse == [], f"serve pybabel compile -d locales: {len(diverse)} voci diverse, la prima e' {diverse[:1]}"
+        assert diverse == [], f"serve pybabel compile -d resources/locales: {len(diverse)} voci diverse, la prima e' {diverse[:1]}"
 
 
 def estrai_dal_codice():
@@ -112,7 +113,7 @@ def estrai_dal_codice():
     from babel.messages.extract import extract_from_dir
     from babel.messages.frontend import parse_mapping_cfg
 
-    with open(os.path.join(RADICE, "babel.cfg"), encoding="utf-8") as f:
+    with open(os.path.join(RADICE, "tools", "babel.cfg"), encoding="utf-8") as f:
         metodo, opzioni = parse_mapping_cfg(f)
     trovate = set()
     for _percorso, _riga, messaggio, _commenti, _contesto in extract_from_dir(RADICE, metodo, opzioni):
@@ -142,7 +143,7 @@ class TestAllineamentoAlCodice:
 
     def test_il_modello_pot_e_aggiornato(self):
         """Il .pot e' il punto di partenza per ogni lingua futura."""
-        pot = os.path.join(RADICE, "messages.pot")
+        pot = os.path.join(LOCALES, "messages.pot")
         if not os.path.exists(pot):
             pytest.skip("messages.pot non presente")
         with open(pot, encoding="utf-8") as f:
@@ -156,7 +157,7 @@ class TestTraduzioneViva:
         """La prova che conta: non il file, ma cio' che l'utente leggerebbe."""
         import gettext
 
-        traduzione = gettext.translation("messages", localedir=os.path.join(RADICE, "locales"), languages=["en"])
+        traduzione = gettext.translation("messages", localedir=LOCALES, languages=["en"])
         assert traduzione.gettext("Esercizio di ricezione") == "Receiving exercise"
         assert traduzione.gettext("Superato!") == "Passed!"
         assert traduzione.gettext("Lunedì") == "Monday"

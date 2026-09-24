@@ -33,6 +33,6 @@ ignore = [
 [lint.per-file-ignores]
 # Words_Creator.py e' scritto con le tabulazioni. Riconvertirlo sarebbe un
 # cambiamento di sole apparenze su un file che funziona, quindi resta com'e'.
-"Words_Creator.py" = ["W191"]
+"modules/Words_Creator.py" = ["W191"]
 # Nei test l'asserzione e' il punto: sono loro a dire cosa deve essere vero.
 "tests/*.py" = ["S101"]

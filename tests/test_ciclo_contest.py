@@ -18,8 +18,8 @@ import pytest
 RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, RADICE)
 
-import contest as ct  # noqa: E402
 import cwapu  # noqa: E402
+from modules import contest as ct  # noqa: E402
 
 IMPOSTAZIONI = {
     "overall_speed": 20,

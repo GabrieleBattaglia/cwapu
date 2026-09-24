@@ -111,13 +111,15 @@ def Start(words_path=None, output_dir=None):
     """Costruisce words_updated.txt a partire dai txt di una cartella.
 
     words_path e output_dir li passa cwapu, che sa dove sta il programma.
-    Senza, si ripiega sulla cartella di questo file.
+    Senza, si ripiega sulle cartelle di CWapu, che dalla 8.0.0 stanno un
+    livello sopra questo file: il dizionario di serie in resources, il
+    risultato in data.
     """
-    cartella_di_questo_file = os.path.dirname(os.path.abspath(__file__))
+    cartella_di_cwapu = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if words_path is None:
-        words_path = os.path.join(cartella_di_questo_file, "words.txt")
+        words_path = os.path.join(cartella_di_cwapu, "resources", "words.txt")
     if output_dir is None:
-        output_dir = cartella_di_questo_file
+        output_dir = os.path.join(cartella_di_cwapu, "data")
     print("Now, let's begin: this script will ask you to select a folder from the filesystem.\nAll .txt files within the folder and its subfolders will be opened and processed.")
     key(prompt="Press any key to continue...")
     print("Thank you")

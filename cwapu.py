@@ -30,12 +30,9 @@ from GBUtils import (
     polipo,
 )
 
-import contest as ct
-from grafico import crea_report_grafico
-from wilson import wilson_score_lower_bound, wilson_score_upper_bound
-
-# installazione percorsi relativi e i18n
-APP_DIR = os.path.dirname(os.path.abspath(__file__))
+from modules import contest as ct
+from modules.grafico import crea_report_grafico
+from modules.wilson import wilson_score_lower_bound, wilson_score_upper_bound
 
 
 def get_user_data_path():
@@ -50,6 +47,77 @@ def get_user_data_path():
 
 
 USER_DATA_PATH = get_user_data_path()
+# Le sottocartelle, dalla 8.0.0 e dalla issue 21: accanto al programma, cioe'
+# accanto all'eseguibile o a cwapu.py, resta soltanto lo stretto necessario.
+# In data stanno impostazioni, diario, lingua scelta e dizionario personale;
+# in reports le pagine dei rapporti storici e i rapporti nel tempo; in
+# graphics i grafici; in audio i file WAV del comando .sv. Le risorse che
+# viaggiano con il programma stanno in resources, dentro _internal quando e'
+# compilato.
+DATA_PATH = os.path.join(USER_DATA_PATH, "data")
+REPORTS_PATH = os.path.join(USER_DATA_PATH, "reports")
+GRAPHICS_PATH = os.path.join(USER_DATA_PATH, "graphics")
+AUDIO_PATH = os.path.join(USER_DATA_PATH, "audio")
+SOTTOCARTELLE = ("data", "reports", "graphics", "audio")
+RISORSE = "resources"
+# Dove vanno i file che le versioni fino alla 7.x lasciavano accanto al
+# programma: un nome o un motivo, e la sottocartella.
+DESTINAZIONI_VECCHIE = (
+    ("cwapu_settings.json", "data"),
+    ("CWapu_Diary.txt", "data"),
+    ("selected_language.json", "data"),
+    ("words.txt", "data"),
+    ("words_updated.txt", "data"),
+    ("auto_updater_error.log", "data"),
+    ("CWapu_Historical_Statistics_*.html", "reports"),
+    ("CWapu_Timeline_Report_*.txt", "reports"),
+    ("CWapu_Historical_Statistics_*.svg", "graphics"),
+    ("Morse *.wav", "audio"),
+)
+
+
+def riordina_cartella(radice=None):
+    """Crea le sottocartelle e ci sposta i file lasciati accanto al programma dalle versioni fino alla 7.x.
+
+    Gira all'avvio, prima di polipo, che dalla 8.0.0 legge la lingua scelta
+    in data. Chi aggiorna con l'auto updater ha i suoi file accanto
+    all'eseguibile, e l'aggiornamento non li tocca: li sposta questa, una
+    volta sola, perche' la seconda non trova piu' niente. Un file che nella
+    sottocartella c'e' gia' non si sovrascrive mai: quello vecchio resta
+    dov'e'. radice e' la cartella del programma, per le prove. Restituisce
+    la coppia (quanti spostati, nomi rimasti), che si dice a schermo dopo
+    polipo, quando le frasi si possono tradurre.
+    """
+    import fnmatch
+    import shutil
+
+    radice = USER_DATA_PATH if radice is None else radice
+    for cartella in SOTTOCARTELLE:
+        with contextlib.suppress(OSError):
+            os.makedirs(os.path.join(radice, cartella), exist_ok=True)
+    try:
+        nomi = sorted(os.listdir(radice))
+    except OSError:
+        return 0, []
+    spostati, rimasti = 0, []
+    for nome in nomi:
+        vecchio = os.path.join(radice, nome)
+        destinazione = next((cartella for motivo, cartella in DESTINAZIONI_VECCHIE if fnmatch.fnmatch(nome, motivo)), None)
+        if destinazione is None or not os.path.isfile(vecchio):
+            continue
+        nuovo = os.path.join(radice, destinazione, nome)
+        if os.path.exists(nuovo):
+            rimasti.append(nome)
+            continue
+        try:
+            shutil.move(vecchio, nuovo)
+            spostati += 1
+        except OSError:
+            rimasti.append(nome)
+    return spostati, rimasti
+
+
+RIORDINO = riordina_cartella()
 
 
 def resource_path(relative_path):
@@ -65,19 +133,26 @@ def resource_path(relative_path):
 def user_file_path(nome_file):
     """Percorso di una risorsa che l'utente puo' sostituire con una propria copia.
 
-    Ha la precedenza il file messo accanto al programma; se non c'e', si usa
-    quello incluso nel pacchetto.
+    Ha la precedenza la copia personale messa in data; se non c'e', si usa
+    quella di serie, in resources.
     """
-    percorso_utente = os.path.join(USER_DATA_PATH, nome_file)
+    percorso_utente = os.path.join(DATA_PATH, nome_file)
     if os.path.exists(percorso_utente):
         return percorso_utente
-    return resource_path(nome_file)
+    return resource_path(os.path.join(RISORSE, nome_file))
 
 
-app_language, _ = polipo(source_language="it")
+# Le lingue stanno fra le risorse, e la lingua scelta fra i dati: polipo
+# risolve localedir rispetto al pacchetto o a cwapu.py, config_path rispetto
+# alla cartella del programma.
+app_language, _ = polipo(source_language="it", localedir=os.path.join(RISORSE, "locales"), config_path="data")
+if RIORDINO[0]:
+    print(_("Cartella riordinata: {quanti} file spostati nelle sottocartelle data, reports, graphics e audio.").format(quanti=RIORDINO[0]))
+if RIORDINO[1]:
+    print(_("Non spostati, perché nella sottocartella c'è già un file con lo stesso nome: {elenco}.").format(elenco=", ".join(RIORDINO[1])))
 
 # QC Costanti
-VERSION = "7.1.3"
+VERSION = "8.0.0"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -95,9 +170,9 @@ RX_LSP_RANGE_S = (25, 75)
 RX_LSP_RANGE_P = (15, 50)
 SAMPLE_RATES = [8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000, 384000]
 WAVE_TYPES = ["sine", "square", "triangle", "sawtooth"]
-SETTINGS_FILE = os.path.join(USER_DATA_PATH, "cwapu_settings.json")
+SETTINGS_FILE = os.path.join(DATA_PATH, "cwapu_settings.json")
 DIARY_NAME = "CWapu_Diary.txt"
-DIARY_FILE = os.path.join(USER_DATA_PATH, DIARY_NAME)
+DIARY_FILE = os.path.join(DATA_PATH, DIARY_NAME)
 MANUALE_NAME = "Manuale_CWapu.html"
 # Le voci del menu principale: dati, non logica, quindi stanno fra le costanti
 # e si possono leggere anche da fuori, per esempio dalle prove automatiche.
@@ -463,7 +538,7 @@ HISTORICAL_RX_REPORT_INTERVAL = 3500
 
 # Caricamento database QRZ reali (MASTER.SCP)
 REAL_CALLS_POOL = []
-MASTER_SCP_PATH = resource_path("MASTER.SCP")
+MASTER_SCP_PATH = resource_path(os.path.join(RISORSE, "MASTER.SCP"))
 
 
 def load_master_scp():
@@ -913,6 +988,10 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
         "farnsworth": effettiva or None,
         "api": overall_api,
     }
+    if to_file:
+        # Il WAV di .sv va in audio, non accanto al programma: la barra in fondo
+        # dice a CWzator che e' una cartella, e il nome lo sceglie lui.
+        parametri["wave_output_path_file"] = AUDIO_PATH + os.sep
     for nome, valore in (("qsb", qsb), ("chirp", chirp), ("vibrato", vibrato)):
         if valore is not None:
             parametri[nome] = valore
@@ -1781,11 +1860,11 @@ def CreateDictionary():
             "Attenzione! Si prega di leggere attentamente.\nPer gli esercizi di ricezione, (r) dal menu principale, CWapu utilizza il file words.txt, che deve stare nella stessa cartella di cwapu.py o di cwapu.exe. Se questo file non esiste, creane uno con un editor di testo e scrivi alcune parole al suo interno, una parola per linea, quindi salva.\nLa procedura WordsCreator ti permette di scansionare tutti i file txt contenuti nelle cartelle che indichi e aggiungere tutte le parole da questi file a words.txt. Le parole saranno aggiunte unicamente, cioè saranno tutte diverse tra loro.\nIl file prodotto da questo processo sarà denominato words_updated.txt. Controllalo con un editor di testo e, se sei soddisfatto, rinominalo in words.txt, sostituendo l'esistente words.txt.\nPuoi ripetere questa operazione tutte le volte che vuoi: words_updated.txt conterrà le parole da words.txt più tutte quelle raccolte dai nuovi file .txt elaborati."
         )
     )
-    import Words_Creator
+    from modules import Words_Creator
 
     # I percorsi glieli passa cwapu, che sa dove sta il programma: da solo
     # Words_Creator userebbe la cartella da cui si e' lanciato il comando.
-    Words_Creator.Start(words_path=user_file_path("words.txt"), output_dir=USER_DATA_PATH)
+    Words_Creator.Start(words_path=user_file_path("words.txt"), output_dir=DATA_PATH)
 
 
 def CustomSet(overall_speed):
@@ -3910,7 +3989,7 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
 
     cat_name_file = category_key.capitalize()
     report_filename_base = f"CWapu_Historical_Statistics_{cat_name_file}_G_{g_value}_X_{x_value}.html"
-    report_filename_full_path = os.path.join(USER_DATA_PATH, report_filename_base)
+    report_filename_full_path = os.path.join(REPORTS_PATH, report_filename_base)
 
     cat_display_name = nome_categoria(category_key)
 
@@ -4122,7 +4201,7 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
     try:
         base_report_filename = os.path.splitext(report_filename_base)[0]
         graphic_report_filename_base = base_report_filename + ".svg"
-        graphic_report_filename_full_path = os.path.join(USER_DATA_PATH, graphic_report_filename_base)
+        graphic_report_filename_full_path = os.path.join(GRAPHICS_PATH, graphic_report_filename_base)
         crea_report_grafico(current_aggregates, previous_aggregates, g_value, x_value, num_sessions_in_current_report, graphic_report_filename_full_path, _, app_language)
         print(_("Report grafico salvato in: {filename}").format(filename=graphic_report_filename_full_path))
     except Exception as e:  # noqa: BLE001 -- matplotlib solleva di tutto
@@ -4138,7 +4217,7 @@ def controlla_aggiornamenti():
 
     api_url = "https://api.github.com/repos/GabrieleBattaglia/cwapu/releases/latest"
     print(_("Ricerca aggiornamenti in corso..."))
-    has_update, new_ver, dl_url, note_release = update_checker(VERSION, api_url)
+    has_update, new_ver, dl_url, note_release = update_checker(VERSION, api_url, cartella_log=DATA_PATH)
     if not has_update:
         print(_("Hai gia' l'ultima versione disponibile ({ver})!").format(ver=VERSION))
         return
@@ -4152,11 +4231,42 @@ def controlla_aggiornamenti():
         return
     if enter_escape(_("Desideri scaricare e installare l'aggiornamento ora? (INVIO per si', ESC per ignorare): ")):
         print(_("Download dell'aggiornamento in corso. Attendere prego..."))
-        if perform_update(dl_url, "CWapu"):
+        if perform_update(dl_url, "CWapu", cartella_log=DATA_PATH):
             print(_("Aggiornamento pronto. CWapu si chiudera' per l'installazione..."))
             sys.exit(0)
         else:
             print(_("Si e' verificato un errore durante la preparazione dell'aggiornamento."))
+
+
+def aggiorna_copia_manuale():
+    """Tiene accanto all'eseguibile una copia del manuale uguale a quella della versione in uso.
+
+    Scelta di Gabriele del 24 settembre 2026, issue 21: la copia serve a chi
+    lo vuole aprire senza avviare CWapu. Fino alla 7.x nasceva la prima volta
+    che si apriva il manuale e non si aggiornava piu', quindi dopo un
+    aggiornamento restava quella vecchia; adesso si riscrive ogni volta che
+    e' diversa da quella in _internal. Da sorgente non si copia niente: il
+    manuale e' gia' in resources, e una copia nella radice del repository
+    sarebbe un file in piu' da non committare. Restituisce il percorso della
+    copia, o None se non c'e' e non si e' potuta scrivere.
+    """
+    if not getattr(sys, "frozen", False):
+        return None
+    originale = resource_path(os.path.join(RISORSE, MANUALE_NAME))
+    copia = os.path.join(USER_DATA_PATH, MANUALE_NAME)
+    try:
+        with open(originale, "rb") as f:
+            contenuto = f.read()
+        if os.path.exists(copia):
+            with open(copia, "rb") as f:
+                if f.read() == contenuto:
+                    return copia
+        with open(copia, "wb") as f:
+            f.write(contenuto)
+        return copia
+    except OSError as e:
+        print(_("Copia della guida non riuscita: {errore}").format(errore=e))
+        return copia if os.path.exists(copia) else None
 
 
 def apri_manuale():
@@ -4166,23 +4276,12 @@ def apri_manuale():
     intestazioni con il lettore di schermo, e il browser puo' tradurla da
     solo per chi non legge l'italiano.
     """
-    percorso = user_file_path(MANUALE_NAME)
+    percorso = resource_path(os.path.join(RISORSE, MANUALE_NAME))
     if not os.path.exists(percorso):
         print(_("Guida non trovata: manca il file {nome}.").format(nome=MANUALE_NAME))
         return
     if getattr(sys, "frozen", False):
-        # Da eseguibile la guida sta nella cartella temporanea che PyInstaller
-        # cancella all'uscita: se ne tiene una copia accanto al programma, cosi'
-        # resta leggibile anche dopo aver chiuso cwapu.
-        import shutil
-
-        copia = os.path.join(USER_DATA_PATH, MANUALE_NAME)
-        try:
-            if not os.path.exists(copia):
-                shutil.copyfile(percorso, copia)
-            percorso = copia
-        except OSError as e:
-            print(_("Copia della guida non riuscita: {errore}").format(errore=e))
+        percorso = aggiorna_copia_manuale() or percorso
     import pathlib
     import webbrowser
 
@@ -4204,7 +4303,7 @@ def mostra_statistiche_timeline():
     # timeline si porta dietro pandas e numpy: si carica soltanto qui, cosi'
     # chi non apre le statistiche non ne paga l'attesa a ogni avvio.
     print(_("Preparo le statistiche, un momento..."))
-    import timeline
+    from modules import timeline
 
     for category_key in CATEGORIE_ARCHIVIO:
         log_sessioni = app_data[f"historical_rx_data_{category_key}"]["sessions_log"]
@@ -4220,7 +4319,7 @@ def mostra_statistiche_timeline():
         if not salva:
             continue
         nome_file_report = f"CWapu_Timeline_Report_{category_key.capitalize()}.txt"
-        percorso_file_report = os.path.join(USER_DATA_PATH, nome_file_report)
+        percorso_file_report = os.path.join(REPORTS_PATH, nome_file_report)
         try:
             with open(percorso_file_report, "w", encoding="utf-8") as f:
                 f.write(report_finale)
@@ -4238,6 +4337,9 @@ def main():
     global overall_volume, overall_ms, overall_fs, overall_wave, overall_farnsworth
     global overall_uscita_interfaccia, overall_uscita_dispositivo, overall_api, overall_contest_call
     app_data = load_settings()
+    # Dopo un aggiornamento la copia del manuale accanto all'eseguibile e'
+    # quella vecchia: si riscrive subito, non alla prima apertura.
+    aggiorna_copia_manuale()
     app_data["app_info"]["launch_count"] = app_data.get("app_info", {}).get("launch_count", 0) + 1
     launch_count = app_data["app_info"]["launch_count"]
     overall_settings = app_data["overall_settings"]

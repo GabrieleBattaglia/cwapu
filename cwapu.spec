@@ -3,25 +3,37 @@
 # Autori: Gabriele Battaglia (IZ4APU) & ClaudIA (Claude Opus 5, modalita' UltraCode).
 # Il percorso di GBUtils si ricava dalla posizione di questo file, cosi' la
 # compilazione riesce anche su una macchina dove i repository stanno altrove.
+# Dalla 8.0.0, issue 21, il pacchetto e' una cartella e non piu' un file
+# unico: in dist\cwapu c'e' cwapu.exe con accanto _internal, dove stanno le
+# librerie e le risorse, ciascuna sotto resources come nel sorgente. Cosi'
+# l'eseguibile non si scompatta piu' in una cartella temporanea a ogni avvio,
+# e percorso_risorsa trova resources\words.txt dentro _internal come lo trova
+# accanto a cwapu.py.
 import os
 from pathlib import Path
 
 GBUTILS_DIR = os.path.abspath(os.path.join(SPECPATH, '..', 'GBUtils'))
 
 # Delle traduzioni al programma servono soltanto i cataloghi compilati: i .po
-# sono il testo su cui si lavora e nel pacchetto pubblico non c'entrano, come
-# dice il punto 4.6 del prontuario di rilascio. L'elenco si ricava da SPECPATH,
-# cosi' non dipende dalla cartella da cui si lancia PyInstaller.
+# e il modello .pot sono il testo su cui si lavora e nel pacchetto pubblico
+# non c'entrano, come dice il punto 4.6 del prontuario di rilascio. L'elenco
+# si ricava da SPECPATH, cosi' non dipende dalla cartella da cui si lancia
+# PyInstaller, e ogni catalogo resta nella sua cartella, per esempio
+# resources\locales\en\LC_MESSAGES.
 CATALOGHI = [
     (str(percorso), str(percorso.parent.relative_to(Path(SPECPATH))))
-    for percorso in Path(SPECPATH, 'locales').rglob('*.mo')
+    for percorso in Path(SPECPATH, 'resources', 'locales').rglob('*.mo')
+]
+RISORSE = [
+    (os.path.join('resources', nome), 'resources')
+    for nome in ('words.txt', 'MASTER.SCP', 'Manuale_CWapu.html')
 ]
 
 a = Analysis(
     ['cwapu.py'],
     pathex=[GBUTILS_DIR],
     binaries=[],
-    datas=[('words.txt', '.'), ('MASTER.SCP', '.'), ('Manuale_CWapu.html', '.')] + CATALOGHI,
+    datas=RISORSE + CATALOGHI,
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,20 +47,26 @@ pyz = PYZ(a.pure)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.datas,
     [],
+    exclude_binaries=True,
     name='cwapu',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
     console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+)
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='cwapu',
 )

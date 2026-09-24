@@ -10,7 +10,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from wilson import wilson_score_lower_bound, wilson_score_upper_bound
+from modules.wilson import wilson_score_lower_bound, wilson_score_upper_bound
 
 
 class TestCasiLimite:

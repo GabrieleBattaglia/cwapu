@@ -47,21 +47,24 @@ CWapu offers several modes to practice and utilize CW:
 *   Python 3.x.
 *   Required libraries: `pip install -r requirements.txt`. The file lists every package and says what each one is for. `pandas` and `matplotlib` are needed only by the statistics, and are loaded only when you open them. Contributors will also want `requirements-dev.txt`.
 *   `GBUtils` is not on PyPI: clone https://github.com/GabrieleBattaglia/GBUtils and make it reachable from Python.
-*   **Essential Files:**
-    *   `cwapu.py`: The main application.
-    *   `GBUtils.py`: Helper module.
-    *   `MASTER.SCP`: Database of real callsigns (for Contest mode).
-    *   `words.txt`: Dictionary for word exercises.
-    *   `locales/`: Folder containing translation files.
+*   **Project layout** (since version 8.0.0):
+    *   `cwapu.py`: The main application, the only one to launch.
+    *   `modules/`: The contest engine, the historical reports, the Wilson interval and the dictionary builder.
+    *   `resources/`: What ships with the program: `words.txt`, the dictionary for word exercises; `MASTER.SCP`, the database of real callsigns; `Manuale_CWapu.html`, the full manual in Italian; `locales/`, the translations.
+    *   `tools/`: `zip_maker.py`, which builds the release archive, and `babel.cfg`, for extracting the strings to translate.
+    *   `docs/`: The changelog.
+    *   `tests/`: The automated tests, run with `python -m pytest`.
 
 ## Configuration and Data Files
 
-*   `cwapu_settings.json`: Stores user settings and historical statistics.
-*   `CWapu_Diary.txt`: Plain text log of all exercise sessions.
-*   `MASTER.SCP`: Standard contest callsign database file.
-*   `Manuale_CWapu.html`: The full manual, in Italian.
+CWapu writes its files into subfolders next to the program, never into the directory you happened to launch it from:
 
-All of these live next to the program, never in the directory you happened to launch it from.
+*   `data/`: `cwapu_settings.json`, with user settings and historical statistics; `CWapu_Diary.txt`, the plain text log of all exercise sessions; `selected_language.json`; and your own `words.txt`, if you want a personal dictionary.
+*   `reports/`: The historical report pages and the timeline reports.
+*   `graphics/`: The historical report charts.
+*   `audio/`: The WAV files saved with `.sv`.
+
+The compiled version is a folder, with `cwapu.exe` next to `_internal`, where libraries and resources live. When upgrading from version 7, CWapu moves the old files into these subfolders by itself on first launch.
 
 ## Acknowledgements
 

@@ -14,7 +14,7 @@ import pytest
 RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, RADICE)
 
-import contest as ct  # noqa: E402
+from modules import contest as ct  # noqa: E402
 
 NOMINATIVI = ("DL3XY", "IK2ABC", "W9CF", "F5IN", "JA1ZZZ", "VE3NEA", "OH2BH", "EA3XY")
 

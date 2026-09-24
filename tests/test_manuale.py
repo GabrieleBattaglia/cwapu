@@ -14,7 +14,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import cwapu
 
-PERCORSO = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), cwapu.MANUALE_NAME)
+RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Dalla 8.0.0 la guida sta fra le risorse, issue 21.
+PERCORSO = os.path.join(RADICE, cwapu.RISORSE, cwapu.MANUALE_NAME)
 
 
 def leggi_guida():
@@ -69,13 +71,13 @@ def analizza():
 
 
 class TestEsistenza:
-    def test_la_guida_e_nella_cartella_del_programma(self):
+    def test_la_guida_e_fra_le_risorse(self):
         assert os.path.exists(PERCORSO), f"manca {cwapu.MANUALE_NAME}"
 
     def test_e_dichiarata_nella_ricetta_di_compilazione(self):
         """Senza questa riga l'eseguibile esce senza guida e il tasto g non
         trova niente da aprire."""
-        percorso_spec = os.path.join(os.path.dirname(PERCORSO), "cwapu.spec")
+        percorso_spec = os.path.join(RADICE, "cwapu.spec")
         with open(percorso_spec, encoding="utf-8") as f:
             assert cwapu.MANUALE_NAME in f.read()
 

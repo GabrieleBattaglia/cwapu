@@ -1,5 +1,5 @@
 PROVE A MANO PER LE CORREZIONI DEL 24 SETTEMBRE 2026
-Aperto il 2026-09-24 da ClaudIA, Claude Opus 5.5 modalita' auto, lavorando sulle issue 19, 18, 15, 16 e 17.
+Aperto il 2026-09-24 da ClaudIA, Claude Opus 5.5 modalita' auto, lavorando sulle issue 19, 18, 15, 16, 17 e 21.
 Come si usa: ogni prova e' fatta di righe che cominciano con Passo e Domanda. La riga che va bene si cancella, quella che non va si commenta scrivendo dopo i due punti. Quando una prova resta senza righe si cancella tutta; quando il file resta vuoto si cancella anche lui.
 PROVA A, il saluto d'uscita senza la pausa in fondo, issue 19
 Perche' serve: il saluto finiva con un trattino basso, cioe' una pausa muta messa li' perche' l'ultima e non si perdesse chiudendo il programma. Con la V168 di GBUtils il motore CW aspetta che il suono esca davvero dalle casse, e la pausa e' stata tolta. Se l'ultima e arriva intera lo puo' dire solo l'orecchio.
@@ -30,3 +30,14 @@ Passo: pile-up spento, propagazione prima a 0 e poi a 100.
 Domanda: nel modo singolo una stazione risponde sempre, e cambiano soltanto la forza e il QSB?
 Passo: nella sezione k metti pesi larghi, per esempio .l60 e .s75, poi fai un contest breve.
 Domanda: le stazioni rispondono a una velocita' simile a quella che senti uscire da te, e non a quella impostata con .w? Rimetti poi i pesi che usi di solito.
+PROVA E, la cartella in ordine e l'eseguibile a cartella, issue 21
+Perche' serve: il riordino e' provato su una cartella che imita quella della 7, con l'eseguibile nuovo compilato qui; ma solo la tua cartella vera, e l'aggiornamento vero dall'auto updater, dicono se il passaggio da file unico a cartella regge.
+Passo: prima di tutto copia altrove la cartella dove usi l'eseguibile di CWapu, cosi' com'e', per sicurezza.
+Passo: quando la 8.0.0 e' pubblicata, avvia il tuo eseguibile della 7 e accetta l'aggiornamento.
+Domanda: l'aggiornamento finisce, CWapu riparte da solo, e accanto a cwapu.exe adesso c'e' anche la cartella _internal?
+Domanda: fra le righe d'avvio leggi quanti file sono stati spostati nelle sottocartelle, e subito dopo ritrovi le tue impostazioni e il numero dei lanci?
+Domanda: nella cartella restano soltanto cwapu.exe, _internal, il manuale e le cartelle data, reports, graphics e audio, con dentro i tuoi file?
+Passo: dal menu, g.
+Domanda: il manuale si apre, ed e' quello della 8.0.0, con la sezione 2.4 che parla delle sottocartelle?
+Passo: nella sezione k, .sv seguito da un testo breve.
+Domanda: CWapu dice che il file e' nella cartella audio?

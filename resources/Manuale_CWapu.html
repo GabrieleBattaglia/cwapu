@@ -74,7 +74,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 <body>
 
 <h1>Manuale di CWapu</h1>
-<p><strong>Versione 7.1.3 del 24 settembre 2026.</strong></p>
+<p><strong>Versione 8.0.0 del 24 settembre 2026.</strong></p>
 <p>CWapu è scritto da Gabriele Battaglia, IZ4APU, e da ClaudIA, Claude Opus 5.5 in modalità UltraCode.</p>
 
 <div class="nota">
@@ -137,7 +137,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 
 <h3 id="avvio-eseguibile">2.2 Partire dall'eseguibile</h3>
 
-<p>La versione compilata è un file solo, <code>cwapu.exe</code>. Dentro ci sono già il dizionario delle parole, il database dei nominativi, i cataloghi delle lingue e questo manuale. Si copia dove si vuole e si lancia con un doppio clic o dal prompt dei comandi.</p>
+<p>La versione compilata è una cartella: dentro ci sono <code>cwapu.exe</code> e, accanto, la cartella <code>_internal</code>, che contiene le librerie e le risorse, cioè il dizionario delle parole, il database dei nominativi, i cataloghi delle lingue e questo manuale. Si scompatta l'archivio in una cartella propria e si lancia <code>cwapu.exe</code> con un doppio clic o dal prompt dei comandi. L'eseguibile da solo non basta: senza <code>_internal</code> accanto non parte. Fino alla versione 7 era un file unico, che a ogni avvio si scompattava in una cartella temporanea; adesso parte più in fretta.</p>
 
 <div class="nota">
 <p><strong>Dove si mette.</strong> CWapu scrive i propri file nella cartella dove sta il programma, non nella cartella da cui lo si è lanciato. Conviene quindi dargli una cartella sua, dove possa tenere impostazioni, diario e rapporti senza mescolarli ad altro. Se la cartella è protetta in scrittura, per esempio dentro <code>Programmi</code>, CWapu non riuscirà a salvare niente: meglio una cartella nei propri documenti.</p>
@@ -145,13 +145,24 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 
 <h3 id="lingua-programma">2.3 La scelta della lingua</h3>
 
-<p>Al primo avvio CWapu chiede in che lingua vuole essere usato, e propone le lingue per cui esiste davvero una traduzione: oggi italiano e inglese. La scelta viene salvata nel file <code>selected_language.json</code>, accanto al programma, e non viene più richiesta.</p>
+<p>Al primo avvio CWapu chiede in che lingua vuole essere usato, e propone le lingue per cui esiste davvero una traduzione: oggi italiano e inglese. La scelta viene salvata nel file <code>selected_language.json</code>, nella sottocartella <code>data</code>, e non viene più richiesta.</p>
 
 <p><strong>Per cambiare lingua</strong> si cancella quel file: al lancio successivo la domanda ricompare.</p>
 
 <h3 id="dati">2.4 Dove CWapu tiene i suoi file</h3>
 
 <p>Tutto sta nella cartella del programma. Da eseguibile è la cartella di <code>cwapu.exe</code>, da sorgente è quella di <code>cwapu.py</code>. Questo vale anche se si lancia CWapu da un'altra parte, per esempio da un collegamento sul desktop: i dati restano dove sta il programma e non si sdoppiano.</p>
+
+<p>Dalla versione 8.0.0 i file stanno in sottocartelle, ciascuna con il suo contesto, e accanto al programma resta soltanto lo stretto necessario:</p>
+
+<ul>
+<li><strong><code>data</code></strong>: impostazioni, diario, lingua scelta, il dizionario personale se c'è, e il log degli aggiornamenti quando qualcosa va storto;</li>
+<li><strong><code>reports</code></strong>: le pagine dei rapporti storici e i rapporti nel tempo salvati con <kbd>s</kbd>;</li>
+<li><strong><code>graphics</code></strong>: i grafici dei rapporti storici;</li>
+<li><strong><code>audio</code></strong>: i file WAV del comando <code>.sv</code>.</li>
+</ul>
+
+<p>Accanto a <code>cwapu.exe</code> restano soltanto <code>_internal</code> e una copia di questo manuale, per chi lo vuole aprire senza avviare CWapu: la copia si riscrive da sola quando cambia, per esempio dopo un aggiornamento. Chi arriva dalla versione 7 non deve fare niente: al primo avvio CWapu sposta i vecchi file nelle sottocartelle giuste e lo dice in una riga. Un file che nella sottocartella c'è già non viene mai sovrascritto: quello vecchio resta dov'era, e CWapu dice quale.</p>
 
 <h2 id="menu">3. Il menu principale</h2>
 
@@ -289,7 +300,7 @@ cq cq de iz4apu k
 
 <div class="esempio">
 <pre><code>.sv cq cq test de iz4apu k</code></pre>
-<p>CWapu suona il messaggio e poi dice dove ha scritto il file, con il percorso completo. Il file usa le impostazioni del momento, quindi cambiando <code>.w</code> o <code>.s</code> prima di salvare si ottengono registrazioni diverse dello stesso testo.</p>
+<p>CWapu suona il messaggio e poi dice dove ha scritto il file, con il percorso completo: sta nella sottocartella <code>audio</code>, con un nome fatto di data e ora. Il file usa le impostazioni del momento, quindi cambiando <code>.w</code> o <code>.s</code> prima di salvare si ottengono registrazioni diverse dello stesso testo.</p>
 </div>
 
 <h2 id="ricezione">5. L'esercizio di ricezione</h2>
@@ -648,10 +659,10 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <p>Il comando <kbd>w</kbd> apre lo strumento che lo fa. Chiede di scegliere una cartella, e da lì in giù legge tutti i file di testo che trova, ne estrae le parole, le mette in minuscolo, toglie la punteggiatura e scarta quelle che contengono caratteri non ammessi. Il risultato si somma alle parole già presenti in <code>words.txt</code>, senza ripetizioni.</p>
 
-<p>Il file che ne esce si chiama <strong><code>words_updated.txt</code></strong> e viene scritto accanto al programma. CWapu non lo usa: va controllato e, se convince, rinominato in <code>words.txt</code> al posto del precedente.</p>
+<p>Il file che ne esce si chiama <strong><code>words_updated.txt</code></strong> e viene scritto nella sottocartella <code>data</code>. CWapu non lo usa: va controllato e, se convince, rinominato in <code>words.txt</code>, sempre in <code>data</code>. Un <code>words.txt</code> in <code>data</code> è il dizionario personale, e ha la precedenza su quello che arriva con il programma, che non si tocca mai.</p>
 
 <div class="nota">
-<p><strong>Perché non lo sostituisce da solo.</strong> Perché una scansione mal riuscita, per esempio su una cartella piena di documenti tecnici, può riempire il dizionario di sigle illeggibili. Meglio guardarlo prima. E conviene tenere da parte una copia del <code>words.txt</code> vecchio, finché non si è sicuri.</p>
+<p><strong>Perché non lo sostituisce da solo.</strong> Perché una scansione mal riuscita, per esempio su una cartella piena di documenti tecnici, può riempire il dizionario di sigle illeggibili. Meglio guardarlo prima. E conviene tenere da parte una copia del <code>words.txt</code> personale vecchio, se c'era, finché non si è sicuri.</p>
 </div>
 
 <div class="esempio">
@@ -696,7 +707,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <h3 id="rapporti-storici">11.3 I rapporti storici, in pagina e in grafica</h3>
 
-<p>Quando il contatore dei caratteri supera la soglia, CWapu genera due file accanto al programma.</p>
+<p>Quando il contatore dei caratteri supera la soglia, CWapu genera due file: la pagina nella sottocartella <code>reports</code> e il grafico nella sottocartella <code>graphics</code>.</p>
 
 <ul>
 <li><strong>Una pagina HTML</strong> con intestazioni e tabelle vere, quindi navigabile per intestazioni e per celle con il lettore di schermo. Contiene i totali del blocco appena chiuso e il confronto con il blocco precedente, voce per voce, con la variazione in più o in meno.</li>
@@ -721,7 +732,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <h2 id="diario">12. Il diario</h2>
 
-<p>Il file <code>CWapu_Diary.txt</code>, accanto al programma, raccoglie il rapporto di ogni esercizio degno di nota: tutte le sessioni di ricezione, tutti i contest, e gli esercizi di conteggio da cento gruppi in su.</p>
+<p>Il file <code>CWapu_Diary.txt</code>, nella sottocartella <code>data</code>, raccoglie il rapporto di ogni esercizio degno di nota: tutte le sessioni di ricezione, tutti i contest, e gli esercizi di conteggio da cento gruppi in su.</p>
 
 <p>È un file di testo semplice, che si apre con qualunque editor. Ogni record comincia con il tipo di esercizio, il numero di sessione, la data e l'ora, e finisce con la riga "Fine del rapporto". In mezzo ci sono i numeri della sessione e la nota che si è scritta.</p>
 
@@ -736,20 +747,22 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><th>File</th><th>Che cos'è</th><th>Si può cancellare?</th></tr>
 </thead>
 <tbody>
-<tr><td><code>cwapu_settings.json</code></td><td>Impostazioni, statistiche e archivio storico completo.</td><td>No. Cancellandolo si perde tutto lo storico.</td></tr>
-<tr><td><code>CWapu_Diary.txt</code></td><td>Il diario degli esercizi.</td><td>Sì, ma è un peccato.</td></tr>
-<tr><td><code>words.txt</code></td><td>Il dizionario delle parole.</td><td>Da eseguibile sì, se ne usa una copia interna.</td></tr>
-<tr><td><code>words_updated.txt</code></td><td>Il dizionario appena costruito, da controllare.</td><td>Sì.</td></tr>
-<tr><td><code>MASTER.SCP</code></td><td>Il database dei nominativi veri per gli esercizi QRZ.</td><td>Sì, ma gli esercizi QRZ useranno solo nominativi inventati.</td></tr>
-<tr><td><code>selected_language.json</code></td><td>La lingua scelta.</td><td>Sì: cancellandolo, la domanda ricompare.</td></tr>
-<tr><td><code>Manuale_CWapu.html</code></td><td>Questo manuale.</td><td>Sì.</td></tr>
-<tr><td><code>CWapu_Historical_Statistics_*.html</code> e <code>.svg</code></td><td>I rapporti storici generati automaticamente.</td><td>Sì.</td></tr>
-<tr><td><code>CWapu_Timeline_Report_*.txt</code></td><td>I rapporti nel tempo salvati a mano.</td><td>Sì.</td></tr>
+<tr><td><code>data/cwapu_settings.json</code></td><td>Impostazioni, statistiche e archivio storico completo.</td><td>No. Cancellandolo si perde tutto lo storico.</td></tr>
+<tr><td><code>data/CWapu_Diary.txt</code></td><td>Il diario degli esercizi.</td><td>Sì, ma è un peccato.</td></tr>
+<tr><td><code>data/selected_language.json</code></td><td>La lingua scelta.</td><td>Sì: cancellandolo, la domanda ricompare.</td></tr>
+<tr><td><code>data/words.txt</code></td><td>Il dizionario personale, se lo si è messo.</td><td>Sì: si torna a quello che arriva con il programma.</td></tr>
+<tr><td><code>data/words_updated.txt</code></td><td>Il dizionario appena costruito con <kbd>w</kbd>, da controllare.</td><td>Sì.</td></tr>
+<tr><td><code>reports/CWapu_Historical_Statistics_*.html</code></td><td>Le pagine dei rapporti storici generati automaticamente.</td><td>Sì.</td></tr>
+<tr><td><code>reports/CWapu_Timeline_Report_*.txt</code></td><td>I rapporti nel tempo salvati a mano.</td><td>Sì.</td></tr>
+<tr><td><code>graphics/CWapu_Historical_Statistics_*.svg</code></td><td>I grafici dei rapporti storici.</td><td>Sì.</td></tr>
+<tr><td><code>audio/Morse *.wav</code></td><td>Il CW salvato con <code>.sv</code>.</td><td>Sì.</td></tr>
+<tr><td><code>Manuale_CWapu.html</code></td><td>La copia di questo manuale accanto all'eseguibile.</td><td>Sì: CWapu la riscrive al prossimo avvio.</td></tr>
+<tr><td><code>_internal</code></td><td>Le librerie e le risorse del programma: dizionario di serie, nominativi veri, lingue, manuale.</td><td>No: senza, CWapu non parte.</td></tr>
 </tbody>
 </table>
 
 <div class="nota">
-<p><strong>Una copia ogni tanto.</strong> Il file <code>cwapu_settings.json</code> contiene anni di lavoro e cresce fino a diversi megabyte. Vale la pena copiarlo altrove ogni tanto, insieme al diario. CWapu lo riscrive per intero a ogni uscita, quindi un'interruzione di corrente proprio in quel momento potrebbe rovinarlo.</p>
+<p><strong>Una copia ogni tanto.</strong> Il file <code>cwapu_settings.json</code>, in <code>data</code>, contiene anni di lavoro e cresce fino a diversi megabyte. Vale la pena copiarlo altrove ogni tanto, insieme al diario. CWapu lo riscrive per intero a ogni uscita, quindi un'interruzione di corrente proprio in quel momento potrebbe rovinarlo.</p>
 </div>
 
 <h2 id="aggiornamenti">14. Gli aggiornamenti</h2>
@@ -767,7 +780,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <p>Non dovrebbe più esserlo: dalla versione 6.0.0 le librerie di calcolo si caricano soltanto entrando nelle statistiche. Se l'attesa è al primo avvio dopo un aggiornamento, è normale: Windows sta controllando il file nuovo.</p>
 
 <h3 id="p-dati">Ho lanciato CWapu e mi dice che le impostazioni sono quelle di serie</h3>
-<p>Vuol dire che non ha trovato il suo file di impostazioni. Nelle versioni fino alla 5.1.12 succedeva lanciando CWapu da una cartella diversa dalla sua, e in quel caso ne creava uno nuovo dove ci si trovava. Dalla 6.0.0 non succede più: i dati stanno sempre accanto al programma. Se il problema si ripresenta, si controlli che <code>cwapu_settings.json</code> sia davvero nella stessa cartella dell'eseguibile.</p>
+<p>Vuol dire che non ha trovato il suo file di impostazioni. Nelle versioni fino alla 5.1.12 succedeva lanciando CWapu da una cartella diversa dalla sua, e in quel caso ne creava uno nuovo dove ci si trovava. Dalla 6.0.0 non succede più: i dati stanno sempre nella cartella del programma, dalla 8.0.0 nella sottocartella <code>data</code>. Se il problema si ripresenta, si controlli che <code>cwapu_settings.json</code> sia davvero in <code>data</code>, accanto all'eseguibile.</p>
 
 <h3 id="p-velocita">Non riesco a impostare la velocità che voglio</h3>
 <p>Il limite è 120 parole al minuto, ovunque nel programma: nella domanda che apre l'esercizio, nel comando <code>.w</code> e nel tasto <kbd>F10</kbd> del contest. Non è un limite arbitrario: oltre, a un tono di 550 hertz, un punto conterrebbe meno di quattro cicli d'onda, e un suono così corto smette di essere un tono riconoscibile.</p>
@@ -776,7 +789,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <p>Manca il filtro. Si imposta con <code>.t</code> nella sezione tastiera, per esempio <code>.t3-7</code>. Può anche succedere che il filtro sia impostato ma non produca risultati, per esempio chiedendo parole da trenta a trentacinque lettere in un dizionario che non ne ha.</p>
 
 <h3 id="p-lingua">Come cambio lingua</h3>
-<p>Si cancella il file <code>selected_language.json</code> e si rilancia CWapu.</p>
+<p>Si cancella il file <code>selected_language.json</code>, nella sottocartella <code>data</code>, e si rilancia CWapu.</p>
 
 <h2 id="glossario">16. Piccolo glossario del CW</h2>
 
@@ -816,7 +829,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 </dl>
 
 <footer>
-<p>CWapu, versione 7.1.3 del 24 settembre 2026.</p>
+<p>CWapu, versione 8.0.0 del 24 settembre 2026.</p>
 <p>Software e manuale di Gabriele Battaglia, IZ4APU, e di ClaudIA, Claude Opus 5.5 in modalità UltraCode.</p>
 <p>Il motore CW è CWzator, dalla libreria GBUtils, su un'idea originale di Kevin Schmidt, W9CF.</p>
 <p>Le segnalazioni e le proposte si aprono come issue sul repository del progetto.</p>

@@ -5,7 +5,7 @@ import datetime as dt
 import numpy as np
 import pandas as pd
 
-from wilson import wilson_score_lower_bound, wilson_score_upper_bound
+from .wilson import wilson_score_lower_bound, wilson_score_upper_bound
 
 
 def _formatta_durata(secondi, _):
