@@ -155,7 +155,7 @@ if RIORDINO[1]:
     print(_("Non spostati, perché nella sottocartella c'è già un file con lo stesso nome: {elenco}.").format(elenco=", ".join(RIORDINO[1])))
 
 # QC Costanti
-VERSION = "8.1.0"
+VERSION = "8.1.1"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,

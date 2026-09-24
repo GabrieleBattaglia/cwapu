@@ -136,6 +136,11 @@ VOLUME_MINIMO = (0.1, 0.2, 0.5)
 # CWzator la accetta dalla V169 di GBUtils, issue 44; senza, chi suona la
 # richiesta la lascia cadere e cambia soltanto la banda.
 QSB_PROFONDITA_PIENA = 40.0
+# Per quanto si moltiplica la banda del QSB lento a propagazione 0, 50 e
+# 100: piu' bassa vuol dire cali piu' lenti. Il primo valore era 0,5; dal
+# collaudo del 24 settembre 2026 Gabriele li ha voluti un poco piu' lenti,
+# come nelle propagazioni scarse, ed e' diventato 0,4.
+QSB_BANDA_FATTORI = (0.4, 1.0, 2.0)
 
 
 def numero_come_testo(rng, rst, nr, errore=False):
@@ -1156,8 +1161,8 @@ class Contest:
         # centesimi, cioe' con un'onda che impiega tre secondi buoni a scendere
         # e altrettanti a risalire, che e' il QSB che si sente davvero.
         # La propagazione sposta tutta la banda: sotto 50 i cali sono piu'
-        # lenti e lunghi, fino a meta' a 0; sopra 50 piu' rapidi e brevi, fino
-        # al doppio a 100.
+        # lenti e lunghi, fino a quattro decimi della banda a 0; sopra 50 piu'
+        # rapidi e brevi, fino al doppio a 100.
         basso, alto = (b * self.fattore_banda_qsb() for b in QSB_BANDA)
         return math.exp(self.rng.uniform(math.log(basso), math.log(alto)))
 
@@ -1167,9 +1172,12 @@ class Contest:
         return self.propagazione / 100.0
 
     def fattore_banda_qsb(self):
-        """Per quanto si moltiplica la banda del QSB lento: 0,5 a 0, 1 a 50, 2 a 100."""
+        """Per quanto si moltiplica la banda del QSB lento: QSB_BANDA_FATTORI a 0, 50 e 100, in linea retta fra l'uno e l'altro."""
         f = self.aperta
-        return 0.5 + f if f <= 0.5 else 1.0 + 2.0 * (f - 0.5)
+        chiusa, neutra, aperta = QSB_BANDA_FATTORI
+        if f <= 0.5:
+            return chiusa + (neutra - chiusa) * f / 0.5
+        return neutra + (aperta - neutra) * (f - 0.5) / 0.5
 
     def profondita_evanescenza(self, banda):
         """Quanto scende l'evanescenza di questa banda, in percento, o None se scende fino in fondo.

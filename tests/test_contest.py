@@ -938,7 +938,9 @@ class TestPropagazione:
     def test_il_qsb_lento_cambia_banda_e_profondita(self):
         chiusa = motore(qsb=True, propagazione=0, seme=5)
         bande = [chiusa.evanescenza() for _ in range(200)]
-        assert all(ct.QSB_BANDA[0] * 0.5 <= b <= ct.QSB_BANDA[1] * 0.5 for b in bande)
+        assert all(ct.QSB_BANDA[0] * 0.4 <= b <= ct.QSB_BANDA[1] * 0.4 for b in bande)
+        assert chiusa.fattore_banda_qsb() == pytest.approx(ct.QSB_BANDA_FATTORI[0])
+        assert motore(propagazione=50).fattore_banda_qsb() == pytest.approx(1.0)
         assert chiusa.profondita_evanescenza(bande[0]) is None
         aperta = motore(qsb=True, propagazione=100, seme=5)
         bande = [aperta.evanescenza() for _ in range(200)]

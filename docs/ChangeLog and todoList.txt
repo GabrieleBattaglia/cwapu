@@ -2,6 +2,8 @@ CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	8.1.1 (2026-09-24)
+		+ Con la propagazione bassa i cali del QSB sono un poco piu' lenti, come nelle propagazioni scarse: a 0 la banda dell'evanescenza e' quattro decimi di quella a 50, invece della meta'. Da 50 in su non cambia niente. Richiesta di Gabriele dal collaudo.
 	8.1.0 (2026-09-24)
 		+ Il rapporto storico, in pagina e in grafico, e' rifatto, issue 8. Guardato con i dati veri, il grafico aveva le etichette della velocita' minima e massima scambiate, e diceva massima 14 e minima 63; colorava i caratteri secondo la posizione nell'elenco invece che secondo il valore, cosi' un carattere sbagliato una volta su quattro poteva essere verde; li ordinava per numero di errori, che mette in testa i caratteri mandati piu' spesso invece dei piu' deboli; e mostrava, come la pagina, numeri con sedici cifre, con qualche testo sovrapposto. Nella pagina la tabella delle variazioni si chiudeva dopo la prima riga, e il lettore di schermo trovava le altre fuori dalla tabella.
 		+ Adesso pagina e grafico dicono le stesse cose, calcolate una volta sola: il titolo con la categoria e il periodo; la velocita' adesso e prima; il tasso d'errore del blocco; i punti deboli, cioe' i dieci caratteri che sbagli di piu' di sicuro, in ordine dal limite basso dell'intervallo di Wilson, fra quelli mandati almeno dieci volte; i punti di forza, che prima non c'erano, cioe' i dieci che sbagli di meno di sicuro; e come sono cambiati i punti deboli rispetto al blocco precedente. Nel grafico ogni carattere e' una barra che va da un estremo all'altro dell'intervallo, con un punto sul valore misurato; la pagina aggiunge in fondo tutti i caratteri sbagliati.
