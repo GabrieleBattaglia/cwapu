@@ -386,18 +386,56 @@ class TestCicloContest:
         assert banco["contest"][0].mio_wpm == 18
         assert "WPM 18" in uscita and "Tono 600" in uscita and "Banda 550" in uscita
 
-    def test_con_i_pesi_larghi_le_stazioni_sentono_la_mia_effettiva(self, monkeypatch):
-        """Con linee a 60 e spazi a 75 i 20 wpm nominali suonano piu' lenti:
-        il motore riceve quella velocita', misurata da CWzator, e la aggiorna
-        quando la cambio con F10."""
-        banco = prepara(monkeypatch, [(1.0, "f10"), (8.0, "alt-x")])
+    def con_pesi_larghi(self, monkeypatch, copione, contest=None):
+        """Il banco con linee a 60 e spazi a 75: il motore CW finto restituisce
+        per i miei messaggi il 66 per cento della velocita' nominale, come
+        farebbe CWzator con quei pesi, e per le stazioni la nominale."""
+        banco = prepara(monkeypatch, copione, contest=contest)
         monkeypatch.setattr(cwapu, "overall_dashes", 60)
         monkeypatch.setattr(cwapu, "overall_spaces", 75)
+        finto = cwapu.suona
+
+        def suona_con_i_miei_pesi(msg, *argomenti, **chiavi):
+            handle, rwpm = finto(msg, *argomenti, **chiavi)
+            return handle, (rwpm * 0.66 if chiavi.get("vol") is None else rwpm)
+
+        monkeypatch.setattr(cwapu, "suona", suona_con_i_miei_pesi)
+        return banco
+
+    def test_il_cq_d_apertura_misura_subito_la_velocita(self, monkeypatch):
+        """Il contest comincia con il mio CQ: la stima su PARIS con cui nasce il
+        motore vale solo fino a quel momento."""
+        banco = self.con_pesi_larghi(monkeypatch, [(8.0, "alt-x")])
+        cwapu.RxingContest({})
+        assert banco["contest"][0].mio_rwpm == pytest.approx(0.66 * 20)
+
+    def test_la_stima_su_paris_la_fa_cwzator(self):
+        assert cwapu.velocita_effettiva(20, 30, 50, 50) == pytest.approx(20.0)
+        assert cwapu.velocita_effettiva(25, 60, 75, 50) == pytest.approx(16.44, abs=0.05)
+
+    def test_ogni_mia_trasmissione_rimisura_la_velocita(self, monkeypatch):
+        """Scelta di Gabriele del 24 settembre 2026: le stazioni si regolano
+        sul rwpm che CWzator restituisce per ogni mio messaggio."""
+        banco = self.con_pesi_larghi(monkeypatch, [(1.0, "f1"), (8.0, "alt-x")])
+        cwapu.RxingContest({})
+        assert banco["contest"][0].mio_rwpm == pytest.approx(0.66 * 20)
+
+    def test_f10_sposta_l_effettiva_in_proporzione(self, monkeypatch):
+        banco = self.con_pesi_larghi(monkeypatch, [(1.0, "f1"), (4.0, "f10"), (10.0, "alt-x")])
         cwapu.RxingContest({})
         m = banco["contest"][0]
         assert m.mio_wpm == 22
-        assert m.mio_rwpm == pytest.approx(cwapu.velocita_effettiva(22, 60, 75, 50))
-        assert m.mio_rwpm < 16
+        assert m.mio_rwpm == pytest.approx(0.66 * 22)
+
+    def test_il_5nn_accelerato_non_falsa_la_mia_velocita(self, monkeypatch):
+        """Il mio scambio comincia con il 5NN, che e' il pezzo accelerato: la
+        velocita' da misurare e' quella del numero, alla mia velocita'."""
+        contest = {"scambio_veloce": True, "scambio_probabilita": 100, "scambio_incremento": 20}
+        banco = self.con_pesi_larghi(monkeypatch, [(1.0, "f2"), (8.0, "alt-x")], contest=contest)
+        cwapu.RxingContest({})
+        pezzi = [c for c in banco["cw"].chiamate if c["vol"] is None and c["wpm"] == 24]
+        assert pezzi, "il mio 5NN non e' partito accelerato"
+        assert banco["contest"][0].mio_rwpm == pytest.approx(0.66 * 20)
 
     def test_i_valori_si_annunciano_quando_la_mano_si_ferma(self, monkeypatch, capsys):
         """Annunciare a ogni pressione riempie la voce di numeri che scorrono."""

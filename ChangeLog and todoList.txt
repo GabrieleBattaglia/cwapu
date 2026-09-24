@@ -2,6 +2,8 @@ CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	7.1.3 (2026-09-24)
+		+ La velocita' che le stazioni sentono si misura su ogni mia trasmissione, non piu' una volta sola sulla parola PARIS. Con pesi diversi dallo standard un CQ, un numero e un nominativo non suonano alla stessa velocita': a 25 WPM con linee a 60 e spazi a 75, PARIS vale 16,4 e il CQ 15,7. La misura e' quella che CWzator restituisce per il messaggio appena mandato; PARIS resta la stima di partenza, che il CQ d'apertura sostituisce subito. Cambiando velocita' con F9 e F10 l'effettiva segue in proporzione fino al messaggio seguente. Nel mio scambio con il 5NN accelerato conta il numero, alla mia velocita', e non il 5NN. Scelta di Gabriele.
 	7.1.2 (2026-09-24)
 		+ Nel contest le stazioni rispondono alla velocita' che sentono. Si regolavano sui WPM impostati, anche quando i pesi della sezione k li fanno suonare diversi: con linee a 60 e spazi a 75, a 25 WPM si trasmette in realta' a 16,4, e le stazioni rispondevano a 25 veri. Adesso si regolano sulla velocita' effettiva, la RWPM, che CWzator misura sulla parola PARIS, e la seguono quando la si cambia durante il contest. Trovato da Gabriele nel collaudo.
 	7.1.1 (2026-09-24)

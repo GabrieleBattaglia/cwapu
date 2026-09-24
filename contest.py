@@ -1018,7 +1018,7 @@ class Contest:
 
     Parametri:
       mio_nominativo, mio_wpm, mio_pitch: come trasmetto io.
-      mio_rwpm: la mia velocita' effettiva, quella che si sente con i miei pesi, misurata su PARIS; le stazioni si centrano su questa. None vale mio_wpm, cioe' pesi standard.
+      mio_rwpm: la mia velocita' effettiva prima della mia prima trasmissione, cioe' la stima con i miei pesi; poi chi usa il motore la rimisura a ogni mio messaggio con imposta_mia_velocita. Le stazioni si centrano su questa. None vale mio_wpm, cioe' pesi standard.
       nominativi: una funzione senza argomenti che da' un nominativo, veri e inventati con le percentuali di cwapu.
       pileup: falso e' il modo singolo, una stazione alla volta; vero e' il pile-up.
       pileup_massime: quante stazioni al massimo chiamano insieme nel pile-up, da 1 a PILEUP_MASSIME, issue 17.
@@ -1058,6 +1058,7 @@ class Contest:
     ):
         self.rng = random.Random(seme)
         self.mio_nominativo = mio_nominativo.strip().upper()
+        self.rapporto_effettivo = 1.0
         self.imposta_mia_velocita(mio_wpm, mio_rwpm)
         self.mio_pitch = int(mio_pitch)
         self.nominativi = nominativi
@@ -1110,9 +1111,19 @@ class Contest:
         in radio si risponde alla velocita' che si sente. Prima si
         regolavano sulla nominale, e con linee a 60 e spazi a 75 i miei 25 wpm
         suonavano come 16 mentre le stazioni rispondevano a 25 veri.
+        L'effettiva si tiene come proporzione della nominale: passandola, la
+        si rimisura; senza, cambiando la nominale l'effettiva la segue nella
+        stessa proporzione, perche' con gli stessi pesi le durate scalano
+        insieme alla velocita'.
         """
         self.mio_wpm = int(wpm)
-        self.mio_rwpm = float(effettiva) if effettiva else float(self.mio_wpm)
+        if effettiva:
+            self.rapporto_effettivo = float(effettiva) / self.mio_wpm
+
+    @property
+    def mio_rwpm(self):
+        """La mia velocita' effettiva, quella su cui le stazioni si regolano."""
+        return self.mio_wpm * self.rapporto_effettivo
 
     def minuti(self, adesso):
         if self.inizio is None:

@@ -1000,3 +1000,10 @@ class TestVelocitaEffettiva:
         assert (m.mio_wpm, m.mio_rwpm) == (30, 30.0)
         m.imposta_mia_velocita(30, 21.5)
         assert (m.mio_wpm, m.mio_rwpm) == (30, 21.5)
+
+
+def test_cambiando_la_nominale_l_effettiva_segue_in_proporzione():
+    m = motore()
+    m.imposta_mia_velocita(25, 16.4)
+    m.imposta_mia_velocita(30)
+    assert m.mio_rwpm == pytest.approx(30 * 16.4 / 25)

@@ -77,7 +77,7 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "7.1.2"
+VERSION = "7.1.3"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -2406,7 +2406,9 @@ def RxingContest(menu_config_scelta):
         # l'eseguibile compilato della 7.0.0.
         mio_pesi=(overall_dashes, overall_spaces, overall_dots),
         # Le stazioni rispondono alla velocita' che sentono, cioe' quella
-        # effettiva dei miei pesi, che CWzator misura e restituisce.
+        # effettiva dei miei pesi. Prima della mia prima trasmissione non c'e'
+        # niente da misurare, e vale la stima su PARIS; poi la rimisura ogni
+        # mio messaggio.
         mio_rwpm=velocita_effettiva(overall_speed, overall_dashes, overall_spaces, overall_dots),
         # Spento vuol dire che non lo fa nessuno, e nemmeno io.
         scambio_probabilita=stati["scambio_probabilita"] if stati["scambio_veloce"] else 0,
@@ -2525,9 +2527,11 @@ def RxingContest(menu_config_scelta):
         giro dopo avrebbe aperto un buco di cinquanta millesimi in mezzo a un
         gruppo di lettere, che si sente come uno strappo.
 
-        Restituisce una voce sola per il ciclo, e la velocita' di base, che e'
-        quella del primo pezzo: registrando quella accelerata, le statistiche
-        del QSO direbbero una velocita' che non e' mai stata la sua.
+        Restituisce una voce sola per il ciclo, e la velocita' di base, cioe'
+        quella del primo pezzo che non e' accelerato: registrando quella
+        accelerata, le statistiche del QSO direbbero una velocita' che non e'
+        mai stata la sua. Non e' sempre il primo pezzo: il mio scambio
+        comincia con il 5NN, che e' proprio quello che accelera.
 
         Con inizio maggiore di zero tutto il messaggio parte piu' tardi: e' il
         silenzio che separa un mio messaggio accodato da quello che lo
@@ -2558,7 +2562,8 @@ def RxingContest(menu_config_scelta):
         # silenzio. La durata che il motore restituisce per un pezzo
         # ritardato comprende gia' il suo silenzio iniziale, quindi va
         # tolta per sapere quanto dura il solo suono.
-        base = 0.0
+        base = None
+        primo = 0.0
         for indice, (testo, wpm_pezzo, parola) in enumerate(richiesta.pezzi):
             if indice:
                 inizio += buco_fra_pezzi(richiesta.wpm, richiesta.s, parola)
@@ -2569,9 +2574,13 @@ def RxingContest(menu_config_scelta):
                 return None, 0.0
             maniglie.append(handle)
             if not indice:
+                primo = rwpm * richiesta.wpm / wpm_pezzo if wpm_pezzo else rwpm
+            if base is None and wpm_pezzo == richiesta.wpm:
                 base = rwpm
             inizio = durata_suono(handle)
-        return InsiemeDiSuoni(maniglie, inizio), base
+        # Se nessun pezzo va alla velocita' di base, quella del primo riportata
+        # alla base: con gli stessi pesi la velocita' effettiva e' proporzionale.
+        return InsiemeDiSuoni(maniglie, inizio), primo if base is None else base
 
     def durata_suono(handle):
         """I secondi che quel messaggio durera', per sapere quando finirebbe anche zittito."""
@@ -2797,10 +2806,16 @@ def RxingContest(menu_config_scelta):
             # giro sarebbe vecchio proprio di quel tanto.
             trascorso = max(0.0, time.monotonic() - t0 - fine_mia)
             inizio = max(0.0, buco_fra_pezzi(richiesta.wpm, richiesta.s, not attaccato) - trascorso)
-        handle, _rwpm = metti_in_aria(richiesta, inizio)
+        handle, rwpm = metti_in_aria(richiesta, inizio)
         if handle is None:
             motore.io_finito(adesso)
             return
+        # Le stazioni si regolano sulla velocita' che sentono, e quella che
+        # sentono e' cio' che CWzator ha appena prodotto con i miei pesi:
+        # ogni mia trasmissione la rimisura. Scelta di Gabriele del 24
+        # settembre 2026.
+        if rwpm:
+            motore.imposta_mia_velocita(motore.mio_wpm, rwpm)
         suoni[ct.IO] = handle
         fine_mia = time.monotonic() - t0 + durata_suono(handle)
 
@@ -3062,7 +3077,9 @@ def RxingContest(menu_config_scelta):
                     overall_speed = min(WPM_MAX, overall_speed + CONTEST_PASSO_WPM)
                 else:
                     overall_speed = max(WPM_MIN, overall_speed - CONTEST_PASSO_WPM)
-                motore.imposta_mia_velocita(overall_speed, velocita_effettiva(overall_speed, overall_dashes, overall_spaces, overall_dots))
+                # L'effettiva segue in proporzione, finche' la mia prossima
+                # trasmissione non la rimisura.
+                motore.imposta_mia_velocita(overall_speed)
                 conferma_in_cw()
                 annuncia("wpm", _("WPM {valore}").format(valore=overall_speed), adesso)
                 # La velocita' e' quella globale e resta dopo il contest: il
