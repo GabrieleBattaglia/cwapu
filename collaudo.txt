@@ -20,16 +20,24 @@ Passo: apri il pannello del contest.
 Domanda: la voce 6 dice fino a quante stazioni con il valore che avevi prima, e in fondo c'e' la voce a, propagazione, a 50?
 Passo: pile-up acceso, voce 6 a 8, QSB acceso, propagazione a 0; contest a cinque minuti, e lancia CQ piu' volte.
 Domanda: molti CQ restano senza risposta, chi risponde arriva spesso debole, e il QSB ha cali lenti e lunghi? E' una banda chiusa credibile?
+Nei 5 minuti, solo 2 cq senza risposta. I cali sono credibili e buoni. Si muovono lentamente e questo è molto realistico. Volendo il massimo le curve di salita/discesea, con fattore casuale potrebbero essere anche un pochino più lente, tipico delle propagazioni scarse. Comunque va bene anche così.
 Passo: lo stesso con la propagazione a 50.
 Domanda: il contest e' quello che conosci dalla 7.0.0?
+sì. Nessun cq disatteso
 Passo: propagazione a 100, voce 6 a 24, QRN e QRM accesi, e aspetta qualche secondo senza chiamare.
 Domanda: le stazioni arrivano da sole e chiamano anche senza CQ, forti, con cali brevi e leggeri che non le fanno mai sparire, e il pile-up non si ferma mai?
+Sì
 Domanda: il fruscio resta sempre acceso sotto il pile-up, e l'abbassamento del livello quando chiamano in tanti e' ancora accettabile?
+sì
 Domanda: quando rispondono in tanti insieme, i tasti rispondono sempre subito, senza ritardi o scatti?
+sì
+Nota: questa modalità è bellissima, la più reale che abbia mai prodotto cwapu: sembra davvero una dx expedition.
 Passo: pile-up spento, propagazione prima a 0 e poi a 100.
 Domanda: nel modo singolo una stazione risponde sempre, e cambiano soltanto la forza e il QSB?
 Passo: nella sezione k metti pesi larghi, per esempio .l60 e .s75, poi fai un contest breve.
 Domanda: le stazioni rispondono a una velocita' simile a quella che senti uscire da te, e non a quella impostata con .w? Rimetti poi i pesi che usi di solito.
+Tutto verde.
+
 PROVA E, la cartella in ordine e l'eseguibile a cartella, issue 21
 Perche' serve: il riordino e' provato su una cartella che imita quella della 7, con l'eseguibile nuovo compilato qui; ma solo la tua cartella vera, e l'aggiornamento vero dall'auto updater, dicono se il passaggio da file unico a cartella regge.
 Passo: prima di tutto copia altrove la cartella dove usi l'eseguibile di CWapu, cosi' com'e', per sicurezza.
@@ -41,6 +49,8 @@ Passo: dal menu, g.
 Domanda: il manuale si apre, ed e' quello della 8.0.0, con la sezione 2.4 che parla delle sottocartelle?
 Passo: nella sezione k, .sv seguito da un testo breve.
 Domanda: CWapu dice che il file e' nella cartella audio?
+Attendo eseguibile
+
 PROVA F, il rapporto storico rifatto, issue 8
 Perche' serve: le prove automatiche controllano che la pagina sia ben formata e che i numeri siano giusti e arrotondati, ma come si naviga con NVDA lo dici solo tu. Il grafico l'ho guardato io con i tuoi dati; se ti capita, fallo vedere a qualcuno che lo legge con gli occhi.
 Passo: da sorgente, nella sezione k scrivi .x500, cosi' il rapporto nasce presto, poi fai un esercizio di ricezione di caratteri di qualche minuto.
@@ -50,3 +60,5 @@ Domanda: l'intestazione di primo livello dice la categoria, e sotto trovi da che
 Domanda: navigando per intestazioni trovi, in ordine, velocita', errori in generale, punti deboli, punti di forza, com'e' cambiato e tutti i caratteri sbagliati?
 Domanda: nelle tabelle i numeri hanno un decimale con la virgola, e ogni carattere dice il suo livello a parole?
 Passo: rimetti .x3500, o il valore che usi di solito.
+Per questa serve tempo. E non voglio cambiare i .x
+La diamo per passata.
