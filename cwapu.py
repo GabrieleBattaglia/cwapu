@@ -77,7 +77,7 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "7.1.0"
+VERSION = "7.1.1"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
