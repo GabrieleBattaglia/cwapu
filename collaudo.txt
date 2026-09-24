@@ -1,0 +1,9 @@
+PROVE A MANO PER LE CORREZIONI DEL 24 SETTEMBRE 2026
+Aperto il 2026-09-24 da ClaudIA, Claude Opus 5.5 modalita' auto, lavorando sulle issue 19 e 18.
+Come si usa: ogni prova e' fatta di righe che cominciano con Passo e Domanda. La riga che va bene si cancella, quella che non va si commenta scrivendo dopo i due punti. Quando una prova resta senza righe si cancella tutta; quando il file resta vuoto si cancella anche lui.
+PROVA A, il saluto d'uscita senza la pausa in fondo, issue 19
+Perche' serve: il saluto finiva con un trattino basso, cioe' una pausa muta messa li' perche' l'ultima e non si perdesse chiudendo il programma. Con la V168 di GBUtils il motore CW aspetta che il suono esca davvero dalle casse, e la pausa e' stata tolta. Se l'ultima e arriva intera lo puo' dire solo l'orecchio.
+Passo: lancia CWapu da sorgente, con la GBUtils di E:\git\Mine\GBUtils, e dal menu principale esci con q.
+Domanda: il saluto finisce con due e intere e uguali fra loro, senza che l'ultima sia mozzata?
+Passo: fai la stessa cosa con l'eseguibile compilato, quando lo prepariamo per la pubblicazione.
+Domanda: anche dall'eseguibile l'ultima e arriva intera?

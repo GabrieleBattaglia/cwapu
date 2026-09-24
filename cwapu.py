@@ -76,8 +76,8 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "7.0.0"
-RELEASE_DATE = "2026-09-23"
+VERSION = "7.0.1"
+RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
 # era quello che chi riceve veloce incontrava per primo.
@@ -4177,10 +4177,9 @@ def main():
     )
     save_settings(app_data)
     print(_("hpe cuagn - 73 de IZ4APU - Gabe in Bologna, JN54pl."))
-    # Il trattino basso in coda e' una pausa che non si sente: serve perche'
-    # l'applicazione si chiude subito dopo, e senza di lui l'ultima e resta
-    # nel buffer della scheda audio e non esce mai.
-    suona("bk hpe cuagn - 73 de iz4apu tu e e _", sync=True)
+    # Dalla V168 di GBUtils sync aspetta che l'ultima e sia uscita dalle
+    # casse, non solo dal mixer: l'applicazione puo' chiudersi subito dopo.
+    suona("bk hpe cuagn - 73 de iz4apu tu e e", sync=True)
     _clear_screen_ansi()
     Donazione(lang=app_language)
 
