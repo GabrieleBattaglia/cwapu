@@ -1,15 +1,15 @@
 {
     "app_info": {
-        "launch_count": 530
+        "launch_count": 532
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 30,
+        "speed": 34,
         "pitch": 600,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
-        "volume": 0.35,
+        "volume": 0.45,
         "ms": 1,
         "fs_index": 2,
         "wave_index": 1,
@@ -33,11 +33,11 @@
         "total_time_seconds": 7888.115495
     },
     "rxing_stats_qrz": {
-        "total_calls": 1136,
-        "sessions": 82,
-        "total_correct": 701,
+        "total_calls": 1190,
+        "sessions": 84,
+        "total_correct": 755,
         "total_wrong_items": 435,
-        "total_time_seconds": 20362.618616
+        "total_time_seconds": 22169.855434
     },
     "counting_stats": {
         "exercise_number": 100
@@ -45,22 +45,22 @@
     "contest_settings": {
         "qrn": false,
         "qrm": false,
-        "qrm_massime": 3,
+        "qrm_massime": 4,
         "qsb": false,
         "flutter": false,
-        "sbadati": false,
+        "sbadati": true,
         "pileup": false,
-        "attivita": 6,
-        "stereo": 50,
+        "attivita": 8,
+        "stereo": 0,
         "banda": 600,
         "tasto_verticale": true,
-        "tasto_probabilita": 30,
-        "tasto_l_min": 30,
-        "tasto_l_max": 60,
-        "tasto_s_min": 25,
-        "tasto_s_max": 75,
-        "tasto_p_min": 15,
-        "tasto_p_max": 50,
+        "tasto_probabilita": 50,
+        "tasto_l_min": 25,
+        "tasto_l_max": 45,
+        "tasto_s_min": 40,
+        "tasto_s_max": 80,
+        "tasto_p_min": 22,
+        "tasto_p_max": 55,
         "scambio_veloce": true,
         "scambio_probabilita": 75,
         "scambio_incremento": 50
@@ -82561,7 +82561,7 @@
         ]
     },
     "historical_rx_data_qrz": {
-        "chars_since_last_report": 1889,
+        "chars_since_last_report": 2389,
         "sessions_log": [
             {
                 "timestamp_iso": "2025-12-17T23:04:48.130816",
@@ -92259,6 +92259,374 @@
                     "tasto_s_max": 75,
                     "tasto_p_min": 15,
                     "tasto_p_max": 50,
+                    "scambio_veloce": true,
+                    "scambio_probabilita": 75,
+                    "scambio_incremento": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-23T18:02:48.890594",
+                "duration_seconds": 1200.02229,
+                "rwpm_min": 21.35027799841144,
+                "rwpm_max": 33.482810164424514,
+                "rwpm_avg": 27.473912909871256,
+                "items_sent_session": 35,
+                "items_correct_session": 35,
+                "item_details": [
+                    {
+                        "rwpm": 29.428508867965842,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.36548223350254,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30.352303523035232,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 21.44214421442144,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.316989325131175,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33.482810164424514,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.27654650857647,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 25.28216704288939,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 23.863636363636367,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 23.855165069222576,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.000000000000004,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 23.00430175823541,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27.484662576687118,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29.50455454343479,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 21.35027799841144,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.938191981081374,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27.383863080684595,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.730226592560925,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.517465847620798,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.615384615384617,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 23.81289865343728,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.579370885149963,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 323,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "j": 2,
+                    "a": 4,
+                    "1": 14,
+                    "c": 2,
+                    "s": 9,
+                    "n": 78,
+                    "5": 43,
+                    "m": 8,
+                    "u": 1,
+                    "2": 13,
+                    "h": 3,
+                    "0": 5,
+                    "z": 8,
+                    "o": 7,
+                    "k": 8,
+                    "y": 5,
+                    "e": 7,
+                    "3": 13,
+                    "d": 4,
+                    "g": 3,
+                    "w": 8,
+                    "7": 8,
+                    "t": 6,
+                    "4": 6,
+                    "f": 7,
+                    "8": 9,
+                    "r": 10,
+                    "p": 7,
+                    "x": 5,
+                    "9": 7,
+                    "6": 4,
+                    "i": 3,
+                    "b": 4,
+                    "l": 2
+                },
+                "punteggio_grezzo": 1190,
+                "punteggio_verificato": 1190,
+                "prefissi_verificati": 34,
+                "contest_settings": {
+                    "qrn": true,
+                    "qrm": true,
+                    "qrm_massime": 4,
+                    "qsb": false,
+                    "flutter": true,
+                    "sbadati": true,
+                    "pileup": true,
+                    "attivita": 8,
+                    "stereo": 75,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 50,
+                    "tasto_l_min": 25,
+                    "tasto_l_max": 45,
+                    "tasto_s_min": 40,
+                    "tasto_s_max": 80,
+                    "tasto_p_min": 22,
+                    "tasto_p_max": 55,
+                    "scambio_veloce": true,
+                    "scambio_probabilita": 75,
+                    "scambio_incremento": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-23T21:41:57.380745",
+                "duration_seconds": 600.001955,
+                "rwpm_min": 21.78694877972138,
+                "rwpm_max": 36,
+                "rwpm_avg": 29.52613062408592,
+                "items_sent_session": 19,
+                "items_correct_session": 19,
+                "item_details": [
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33.45284893515918,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.561403508771928,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27.529006926368726,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33.23442136498517,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 26.446280991735538,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 31.907549919464117,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.8618143867651,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32.41180212359935,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 33,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 21.78694877972138,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 35,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30.10752688172043,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.842883548983366,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 30.85399449035813,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 36,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 177,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "w": 4,
+                    "a": 6,
+                    "9": 4,
+                    "y": 9,
+                    "e": 5,
+                    "5": 20,
+                    "n": 40,
+                    "1": 5,
+                    "o": 3,
+                    "k": 5,
+                    "p": 5,
+                    "2": 3,
+                    "u": 3,
+                    "7": 6,
+                    "r": 4,
+                    "v": 2,
+                    "3": 8,
+                    "g": 2,
+                    "q": 2,
+                    "4": 6,
+                    "t": 4,
+                    "z": 2,
+                    "b": 6,
+                    "m": 1,
+                    "6": 5,
+                    "f": 1,
+                    "l": 3,
+                    "8": 3,
+                    "d": 3,
+                    "s": 1,
+                    "c": 1,
+                    "j": 2,
+                    "x": 1,
+                    "i": 2
+                },
+                "punteggio_grezzo": 361,
+                "punteggio_verificato": 361,
+                "prefissi_verificati": 19,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 4,
+                    "qsb": false,
+                    "flutter": false,
+                    "sbadati": true,
+                    "pileup": false,
+                    "attivita": 8,
+                    "stereo": 0,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 50,
+                    "tasto_l_min": 25,
+                    "tasto_l_max": 45,
+                    "tasto_s_min": 40,
+                    "tasto_s_max": 80,
+                    "tasto_p_min": 22,
+                    "tasto_p_max": 55,
                     "scambio_veloce": true,
                     "scambio_probabilita": 75,
                     "scambio_incremento": 50
