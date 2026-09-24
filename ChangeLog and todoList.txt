@@ -2,6 +2,8 @@ CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	7.0.4 (2026-09-24)
+		+ La prova che controlla che il catalogo inglese sia stato ricompilato confronta ora le traduzioni del .mo con quelle del .po, invece delle date dei due file. Git le date non le conserva: dopo un checkout il .mo poteva risultare piu' vecchio del .po di due millesimi di secondo pur venendo dallo stesso commit, e la prova falliva senza che ci fosse niente da ricompilare. Adesso fallisce solo quando una traduzione e' davvero rimasta indietro, e dice quale.
 	7.0.3 (2026-09-24)
 		+ Alla fine di un esercizio CWapu non annuncia piu' di aver salvato. Dopo un contest arrivavano tre righe, il rapporto salvato nel diario, la sessione salvata su disco e le impostazioni generali salvate, e lo stesso succedeva, con qualche riga in meno, dopo gli esercizi di ricezione e di conteggio. Il salvataggio riuscito si da' per scontato: diario, archivio e impostazioni si scrivono lo stesso subito, perche' un blocco o una mancanza di corrente non si portino via le sessioni del pomeriggio, ma in silenzio. Restano il numero e la durata della sessione, e resta tutto cio' che avvisa di un guasto o di un esercizio che non si salva. Le impostazioni generali salvate si leggono ancora, uscendo da CWapu. Chiude la issue 18.
 	7.0.2 (2026-09-24)

@@ -82,9 +82,24 @@ class TestCoerenza:
                     errori.append((originale[:50], sequenza))
         assert errori == [], f"sequenze discordi in: {errori[:3]}"
 
-    def test_il_mo_non_e_piu_vecchio_del_po(self):
-        """Un .mo non ricompilato mostra la traduzione di ieri."""
-        assert os.path.getmtime(MO) >= os.path.getmtime(PO), "serve pybabel compile -d locales"
+    def test_il_mo_e_compilato_dal_po_di_adesso(self):
+        """Un .mo non ricompilato mostra la traduzione di ieri.
+
+        Si confrontano le traduzioni e non le date dei file: git le date non
+        le conserva, e dopo un checkout il .mo poteva risultare piu' vecchio
+        del .po di due millesimi pur venendo dallo stesso commit, e la prova
+        falliva per niente.
+        """
+        from babel.messages.mofile import read_mo
+
+        def come_tupla(valore):
+            return tuple(valore) if isinstance(valore, (list, tuple)) else valore
+
+        with open(MO, "rb") as f:
+            compilate = {come_stringa(m.id): come_tupla(m.string) for m in read_mo(f) if m.id}
+        attese = {come_stringa(m.id): come_tupla(m.string) for m in voci() if m.string and not m.fuzzy}
+        diverse = sorted(k for k in attese.keys() | compilate.keys() if attese.get(k) != compilate.get(k))
+        assert diverse == [], f"serve pybabel compile -d locales: {len(diverse)} voci diverse, la prima e' {diverse[:1]}"
 
 
 def estrai_dal_codice():
