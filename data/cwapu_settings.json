@@ -1,6 +1,6 @@
 {
     "app_info": {
-        "launch_count": 534
+        "launch_count": 535
     },
     "overall_settings": {
         "app_language": "it",
@@ -40,11 +40,11 @@
         "total_time_seconds": 14932.744676000002
     },
     "rxing_stats_contest": {
-        "total_calls": 5,
-        "sessions": 1,
-        "total_correct": 5,
+        "total_calls": 25,
+        "sessions": 4,
+        "total_correct": 25,
         "total_wrong_items": 0,
-        "total_time_seconds": 180.670797
+        "total_time_seconds": 926.9574560000001
     },
     "counting_stats": {
         "exercise_number": 100
@@ -53,12 +53,12 @@
         "qrn": false,
         "qrm": false,
         "qrm_massime": 4,
-        "qsb": false,
+        "qsb": true,
         "flutter": false,
-        "sbadati": true,
+        "sbadati": false,
         "pileup": true,
-        "pileup_massime": 5,
-        "propagazione": 50,
+        "pileup_massime": 24,
+        "propagazione": 100,
         "stereo": 0,
         "banda": 600,
         "tasto_verticale": true,
@@ -89390,7 +89390,7 @@
         "historical_reports": []
     },
     "historical_rx_data_contest": {
-        "chars_since_last_report": 49,
+        "chars_since_last_report": 228,
         "sessions_log": [
             {
                 "timestamp_iso": "2026-09-24T13:26:25.592367",
@@ -89463,6 +89463,279 @@
                     "pileup": true,
                     "pileup_massime": 5,
                     "propagazione": 50,
+                    "stereo": 0,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 50,
+                    "tasto_l_min": 25,
+                    "tasto_l_max": 45,
+                    "tasto_s_min": 40,
+                    "tasto_s_max": 80,
+                    "tasto_p_min": 22,
+                    "tasto_p_max": 55,
+                    "scambio_veloce": true,
+                    "scambio_probabilita": 75,
+                    "scambio_incremento": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-24T14:56:48.222504",
+                "duration_seconds": 300.025914,
+                "rwpm_min": 22.71760751766239,
+                "rwpm_max": 32.660996354799515,
+                "rwpm_avg": 26.56860542811495,
+                "items_sent_session": 9,
+                "items_correct_session": 9,
+                "item_details": [
+                    {
+                        "rwpm": 22.71760751766239,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 23.28743722026718,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.6198937534347,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 26,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32.30596656161529,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 26,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.525547445255473,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32.660996354799515,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 77,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "v": 2,
+                    "4": 2,
+                    "r": 2,
+                    "i": 4,
+                    "k": 2,
+                    "5": 13,
+                    "n": 21,
+                    "2": 3,
+                    "l": 2,
+                    "y": 1,
+                    "x": 1,
+                    "1": 4,
+                    "u": 2,
+                    "a": 2,
+                    "9": 1,
+                    "t": 4,
+                    "d": 1,
+                    "f": 1,
+                    "p": 1,
+                    "3": 1,
+                    "8": 1,
+                    "0": 1,
+                    "h": 1,
+                    "s": 1,
+                    "7": 2,
+                    "w": 1
+                },
+                "punteggio_grezzo": 81,
+                "punteggio_verificato": 81,
+                "prefissi_verificati": 9,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 4,
+                    "qsb": true,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": true,
+                    "pileup_massime": 8,
+                    "propagazione": 0,
+                    "stereo": 0,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 50,
+                    "tasto_l_min": 25,
+                    "tasto_l_max": 45,
+                    "tasto_s_min": 40,
+                    "tasto_s_max": 80,
+                    "tasto_p_min": 22,
+                    "tasto_p_max": 55,
+                    "scambio_veloce": true,
+                    "scambio_probabilita": 75,
+                    "scambio_incremento": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-24T15:04:30.259285",
+                "duration_seconds": 300.04809,
+                "rwpm_min": 22.62526898247771,
+                "rwpm_max": 29.078321073128517,
+                "rwpm_avg": 26.330262250985843,
+                "items_sent_session": 9,
+                "items_correct_session": 9,
+                "item_details": [
+                    {
+                        "rwpm": 26.59487299543486,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 22.62526898247771,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29.078321073128517,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27.820327054440074,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 25.66076878578125,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 26.127527216174183,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 26,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 25.065274151436032,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 84,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "x": 2,
+                    "w": 5,
+                    "6": 3,
+                    "g": 5,
+                    "k": 2,
+                    "h": 1,
+                    "5": 10,
+                    "n": 21,
+                    "1": 2,
+                    "u": 2,
+                    "p": 3,
+                    "2": 2,
+                    "i": 3,
+                    "0": 1,
+                    "a": 2,
+                    "3": 4,
+                    "y": 4,
+                    "o": 1,
+                    "m": 1,
+                    "t": 2,
+                    "9": 1,
+                    "d": 1,
+                    "4": 1,
+                    "7": 2,
+                    "b": 1,
+                    "8": 1,
+                    "j": 1
+                },
+                "punteggio_grezzo": 81,
+                "punteggio_verificato": 81,
+                "prefissi_verificati": 9,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 4,
+                    "qsb": true,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": true,
+                    "pileup_massime": 8,
+                    "propagazione": 50,
+                    "stereo": 0,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 50,
+                    "tasto_l_min": 25,
+                    "tasto_l_max": 45,
+                    "tasto_s_min": 40,
+                    "tasto_s_max": 80,
+                    "tasto_p_min": 22,
+                    "tasto_p_max": 55,
+                    "scambio_veloce": true,
+                    "scambio_probabilita": 75,
+                    "scambio_incremento": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-09-24T15:10:46.314302",
+                "duration_seconds": 132.404569,
+                "rwpm_min": 26,
+                "rwpm_max": 28.83501394550526,
+                "rwpm_avg": 27.41750697275263,
+                "items_sent_session": 2,
+                "items_correct_session": 2,
+                "item_details": [
+                    {
+                        "rwpm": 26,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.83501394550526,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 18,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "r": 1,
+                    "4": 2,
+                    "h": 1,
+                    "i": 1,
+                    "a": 1,
+                    "5": 2,
+                    "n": 4,
+                    "1": 2,
+                    "f": 2,
+                    "e": 1,
+                    "p": 1
+                },
+                "punteggio_grezzo": 4,
+                "punteggio_verificato": 4,
+                "prefissi_verificati": 2,
+                "contest_settings": {
+                    "qrn": false,
+                    "qrm": false,
+                    "qrm_massime": 4,
+                    "qsb": true,
+                    "flutter": false,
+                    "sbadati": false,
+                    "pileup": true,
+                    "pileup_massime": 24,
+                    "propagazione": 100,
                     "stereo": 0,
                     "banda": 600,
                     "tasto_verticale": true,
