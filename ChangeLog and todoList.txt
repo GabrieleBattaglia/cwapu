@@ -2,6 +2,8 @@ CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	7.0.2 (2026-09-24)
+		+ Nel contest le stazioni che chiamano insieme restano pulite. Il mixer che le somma, quando la somma usciva dal fondo scala, la tagliava netta, e il pile-up si sporcava: misurato su cinque stazioni, la sporcizia sopra i duemila hertz saliva di 26 decibel. Dalla V168 di GBUtils il mixer abbassa invece tutto insieme, in mezzo millesimo, tiene tre decimi di secondo e risale in un paio di secondi, come il controllo automatico di guadagno di una radio: quando il pile-up e' fitto il livello scende, ma le stazioni restano leggibili. Chiude la issue 20; con lei esce dal repository Piano_contest.txt, perche' il contest e' pubblicato e il piano con le decisioni sta nella issue 7.
 	7.0.1 (2026-09-24)
 		+ Il saluto che CWapu manda uscendo non finisce piu' con una pausa, e l'ultima e esce intera lo stesso. La pausa era un rimedio: il motore CW, quando gli si chiedeva di aspettare la fine, tornava appena i campioni erano usciti dal mixer e non quando erano usciti dalle casse, e siccome il programma si chiude subito dopo, l'ultima e si perdeva. La correzione vera e' arrivata con la V168 di GBUtils, che aspetta anche la latenza del dispositivo, quindi il rimedio non serve piu'. Chiude la issue 19.
 	7.0.0 (2026-09-23), pubblicata su GitHub il 2026-09-23 con l'archivio allegato per l'auto updater.
