@@ -2,6 +2,8 @@ CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	7.0.3 (2026-09-24)
+		+ Alla fine di un esercizio CWapu non annuncia piu' di aver salvato. Dopo un contest arrivavano tre righe, il rapporto salvato nel diario, la sessione salvata su disco e le impostazioni generali salvate, e lo stesso succedeva, con qualche riga in meno, dopo gli esercizi di ricezione e di conteggio. Il salvataggio riuscito si da' per scontato: diario, archivio e impostazioni si scrivono lo stesso subito, perche' un blocco o una mancanza di corrente non si portino via le sessioni del pomeriggio, ma in silenzio. Restano il numero e la durata della sessione, e resta tutto cio' che avvisa di un guasto o di un esercizio che non si salva. Le impostazioni generali salvate si leggono ancora, uscendo da CWapu. Chiude la issue 18.
 	7.0.2 (2026-09-24)
 		+ Nel contest le stazioni che chiamano insieme restano pulite. Il mixer che le somma, quando la somma usciva dal fondo scala, la tagliava netta, e il pile-up si sporcava: misurato su cinque stazioni, la sporcizia sopra i duemila hertz saliva di 26 decibel. Dalla V168 di GBUtils il mixer abbassa invece tutto insieme, in mezzo millesimo, tiene tre decimi di secondo e risale in un paio di secondi, come il controllo automatico di guadagno di una radio: quando il pile-up e' fitto il livello scende, ma le stazioni restano leggibili. Chiude la issue 20; con lei esce dal repository Piano_contest.txt, perche' il contest e' pubblicato e il piano con le decisioni sta nella issue 7.
 	7.0.1 (2026-09-24)

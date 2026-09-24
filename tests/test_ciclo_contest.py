@@ -217,7 +217,13 @@ def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY", contest=None, qu
     # finti sopra l'archivio vero di Gabriele, che e' grande tre megabyte e
     # contiene anni di esercizi. E' successo una volta.
     salvataggi = []
-    monkeypatch.setattr(cwapu, "save_settings", lambda dati: salvataggi.append(dati))
+    annunci = []
+
+    def salva(dati, annuncia=True):
+        salvataggi.append(dati)
+        annunci.append(annuncia)
+
+    monkeypatch.setattr(cwapu, "save_settings", salva)
     acustica = Acustica()
     monkeypatch.setattr(cwapu, "Acusticator", acustica)
     monkeypatch.setattr(cwapu.ct, "Contest", Spia)
@@ -233,6 +239,7 @@ def prepara(monkeypatch, copione, minuti=1, nominativo="DL3XY", contest=None, qu
         "acustica": acustica,
         "zittite": cw.zittite,
         "salvataggi": salvataggi,
+        "annunci": annunci,
     }
 
 
@@ -997,6 +1004,18 @@ class TestCicloContest:
         banco = prepara(monkeypatch, copione, minuti=2)
         cwapu.RxingContest({})
         assert banco["salvataggi"], "la sessione non e' stata salvata su disco"
+
+    def test_il_salvataggio_non_si_annuncia(self, monkeypatch, capsys):
+        """Issue 18: a fine contest arrivavano la riga del diario, quella della
+        sessione salvata e quella delle impostazioni. Il salvataggio riuscito
+        si da' per scontato; restano numero e durata della sessione."""
+        copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), *scrivi(9.0, "1"), (9.5, "\r"), (14.0, "alt-x")]
+        banco = prepara(monkeypatch, copione, minuti=2)
+        cwapu.RxingContest({})
+        uscita = capsys.readouterr().out
+        assert banco["annunci"] == [False]
+        assert "Sessione 1, durata attiva" in uscita
+        assert "salvat" not in uscita.lower(), uscita[-400:]
 
     def test_il_banco_non_scrive_mai_sul_file_vero(self, monkeypatch):
         """Regola della casa: il collaudo sostituisce le funzioni che toccano

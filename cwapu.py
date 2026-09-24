@@ -76,7 +76,7 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "7.0.2"
+VERSION = "7.0.3"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -1293,8 +1293,13 @@ def load_settings():
         return {k: v.copy() if isinstance(v, dict) else v for k, v in DEFAULT_DATA.items()}
 
 
-def save_settings(data):
-    """Salva le impostazioni correnti nel file JSON."""
+def save_settings(data, annuncia=True):
+    """Salva le impostazioni correnti nel file JSON.
+
+    Alla fine di ogni esercizio si salva con annuncia falso: il salvataggio
+    riuscito si da' per scontato e lo si dice soltanto uscendo da CWapu,
+    issue 18. Gli errori si dicono sempre.
+    """
     try:
         data_to_save = data.copy()
         if "rxing_stats" in data_to_save and isinstance(data_to_save["rxing_stats"].get("total_time"), dt.timedelta):
@@ -1304,7 +1309,8 @@ def save_settings(data):
             data_to_save["rxing_stats"].pop("total_time", None)
         with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
             json.dump(data_to_save, f, indent=4, ensure_ascii=False)
-        print(_("Impostazioni generali salvate sul disco."))
+        if annuncia:
+            print(_("Impostazioni generali salvate sul disco."))
     except OSError as e:
         print(_("Errore nel salvare {SETTINGS_FILE}: {e}").format(SETTINGS_FILE=SETTINGS_FILE, e=e))
     except TypeError as e:
@@ -1887,7 +1893,6 @@ def Count():
                     f.write(_("Nota: {nota}").format(nota=nota) + "\n" + FINE_RECORD_DIARIO)
                 else:
                     f.write(_("Nota: nessuna") + "\n" + FINE_RECORD_DIARIO)
-            print(_("Rapporto salvato su {nome_diario}").format(nome_diario=DIARY_NAME))
         except OSError as e:
             print(_("Diario non scritto: {errore}").format(errore=e))
     else:
@@ -3157,7 +3162,6 @@ def RxingContest(menu_config_scelta):
                 adesso = dt.datetime.now()
                 date_str = adesso.strftime("%Y/%m/%d")
                 time_str = adesso.strftime("%H:%M")
-                diario_scritto = False
                 try:
                     with apri_diario() as f:
                         f.write(_("\nEsercizio di ricezione CONTEST #{sessions} eseguito il {date} alle {time} minuti:\n").format(sessions=stats["sessions"], date=date_str, time=time_str))
@@ -3188,19 +3192,18 @@ def RxingContest(menu_config_scelta):
                                 sup = wilson_score_upper_bound(errori, inviati) * 100
                                 f.write(f"    '{char.upper()}': {errori}/{inviati} [{inf:.1f}% - {sup:.1f}%]\n")
                         f.write(FINE_RECORD_DIARIO)
-                    diario_scritto = True
                 except OSError as e:
                     print(_("Diario non scritto: {errore}").format(errore=e))
-                if diario_scritto:
-                    print(_("Rapporto salvato su {nome_diario}").format(nome_diario=DIARY_NAME))
-                    print(_("\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.").format(session_number=stats["sessions"], duration=duration_str))
+                # Che diario e archivio siano stati scritti si da' per
+                # scontato, issue 18: a schermo arriva solo cio' che va storto.
+                print(_("\nSessione {session_number}, durata attiva {duration}.").format(session_number=stats["sessions"], duration=duration_str))
             # Su disco adesso, non solo uscendo. Le impostazioni si salvavano
             # una volta sola, alla fine della sessione di lavoro: chi faceva
             # sette contest in un pomeriggio li aveva tutti e sette nel diario,
             # che scrive subito, e nessuno nell'archivio finche' non chiudeva
             # con q. Un blocco o una mancanza di corrente li cancellava, e il
             # diario restava a raccontare sessioni che l'archivio non aveva.
-            save_settings(app_data)
+            save_settings(app_data, annuncia=False)
             key(_("Premi un tasto per tornare al menu..."))
 
 
@@ -3554,7 +3557,6 @@ def Rxing():
                         f.write(_("Nota: {nota}").format(nota=nota) + "\n" + FINE_RECORD_DIARIO)
                     else:
                         f.write("\n" + _("Nota: nessuna") + "\n" + FINE_RECORD_DIARIO)
-                print(_("Rapporto salvato su {nome_diario}").format(nome_diario=DIARY_NAME))
             except OSError as e:
                 print(_("Diario non scritto: {errore}").format(errore=e))
         else:
@@ -3646,7 +3648,7 @@ def Rxing():
             overshoot = chars_in_this_report - report_interval
             current_historical_data["chars_since_last_report"] = max(0, overshoot)
 
-        print(_("\nSessione {session_number}, durata attiva: {duration} è stata salvata su disco.").format(session_number=current_rx_stats["sessions"], duration=duration_str))
+        print(_("\nSessione {session_number}, durata attiva {duration}.").format(session_number=current_rx_stats["sessions"], duration=duration_str))
         # La lunghezza si legge dopo la potatura, altrimenti a limite raggiunto
         # l'applicazione annunciava una sessione di troppo e uno spazio negativo.
         x = len(historical_rx_log)
@@ -3657,8 +3659,9 @@ def Rxing():
         )
     else:
         print(_("\nDurata attiva {duration}: sessione non salvata, con il Farnsworth impostato non entra nell'archivio ne' nelle statistiche.").format(duration=duration_str))
-    # Su disco adesso, non solo uscendo: vale qui come nel contest.
-    save_settings(app_data)
+    # Su disco adesso, non solo uscendo, e in silenzio: vale qui come nel
+    # contest.
+    save_settings(app_data, annuncia=False)
     # La pausa e' informazione di rapporto, non di salvataggio: si legge in
     # tutti e due i casi.
     if total_pause_time.total_seconds() > 0:

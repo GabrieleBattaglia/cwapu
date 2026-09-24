@@ -101,6 +101,27 @@ class TestSalvataggio:
         riletti = cwapu.load_settings()
         assert riletti["overall_settings"]["speed"] == 77
 
+    def test_uscendo_lo_dice(self, tmp_path, monkeypatch, capsys):
+        monkeypatch.setattr(cwapu, "SETTINGS_FILE", str(tmp_path / "cwapu_settings.json"))
+        cwapu.save_settings({"app_info": {"launch_count": 1}})
+        assert "Impostazioni generali salvate" in capsys.readouterr().out
+
+    def test_dopo_un_esercizio_salva_in_silenzio(self, tmp_path, monkeypatch, capsys):
+        """Issue 18: il salvataggio riuscito alla fine di un esercizio si da'
+        per scontato, e il file si scrive lo stesso."""
+        percorso = tmp_path / "cwapu_settings.json"
+        monkeypatch.setattr(cwapu, "SETTINGS_FILE", str(percorso))
+        cwapu.save_settings({"app_info": {"launch_count": 1}}, annuncia=False)
+        assert percorso.exists()
+        assert capsys.readouterr().out == ""
+
+    def test_l_errore_si_dice_anche_in_silenzio(self, tmp_path, monkeypatch, capsys):
+        """Il silenzio vale per il salvataggio riuscito: uno che fallisce si
+        deve leggere, altrimenti l'archivio si perde senza che nessuno lo sappia."""
+        monkeypatch.setattr(cwapu, "SETTINGS_FILE", str(tmp_path / "manca" / "cwapu_settings.json"))
+        cwapu.save_settings({"app_info": {"launch_count": 1}}, annuncia=False)
+        assert "Errore nel salvare" in capsys.readouterr().out
+
     def test_non_scrive_mai_fuori_dal_percorso_indicato(self, tmp_path, monkeypatch):
         percorso = str(tmp_path / "cwapu_settings.json")
         monkeypatch.setattr(cwapu, "SETTINGS_FILE", percorso)

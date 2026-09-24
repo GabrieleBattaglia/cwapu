@@ -79,8 +79,19 @@ class TestSenzaFarnsworth:
         assert len(app["historical_rx_data_chars"]["sessions_log"]) == 1
         assert app["historical_rx_data_chars"]["chars_since_last_report"] == 50
         assert (tmp_path / "diario.txt").exists()
-        assert "salvata su disco" in uscita
+        assert (tmp_path / "impostazioni.json").exists()
+        assert "Sessione 1, durata attiva" in uscita
         assert "Farnsworth" not in uscita
+
+    def test_il_salvataggio_riuscito_non_si_annuncia(self, monkeypatch, tmp_path, capsys):
+        """Issue 18: diario, archivio e impostazioni si scrivono in silenzio.
+        Resta la riga che dice quante sessioni tiene l'archivio, che e'
+        un'informazione e non un avviso."""
+        uscita, _, _ = esercizio(monkeypatch, tmp_path, capsys, farnsworth=0)
+        assert "Rapporto salvato" not in uscita
+        assert "salvata su disco" not in uscita
+        assert "Impostazioni generali salvate" not in uscita
+        assert "L'archivio ora contiene 1 sessioni" in uscita
 
 
 class TestConFarnsworth:
@@ -90,7 +101,7 @@ class TestConFarnsworth:
         assert app["historical_rx_data_chars"]["sessions_log"] == []
         assert app["historical_rx_data_chars"]["chars_since_last_report"] == 0
         assert not (tmp_path / "diario.txt").exists()
-        assert "salvata su disco" not in uscita
+        assert "Sessione 1" not in uscita
 
     def test_lo_dice_all_inizio_e_alla_fine(self, monkeypatch, tmp_path, capsys):
         uscita, _, _ = esercizio(monkeypatch, tmp_path, capsys, farnsworth=8)

@@ -7,3 +7,9 @@ Passo: lancia CWapu da sorgente, con la GBUtils di E:\git\Mine\GBUtils, e dal me
 Domanda: il saluto finisce con due e intere e uguali fra loro, senza che l'ultima sia mozzata?
 Passo: fai la stessa cosa con l'eseguibile compilato, quando lo prepariamo per la pubblicazione.
 Domanda: anche dall'eseguibile l'ultima e arriva intera?
+PROVA B, niente piu' avvisi di salvataggio a fine esercizio, issue 18
+Perche' serve: le prove automatiche guardano l'uscita con tastiera e audio finti; questa guarda quella vera, sul display.
+Passo: fai un contest breve, per esempio a tre QSO, e chiudilo.
+Domanda: dopo il rapporto leggi la riga Sessione con numero e durata attiva, e nessuna riga che dica rapporto salvato, sessione salvata o impostazioni salvate?
+Passo: esci da CWapu con q.
+Domanda: uscendo, e solo li', leggi Impostazioni generali salvate sul disco?
