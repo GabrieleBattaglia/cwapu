@@ -1,5 +1,5 @@
 PROVE A MANO PER LE CORREZIONI DEL 24 SETTEMBRE 2026
-Aperto il 2026-09-24 da ClaudIA, Claude Opus 5.5 modalita' auto, lavorando sulle issue 19, 18, 15, 16, 17 e 21.
+Aperto il 2026-09-24 da ClaudIA, Claude Opus 5.5 modalita' auto, lavorando sulle issue 19, 18, 15, 16, 17, 21 e 8.
 Come si usa: ogni prova e' fatta di righe che cominciano con Passo e Domanda. La riga che va bene si cancella, quella che non va si commenta scrivendo dopo i due punti. Quando una prova resta senza righe si cancella tutta; quando il file resta vuoto si cancella anche lui.
 PROVA A, il saluto d'uscita senza la pausa in fondo, issue 19
 Perche' serve: il saluto finiva con un trattino basso, cioe' una pausa muta messa li' perche' l'ultima e non si perdesse chiudendo il programma. Con la V168 di GBUtils il motore CW aspetta che il suono esca davvero dalle casse, e la pausa e' stata tolta. Se l'ultima e arriva intera lo puo' dire solo l'orecchio.
@@ -41,3 +41,12 @@ Passo: dal menu, g.
 Domanda: il manuale si apre, ed e' quello della 8.0.0, con la sezione 2.4 che parla delle sottocartelle?
 Passo: nella sezione k, .sv seguito da un testo breve.
 Domanda: CWapu dice che il file e' nella cartella audio?
+PROVA F, il rapporto storico rifatto, issue 8
+Perche' serve: le prove automatiche controllano che la pagina sia ben formata e che i numeri siano giusti e arrotondati, ma come si naviga con NVDA lo dici solo tu. Il grafico l'ho guardato io con i tuoi dati; se ti capita, fallo vedere a qualcuno che lo legge con gli occhi.
+Passo: da sorgente, nella sezione k scrivi .x500, cosi' il rapporto nasce presto, poi fai un esercizio di ricezione di caratteri di qualche minuto.
+Domanda: alla fine CWapu dice di aver salvato il rapporto storico in reports e il grafico in graphics?
+Passo: apri con il browser la pagina appena nata nella cartella reports.
+Domanda: l'intestazione di primo livello dice la categoria, e sotto trovi da che giorno a che giorno?
+Domanda: navigando per intestazioni trovi, in ordine, velocita', errori in generale, punti deboli, punti di forza, com'e' cambiato e tutti i caratteri sbagliati?
+Domanda: nelle tabelle i numeri hanno un decimale con la virgola, e ogni carattere dice il suo livello a parole?
+Passo: rimetti .x3500, o il valore che usi di solito.

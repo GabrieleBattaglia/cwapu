@@ -74,7 +74,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 <body>
 
 <h1>Manuale di CWapu</h1>
-<p><strong>Versione 8.0.1 del 24 settembre 2026.</strong></p>
+<p><strong>Versione 8.1.0 del 24 settembre 2026.</strong></p>
 <p>CWapu è scritto da Gabriele Battaglia, IZ4APU, e da ClaudIA, Claude Opus 5.5 in modalità UltraCode.</p>
 
 <div class="nota">
@@ -710,9 +710,24 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <p>Quando il contatore dei caratteri supera la soglia, CWapu genera due file: la pagina nella sottocartella <code>reports</code> e il grafico nella sottocartella <code>graphics</code>.</p>
 
 <ul>
-<li><strong>Una pagina HTML</strong> con intestazioni e tabelle vere, quindi navigabile per intestazioni e per celle con il lettore di schermo. Contiene i totali del blocco appena chiuso e il confronto con il blocco precedente, voce per voce, con la variazione in più o in meno.</li>
-<li><strong>Un'immagine SVG</strong> con gli stessi dati in forma di grafico. Serve a chi legge con gli occhi e trova più immediato un istogramma di una colonna di numeri. Non contiene nulla che non ci sia già nella pagina HTML.</li>
+<li><strong>Una pagina HTML</strong> con intestazioni e tabelle vere, quindi navigabile per intestazioni e per celle con il lettore di schermo.</li>
+<li><strong>Un'immagine SVG</strong> con le stesse cose in forma di grafico, per chi legge con gli occhi: il colpo d'occhio su dove si è forti, dove si è fragili e come è cambiato. Non contiene nulla che non ci sia già nella pagina.</li>
 </ul>
+
+<p>Tutte e due dicono, nello stesso ordine:</p>
+
+<ul>
+<li><strong>Il titolo</strong> con la categoria, e sotto quanti esercizi, da che giorno a che giorno, e con quale blocco precedente si confrontano.</li>
+<li><strong>La velocità</strong> minima, media e massima, adesso e prima, con la variazione.</li>
+<li><strong>Gli errori in generale</strong>: il tasso d'errore del blocco, adesso e prima.</li>
+<li><strong>I punti deboli</strong>: i dieci caratteri che sbagli di più, di sicuro. Sono in ordine dal limite basso dell'intervallo di Wilson, cioè da quanto li sbagli almeno, e non dal numero di errori: un carattere mandato spesso accumula errori anche se lo copi bene, e uno mandato poche volte non sale in cima per un errore solo. Per questo un carattere mandato meno di dieci volte non si giudica, e la pagina lo elenca a parte.</li>
+<li><strong>I punti di forza</strong>: i dieci caratteri che sbagli di meno, di sicuro, cioè quelli con il limite alto dell'intervallo più basso, fra quelli mandati almeno venti volte. Un carattere che sta fra i punti deboli non compare anche qui.</li>
+<li><strong>Come è cambiato</strong>: il tasso d'errore dei punti deboli rispetto al blocco precedente, in punti percentuali.</li>
+</ul>
+
+<p>In fondo alla pagina c'è anche l'elenco completo di tutti i caratteri sbagliati. Ogni carattere ha un livello, che dipende dal suo tasso d'errore con soglie fisse: sotto il 5 per cento è solido, dal 5 al 15 da tenere d'occhio, dal 15 al 30 debole, oltre il 30 molto debole. Nella pagina il livello è scritto a parole, e ogni variazione dice se migliora, peggiora o resta stabile; nel grafico il livello è un colore, e le variazioni hanno anche una freccia. I colori sono il blu per ciò che va bene o migliora e l'arancio e il vermiglio per ciò che va male o peggiora: si distinguono anche con il daltonismo più diffuso, che confonde il rosso con il verde. I numeri hanno un solo decimale, con la virgola.</p>
+
+<p>Fino alla versione 8.0 il grafico aveva le etichette della velocità minima e massima scambiate, colorava i caratteri secondo la posizione nell'elenco invece che secondo il loro tasso d'errore, e insieme alla pagina mostrava numeri con sedici cifre. Dalla 8.1.0 non succede più.</p>
 
 <p>I nomi dei file contengono la categoria e i valori di G e X, per esempio <code>CWapu_Historical_Statistics_Chars_G_400_X_3500.html</code>.</p>
 
@@ -829,7 +844,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 </dl>
 
 <footer>
-<p>CWapu, versione 8.0.1 del 24 settembre 2026.</p>
+<p>CWapu, versione 8.1.0 del 24 settembre 2026.</p>
 <p>Software e manuale di Gabriele Battaglia, IZ4APU, e di ClaudIA, Claude Opus 5.5 in modalità UltraCode.</p>
 <p>Il motore CW è CWzator, dalla libreria GBUtils, su un'idea originale di Kevin Schmidt, W9CF.</p>
 <p>Le segnalazioni e le proposte si aprono come issue sul repository del progetto.</p>

@@ -32,6 +32,7 @@ from GBUtils import (
 
 from modules import contest as ct
 from modules.grafico import crea_report_grafico
+from modules.rapporto import scrivi_rapporto_html
 from modules.wilson import wilson_score_lower_bound, wilson_score_upper_bound
 
 
@@ -154,7 +155,7 @@ if RIORDINO[1]:
     print(_("Non spostati, perché nella sottocartella c'è già un file con lo stesso nome: {elenco}.").format(elenco=", ".join(RIORDINO[1])))
 
 # QC Costanti
-VERSION = "8.0.1"
+VERSION = "8.1.0"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -3876,6 +3877,8 @@ def _calculate_aggregates(session_list):
             "aggregated_errors_detail": {},
             "total_errors_chars_overall": 0,
             "aggregated_sent_chars_detail": {},
+            "primo_iso": None,
+            "ultimo_iso": None,
         }
     total_duration_seconds = sum(s.get("duration_seconds", 0) for s in session_list)
     total_chars_sent_overall = sum(s.get("chars_sent_session", 0) for s in session_list)
@@ -3911,6 +3914,9 @@ def _calculate_aggregates(session_list):
         "aggregated_errors_detail": aggregated_errors_detail,
         "total_errors_chars_overall": total_errors_chars_overall,
         "aggregated_sent_chars_detail": aggregated_sent_chars_detail,
+        # Il periodo che il blocco copre, per il titolo del rapporto.
+        "primo_iso": min((s.get("timestamp_iso") for s in session_list if s.get("timestamp_iso")), default=None),
+        "ultimo_iso": max((s.get("timestamp_iso") for s in session_list if s.get("timestamp_iso")), default=None),
     }
 
 
@@ -3993,206 +3999,14 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
     report_filename_base = f"CWapu_Historical_Statistics_{cat_name_file}_G_{g_value}_X_{x_value}.html"
     report_filename_full_path = os.path.join(REPORTS_PATH, report_filename_base)
 
-    cat_display_name = nome_categoria(category_key)
-
+    categoria = nome_categoria(category_key)
+    # La pagina e il grafico dicono le stesse cose, calcolate da
+    # modules.analisi: la pagina si legge con il lettore di schermo, il
+    # grafico con gli occhi, e il grafico non contiene niente che la pagina
+    # non abbia. Restyling del 24 settembre 2026, issue 8.
     try:
-        with open(report_filename_full_path, "w", encoding="utf-8") as f:
-            f.write("<!DOCTYPE html>\n")
-            f.write(f'<html lang="{app_language[:2]}">\n')
-            f.write("<head>\n")
-            f.write('    <meta charset="UTF-8">\n')
-            f.write(_("    <title>Report Statistiche Storiche Esercizi Rx ({cat}) G{g_value} X{x_value}</title>\n").format(cat=cat_display_name, g_value=g_value, x_value=x_value))
-            f.write("    <style>\n")
-            f.write("        body { background-color: #282c34; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }\n")
-            f.write("        .container { max-width: 1200px; margin: auto; background-color: #333740; padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.5); }\n")
-            f.write("        h1, h2, h3 { color: #61afef; border-bottom: 2px solid #61afef; padding-bottom: 5px; margin-top: 30px; }\n")
-            f.write("        h1 { text-align: center; font-size: 2em; margin-bottom: 10px; }\n")
-            f.write("        .report-subtitle { text-align: center; font-size: 0.9em; color: #abb2bf; margin-bottom: 5px; }\n")
-            f.write("        .report-generation-time { text-align: center; font-size: 0.8em; color: #888; margin-bottom: 30px; }\n")
-            f.write("        table { border-collapse: collapse; width: 100%; margin-top: 15px; margin-bottom: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.3); }\n")
-            f.write("        th, td { border: 1px solid #4b5260; padding: 10px; text-align: left; font-size: 0.9em; }\n")
-            f.write("        th { background-color: #3a3f4b; color: #98c379; font-weight: bold; }\n")
-            f.write("        tr:nth-child(even) { background-color: #383c44; }\n")
-            f.write("        tr:hover { background-color: #484e59; }\n")
-            f.write("        .good { color: #98c379; font-weight: bold; } /* Verde per miglioramenti */\n")
-            f.write("        .bad { color: #e06c75; font-weight: bold; } /* Rosso per peggioramenti */\n")
-            f.write("        .neutral { color: #e5c07b; } /* Giallo/Arancio per neutrali o minimi */\n")
-            f.write("        .char-emphasis { font-weight: bold; color: #c678dd; } /* Viola per il carattere in analisi */\n")
-            f.write("        .details-label { font-style: italic; color: #abb2bf; font-size: 0.85em; }\n")
-            f.write("    </style>\n")
-            f.write("</head>\n")
-            f.write("<body>\n")
-            f.write('    <div class="container">\n')
-            f.write(_("<h1>CWapu - Report Statistiche Storiche Esercizi Rx ({cat})</h1>\n").format(cat=cat_display_name))
-            f.write(
-                _('<p class="report-subtitle">Statistiche basate su {count} esercizi (G={g_value}, X={x_value})</p>\n').format(count=num_sessions_in_current_report, g_value=g_value, x_value=x_value)
-            )
-            timestamp_now = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            f.write(_('<p class="report-generation-time">Report generato il: {timestamp_now}</p>\n').format(timestamp_now=timestamp_now))
-
-            def get_delta_class(delta_value, higher_is_better=True, tolerance=0.01):
-                if higher_is_better:
-                    if delta_value > tolerance:
-                        return "good"
-                    if delta_value < -tolerance:
-                        return "bad"
-                else:
-                    if delta_value < -tolerance:
-                        return "good"
-                    if delta_value > tolerance:
-                        return "bad"
-                return "neutral"
-
-            f.write(_("<h2>Statistiche Velocità Complessive</h2>\n"))
-            f.write("<table>\n")
-            f.write(_("  <thead><tr><th>Metrica</th><th>Valore Attuale</th>"))
-            if previous_aggregates:
-                f.write(_("<th>Valore Precedente</th><th>Variazione</th>"))
-            f.write("</tr></thead>\n")
-            f.write("  <tbody>\n")
-            f.write(_("    <tr><td>WPM Min</td><td>{} WPM</td>").format(current_aggregates["wpm_min_overall"]))
-            if previous_aggregates:
-                prev_val = previous_aggregates.get("wpm_min_overall", 0)
-                delta = current_aggregates["wpm_min_overall"] - prev_val
-                delta_class = get_delta_class(delta, higher_is_better=True)
-                perc_delta_str = f" ({delta / prev_val * 100}%)" if prev_val != 0 else ""
-                f.write(
-                    _('<td>{prev_val} WPM</td><td class="{delta_class}">{delta} WPM{perc_delta_str}</td>').format(
-                        prev_val=prev_val, delta_class=delta_class, delta=delta, perc_delta_str=perc_delta_str
-                    )
-                )
-            f.write("</tr>\n")
-            f.write(_("    <tr><td>WPM Max</td><td>{} WPM</td>").format(current_aggregates["wpm_max_overall"]))
-            if previous_aggregates:
-                prev_val = previous_aggregates.get("wpm_max_overall", 0)
-                delta = current_aggregates["wpm_max_overall"] - prev_val
-                delta_class = get_delta_class(delta, higher_is_better=True)
-                perc_delta_str = f" ({delta / prev_val * 100}%)" if prev_val != 0 else ""
-                f.write(
-                    _('<td>{prev_val} WPM</td><td class="{delta_class}">{delta} WPM{perc_delta_str}</td>').format(
-                        prev_val=prev_val, delta_class=delta_class, delta=delta, perc_delta_str=perc_delta_str
-                    )
-                )
-            f.write("</tr>\n")
-            f.write(_("    <tr><td>WPM Medio (media delle sessioni)</td><td>{} WPM</td>").format(current_aggregates["wpm_avg_of_session_avgs"]))
-            if previous_aggregates:
-                prev_val = previous_aggregates.get("wpm_avg_of_session_avgs", 0)
-                delta = current_aggregates["wpm_avg_of_session_avgs"] - prev_val
-                delta_class = get_delta_class(delta, higher_is_better=True)
-                perc_delta_str = f" ({delta / prev_val * 100}%)" if prev_val != 0 else ""
-                f.write(
-                    _('<td>{prev_val} WPM</td><td class="{delta_class}">{delta} WPM{perc_delta_str}</td>').format(
-                        prev_val=prev_val, delta_class=delta_class, delta=delta, perc_delta_str=perc_delta_str
-                    )
-                )
-            f.write("</tr>\n")
-            f.write("  </tbody>\n</table>\n")
-            f.write(_("<h2>Statistiche Errori Complessive</h2>\n"))
-            f.write("<table>\n")
-            f.write(_("  <thead><tr><th>Metrica</th><th>Valore Attuale</th>"))
-            if previous_aggregates:
-                f.write(_("<th>Valore Precedente</th><th>Variazione</th>"))
-            f.write("</tr></thead>\n")
-            f.write("  <tbody>\n")
-            f.write(_("    <tr><td>Caratteri totali inviati (nel blocco)</td><td>{}</td>").format(current_aggregates["total_chars_sent_overall"]))
-            if previous_aggregates:
-                prev_val = previous_aggregates.get("total_chars_sent_overall", 0)
-                delta = current_aggregates["total_chars_sent_overall"] - prev_val
-                perc_delta_str = f" ({delta / prev_val * 100}%)" if prev_val != 0 else ""
-                f.write(_("<td>{prev_val}</td><td>{delta} {perc_delta_str}</td>").format(prev_val=prev_val, delta=delta, perc_delta_str=perc_delta_str))
-            f.write("</tr>\n")
-            total_chars_curr = current_aggregates["total_chars_sent_overall"]
-            total_errs_curr = current_aggregates["total_errors_chars_overall"]
-            overall_error_rate_curr = total_errs_curr / total_chars_curr * 100 if total_chars_curr > 0 else 0.0
-            f.write(
-                _("    <tr><td>Tasso errore generale</td><td>{total_errs_curr} / {total_chars_curr} ({overall_error_rate_curr}%)</td>").format(
-                    total_errs_curr=total_errs_curr, total_chars_curr=total_chars_curr, overall_error_rate_curr=overall_error_rate_curr
-                )
-            )
-            if previous_aggregates:
-                total_chars_prev = previous_aggregates.get("total_chars_sent_overall", 0)
-                total_errs_prev = previous_aggregates.get("total_errors_chars_overall", 0)
-                overall_error_rate_prev = total_errs_prev / total_chars_prev * 100 if total_chars_prev > 0 else 0.0
-                delta_rate = overall_error_rate_curr - overall_error_rate_prev
-                delta_class = get_delta_class(delta_rate, higher_is_better=False)
-                f.write(
-                    _('<td>{total_errs_prev} / {total_chars_prev} ({overall_error_rate_prev}%)</td><td class="{delta_class}">{delta_rate} punti %</td>').format(
-                        total_errs_prev=total_errs_prev, total_chars_prev=total_chars_prev, overall_error_rate_prev=overall_error_rate_prev, delta_class=delta_class, delta_rate=delta_rate
-                    )
-                )
-            f.write("</tr>\n")
-            f.write("  </tbody>\n</table>\n")
-            if current_aggregates.get("aggregated_errors_detail", {}):
-                f.write(_("<h2>Dettaglio errori per carattere</h2>\n"))
-                f.write("<table>\n")
-                f.write(_('  <thead><tr><th>Carattere</th><th>Errori / Inviati</th><th style="text-align: center;">Intervallo Confidenza Errore (Wilson)</th></tr></thead>\n'))
-                f.write("  <tbody>\n")
-                sorted_errors = sorted(current_aggregates["aggregated_errors_detail"].items(), key=lambda item: (-item[1], item[0]))
-                for char, count in sorted_errors:
-                    errori = count
-                    inviati = current_aggregates.get("aggregated_sent_chars_detail", {}).get(char, 0)
-                    limite_inferiore = wilson_score_lower_bound(errori, inviati) * 100
-                    limite_superiore = wilson_score_upper_bound(errori, inviati) * 100
-                    f.write(
-                        _('     <tr><td class="char-emphasis">\'{}\'</td><td>{} su {} inv.</td><td colspan="2" style="text-align:center;">[{:.1f}% - {:.1f}%]</td></tr>\n').format(
-                            char.upper(), errori, inviati, limite_inferiore, limite_superiore
-                        )
-                    )
-                f.write("  </tbody>\n</table>\n")
-            if previous_aggregates and previous_aggregates.get("num_sessions_in_block", 0) > 0:
-                f.write(_("<h2>Variazioni Dettaglio Errori per Carattere</h2>\n"))
-                f.write(_('<p class="report-subtitle">Variazioni rispetto al blocco di {count} esercizi precedente</p>\n').format(count=previous_aggregates["num_sessions_in_block"]))
-                f.write("<table>\n")
-                f.write(
-                    _(
-                        "  <thead><tr><th>Carattere</th><th>Err. Att.</th><th>%Tot Att.</th><th>%Spec Att.</th><th>Err. Prec.</th><th>%Tot Prec.</th><th>%Spec Prec.</th><th>Δ% Tot. Caratt.</th><th>Δ% Caratt. Spec.</th></tr></thead>\n"
-                    )
-                )
-                f.write("  <tbody>\n")
-                all_error_chars_set = set(current_aggregates.get("aggregated_errors_detail", {}).keys()) | set(previous_aggregates.get("aggregated_errors_detail", {}).keys())
-                if not all_error_chars_set:
-                    f.write(_('    <tr><td colspan="9" style="text-align:center;">Nessun errore registrato in nessuno dei due blocchi di riferimento.</td></tr>\n'))
-                else:
-                    sorted_chars_for_variation = sorted(all_error_chars_set, key=lambda char_key: (-current_aggregates.get("aggregated_errors_detail", {}).get(char_key, 0), char_key))
-                    for char_err in sorted_chars_for_variation:
-                        curr_count = current_aggregates.get("aggregated_errors_detail", {}).get(char_err, 0)
-                        total_chars_curr_block = current_aggregates.get("total_chars_sent_overall", 1)
-                        curr_rate_vs_total_chars = curr_count / total_chars_curr_block * 100 if total_chars_curr_block > 0 else 0.0
-                        curr_total_sent_of_this_char = current_aggregates.get("aggregated_sent_chars_detail", {}).get(char_err, 0)
-                        curr_rate_vs_specific_char = curr_count / curr_total_sent_of_this_char * 100 if curr_total_sent_of_this_char > 0 else 0.0
-                        prev_count = previous_aggregates.get("aggregated_errors_detail", {}).get(char_err, 0)
-                        total_chars_prev_block = previous_aggregates.get("total_chars_sent_overall", 1)
-                        prev_rate_vs_total_chars = prev_count / total_chars_prev_block * 100 if total_chars_prev_block > 0 else 0.0
-                        prev_total_sent_of_this_char = previous_aggregates.get("aggregated_sent_chars_detail", {}).get(char_err, 0)
-                        prev_rate_vs_specific_char = prev_count / prev_total_sent_of_this_char * 100 if prev_total_sent_of_this_char > 0 else 0.0
-                        delta_rate_vs_total_chars = curr_rate_vs_total_chars - prev_rate_vs_total_chars
-                        delta_rate_vs_specific_char = curr_rate_vs_specific_char - prev_rate_vs_specific_char
-                        delta_total_class = get_delta_class(delta_rate_vs_total_chars, higher_is_better=False)
-                        delta_specific_class = get_delta_class(delta_rate_vs_specific_char, higher_is_better=False)
-                        f.write(
-                            _(
-                                '     <tr><td class="char-emphasis">\'{}\'</td><td>{curr_count}</td><td>{curr_rate_vs_total_chars:.2f}%</td><td>{curr_rate_vs_specific_char:.2f}% <span class="details-label">(su {curr_sent_count} inv.)</span></td><td>{prev_count}</td><td>{prev_rate_vs_total_chars:.2f}%</td><td>{prev_rate_vs_specific_char:.2f}% <span class="details-label">(su {prev_sent_count} inv.)</span></td><td class="{delta_total_class}">{delta_rate_vs_total_chars:+.2f} %</td><td class="{delta_specific_class}">{delta_rate_vs_specific_char:+.2f} %</td></tr>\n'
-                            ).format(
-                                char_err.upper(),
-                                curr_count=curr_count,
-                                curr_rate_vs_total_chars=curr_rate_vs_total_chars,
-                                curr_rate_vs_specific_char=curr_rate_vs_specific_char,
-                                curr_sent_count=curr_total_sent_of_this_char,
-                                prev_count=prev_count,  # <-- PARAMETRO AGGIUNTO
-                                prev_rate_vs_total_chars=prev_rate_vs_total_chars,
-                                prev_rate_vs_specific_char=prev_rate_vs_specific_char,
-                                prev_sent_count=prev_total_sent_of_this_char,
-                                delta_total_class=delta_total_class,
-                                delta_rate_vs_total_chars=delta_rate_vs_total_chars,
-                                delta_specific_class=delta_specific_class,
-                                delta_rate_vs_specific_char=delta_rate_vs_specific_char,
-                            )
-                        )
-                        f.write("  </tbody>\n</table>\n")
-            f.write("    </div>\n")
-            f.write("</body>\n")
-            f.write("</html>\n")
-            print(_("Report storico salvato in: {filename}").format(filename=report_filename_full_path))
+        scrivi_rapporto_html(report_filename_full_path, current_aggregates, previous_aggregates, g_value, x_value, num_sessions_in_current_report, _, app_language, categoria)
+        print(_("Report storico salvato in: {filename}").format(filename=report_filename_full_path))
     except OSError as e:
         print(_("Errore durante il salvataggio del report storico {filename}: {e}").format(filename=report_filename_full_path, e=str(e)))
         return None
@@ -4204,7 +4018,7 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
         base_report_filename = os.path.splitext(report_filename_base)[0]
         graphic_report_filename_base = base_report_filename + ".svg"
         graphic_report_filename_full_path = os.path.join(GRAPHICS_PATH, graphic_report_filename_base)
-        crea_report_grafico(current_aggregates, previous_aggregates, g_value, x_value, num_sessions_in_current_report, graphic_report_filename_full_path, _, app_language)
+        crea_report_grafico(current_aggregates, previous_aggregates, g_value, x_value, num_sessions_in_current_report, graphic_report_filename_full_path, _, app_language, categoria=categoria)
         print(_("Report grafico salvato in: {filename}").format(filename=graphic_report_filename_full_path))
     except Exception as e:  # noqa: BLE001 -- matplotlib solleva di tutto
         # Il report grafico e' un accessorio: se salta, il report HTML e le

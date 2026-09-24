@@ -83,6 +83,14 @@ class TestCoerenza:
                     errori.append((originale[:50], sequenza))
         assert errori == [], f"sequenze discordi in: {errori[:3]}"
 
+    def test_babel_compila_senza_errori(self):
+        """La trappola del carattere percentuale: un "% su" o un "% da" dentro
+        una frase la fanno prendere per un formato del vecchio stile, e la
+        compilazione scarta la voce. Il 24 settembre 2026 e' successo con tre
+        frasi del rapporto storico, e nessuna prova se n'era accorta."""
+        errori = [(come_stringa(messaggio.id)[:50], problemi) for messaggio, problemi in catalogo().check()]
+        assert errori == [], errori
+
     def test_il_mo_e_compilato_dal_po_di_adesso(self):
         """Un .mo non ricompilato mostra la traduzione di ieri.
 
