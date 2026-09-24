@@ -2,6 +2,8 @@ CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	7.0.5 (2026-09-24)
+		+ Il contest ha statistiche, archivio storico e rapporti suoi, con la sua numerazione delle sessioni. Scriveva in quelli dell'esercizio QRZ, dove pero' si conta un'altra cosa: li' un item e' un nominativo mandato, nel contest un QSO messo a log, e i caratteri di un QSO sono nominativo, rapporto e numero contati una volta sola. Mescolate, le due serie non dicevano niente ne' dell'una ne' dell'altra: il numero di sessione nel diario saltava avanti per l'una e per l'altra, e medie, grafici e timeline confrontavano cose diverse. Adesso i rapporti nel tempo, con s, sono quattro, e il contest ha anche il suo rapporto storico ogni .x caratteri, con la riga che dice quanti ne mancano, come ogni altro esercizio. Al primo avvio CWapu sposta da se' le sessioni del contest rifatto nel loro archivio, con i contatori, e lo dice in una riga; quelle del contest di prima della 7.0.0 restano nell'archivio QRZ, perche' non portano il punteggio e non si distinguono con certezza. Chiude la issue 15.
 	7.0.4 (2026-09-24)
 		+ La prova che controlla che il catalogo inglese sia stato ricompilato confronta ora le traduzioni del .mo con quelle del .po, invece delle date dei due file. Git le date non le conserva: dopo un checkout il .mo poteva risultare piu' vecchio del .po di due millesimi di secondo pur venendo dallo stesso commit, e la prova falliva senza che ci fosse niente da ricompilare. Adesso fallisce solo quando una traduzione e' davvero rimasta indietro, e dice quale.
 	7.0.3 (2026-09-24)

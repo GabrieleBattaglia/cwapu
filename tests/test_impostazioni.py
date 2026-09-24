@@ -67,6 +67,108 @@ class TestMigrazioni:
         # Le altre due categorie nascono vuote, non assenti.
         assert dati["historical_rx_data_chars"]["sessions_log"] == []
         assert dati["historical_rx_data_qrz"]["sessions_log"] == []
+        assert dati["historical_rx_data_contest"]["sessions_log"] == []
+
+
+def sessione(quando, items, giuste, caratteri, durata, contest=False):
+    voce = {
+        "timestamp_iso": quando,
+        "duration_seconds": durata,
+        "items_sent_session": items,
+        "items_correct_session": giuste,
+        "chars_sent_session": caratteri,
+        "rwpm_min": 20,
+        "rwpm_max": 24,
+        "rwpm_avg": 22,
+    }
+    if contest:
+        voce["punteggio_grezzo"] = 12
+    return voce
+
+
+class TestArchivioDelContest:
+    """Issue 15: fino alla 7.0.4 il contest scriveva nelle chiavi del QRZ."""
+
+    def file_misto(self, tmp_path):
+        qrz_1 = sessione("2026-09-01T10:00:00", 10, 8, 60, 300.0)
+        contest_1 = sessione("2026-09-21T18:00:00", 4, 3, 40, 200.0, contest=True)
+        qrz_2 = sessione("2026-09-22T09:00:00", 12, 12, 70, 320.0)
+        contest_2 = sessione("2026-09-23T21:00:00", 6, 2, 55, 250.0, contest=True)
+        contenuto = {
+            "rxing_stats_qrz": {"total_calls": 32, "sessions": 5, "total_correct": 25, "total_wrong_items": 7, "total_time_seconds": 1200.0},
+            "historical_rx_data_qrz": {"chars_since_last_report": 300, "sessions_log": [qrz_1, contest_1, qrz_2, contest_2], "historical_reports": []},
+        }
+        return scrivi_impostazioni(tmp_path, contenuto), (qrz_1, qrz_2), (contest_1, contest_2)
+
+    def test_le_sessioni_del_contest_passano_al_loro_archivio(self, tmp_path, monkeypatch, capsys):
+        percorso, qrz, contest = self.file_misto(tmp_path)
+        monkeypatch.setattr(cwapu, "SETTINGS_FILE", percorso)
+        dati = cwapu.load_settings()
+        assert dati["historical_rx_data_qrz"]["sessions_log"] == list(qrz)
+        assert dati["historical_rx_data_contest"]["sessions_log"] == list(contest)
+        assert "2 sessioni del contest spostate" in capsys.readouterr().out
+
+    def test_i_contatori_passano_con_le_sessioni(self, tmp_path, monkeypatch):
+        percorso, _, _ = self.file_misto(tmp_path)
+        monkeypatch.setattr(cwapu, "SETTINGS_FILE", percorso)
+        dati = cwapu.load_settings()
+        conta_contest = dati["rxing_stats_contest"]
+        assert conta_contest == {"total_calls": 10, "sessions": 2, "total_correct": 5, "total_wrong_items": 5, "total_time_seconds": 450.0}
+        conta_qrz = dati["rxing_stats_qrz"]
+        assert conta_qrz == {"total_calls": 22, "sessions": 3, "total_correct": 20, "total_wrong_items": 2, "total_time_seconds": 750.0}
+        assert dati["historical_rx_data_qrz"]["chars_since_last_report"] == 205
+        assert dati["historical_rx_data_contest"]["chars_since_last_report"] == 95
+
+    def test_la_seconda_volta_non_sposta_niente(self, tmp_path, monkeypatch, capsys):
+        percorso, _, _ = self.file_misto(tmp_path)
+        monkeypatch.setattr(cwapu, "SETTINGS_FILE", percorso)
+        cwapu.save_settings(cwapu.load_settings(), annuncia=False)
+        capsys.readouterr()
+        dati = cwapu.load_settings()
+        assert "spostate" not in capsys.readouterr().out
+        assert len(dati["historical_rx_data_contest"]["sessions_log"]) == 2
+        assert dati["rxing_stats_contest"]["sessions"] == 2
+        assert dati["rxing_stats_qrz"]["sessions"] == 3
+
+    def test_i_contatori_non_scendono_sotto_zero(self, tmp_path, monkeypatch):
+        """Un contatore gia' piu' basso del dovuto, per esempio dopo una
+        ripulitura, non diventa negativo: si ferma a zero, e le sessioni a
+        quelle che il registro tiene ancora."""
+        qrz = sessione("2026-09-01T10:00:00", 10, 8, 60, 300.0)
+        contest = sessione("2026-09-21T18:00:00", 40, 30, 400, 2000.0, contest=True)
+        contenuto = {
+            "rxing_stats_qrz": {"total_calls": 5, "sessions": 1, "total_correct": 5, "total_wrong_items": 0, "total_time_seconds": 10.0},
+            "historical_rx_data_qrz": {"chars_since_last_report": 50, "sessions_log": [qrz, contest], "historical_reports": []},
+        }
+        monkeypatch.setattr(cwapu, "SETTINGS_FILE", scrivi_impostazioni(tmp_path, contenuto))
+        dati = cwapu.load_settings()
+        assert dati["rxing_stats_qrz"] == {"total_calls": 0, "sessions": 1, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0}
+        assert dati["historical_rx_data_qrz"]["chars_since_last_report"] == 0
+
+    def test_il_contest_vecchio_resta_dov_e(self, tmp_path, monkeypatch):
+        """Le sessioni del contest di prima della 7.0.0 non portano il
+        punteggio e non si distinguono con certezza da quelle del QRZ."""
+        vecchia = sessione("2025-12-18T20:12:00", 10, 7, 80, 400.0)
+        percorso = scrivi_impostazioni(tmp_path, {"historical_rx_data_qrz": {"chars_since_last_report": 0, "sessions_log": [vecchia], "historical_reports": []}})
+        monkeypatch.setattr(cwapu, "SETTINGS_FILE", percorso)
+        dati = cwapu.load_settings()
+        assert dati["historical_rx_data_qrz"]["sessions_log"] == [vecchia]
+        assert dati["historical_rx_data_contest"]["sessions_log"] == []
+
+    def test_l_archivio_nuovo_non_divide_il_registro_con_i_predefiniti(self, tmp_path, monkeypatch):
+        """Con la copia di superficie la prima sessione archiviata in una
+        sezione che il file non aveva finiva anche in DEFAULT_DATA."""
+        monkeypatch.setattr(cwapu, "SETTINGS_FILE", scrivi_impostazioni(tmp_path, {"overall_settings": {"speed": 30}}))
+        dati = cwapu.load_settings()
+        dati["historical_rx_data_contest"]["sessions_log"].append({"items_sent_session": 1})
+        assert cwapu.DEFAULT_DATA["historical_rx_data_contest"]["sessions_log"] == []
+        monkeypatch.setattr(cwapu, "SETTINGS_FILE", str(tmp_path / "non_esiste.json"))
+        nuovi = cwapu.load_settings()
+        nuovi["historical_rx_data_words"]["sessions_log"].append({"items_sent_session": 1})
+        assert cwapu.DEFAULT_DATA["historical_rx_data_words"]["sessions_log"] == []
+
+    def test_ogni_categoria_ha_il_suo_nome(self):
+        assert [cwapu.nome_categoria(c) for c in cwapu.CATEGORIE_ARCHIVIO] == ["parole", "caratteri/misto", "QRZ", "contest"]
 
 
 class TestRipulituraArchivio:

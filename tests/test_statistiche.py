@@ -119,3 +119,51 @@ class TestDurate:
     def test_i_secondi_si_dicono_anche_da_soli(self):
         """Con una durata sotto il minuto non deve restare una frase vuota."""
         assert cwapu.format_duration(dt.timedelta(seconds=7)).strip() != ""
+
+
+class TestRapportoPeriodico:
+    """Il rapporto storico che nasce ogni .x caratteri, comune all'esercizio
+    di ricezione e al contest dalla 7.0.5, issue 15."""
+
+    def prepara(self, monkeypatch, soglia, gia_contati, registro):
+        import copy
+
+        dati = copy.deepcopy(cwapu.DEFAULT_DATA)
+        dati["historical_rx_settings"]["report_interval"] = soglia
+        dati["historical_rx_data_contest"]["chars_since_last_report"] = gia_contati
+        dati["historical_rx_data_contest"]["sessions_log"] = registro
+        monkeypatch.setattr(cwapu, "app_data", dati, raising=False)
+        chiamate = []
+
+        def genera(sessioni, categoria):
+            chiamate.append((sessioni, categoria))
+            return {"num_sessions_in_block": len(sessioni)}
+
+        monkeypatch.setattr(cwapu, "generate_historical_rx_report", genera)
+        return dati, chiamate
+
+    def test_sotto_la_soglia_conta_e_basta(self, monkeypatch):
+        dati, chiamate = self.prepara(monkeypatch, 500, 100, [sessione(chars_sent_session=50)])
+        cwapu.avanza_rapporto_storico("contest", 50)
+        assert dati["historical_rx_data_contest"]["chars_since_last_report"] == 150
+        assert chiamate == []
+
+    def test_passata_la_soglia_nasce_il_rapporto_del_contest(self, monkeypatch):
+        registro = [sessione(chars_sent_session=300), sessione(chars_sent_session=200), sessione(chars_sent_session=120)]
+        dati, chiamate = self.prepara(monkeypatch, 400, 300, registro)
+        cwapu.avanza_rapporto_storico("contest", 120)
+        # 420 caratteri da coprire: le ultime due sessioni ne fanno 320, le
+        # ultime tre 620, e l'eccedenza sopra i 400 passa al rapporto dopo.
+        sessioni, categoria = chiamate[0]
+        assert categoria == "contest"
+        assert sessioni == registro
+        assert dati["historical_rx_data_contest"]["chars_since_last_report"] == 220
+        assert dati["historical_rx_data_contest"]["historical_reports"] == [{"num_sessions_in_block": 3}]
+        assert dati["historical_rx_data_qrz"]["historical_reports"] == []
+
+    def test_il_completamento_dice_quanto_manca(self, monkeypatch, capsys):
+        self.prepara(monkeypatch, 1000, 400, [])
+        cwapu.stampa_completamento_rapporto("contest", 100)
+        uscita = capsys.readouterr().out
+        assert "(500 / 1000) = 50.00%" in uscita
+        assert "ne mancano 500" in uscita

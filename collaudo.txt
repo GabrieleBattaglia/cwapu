@@ -1,5 +1,5 @@
 PROVE A MANO PER LE CORREZIONI DEL 24 SETTEMBRE 2026
-Aperto il 2026-09-24 da ClaudIA, Claude Opus 5.5 modalita' auto, lavorando sulle issue 19 e 18.
+Aperto il 2026-09-24 da ClaudIA, Claude Opus 5.5 modalita' auto, lavorando sulle issue 19, 18 e 15.
 Come si usa: ogni prova e' fatta di righe che cominciano con Passo e Domanda. La riga che va bene si cancella, quella che non va si commenta scrivendo dopo i due punti. Quando una prova resta senza righe si cancella tutta; quando il file resta vuoto si cancella anche lui.
 PROVA A, il saluto d'uscita senza la pausa in fondo, issue 19
 Perche' serve: il saluto finiva con un trattino basso, cioe' una pausa muta messa li' perche' l'ultima e non si perdesse chiudendo il programma. Con la V168 di GBUtils il motore CW aspetta che il suono esca davvero dalle casse, e la pausa e' stata tolta. Se l'ultima e arriva intera lo puo' dire solo l'orecchio.
@@ -13,3 +13,11 @@ Passo: fai un contest breve, per esempio a tre QSO, e chiudilo.
 Domanda: dopo il rapporto leggi la riga Sessione con numero e durata attiva, e nessuna riga che dica rapporto salvato, sessione salvata o impostazioni salvate?
 Passo: esci da CWapu con q.
 Domanda: uscendo, e solo li', leggi Impostazioni generali salvate sul disco?
+PROVA C, l'archivio del contest separato da quello del QRZ, issue 15
+Perche' serve: la migrazione e' provata su una copia del tuo file del sorgente, ma l'archivio vero delle tue sessioni sta accanto all'eseguibile, e quello lo vede per la prima volta l'eseguibile nuovo.
+Passo: avvia l'eseguibile compilato della 7.0.5 per la prima volta.
+Domanda: fra le righe d'avvio leggi quante sessioni del contest sono state spostate dall'archivio QRZ al loro? Al secondo avvio la riga non c'e' piu'?
+Passo: dal menu principale, s.
+Domanda: dopo i rapporti di parole, caratteri e QRZ arriva quello del contest, e quello del QRZ non conta piu' le sessioni del contest?
+Passo: fai un contest breve e chiudilo.
+Domanda: il numero della sessione riparte dalla numerazione del contest, e prima della riga Sessione leggi quanti caratteri mancano al prossimo rapporto storico?

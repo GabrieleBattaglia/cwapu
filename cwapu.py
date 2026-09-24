@@ -3,6 +3,7 @@
 # GitHub publishing on july 2nd, 2024.
 
 import contextlib
+import copy
 import datetime as dt
 import difflib
 import io
@@ -76,7 +77,7 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "7.0.4"
+VERSION = "7.0.5"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -481,6 +482,7 @@ DEFAULT_DATA = {
     "rxing_stats_words": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
     "rxing_stats_chars": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
     "rxing_stats_qrz": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
+    "rxing_stats_contest": {"total_calls": 0, "sessions": 0, "total_correct": 0, "total_wrong_items": 0, "total_time_seconds": 0.0},
     "counting_stats": {"exercise_number": 1},
     "contest_settings": dict(CONTEST_PREDEFINITI),
     "rx_menu_switcher_states": {
@@ -503,7 +505,19 @@ DEFAULT_DATA = {
     "historical_rx_data_words": {"chars_since_last_report": 0, "sessions_log": [], "historical_reports": []},
     "historical_rx_data_chars": {"chars_since_last_report": 0, "sessions_log": [], "historical_reports": []},
     "historical_rx_data_qrz": {"chars_since_last_report": 0, "sessions_log": [], "historical_reports": []},
+    "historical_rx_data_contest": {"chars_since_last_report": 0, "sessions_log": [], "historical_reports": []},
 }
+# Le categorie dell'archivio storico, ciascuna con statistiche, registro e
+# rapporti suoi. Il contest ha la sua dalla 7.0.5, issue 15: fino ad allora
+# scriveva nelle chiavi del QRZ, dove un item e' un nominativo mandato,
+# mentre per lui e' un QSO messo a log, e le due serie si mescolavano.
+CATEGORIE_ARCHIVIO = ("words", "chars", "qrz", "contest")
+
+
+def nome_categoria(category_key):
+    """Il nome di una categoria dell'archivio come lo legge l'utente."""
+    nomi = {"words": _("parole"), "chars": _("caratteri/misto"), "qrz": "QRZ", "contest": _("contest")}
+    return nomi.get(category_key, category_key)
 MDL = {"a0a": 4, "a0aa": 6, "a0aaa": 15, "aa0a": 6, "aa0aa": 18, "aa0aaa": 36, "0a0a": 2, "0a0aa": 2, "0a0aaa": 2, "a00a": 3, "a00aa": 3, "a00aaa": 4}
 words = []
 app_data = {}
@@ -1189,6 +1203,47 @@ def _clear_screen_from_cursor():
     sys.stdout.write("\x1b[J")
 
 
+def separa_archivio_contest(dati):
+    """Sposta dall'archivio QRZ a quello del contest le sessioni del contest.
+
+    Fino alla 7.0.4 il contest scriveva nelle chiavi del QRZ, issue 15. Le
+    sue sessioni si riconoscono dal campo punteggio_grezzo, che scrive solo
+    lui; quelle del contest di prima della 7.0.0 non lo portano e non si
+    distinguono con certezza, quindi restano dove sono. I contatori passano
+    con le sessioni: il tempo passa con la durata attiva, l'unica che il
+    registro conserva, e i caratteri verso il prossimo rapporto con quelli
+    della sessione, senza mai scendere sotto zero. Una seconda chiamata non
+    trova piu' niente da spostare. Restituisce quante sessioni ha spostato.
+    """
+    registro_qrz = dati["historical_rx_data_qrz"].get("sessions_log", [])
+    sessioni_contest = [s for s in registro_qrz if "punteggio_grezzo" in s]
+    if not sessioni_contest:
+        return 0
+    dati["historical_rx_data_qrz"]["sessions_log"] = [s for s in registro_qrz if "punteggio_grezzo" not in s]
+    archivio = dati["historical_rx_data_contest"]
+    archivio["sessions_log"] = sorted(archivio.get("sessions_log", []) + sessioni_contest, key=lambda s: s.get("timestamp_iso", ""))
+    caratteri = sum(s.get("chars_sent_session", 0) for s in sessioni_contest)
+    storico_qrz = dati["historical_rx_data_qrz"]
+    storico_qrz["chars_since_last_report"] = max(0, storico_qrz.get("chars_since_last_report", 0) - caratteri)
+    archivio["chars_since_last_report"] = archivio.get("chars_since_last_report", 0) + caratteri
+    spostati = {
+        "sessions": len(sessioni_contest),
+        "total_calls": sum(s.get("items_sent_session", 0) for s in sessioni_contest),
+        "total_correct": sum(s.get("items_correct_session", 0) for s in sessioni_contest),
+        "total_wrong_items": sum(s.get("items_sent_session", 0) - s.get("items_correct_session", 0) for s in sessioni_contest),
+        "total_time_seconds": sum(s.get("duration_seconds", 0.0) for s in sessioni_contest),
+    }
+    conta_qrz = dati["rxing_stats_qrz"]
+    conta_contest = dati["rxing_stats_contest"]
+    for chiave, valore in spostati.items():
+        conta_qrz[chiave] = max(0, conta_qrz.get(chiave, 0) - valore)
+        conta_contest[chiave] = conta_contest.get(chiave, 0) + valore
+    # Il contatore delle sessioni non scende sotto quelle che il registro
+    # tiene ancora, come nella ripulitura delle sessioni vuote.
+    conta_qrz["sessions"] = max(conta_qrz["sessions"], len(dati["historical_rx_data_qrz"]["sessions_log"]))
+    return len(sessioni_contest)
+
+
 def load_settings():
     """Carica le impostazioni dal file JSON o restituisce i default."""
     if os.path.exists(SETTINGS_FILE):
@@ -1244,7 +1299,11 @@ def load_settings():
                     continue
                 # Il resto della gestione è per le altre sezioni che non hanno logica di merge speciale
                 if isinstance(default_values, dict):
-                    merged_section = default_values.copy()
+                    # Copia profonda: con quella di superficie una sezione che
+                    # il file non ha, come l'archivio del contest in un file
+                    # della 7.0.4, divideva il suo registro con DEFAULT_DATA,
+                    # e la prima sessione archiviata finiva anche li'.
+                    merged_section = copy.deepcopy(default_values)
                 else:  # Per valori non dizionari, come liste o semplici tipi
                     merged_section = default_values
 
@@ -1253,20 +1312,24 @@ def load_settings():
                 merged_data[main_key] = merged_section
 
             # Assicurati che le nuove chiavi siano inizializzate se non presenti dopo la migrazione
-            for key_suffix in ["words", "chars", "qrz"]:
+            for key_suffix in CATEGORIE_ARCHIVIO:
                 rx_stats_key = f"rxing_stats_{key_suffix}"
                 if rx_stats_key not in merged_data:
-                    merged_data[rx_stats_key] = DEFAULT_DATA[rx_stats_key].copy()
+                    merged_data[rx_stats_key] = copy.deepcopy(DEFAULT_DATA[rx_stats_key])
                 hist_data_key = f"historical_rx_data_{key_suffix}"
                 if hist_data_key not in merged_data:
-                    merged_data[hist_data_key] = DEFAULT_DATA[hist_data_key].copy()
+                    merged_data[hist_data_key] = copy.deepcopy(DEFAULT_DATA[hist_data_key])
+
+            spostate = separa_archivio_contest(merged_data)
+            if spostate:
+                print(_("Archivio: {quante} sessioni del contest spostate dall'archivio QRZ al loro.").format(quante=spostate))
 
             # Ripulitura delle sessioni vuote lasciate dalle versioni fino alla
             # 5.1.12: uscendo dal contest prima del primo QSO si registrava una
             # sessione senza dati, con velocita' minima 100 e massima 0, che
             # falsava le medie dell'archivio. Ora non se ne creano piu'.
             sessioni_vuote = 0
-            for key_suffix in ["words", "chars", "qrz"]:
+            for key_suffix in CATEGORIE_ARCHIVIO:
                 hist_data_key = f"historical_rx_data_{key_suffix}"
                 log = merged_data[hist_data_key].get("sessions_log", [])
                 log_pulito = [s for s in log if s.get("items_sent_session", 0) > 0]
@@ -1287,10 +1350,10 @@ def load_settings():
             return merged_data
         except (OSError, json.JSONDecodeError, TypeError):
             print(_("Errore durante il caricamento del file di impostazioni."))
-            return {k: v.copy() if isinstance(v, dict) else v for k, v in DEFAULT_DATA.items()}
+            return copy.deepcopy(DEFAULT_DATA)
     else:
         print(_("Impostazioni generali di default"))
-        return {k: v.copy() if isinstance(v, dict) else v for k, v in DEFAULT_DATA.items()}
+        return copy.deepcopy(DEFAULT_DATA)
 
 
 def save_settings(data, annuncia=True):
@@ -1555,9 +1618,9 @@ def KeyboardCW():
                     new_val_g = max(min_val_g, min(max_val_g, value_int_parsed))
                     if actual_val_g != new_val_g:
                         impostazioni_storiche["max_sessions_to_keep"] = new_val_g
-                        # Il registro e' diviso in tre categorie: la potatura va
-                        # ripetuta su tutte e tre, non su una chiave sola.
-                        for suffisso_categoria in ("words", "chars", "qrz"):
+                        # Il registro e' diviso in categorie: la potatura va
+                        # ripetuta su tutte, non su una chiave sola.
+                        for suffisso_categoria in CATEGORIE_ARCHIVIO:
                             dati_categoria = app_data.get(f"historical_rx_data_{suffisso_categoria}", {})
                             log_categoria = dati_categoria.get("sessions_log", [])
                             if len(log_categoria) > new_val_g:
@@ -1694,12 +1757,12 @@ def CustomSet(overall_speed):
     )
     if scelta_precompilazione == _("s"):
         prefilled_chars_list = []
-        # Il registro e' diviso in parole, caratteri e QRZ: un errore su una
-        # lettera resta un errore su quella lettera, quindi si guardano tutte
-        # e tre. Prima si leggeva una chiave che non esiste piu' dalla
+        # Il registro e' diviso in parole, caratteri, QRZ e contest: un errore
+        # su una lettera resta un errore su quella lettera, quindi si guardano
+        # tutte. Prima si leggeva una chiave che non esiste piu' dalla
         # migrazione, e la precompilazione non ha mai avuto dati veri.
         sessions_log = []
-        for suffisso_categoria in ("words", "chars", "qrz"):
+        for suffisso_categoria in CATEGORIE_ARCHIVIO:
             sessions_log.extend(app_data.get(f"historical_rx_data_{suffisso_categoria}", {}).get("sessions_log", []))
         if sessions_log:
             # 1. Aggreghiamo sia gli errori che i caratteri inviati
@@ -3048,7 +3111,8 @@ def RxingContest(menu_config_scelta):
             wrong_calls = session_calls - correct_calls
             avg_wpm_calc = sum_wpm / session_calls if session_calls > 0 else 0
             send_char = sum(sent_chars_detail_this_session.values())
-            stats = app_data["rxing_stats_qrz"]
+            # Il contest ha statistiche e archivio suoi dalla 7.0.5, issue 15.
+            stats = app_data["rxing_stats_contest"]
             # Su disco va solo una sessione che ha messo qualcosa a log. Quella
             # fatta di sole rinunce si legge nel rapporto, perche' dice quante
             # occasioni sono sfuggite e con che pannello stavo giocando, ma non
@@ -3082,29 +3146,25 @@ def RxingContest(menu_config_scelta):
                 "contest_settings": dict(stati),
             }
             if session_calls:
-                historical_data = app_data["historical_rx_data_qrz"]
+                historical_data = app_data["historical_rx_data_contest"]
                 historical_rx_log = historical_data.get("sessions_log", [])
                 historical_rx_log.append(session_data_for_history)
                 historical_settings = app_data["historical_rx_settings"]
                 g = historical_settings.get("max_sessions_to_keep", HISTORICAL_RX_MAX_SESSIONS_DEFAULT)
                 while len(historical_rx_log) > g:
-                    # L'archivio si accorciava in silenzio: l'esercizio QRZ dice
-                    # quale sessione esce dalla coda, e il contest, che scrive
-                    # nello stesso archivio, non lo diceva.
+                    # L'archivio si accorciava in silenzio: l'esercizio di
+                    # ricezione dice quale sessione esce dalla coda, e il
+                    # contest non lo diceva.
                     sessione_uscita = historical_rx_log.pop(0)
                     print(
                         _("Sessione del {data}, durata {durata}s, contenuto {contenuto} caratteri, eliminata dalla coda degli esercizi di {category_name}.").format(
                             data=dt.datetime.fromisoformat(sessione_uscita.get("timestamp_iso", "N/D")).strftime("%Y-%m-%d %H:%M"),
                             durata=int(sessione_uscita.get("duration_seconds", 0)),
                             contenuto=sessione_uscita.get("chars_sent_session", 0),
-                            category_name="QRZ",
+                            category_name=nome_categoria("contest"),
                         )
                     )
                 historical_data["sessions_log"] = historical_rx_log
-                # I caratteri del contest contano per il rapporto periodico come
-                # quelli dell'esercizio QRZ: non contandoli, il rapporto storico
-                # arrivava piu' tardi del dovuto.
-                historical_data["chars_since_last_report"] = historical_data.get("chars_since_last_report", 0) + send_char
 
             # --- REPORT A VIDEO ---
             print(_("\nÈ finita! Ora vediamo cosa abbiamo ottenuto."))
@@ -3158,6 +3218,7 @@ def RxingContest(menu_config_scelta):
             # QSO ne' velocita' da scrivere: finirebbe nel diario come una
             # riga di zeri e di percentuali calcolate su niente.
             if session_calls:
+                stampa_completamento_rapporto("contest", send_char)
                 duration_str = str(active_exerctime).split(".")[0]
                 adesso = dt.datetime.now()
                 date_str = adesso.strftime("%Y/%m/%d")
@@ -3197,6 +3258,9 @@ def RxingContest(menu_config_scelta):
                 # Che diario e archivio siano stati scritti si da' per
                 # scontato, issue 18: a schermo arriva solo cio' che va storto.
                 print(_("\nSessione {session_number}, durata attiva {duration}.").format(session_number=stats["sessions"], duration=duration_str))
+                # I caratteri del contest portano al rapporto storico del
+                # contest, come quelli di ogni esercizio portano al suo.
+                avanza_rapporto_storico("contest", send_char)
             # Su disco adesso, non solo uscendo. Le impostazioni si salvavano
             # una volta sola, alla fine della sessione di lavoro: chi faceva
             # sette contest in un pomeriggio li aveva tutti e sette nel diario,
@@ -3282,7 +3346,7 @@ def Rxing():
         _(
             "Ho recuperato i tuoi dati dal disco per gli esercizi di {category_name}, quindi:\nLa tua attuale velocità WPM è {wpm} e hai svolto {sessions} sessioni.\nTi ho inviato {totalcalls} pseudo-call o gruppi e ne hai ricevuti correttamente {totalget}, mentre {totalwrong} li hai copiati male.\nIl tempo totale speso su questo esercizio è stato di {totaltime}."
         ).format(
-            category_name=_("parole") if category_key == "words" else _("caratteri/misto") if category_key == "chars" else "QRZ",
+            category_name=nome_categoria(category_key),
             wpm=overall_speed,
             sessions=sessions,  # Non più sessions - 1, perché sessions conterà le sessioni completate
             totalcalls=totalcalls,
@@ -3303,9 +3367,6 @@ def Rxing():
     minwpm = 100
     maxwpm = 0
     repeatedflag = False
-
-    # Usa le impostazioni storiche condivise
-    report_interval = historical_settings.get("report_interval", HISTORICAL_RX_REPORT_INTERVAL)
 
     # Con il Farnsworth impostato i caratteri non scendono sotto la velocita'
     # piu' bassa a cui il motore lo accetta ancora con i pesi di adesso,
@@ -3482,20 +3543,8 @@ def Rxing():
             print(_("\nCaratteri mai sbagliati: {good_letters}").format(good_letters=" ".join(sorted(good_letters)).upper()))
         else:
             print(_("Nessun errore sui caratteri registrato in questa sessione."))
-        historical_rx_settings = app_data.get("historical_rx_settings", {})
-        report_interval = historical_rx_settings.get("report_interval", HISTORICAL_RX_REPORT_INTERVAL)
-        if report_interval <= 0:
-            print(_("La generazione automatica dei report è disabilitata."))
-        elif traccia_su_disco:
-            chars_done = app_data[f"historical_rx_data_{category_key}"].get("chars_since_last_report", 0) + send_char
-            chars_target = report_interval
-            percentage_done = chars_done / chars_target * 100 if chars_target > 0 else 0.0
-            chars_missing = max(0, chars_target - chars_done)
-            print(
-                _("Completamento sezione corrente:\n+{s} -> ({x} / {y}) = {z}%, ne mancano {w} alla prossima generazione.").format(
-                    s=send_char, x=chars_done, y=chars_target, z=f"{percentage_done:.2f}", w=chars_missing
-                )
-            )
+        if traccia_su_disco:
+            stampa_completamento_rapporto(category_key, send_char)
         if traccia_su_disco:
             nota = dgt(prompt=_("\nNota su questo esercizio: "), kind="s", smin=0, smax=512)
             adesso = dt.datetime.now()
@@ -3621,32 +3670,12 @@ def Rxing():
                     data=data_sessione_dt,
                     durata=durata_sessione,
                     contenuto=contenuto_sessione,
-                    category_name=_("parole") if category_key == "words" else _("caratteri/misto") if category_key == "chars" else "QRZ",
+                    category_name=nome_categoria(category_key),
                 )
             )
 
-        current_historical_data["chars_since_last_report"] = current_historical_data.get("chars_since_last_report", 0) + send_char
         current_historical_data["sessions_log"] = historical_rx_log
-
-        if report_interval > 0 and current_historical_data["chars_since_last_report"] >= report_interval:
-            print(_("Generazione report storico in corso..."))
-            sessions_log = current_historical_data.get("sessions_log", [])
-            chars_to_account_for = current_historical_data["chars_since_last_report"]
-            sessions_for_this_report = []
-            accumulated_chars = 0
-            for session in reversed(sessions_log):
-                sessions_for_this_report.insert(0, session)
-                accumulated_chars += session.get("chars_sent_session", 0)
-                if accumulated_chars >= chars_to_account_for:
-                    break
-            new_report_aggregates = generate_historical_rx_report(sessions_for_this_report, category_key)
-            if new_report_aggregates:
-                historical_reports = current_historical_data.get("historical_reports", [])
-                historical_reports.append(new_report_aggregates)
-                current_historical_data["historical_reports"] = historical_reports
-            chars_in_this_report = accumulated_chars
-            overshoot = chars_in_this_report - report_interval
-            current_historical_data["chars_since_last_report"] = max(0, overshoot)
+        avanza_rapporto_storico(category_key, send_char)
 
         print(_("\nSessione {session_number}, durata attiva {duration}.").format(session_number=current_rx_stats["sessions"], duration=duration_str))
         # La lunghezza si legge dopo la potatura, altrimenti a limite raggiunto
@@ -3654,7 +3683,7 @@ def Rxing():
         x = len(historical_rx_log)
         print(
             _("L'archivio ora contiene {x} sessioni salvate per gli esercizi di {category_name}, ancora {g_minus_x} al raggiungimento del limite stabilito.").format(
-                x=x, g_minus_x=max(0, g - x), category_name=_("parole") if category_key == "words" else _("caratteri/misto") if category_key == "chars" else "QRZ"
+                x=x, g_minus_x=max(0, g - x), category_name=nome_categoria(category_key)
             )
         )
     else:
@@ -3726,6 +3755,54 @@ def _calculate_aggregates(session_list):
     }
 
 
+def stampa_completamento_rapporto(category_key, caratteri):
+    """Dice quanti caratteri mancano al prossimo rapporto storico, contando anche quelli della sessione appena finita."""
+    report_interval = app_data.get("historical_rx_settings", {}).get("report_interval", HISTORICAL_RX_REPORT_INTERVAL)
+    if report_interval <= 0:
+        print(_("La generazione automatica dei report è disabilitata."))
+        return
+    chars_done = app_data[f"historical_rx_data_{category_key}"].get("chars_since_last_report", 0) + caratteri
+    percentage_done = chars_done / report_interval * 100
+    chars_missing = max(0, report_interval - chars_done)
+    print(
+        _("Completamento sezione corrente:\n+{s} -> ({x} / {y}) = {z}%, ne mancano {w} alla prossima generazione.").format(
+            s=caratteri, x=chars_done, y=report_interval, z=f"{percentage_done:.2f}", w=chars_missing
+        )
+    )
+
+
+def avanza_rapporto_storico(category_key, caratteri):
+    """Conta i caratteri della sessione appena archiviata e, passata la soglia di .x, genera il rapporto storico.
+
+    La usano l'esercizio di ricezione e il contest, ciascuno sulla propria
+    categoria. Il registro deve gia' contenere la sessione: il rapporto
+    prende dalla coda tante sessioni quante ne servono a coprire i
+    caratteri contati, e l'eccedenza passa al rapporto seguente.
+    """
+    dati = app_data[f"historical_rx_data_{category_key}"]
+    report_interval = app_data.get("historical_rx_settings", {}).get("report_interval", HISTORICAL_RX_REPORT_INTERVAL)
+    dati["chars_since_last_report"] = dati.get("chars_since_last_report", 0) + caratteri
+    if report_interval <= 0 or dati["chars_since_last_report"] < report_interval:
+        return
+    print(_("Generazione report storico in corso..."))
+    sessions_log = dati.get("sessions_log", [])
+    chars_to_account_for = dati["chars_since_last_report"]
+    sessions_for_this_report = []
+    accumulated_chars = 0
+    for session in reversed(sessions_log):
+        sessions_for_this_report.insert(0, session)
+        accumulated_chars += session.get("chars_sent_session", 0)
+        if accumulated_chars >= chars_to_account_for:
+            break
+    new_report_aggregates = generate_historical_rx_report(sessions_for_this_report, category_key)
+    if new_report_aggregates:
+        historical_reports = dati.get("historical_reports", [])
+        historical_reports.append(new_report_aggregates)
+        dati["historical_reports"] = historical_reports
+    overshoot = accumulated_chars - report_interval
+    dati["chars_since_last_report"] = max(0, overshoot)
+
+
 def generate_historical_rx_report(sessions_for_current_report, category_key):
     """
     Genera i report (HTML e grafico) per il blocco di sessioni fornito,
@@ -3757,7 +3834,7 @@ def generate_historical_rx_report(sessions_for_current_report, category_key):
     report_filename_base = f"CWapu_Historical_Statistics_{cat_name_file}_G_{g_value}_X_{x_value}.html"
     report_filename_full_path = os.path.join(USER_DATA_PATH, report_filename_base)
 
-    cat_display_name = _("parole") if category_key == "words" else _("caratteri/misto") if category_key == "chars" else "QRZ"
+    cat_display_name = nome_categoria(category_key)
 
     try:
         with open(report_filename_full_path, "w", encoding="utf-8") as f:
@@ -4051,13 +4128,12 @@ def mostra_statistiche_timeline():
     print(_("Preparo le statistiche, un momento..."))
     import timeline
 
-    category_mapping = {"words": _("parole"), "chars": _("caratteri/misto"), "qrz": "QRZ"}
-    for category_key, category_name_translated in category_mapping.items():
+    for category_key in CATEGORIE_ARCHIVIO:
         log_sessioni = app_data[f"historical_rx_data_{category_key}"]["sessions_log"]
         if not log_sessioni:
             continue
         _clear_screen_ansi()
-        print(_("Report Timeline per {category_name}").format(category_name=category_name_translated))
+        print(_("Report Timeline per {category_name}").format(category_name=nome_categoria(category_key)))
         report_con_header = timeline.genera_report_temporale_completo(log_sessioni, _, app_language)
         chiusura = _("Fine del report. Bye da CWapu {version}").format(version=VERSION)
         report_finale = report_con_header + "\n" + chiusura + "\n"

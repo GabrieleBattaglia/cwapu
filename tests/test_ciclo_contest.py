@@ -299,7 +299,7 @@ class TestCicloContest:
         cwapu.RxingContest({})
         uscita = capsys.readouterr().out
         assert "CQ TEST IZ4APU" in banco["cw"].testi
-        assert cwapu.app_data["rxing_stats_qrz"]["sessions"] == 0
+        assert cwapu.app_data["rxing_stats_contest"]["sessions"] == 0
         assert banco["diario"].getvalue() == ""
         assert "prima del primo QSO" in uscita
 
@@ -326,14 +326,19 @@ class TestCicloContest:
         # Il QSO riuscito non si annuncia: lo dicono i contatori in testa.
         assert "#1 DL3XY 599" not in uscita
         assert " ok" not in uscita
-        assert cwapu.app_data["rxing_stats_qrz"]["sessions"] == 1
-        assert cwapu.app_data["rxing_stats_qrz"]["total_calls"] == 1
-        assert cwapu.app_data["rxing_stats_qrz"]["total_correct"] == 1
+        assert cwapu.app_data["rxing_stats_contest"]["sessions"] == 1
+        assert cwapu.app_data["rxing_stats_contest"]["total_calls"] == 1
+        assert cwapu.app_data["rxing_stats_contest"]["total_correct"] == 1
         assert "CONTEST" in banco["diario"].getvalue()
-        sessione = cwapu.app_data["historical_rx_data_qrz"]["sessions_log"][-1]
+        sessione = cwapu.app_data["historical_rx_data_contest"]["sessions_log"][-1]
         assert sessione["items_sent_session"] == 1
         assert sessione["items_correct_session"] == 1
         assert sessione["rwpm_avg"] > 0
+        # Issue 15: l'esercizio QRZ non ne sa niente.
+        assert cwapu.app_data["rxing_stats_qrz"]["sessions"] == 0
+        assert cwapu.app_data["historical_rx_data_qrz"]["sessions_log"] == []
+        assert cwapu.app_data["historical_rx_data_qrz"]["chars_since_last_report"] == 0
+        assert cwapu.app_data["historical_rx_data_contest"]["chars_since_last_report"] == sessione["chars_sent_session"]
 
     def test_il_nominativo_sbagliato_diventa_un_nil(self, monkeypatch, capsys):
         copione = [
@@ -347,8 +352,8 @@ class TestCicloContest:
         cwapu.RxingContest({})
         uscita = capsys.readouterr().out
         assert "NIL" in uscita
-        assert cwapu.app_data["rxing_stats_qrz"]["total_correct"] == 0
-        assert cwapu.app_data["rxing_stats_qrz"]["total_wrong_items"] == 1
+        assert cwapu.app_data["rxing_stats_contest"]["total_correct"] == 0
+        assert cwapu.app_data["rxing_stats_contest"]["total_wrong_items"] == 1
         assert banco["cw"].testi
 
     def test_i_tasti_dei_valori_cambiano_velocita_tono_e_banda(self, monkeypatch, capsys):
@@ -393,7 +398,7 @@ class TestCicloContest:
         # Il primo Esc arriva mentre il CQ suona ancora e lo zittisce; il
         # secondo trova il campo scritto e lo pulisce.
         assert banco["cw"].testi[0] == "CQ TEST IZ4APU"
-        assert cwapu.app_data["rxing_stats_qrz"]["sessions"] == 0
+        assert cwapu.app_data["rxing_stats_contest"]["sessions"] == 0
 
     def test_il_campo_e_uno_e_passa_dal_call_al_numero(self, monkeypatch, capsys):
         """Il piano vuole un campo solo: l'Invio lo fa passare da CALL a NR."""
@@ -714,8 +719,8 @@ class TestCicloContest:
         assert f"Se ne sono andate {len(contest.punteggio.rinunce)}:" in uscita
         assert "ti ho inviato 0 QRZ" in uscita, uscita[-800:]
         # Il rapporto si legge, ma su disco non va: sarebbe una media su niente.
-        assert cwapu.app_data["rxing_stats_qrz"]["sessions"] == 0
-        assert not cwapu.app_data["historical_rx_data_qrz"]["sessions_log"]
+        assert cwapu.app_data["rxing_stats_contest"]["sessions"] == 0
+        assert not cwapu.app_data["historical_rx_data_contest"]["sessions_log"]
         assert not banco["diario"].getvalue()
 
     def test_due_tasti_funzione_si_accodano_invece_di_tagliarsi(self, monkeypatch):
@@ -864,7 +869,7 @@ class TestCicloContest:
         # La stazione che ho lavorato e' l'unica che manda il mio nominativo.
         sue = {c["wpm"] for c in banco["cw"].chiamate if c["vol"] is not None and "DL3XY" in (c["msg"] or "")}
         assert sue, "la stazione lavorata non ha mai trasmesso"
-        dettagli = cwapu.app_data["historical_rx_data_qrz"]["sessions_log"][-1]["item_details"]
+        dettagli = cwapu.app_data["historical_rx_data_contest"]["sessions_log"][-1]["item_details"]
         assert [d["rwpm"] for d in dettagli] and all(d["rwpm"] in sue for d in dettagli), (dettagli, sue)
 
     def test_il_rapporto_svelto_esce_in_due_pezzi_allineati(self, monkeypatch):
@@ -1227,7 +1232,7 @@ class TestRapporto:
         for pezzo in ("Punti 1", "Verificati: punti 1", "QSO sbagliati: 0.0%", "Sessione fatta con:"):
             assert pezzo in uscita, pezzo
             assert pezzo in diario, pezzo
-        sessione = cwapu.app_data["historical_rx_data_qrz"]["sessions_log"][-1]
+        sessione = cwapu.app_data["historical_rx_data_contest"]["sessions_log"][-1]
         assert sessione["punteggio_verificato"] == 1
         assert sessione["prefissi_verificati"] == 1
         assert sessione["contest_settings"]["banda"] == 500

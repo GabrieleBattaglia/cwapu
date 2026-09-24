@@ -19,7 +19,7 @@ CWapu offers several modes to practice and utilize CW:
     *   **Standard Modes:** Practice receiving randomly generated pseudo-callsigns, words, or character groups.
     *   **Categories:** Organized into groups: Words, Characters (Letters, Numbers, Symbols, Mixed), and QRZ/Contest.
     *   **Adaptive Speed:** Option to automatically increase/decrease WPM based on your accuracy, up to 120 WPM.
-    *   **Reporting:** Detailed session reports saved to `CWapu_Diary.txt` and comprehensive historical statistics tracked in `cwapu_settings.json` (broken down by category: Words, Chars, QRZ).
+    *   **Reporting:** Detailed session reports saved to `CWapu_Diary.txt` and comprehensive historical statistics tracked in `cwapu_settings.json` (broken down by category: Words, Chars, QRZ, Contest).
 
 2.  **Transmission Practice Aid (Txing - `t`):**
     *   Generates random callsign-like structures and sequential numbers for sending practice with your own key/paddle.

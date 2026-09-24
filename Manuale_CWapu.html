@@ -74,7 +74,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 <body>
 
 <h1>Manuale di CWapu</h1>
-<p><strong>Versione 7.0.4 del 24 settembre 2026.</strong></p>
+<p><strong>Versione 7.0.5 del 24 settembre 2026.</strong></p>
 <p>CWapu è scritto da Gabriele Battaglia, IZ4APU, e da ClaudIA, Claude Opus 5.5 in modalità UltraCode.</p>
 
 <div class="nota">
@@ -332,7 +332,7 @@ cq cq de iz4apu k
 <li><strong>Contest sta da solo</strong> ed esclude anche QRZ, perché è un esercizio di natura diversa.</li>
 </ul>
 
-<p>Le tre statistiche, parole, caratteri e QRZ, sono separate per tutto: totali, medie, archivio storico e rapporti.</p>
+<p>Le quattro statistiche, parole, caratteri, QRZ e contest, sono separate per tutto: totali, medie, archivio storico e rapporti.</p>
 
 <h3 id="filtro-parole">5.3 Il filtro delle parole</h3>
 
@@ -350,7 +350,7 @@ cq cq de iz4apu k
 
 <p>È la funzione più utile per chi ha già una certa pratica. Serve a martellare i caratteri che non entrano in testa, invece di continuare a ricevere quelli che si sanno già.</p>
 
-<p>Si apre con <code>.y</code> dalla sezione tastiera. CWapu chiede se si vuole partire da un gruppo precompilato: rispondendo di sì, propone <strong>i dieci caratteri su cui si sbaglia di più</strong>, calcolati su tutto l'archivio storico, parole, caratteri e QRZ insieme.</p>
+<p>Si apre con <code>.y</code> dalla sezione tastiera. CWapu chiede se si vuole partire da un gruppo precompilato: rispondendo di sì, propone <strong>i dieci caratteri su cui si sbaglia di più</strong>, calcolati su tutto l'archivio storico, parole, caratteri, QRZ e contest insieme.</p>
 
 <div class="nota">
 <p><strong>Perché non i dieci più sbagliati in assoluto.</strong> Se una lettera è stata inviata tre volte e sbagliata due, il tasso di errore grezzo è del sessantasei per cento, e sembrerebbe la peggiore di tutte. Ma tre prove non dicono granché. CWapu usa allora l'intervallo di Wilson, che tiene conto anche di quante volte una lettera è stata provata: una lettera sbagliata dodici volte su quaranta è un problema più solido di una sbagliata due volte su tre, e viene messa prima. Vedi <a href="#wilson">la spiegazione più estesa</a>.</p>
@@ -582,6 +582,8 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <p>Quando un QSO si chiude male esce una riga breve con il numero, il nominativo, lo scambio e la verifica: <code>NIL</code> se il nominativo è sbagliato, <code>NR</code> se il numero, <code>RST</code> se il rapporto, e dove si può anche cos'era davvero. I QSO andati bene non dicono niente: li contano i tre numeri in testa alla riga.</p>
 
 <p>Alla fine, oltre alle statistiche di sempre, il rapporto dice punti, prefissi e punteggio nei due modi, la percentuale di QSO sbagliati, il ritmo per ogni cinque minuti riportato all'ora, i nominativi e gli scambi copiati male, quante stazioni se ne sono andate e quali, e con quali interruttori e valori la sessione è stata fatta. Quest'ultima riga serve: una sessione in pile-up con il tasto verticale al cento per cento e una da sola con tutti in manipolazione automatica non sono confrontabili, e il diario deve poterlo dire.</p>
+
+<p>Il contest ha statistiche, archivio storico e rapporti suoi, con la sua numerazione delle sessioni. Fino alla versione 7.0.4 scriveva in quelli dell'esercizio QRZ, dove però si conta un'altra cosa: lì un item è un nominativo mandato, qui un QSO messo a log, e nella stessa media le due serie non dicevano niente né dell'una né dell'altra. Al primo avvio della 7.0.5 CWapu sposta da sé le sessioni del contest nel loro archivio e lo dice in una riga. Restano nell'archivio QRZ quelle del contest di prima della 7.0.0, che non si distinguono con certezza.</p>
 <p>Le stazioni che se ne sono andate si contano a parte, e non entrano né nei QSO né nelle percentuali né nelle velocità né nella durata. Sono occasioni perse, non contatti copiati male: in un pile-up ne sfugge sempre qualcuna, ed è normale. Per la stessa ragione la durata a numero di QSO conta soltanto quelli messi a log: chiedendone otto se ne fanno otto, per quante stazioni si siano stancate di aspettare nel frattempo.</p>
 
 <div class="nota">
@@ -661,7 +663,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 
 <h3 id="timeline">11.1 I rapporti nel tempo</h3>
 
-<p>Si aprono con <kbd>s</kbd> dal menu principale. CWapu prepara un rapporto per ciascuna delle tre categorie che ha dati, parole, caratteri e QRZ, e li mostra uno dopo l'altro. Per ognuno si può battere <kbd>Invio</kbd> per salvarlo in un file di testo, oppure <kbd>Esc</kbd> per passare al successivo.</p>
+<p>Si aprono con <kbd>s</kbd> dal menu principale. CWapu prepara un rapporto per ciascuna delle quattro categorie che hanno dati, parole, caratteri, QRZ e contest, e li mostra uno dopo l'altro. Per ognuno si può battere <kbd>Invio</kbd> per salvarlo in un file di testo, oppure <kbd>Esc</kbd> per passare al successivo.</p>
 
 <p>Ogni rapporto contiene, fra le altre cose:</p>
 
@@ -813,7 +815,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 </dl>
 
 <footer>
-<p>CWapu, versione 7.0.4 del 24 settembre 2026.</p>
+<p>CWapu, versione 7.0.5 del 24 settembre 2026.</p>
 <p>Software e manuale di Gabriele Battaglia, IZ4APU, e di ClaudIA, Claude Opus 5.5 in modalità UltraCode.</p>
 <p>Il motore CW è CWzator, dalla libreria GBUtils, su un'idea originale di Kevin Schmidt, W9CF.</p>
 <p>Le segnalazioni e le proposte si aprono come issue sul repository del progetto.</p>
