@@ -93,6 +93,14 @@ class TestSenzaFarnsworth:
         assert "Impostazioni generali salvate" not in uscita
         assert "L'archivio ora contiene 1 sessioni" in uscita
 
+    def test_fermato_al_primo_item_non_nomina_il_farnsworth(self, monkeypatch, tmp_path, capsys):
+        """Senza item non si salva niente, ma la ragione non e' il Farnsworth:
+        prima la riga lo nominava anche quando non era impostato."""
+        uscita, app, _ = esercizio(monkeypatch, tmp_path, capsys, farnsworth=0, risposte_giuste=0)
+        assert app["rxing_stats_chars"]["sessions"] == 0
+        assert "nessun item ricevuto, sessione non salvata" in uscita
+        assert "Farnsworth" not in uscita
+
 
 class TestConFarnsworth:
     def test_niente_finisce_su_disco(self, monkeypatch, tmp_path, capsys):

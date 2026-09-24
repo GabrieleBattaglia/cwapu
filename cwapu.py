@@ -77,7 +77,7 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "7.0.5"
+VERSION = "7.0.6"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -3686,6 +3686,10 @@ def Rxing():
                 x=x, g_minus_x=max(0, g - x), category_name=nome_categoria(category_key)
             )
         )
+    elif not callssend:
+        # Fermato al primo item: la ragione e' che non c'e' niente, non il
+        # Farnsworth, che prima veniva nominato anche quando non c'era.
+        print(_("\nDurata attiva {duration}: nessun item ricevuto, sessione non salvata.").format(duration=duration_str))
     else:
         print(_("\nDurata attiva {duration}: sessione non salvata, con il Farnsworth impostato non entra nell'archivio ne' nelle statistiche.").format(duration=duration_str))
     # Su disco adesso, non solo uscendo, e in silenzio: vale qui come nel
