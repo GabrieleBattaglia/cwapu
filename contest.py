@@ -778,7 +778,9 @@ class StazioneDX(Stazione):
         rng = motore.rng
         nominativo = motore.nominativi()
         oper = Operatore(rng, motore, nominativo, motore.minuti(adesso), singola)
-        wpm = oper.velocita(motore.mio_wpm)
+        # Si centra sulla velocita' che sente, cioe' la mia effettiva: con i
+        # miei pesi larghi i miei 25 nominali possono suonare come 16.
+        wpm = oper.velocita(motore.mio_rwpm)
         # Il tono a piu' o meno trecento hertz dal mio, come oggi; la panoramica
         # entro l'ampiezza stereo scelta; la forza fra il minimo che da' la
         # propagazione e il pieno, un quinto a 50.
@@ -1016,6 +1018,7 @@ class Contest:
 
     Parametri:
       mio_nominativo, mio_wpm, mio_pitch: come trasmetto io.
+      mio_rwpm: la mia velocita' effettiva, quella che si sente con i miei pesi, misurata su PARIS; le stazioni si centrano su questa. None vale mio_wpm, cioe' pesi standard.
       nominativi: una funzione senza argomenti che da' un nominativo, veri e inventati con le percentuali di cwapu.
       pileup: falso e' il modo singolo, una stazione alla volta; vero e' il pile-up.
       pileup_massime: quante stazioni al massimo chiamano insieme nel pile-up, da 1 a PILEUP_MASSIME, issue 17.
@@ -1050,11 +1053,12 @@ class Contest:
         scambio_probabilita=0,
         scambio_incremento=15,
         mio_pesi=PESO_STANDARD,
+        mio_rwpm=None,
         seme=None,
     ):
         self.rng = random.Random(seme)
         self.mio_nominativo = mio_nominativo.strip().upper()
-        self.mio_wpm = int(mio_wpm)
+        self.imposta_mia_velocita(mio_wpm, mio_rwpm)
         self.mio_pitch = int(mio_pitch)
         self.nominativi = nominativi
         self.pileup = bool(pileup)
@@ -1096,6 +1100,19 @@ class Contest:
     def nuovo_id(self):
         self._contatore += 1
         return f"s{self._contatore}"
+
+    def imposta_mia_velocita(self, wpm, effettiva=None):
+        """La mia velocita': quella nominale, con cui trasmetto, e quella che si sente.
+
+        Le due coincidono con i pesi standard. Con pesi diversi il motore CW
+        trasmette alla nominale con i miei pesi, e quello che esce ha la
+        velocita' effettiva: e' su questa che le stazioni si regolano, perche'
+        in radio si risponde alla velocita' che si sente. Prima si
+        regolavano sulla nominale, e con linee a 60 e spazi a 75 i miei 25 wpm
+        suonavano come 16 mentre le stazioni rispondevano a 25 veri.
+        """
+        self.mio_wpm = int(wpm)
+        self.mio_rwpm = float(effettiva) if effettiva else float(self.mio_wpm)
 
     def minuti(self, adesso):
         if self.inizio is None:

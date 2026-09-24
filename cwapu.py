@@ -77,7 +77,7 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "7.1.1"
+VERSION = "7.1.2"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -633,6 +633,18 @@ def pavimento_ammesso(farnsworth, wpm, l, s, p):
     while velocita < int(wpm) and not farnsworth_ammesso(farnsworth, velocita, l, s, p):
         velocita += 1
     return velocita
+
+
+def velocita_effettiva(wpm, l, s, p):
+    """La velocita' che si sente davvero con questi pesi, in parole al minuto.
+
+    E' la RWPM del motore CW misurata sulla parola PARIS, che definisce le
+    parole al minuto, ripetuta cinque volte perche' conti anche lo spazio fra
+    le parole. Con i pesi standard coincide con wpm; con linee a 60 e spazi a
+    75, a 25 wpm vale 16,4. Prova a vuoto, senza suonare.
+    """
+    _prova, rwpm = CWzator(msg="paris paris paris paris paris", wpm=limita_wpm(wpm), l=l, s=s, p=p, play=False)
+    return float(rwpm) if rwpm else float(wpm)
 
 
 def farnsworth_ammesso(farnsworth, wpm, l, s, p):
@@ -2393,6 +2405,9 @@ def RxingContest(menu_config_scelta):
         # 50 qualunque cosa avessi impostato. Trovato da Gabriele provando
         # l'eseguibile compilato della 7.0.0.
         mio_pesi=(overall_dashes, overall_spaces, overall_dots),
+        # Le stazioni rispondono alla velocita' che sentono, cioe' quella
+        # effettiva dei miei pesi, che CWzator misura e restituisce.
+        mio_rwpm=velocita_effettiva(overall_speed, overall_dashes, overall_spaces, overall_dots),
         # Spento vuol dire che non lo fa nessuno, e nemmeno io.
         scambio_probabilita=stati["scambio_probabilita"] if stati["scambio_veloce"] else 0,
         scambio_incremento=stati["scambio_incremento"],
@@ -3047,7 +3062,7 @@ def RxingContest(menu_config_scelta):
                     overall_speed = min(WPM_MAX, overall_speed + CONTEST_PASSO_WPM)
                 else:
                     overall_speed = max(WPM_MIN, overall_speed - CONTEST_PASSO_WPM)
-                motore.mio_wpm = overall_speed
+                motore.imposta_mia_velocita(overall_speed, velocita_effettiva(overall_speed, overall_dashes, overall_spaces, overall_dots))
                 conferma_in_cw()
                 annuncia("wpm", _("WPM {valore}").format(valore=overall_speed), adesso)
                 # La velocita' e' quella globale e resta dopo il contest: il

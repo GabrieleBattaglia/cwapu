@@ -2,6 +2,8 @@ CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	7.1.2 (2026-09-24)
+		+ Nel contest le stazioni rispondono alla velocita' che sentono. Si regolavano sui WPM impostati, anche quando i pesi della sezione k li fanno suonare diversi: con linee a 60 e spazi a 75, a 25 WPM si trasmette in realta' a 16,4, e le stazioni rispondevano a 25 veri. Adesso si regolano sulla velocita' effettiva, la RWPM, che CWzator misura sulla parola PARIS, e la seguono quando la si cambia durante il contest. Trovato da Gabriele nel collaudo.
 	7.1.1 (2026-09-24)
 		+ Il glossario del manuale diceva ancora che il pile-up sarebbe arrivato con la riscrittura del contest, che c'e' dalla 7.0.0. Adesso dice come lo si accende, con la voce 6, e che la propagazione decide quanto e' fitto.
 	7.1.0 (2026-09-24)

@@ -974,3 +974,29 @@ class TestPropagazione:
             volumi.update(s.volume for s in m.qrm_attive())
         assert volumi
         assert all(0.5 <= v <= 1.0 for v in volumi)
+
+
+class TestVelocitaEffettiva:
+    """Le stazioni rispondono alla velocita' che sentono: con i miei pesi larghi
+    i miei 25 nominali suonano come 16,4, e le stazioni si centrano su quelli."""
+
+    def test_le_stazioni_si_centrano_sulla_mia_velocita_effettiva(self):
+        m = motore(pileup=True, pileup_massime=24, propagazione=100, mio_rwpm=16.4, seme=3)
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        m.avanza(1.0, [ct.IO])
+        assert m.dx_attive()
+        assert all(15 <= s.wpm <= 18 for s in m.dx_attive()), [s.wpm for s in m.dx_attive()]
+
+    def test_io_trasmetto_sempre_alla_nominale(self):
+        """Il motore CW con i miei pesi alla nominale produce la mia effettiva:
+        passargli l'effettiva la abbasserebbe una seconda volta."""
+        m = motore(mio_rwpm=16.4)
+        assert m.io_trasmetti([ct.Msg.CQ], 0.0).wpm == 25
+
+    def test_senza_effettiva_vale_la_nominale(self):
+        m = motore()
+        assert m.mio_rwpm == 25.0
+        m.imposta_mia_velocita(30)
+        assert (m.mio_wpm, m.mio_rwpm) == (30, 30.0)
+        m.imposta_mia_velocita(30, 21.5)
+        assert (m.mio_wpm, m.mio_rwpm) == (30, 21.5)

@@ -386,6 +386,19 @@ class TestCicloContest:
         assert banco["contest"][0].mio_wpm == 18
         assert "WPM 18" in uscita and "Tono 600" in uscita and "Banda 550" in uscita
 
+    def test_con_i_pesi_larghi_le_stazioni_sentono_la_mia_effettiva(self, monkeypatch):
+        """Con linee a 60 e spazi a 75 i 20 wpm nominali suonano piu' lenti:
+        il motore riceve quella velocita', misurata da CWzator, e la aggiorna
+        quando la cambio con F10."""
+        banco = prepara(monkeypatch, [(1.0, "f10"), (8.0, "alt-x")])
+        monkeypatch.setattr(cwapu, "overall_dashes", 60)
+        monkeypatch.setattr(cwapu, "overall_spaces", 75)
+        cwapu.RxingContest({})
+        m = banco["contest"][0]
+        assert m.mio_wpm == 22
+        assert m.mio_rwpm == pytest.approx(cwapu.velocita_effettiva(22, 60, 75, 50))
+        assert m.mio_rwpm < 16
+
     def test_i_valori_si_annunciano_quando_la_mano_si_ferma(self, monkeypatch, capsys):
         """Annunciare a ogni pressione riempie la voce di numeri che scorrono."""
         copione = [(1.0, "shift-down"), (1.2, "shift-down"), (1.4, "shift-down"), (8.0, "alt-x")]

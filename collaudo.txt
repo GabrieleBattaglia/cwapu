@@ -3,16 +3,9 @@ Aperto il 2026-09-24 da ClaudIA, Claude Opus 5.5 modalita' auto, lavorando sulle
 Come si usa: ogni prova e' fatta di righe che cominciano con Passo e Domanda. La riga che va bene si cancella, quella che non va si commenta scrivendo dopo i due punti. Quando una prova resta senza righe si cancella tutta; quando il file resta vuoto si cancella anche lui.
 PROVA A, il saluto d'uscita senza la pausa in fondo, issue 19
 Perche' serve: il saluto finiva con un trattino basso, cioe' una pausa muta messa li' perche' l'ultima e non si perdesse chiudendo il programma. Con la V168 di GBUtils il motore CW aspetta che il suono esca davvero dalle casse, e la pausa e' stata tolta. Se l'ultima e arriva intera lo puo' dire solo l'orecchio.
-Passo: lancia CWapu da sorgente, con la GBUtils di E:\git\Mine\GBUtils, e dal menu principale esci con q.
-Domanda: il saluto finisce con due e intere e uguali fra loro, senza che l'ultima sia mozzata?
-Passo: fai la stessa cosa con l'eseguibile compilato, quando lo prepariamo per la pubblicazione.
 Domanda: anche dall'eseguibile l'ultima e arriva intera?
-PROVA B, niente piu' avvisi di salvataggio a fine esercizio, issue 18
-Perche' serve: le prove automatiche guardano l'uscita con tastiera e audio finti; questa guarda quella vera, sul display.
-Passo: fai un contest breve, per esempio a tre QSO, e chiudilo.
-Domanda: dopo il rapporto leggi la riga Sessione con numero e durata attiva, e nessuna riga che dica rapporto salvato, sessione salvata o impostazioni salvate?
-Passo: esci da CWapu con q.
-Domanda: uscendo, e solo li', leggi Impostazioni generali salvate sul disco?
+Confido di sì. Diamola per passata.
+
 PROVA C, l'archivio del contest separato da quello del QRZ, issue 15
 Perche' serve: la migrazione e' provata su una copia del tuo file del sorgente, ma l'archivio vero delle tue sessioni sta accanto all'eseguibile, e quello lo vede per la prima volta l'eseguibile nuovo.
 Passo: avvia l'eseguibile compilato della 7.0.5 per la prima volta.
@@ -35,3 +28,5 @@ Domanda: il fruscio resta sempre acceso sotto il pile-up, e l'abbassamento del l
 Domanda: quando rispondono in tanti insieme, i tasti rispondono sempre subito, senza ritardi o scatti?
 Passo: pile-up spento, propagazione prima a 0 e poi a 100.
 Domanda: nel modo singolo una stazione risponde sempre, e cambiano soltanto la forza e il QSB?
+Passo: nella sezione k metti pesi larghi, per esempio .l60 e .s75, poi fai un contest breve.
+Domanda: le stazioni rispondono a una velocita' simile a quella che senti uscire da te, e non a quella impostata con .w? Rimetti poi i pesi che usi di solito.
