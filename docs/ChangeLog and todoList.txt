@@ -2,7 +2,7 @@ CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
-	8.1.1 (2026-09-24)
+	8.1.1 (2026-09-24), pubblicata su GitHub il 2026-09-24 con l'archivio allegato per l'auto updater.
 		+ Con la propagazione bassa i cali del QSB sono un poco piu' lenti, come nelle propagazioni scarse: a 0 la banda dell'evanescenza e' quattro decimi di quella a 50, invece della meta'. Da 50 in su non cambia niente. Richiesta di Gabriele dal collaudo.
 	8.1.0 (2026-09-24)
 		+ Il rapporto storico, in pagina e in grafico, e' rifatto, issue 8. Guardato con i dati veri, il grafico aveva le etichette della velocita' minima e massima scambiate, e diceva massima 14 e minima 63; colorava i caratteri secondo la posizione nell'elenco invece che secondo il valore, cosi' un carattere sbagliato una volta su quattro poteva essere verde; li ordinava per numero di errori, che mette in testa i caratteri mandati piu' spesso invece dei piu' deboli; e mostrava, come la pagina, numeri con sedici cifre, con qualche testo sovrapposto. Nella pagina la tabella delle variazioni si chiudeva dopo la prima riga, e il lettore di schermo trovava le altre fuori dalla tabella.
