@@ -1,5 +1,5 @@
 PROVE A MANO PER LE CORREZIONI DEL 24 SETTEMBRE 2026
-Aperto il 2026-09-24 da ClaudIA, Claude Opus 5.5 modalita' auto, lavorando sulle issue 19, 18 e 15.
+Aperto il 2026-09-24 da ClaudIA, Claude Opus 5.5 modalita' auto, lavorando sulle issue 19, 18, 15, 16 e 17.
 Come si usa: ogni prova e' fatta di righe che cominciano con Passo e Domanda. La riga che va bene si cancella, quella che non va si commenta scrivendo dopo i due punti. Quando una prova resta senza righe si cancella tutta; quando il file resta vuoto si cancella anche lui.
 PROVA A, il saluto d'uscita senza la pausa in fondo, issue 19
 Perche' serve: il saluto finiva con un trattino basso, cioe' una pausa muta messa li' perche' l'ultima e non si perdesse chiudendo il programma. Con la V168 di GBUtils il motore CW aspetta che il suono esca davvero dalle casse, e la pausa e' stata tolta. Se l'ultima e arriva intera lo puo' dire solo l'orecchio.
@@ -21,3 +21,17 @@ Passo: dal menu principale, s.
 Domanda: dopo i rapporti di parole, caratteri e QRZ arriva quello del contest, e quello del QRZ non conta piu' le sessioni del contest?
 Passo: fai un contest breve e chiudilo.
 Domanda: il numero della sessione riparte dalla numerazione del contest, e prima della riga Sessione leggi quanti caratteri mancano al prossimo rapporto storico?
+PROVA D, la propagazione e il tetto del pile-up, issue 16 e 17
+Perche' serve: le curve della propagazione sono numeri di partenza, e se una banda chiusa o aperta suoni credibile lo dice solo l'orecchio. Le prove automatiche dicono che i numeri sono quelli decisi, non che suonano giusti.
+Passo: apri il pannello del contest.
+Domanda: la voce 6 dice fino a quante stazioni con il valore che avevi prima, e in fondo c'e' la voce a, propagazione, a 50?
+Passo: pile-up acceso, voce 6 a 8, QSB acceso, propagazione a 0; contest a cinque minuti, e lancia CQ piu' volte.
+Domanda: molti CQ restano senza risposta, chi risponde arriva spesso debole, e il QSB ha cali lenti e lunghi? E' una banda chiusa credibile?
+Passo: lo stesso con la propagazione a 50.
+Domanda: il contest e' quello che conosci dalla 7.0.0?
+Passo: propagazione a 100, voce 6 a 24, QRN e QRM accesi, e aspetta qualche secondo senza chiamare.
+Domanda: le stazioni arrivano da sole e chiamano anche senza CQ, forti, con cali brevi, e il pile-up non si ferma mai?
+Domanda: il fruscio resta sempre acceso sotto il pile-up, e l'abbassamento del livello quando chiamano in tanti e' ancora accettabile?
+Domanda: quando rispondono in tanti insieme, i tasti rispondono sempre subito, senza ritardi o scatti?
+Passo: pile-up spento, propagazione prima a 0 e poi a 100.
+Domanda: nel modo singolo una stazione risponde sempre, e cambiano soltanto la forza e il QSB?

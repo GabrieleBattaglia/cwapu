@@ -2,6 +2,9 @@ CWapu WHATSNEW AND TODO
 Cio' che resta da fare sta fra le issue aperte del repository, non qui.
 
 ChangeLog:
+	7.1.0 (2026-09-24)
+		+ Il contest ha la propagazione, voce a del pannello, da 0 a 100 e 50 di serie: dice quanto la banda e' aperta, e a 50 il contest e' quello di sempre. Scendendo verso 0 rispondono meno stazioni a ogni CQ, spesso nessuna, arrivano piu' deboli e il QSB ha cali lenti e lunghi. Salendo verso 100 rispondono piu' stazioni, e sopra 50 ne arrivano anche senza CQ finche' c'e' posto: a 100 il pile-up non si ferma mai. Arrivano piu' forti, il QSB ha cali brevi e il QRM arriva piu' spesso, da uno ogni otto minuti a 0 a uno ogni due a 100. Con una GBUtils che sa fare la profondita' dell'evanescenza, chiesta con la sua issue 44, sopra 50 i cali diventano anche piu' leggeri. Nel modo singolo la propagazione cambia soltanto la forza delle stazioni e il QSB. Chiude la issue 16.
+		+ La voce 6 del pannello, il pile-up, dice quante stazioni al massimo chiamano insieme, da 1 a 24. Prima era l'attivita' di Morse Runner, da 1 a 9, cioe' quante rispondevano in media a ogni CQ, e nessun limite fermava quelle che si accumulavano in aria. Il tetto e' 24 e non 32, anche se il motore CW regge 32 voci, perche' quelle voci servono anche al QRM, al fruscio, alla mia trasmissione e ai saluti: con 32 stazioni il mixer, pieno, avrebbe chiuso il fruscio. Il valore salvato passa com'e'. Misurato: 24 chiamate con il QSB si generano in 90-150 millesimi, e nel contest partono sparse in mezzo secondo. Chiude la issue 17.
 	7.0.6 (2026-09-24)
 		+ L'esercizio di ricezione fermato al primo item, cioe' senza niente da salvare, non da' piu' la colpa al Farnsworth. Diceva che la sessione non era salvata perche' il Farnsworth era impostato anche quando non lo era: la riga copriva due casi diversi. Adesso dice che non e' arrivato nessun item, e quella del Farnsworth resta per quando il Farnsworth c'e' davvero.
 	7.0.5 (2026-09-24)

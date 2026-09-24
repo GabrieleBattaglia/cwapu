@@ -126,9 +126,26 @@ class MotoreFinto:
         # succedere piu', e senza registrarli non si vedrebbe.
         self.miei_tagliati = []
 
-    def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None, ritardo=None):
+    def __call__(self, msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None, ritardo=None, qsb_profondita=None):
         self.testi.append(msg)
-        self.chiamate.append({"msg": msg, "wpm": wpm, "pitch": pitch, "pan": pan, "vol": vol, "qsb": qsb, "chirp": chirp, "vibrato": vibrato, "ritardo": ritardo, "quando": self.orologio.adesso, "l": l, "s": s, "p": p})
+        self.chiamate.append(
+            {
+                "msg": msg,
+                "wpm": wpm,
+                "pitch": pitch,
+                "pan": pan,
+                "vol": vol,
+                "qsb": qsb,
+                "qsb_profondita": qsb_profondita,
+                "chirp": chirp,
+                "vibrato": vibrato,
+                "ritardo": ritardo,
+                "quando": self.orologio.adesso,
+                "l": l,
+                "s": s,
+                "p": p,
+            }
+        )
         if sync:
             return None, 0.0
         # Un carattere ogni sessanta millesimi e' l'ordine di grandezza del CW
@@ -450,7 +467,7 @@ class TestCicloContest:
             monkeypatch,
             [(8.0, "alt-x")],
             nominativo=["DL3XY", "IK2ABC", "W9CF", "F5IN", "JA1ZZZ", "VE3NEA"],
-            contest={"pileup": True, "attivita": 8, "stereo": 100},
+            contest={"pileup": True, "pileup_massime": 8, "stereo": 100},
         )
         cwapu.RxingContest({})
         assert banco["contest"][0].pileup is True
@@ -563,7 +580,7 @@ class TestCicloContest:
         # CQ battuti a raffica sarebbero una trasmissione sola e lunga, e
         # nessuna stazione farebbe in tempo a rispondere.
         copione = [(istante, "f1") for istante in (1.1, 6.0, 11.0, 16.0)] + [(22.0, "alt-x")]
-        banco = prepara(monkeypatch, copione, minuti=2, contest={"qrn": True, "pileup": True, "attivita": 9})
+        banco = prepara(monkeypatch, copione, minuti=2, contest={"qrn": True, "pileup": True, "pileup_massime": 9})
         cwapu.RxingContest({})
         cicli = banco["acustica"].cicli
         # Il fruscio si spegne a ogni mia trasmissione e torna quando ho finito.
@@ -573,7 +590,7 @@ class TestCicloContest:
 
     def test_zittire_una_stazione_non_sposta_i_tempi_del_contest(self, monkeypatch):
         """Il motore la considera finita quando il suo messaggio sarebbe finito."""
-        banco = prepara(monkeypatch, [(6.0, "f1"), (20.0, "alt-x")], contest={"pileup": True, "attivita": 8})
+        banco = prepara(monkeypatch, [(6.0, "f1"), (20.0, "alt-x")], contest={"pileup": True, "pileup_massime": 8})
         cwapu.RxingContest({})
         # Se le zittite non venissero mai dichiarate finite, il motore
         # resterebbe fermo ad aspettarle e non nascerebbe piu' niente.
@@ -659,14 +676,17 @@ class TestCicloContest:
     def test_i_difetti_di_nota_arrivano_al_motore(self, monkeypatch):
         """Il chirp e il vibrato vanno con il flutter, che e' l'interruttore
         dei difetti del segnale."""
-        # Il CQ si rilancia spesso, cosi' nascono abbastanza stazioni da
-        # vedere due difetti che toccano a una su sei e a una su dieci.
+        # Il CQ si rilancia spesso, con il tetto del pile-up al massimo, cosi'
+        # nascono abbastanza stazioni da vedere due difetti che toccano a una
+        # su sei e a una su dieci: dalla 7.1.0 chi e' gia' in aria occupa il
+        # suo posto, e con il tetto a nove i CQ in piu' non facevano nascere
+        # nessuno.
         copione = [(istante, "f1") for istante in (2.0, 5.0, 8.0, 11.0, 14.0, 17.0, 20.0)] + [(30.0, "alt-x")]
         banco = prepara(
             monkeypatch,
             copione,
             nominativo=["DL3XY", "IK2ABC", "W9CF", "F5IN", "JA1ZZZ", "VE3NEA", "OH2BH", "EA3XY"],
-            contest={"pileup": True, "attivita": 9, "qsb": True, "flutter": True},
+            contest={"pileup": True, "pileup_massime": ct.PILEUP_MASSIME, "qsb": True, "flutter": True},
         )
         cwapu.RxingContest({})
         stazioni = [c for c in banco["cw"].chiamate if c["vol"] is not None]
@@ -682,7 +702,7 @@ class TestCicloContest:
                 assert ct.VIBRATO_FREQUENZA[0] <= frequenza <= ct.VIBRATO_FREQUENZA[1]
 
     def test_senza_flutter_le_note_sono_pulite(self, monkeypatch):
-        banco = prepara(monkeypatch, [(12.0, "alt-x")], contest={"pileup": True, "attivita": 9, "qsb": True, "flutter": False})
+        banco = prepara(monkeypatch, [(12.0, "alt-x")], contest={"pileup": True, "pileup_massime": 9, "qsb": True, "flutter": False})
         cwapu.RxingContest({})
         stazioni = [c for c in banco["cw"].chiamate if c["vol"] is not None]
         assert stazioni
@@ -699,7 +719,7 @@ class TestCicloContest:
         """Contava anche chi se ne andava senza essere lavorato: una sessione
         da due QSO finiva al primo che mollava, e Gabriele ne faceva due o tre
         su otto."""
-        banco = prepara(monkeypatch, [(70.0, "alt-x")], quanti_qso=2, contest={"pileup": True, "attivita": 9})
+        banco = prepara(monkeypatch, [(70.0, "alt-x")], quanti_qso=2, contest={"pileup": True, "pileup_massime": 9})
         cwapu.RxingContest({})
         contest = banco["contest"][0]
         assert contest.punteggio.rinunce, "nessuna stazione se n'e' andata"
@@ -711,7 +731,7 @@ class TestCicloContest:
     def test_le_stazioni_perdute_restano_fuori_dalle_statistiche(self, monkeypatch, capsys):
         """Erano il denominatore di tutte le percentuali: otto QSO su venticinque
         voleva dire otto a log e diciassette andate via."""
-        banco = prepara(monkeypatch, [(70.0, "alt-x")], minuti=2, contest={"pileup": True, "attivita": 9})
+        banco = prepara(monkeypatch, [(70.0, "alt-x")], minuti=2, contest={"pileup": True, "pileup_massime": 9})
         cwapu.RxingContest({})
         uscita = capsys.readouterr().out
         contest = banco["contest"][0]
@@ -882,7 +902,7 @@ class TestCicloContest:
             monkeypatch,
             copione,
             minuti=2,
-            contest={"pileup": True, "attivita": 9, "scambio_veloce": True, "scambio_probabilita": 100, "scambio_incremento": 20},
+            contest={"pileup": True, "pileup_massime": 9, "scambio_veloce": True, "scambio_probabilita": 100, "scambio_incremento": 20},
         )
         cwapu.RxingContest({})
         scambi = [c for c in banco["cw"].chiamate if c["vol"] is not None and c["ritardo"]]
@@ -899,7 +919,7 @@ class TestCicloContest:
 
     def test_senza_lo_switcher_nessun_messaggio_si_spezza(self, monkeypatch):
         copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), (30.0, "alt-x")]
-        banco = prepara(monkeypatch, copione, minuti=2, contest={"pileup": True, "attivita": 9, "scambio_veloce": False})
+        banco = prepara(monkeypatch, copione, minuti=2, contest={"pileup": True, "pileup_massime": 9, "scambio_veloce": False})
         cwapu.RxingContest({})
         assert not [c for c in banco["cw"].chiamate if c["ritardo"] and c["vol"] is not None]
 
@@ -940,7 +960,7 @@ class TestCicloContest:
         trasmissione: le stazioni di disturbo, che nascono quando vogliono, mi
         partivano sopra a piena voce."""
         copione = [(1.0, "f1"), (2.0, "f1"), (3.0, "f1"), (30.0, "alt-x")]
-        banco = prepara(monkeypatch, copione, minuti=2, contest={"qrm": True, "qrm_massime": 5, "pileup": True, "attivita": 9})
+        banco = prepara(monkeypatch, copione, minuti=2, contest={"qrm": True, "qrm_massime": 5, "pileup": True, "pileup_massime": 9})
         cwapu.RxingContest({})
         assert banco["zittite"], "nessuna stazione e' stata zittita"
 
@@ -971,7 +991,7 @@ class TestCicloContest:
         # Un QSO a log e poi qualche CQ a vuoto, cosi' nascono stazioni che
         # si stancano di aspettare.
         copione = [*scrivi(3.0, "DL3XY"), (3.6, "\r"), *scrivi(9.0, "1"), (9.5, "\r"), (20.0, "f1"), (40.0, "f1"), (110.0, "alt-x")]
-        banco = prepara(monkeypatch, copione, minuti=3, contest={"pileup": True, "attivita": 9})
+        banco = prepara(monkeypatch, copione, minuti=3, contest={"pileup": True, "pileup_massime": 9})
         cwapu.RxingContest({})
         uscita = capsys.readouterr().out
         contest = banco["contest"][0]
@@ -1183,9 +1203,9 @@ class TestRapporto:
         assert "QRM" not in riga
 
     def test_il_pannello_dice_cio_che_e_acceso(self):
-        stati = dict(cwapu.CONTEST_PREDEFINITI, pileup=True, attivita=6, qrm=True, qrm_massime=3, tasto_verticale=False)
+        stati = dict(cwapu.CONTEST_PREDEFINITI, pileup=True, pileup_massime=6, qrm=True, qrm_massime=3, tasto_verticale=False)
         riga = cwapu.descrivi_pannello_contest(stati)
-        assert "pile-up con attività 6" in riga
+        assert "pile-up fino a 6 stazioni, propagazione 50" in riga
         assert "QRM fino a 3" in riga
         assert "tutti in manipolazione automatica" in riga
 

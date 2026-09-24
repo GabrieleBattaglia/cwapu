@@ -77,7 +77,7 @@ def user_file_path(nome_file):
 app_language, _ = polipo(source_language="it")
 
 # QC Costanti
-VERSION = "7.0.6"
+VERSION = "7.1.0"
 RELEASE_DATE = "2026-09-24"
 # Tetto unico della velocita' per tutta l'applicazione, uguale a quello che
 # CWzator V10 accetta. Prima ce n'erano quattro diversi, e il piu' basso, 85,
@@ -246,7 +246,8 @@ CONTEST_PREDEFINITI = {
     "flutter": False,
     "sbadati": True,
     "pileup": False,
-    "attivita": 4,
+    "pileup_massime": 4,
+    "propagazione": ct.PROPAGAZIONE_NEUTRA,
     "stereo": 100,
     "banda": 500,
     "tasto_verticale": True,
@@ -288,9 +289,9 @@ CONTEST_VOCI = [
         "id": "6",
         "key_state": "pileup",
         "etichetta": _("pile-up"),
-        "valore": "attivita",
-        "chiedi": lambda salvato: chiedi_intero(_("Attività, stazioni per chiamata"), 1, 9, salvato),
-        "descrivi": lambda stati: _("attività {n}").format(n=stati["attivita"]),
+        "valore": "pileup_massime",
+        "chiedi": lambda salvato: chiedi_intero(_("Stazioni al massimo insieme"), 1, ct.PILEUP_MASSIME, salvato),
+        "descrivi": lambda stati: _("fino a {n} stazioni").format(n=stati["pileup_massime"]),
     },
     {
         "id": "7",
@@ -319,6 +320,15 @@ CONTEST_VOCI = [
             p0=stati["tasto_p_min"],
             p1=stati["tasto_p_max"],
         ),
+    },
+    {
+        # Issue 16: quanto la banda e' aperta. E' un valore e non un
+        # interruttore, come lo stereo, e a 50 il contest e' quello di sempre.
+        "id": "a",
+        "etichetta": _("propagazione"),
+        "valore": "propagazione",
+        "chiedi": lambda salvato: chiedi_intero(_("Propagazione"), 0, 100, salvato),
+        "descrivi": lambda stati: _("{n} su 100").format(n=stati["propagazione"]),
     },
 ]
 def chiedi_scambio_veloce(stati):
@@ -417,6 +427,22 @@ def effetti_non_disponibili():
 
 
 CONTEST_NON_DISPONIBILI = effetti_non_disponibili()
+
+
+def cwzator_accetta(parametro):
+    """Vero se il CWzator della GBUtils installata conosce questo parametro."""
+    import inspect
+
+    try:
+        return parametro in inspect.signature(CWzator).parameters
+    except (TypeError, ValueError):  # pragma: no cover - come sopra
+        return False
+
+
+# La profondita' dell'evanescenza arriva con la issue 44 di GBUtils. Senza,
+# la propagazione alta cambia soltanto la banda del QSB e la forza delle
+# stazioni, e nessuna voce del pannello ha bisogno di dirlo.
+CWZATOR_QSB_PROFONDITA = cwzator_accetta("qsb_profondita")
 # Il fondo di rumore: dieci secondi sintetizzati una volta sola e tenuti in
 # ciclo sotto le stazioni, limitati alla banda del filtro del ricevitore.
 CONTEST_FONDO_SECONDI = 10.0
@@ -830,7 +856,7 @@ def scegli_uscita_audio(elenco=None, chiedi=None, automatica=None):
     return (voce["breve"], voce["dispositivo"])
 
 
-def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None, ritardo=None):
+def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file=False, avvisa=True, farnsworth=None, pan=0, vol=None, qsb=None, chirp=None, vibrato=None, ritardo=None, qsb_profondita=None):
     """Manda un messaggio al motore CW con le impostazioni correnti dell'utente.
 
     Raccoglie i dieci parametri che ogni chiamata ripeteva identici e lascia
@@ -854,6 +880,8 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
     vibrato: la profondita' e la frequenza con cui il tono oscilla. None non
     ne mette. Si passano al motore soltanto quando ci sono, cosi' con una
     GBUtils che non li conosce tutto il resto continua a funzionare.
+    qsb_profondita: quanto scende l'evanescenza, in percento; None e' fino in
+    fondo. Con una GBUtils che non lo conosce si lascia cadere in silenzio.
     """
     effettiva = overall_farnsworth if farnsworth is None else farnsworth
     parametri = {
@@ -876,6 +904,8 @@ def suona(msg, wpm=None, pitch=None, l=None, s=None, p=None, sync=False, to_file
     for nome, valore in (("qsb", qsb), ("chirp", chirp), ("vibrato", vibrato)):
         if valore is not None:
             parametri[nome] = valore
+    if qsb is not None and qsb_profondita is not None and CWZATOR_QSB_PROFONDITA:
+        parametri["qsb_profondita"] = qsb_profondita
     if ritardo:
         # Il silenzio davanti al messaggio, in secondi: il trattino basso e'
         # il segnaposto che CWzator riempie con la pausa chiesta, esatta al
@@ -2052,7 +2082,8 @@ def descrivi_pannello_contest(stati):
     tasto verticale al cento per cento e una da sola con tutti in automatico
     non sono confrontabili, e l'archivio deve poterlo dire.
     """
-    pezzi = [_("pile-up con attività {n}").format(n=stati["attivita"]) if stati["pileup"] else _("una stazione alla volta")]
+    pezzi = [_("pile-up fino a {n} stazioni").format(n=stati["pileup_massime"]) if stati["pileup"] else _("una stazione alla volta")]
+    pezzi.append(_("propagazione {n}").format(n=stati["propagazione"]))
     if stati["qrm"]:
         pezzi.append(_("QRM fino a {n}").format(n=stati["qrm_massime"]))
     for chiave, nome in (("qrn", _("QRN")), ("qsb", _("QSB")), ("flutter", _("flutter")), ("sbadati", _("operatori sbadati"))):
@@ -2179,7 +2210,9 @@ def impostazioni_contest():
 
     Le chiavi del tasto verticale si sono chiamate manipolo per un giorno
     solo, il 20 settembre 2026: un file salvato quel giorno le porta ancora,
-    e si leggono lo stesso invece di tornare ai predefiniti senza dirlo.
+    e si leggono lo stesso invece di tornare ai predefiniti senza dirlo. Lo
+    stesso vale per attivita, che fino alla 7.0.6 era la voce 6: dalla 7.1.0
+    e' il tetto del pile-up, pileup_massime, e il valore salvato passa com'e'.
     """
     salvati = app_data.setdefault("contest_settings", {})
     letti = {}
@@ -2188,6 +2221,10 @@ def impostazioni_contest():
             chiave = "tasto_verticale"
         elif chiave.startswith("manipolo_"):
             chiave = "tasto_" + chiave[len("manipolo_") :]
+        elif chiave == "attivita":
+            if "pileup_massime" in salvati:
+                continue
+            chiave = "pileup_massime"
         if chiave in CONTEST_PREDEFINITI:
             letti[chiave] = valore
     return {**CONTEST_PREDEFINITI, **letti}
@@ -2235,7 +2272,10 @@ def pannello_contest():
 
     if not pannello_interruttori(CONTEST_VOCI, stati, _("Contest - Interruttori e valori (Invio comincia, Esc annulla tutto):"), al_cambio):
         return None
-    app_data.setdefault("contest_settings", {}).update(stati)
+    salvati = app_data.setdefault("contest_settings", {})
+    salvati.update(stati)
+    # La chiave vecchia della voce 6 e' gia' passata in pileup_massime.
+    salvati.pop("attivita", None)
     return stati
 
 
@@ -2309,9 +2349,9 @@ def RxingContest(menu_config_scelta):
     else:
         limit = chiedi_intero(_("Quanti minuti"), 1, 60, CONTEST_MINUTI_PREDEFINITI)
     if stati["pileup"]:
-        print(_("Contest come {call}, pile-up con attività {n}.").format(call=mio_nominativo, n=stati["attivita"]))
+        print(_("Contest come {call}, pile-up fino a {n} stazioni, propagazione {p}.").format(call=mio_nominativo, n=stati["pileup_massime"], p=stati["propagazione"]))
     else:
-        print(_("Contest come {call}, una stazione alla volta.").format(call=mio_nominativo))
+        print(_("Contest come {call}, una stazione alla volta, propagazione {p}.").format(call=mio_nominativo, p=stati["propagazione"]))
     print(_("F1 CQ, F2 scambio, F3 TU, F4 il mio call"))
     print(_("F5 il suo call, F6 QSO B4, F7 ?, F8 NIL"))
     print(_("Invio manda cio' che serve e mette a log"))
@@ -2336,7 +2376,8 @@ def RxingContest(menu_config_scelta):
         overall_pitch,
         prossimo_nominativo,
         pileup=stati["pileup"],
-        attivita=stati["attivita"],
+        pileup_massime=stati["pileup_massime"],
+        propagazione=stati["propagazione"],
         sbadati=stati["sbadati"],
         qrm=stati["qrm"],
         qrm_massime=stati["qrm_massime"],
@@ -2490,6 +2531,7 @@ def RxingContest(menu_config_scelta):
             # ciclo che quella voce sono io.
             "vol": None if richiesta.stazione == ct.IO else richiesta.volume,
             "qsb": richiesta.qsb,
+            "qsb_profondita": richiesta.qsb_profondita,
             "chirp": richiesta.chirp,
             "vibrato": richiesta.vibrato,
         }

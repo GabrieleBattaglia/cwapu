@@ -188,7 +188,7 @@ class TestImpostazioniContest:
         monkeypatch.setattr(cwapu, "app_data", {"contest_settings": {"pileup": True}}, raising=False)
         stati = cwapu.impostazioni_contest()
         assert stati["pileup"] is True
-        assert stati["attivita"] == cwapu.CONTEST_PREDEFINITI["attivita"]
+        assert stati["pileup_massime"] == cwapu.CONTEST_PREDEFINITI["pileup_massime"]
         assert stati["banda"] == 500
 
     def test_le_chiavi_vecchie_del_manipolo_si_leggono_lo_stesso(self, monkeypatch):
@@ -199,6 +199,22 @@ class TestImpostazioniContest:
         assert stati["tasto_verticale"] is False
         assert stati["tasto_l_min"] == 44
         assert "manipolo" not in stati and "manipolo_l_min" not in stati
+
+    def test_l_attivita_di_prima_diventa_il_tetto(self, monkeypatch):
+        """Fino alla 7.0.6 la voce 6 si chiamava attivita: dalla 7.1.0 e' il
+        tetto del pile-up, issue 17, e il valore salvato passa com'e'."""
+        monkeypatch.setattr(cwapu, "app_data", {"contest_settings": {"pileup": True, "attivita": 7}}, raising=False)
+        stati = cwapu.impostazioni_contest()
+        assert stati["pileup_massime"] == 7
+        assert "attivita" not in stati
+
+    def test_se_c_e_gia_il_tetto_l_attivita_non_conta(self, monkeypatch):
+        monkeypatch.setattr(cwapu, "app_data", {"contest_settings": {"attivita": 9, "pileup_massime": 12}}, raising=False)
+        assert cwapu.impostazioni_contest()["pileup_massime"] == 12
+
+    def test_la_propagazione_parte_da_cinquanta(self, monkeypatch):
+        monkeypatch.setattr(cwapu, "app_data", {}, raising=False)
+        assert cwapu.impostazioni_contest()["propagazione"] == 50
 
     def test_le_chiavi_che_non_conosco_non_entrano(self, monkeypatch):
         monkeypatch.setattr(cwapu, "app_data", {"contest_settings": {"roba_vecchia": 7}}, raising=False)
@@ -395,3 +411,26 @@ class TestSelezioneRx:
 @pytest.mark.parametrize("chiave", sorted(cwapu.CONTEST_PREDEFINITI))
 def test_ogni_predefinito_sta_nelle_impostazioni_di_serie(chiave):
     assert chiave in cwapu.DEFAULT_DATA["contest_settings"]
+
+
+class TestVociNuoveDelContest:
+    """Issue 16 e 17: la voce a e il tetto della voce 6."""
+
+    def test_la_propagazione_e_la_voce_a_dopo_la_nove(self):
+        ids = [v["id"] for v in cwapu.CONTEST_VOCI]
+        assert ids[-2:] == ["9", "a"]
+        voce = cwapu.CONTEST_VOCI[-1]
+        assert voce["valore"] == "propagazione"
+        assert "key_state" not in voce
+
+    def test_la_voce_sei_chiede_fino_al_tetto(self, monkeypatch):
+        chiesti = []
+        monkeypatch.setattr(cwapu, "chiedi_intero", lambda testo, minimo, massimo, salvato: chiesti.append((minimo, massimo)) or salvato)
+        voce = next(v for v in cwapu.CONTEST_VOCI if v["id"] == "6")
+        assert voce["chiedi"](4) == 4
+        assert chiesti == [(1, cwapu.ct.PILEUP_MASSIME)]
+
+    def test_il_rapporto_dice_tetto_e_propagazione(self):
+        stati = dict(cwapu.CONTEST_PREDEFINITI, pileup=True, pileup_massime=12, propagazione=80)
+        riga = cwapu.descrivi_pannello_contest(stati)
+        assert riga.startswith("pile-up fino a 12 stazioni, propagazione 80")

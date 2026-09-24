@@ -74,7 +74,7 @@ footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--bordo)
 <body>
 
 <h1>Manuale di CWapu</h1>
-<p><strong>Versione 7.0.6 del 24 settembre 2026.</strong></p>
+<p><strong>Versione 7.1.0 del 24 settembre 2026.</strong></p>
 <p>CWapu è scritto da Gabriele Battaglia, IZ4APU, e da ClaudIA, Claude Opus 5.5 in modalità UltraCode.</p>
 
 <div class="nota">
@@ -473,10 +473,11 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <tr><td>3. QSB</td><td>L'evanescenza che fa andare e venire il segnale. Ogni stazione ne prende una sua, lenta come nelle propagazioni normali.</td></tr>
 <tr><td>4. flutter</td><td>Il tremolio rapido delle propagazioni polari. Tocca a tre stazioni su dieci fra quelle che hanno già il QSB, e senza QSB non si sente.</td></tr>
 <tr><td>5. operatori sbadati</td><td>Stazioni che sbagliano il rapporto o il numero, lo correggono con una fila di <code>e</code> e lo ripetono, e ogni tanto rispondono fuori turno. Acceso di serie.</td></tr>
-<tr><td>6. pile-up</td><td>Acceso, a ogni chiamata rispondono più stazioni insieme: il valore è l'attività, da 1 a 9, cioè quante rispondono in media. Spento, è una stazione alla volta, come nelle versioni precedenti. Spento di serie.</td></tr>
+<tr><td>6. pile-up</td><td>Acceso, a ogni chiamata rispondono più stazioni insieme: il valore dice quante al massimo chiamano insieme, da 1 a 24. Il tetto non si supera mai: chi è già in aria occupa il suo posto. Quante rispondono a ogni CQ, e se ne arrivano anche senza CQ, lo decide la propagazione, voce a. Spento, è una stazione alla volta, come nelle versioni precedenti. Spento di serie.</td></tr>
 <tr><td>7. stereo</td><td>Da 0 a 100: quanto le stazioni si allargano fra i due altoparlanti. A 0 arrivano tutte al centro, come si sta al centro noi.</td></tr>
 <tr><td>8. banda</td><td>La larghezza del filtro del ricevitore, da 100 a 600 hertz. Più è stretta, più le stazioni lontane dal proprio tono arrivano deboli: è il filtro che in radio si stringe quando c'è folla. Spostando il tono con <kbd>Alt</kbd> e le frecce la distanza si ricalcola, quindi sintonizzarsi su una stazione debole la porta davvero in banda passante.</td></tr>
 <tr><td>9. tasto verticale</td><td>Quante stazioni manipolano a mano invece che in automatico, e quanto irregolare è la loro manipolazione. Accendendolo si scelgono sette valori: la probabilità in percentuale e gli intervalli della linea, dello spazio e del punto. Acceso di serie, al trenta per cento.</td></tr>
+<tr><td>a. propagazione</td><td>Quanto la banda è aperta, da 0 a 100, 50 di serie, e a 50 il contest è quello di sempre. Scendendo verso 0 rispondono meno stazioni a ogni CQ, e spesso nessuna, arrivano più deboli e il QSB ha cali più lenti e più lunghi. Salendo verso 100 rispondono più stazioni, e sopra 50 ne arrivano anche senza CQ, fino al tetto della voce 6: a 100 il pile-up non si ferma mai. Arrivano più forti, il QSB ha cali più brevi e il QRM arriva più spesso. Con una GBUtils che lo sa fare, sopra 50 i cali del QSB diventano anche più leggeri. Nel modo singolo, con il pile-up spento, la propagazione cambia soltanto la forza delle stazioni e il QSB. È un valore e non un interruttore, come lo stereo: la lettera <kbd>a</kbd> lo chiede.</td></tr>
 </tbody>
 </table>
 
@@ -552,9 +553,9 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 <li><strong>Una velocità</strong> che si discosta dalla propria, e che a volte abbassa apposta per farsi capire.</li>
 <li><strong>Un tono</strong> diverso dal proprio, fino a settecento hertz di distanza, così con il filtro largo le stazioni stanno sparse su tutta la banda, e una posizione fra gli altoparlanti se lo stereo è acceso. Chi chiama molto lontano dal proprio tono arriva debole, perché è il filtro a mangiarselo, ed è il motivo per cui il filtro si stringe. Debole, però, non muto: oltre una banda intera dal tuo tono il fianco del filtro si ferma a meno ventiquattro decibel, come fa un filtro vero, e si sente che c'è traffico anche dove non si copia. Il fianco comincia a scendere subito, non dopo mezza banda: una stazione a metà banda arriva già dimezzata, come in radio, ed è da quanto è debole che si capisce quanto è fuori. Serve anche a te: una stazione muta ti chiamerebbe, aspetterebbe e se ne andrebbe senza che tu possa saperlo, e la sua rinuncia finirebbe lo stesso nel rapporto di fine sessione.</li>
 <li><strong>Una voce che si sente solo quando si ascolta</strong>: mentre si trasmette il ricevitore tace, come in radio, quindi né il fruscio né chi è già in aria né chi comincia mentre trasmetti si sovrappongono alla propria chiamata. Chi stava trasmettendo prosegue per conto suo e il contest lo sa: semplicemente quel pezzo non lo si è sentito.</li>
-<li><strong>Un'evanescenza</strong>, se il QSB è acceso: il segnale va e viene. Metà delle stazioni ha un'onda lenta, che impiega qualche secondo a scendere e altrettanti a risalire, e le altre un'onda più rapida. Se il flutter è acceso, fra queste tre stazioni su dieci hanno il tremolio veloce delle propagazioni polari e una su dieci la nota ruvida, cioè una modulazione così rapida da non sentirsi più come un andirivieni ma come sporcizia sul segnale.</li>
+<li><strong>Un'evanescenza</strong>, se il QSB è acceso: il segnale va e viene. Metà delle stazioni ha un'onda lenta, che impiega qualche secondo a scendere e altrettanti a risalire, e le altre un'onda più rapida. La propagazione sposta tutto: con la banda chiusa le onde sono più lente e i cali più lunghi, con la banda aperta i cali sono brevi. Se il flutter è acceso, fra queste tre stazioni su dieci hanno il tremolio veloce delle propagazioni polari e una su dieci la nota ruvida, cioè una modulazione così rapida da non sentirsi più come un andirivieni ma come sporcizia sul segnale.</li>
 <li><strong>Un difetto di nota</strong>, sempre con il flutter acceso: una stazione su sei ha il <em>chirp</em>, cioè il tono che scivola mentre il punto o la linea suonano, che è il difetto del trasmettitore con l'alimentazione debole, e una su dieci ha il tono instabile, che oscilla attorno alla sua frequenza. Sono indipendenti fra loro e dall'evanescenza: in radio una stazione può avere tutto insieme, oppure niente.</li>
-<li><strong>Una forza</strong>, perché non arrivano tutte allo stesso modo, e il filtro attenua chi sta lontano dal proprio tono.</li>
+<li><strong>Una forza</strong>, che dipende dalla propagazione: con la banda chiusa si sentono molte stazioni deboli, con la banda aperta arrivano quasi tutte forti. Non arrivano comunque tutte allo stesso modo, e il filtro attenua chi sta lontano dal proprio tono.</li>
 <li><strong>Un modo di manipolare</strong>: automatico, cioè con i pesi regolari del CW standard, oppure, con la probabilità scelta nel pannello, manuale, cioè a tasto verticale, con pesi lontani dallo standard. La stessa lettera suona allora diversa da com'è abituati a sentirla, ed è il caso più difficile e anche il più utile.</li>
 <li><strong>Una pazienza</strong>, estratta da una distribuzione che dà quattro tentativi in media. Esaurita quella, la stazione se ne va, esattamente come farebbe in un contest vero chi ha una coda di gente che chiama. Chi se n'è andato finisce nel rapporto.</li>
 </ul>
@@ -815,7 +816,7 @@ S3-#3 - WPM18.00/18.00 - +2/-0&gt; ...
 </dl>
 
 <footer>
-<p>CWapu, versione 7.0.6 del 24 settembre 2026.</p>
+<p>CWapu, versione 7.1.0 del 24 settembre 2026.</p>
 <p>Software e manuale di Gabriele Battaglia, IZ4APU, e di ClaudIA, Claude Opus 5.5 in modalità UltraCode.</p>
 <p>Il motore CW è CWzator, dalla libreria GBUtils, su un'idea originale di Kevin Schmidt, W9CF.</p>
 <p>Le segnalazioni e le proposte si aprono come issue sul repository del progetto.</p>

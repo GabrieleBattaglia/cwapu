@@ -292,3 +292,34 @@ class TestContest:
         assert chiamate, "nessuna chiamata a suona nel contest?"
         for argomenti in chiamate:
             assert "farnsworth=0" in argomenti or "**voce" in argomenti, argomenti
+
+
+class TestProfonditaDelQsb:
+    """Issue 16: la profondita' dell'evanescenza passa al motore solo se la
+    GBUtils installata la conosce, issue 44 di GBUtils."""
+
+    def test_con_una_gbutils_che_la_conosce_passa(self, monkeypatch):
+        prepara(monkeypatch)
+        motore = MotoreFinto()
+        monkeypatch.setattr(cwapu, "CWzator", motore)
+        monkeypatch.setattr(cwapu, "CWZATOR_QSB_PROFONDITA", True)
+        cwapu.suona("cq", qsb=0.2, qsb_profondita=40.0)
+        assert motore.chiamate[-1]["qsb_profondita"] == 40.0
+
+    def test_senza_si_lascia_cadere_in_silenzio(self, monkeypatch, capsys):
+        prepara(monkeypatch)
+        motore = MotoreFinto()
+        monkeypatch.setattr(cwapu, "CWzator", motore)
+        monkeypatch.setattr(cwapu, "CWZATOR_QSB_PROFONDITA", False)
+        cwapu.suona("cq", qsb=0.2, qsb_profondita=40.0)
+        assert "qsb_profondita" not in motore.chiamate[-1]
+        assert motore.chiamate[-1]["qsb"] == 0.2
+        assert capsys.readouterr().out == ""
+
+    def test_senza_qsb_non_ha_senso_e_non_passa(self, monkeypatch):
+        prepara(monkeypatch)
+        motore = MotoreFinto()
+        monkeypatch.setattr(cwapu, "CWzator", motore)
+        monkeypatch.setattr(cwapu, "CWZATOR_QSB_PROFONDITA", True)
+        cwapu.suona("cq", qsb_profondita=40.0)
+        assert "qsb_profondita" not in motore.chiamate[-1]

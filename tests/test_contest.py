@@ -384,7 +384,7 @@ class TestPileup:
     def test_dopo_il_cq_rispondono_in_media_due_stazioni(self):
         conteggi = []
         for seme in range(30):
-            m = motore(pileup=True, attivita=4, seme=seme)
+            m = motore(pileup=True, pileup_massime=4, seme=seme)
             assert m.avanza(0.0).eventi == []
             m.io_trasmetti([ct.Msg.CQ], 0.0)
             m.avanza(1.0, [ct.IO])
@@ -394,7 +394,7 @@ class TestPileup:
         assert max(conteggi) >= 3
 
     def test_le_stazioni_hanno_voci_diverse_entro_i_limiti(self):
-        m = motore(pileup=True, attivita=9, ampiezza_stereo=60, seme=7)
+        m = motore(pileup=True, pileup_massime=9, ampiezza_stereo=60, seme=7)
         m.io_trasmetti([ct.Msg.CQ], 0.0)
         m.avanza(1.0, [ct.IO])
         stazioni = m.dx_attive()
@@ -407,7 +407,7 @@ class TestPileup:
             assert 22 <= s.wpm <= 28
 
     def test_il_tu_con_il_mio_nominativo_richiama_altre_stazioni(self):
-        m = motore(pileup=True, attivita=6, seme=11)
+        m = motore(pileup=True, pileup_massime=6, seme=11)
         m.io_trasmetti([ct.Msg.TU, ct.Msg.MIO], 0.0)
         assert m.testo_mio([ct.Msg.TU, ct.Msg.MIO]) == "TU IZ4APU"
         m.avanza(1.0, [ct.IO])
@@ -635,7 +635,7 @@ class TestCorrezioniDelPorting:
 
     def test_accodare_non_ridice_l_inizio_alle_stazioni(self):
         """Un secondo inizio rimetterebbe in ascolto chi stava gia' copiando."""
-        m = motore(pileup=True, attivita=9, seme=5)
+        m = motore(pileup=True, pileup_massime=9, seme=5)
         m.avanza(0.0)
         m.io_trasmetti([ct.Msg.CQ], 0.0)
         m.io_finito(1.0)
@@ -849,3 +849,128 @@ class TestCorrezioniDelPorting:
         testo = m.testo_mio([ct.Msg.NR])
         assert testo.startswith("5NN")
         assert testo.removeprefix("5NN") in ("TT7", "OO7")
+
+
+class TestTettoDelPileup:
+    """Issue 17: il valore del 6 e' quante stazioni al massimo chiamano insieme."""
+
+    def test_i_cq_non_fanno_nascere_oltre_il_tetto(self):
+        for seme in range(10):
+            m = motore(pileup=True, pileup_massime=3, propagazione=100, seme=seme)
+            for giro in range(8):
+                istante = giro * 3.0
+                m.io_trasmetti([ct.Msg.CQ], istante)
+                m.avanza(istante + 1.0, [ct.IO])
+                assert len(m.dx_attive()) <= 3
+
+    def test_il_tetto_si_ferma_a_ventiquattro(self):
+        assert ct.PILEUP_MASSIME == 24
+        assert motore(pileup=True, pileup_massime=40).pileup_massime == 24
+        assert motore(pileup=True, pileup_massime=0).pileup_massime == 1
+
+
+class TestPropagazione:
+    """Issue 16: da 0 a 100, e a 50 il contest e' quello di Morse Runner."""
+
+    def test_a_cinquanta_tutto_come_prima(self):
+        m = motore(pileup=True, pileup_massime=6)
+        assert m.propagazione == ct.PROPAGAZIONE_NEUTRA == 50
+        assert m.media_risposte_cq() == pytest.approx(0.5 * 6)
+        assert m.fattore_banda_qsb() == pytest.approx(1.0)
+        assert m.profondita_evanescenza(0.2) is None
+        assert m.intervallo_qrm() == pytest.approx(ct.INTERVALLO_QRM)
+        for sorte in (0.0, 0.3, 1.0):
+            assert m.forza_di_nascita(sorte) == pytest.approx(0.2 + 0.8 * sorte)
+
+    def test_le_risposte_al_cq_seguono_la_propagazione(self):
+        assert motore(pileup=True, pileup_massime=4, propagazione=0).media_risposte_cq() == pytest.approx(0.6)
+        assert motore(pileup=True, pileup_massime=4, propagazione=100).media_risposte_cq() == pytest.approx(3.4)
+
+    def test_a_propagazione_bassa_molti_cq_restano_senza_risposta(self):
+        vuoti = 0
+        for seme in range(60):
+            m = motore(pileup=True, pileup_massime=4, propagazione=0, seme=seme)
+            m.io_trasmetti([ct.Msg.CQ], 0.0)
+            m.avanza(1.0, [ct.IO])
+            vuoti += not m.dx_attive()
+        # La media e' 0,6 per CQ: senza risposta con probabilita' e^-0,6, cioe' il 55 per cento.
+        assert 25 <= vuoti <= 45
+
+    def test_fino_a_cinquanta_nessuno_arriva_senza_cq(self):
+        m = motore(pileup=True, pileup_massime=10, propagazione=50)
+        avanza_fino(m, 0.0, 60.0, passo=0.05)
+        assert m.dx_attive() == []
+
+    def test_a_cento_le_stazioni_arrivano_da_sole_e_chiamano(self):
+        m = motore(pileup=True, pileup_massime=10, propagazione=100, seme=3)
+        richieste, _ = avanza_fino(m, 0.0, 20.0, passo=0.05, trasmissioni_brevi=True)
+        # Con la costante di cinque secondi i posti liberi si riempiono in
+        # fretta, senza che io abbia chiamato. Non tutti: chi non viene
+        # lavorato perde la pazienza e se ne va, e fra chi arriva e chi molla
+        # l'equilibrio sta intorno a otto su dieci.
+        assert 5 <= len(m.dx_attive()) <= 10
+        assert any(ct.Msg.MIO in r.messaggi for r in richieste)
+
+    def test_chi_arriva_mentre_trasmetto_aspetta_la_fine(self):
+        m = motore(pileup=True, pileup_massime=10, propagazione=100, seme=4)
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        richieste, _ = avanza_fino(m, 0.0, 5.0, passo=0.05)
+        assert m.dx_attive(), "nessuno e' arrivato mentre trasmettevo"
+        assert all(r.stazione == ct.IO for r in richieste), "qualcuno ha chiamato sopra di me"
+
+    def test_nel_modo_singolo_non_arriva_nessuno_in_piu(self):
+        m = motore(pileup=False, propagazione=100, seme=2)
+        avanza_fino(m, 0.0, 30.0, passo=0.05)
+        assert len(m.dx_attive()) == 1
+
+    def test_la_forza_segue_la_propagazione(self):
+        chiusa = motore(propagazione=0)
+        aperta = motore(propagazione=100)
+        assert chiusa.forza_di_nascita(0.0) == pytest.approx(0.1)
+        assert aperta.forza_di_nascita(0.0) == pytest.approx(0.5)
+        assert aperta.forza_di_nascita(1.0) == pytest.approx(1.0)
+        m = motore(pileup=True, pileup_massime=24, propagazione=100, seme=9)
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        m.avanza(1.0, [ct.IO])
+        assert m.dx_attive()
+        assert all(0.5 <= s.volume <= 1.0 for s in m.dx_attive())
+
+    def test_il_qsb_lento_cambia_banda_e_profondita(self):
+        chiusa = motore(qsb=True, propagazione=0, seme=5)
+        bande = [chiusa.evanescenza() for _ in range(200)]
+        assert all(ct.QSB_BANDA[0] * 0.5 <= b <= ct.QSB_BANDA[1] * 0.5 for b in bande)
+        assert chiusa.profondita_evanescenza(bande[0]) is None
+        aperta = motore(qsb=True, propagazione=100, seme=5)
+        bande = [aperta.evanescenza() for _ in range(200)]
+        assert all(ct.QSB_BANDA[0] * 2.0 <= b <= ct.QSB_BANDA[1] * 2.0 for b in bande)
+        assert aperta.profondita_evanescenza(bande[0]) == pytest.approx(ct.QSB_PROFONDITA_PIENA)
+        assert motore(propagazione=75).profondita_evanescenza(0.2) == pytest.approx(70.0)
+
+    def test_flutter_e_nota_ruvida_restano_come_sono(self):
+        m = motore(qsb=True, flutter=True, propagazione=100)
+        assert m.profondita_evanescenza(ct.FLUTTER_BANDA[0]) is None
+        assert m.profondita_evanescenza(ct.RUVIDO_BANDA[1]) is None
+        assert m.profondita_evanescenza(None) is None
+
+    def test_la_profondita_arriva_nella_richiesta(self):
+        m = motore(pileup=True, pileup_massime=6, qsb=True, propagazione=100, seme=8)
+        m.io_trasmetti([ct.Msg.CQ], 0.0)
+        richieste, _ = avanza_fino(m, 1.0, 5.0, passo=0.05, finite=(ct.IO,), trasmissioni_brevi=True)
+        dx = [r for r in richieste if r.dx]
+        assert dx
+        assert all(r.qsb_profondita == pytest.approx(ct.QSB_PROFONDITA_PIENA) for r in dx)
+
+    def test_il_qrm_arriva_piu_spesso_con_la_banda_aperta(self):
+        assert motore(pileup=True, propagazione=0).intervallo_qrm() == pytest.approx(480.0)
+        assert motore(pileup=True, propagazione=100).intervallo_qrm() == pytest.approx(120.0)
+        # Nel modo singolo la propagazione tocca solo forza e QSB.
+        assert motore(pileup=False, propagazione=100).intervallo_qrm() == pytest.approx(ct.INTERVALLO_QRM)
+
+    def test_la_forza_del_qrm_segue_la_propagazione(self):
+        m = motore(pileup=True, qrm=True, qrm_massime=5, propagazione=100, seme=6)
+        volumi = set()
+        for giro in range(1800):
+            m.avanza(giro * 0.5)
+            volumi.update(s.volume for s in m.qrm_attive())
+        assert volumi
+        assert all(0.5 <= v <= 1.0 for v in volumi)

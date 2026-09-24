@@ -110,6 +110,32 @@ PROB_SALUTO = 0.2
 # Quanto aspetta a salutare, in secondi: nessuno risponde nello stesso
 # istante in cui l'altro ha smesso.
 RITARDO_SALUTO = (0.15, 0.5)
+# Il tetto del pile-up, issue 17: quante stazioni al massimo chiamano
+# insieme. Il mixer di GBUtils ha trentadue voci, e quando e' pieno chiude la
+# piu' vecchia, che nel contest e' quasi sempre il fruscio: ventiquattro
+# stazioni, cinque di QRM, il QRN, la mia trasmissione e un saluto fanno
+# trentadue.
+PILEUP_MASSIME = 24
+# La propagazione, issue 16, da 0 a 100: a 50 il contest e' quello di Morse
+# Runner. Le curve sono quelle decise da Gabriele il 24 settembre 2026, di
+# partenza: si ritoccano al collaudo d'ascolto.
+PROPAGAZIONE_NEUTRA = 50
+# La frazione del tetto che risponde in media a un CQ, a 0 e a 100: a 50 e'
+# la meta', cioe' la media di Poisson di cwsim con l'attivita' al posto del
+# tetto.
+RISPOSTA_CQ = (0.15, 0.85)
+# Sopra 50 le stazioni arrivano anche da sole e riempiono i posti liberi:
+# questa e' la costante di tempo a 100, in secondi, e raddoppia a 75.
+RIEMPIMENTO_SPONTANEI = 5.0
+# Chi arriva da solo a frequenza libera aspetta un poco prima di chiamare.
+ATTESA_SPONTANEI = (0.3, 1.5)
+# Il volume minimo con cui nasce una stazione a 0, a 50 e a 100: il massimo
+# resta uno, e a 50 e' la forza di oggi.
+VOLUME_MINIMO = (0.1, 0.2, 0.5)
+# La profondita' del QSB lento a 100, in percento: da 50 in giu' e' piena.
+# CWzator la accetta solo dalla issue 44 di GBUtils; senza, chi suona la
+# richiesta la lascia cadere e cambia soltanto la banda.
+QSB_PROFONDITA_PIENA = 40.0
 
 
 def numero_come_testo(rng, rst, nr, errore=False):
@@ -264,6 +290,9 @@ class Richiesta:
     # I secondi di silenzio prima che il messaggio cominci. Zero per tutto,
     # tranne il saluto di una stazione dopo il mio TU.
     ritardo: float = 0.0
+    # Quanto scende l'evanescenza lenta, in percento; None e' la profondita'
+    # piena di sempre. La cambia la propagazione sopra 50.
+    qsb_profondita: float = None
 
 
 @dataclass
@@ -644,6 +673,7 @@ class Stazione:
         # restano vuoti, cosi' una stazione costruita a mano nelle prove
         # suona pulita.
         self.qsb = None
+        self.qsb_profondita = None
         self.chirp = None
         self.vibrato = None
         # Le stazioni di disturbo e quelle costruite a mano nelle prove non
@@ -718,6 +748,7 @@ class Stazione:
             self.vibrato,
             isinstance(self, StazioneDX),
             pezzi,
+            qsb_profondita=self.qsb_profondita,
         )
 
     def dividi_in_pezzi(self, marcato):
@@ -749,14 +780,16 @@ class StazioneDX(Stazione):
         oper = Operatore(rng, motore, nominativo, motore.minuti(adesso), singola)
         wpm = oper.velocita(motore.mio_wpm)
         # Il tono a piu' o meno trecento hertz dal mio, come oggi; la panoramica
-        # entro l'ampiezza stereo scelta; la forza fra un quinto e il pieno.
+        # entro l'ampiezza stereo scelta; la forza fra il minimo che da' la
+        # propagazione e il pieno, un quinto a 50.
         scarto = math.fmod(rng.gauss(0.0, TONO_SCARTO), TONO_MASSIMO)
         pitch = tono_stazione(motore.mio_pitch, scarto)
         pan = rng.uniform(-motore.ampiezza_stereo, motore.ampiezza_stereo)
-        volume = 0.2 + 0.8 * (1.0 + math.sin(math.pi * (rng.random() - 0.5))) / 2.0
+        volume = motore.forza_di_nascita((1.0 + math.sin(math.pi * (rng.random() - 0.5))) / 2.0)
         super().__init__(motore, nominativo, wpm, pitch, pan, volume, motore.pesi_stazione())
         self.oper = oper
         self.qsb = motore.evanescenza()
+        self.qsb_profondita = motore.profondita_evanescenza(self.qsb)
         self.chirp, self.vibrato = motore.difetti_di_nota()
         # Chi accelera il rapporto lo fa per tutto il QSO: e' un'abitudine
         # dell'operatore, non un capriccio del momento.
@@ -830,6 +863,7 @@ class StazioneDX(Stazione):
             False,
             None,
             float(ritardo),
+            self.qsb_profondita,
         )
 
     def verita(self):
@@ -847,9 +881,10 @@ class StazioneQRM(Stazione):
         rng = motore.rng
         pitch = tono_stazione(motore.mio_pitch, rng.randint(-int(TONO_MASSIMO), int(TONO_MASSIMO)))
         pan = rng.uniform(-motore.ampiezza_stereo, motore.ampiezza_stereo)
-        volume = 0.2 + 0.8 * rng.random()
+        volume = motore.forza_di_nascita(rng.random())
         super().__init__(motore, motore.nominativi(), rng.randint(30, 50), pitch, pan, volume)
         self.qsb = motore.evanescenza()
+        self.qsb_profondita = motore.profondita_evanescenza(self.qsb)
         self.chirp, self.vibrato = motore.difetti_di_nota()
         self.pazienza = rng.randint(1, 5)
         self.prima = rng.choice(self.MESSAGGI)
@@ -983,7 +1018,8 @@ class Contest:
       mio_nominativo, mio_wpm, mio_pitch: come trasmetto io.
       nominativi: una funzione senza argomenti che da' un nominativo, veri e inventati con le percentuali di cwapu.
       pileup: falso e' il modo singolo, una stazione alla volta; vero e' il pile-up.
-      attivita: quante stazioni rispondono in media a ogni chiamata, il doppio della media di Poisson come in cwsim.
+      pileup_massime: quante stazioni al massimo chiamano insieme nel pile-up, da 1 a PILEUP_MASSIME, issue 17.
+      propagazione: da 0 a 100, issue 16. A 50 il contest e' quello di Morse Runner. Nel pile-up cambia quante stazioni rispondono al CQ e, sopra 50, fa arrivare stazioni anche senza CQ; in tutti e due i modi cambia la forza delle stazioni e il QSB; nel pile-up anche quanto spesso arriva il QRM.
       sbadati: gli operatori che sbagliano rapporto e numero e chiamano fuori turno.
       qrm, qrm_massime: le stazioni che disturbano, e quante al massimo insieme.
       qsb: l'evanescenza, cioe' il segnale che va e viene; flutter: la sua forma rapida, che tocca tre stazioni su dieci fra quelle che hanno gia' il QSB.
@@ -1001,7 +1037,8 @@ class Contest:
         nominativi,
         *,
         pileup=False,
-        attivita=4,
+        pileup_massime=4,
+        propagazione=PROPAGAZIONE_NEUTRA,
         sbadati=True,
         qrm=False,
         qrm_massime=1,
@@ -1021,7 +1058,8 @@ class Contest:
         self.mio_pitch = int(mio_pitch)
         self.nominativi = nominativi
         self.pileup = bool(pileup)
-        self.attivita = max(1, int(attivita))
+        self.pileup_massime = max(1, min(PILEUP_MASSIME, int(pileup_massime)))
+        self.propagazione = max(0.0, min(100.0, float(propagazione)))
         self.sbadati = bool(sbadati)
         self.qrm = bool(qrm)
         self.qrm_massime = max(1, int(qrm_massime))
@@ -1089,8 +1127,89 @@ class Contest:
         # dell'intervallo. Cosi' meta' delle stazioni sta sotto tredici
         # centesimi, cioe' con un'onda che impiega tre secondi buoni a scendere
         # e altrettanti a risalire, che e' il QSB che si sente davvero.
-        basso, alto = QSB_BANDA
+        # La propagazione sposta tutta la banda: sotto 50 i cali sono piu'
+        # lenti e lunghi, fino a meta' a 0; sopra 50 piu' rapidi e brevi, fino
+        # al doppio a 100.
+        basso, alto = (b * self.fattore_banda_qsb() for b in QSB_BANDA)
         return math.exp(self.rng.uniform(math.log(basso), math.log(alto)))
+
+    @property
+    def aperta(self):
+        """La propagazione da 0 a 1, cioe' quanto la banda e' aperta."""
+        return self.propagazione / 100.0
+
+    def fattore_banda_qsb(self):
+        """Per quanto si moltiplica la banda del QSB lento: 0,5 a 0, 1 a 50, 2 a 100."""
+        f = self.aperta
+        return 0.5 + f if f <= 0.5 else 1.0 + 2.0 * (f - 0.5)
+
+    def profondita_evanescenza(self, banda):
+        """Quanto scende l'evanescenza di questa banda, in percento, o None se scende fino in fondo.
+
+        Tocca solo il QSB lento: il flutter e la nota ruvida sono difetti del
+        segnale, non della propagazione, e restano come sono. Da 50 in giu'
+        la profondita' e' piena, come in Morse Runner; sopra scende fino a
+        QSB_PROFONDITA_PIENA a 100, cioe' segnali forti con cali leggeri.
+        """
+        f = self.aperta
+        if banda is None or banda >= FLUTTER_BANDA[0] or f <= 0.5:
+            return None
+        return 100.0 - (100.0 - QSB_PROFONDITA_PIENA) * 2.0 * (f - 0.5)
+
+    def forza_di_nascita(self, sorte):
+        """Il volume di una stazione che nasce, da una sorte fra 0 e 1.
+
+        Il minimo dipende dalla propagazione, 0,1 a 0, 0,2 a 50 e 0,5 a 100, e
+        il massimo resta uno. A 50 e' esattamente la formula di prima, con la
+        stessa sorte: chi non tocca la propagazione sente le stesse stazioni.
+        """
+        f = self.aperta
+        a, b, c = VOLUME_MINIMO
+        minimo = a + (b - a) * f / 0.5 if f <= 0.5 else b + (c - b) * (f - 0.5) / 0.5
+        return minimo + (1.0 - minimo) * sorte
+
+    def media_risposte_cq(self):
+        """Quante stazioni rispondono in media a un CQ nel pile-up: una frazione del tetto che cresce con la propagazione."""
+        basso, alto = RISPOSTA_CQ
+        return self.pileup_massime * (basso + (alto - basso) * self.aperta)
+
+    def posti_liberi(self):
+        """Quante stazioni possono ancora nascere senza superare il tetto del pile-up."""
+        return max(0, self.pileup_massime - len(self.dx_attive()))
+
+    def intervallo_qrm(self):
+        """L'intervallo medio fra due stazioni di disturbo, in secondi.
+
+        Nel pile-up la propagazione lo cambia, 480 a 0, 240 a 50 come cwsim, 120
+        a 100: con la banda aperta c'e' piu' gente in aria. Nel modo singolo
+        la propagazione tocca soltanto forza e QSB, per scelta di Gabriele,
+        e l'intervallo resta quello di cwsim.
+        """
+        if not self.pileup:
+            return INTERVALLO_QRM
+        return INTERVALLO_QRM * 2.0 ** (1.0 - 2.0 * self.aperta)
+
+    def arrivi_spontanei(self, adesso, dt):
+        """Sopra 50 di propagazione le stazioni arrivano anche senza CQ, fino al tetto.
+
+        Riempiono i posti liberi con una costante di tempo che a 100 vale
+        RIEMPIMENTO_SPONTANEI e cresce scendendo verso 50, dove gli arrivi
+        spontanei spariscono. Chi arriva a frequenza libera vuole gia' il QSO
+        e chiama dopo un attimo; chi arriva mentre trasmetto e' come chi nasce
+        dopo un CQ: aspetta la fine, e risponde se ho chiamato o chiuso.
+        """
+        f = self.aperta
+        liberi = self.posti_liberi()
+        if f <= 0.5 or dt <= 0 or not liberi:
+            return
+        costante = RIEMPIMENTO_SPONTANEI / (2.0 * (f - 0.5))
+        for _ in range(min(liberi, poisson(self.rng, liberi * dt / costante))):
+            nuova = StazioneDX(self, adesso, singola=False)
+            if not self.io_trasmette:
+                nuova.oper.imposta_stato(StatoOp.VUOLE_QSO)
+                nuova.stato = Stato.PREPARA
+                nuova.scadenza = adesso + self.rng.uniform(*ATTESA_SPONTANEI)
+            self.stazioni.append(nuova)
 
     def difetti_di_nota(self):
         """Il chirp e il vibrato di una stazione che nasce adesso, o niente.
@@ -1202,7 +1321,8 @@ class Contest:
             return
         self.io_trasmette = False
         if self.pileup and (Msg.CQ in self.io_messaggi or (Msg.TU in self.io_messaggi and Msg.MIO in self.io_messaggi)):
-            for _ in range(poisson(self.rng, 0.5 * self.attivita)):
+            # Il tetto non si supera mai: chi e' gia' in aria occupa il suo posto.
+            for _ in range(min(self.posti_liberi(), poisson(self.rng, self.media_risposte_cq()))):
                 self.stazioni.append(StazioneDX(self, adesso, singola=False))
         for s in list(self.stazioni):
             s.processa(Evento.IO_FINE, adesso)
@@ -1314,9 +1434,11 @@ class Contest:
                 nuova.processa(Evento.IO_FINE, adesso)
             # Se nasce mentre trasmetto e' gia' in COPIA: sente la mia chiamata
             # dal mezzo e risponde quando ho finito, non sopra di me.
+        if self.pileup and self.ultimo_tick is not None:
+            self.arrivi_spontanei(adesso, max(0.0, adesso - self.ultimo_tick))
         if self.qrm and self.ultimo_tick is not None:
             dt = max(0.0, adesso - self.ultimo_tick)
-            if len(self.qrm_attive()) < self.qrm_massime and self.rng.random() < dt / INTERVALLO_QRM:
+            if len(self.qrm_attive()) < self.qrm_massime and self.rng.random() < dt / self.intervallo_qrm():
                 self.stazioni.append(StazioneQRM(self, adesso))
         self.ultimo_tick = adesso
         return esito
