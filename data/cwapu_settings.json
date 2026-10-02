@@ -1,22 +1,22 @@
 {
     "app_info": {
-        "launch_count": 542
+        "launch_count": 543
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 41,
+        "speed": 29,
         "pitch": 600,
         "dashes": 30,
         "spaces": 50,
         "dots": 50,
-        "volume": 0.4,
+        "volume": 0.35,
         "ms": 2,
         "fs_index": 2,
         "wave_index": 1,
         "farnsworth": 0,
         "uscita_interfaccia": "",
         "uscita_dispositivo": "",
-        "contest_call": "IZ4APU"
+        "contest_call": "P55L"
     },
     "rxing_stats_words": {
         "total_calls": 26780,
@@ -40,48 +40,48 @@
         "total_time_seconds": 14932.744676000002
     },
     "rxing_stats_contest": {
-        "total_calls": 102,
-        "sessions": 8,
-        "total_correct": 98,
-        "total_wrong_items": 4,
-        "total_time_seconds": 3977.98189
+        "total_calls": 121,
+        "sessions": 9,
+        "total_correct": 115,
+        "total_wrong_items": 6,
+        "total_time_seconds": 4882.065199
     },
     "counting_stats": {
         "exercise_number": 100
     },
     "contest_settings": {
         "qrn": true,
-        "qrm": false,
-        "qrm_massime": 5,
-        "qsb": false,
-        "flutter": false,
-        "sbadati": true,
+        "qrm": true,
+        "qrm_massime": 2,
+        "qsb": true,
+        "flutter": true,
+        "sbadati": false,
         "pileup": true,
         "pileup_massime": 12,
-        "propagazione": 70,
-        "stereo": 65,
+        "propagazione": 75,
+        "stereo": 50,
         "banda": 600,
         "tasto_verticale": true,
-        "tasto_probabilita": 50,
+        "tasto_probabilita": 60,
         "tasto_l_min": 25,
         "tasto_l_max": 45,
-        "tasto_s_min": 40,
+        "tasto_s_min": 42,
         "tasto_s_max": 80,
-        "tasto_p_min": 22,
-        "tasto_p_max": 55,
+        "tasto_p_min": 24,
+        "tasto_p_max": 50,
         "scambio_veloce": true,
         "scambio_probabilita": 75,
         "scambio_incremento": 50
     },
     "rx_menu_switcher_states": {
-        "parole": true,
+        "parole": false,
         "lettere": false,
         "numeri": false,
         "lettere e numeri": false,
         "simboli": false,
         "qrz": false,
         "custom": false,
-        "contest": false,
+        "contest": true,
         "parole_filter_min": 1,
         "parole_filter_max": 8,
         "custom_set_string": "78bdehijnw"
@@ -75219,7 +75219,7 @@
         "historical_reports": []
     },
     "historical_rx_data_contest": {
-        "chars_since_last_report": 969,
+        "chars_since_last_report": 1141,
         "sessions_log": [
             {
                 "timestamp_iso": "2026-09-24T13:26:25.592367",
@@ -76190,6 +76190,162 @@
                     "tasto_s_max": 80,
                     "tasto_p_min": 22,
                     "tasto_p_max": 55,
+                    "scambio_veloce": true,
+                    "scambio_probabilita": 75,
+                    "scambio_incremento": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-10-02T14:59:37.002560",
+                "duration_seconds": 900.019764,
+                "rwpm_min": 22.33960033982196,
+                "rwpm_max": 32.55813953488372,
+                "rwpm_avg": 26.572992402931146,
+                "items_sent_session": 19,
+                "items_correct_session": 17,
+                "item_details": [
+                    {
+                        "rwpm": 30,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 26.50887573964497,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 25.173253418243117,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 25.244177310293015,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 29,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 23.064554879964515,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 23.703703703703706,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 23.451404641423835,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32.0,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 22.33960033982196,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.952553841075996,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 26.70670317053784,
+                        "correct": false
+                    },
+                    {
+                        "rwpm": 26.858513189448445,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.237559162499668,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 25.19685039370079,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32.55813953488372,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.035043804755947,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 24.376879385232204,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 27.479043140462075,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 172,
+                "errors_detail_session": {
+                    "7": 1,
+                    "3": 1
+                },
+                "total_errors_chars_session": 2,
+                "sent_chars_detail_session": {
+                    "f": 4,
+                    "4": 5,
+                    "w": 3,
+                    "i": 3,
+                    "5": 21,
+                    "n": 40,
+                    "1": 9,
+                    "3": 6,
+                    "v": 2,
+                    "2": 6,
+                    "b": 2,
+                    "d": 7,
+                    "k": 6,
+                    "q": 2,
+                    "e": 5,
+                    "a": 4,
+                    "j": 2,
+                    "x": 2,
+                    "r": 5,
+                    "8": 5,
+                    "c": 2,
+                    "6": 5,
+                    "g": 4,
+                    "l": 2,
+                    "t": 4,
+                    "o": 2,
+                    "y": 2,
+                    "s": 2,
+                    "p": 2,
+                    "7": 2,
+                    "9": 2,
+                    "u": 2,
+                    "m": 1,
+                    "0": 1
+                },
+                "punteggio_grezzo": 361,
+                "punteggio_verificato": 289,
+                "prefissi_verificati": 17,
+                "contest_settings": {
+                    "qrn": true,
+                    "qrm": true,
+                    "qrm_massime": 2,
+                    "qsb": true,
+                    "flutter": true,
+                    "sbadati": false,
+                    "pileup": true,
+                    "pileup_massime": 12,
+                    "propagazione": 75,
+                    "stereo": 50,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 60,
+                    "tasto_l_min": 25,
+                    "tasto_l_max": 45,
+                    "tasto_s_min": 42,
+                    "tasto_s_max": 80,
+                    "tasto_p_min": 24,
+                    "tasto_p_max": 50,
                     "scambio_veloce": true,
                     "scambio_probabilita": 75,
                     "scambio_incremento": 50
