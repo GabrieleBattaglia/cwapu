@@ -1,10 +1,10 @@
 {
     "app_info": {
-        "launch_count": 545
+        "launch_count": 546
     },
     "overall_settings": {
         "app_language": "it",
-        "speed": 45,
+        "speed": 33,
         "pitch": 600,
         "dashes": 30,
         "spaces": 70,
@@ -40,11 +40,11 @@
         "total_time_seconds": 14932.744676000002
     },
     "rxing_stats_contest": {
-        "total_calls": 121,
-        "sessions": 9,
-        "total_correct": 115,
+        "total_calls": 124,
+        "sessions": 10,
+        "total_correct": 118,
         "total_wrong_items": 6,
-        "total_time_seconds": 4882.065199
+        "total_time_seconds": 5056.301383
     },
     "counting_stats": {
         "exercise_number": 100
@@ -74,14 +74,14 @@
         "scambio_incremento": 50
     },
     "rx_menu_switcher_states": {
-        "parole": true,
+        "parole": false,
         "lettere": false,
         "numeri": false,
         "lettere e numeri": false,
         "simboli": false,
         "qrz": false,
         "custom": false,
-        "contest": false,
+        "contest": true,
         "parole_filter_min": 1,
         "parole_filter_max": 8,
         "custom_set_string": "78bdehijnw"
@@ -75086,7 +75086,7 @@
         "historical_reports": []
     },
     "historical_rx_data_contest": {
-        "chars_since_last_report": 1141,
+        "chars_since_last_report": 1168,
         "sessions_log": [
             {
                 "timestamp_iso": "2026-09-24T13:26:25.592367",
@@ -76193,6 +76193,73 @@
                 "punteggio_grezzo": 361,
                 "punteggio_verificato": 289,
                 "prefissi_verificati": 17,
+                "contest_settings": {
+                    "qrn": true,
+                    "qrm": true,
+                    "qrm_massime": 2,
+                    "qsb": true,
+                    "flutter": true,
+                    "sbadati": false,
+                    "pileup": true,
+                    "pileup_massime": 12,
+                    "propagazione": 75,
+                    "stereo": 50,
+                    "banda": 600,
+                    "tasto_verticale": true,
+                    "tasto_probabilita": 60,
+                    "tasto_l_min": 25,
+                    "tasto_l_max": 45,
+                    "tasto_s_min": 42,
+                    "tasto_s_max": 80,
+                    "tasto_p_min": 24,
+                    "tasto_p_max": 50,
+                    "scambio_veloce": true,
+                    "scambio_probabilita": 75,
+                    "scambio_incremento": 50
+                }
+            },
+            {
+                "timestamp_iso": "2026-10-09T14:54:25.595447",
+                "duration_seconds": 170.033324,
+                "rwpm_min": 28,
+                "rwpm_max": 32.957332025502694,
+                "rwpm_avg": 29.857113655793498,
+                "items_sent_session": 3,
+                "items_correct_session": 3,
+                "item_details": [
+                    {
+                        "rwpm": 28,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 32.957332025502694,
+                        "correct": true
+                    },
+                    {
+                        "rwpm": 28.614008941877795,
+                        "correct": true
+                    }
+                ],
+                "chars_sent_session": 27,
+                "errors_detail_session": {},
+                "total_errors_chars_session": 0,
+                "sent_chars_detail_session": {
+                    "w": 1,
+                    "2": 3,
+                    "l": 2,
+                    "e": 1,
+                    "5": 4,
+                    "n": 7,
+                    "d": 2,
+                    "7": 1,
+                    "c": 2,
+                    "b": 1,
+                    "1": 1,
+                    "j": 2
+                },
+                "punteggio_grezzo": 9,
+                "punteggio_verificato": 9,
+                "prefissi_verificati": 3,
                 "contest_settings": {
                     "qrn": true,
                     "qrm": true,
