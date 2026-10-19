@@ -5292,3 +5292,35 @@ Elenco delle parole copiate male:
 	(34) TX: PORGERAI, RX: GORGERAI, DIF: P;
 Nota: nessuna
 Fine del rapporto.
+
+Esercizio di ricezione #562 eseguito il 2026/10/12 alle 13:46 minuti:
+In questa sessione #562, ti ho inviato 10 Parole e ne hai ricevuti 8: 80.0%
+	6 di questi sono stati ricevuti al primo ascolto: 75.0%
+	mentre 2 Parole al secondo tentativo: 25.0%.
+Durante la sessione, la tua velocità minima è stata 32.00, la massima di 40.00: pari ad una variazione di 8.00 WPM.
+	La velocità media di ricezione è di: 35.50 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'A': 1 errori su 10 invii. Tasso errore stimato: [1.8% - 40.4%]    'E': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'I': 1 errori su 12 invii. Tasso errore stimato: [1.5% - 35.4%]    'M': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]    'O': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'P': 1 errori su 1 invii. Tasso errore stimato: [20.7% - 100.0%]
+
+Errori totali: 6 su 68 = 8.82%
+Caratteri mai sbagliati: B C D F G L N R T U V
+Elenco delle parole copiate male:
+	(9) TX: PIOEMIA, RX: LEONIDA, DIF: POEMI;
+	(10) TX: LAVINIA, RX: LAVINI, DIF: A;
+Nota: nessuna
+Fine del rapporto.
+
+Esercizio di ricezione #563 eseguito il 2026/10/19 alle 20:47 minuti:
+In questa sessione #563, ti ho inviato 15 Parole e ne hai ricevuti 13: 86.7%
+	12 di questi sono stati ricevuti al primo ascolto: 92.3%
+	mentre 1 Parole al secondo tentativo: 7.7%.
+Durante la sessione, la tua velocità minima è stata 25.00, la massima di 25.00: pari ad una variazione di 0.00 WPM.
+	La velocità media di ricezione è di: 25.00 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'N': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'R': 1 errori su 7 invii. Tasso errore stimato: [2.6% - 51.3%]
+
+Errori totali: 2 su 104 = 1.92%
+Caratteri mai sbagliati: A B C D E F G I L M O P Q S T U Z
+Elenco delle parole copiate male:
+	(10) TX: PAGAIANO, RX: PAGAIATO, DIF: N;
+	(14) TX: INSPIRA, RX: INSPILA, DIF: R;
+Nota: nessuna
+Fine del rapporto.
