@@ -5324,3 +5324,29 @@ Elenco delle parole copiate male:
 	(14) TX: INSPIRA, RX: INSPILA, DIF: R;
 Nota: nessuna
 Fine del rapporto.
+
+Esercizio di ricezione #564 eseguito il 2026/11/06 alle 13:52 minuti:
+In questa sessione #564, ti ho inviato 30 Parole e ne hai ricevuti 18: 60.0%
+	14 di questi sono stati ricevuti al primo ascolto: 77.8%
+	mentre 4 Parole al secondo tentativo: 22.2%.
+Durante la sessione, la tua velocità minima è stata 28.00, la massima di 36.00: pari ad una variazione di 8.00 WPM.
+	La velocità media di ricezione è di: 32.72 WPM.
+Carattere: errori = Intervallo di Confidenza Errore (Wilson)    'E': 5 errori su 21 invii. Tasso errore stimato: [10.6% - 45.1%]    'A': 4 errori su 26 invii. Tasso errore stimato: [6.1% - 33.5%]    'T': 4 errori su 19 invii. Tasso errore stimato: [8.5% - 43.3%]    'I': 3 errori su 21 invii. Tasso errore stimato: [5.0% - 34.6%]    'N': 3 errori su 13 invii. Tasso errore stimato: [8.2% - 50.3%]    'V': 2 errori su 4 invii. Tasso errore stimato: [15.0% - 85.0%]    'B': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'D': 1 errori su 3 invii. Tasso errore stimato: [6.1% - 79.2%]    'G': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'H': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]    'M': 1 errori su 6 invii. Tasso errore stimato: [3.0% - 56.4%]    'O': 1 errori su 23 invii. Tasso errore stimato: [0.8% - 21.0%]    'R': 1 errori su 15 invii. Tasso errore stimato: [1.2% - 29.8%]    'S': 1 errori su 17 invii. Tasso errore stimato: [1.0% - 27.0%]    'Z': 1 errori su 2 invii. Tasso errore stimato: [9.5% - 90.5%]
+
+Errori totali: 30 su 210 = 14.29%
+Caratteri mai sbagliati: C F L P Q U X Ì
+Elenco delle parole copiate male:
+	(1) TX: ANORTITI, RX: ANORTINI, DIF: T;
+	(2) TX: ASTIENE, RX: ASTINE, DIF: E;
+	(10) TX: LUMAE, RX: LUMATE, DIF: T;
+	(12) TX: BOXAVANO, RX: BOXANDO, DIF: VAD;
+	(13) TX: DINGHIES, RX: DENSIS, DIF: ENSNGHIE;
+	(14) TX: OMETTEVO, RX: OMBRETT, DIF: BREVO;
+	(17) TX: SQUILLA, RX: SQUILLO, DIF: A;
+	(19) TX: RICORRE, RX: RINCORRE, DIF: N;
+	(23) TX: PARESTI, RX: PARISTE, DIF: EI;
+	(25) TX: ZITTITA, RX: QUISITE, DIF: ZTITA;
+	(26) TX: SFATATO, RX: SFATTO, DIF: A;
+	(28) TX: FORAME, RX: FORATE, DIF: M;
+Nota: nessuna
+Fine del rapporto.
